@@ -33,6 +33,7 @@ import javax.servlet.http.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@SuppressWarnings("deprecation")
 public class DisableUrlSessionFilter implements Filter
 {
 
