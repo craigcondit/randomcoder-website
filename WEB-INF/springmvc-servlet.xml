@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<!-- Enforce @Required annotations -->
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+	<bean id="testFormController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="test-form" />
+	</bean>
+
+	<bean id="aboutController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="legal-about" />
+	</bean>
+
+	<bean id="licenseController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="legal-license" />
+	</bean>
+	
+	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
+		<property name="articleDao" ref="articleDao" />
+		<property name="contentFilter" ref="contentFilter" />
+	</bean>
+
+	<bean id="articleEditValidator" class="com.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />
+	
+	<bean id="abstractArticleListController" abstract="true">
+		<property name="commandClass" value="com.randomcoder.article.ArticlePageCommand" />
+		<property name="viewName" value="home" />
+		<property name="articleDao" ref="articleDao" />
+		<property name="defaultPageSize" value="10" />
+		<property name="maximumPageSize" value="50" />
+		<property name="contentFilter" ref="contentFilter" />	
+	</bean>
+	
+	<bean id="homeController" class="com.randomcoder.article.HomeController" parent="abstractArticleListController" />
+	
+	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
+		<property name="commandClass" value="com.randomcoder.article.ArticleTagPageCommand" />
+		<property name="tagDao" ref="tagDao" />
+		<property name="urlPrefix" value="/tags/" />
+		<property name="viewName" value="article-tag-list" />
+	</bean>
+	
+	<bean id="articleIdController" class="com.randomcoder.article.ArticleIdController">
+		<property name="urlPrefix" value="/articles/id/" />
+		<property name="viewName" value="article-view" />
+		<property name="articleDao" ref="articleDao" />
+		<property name="contentFilter" ref="contentFilter" />	
+	</bean>
+
+	<bean id="articlePermalinkController" class="com.randomcoder.article.ArticlePermalinkController">
+		<property name="urlPrefix" value="/articles/" />
+		<property name="viewName" value="article-view" />
+		<property name="articleDao" ref="articleDao" />
+		<property name="contentFilter" ref="contentFilter" />	
+	</bean>
+
+	<bean id="loginController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="login" />
+	</bean>
+	
+	<bean id="loginErrorController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="login-error" />
+	</bean>
+
+	<bean id="logoutController" class="com.randomcoder.security.LogoutController">
+		<property name="viewName" value="logout-done" />
+	</bean>
+
+	<bean id="abstractArticleController" abstract="true">
+		<property name="successView" value="default" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="articleBusiness" ref="articleBusiness" />
+		<property name="tagDao" ref="tagDao" />
+	</bean>
+	
+	<bean id="articleAddController" class="com.randomcoder.article.ArticleAddController" parent="abstractArticleController">
+		<property name="formView" value="article-add" />
+		<property name="commandClass" value="com.randomcoder.article.ArticleAddCommand" />
+		<property name="validator" ref="articleAddValidator" />
+	</bean>
+
+	<bean id="articleEditController" class="com.randomcoder.article.ArticleEditController" parent="abstractArticleController">
+		<property name="formView" value="article-edit" />
+		<property name="commandClass" value="com.randomcoder.article.ArticleEditCommand" />
+		<property name="validator" ref="articleEditValidator" />
+	</bean>
+	
+	<bean id="articleDeleteController" class="com.randomcoder.article.ArticleDeleteController">
+		<property name="viewName" value="default" />
+		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="articleBusiness" ref="articleBusiness" />
+	</bean>
+
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="alwaysUseFullPath" value="true" />
+        <property name="mappings">
+            <props>
+							<prop key="/home">homeController</prop>
+							<prop key="/login">loginController</prop>
+							<prop key="/login-error">loginErrorController</prop>
+							<prop key="/logout">logoutController</prop>
+							<prop key="/article/add">articleAddController</prop>
+							<prop key="/article/edit">articleEditController</prop>
+							<prop key="/article/delete">articleDeleteController</prop>
+							<prop key="/articles/id/*">articleIdController</prop>
+							<prop key="/articles/*">articlePermalinkController</prop>
+							<prop key="/tags/*">articleTagListController</prop>
+							<prop key="/legal/about">aboutController</prop>
+							<prop key="/legal/license">licenseController</prop>
+							<prop key="/test/form">testFormController</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+    	<property name="order" value="0" />
+    	<property name="location" value="/WEB-INF/views.xml" />
+    </bean>
+
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+</beans>

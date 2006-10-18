@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                  xmlns="http://my.netscape.com/rdf/simple/0.9/">
+
+<channel>
+    <title>Channel Title (40 characters maximum)</title>
+    <description>Channel Description (500 characters maximum)</description>
+    <link>URL of Channel Source (500 characters maximum)</link>
+</channel>
+
+<image>
+	<title>Title (ALT) for the Image (40 characters maximum)</title>
+	<url>Image URL (500 characters maximum)</url>
+	<link>Image Target URL (500 characters maximum)</link>
+</image>
+
+<item>
+	<title>&nbsp; Item 1 Title</title>
+	<link>Item 1 complete story URL</link>
+</item>
+
+<item>
+	<title>Item 2 Title</title>
+	<link>Item 2 complete story URL</link>
+</item>
+<textinput>
+	<title>Comments dialog title</title>
+	<description>Instructions to provide comments</description>
+	<name>Name for the Response Form element</name>
+	<link>Response Form Action URL</link>
+</textinput>
+
+</rdf:RDF>

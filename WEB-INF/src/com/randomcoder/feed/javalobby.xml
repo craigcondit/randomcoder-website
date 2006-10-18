@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+
+
+
+
+
+
+
+
+
+<rss version="2.0" xmlns:jf="http://www.jivesoftware.com/xmlns/jiveforums/rss">
+
+
+
+<channel>
+
+    <title>Javalobby Front Page</title>
+	
+    <link>http://www.javalobby.org</link>
+    
+    <description>Top Java developer news and issue discussions from Javalobby.org.
+</description>
+	
+    <language>en</language>
+    <generator>Jive Forums Gold 5.0.4 (www.jivesoftware.com)</generator>
+    <pubDate>Thu, 10 Aug 2006 15:10:04 -0400</pubDate>
+    <copyright>Copyright 1997-2005 Javalobby, Inc.</copyright>
+    <ttl>60</ttl>
+    <image>
+        <title>Javalobby</title>
+	    <url>
+            http://www.javalobby.org/images/std/jl-plain-150x30.gif
+        </url>
+        <link>http://www.javalobby.org/</link>
+    </image>
+    <webMaster>webmaster@javalobby.org</webMaster>
+
+    <item>
+        <title>JEXE: A new(ish) way to launch Java apps from the desktop</title>
+        <link>http://www.javalobby.org/java/forums/t77428.html</link>
+
+        
+        
+        <description><![CDATA[We've all heard the arguments before about JVM size and deployment, but Simon has taken the time to write up a new proposal for how we can make it easier to only grab the pieces of the JVM we want.
+]]>
+			</description>
+        <pubDate>Wed, 09 Aug 2006 07:57:14 -0400</pubDate>
+        <author>Matthew Schmidt</author>
+        <guid>http://www.javalobby.org/java/forums/t77428.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Java EE Fallacies: EJBs are too complex, POJOs are easier.</title>
+        <link>http://www.javalobby.org/java/forums/t77299.html</link>
+
+        
+        
+        <description><![CDATA[Invent vs. use infrastructure. It sems like many developers think Java EE is complex, and reinventing the wheel is easier.
+]]>
+			</description>
+        <pubDate>Mon, 07 Aug 2006 11:53:06 -0400</pubDate>
+        <author>adam bien</author>
+        <guid>http://www.javalobby.org/java/forums/t77299.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Sun Planning new Dynamic Language Support for JVM</title>
+        <link>http://www.javalobby.org/java/forums/t77316.html</link>
+
+        
+        
+        <description><![CDATA[Sun is planning on making it easier to build dynamic languages ontop of the JVM by planning new bytecode instructions for future versions of Java.
+]]>
+			</description>
+        <pubDate>Fri, 04 Aug 2006 16:07:58 -0400</pubDate>
+        <author>Michael Urban</author>
+        <guid>http://www.javalobby.org/java/forums/t77316.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Interested in XML SWT Factory ?</title>
+        <link>http://www.javalobby.org/java/forums/t77272.html</link>
+
+        
+        
+        <description><![CDATA[We are currently working on an XML SWT Factory, and the concept seems to have proved itself. Would anyone be interested in using it under the Apace License 2.0?
+]]>
+			</description>
+        <pubDate>Thu, 03 Aug 2006 07:33:12 -0400</pubDate>
+        <author>Jakob Jenkov</author>
+        <guid>http://www.javalobby.org/java/forums/t77272.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Is Java faster on Vista?</title>
+        <link>http://www.javalobby.org/java/forums/t77240.html</link>
+
+        
+        
+        <description><![CDATA[Rick &#38; Matt notice an appreciable speedup in web application performance after installing Mustang on Vista. Is it possible that Java is faster on Vista?
+]]>
+			</description>
+        <pubDate>Wed, 02 Aug 2006 07:26:10 -0400</pubDate>
+        <author>Rick Ross</author>
+        <guid>http://www.javalobby.org/java/forums/t77240.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Pluggable annotations</title>
+        <link>http://www.javalobby.org/java/forums/t77202.html</link>
+
+        
+        
+        <description><![CDATA[Feature number 7, pluggable annotations. Is it a nice recipe for a nightmare? And they are proud of it?
+]]>
+			</description>
+        <pubDate>Tue, 01 Aug 2006 08:03:15 -0400</pubDate>
+        <author>Serge Bureau</author>
+        <guid>http://www.javalobby.org/java/forums/t77202.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Trolltech releases technology preview of Java Qt</title>
+        <link>http://www.javalobby.org/java/forums/t77115.html</link>
+
+        
+        
+        <description><![CDATA[Qt has been quoted to be better than Java at cross platform GUI building with native UIs on all major and not so major platforms. Try out the Qt Jambi for the best of breed and tell us what you think!
+]]>
+			</description>
+        <pubDate>Tue, 01 Aug 2006 07:52:05 -0400</pubDate>
+        <author>Thomas Zander</author>
+        <guid>http://www.javalobby.org/java/forums/t77115.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>On being more productive</title>
+        <link>http://www.javalobby.org/java/forums/t77142.html</link>
+
+        
+        
+        <description><![CDATA[I wish that, during the development, I could eliminate the write-compile-test cycle. Right now I think that it is not possible but what should happen to make this goal a reality?
+]]>
+			</description>
+        <pubDate>Sun, 30 Jul 2006 07:04:19 -0400</pubDate>
+        <author>James</author>
+        <guid>http://www.javalobby.org/java/forums/t77142.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>MVM - Not in Mustang - Then When?</title>
+        <link>http://www.javalobby.org/java/forums/t77139.html</link>
+
+        
+        
+        <description><![CDATA[Java needs MVM for Swing to survive. Desktop GUI apps. are not possible without a good MVM implementation. What are we supposed to tell small business clients: can't run the three Swing apps together?
+]]>
+			</description>
+        <pubDate>Sun, 30 Jul 2006 02:09:06 -0400</pubDate>
+        <author>Vinay Soni</author>
+        <guid>http://www.javalobby.org/java/forums/t77139.html</guid>
+        
+
+    </item>
+
+
+    <item>
+        <title>Where I stand in the current job market</title>
+        <link>http://www.javalobby.org/java/forums/t77133.html</link>
+
+        
+        
+        <description><![CDATA[So, I just graduated this May with a BS in Computer Science.  I know Java very well.  I also know SQL.  And I still can't get a job.
+]]>
+			</description>
+        <pubDate>Fri, 28 Jul 2006 22:21:23 -0400</pubDate>
+        <author>Jigar Suthar</author>
+        <guid>http://www.javalobby.org/java/forums/t77133.html</guid>
+        
+
+    </item>
+
+
+
+</channel>
+</rss>

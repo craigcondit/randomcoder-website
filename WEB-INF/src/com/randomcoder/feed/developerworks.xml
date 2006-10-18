@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+ 
+<rss version="2.0">
+<channel>
+<title>developerWorks : Build your own feed  : Articles and Tutorials for Web services, Web architecture, Java, Linux, XML and Open source</title> 
+<link>http://www.ibm.com/developerworks/index.html</link>
+<description>The latest content from IBM developerWorks</description>
+<pubDate>Thu, 10 Aug 2006 03:09:40 EDT</pubDate>
+<language>en-us</language>
+<copyright>Copyright 2004 IBM Corporation.</copyright>
+<image>
+<title>IBM developerWorks</title>
+<url>http://www-106.ibm.com/developerworks/i/dwlogo-small.gif</url>
+<link>http://www.ibm.com/developerworks/index.html</link>
+</image>
+
+            <item>
+               <title><![CDATA[Simplify data extraction using Linux text utilities]]></title> 
+               <description><![CDATA[Much of Linux system administration involves tediously combing through plain-text configuration files.  Fortunately, Linux has a rich array of UNIX-derived data extraction utilities, including head, tail, grep, egrep, fgrep, cut, paste, join, awk, and more.  This article uses real-world examples that show how these simple command-line programs can make you a better sysadmin. This article looks at each data extraction utility and its options, applies them to typical files that are used in day-to-day work, and looks at how and why each tool is useful for pulling data from these files.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/linux/library/l-textutils.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Have your application call my application, Part 2: The James application]]></title> 
+               <description><![CDATA[Pick up where you left off in Part 1, in which you learned how to develop message-driven beans (MDBs), entity beans, and container-managed persistence (CMP) and how to deploy and test these components in Apache Geronimo. This installment, Part 2, of this three-part tutorial series shows you the overall architecture of the Java Apache Mail Enterprise Server, also known as Apache James. You'll learn how to build, deploy, and test an e-mail application (mailers and matchers) and deploy it in the Apache James e-mail server.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/edu/os-dw-os-ag-callme2.html?ca=drs-]]></link>
+               <category>Tutorials</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Introduction to Spring 2 and JPA]]></title> 
+               <description><![CDATA[Java server applications need not be difficult and tedious to create. Now in its second generation, the lightweight Spring framework adds a large suite of features that make it simple for even new server application developers to use. One key enhancement is Spring 2's integration with the Java Persistence API (JPA), a cornerstone of the Enterprise JavaBeans (EJB) 3.0 specification. In this tutorial, learn how to create server applications from scratch using the Spring 2 framework.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/edu/j-dw-java-spring2-i.html?ca=drs-]]></link>
+               <category>Tutorials</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Create more -- better -- code in Eclipse with JET]]></title> 
+               <description><![CDATA[The ability to create templates to codify best practices (that generate artifacts) is a powerful concept that can save you countless hours and reduce tedious coding. Get an introduction to the code generation framework, JET, which is an Eclipse technology project.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/java/library/os-ecl-jet/index.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[The GNU Linear Programming Kit, Part 1: Introduction to linear optimization]]></title> 
+               <description><![CDATA[The GNU Linear Programming Kit is a powerful, proven tool for solving numeric problems with multiple constraints. This article introduces GLPK, the glpsol client utility, and the GNU MathProg language to solve the problem of optimizing the operations for Giapetto's Woodcarving, Inc., a fictional toy manufacturer.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/library/l-glpk1/index.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Debugging Cell Broadband Engine systems]]></title> 
+               <description><![CDATA[Software development for new architectures can be an intimidating prospect, but the Cell Broadband Engine (Cell BE) SDK 1.1 provides the debugging tools you need to tackle it for the Cell BE architecture. This article describes how to use new versions of the GNU Debugger (GDB) to diagnose problems in both  PPU and SPU programs.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/linux/library/pa-celldebug/index.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Mashups: The new breed of Web app]]></title> 
+               <description><![CDATA[Mashups are an exciting genre of interactive Web applications that draw upon content retrieved from external data sources to create entirely new and innovative services. They are a hallmark of the second generation of Web applications informally known as Web 2.0. This introductory article explores what it means to be a mashup, the different classes of popular mashups constructed today, and the enabling technologies that mashup developers leverage to create their applications. Additionally, you'll see many of the emerging technical and social challenges that mashup developers face.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/web/library/x-mashups.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Beef up Web search applications with Lucene]]></title> 
+               <description><![CDATA[Lucene is a full-text information retrieval (IR) library written in the Java(TM) programming language. Now it's an open source project in the popular Apache Jakarta Project family. Discover how to implement advanced searching capabilities, and learn how to create a robust Web search application using Lucene. ]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/java/library/wa-lucene2/index.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Seven simple reasons to use AppFuse]]></title> 
+               <description><![CDATA[Getting started with open source tools for the Java platform such as Spring, Hibernate, or MySQL can be difficult. Throw in Ant or Maven, a little Ajax with DWR, and a Web framework -- say, JSF -- and you're up to your eyeballs just trying to configure your application. AppFuse removes the pain of integrating open source projects. It also makes testing a first-class citizen, allows you to generate your entire UI from database tables, and supports Web services with XFire. Furthermore, AppFuse's community is healthy and happy -- and one of the few places where users of different Web frameworks actually get along.]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/java/library/j-appfuse/index.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+            <item>
+               <title><![CDATA[Seven minutes: Enhancing AIDE]]></title> 
+               <description><![CDATA[Find out what new features the updated Autonomic Integrated Development Environment (AIDE) toolkit offers and drop into a developerWorks forum to get the help you need to use the Policy Management for Autonomic Computing (PMAC) technology. Plus, visit the ISS to see floating probes gain autonomic insights, find out where your IT is on the virtualization-adoption spectrum, and examine a real-world effort to craft prediction algorithms designed to make a best guess on which genes match with transcripts. All this and more in Seven minutes, a series that looks at autonomic computing at IBM and in the world over a two-week period. ]]></description> 
+               <link><![CDATA[http://www.ibm.com/developerworks/autonomic/library/ac-7minutes10.html?ca=drs-]]></link>
+               <category>Articles</category>
+            </item>
+
+</channel>
+</rss>
+

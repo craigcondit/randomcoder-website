@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/rss2full.xsl" type="text/xsl" media="screen"?><?xml-stylesheet href="http://feeds.feedburner.com/~d/styles/itemcontent.css" type="text/css" media="screen"?><!-- generator="wordpress/1.5.2" --><rss xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:feedburner="http://rssnamespace.org/feedburner/ext/1.0" version="2.0">
+
+<channel>
+	<title>Ajaxian</title>
+	<link>http://ajaxian.com</link>
+	<description>Cleaning up the web with Ajax</description>
+	<pubDate>Thu, 10 Aug 2006 16:32:16 +0000</pubDate>
+	<generator>http://wordpress.org/?v=1.5.2</generator>
+	<language>en</language>
+
+		<atom10:link xmlns:atom10="http://www.w3.org/2005/Atom" rel="self" href="http://ajaxian.com/index.xml" type="application/rss+xml" /><feedburner:browserFriendly>This is an XML content feed. It is intended to be viewed in a newsreader or syndicated to another site, subject to copyright and fair use.</feedburner:browserFriendly><item>
+		<title>Unobtrusive Javascript and Ajax for Rails</title>
+		<link>http://ajaxian.com/archives/unobtrusive-javascript-and-ajax-for-rails</link>
+		<comments>http://ajaxian.com/archives/unobtrusive-javascript-and-ajax-for-rails#comments</comments>
+		<pubDate>Thu, 10 Aug 2006 14:39:58 +0000</pubDate>
+		<dc:creator>Rob Sanheim</dc:creator>
+		
+	<category>Front Page</category>
+	<category>JavaScript</category>
+	<category>Ruby</category>
+	<category>Accessibility</category>
+	<category>Unobtrusive JS</category>
+		<guid>http://ajaxian.com/archives/unobtrusive-javascript-and-ajax-for-rails</guid>
+		<description><![CDATA[	Luke Redpath and Dan Web have released Unobtrusive Javascript for Rails.  If you've spent time with the Rails javascript helpers, you know that they can be a huge time saver, but tend to produce some nasty code like this:
+	
+
+	
+&#60;form onsubmit="new Ajax.Request('/subscribe/add_ticker', {asynchronous:true, evalScripts:true, onLoading:function(request){ticker_loading()}, parameters:Form.serialize(this)}); return false;" method="post" action="/subscribe/add_ticker"&#62;
+....
+&#60;/form&#62;
+&#160;
+	
+
+	So you have all of your [...]]]></description>
+			<content:encoded><![CDATA[	<p><a href="http://www.lukeredpath.co.uk/">Luke Redpath</a> and <a href="http://www.vivabit.com/bollocks">Dan Web</a> have released <a href="http://www.lukeredpath.co.uk/index.php/2006/08/01/release-unobtrusive-javascript-for-rails-02/">Unobtrusive Javascript for Rails.</a>  If you've spent time with the Rails javascript helpers, you know that they can be a huge time saver, but tend to produce some nasty code like this:</p>
+	<div class="syntax_hilite">
+<div id="javascript-4">
+	<div class="javascript">
+&lt;form onsubmit=<span style="color: #3366CC;">"new Ajax.Request('/subscribe/add_ticker', {asynchronous:true, evalScripts:true, onLoading:function(request){ticker_loading()}, parameters:Form.serialize(this)}); return false;"</span> method=<span style="color: #3366CC;">"post"</span> action=<span style="color: #3366CC;">"/subscribe/add_ticker"</span>&gt;<br />
+....<br />
+&lt;/form&gt;<br />
+&nbsp;</div>
+	</div>
+</div>
+	<p>So you have all of your behavior mixed in with your content, with inline javascript everywhere.  Thats bad for business!  Dan has written more extensively on how <a href="http://www.vivabit.com/bollocks/2006/02/09/rails-is-the-devil-in-your-client-side-shoulder">"Rails is the devil on your (client-side) shoulder"</a>.</p>
+	<p>The Unobtrusive Javascript plugin changes that.  It allows you to write:</p>
+	<div class="syntax_hilite">
+<div id="perl-5">
+	<div class="perl">&lt;% apply_behaviour <span style="color: #ff0000;">"#mylink:click"</span> <span style="color: #b1b100;">do</span> |page, element|<br />
+&nbsp; &nbsp; page.alert <span style="color: #ff0000;">"You clicked me! Now watch me fade..."</span><br />
+&nbsp; &nbsp; element.visual_effect :fade<br />
+&nbsp; end %&gt;</div>
+	</div>
+</div>
+	<p>To attach fades to links in a page.  Or use it with the builtin rails tag helpers:</p>
+	<div class="syntax_hilite">
+<div id="perl-6">
+	<div class="perl">&lt;%= content_tag <span style="color: #ff0000;">"div"</span>, <span style="color: #ff0000;">"My funky box"</span>, :onclick =&gt; <span style="color: #ff0000;">"alert('Hello World!')"</span> %&gt;</div>
+	</div>
+</div>
+	<p>The resulting code is attached on load, using prototype events and all that stuff.  Very nice!  The plugin uses <a href="http://encytemedia.com/event-selectors/">event:Selectors</a> for attaching events dynamically and placing them into an external javascript file.  Luke has written a <a href="http://www.lukeredpath.co.uk/index.php/2006/08/10/unobtrusive-javascript-broken-in-edge-rails-small-fix-release/">recent note</a> about a fix needed if you are using edge Rails, and also recommends use svn:externals to keep the plugin up to date.  The project home page is <a href="http://opensource.agileevolved.com/unobtrusivejs/">here</a>, as of right now it just contains the rdocs.  I may just have to check this out for my rails work...
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=0lkduJIf"><img src="http://feeds.feedburner.com/~f/ajaxian?i=0lkduJIf" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=3YAsZC1A"><img src="http://feeds.feedburner.com/~f/ajaxian?i=3YAsZC1A" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=onzEAJGg"><img src="http://feeds.feedburner.com/~f/ajaxian?i=onzEAJGg" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=XQ599fgE"><img src="http://feeds.feedburner.com/~f/ajaxian?i=XQ599fgE" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/unobtrusive-javascript-and-ajax-for-rails/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Adding AJAX to a Website step by step, Part II</title>
+		<link>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step-part-ii</link>
+		<comments>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step-part-ii#comments</comments>
+		<pubDate>Thu, 10 Aug 2006 12:49:38 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Library</category>
+	<category>PHP</category>
+	<category>Programming</category>
+		<guid>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step-part-ii</guid>
+		<description><![CDATA[	
+Back with the second part of his postings on adding Ajax to a website, Joshua Eichorn has this new item on his blog today (picking up from this previous post) - a look at polling the server for the latest data with the HTML_AJAX PEAR package.
+
+	
+I have a lot more change’s i’d like to make [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+Back with the second part of his postings on adding Ajax to a website, Joshua Eichorn has <a href="http://blog.joshuaeichorn.com/archives/2006/08/10/adding-ajax-to-a-website-step-by-step-part-ii/">this new item</a> on his blog today (picking up from <a href="http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step">this previous post</a>) - a look at polling the server for the latest data with the <a href="pear.php.net/package/HTML_AJAX">HTML_AJAX PEAR package</a>.
+</p>
+	<blockquote><p>
+I have a lot more change’s i’d like to make to <a href="http://bluga.net/webthumb/">webthumb</a>  so the last article (<a href="http://blog.joshuaeichorn.com/archives/2006/08/08/adding-ajax-to-a-website-step-by-step/">Adding AJAX to a website step by step</a>) is now the start of the series. In this article will be taking front page of webthumb and making it live. The the stats and recent thumbnails will update in real time, making for a nice slick presentation.
+</p></blockquote>
+	<p>
+He first focuses on getting real-time information back with the help of Ajax. In his case, it's grabbing the latest thumbnails created by the application, fetched by periodic polling back from a timed script performing an Ajax request.
+</p>
+	<p>
+He moves on to the code, showing how to export the PHP class for the updater, a sample result for the request and the code for the actual server the Ajax request will be made to. Then, it's back to the client side of things with the Javascript needed to make the call back to the server, parse the response, and update the page with the latest information.
+</p>
+	<p>
+There's also a little aside that talks about how the HTML_AJAX package delivers it's Javascript libraries and how this can be used to grab and push out the <a href="http://moofx.mad4milk.net/">moo.fx library</a> along with the other scripts to create a a fade in and out of the updates made to the page to make them more apparent to the user.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=bZcRl4nc"><img src="http://feeds.feedburner.com/~f/ajaxian?i=bZcRl4nc" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=249p2KXF"><img src="http://feeds.feedburner.com/~f/ajaxian?i=249p2KXF" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=lvf6ghNd"><img src="http://feeds.feedburner.com/~f/ajaxian?i=lvf6ghNd" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=0mx2ofWT"><img src="http://feeds.feedburner.com/~f/ajaxian?i=0mx2ofWT" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step-part-ii/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>JavaScript Tricks And Good Programming Style</title>
+		<link>http://ajaxian.com/archives/javascript-tricks-and-good-programming-style</link>
+		<comments>http://ajaxian.com/archives/javascript-tricks-and-good-programming-style#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 21:28:53 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>JavaScript</category>
+	<category>Programming</category>
+		<guid>http://ajaxian.com/archives/javascript-tricks-and-good-programming-style</guid>
+		<description><![CDATA[	
+A wise man once said that one can never have too many Javascript hints and tricks. Well, okay - so maybe I made the man up, but the tips are real and there are some over in this new post from Alexander Kirk.
+
+	
+I have been programming for about 10 years now, and I am always [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+A wise man once said that one can never have too many Javascript hints and tricks. Well, okay - so maybe I made the man up, but the tips are real and there are some over in <a href="http://alexander.kirk.at/2006/08/09/javascript-tricks-and-good-programming-style/">this new post</a> from Alexander Kirk.
+</p>
+	<blockquote><p>
+I have been programming for about 10 years now, and I am always longing for improving my code. Throughout time I added a few habits that I consider to be good practices and increase the quality of my code.
+</p></blockquote>
+	<p>
+The subjects of the tips vary, but are all still useful little nuggests of information. The list of his tips include:</p>
+	<ul>
+	<li>Adding Parameters Hints
+</li>
+	<li>Search JavaScript documentation (with usable results)
+</li>
+	<li>Reducing the indentation amount
+</li>
+</ul>
+	<p>with a total of five hints, each with their own code and explainations to flesh them out.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=Okh1SxIA"><img src="http://feeds.feedburner.com/~f/ajaxian?i=Okh1SxIA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=YBUm94hE"><img src="http://feeds.feedburner.com/~f/ajaxian?i=YBUm94hE" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=oRECG4Bp"><img src="http://feeds.feedburner.com/~f/ajaxian?i=oRECG4Bp" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=AxJx8E7W"><img src="http://feeds.feedburner.com/~f/ajaxian?i=AxJx8E7W" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/javascript-tricks-and-good-programming-style/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>EmergeTk version 0.1.1 released</title>
+		<link>http://ajaxian.com/archives/emergetk-version-011-released</link>
+		<comments>http://ajaxian.com/archives/emergetk-version-011-released#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 21:08:33 +0000</pubDate>
+		<dc:creator>Rob Sanheim</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Toolkit</category>
+	<category>.NET</category>
+	<category>Dojo</category>
+	<category>Framework</category>
+		<guid>http://ajaxian.com/archives/emergetk-version-011-released</guid>
+		<description><![CDATA[	The Ajax framework for C# EmergeTK just released version 0.1.1.  Highlights of this version include:
+	
+License change from GPL to BSD 3-clause license.
+	Support for Mono (1.1.16)
+	Dojo upgrade to 0.3.1
+	Back button &#038; Bookmark support
+	MySql and SqlServer providers
+	Basic implementation of AdoRecordList and AdoRecord.
+	
+	You can download it here and see some demos here.
+]]></description>
+			<content:encoded><![CDATA[	<p>The Ajax framework for C# <a href="http://www.emergetk.com/emergetk#Home">EmergeTK</a> just released version 0.1.1.  <a href="http://ben.creationsnetwork.org/2006/07/21/emergetk-011-released/">Highlights</a> of this version include:</p>
+	<ul>
+<li>License change from GPL to BSD 3-clause license.</li>
+	<li>Support for Mono (1.1.16)</li>
+	<li>Dojo upgrade to 0.3.1</li>
+	<li>Back button &#038; Bookmark support</li>
+	<li>MySql and SqlServer providers</li>
+	<li>Basic implementation of AdoRecordList and AdoRecord.</li>
+	</ul>
+	<p>You can download it <a href="http://www.emergetk.com/emergetk#Download">here</a> and see some demos <a href="http://www.emergetk.com/emergetk#Examples">here.</a></p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=eWPSrh3v"><img src="http://feeds.feedburner.com/~f/ajaxian?i=eWPSrh3v" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=isW81Rpv"><img src="http://feeds.feedburner.com/~f/ajaxian?i=isW81Rpv" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=uVgiHiyy"><img src="http://feeds.feedburner.com/~f/ajaxian?i=uVgiHiyy" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=vxKywCUE"><img src="http://feeds.feedburner.com/~f/ajaxian?i=vxKywCUE" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/emergetk-version-011-released/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>SXSW Panel Picker</title>
+		<link>http://ajaxian.com/archives/sxsw-panel-picker</link>
+		<comments>http://ajaxian.com/archives/sxsw-panel-picker#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 19:34:34 +0000</pubDate>
+		<dc:creator>Michael Mahemoff</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Usability</category>
+	<category>Prototype</category>
+	<category>Scriptaculous</category>
+	<category>Conferences</category>
+		<guid>http://ajaxian.com/archives/sxsw-panel-picker</guid>
+		<description><![CDATA[	SXSW is letting the people help decide which panel submissions are going to make it into the 2007 event. Lindsey Simon, for SXSW,  put together this web page showing the submissions and allowing users to pick up to ten panels. Choosing a panel causes it to appear in the list of Picks, and the [...]]]></description>
+			<content:encoded><![CDATA[	<p>SXSW is letting the people help decide which panel submissions are going to make it into the 2007 event. Lindsey Simon, for SXSW, <a href="http://2007.sxsw.com/interactive/panel_picker/"> put together this web page</a> showing the submissions and allowing users to pick up to ten panels. Choosing a panel causes it to appear in the list of Picks, and the list items are draggable, so you can prioritize your picks.</p>
+	<p>The SXSW Panel Proposal Picker is built with Prototype and Scriptaculous.</p>
+	<p><a href="http://2007.sxsw.com/interactive/panel_picker/"><img src="http://ajaxian.com/wp-content/images/sxswpicker.png" alt="" border="0" width="500" height="300"/></a>
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=JsZsZ7BD"><img src="http://feeds.feedburner.com/~f/ajaxian?i=JsZsZ7BD" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=oIIWhJNv"><img src="http://feeds.feedburner.com/~f/ajaxian?i=oIIWhJNv" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=QbieLPQo"><img src="http://feeds.feedburner.com/~f/ajaxian?i=QbieLPQo" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=YV3T9Fug"><img src="http://feeds.feedburner.com/~f/ajaxian?i=YV3T9Fug" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/sxsw-panel-picker/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>How to Run Ads with Ajax</title>
+		<link>http://ajaxian.com/archives/how-to-run-ads-with-ajax</link>
+		<comments>http://ajaxian.com/archives/how-to-run-ads-with-ajax#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 17:44:51 +0000</pubDate>
+		<dc:creator>Michael Mahemoff</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Advertising</category>
+		<guid>http://ajaxian.com/archives/how-to-run-ads-with-ajax</guid>
+		<description><![CDATA[	Anyone who's running an Ajax site knows the frustration of showing static ads on a page that might not refresh for minutes or hours. Until the ad providers begin offering rotating Ajax ads (which would be suit some non-Ajax sites as well), you're stuck with the same ad for a long time. Or are you?
+	In [...]]]></description>
+			<content:encoded><![CDATA[	<p>Anyone who's running an Ajax site knows the frustration of showing static ads on a page that might not refresh for minutes or hours. Until the ad providers begin offering rotating Ajax ads (which would be suit some non-Ajax sites as well), you're stuck with the same ad for a long time. Or are you?</p>
+	<p>In <a href="http://www.jguru.com/forums/view.jsp?EID=1305379">this JGuru article</a>, Kevin Cho outlines a hack to offer rotating ads. Summary: Put the ad in an IFrame, embed the IFrame on your page refresh the IFrame on every XHR call. Sprinkle invisible keywords into the IFrame for extra context.</p>
+	<p>refreshAd() is where the magic happens...</p>
+	<div class="syntax_hilite">
+<div id="javascript-8">
+	<div class="javascript">
+&nbsp;<span style="color: #003366; font-weight: bold;">var</span> oXmlHttp = createXMLHttp<span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;</p>
+	<p>oXmlHttp.<span style="color: #006600;">onreadystatechange</span> = <span style="color: #003366; font-weight: bold;">function</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp;<span style="color: #000066; font-weight: bold;">if</span> <span style="color:#006600; font-weight:bold;">&#40;</span>oXmlHttp.<span style="color: #006600;">readyState</span> == <span style="color:#800000;">4</span><span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">var</span> storyDiv = document.<span style="color: #006600;">getElementById</span><span style="color:#006600; font-weight:bold;">&#40;</span>layerName<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; storyDiv.<span style="color: #006600;">innerHTML</span> = oXmlHttp.<span style="color: #006600;">responseText</span>;</p>
+	<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; refreshAd<span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#125;</span><br />
+<span style="color:#006600; font-weight:bold;">&#125;</span>;</p>
+	<p>&nbsp;<span style="color: #003366; font-weight: bold;">function</span> refreshAd<span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">var</span> currentTime = <span style="color: #003366; font-weight: bold;">new</span> Date<span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; googlead.<span style="color: #006600;">location</span> = <span style="color: #3366CC;">"pages/ad.jsp?s="</span> + currentTime.<span style="color: #006600;">getTime</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+<span style="color:#006600; font-weight:bold;">&#125;</span><br />
+&nbsp;</div>
+	</div>
+</div>
+	<p>If you're wondering if this is fair game by Google, you're not alone. Does it violate Google's adsense policy? Maybe, but that's not to say Kevin hasn't considered the implications.</p>
+	<blockquote><p>
+Ok~ so let see what is fair use of this adsense. In my opinion (yours may differ..even Google), if there's a content change in your web site then it's fair to show a new ads on your page ...  That's right! I'm using IFRAME.. I can already see you're not surprised as if you already know the solution. There's really no other option since any other solutions will be breaking Google's TOS.
+</p></blockquote>
+	<p>Check out <a href="http://www.jguru.com/forums/view.jsp?EID=1305379">Kevin's article</a> for all the details.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=RlwA6o0O"><img src="http://feeds.feedburner.com/~f/ajaxian?i=RlwA6o0O" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=NipSebgO"><img src="http://feeds.feedburner.com/~f/ajaxian?i=NipSebgO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=qeRX9Xpr"><img src="http://feeds.feedburner.com/~f/ajaxian?i=qeRX9Xpr" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=BaDfAbPu"><img src="http://feeds.feedburner.com/~f/ajaxian?i=BaDfAbPu" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/how-to-run-ads-with-ajax/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Cross-Domain Ajax Insecurity</title>
+		<link>http://ajaxian.com/archives/cross-domain-ajax-insecurity</link>
+		<comments>http://ajaxian.com/archives/cross-domain-ajax-insecurity#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 15:03:43 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Ajax</category>
+	<category>Front Page</category>
+	<category>XmlHttpRequest</category>
+	<category>Security</category>
+		<guid>http://ajaxian.com/archives/cross-domain-ajax-insecurity</guid>
+		<description><![CDATA[	
+Chris Shiflett has posted his look today at cross-domain Ajax requests and some of the security implications that can come with it, especially in a world where more and more developers are beginning to think it's okay.
+
+	
+Since the birth of Ajax (the term, not the technology), there has been an increasing interest in various client-side [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+Chris Shiflett has posted <a href="http://shiflett.org/archive/250">his look</a> today at cross-domain Ajax requests and some of the security implications that can come with it, especially in a world where more and more developers are beginning to think it's okay.
+</p>
+	<blockquote><p>
+Since the birth of Ajax (the term, not the technology), there has been an increasing interest in various client-side technologies, especially JavaScript. Those who have forged ahead in an attempt to innovate new ways of applying Ajax have inevitably run into the same-domain security policy of XMLHttpRequest(). As a result, there has been an increasing demand for cross-domain Ajax, and there are several creative techniques in use today to get around the same-domain restriction (none of which I consider cross-domain Ajax).
+</p></blockquote>
+	<p>
+He <a href="http://shiflett.org/archive/250">talks about</a> other methods that can capture the data in an Ajax request (post scanner), but notes that one of the real dangers is removing a barrier for cross-site request forgeries that most normal sites already have in place.
+</p>
+	<p>
+To illustrate, he <a href="http://4diggers.blogspot.com/">mentions an issue</a> Digg had with a "self-digging story" a little while back. He also includes a sort of how-to on the method that they used to accomplish the task - basically a Javascript form submit on each viewing. There are checks in place for it now, but there's still the same kind of issue with cross-domain requests. Sure, you'd have to lure diggers to another page to get the key required for another digg, but since the code runs on the client, digg doesn't have much protection.
+</p>
+	<blockquote><p>
+It's worth noting that XSS vulnerabilities allow malicious JavaScript to execute within your domain, thereby avoiding the same-domain restrictions. This can have catastrophic consequences. Just ask <a href="http://shiflett.org/archive/158">Myspace</a>.
+</p></blockquote>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=FR8ez2Mv"><img src="http://feeds.feedburner.com/~f/ajaxian?i=FR8ez2Mv" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=OHsoJXCF"><img src="http://feeds.feedburner.com/~f/ajaxian?i=OHsoJXCF" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=o9Pt94Fx"><img src="http://feeds.feedburner.com/~f/ajaxian?i=o9Pt94Fx" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=s6MVijA0"><img src="http://feeds.feedburner.com/~f/ajaxian?i=s6MVijA0" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/cross-domain-ajax-insecurity/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Real Time Satellite Tracking (with Google Maps)</title>
+		<link>http://ajaxian.com/archives/real-time-satellite-tracking-with-google-maps</link>
+		<comments>http://ajaxian.com/archives/real-time-satellite-tracking-with-google-maps#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 13:10:32 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Mapping</category>
+	<category>Google</category>
+		<guid>http://ajaxian.com/archives/real-time-satellite-tracking-with-google-maps</guid>
+		<description><![CDATA[	
+Amateur astronomers will enjoy this cool mashup combining the coordinates of several satellites with the power of the Google Maps to show real-time locations as each of them oribts the Earth.
+
+	
+To start, simply select the satellite from the list at the top of the page and the map will track to its current location. As [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+Amateur astronomers will enjoy <a href="http://www.n2yo.com/">this cool mashup</a> combining the coordinates of several satellites with the power of the Google Maps to show real-time locations as each of them oribts the Earth.
+</p>
+	<p>
+To start, simply select the satellite from the list at the top of the page and the map will track to its current location. As it moves, the map will move underneath it, showing a green dashed line of the path as you've been viewing it. There's even categories for the different satellites, including "brightest", "weather", and "GPS" to choose from. The box on the right shows the current data about the satellite - it's latitude, longitude, elevation, speed, etc. It even tells you if the satellite you're looking at is below your horizon (based on the location of your IP address).
+</p>
+	<p>
+Aseperate box provides information on the actual use of the satellite, incuding its name, launch date, and some comments about what it does. There's even some <a href="http://www.n2yo.com/">latest astronomy news</a> at the bottom of the page with highlights from around the world.
+</p>
+	<p><center><br />
+<img src="http://ajaxian.com/wp-content/images/satellite.gif" alt="" border="0" width="300" height="258"/><br />
+</center>
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=qTzqLWBC"><img src="http://feeds.feedburner.com/~f/ajaxian?i=qTzqLWBC" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=imoCEVpD"><img src="http://feeds.feedburner.com/~f/ajaxian?i=imoCEVpD" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=S0BTSm0P"><img src="http://feeds.feedburner.com/~f/ajaxian?i=S0BTSm0P" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=yGS65I9e"><img src="http://feeds.feedburner.com/~f/ajaxian?i=yGS65I9e" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/real-time-satellite-tracking-with-google-maps/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>When good AJAX training goes horrifically wrong.</title>
+		<link>http://ajaxian.com/archives/when-good-ajax-training-goes-horrifically-wrong</link>
+		<comments>http://ajaxian.com/archives/when-good-ajax-training-goes-horrifically-wrong#comments</comments>
+		<pubDate>Wed, 09 Aug 2006 12:52:13 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Editorial</category>
+		<guid>http://ajaxian.com/archives/when-good-ajax-training-goes-horrifically-wrong</guid>
+		<description><![CDATA[	
+Not everyone out there teaching Ajax methods knows quite what they're doing sometimes - as Dan Morrill found out. The training session he had been going to was coming along just fine until they began talking about "properly formatted XML" and their query to grab the database info for it.
+
+	
+I am in AJAX training this [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+Not everyone out there teaching Ajax methods knows quite what they're doing sometimes - as Dan Morrill <a href="http://blogs.ittoolbox.com/security/dmorrill/archives/when-good-ajax-training-goes-horrifically-wrong-10994">found out</a>. The training session he had been going to was coming along just fine until they began talking about "properly formatted XML" and their query to grab the database info for it.
+</p>
+	<blockquote><p>
+I am in AJAX training this week learning the process of "properly formatted XML". They have us going through, writing code, getting data out of databases, all the things that you would normally do with tabulated code. Just one problem (spot the errors with this code set). </p>
+	<div class="syntax_hilite">
+<div id="code-10">
+	<div class="code">
+strConnstring = <span style="color:#CC0000;">"server=(local); Driver=(SQL server); database=(DbCustomers); UID="</span>name<span style="color:#CC0000;">"; PWD="</span>secret<span style="color:#CC0000;">"<br />
+strSearch = "</span>SELECT * FROM tblCustomers WHERE ustid=<span style="color:#CC0000;">' &quot; &amp; strSearch &amp; &quot;'</span><span style="color:#CC0000;">"<br />
+&nbsp;</span></div>
+	</div>
+</div>
+	<p>Honestly and no kidding this was the code set they were using for the select statement read string for the AJAX application.
+</p></blockquote>
+	<p>
+There are at least a few errors in there - 1 cross-site scripting issue, 2 SQL injection points, and a problem with the resulting URL where the user can access things he shouldn't. Add that together with the database running on the same machine, and it spells trouble. He <a href="http://blogs.ittoolbox.com/security/dmorrill/archives/when-good-ajax-training-goes-horrifically-wrong-10994">also comments</a> on the quality of some of the training out there:</p>
+	<blockquote>
+	<p>
+AJAX is only as good as the examples that the developers have, while it is great to have properly formatted XML and HTML as the output, the basics of information security still have to apply to the process. AJAX is a really great way of embedding dynamic data into a web page without having to go through the entire page load process that we otherwise work with on a Web Server.
+</p>
+	<p>
+But AJAX is not an excuse for following very poor coding practices that have been pretty well deprecated over the last couple of years since cross site scripting and SQL injection have become pretty familiar terms to many in the IT industry.
+</p>
+	</p></blockquote>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=bzYjbEp5"><img src="http://feeds.feedburner.com/~f/ajaxian?i=bzYjbEp5" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=6ZsviBYf"><img src="http://feeds.feedburner.com/~f/ajaxian?i=6ZsviBYf" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=W0PZ04LL"><img src="http://feeds.feedburner.com/~f/ajaxian?i=W0PZ04LL" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=laVSWcaY"><img src="http://feeds.feedburner.com/~f/ajaxian?i=laVSWcaY" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/when-good-ajax-training-goes-horrifically-wrong/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Adding AJAX to a website step by step</title>
+		<link>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step</link>
+		<comments>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step#comments</comments>
+		<pubDate>Tue, 08 Aug 2006 18:53:33 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Toolkit</category>
+	<category>PHP</category>
+	<category>Programming</category>
+		<guid>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step</guid>
+		<description><![CDATA[	
+In his latest post, HTML_AJAX package developer Joshua Eichorn shares his methods for adding Ajax to an example website (with HTML_AJAX's help, of course), and he shows it step-by-step.
+
+	
+	
+When looking at a adding AJAX you have a couple decisions you’ll want to make up front. One is what tools your going to use. In the [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+In his latest post, HTML_AJAX package developer Joshua Eichorn shares <a href="http://blog.joshuaeichorn.com/archives/2006/08/08/adding-ajax-to-a-website-step-by-step/">his methods</a> for adding Ajax to an example website (with <a href="http://htmlajax.org/">HTML_AJAX</a>'s help, of course), and he shows it step-by-step.
+</p>
+	<blockquote>
+	<p>
+When looking at a adding AJAX you have a couple decisions you’ll want to make up front. One is what tools your going to use. In the webthumb case thats pretty easy. Webthumb is a simple PHP app and doesn’t use a framework, so I need a nice general PHP/AJAX framework that is easy to use, <a href="http://htmlajax.org/">HTML_AJAX</a> fits that need.
+</p>
+	<p>
+After picking my tools I need to decide what my goals are. My main focus will be to improve usability, but I also want to use AJAX to make the site seem a bit flashier, so its a bit of a technology demo too.
+</p>
+	</blockquote>
+	<p>
+The <a href="http://bluga.net/webthumb/">Webthumb</a> mentioned there is a pet project of his, allowing for the generation of thumbnails taken directly of websites (more on that <a href="http://blog.joshuaeichorn.com/archives/2006/07/18/webthumb/">here</a>). He uses an updated to this application as <a href="http://blog.joshuaeichorn.com/archives/2006/08/08/adding-ajax-to-a-website-step-by-step/">his illustration</a>.
+</p>
+	<p>
+He demonstrates the remoting functionality, his use of a class named RequestStatus for finding the status of the Ajax connection, exporting this in the PHP (easy thanks to HTML_AJAX), and make the actual calls to the backend with the newly exported function.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=lStMVKTJ"><img src="http://feeds.feedburner.com/~f/ajaxian?i=lStMVKTJ" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=JqYTdcyr"><img src="http://feeds.feedburner.com/~f/ajaxian?i=JqYTdcyr" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=JK0BiwfA"><img src="http://feeds.feedburner.com/~f/ajaxian?i=JK0BiwfA" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=bh4hHLuC"><img src="http://feeds.feedburner.com/~f/ajaxian?i=bh4hHLuC" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/adding-ajax-to-a-website-step-by-step/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Ajax Hacking for Fun and Profit?</title>
+		<link>http://ajaxian.com/archives/ajax-hacking-for-fun-and-profit</link>
+		<comments>http://ajaxian.com/archives/ajax-hacking-for-fun-and-profit#comments</comments>
+		<pubDate>Tue, 08 Aug 2006 13:33:11 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Articles</category>
+	<category>Security</category>
+		<guid>http://ajaxian.com/archives/ajax-hacking-for-fun-and-profit</guid>
+		<description><![CDATA[	
+Apparently, not all is well in the world of Ajax (who knew?) according to this news story on the USA Today website. In it, they talk about the malicious nature of some Ajax function they're seeing, and how it's on the rise.
+
+	
+Recent high-profile attacks include June's Yamanner computer worm, designed to harvest e-mail addresses from [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+Apparently, not all is well in the world of Ajax (who knew?) according to <a href="http://www.usatoday.com/money/industries/technology/2006-08-04-ajax-attack-usat_x.htm">this news story</a> on the USA Today website. In it, they talk about the malicious nature of some Ajax function they're seeing, and how it's on the rise.
+</p>
+	<blockquote><p>
+Recent high-profile attacks include June's Yamanner computer worm, designed to harvest e-mail addresses from Yahoo mail users and send them to spammers in Europe; and Spaceflash, which installed adware (advertisements and tracking programs implanted surreptitiously) on the hard drives of more than a million MySpace users.
+</p></blockquote>
+	<p>
+And, of course, an "evil Ajax" article wouldn't be complete without a <a href="http://www.usatoday.com/money/industries/technology/2006-08-04-ajax-attack-usat_x.htm">mention of everyone's favorite worm</a>, Samy. They talk about the potential hazards of going to other sites, like MySpace, where they allow any and all users access to change the page's infromation. And, as they say, this is only the beginning - as Ajax spreads more and more, issues will keep coming up more and more frequently.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=8msVIZ3F"><img src="http://feeds.feedburner.com/~f/ajaxian?i=8msVIZ3F" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=gMwSiXyt"><img src="http://feeds.feedburner.com/~f/ajaxian?i=gMwSiXyt" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=ItAxtj7K"><img src="http://feeds.feedburner.com/~f/ajaxian?i=ItAxtj7K" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=dlXl9cYd"><img src="http://feeds.feedburner.com/~f/ajaxian?i=dlXl9cYd" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/ajax-hacking-for-fun-and-profit/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Magg Video Aggregator</title>
+		<link>http://ajaxian.com/archives/magg-video-aggregator</link>
+		<comments>http://ajaxian.com/archives/magg-video-aggregator#comments</comments>
+		<pubDate>Tue, 08 Aug 2006 13:26:41 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Showcase</category>
+	<category>Fun</category>
+		<guid>http://ajaxian.com/archives/magg-video-aggregator</guid>
+		<description><![CDATA[	
+In the ever-popular effort to aggregate all content into a single source, the site Magg has been created. Magg takes videos from various websites (like YouTube, Google Video, Vimeo, etc) and pulls them all together into a single page for easy viewing.
+
+	
+The videos are pulled in via Ajax calls through a service called Dapper, "a [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+In the ever-popular effort to aggregate all content into a single source, the site <a href="http://www.dappit.com/dapplications/Magg/">Magg</a> has been created. Magg takes videos from various websites (like YouTube, Google Video, Vimeo, etc) and pulls them all together into a single page for easy viewing.
+</p>
+	<p>
+The videos are pulled in via Ajax calls through a service called <a href="http://www.dappit.com/">Dapper</a>, "a new service which makes it easy to extract content from any website". When each of the items is clicked on, it uses a Lightbox-style interface to show the video right there on the page.  It also includes a search feature that dynamically pulls the information from each of the sites when you search (not just the cached information on the current page).
+</p>
+	<p>
+It's a cool twist on the usual aggregator, with the Dapper technology making it adding a new video site as easy as adding its information into the Javascript arrays. It will be interesting to see what Dapper as to offer when it launches in August.
+</p>
+	<p>
+<img src="http://ajaxian.com/wp-content/images/magg.gif" alt="" border="0" width="300" height="237"/>
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=akEvyNZO"><img src="http://feeds.feedburner.com/~f/ajaxian?i=akEvyNZO" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=R4gqE03O"><img src="http://feeds.feedburner.com/~f/ajaxian?i=R4gqE03O" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=0RwGete7"><img src="http://feeds.feedburner.com/~f/ajaxian?i=0RwGete7" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=tPDSUI0N"><img src="http://feeds.feedburner.com/~f/ajaxian?i=tPDSUI0N" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/magg-video-aggregator/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Book Review - Ajax Patterns and Best Practices</title>
+		<link>http://ajaxian.com/archives/book-review-ajax-patterns-and-best-practices</link>
+		<comments>http://ajaxian.com/archives/book-review-ajax-patterns-and-best-practices#comments</comments>
+		<pubDate>Tue, 08 Aug 2006 03:53:55 +0000</pubDate>
+		<dc:creator>Rob Sanheim</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Books</category>
+	<category>Book Reviews</category>
+	<category>Design</category>
+		<guid>http://ajaxian.com/archives/book-review-ajax-patterns-and-best-practices</guid>
+		<description><![CDATA[	
+Digg this review!
+Christian Gross' Ajax Patterns and Best Practices is a quality book for the intermediate to advanced ajax programmer who is looking to expand their skills.  This is definitely not a beginner's introduction to ajax, as once you get past the first three chapters or so Gross dives into some heavy duty patterns [...]]]></description>
+			<content:encoded><![CDATA[	<p><a href="http://www.amazon.com/exec/obidos/redirect?tag=panasonicyout-20%26link_code=xm2%26camp=2025%26creative=165953%26path=http://www.amazon.com/gp/redirect.html%253fASIN=1590596161%2526tag=panasonicyout-20%2526lcode=xm2%2526cID=2025%2526ccmID=165953%2526location=/o/ASIN/1590596161%25253FSubscriptionId=0EMV44A9A5YT1RVDGZ82" title="View product details at Amazon"><img class="right" src="http://images.amazon.com/images/P/1590596161.01._SCMZZZZZZZ_.jpg" alt="Ajax Patterns and Best Practices (Expert\'s Voice)" /></a><br />
+<b><a href="http://digg.com/programming/Book_Review_Ajax_Patterns_and_Best_Practices/">Digg this review!</a></b><br />
+Christian Gross' <a href="http://www.amazon.com/exec/obidos/redirect?tag=panasonicyout-20%26link_code=xm2%26camp=2025%26creative=165953%26path=http://www.amazon.com/gp/redirect.html%253fASIN=1590596161%2526tag=panasonicyout-20%2526lcode=xm2%2526cID=2025%2526ccmID=165953%2526location=/o/ASIN/1590596161%25253FSubscriptionId=0EMV44A9A5YT1RVDGZ82" title="View product details at Amazon">Ajax Patterns and Best Practices</a> is a quality book for the intermediate to advanced ajax programmer who is looking to expand their skills.  This is definitely not a beginner's introduction to ajax, as once you get past the first three chapters or so Gross dives into some heavy duty patterns for difficult problems in ajax.  The book suffers from a lack of editing and a few curious technical remarks, but overall it does a good job of covering ajax patterns and practices. Gross is obviously a fan of REST and XML, so your views on this book might depend upon how much you agree with his technical choices.</p>
+	<p>Chapters one and two cover the basics of the XHR object and using the factory pattern to abstract away browser differences for the object.  Chapter three covers "Content Chunking", Gross' term for what he admits is core to ajax - an event leading to an asynchronous request with then responds with some sort of content to inject back into the document.    Chapter four covers caching practices, and five covers the "permutations" pattern - ie separating the URL resource from the representation.  Six covers "decoupled navigation" (ie seperating the event triggering/handling from the business logic they fire), seven covers switching between states seamlessly, and eight covers the even popular "persistent communication" (ie polling) pattern that many of you may have seen yesterday in coverage of the <a href="http://www.macrumors.com/events/wwdc2006.html">WWDC.</a>  Nine covers workflows in ajax with the "state navigation" pattern, ten is "infinite data" (see the scrollbar at <a href="http://www.live.com">live.com</a>), and eleven covers treating remote services as the model in MVC via REST.</p>
+	<p>So there is a lot of content here, and the code examples are done well for the most part.  The code used in the book was <a href=http://ablog.apress.com/?p=983">extracted later</a> into a framework, so its nice to see the code being used for something beside toy examples.  Server side examples are in Java or C# with a few exceptions, with all of the serialization in XML with some XLST examples also shown.  The javascript code seems to follow some strange conventions, with TitleCase function names for example.  There are no third party frameworks used or covered.    </p>
+	<p>Regarding serialzation, Gross has this to say about XML vs everything else:</p>
+	<blockquote><p>Many people might think that XML has its problems and have proposed protocols that are better.  Frankly, I think that is plain wrong...Therefore, when writing your own Ajax and REST applications, stick to XML.</p></blockquote>
+	<p>While I certainly see Gross' point about the benefits of interoperability with web services when using XML, he fails to mention how sites like <a href="http://developer.yahoo.com/common/json.html">Yahoo</a> and <a href="http://del.icio.us/help/json">del.icio.us</a> are offering their data in JSON.  If your app will only ever talk to del.icio.us, for example, it might not be best to go with XML.  There are also the cases where you have complete control over the services, for an intranet app for example, and you may go with JSON or YAML for developer friendliness.  I think at least discussing serialization in the context of a simpler app that doesn't talk to web services would have been helpful for developers who aren't writing the next big XML mashup.</p>
+	<p>Besides that nitpick, this book will be great for someone who wants to know some of the big pitfalls of creating large scale ajax apps, and ways to sidestep them.  The only other significant fault is the editing, with one too many awkward run-on-sentences.  The overall tone is conversational and easy to follow once you get past that.  The patterns covered are very useful, particularly the caching pattern and the different ways of handling transitioning and transforming state.  Recommended, particularly if you are doing a lot work with REST/XML and multiple web services.  If you can only own one Ajax book - get <a href="http://www.amazon.com/exec/obidos/redirect?tag=panasonicyout-20%26link_code=xm2%26camp=2025%26creative=165953%26path=http://www.amazon.com/gp/redirect.html%253fASIN=1932394613%2526tag=panasonicyout-20%2526lcode=xm2%2526cID=2025%2526ccmID=165953%2526location=/o/ASIN/1932394613%25253FSubscriptionId=0EMV44A9A5YT1RVDGZ82" title="View product details at Amazon">Ajax in Action</a> - if you own two, make <a href="http://www.amazon.com/exec/obidos/redirect?tag=panasonicyout-20%26link_code=xm2%26camp=2025%26creative=165953%26path=http://www.amazon.com/gp/redirect.html%253fASIN=1590596161%2526tag=panasonicyout-20%2526lcode=xm2%2526cID=2025%2526ccmID=165953%2526location=/o/ASIN/1590596161%25253FSubscriptionId=0EMV44A9A5YT1RVDGZ82" title="View product details at Amazon">Ajax Patterns and Best Practices</a> your second choice.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=Mio2jDbd"><img src="http://feeds.feedburner.com/~f/ajaxian?i=Mio2jDbd" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=RVCBr7nS"><img src="http://feeds.feedburner.com/~f/ajaxian?i=RVCBr7nS" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=yyHFbkHT"><img src="http://feeds.feedburner.com/~f/ajaxian?i=yyHFbkHT" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=FJZN9aXO"><img src="http://feeds.feedburner.com/~f/ajaxian?i=FJZN9aXO" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/book-review-ajax-patterns-and-best-practices/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Ajax3D - the Next Arc up the Hype Curve</title>
+		<link>http://ajaxian.com/archives/ajax3d-the-next-arc-up-the-hype-curve</link>
+		<comments>http://ajaxian.com/archives/ajax3d-the-next-arc-up-the-hype-curve#comments</comments>
+		<pubDate>Mon, 07 Aug 2006 22:45:42 +0000</pubDate>
+		<dc:creator>Dietrich Kappe</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Editorial</category>
+	<category>Plugins</category>
+		<guid>http://ajaxian.com/archives/ajax3d-the-next-arc-up-the-hype-curve</guid>
+		<description><![CDATA[	Overuse a term and it becomes meaningless. How much meaning is still in the term 'Ajax?' Media Machines tries to wring a little more buzz out of it -- first take an X3D and VRML browser plugin with ECMAScript bindings (Flux), combine it with XMLHttpRequest and voila! You've got Ajax3D. At least that's what you [...]]]></description>
+			<content:encoded><![CDATA[	<p>Overuse a term and it becomes meaningless. How much meaning is still in the term 'Ajax?' <a href="http://www.mediamachines.com/">Media Machines</a> tries to wring a little more buzz out of it -- first take an X3D and VRML browser plugin with ECMAScript bindings (Flux), combine it with XMLHttpRequest and voila! You've got Ajax3D. At least that's what you have according to their latest <a href="http://www.marketwire.com/mw/release_html_b1?release_id=148949">press release</a>.</p>
+	<blockquote>
+	<p>Media Machines, Inc., a leading provider of open source, real time 3D communications on the web, today announced Ajax3D™, a Javascript-based software library and development paradigm for deploying online virtual worlds and 3D web applications based on Ajax and X3D. The company also issued an open call for participation in an industry forum at www.ajax3D.org, dedicated to the research and development of online virtual worlds using 3D open standards and Ajax best practices.</p>
+	</blockquote>
+	<p>A quick look at <a href="http://www.ajax3D.org">www.ajax3D.org</a> reveals a somewhat anemic collection of forums and 'tutorials.' You have to view source and download the javascript files to figure out what's going on.</p>
+	<div class="syntax_hilite">
+<div id="javascript-12">
+	<div class="javascript"> <span style="color: #009900; font-style: italic;">//ajax3d.js</span><br />
+<span style="color: #003366; font-weight: bold;">var</span> browser = <span style="color: #003366; font-weight: bold;">null</span>; <span style="color: #003366; font-weight: bold;">var</span> context = <span style="color: #003366; font-weight: bold;">null</span>; <span style="color: #003366; font-weight: bold;">var</span> listener = <span style="color: #003366; font-weight: bold;">null</span>; <span style="color: #003366; font-weight: bold;">var</span> listenersSetup = <span style="color: #003366; font-weight: bold;">false</span>;<br />
+<span style="color: #003366; font-weight: bold;">function</span> initAjax3d<span style="color:#006600; font-weight:bold;">&#40;</span>filename<span style="color:#006600; font-weight:bold;">&#41;</span><br />
+<span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp;browser = <span style="color: #003366; font-weight: bold;">null</span>;&nbsp; &nbsp;context = <span style="color: #003366; font-weight: bold;">null</span>;&nbsp; &nbsp;listenersSetup = <span style="color: #003366; font-weight: bold;">false</span>;<br />
+&nbsp; &nbsp;browser = document.<span style="color: #006600;">FLUX</span>.<span style="color: #006600;">getBrowser</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp;<span style="color: #000066; font-weight: bold;">if</span> <span style="color:#006600; font-weight:bold;">&#40;</span>browser != <span style="color: #003366; font-weight: bold;">null</span><span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; listener = <span style="color: #003366; font-weight: bold;">new</span> Object<span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; listener.<span style="color: #006600;">browserChanged</span> = browserChanged;<br />
+&nbsp; &nbsp; &nbsp; browser.<span style="color: #006600;">addBrowserListener</span><span style="color:#006600; font-weight:bold;">&#40;</span>listener<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; <span style="color: #000066; font-weight: bold;">if</span> <span style="color:#006600; font-weight:bold;">&#40;</span>filename != <span style="color: #003366; font-weight: bold;">null</span><span style="color:#006600; font-weight:bold;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;browser.<span style="color: #006600;">loadUrlS</span> <span style="color:#006600; font-weight:bold;">&#40;</span>filename<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; <span style="color: #000066; font-weight: bold;">else</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;context = browser.<span style="color: #006600;">getExecutionContext</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp;<span style="color:#006600; font-weight:bold;">&#125;</span><br />
+<span style="color:#006600; font-weight:bold;">&#125;</span><br />
+<span style="color: #009900; font-style: italic;">// [snip]</span><br />
+<span style="color: #003366; font-weight: bold;">function</span> createX3DFromString<span style="color:#006600; font-weight:bold;">&#40;</span>str<span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp;<span style="color: #003366; font-weight: bold;">var</span> scene = browser.<span style="color: #006600;">createX3DFromString</span><span style="color:#006600; font-weight:bold;">&#40;</span>str<span style="color:#006600; font-weight:bold;">&#41;</span>;&nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">var</span> rootnodes = scene.<span style="color: #006600;">getRootNodes</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;&nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">var</span> i;<br />
+&nbsp; &nbsp;<span style="color: #009900; font-style: italic;">// Do a bit of work to deal with the quirky X3D add/remove root node paradigm</span><br />
+&nbsp; &nbsp;<span style="color: #000066; font-weight: bold;">for</span> <span style="color:#006600; font-weight:bold;">&#40;</span>i = <span style="color:#800000;">0</span>; i &lt;rootnodes.<span style="color: #006600;">length</span>; i++<span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp;node = rootnodes<span style="color:#006600; font-weight:bold;">&#91;</span>i<span style="color:#006600; font-weight:bold;">&#93;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp;scene.<span style="color: #006600;">removeRootNode</span><span style="color:#006600; font-weight:bold;">&#40;</span>node<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp;context.<span style="color: #006600;">addRootNode</span><span style="color:#006600; font-weight:bold;">&#40;</span>node<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp;<span style="color:#006600; font-weight:bold;">&#125;</span><br />
+<span style="color:#006600; font-weight:bold;">&#125;</span></div>
+	</div>
+</div>
+	<p>There's no documentation to speak of, unless you head over to <a href="http://www.web3d.org">www.web3d.org</a> and read through their obtuse standards documents. To Media Machines' credit, they did just release the source of their plugin to open source, so you could crawl through the code to figure out all of the bindings. Even so, how much is the 'Ajax' involved with '3D'? Not a whole lot. Certainly not enough to warrant the coining of a new term and the issuing of a press release.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=yqgl1N4y"><img src="http://feeds.feedburner.com/~f/ajaxian?i=yqgl1N4y" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=LG36TpCC"><img src="http://feeds.feedburner.com/~f/ajaxian?i=LG36TpCC" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=x4DuJN0P"><img src="http://feeds.feedburner.com/~f/ajaxian?i=x4DuJN0P" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=2akG7Upi"><img src="http://feeds.feedburner.com/~f/ajaxian?i=2akG7Upi" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/ajax3d-the-next-arc-up-the-hype-curve/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Implementation of Office 2007 Ribbon with Ajax</title>
+		<link>http://ajaxian.com/archives/implementation-of-office-2007-ribbon-with-ajax</link>
+		<comments>http://ajaxian.com/archives/implementation-of-office-2007-ribbon-with-ajax#comments</comments>
+		<pubDate>Mon, 07 Aug 2006 17:20:28 +0000</pubDate>
+		<dc:creator>Ben Galbraith</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Showcase</category>
+	<category>UI</category>
+		<guid>http://ajaxian.com/archives/implementation-of-office-2007-ribbon-with-ajax</guid>
+		<description><![CDATA[	Kevin from Noovo Communications in Korea sent in an interesting link to their Ajax-based webpage editor. I confess, I haven't kept up with the on-line webpage editor space, so I have no idea how impressive this is relative to other such sites.
+	However, I was intrigued by their attempt at implementing the Microsoft Office 2007 "Ribbon", [...]]]></description>
+			<content:encoded><![CDATA[	<p>Kevin from Noovo Communications in Korea sent in an interesting link to their <a href="http://www.noovo.us/demo">Ajax-based webpage editor</a>. I confess, I haven't kept up with the on-line webpage editor space, so I have no idea how impressive this is relative to other such sites.</p>
+	<p>However, I was intrigued by their attempt at implementing the <a href="http://blogs.msdn.com/jensenh/archive/2006/03/09/547281.aspx">Microsoft Office 2007 "Ribbon"</a>, Microsoft's attempt at replacing that enshrined-and-well-respected UI paradigm, the pull-down menu, along with its younger brother, the toolbar.</p>
+	<p>Here's the original:</p>
+	<p><img src="http://blogs.msdn.com/photos/jensenh/images/547387/original.aspx" alt="Microsoft Office 2007 Ribbon" /></p>
+	<p>And, Noovo's version:</p>
+	<p><img src="http://ajaxian.com/wp-content/images/ribbon.png" alt="An Ajax Ribbon" border="0" width="897" height="104"/></p>
+	<p>If you play around with it, you'll see that the Ajax version has some of the Ribbon's pull-down behaviors, too.<a href="http://www.noovo.us/blog/?p=6">Noovo also has a blog announcing their creation</a>, though they don't make particular mention of their Ribbon clone.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=eNMKGQ4D"><img src="http://feeds.feedburner.com/~f/ajaxian?i=eNMKGQ4D" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=m5ijNt5G"><img src="http://feeds.feedburner.com/~f/ajaxian?i=m5ijNt5G" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=4mHZrVVC"><img src="http://feeds.feedburner.com/~f/ajaxian?i=4mHZrVVC" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=jMuaB7i7"><img src="http://feeds.feedburner.com/~f/ajaxian?i=jMuaB7i7" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/implementation-of-office-2007-ribbon-with-ajax/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>JavaScript Model-View-Controller with Dojo toolkit</title>
+		<link>http://ajaxian.com/archives/javascript-model-view-controller-with-dojo-toolkit</link>
+		<comments>http://ajaxian.com/archives/javascript-model-view-controller-with-dojo-toolkit#comments</comments>
+		<pubDate>Mon, 07 Aug 2006 13:23:41 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>Dojo</category>
+	<category>Programming</category>
+	<category>Framework</category>
+		<guid>http://ajaxian.com/archives/javascript-model-view-controller-with-dojo-toolkit</guid>
+		<description><![CDATA[	
+In this new post on his blog, Alexander Netkachev demonstrates how to create a Model/View/Controller framework in Javascript with when help of the Dojo Toolkit.
+
+	
+My goal for this article is to write a simple JavaScript component that can show a power of the language. The component is a kind of the HTML ListBox (“select” HTML [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+In <a href="http://www.alexatnet.com/Blog/Index/2006-08-04/javascript-model-view-controller-with-dojo-toolkit">this new post</a> on his blog, Alexander Netkachev demonstrates how to create a Model/View/Controller framework in Javascript with when help of the <a href="http://www.dojotoolkit.org/">Dojo Toolkit</a>.
+</p>
+	<blockquote><p>
+My goal for this article is to write a simple JavaScript component that can show a power of the language. The component is a kind of the HTML ListBox (“select” HTML tag) control with an editable list of items: the user can select item and remove it or add new items into the list. I will use Dojo toolkit class building functions [<a href="http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book20">link</a>] to create three classes that implement the <a href="http://en.wikipedia.org/wiki/Model-view-controller>Model-View-Controller design pattern</a>. These classes will use <a href="http://manual.dojotoolkit.org/WikiHome/DojoDotBook/Book11">Dojo’s event system</a> for subscribing on DHTML events and for notifying the View about changes in the Model.
+</p></blockquote>
+	<p>
+He <a href="http://www.alexatnet.com/Blog/Index/2006-08-04/javascript-model-view-controller-with-dojo-toolkit">first talks about</a> what the Model/View/Controller pattern is for those that haven't used it before (a simple definition). He applies it more to web applications t make it easier to bridge the gap between traditional web development and this design method.
+</p>
+	<p>
+From there it's <a href="http://www.alexatnet.com/Blog/Index/2006-08-04/javascript-model-view-controller-with-dojo-toolkit">all about thge code</a>, first the creation of the 'ListModel' to handle the functionality, then the 'ListView' to make the HTML output of the script, and, finally, the 'ListController' to manage the view and model when a request comes in. Code for that is included too, making a simple multi-select box you can easily add and remove items from.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=scIKTiKL"><img src="http://feeds.feedburner.com/~f/ajaxian?i=scIKTiKL" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=OmYGTaaE"><img src="http://feeds.feedburner.com/~f/ajaxian?i=OmYGTaaE" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=vIQdFZWN"><img src="http://feeds.feedburner.com/~f/ajaxian?i=vIQdFZWN" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=XP4eH6SN"><img src="http://feeds.feedburner.com/~f/ajaxian?i=XP4eH6SN" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/javascript-model-view-controller-with-dojo-toolkit/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>Can Your Programming Language Do This? Javascript Can.</title>
+		<link>http://ajaxian.com/archives/can-your-programming-language-do-this-javascript-can</link>
+		<comments>http://ajaxian.com/archives/can-your-programming-language-do-this-javascript-can#comments</comments>
+		<pubDate>Sat, 05 Aug 2006 22:44:00 +0000</pubDate>
+		<dc:creator>Michael Mahemoff</dc:creator>
+		
+	<category>Front Page</category>
+	<category>JavaScript</category>
+		<guid>http://ajaxian.com/archives/can-your-programming-language-do-this-javascript-can</guid>
+		<description><![CDATA[	Joel Spolsky illustrates the power of first-class functions in "Can Your Programming Language Do This?". The article explains how Fortran, C, and Java fall short of fully supporting first-class functions in their own respective ways. What's interesting from our Ajax-tinted perspective is that he uses Javascript to illustrate these concepts. In other words, although he [...]]]></description>
+			<content:encoded><![CDATA[	<p>Joel Spolsky illustrates the power of first-class functions in <a href="http://www.joelonsoftware.com/items/2006/08/01.html">"Can Your Programming Language Do This?"</a>. The article explains how Fortran, C, and Java fall short of fully supporting first-class functions in their own respective ways. What's interesting from our Ajax-tinted perspective is that he uses Javascript to illustrate these concepts. In other words, although he doesn't explicitly state it, Javascript is an example of a language that does support first-class functions.</p>
+	<p>In the simplest case, you can pass a function reference around.</p>
+	<div class="syntax_hilite">
+<div id="javascript-16">
+	<div class="javascript">
+&nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">function</span> Cook<span style="color:#006600; font-weight:bold;">&#40;</span> i1, i2, f <span style="color:#006600; font-weight:bold;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #000066;">alert</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color: #3366CC;">"get the "</span> + i1<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; f<span style="color:#006600; font-weight:bold;">&#40;</span>i1<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; f<span style="color:#006600; font-weight:bold;">&#40;</span>i2<span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#125;</span></p>
+	<p>&nbsp; &nbsp; Cook<span style="color:#006600; font-weight:bold;">&#40;</span> <span style="color: #3366CC;">"lobster"</span>, <span style="color: #3366CC;">"water"</span>, PutInPot <span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; Cook<span style="color:#006600; font-weight:bold;">&#40;</span> <span style="color: #3366CC;">"chicken"</span>, <span style="color: #3366CC;">"coconut"</span>, BoomBoom <span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp;</div>
+	</div>
+</div>
+	<p>And if you want, you can replace those function references and create a function on the fly.</p>
+	<div class="syntax_hilite">
+<div id="javascript-17">
+	<div class="javascript">
+&nbsp; &nbsp; Cook<span style="color:#006600; font-weight:bold;">&#40;</span> <span style="color: #3366CC;">"lobster"</span>, <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #3366CC;">"water"</span>, <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">function</span><span style="color:#006600; font-weight:bold;">&#40;</span>x<span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span> <span style="color: #000066;">alert</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color: #3366CC;">"pot "</span> + x<span style="color:#006600; font-weight:bold;">&#41;</span>; <span style="color:#006600; font-weight:bold;">&#125;</span>&nbsp; <span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; Cook<span style="color:#006600; font-weight:bold;">&#40;</span> <span style="color: #3366CC;">"chicken"</span>, <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #3366CC;">"coconut"</span>, <br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">function</span><span style="color:#006600; font-weight:bold;">&#40;</span>x<span style="color:#006600; font-weight:bold;">&#41;</span> <span style="color:#006600; font-weight:bold;">&#123;</span> <span style="color: #000066;">alert</span><span style="color:#006600; font-weight:bold;">&#40;</span><span style="color: #3366CC;">"boom "</span> + x<span style="color:#006600; font-weight:bold;">&#41;</span>; <span style="color:#006600; font-weight:bold;">&#125;</span> <span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp;</div>
+	</div>
+</div>
+	<p>And then we can create generic library functions, like looping (or sorting for that matter) which rely on functions being passed in.</p>
+	<div class="syntax_hilite">
+<div id="javascript-18">
+	<div class="javascript">
+&nbsp; &nbsp; <span style="color: #003366; font-weight: bold;">function</span> map<span style="color:#006600; font-weight:bold;">&#40;</span>fn, a<span style="color:#006600; font-weight:bold;">&#41;</span><br />
+&nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: #000066; font-weight: bold;">for</span> <span style="color:#006600; font-weight:bold;">&#40;</span>i = <span style="color:#800000;">0</span>; i &amp;lt;a.<span style="color: #006600;">length</span>; i++<span style="color:#006600; font-weight:bold;">&#41;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#123;</span><br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; a<span style="color:#006600; font-weight:bold;">&#91;</span>i<span style="color:#006600; font-weight:bold;">&#93;</span> = fn<span style="color:#006600; font-weight:bold;">&#40;</span>a<span style="color:#006600; font-weight:bold;">&#91;</span>i<span style="color:#006600; font-weight:bold;">&#93;</span><span style="color:#006600; font-weight:bold;">&#41;</span>;<br />
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#125;</span><br />
+&nbsp; &nbsp; <span style="color:#006600; font-weight:bold;">&#125;</span><br />
+&nbsp;</div>
+	</div>
+</div>
+	<p>Hmmm ... <a href="http://www.sergiopereira.com/articles/prototype.js.html">That looks familiar</a> ;-).</p>
+	<p>You probably wouldn't have seen Javascript used in a generic programming article like this a couple of years ago! One real-world caveat applies with these examples: creating functions on the fly is often great for code readability, but it does cause a performance hit and also increases the potential for a memory leak.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=3I1xQtv7"><img src="http://feeds.feedburner.com/~f/ajaxian?i=3I1xQtv7" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=POuGQGZw"><img src="http://feeds.feedburner.com/~f/ajaxian?i=POuGQGZw" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=zHwpPtL0"><img src="http://feeds.feedburner.com/~f/ajaxian?i=zHwpPtL0" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=Kez99NIb"><img src="http://feeds.feedburner.com/~f/ajaxian?i=Kez99NIb" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/can-your-programming-language-do-this-javascript-can/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>The Dangers of Browser Detect</title>
+		<link>http://ajaxian.com/archives/the-dangers-of-browser-detect</link>
+		<comments>http://ajaxian.com/archives/the-dangers-of-browser-detect#comments</comments>
+		<pubDate>Fri, 04 Aug 2006 15:09:40 +0000</pubDate>
+		<dc:creator>Michael Mahemoff</dc:creator>
+		
+	<category>Front Page</category>
+	<category>JavaScript</category>
+	<category>Editorial</category>
+	<category>Browsers</category>
+	<category>CSS</category>
+	<category>Programming</category>
+		<guid>http://ajaxian.com/archives/the-dangers-of-browser-detect</guid>
+		<description><![CDATA[	Picking up on the ]]></description>
+			<content:encoded><![CDATA[	<p>Picking up on the <a href="<a href="http://rafael.adm.br/css_browser_selector/" class="external">Rafael Lima's new script</a> to provide browser-detecting CSS selectors, PPK cautions on the dangers of browser detection.</p>
+	<blockquote>
+	<p><a href="http://rafael.adm.br/css_browser_selector/" class="external">Rafael Lima's script</a> adds classes to HTML elements based on the results of an old-style (ie. purely <code>navigator.userAgent</code>-based) browser detect. The purpose is to allow web developers to add CSS rules for one browser by using these classes ... <a href="http://37signals.com/svn/archives2/browser_selectors_in_css.php" class="external">37 Signals</a> and <a href="http://ajaxian.com/archives/css-browser-selector" class="external">Ajaxian</a> enthousiastically covered it; in fact, the script was written as a result of the 37 Signals blog entry. Unfortunately neither 37 Signals nor Ajaxian seem to have considered the problems.</p>
+	</blockquote>
+	<p>He says there are two problems here. Firstly, browser detection doesn't always work.</p>
+	<blockquote><p>This is the first, and clearest, danger. Browser vendors have been avoiding browser detects since 1994 by changing their <code>navigator.userAgent</code> value to what the browser detects script expect. Does the script expect "MSIE"? Then the user agent string contains "MSIE", even though the browser is not in fact Internet Explorer.</p></blockquote>
+	<p>Browser detection is something of a cat-and-mouse game, with manufacturers always finding new ways to convince scripts they're IE or someone else and scripters finding cunning ways to reveal their true identity.</p>
+	<p>The other problem is browser versions - what if Opera 10 works different from Opera 9, do you want a separate opera10 selector?</p>
+	<blockquote>
+	<p>Using a browser detect means that you have to constanly maintain the site that contains it: professionalism requires you to keep an eye on new browsers, check all your sites in them, and update the special rules for or against this or that browser that you've added. This quickly leads to a maintenance hell&#8212;one of your own making.</p>
+	</blockquote>
+	<p>The proposed solution is to detect old versions of IE6, and try to come up with a universal solution for the modern browsers, and PPK acknowledges that's not trivial, as CSS certainly won't always work the same way.</p>
+	<p>Arguments against browser detection are fair, but sometimes it's the right approach from a pragmatic perspective. Especially when using third-party libraries, if you find something's simply not working on a certain browser, what do you do? If you have real-world deadlines, you often don't have time to dive into the code and work out why it fails to work on Opera 9 and Firefox 1.0, but works fine everywhere else. Instead, you may have to take the pragmatic approach and use slightly different CSS or code, at least as a temporary measure. Having said that, you don't want to do that too often ... as PPK points out, a proliferation of browser-specific handling is definitely going to cause maintenance hassles.</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=1LtmUROk"><img src="http://feeds.feedburner.com/~f/ajaxian?i=1LtmUROk" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=xYywuL92"><img src="http://feeds.feedburner.com/~f/ajaxian?i=xYywuL92" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=bKyx9pzl"><img src="http://feeds.feedburner.com/~f/ajaxian?i=bKyx9pzl" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=pRtNT0P6"><img src="http://feeds.feedburner.com/~f/ajaxian?i=pRtNT0P6" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/the-dangers-of-browser-detect/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>The JSON RFC</title>
+		<link>http://ajaxian.com/archives/the-json-rfc</link>
+		<comments>http://ajaxian.com/archives/the-json-rfc#comments</comments>
+		<pubDate>Fri, 04 Aug 2006 14:41:29 +0000</pubDate>
+		<dc:creator>Michael Mahemoff</dc:creator>
+		
+	<category>Front Page</category>
+	<category>JSON</category>
+		<guid>http://ajaxian.com/archives/the-json-rfc</guid>
+		<description><![CDATA[	JSON was born in 2002, and has really flourished alongside Ajax in the past eighteen months. And now Doug Crockford has established a a JSON RFC: The application/json Media Type for JavaScript Object Notation (JSON) (via Sleepyhead).
+	
+JavaScript Object Notation (JSON) is a lightweight, text-based, language-independent data interchange format.  It was derived from the ECMAScript [...]]]></description>
+			<content:encoded><![CDATA[	<p><a href="http://json.org">JSON</a> was born in 2002, and has really flourished alongside Ajax in the past eighteen months. And now Doug Crockford has established a a JSON RFC: <a href="http://www.ietf.org/rfc/rfc4627.txt?number=4627">The application/json Media Type for JavaScript Object Notation (JSON)</a> (via <a href="http://sleepyhead81.blogspot.com/2006/08/json-rfc4627.html">Sleepyhead</a>).</p>
+	<blockquote><p>
+JavaScript Object Notation (JSON) is a lightweight, text-based, language-independent data interchange format.  It was derived from the ECMAScript Programming Language Standard.  JSON defines a small set of formatting rules for the portable representation of structured data.
+</p></blockquote>
+	<p>JSON standardization is presumably a priority in light of JSON.org's <a href="http://www.json.org/JSONRequest.html">JSONRequest</a> proposal ... the component, if implemented, will work like XMLHttpRequest but allow secure calls across domains.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=4XQaygRx"><img src="http://feeds.feedburner.com/~f/ajaxian?i=4XQaygRx" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=BqQJXcmd"><img src="http://feeds.feedburner.com/~f/ajaxian?i=BqQJXcmd" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=LJYbpunc"><img src="http://feeds.feedburner.com/~f/ajaxian?i=LJYbpunc" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=lpsACEnu"><img src="http://feeds.feedburner.com/~f/ajaxian?i=lpsACEnu" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/the-json-rfc/feed/</wfw:commentRSS>
+	</item>
+		<item>
+		<title>How To Load And Parse XML Data Without ActiveX</title>
+		<link>http://ajaxian.com/archives/how-to-load-and-parse-xml-data-without-activex</link>
+		<comments>http://ajaxian.com/archives/how-to-load-and-parse-xml-data-without-activex#comments</comments>
+		<pubDate>Fri, 04 Aug 2006 13:12:04 +0000</pubDate>
+		<dc:creator>Chris Cornutt</dc:creator>
+		
+	<category>Front Page</category>
+	<category>IE</category>
+	<category>Programming</category>
+		<guid>http://ajaxian.com/archives/how-to-load-and-parse-xml-data-without-activex</guid>
+		<description><![CDATA[	
+In this post from Dean Edwards, he quickly shows off a feature of Internet Explorer that could replace the use of ActiveX for XML communication - XML data islands.
+
+	
+A little known but cool feature of Internet Explorer is it’s support for XML data islands. Basically, you can embed some XML data in a page and [...]]]></description>
+			<content:encoded><![CDATA[	<p>
+In <a href="http://dean.edwards.name/weblog/2006/04/easy-xml/">this post</a> from Dean Edwards, he quickly shows off a feature of Internet Explorer that could replace the use of ActiveX for XML communication - XML data islands.
+</p>
+	<blockquote><p>
+A little known but cool feature of Internet Explorer is it’s support for XML data islands. Basically, you can embed some XML data in a page and reference an external data source.
+</p></blockquote>
+	<p>
+The method uses an XML object loaded, with the content pulled in via a .src and pushed into a XMLDocument object (versus the normal call to ActiveXObject and a .responseXML call). Unfortunately, it will only work with an XML file on a local file system, but if you have a proxy you're using anyway (cross-domain ajax calls?) it's a simple task.
+</p>
+	<p>
+Be sure to <a href="http://dean.edwards.name/weblog/2006/04/easy-xml/#comments">check out the comments</a> for more handy tips on the subject.
+</p>
+
+<div class="feedflare"><a href="http://feeds.feedburner.com/~f/ajaxian?a=PnS1bDDz"><img src="http://feeds.feedburner.com/~f/ajaxian?i=PnS1bDDz" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=WXndebah"><img src="http://feeds.feedburner.com/~f/ajaxian?i=WXndebah" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=ol9hUnSu"><img src="http://feeds.feedburner.com/~f/ajaxian?i=ol9hUnSu" border="0"></img></a> <a href="http://feeds.feedburner.com/~f/ajaxian?a=3Q2xg0IQ"><img src="http://feeds.feedburner.com/~f/ajaxian?i=3Q2xg0IQ" border="0"></img></a></div>]]></content:encoded>
+			<wfw:commentRSS>http://ajaxian.com/archives/how-to-load-and-parse-xml-data-without-activex/feed/</wfw:commentRSS>
+	</item>
+	</channel>
+</rss>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<j2ee-security-config
+	xmlns="http://www.randomcoder.com/schemas/citadel/j2ee-security-1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.randomcoder.com/schemas/citadel/j2ee-security http://www.randomcoder.com/schemas/citadel/j2ee-security-1.0">
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Postings</web-resource-name>
+			<url-pattern>/article</url-pattern>
+			<url-pattern>/article/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>article-admin</role-name>
+			<role-name>article-post</role-name>
+		</auth-constraint>		
+	</security-constraint>	
+	
+</j2ee-security-config>

@@ -1,0 +1,55 @@
+<ehcache>
+
+	<!-- default settings -->
+	<defaultCache timeToIdleSeconds="120" timeToLiveSeconds="120"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+
+	<!-- Read-only bean mappings -->
+
+	<!-- Role: 1 hour / 2 hours / 100 elements -->
+	<cache name="com.randomcoder.bean.Role" timeToIdleSeconds="3600"
+		timeToLiveSeconds="7200" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" />
+
+	<!-- Read/write bean mappings -->
+
+	<!-- User: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.bean.User" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" />
+
+	<!-- Tag: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.bean.Tag" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" />
+
+	<!-- Article: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.bean.Article" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" />
+
+	<!-- Collection mappings -->
+
+	<!-- User.roles: 0.5 hours / 1 hour / 10000 elements -->
+	<cache name="com.randomcoder.bean.User.roles"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
+
+	<!-- Article.tags: 0.5 hours / 1 hour / 10000 elements -->
+	<cache name="com.randomcoder.bean.Article.tags"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
+
+	<!-- Query mappings -->
+
+	<!--  query cache: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="org.hibernate.cache.StandardQueryCache"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+
+	<!--  update timestamp cache: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="org.hibernate.cache.UpdateTimestampsCache"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+
+</ehcache>

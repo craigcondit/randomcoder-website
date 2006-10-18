@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:woot="urn:http://rss.woot.com" xmlns:media="http://search.yahoo.com/mrss" xmlns:itunes="http://www.itunes.com/DTDs/Podcast-1.0.dtd" version="2.0">
+  <channel>
+    <title>Woot! - One Day, One Deal</title>
+    <link>http://www.woot.com/Blog/</link>
+    <description>Woot! - One Day, One Deal</description>
+    <itunes:summary>The midnightly sonic alert about what's on sale at Woot.com, with exclusive novelty songs and other gags in the jaundiced Woot style. Come for the deals, stay for the laffs!</itunes:summary>
+    <itunes:owner xmlns:itunes="itunes">
+      <itunes:name>Woot Inc.</itunes:name>
+      <itunes:email>writeus@woot.com</itunes:email>
+    </itunes:owner>
+    <itunes:image>http://www.woot.com/images/podcastlogo.jpg</itunes:image>
+    <itunes:category text="Comedy" xmlns:itunes="itunes" />
+    <itunes:explicit>no</itunes:explicit>
+    <atom10:link rel="subscribe" href="http://www.woot.com/blog/rss.aspx" type="application/rss+xml" xmlns:atom10="http://www.w3.org/2005/Atom" />
+    <item>
+      <title>WWWoundup: Search Log Poetry</title>
+      <description><![CDATA[One minute you're minding your own business, searching AOL for help with your "numb fingers" and your "dog that urinates on everything" - the next, your intimate search secrets are plastered all over <a href="http://www.nytimes.com/2006/08/09/technology/09aol.html?ex=1312776000&amp;en=f6f61949c6da4d38&amp;ei=5090&amp;partner=rssuserland&amp;emc=rss"><span>the New York <span style="font-style: italic;">Times</span></span></a><span style="font-style: italic;">.</span> The bumbling clowns at AOL may have hastily acted to hide those 20 million web search queries they released last weekend, but it was too late: now you can <a href="http://czern.homeip.net/aolsearch/">search the whole list yourself</a>. I always want to get to know you guys better, so I decided to find everybody who's searched for "woot" and see what else they'd been looking for. Struck by the peculiar intimacy of a few users' logs, I decided to cobble some of these phrases together into instant poems. We're keeping the ID numbers of these AOL users to ourselves, to maintain at least a veneer of privacy, but every one of the following&nbsp; accidental authors searched for "woot" at least once.<br><br>Our first inadvertent search-log poet answers the poignant title question with a rapid-fire series of vivid images, exploring the manifold meanings of the human body:<br><br><span style="font-weight: bold;">how many steps in a mile</span><br><br><span style="font-style: italic;">make me beautiful</span><br style="font-style: italic;"><span style="font-style: italic;">do people really carve designs in the palm of their hands</span><br style="font-style: italic;"><span style="font-style: italic;">instead of bradford pear you should plant</span><br style="font-style: italic;"><span style="font-style: italic;">mr. missouri contest</span><br style="font-style: italic;"><span style="font-style: italic;">head lice treatment</span><br style="font-style: italic;"><span style="font-style: italic;">baby sitter is male</span><br style="font-style: italic;"><span style="font-style: italic;">itching palm money or company</span><br style="font-style: italic;"><span style="font-style: italic;">pictures of american revolution heroes</span><br style="font-style: italic;"><span style="font-style: italic;">sharp stabbing stomach pains</span><br style="font-style: italic;"><span style="font-style: italic;">poo poo poo</span><br style="font-style: italic;"><span style="font-style: italic;">free sample kosher</span><br style="font-style: italic;"><span style="font-style: italic;">fema trailers for sale</span><br style="font-style: italic;"><span style="font-style: italic;">free software for keeping track of employee attendance vacation</span><br style="font-style: italic;"><span style="font-style: italic;">does david caruso always tilt his head</span><br><br>Powerful, no? Next up, a whimsical satire of consumerism, the medical establishment, and cabbage, from a poet to be named never:<br>             
+<br><br><span style="font-weight: bold;">flea medication revolution</span><br><br><span style="font-style: italic;">double chin liposuction</span><br style="font-style: italic;"><span style="font-style: italic;">inside a tire metal ring to be covered with rubber</span><br style="font-style: italic;"><span style="font-style: italic;">how to stencil on outdoor carpet</span><br style="font-style: italic;"><span style="font-style: italic;">crock pot corned beef and cabbage</span><br style="font-style: italic;"><span style="font-style: italic;">shoulder passive range of motion tender to</span><br style="font-style: italic;"><span style="font-style: italic;">ketchup substitute</span><br style="font-style: italic;"><span style="font-style: italic;">where is fuel filter in 2002 pontiac grand am</span><br style="font-style: italic;"><span style="font-style: italic;">how to color tint ceramic tile</span><br style="font-style: italic;"><span style="font-style: italic;">sciatic nerve lesion tests</span><br style="font-style: italic;"><span style="font-style: italic;">grammar hyphens the boy was pain free</span><br><br>Well said, anonymous AOL bard. Finally, here's a feminist meditation on death, starring an unlikely pair of cultural icons:<br><br><span style="font-weight: bold;">decorating an office</span><br><br><span style="font-style: italic;">is femhrt made from horse urine</span><br style="font-style: italic;"><span style="font-style: italic;">calories burned while weight lifting</span><br style="font-style: italic;"><span style="font-style: italic;">when your mother dies</span><br style="font-style: italic;"><span style="font-style: italic;">what can cause pain on the left side of your waist</span><br style="font-style: italic;"><span style="font-style: italic;">why is it so stormy now</span><br style="font-style: italic;"><span style="font-style: italic;">teri hatcher</span><br style="font-style: italic;"><span style="font-style: italic;">larry bird as a teenager</span><br style="font-style: italic;"><span style="font-style: italic;">indiana department of correction</span><br style="font-style: italic;"><span style="font-style: italic;">is the catholic church a cult</span><br style="font-style: italic;"><span style="font-style: italic;">what does the word woot mean</span><br><br>Whew!
+I don't know about you, but I'm weeping bitter tears for the fate of
+the human condition. Anyway, although we could go on all day with this
+stuff, here's a better idea: why don't you <a href="http://czern.homeip.net/aolsearch/">dive into the AOL search log</a>
+and compose your own accidental masterpieces? We limited ourselves to
+users who searched for "woot", but you don't have to. Post the good
+ones below...<br><br><span style="font-weight: bold;">Four O' Clock Flash:</span> I got so swept up in the ecstatic rush of language, I almost forgot about <a href="http://www.dempster.talktalk.net/web/cowtipping.html">Cow Tipping</a>. Wait until the cows sleep before you push them over - learned that the hard way with a score of -52 (that's negative 52) on my first try.<br>                        
+]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1335</link>
+      <pubDate>Thu, 10 Aug 2006 18:00:00 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1335</guid>
+    </item>
+    <item>
+      <title>AudioFX Force Feedback Gaming Headset - $19.99</title>
+      <description><![CDATA[<a href='http://www.woot.com/Images/Sale/AudioFX_Force_Feedback_Gaming_HeadsetE4O-detail.jpg'><img src='http://www.woot.com/Images/Sale/AudioFX_Force_Feedback_Gaming_HeadsetHB3-thumbnail.jpg' class='thumbnail'></a>		<p>War is no place for the timid. And virtual war is no place for your
+sleeping roommate, uptight parents, or nitpicky neighbors. How does the
+concerned gamer of today reconcile the demands of a pluralistic society
+with a craving to have his (or her) (OK, probably his) eardrums
+liquefied by the explosions of battle and the moans of the vanquished?
+Look deeply into the the AudioFX Force Feedback Gaming Headset, my
+child, and there you will find the answers you seek.</p>
+
+	<p>In case
+you care, they get rapturous reviews for sound quality – consult the
+Internet for details. This is the only headset officially certified by
+the voice-chat kommissars at Teamspeak. And they’re as solidly built as
+your level 10 Warforged barbarian. If you can find a better gaming
+headset at this price, buy 10,000 units for us. We’re good for it.</p>
+
+	<p>But
+beyond mere quality, the AudioFX Force Feedback Gaming Headset has
+gimmicks coming out its black-and-silver wazoo. They vibrate, which
+we’re sure isn’t incredibly annoying if you’re into that kind of thing!
+They have <span class="caps">LED</span> sound meters on the outside of each ear cup, so you can show that stuck-up jerk at the <span class="caps">LAN</span>
+party who the real loser is! These flashy follies may seem a trifle
+unnecessary, but AudioFX understands: you don’t sell the steak, you
+sell the sizzle.</p>
+
+	<p>Damage your eardrums without damaging your
+social standing. The AudioFX Force Feedback Gaming Headset makes it
+possible to maintain both the gaming noise to which you’ve become
+accustomed and cordial relationships with other human beings.
+(Assuming, of course, you have such relationships to begin with.)</p>
+		<span style="font-weight: bold;">Warranty:</span> 90 days<br /><br /><p><span style="font-weight: bold;">Specifications:</span> </p>
+	<ul><li>High quality, full ear headset with microphone</li><li>Unique force feedback effect creates a more enjoyable and realistic audio environment</li><li>Feel the energy of your favorite games, movies and music with real pulsing vibrations</li><li>Certified for use with voice recognition software and pc gaming or standard audio equipment</li><li>Premium ear cushioning for long hours of listening comfort<br /></li><li>LED sound meters on each side<br /></li><li>Driver Unit: 057mm, Cobalt Magnet</li><li>Driver Impedance: 32 Ohm +/-10%</li><li>Driver Sensitivity: 106dB +/-3dB at 1KHz</li><li>Driver Frequency Response: 20-20,000Hz</li><li>Driver Maximum Power Handling: 100t mW</li><li>Microphone Type: 10mm Electrets Condenser</li><li>Microphone Directivity: Noise Canceling</li><li>Microphone Sensitivity: – 58dB +/– 3dB</li><li>Microphone Frequency Response: 30-16,000Hz</li><li>Microphone Standard Operating Voltage: 5V</li><li>System Requirements: Any PC with integrated or third-party sound card and 1 available <span class="caps">USB</span> port for power </li></ul>
+<br /><div><a href="http://www.woot.com/Forums/ViewPost.aspx?PostID=642335">Discuss this product</a></div><br /><div>Price: $19.99</div>]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1334</link>
+      <pubDate>Thu, 10 Aug 2006 05:00:24 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1334</guid>
+      <media:title xmlns="media">AudioFX Force Feedback Gaming Headset</media:title>
+      <media:thumbnail xmlns="media">http://www.woot.com/Images/Sale/AudioFX_Force_Feedback_Gaming_HeadsetHB3-thumbnail.jpg</media:thumbnail>
+      <media:group xmlns:media="media">
+        <media:content url="http://www.woot.com/Images/Sale/AudioFX_Force_Feedback_Gaming_HeadsetE4O-standard.jpg" width="449" height="340" isDefault="true" type="image/jpeg" />
+        <media:content url="http://www.woot.com/Images/Sale/AudioFX_Force_Feedback_Gaming_HeadsetE4O-detail.jpg" width="600" height="560" isDefault="false" type="image/jpeg" />
+      </media:group>
+      <enclosure url="http://www.woot.com/Files/20060810-26MQTF.mp3" length="2002442" type="audio/mpeg" />
+      <itunes:duration>02:46</itunes:duration>
+      <itunes:author>Woot</itunes:author>
+    </item>
+    <item>
+      <title>WWWoundup: Wednesday Wandomness</title>
+      <description><![CDATA[<img style="border-color: rgb(255, 255, 255); width: 158px; height: 256px;" src="http://www.woot.com/Images/sale/contest/sausagepig.jpg" align="left" border="4" hspace="3">There's no unifying conceit, no overarching motif, no cute little thematic ribbon to wrap around today's WWWoundup - just a mess of innaresting links for your clicking pleasure. If you've ever wondered how the peoples of the world eliminate their bodily wastes, check out this <a href="http://toybox.piperhost.com/toilets">extensive survey of different kinds of toilets</a>, from the concrete bench-commodes of ancient Rome to the hi-tech bidets of modern Europe. Often, when I "make water," it's because I've had too much soda to drink, so I was interested in <a href="http://x-entertainment.com/updates/entries/archives/00000814.html">this review of the new Pepsi Jazz</a>. I think I might give it a try; Dave Bug said he was tempted to, but he got the impression it was marketed toward women and wondered if it might disturb his hormonal balance. If any typeface deserves to be immortalized in film, it's <a href="http://typographi.com/001071.php"><i>Helvetica</i></a>, star of an upcoming biopic. Actually, I'm partial to Gill Sans myself, but you won't catch me knocking the Helv. The geniuses who set up this <a href="http://leenks.com/gallery445-all.htm">massive indoor marijuana farm</a> figured out everything except how not to get caught. And if you're wondering where I found the cheerfully suicidal French pig to the left, it's from this <a href="http://eatliver.com/vintage-ads/">collection of weird vintage ads</a> from around the world.<p></p> <p><b>Four O' Clock Flash</b>: Oh, man...tell the receptionist to hold all your calls and cancel all your meetings, because <a href="http://www.gamedesign.jp/flash/dice/dice.html">Dice Wars</a> will pwn your afternoon. It's kinda like an abstracted verson of Risk, but that doesn't really capture its insidious addictiveness. You've been warned.<br></p>
+<br>                        
+]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1333</link>
+      <pubDate>Wed, 09 Aug 2006 18:00:00 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1333</guid>
+    </item>
+    <item>
+      <title>Invicta Men’s Stainless Steel Pro Diver Multifunction Watch</title>
+      <description><![CDATA[<a href='http://www.woot.com/Images/Sale/Invicta_Men-e2-80-99s_Stainless_Steel_Pro_Diver_Multifunction_WatchL7M-detail.jpg'><img src='http://www.woot.com/Images/Sale/Invicta_Men-e2-80-99s_Stainless_Steel_Pro_Diver_Multifunction_WatchL7M-thumbnail.jpg' class='thumbnail'></a>
+		<p>
+				<em>What she says:</em> Hi, I couldn’t help noticing your Invicta
+Men’s Stainless Steel Pro Diver Multifunction Watch. I bet you’re one
+of those adventurous types.<br />
+<em>What she means:</em> Your rugged yet refined choice of watch tells
+me you might be good at providing for my offspring and defending them
+from wolves, enemy tribes, and schoolyard bullies.</p>
+
+	<p><em>What he says:</em>
+Oh, this old thing? Why, yes, its surgical-grade stainless steel
+construction and 100-meter water resistance do come in handy when I go
+mountain climbing, whitewater rafting, or hiking through the Kalahari.
+With its Swiss quartz movement, I always know I’ll be on time for my
+next client meeting or yoga class. And when I cross the International
+Date Line on one of my frequent overseas business trips, I only have to
+reset the day and date calendar once to stay on schedule.<br />
+<em>What he means:</em> Sometimes I drink so much <a href="http://wine.woot.com">Woot wine</a> that I drop
+my watch in the toilet, or forget what day it is and miss my shift
+behind the register at GameStop.</p>
+
+	<p><em>What she says:</em> I see. And what about the blue face? Pretty bold choice.<br />
+<em>What she means:</em> A blue watch with an orange shirt? Either you're color-blind or you play for the New York Mets.</p>
+
+	<p><em>What he says:</em> I’m a bold guy.<br />
+<em>What he means:</em> It was the only color for sale on Woot.</p>
+
+	<p><em>What she says:</em> Very interesting. I guess this must be my lucky day. I don’t meet many guys like you, you know.<br />
+<em>What she means:</em> Well, you don’t smell quite as bad as most of
+the other creeps in here. And you’re not wearing a baseball cap with a
+beer-company or farm-implement logo on it. You’ll do, for now.</p>
+
+	<p><em>What he says:</em> There aren’t many guys like me. Maybe we could continue this conversation back at your place.<br />
+<em>What he means:</em> I can’t afford any more drinks, and my mom always wakes up when I try to sneak women into the house.</p>
+
+	<p><em>What she says:</em> Sounds great. Mind if I ride with you?<br />
+<em>What she means:</em> I have to make sure you drive something decent before I go through with this. </p>
+
+	<p><em>What he says:</em> My lady, your chariot awaits.<br />
+<em>What he means:</em> I hope she does’t live too far from the bus line.</p>
+		<span style="font-weight: bold;">Warranty:</span> One year Invicta<br /><p style="font-weight: bold;">Features:<br /></p><ul><li>Blue dial</li><li>Swiss-quartz movement</li><li>Day-and-date calendar</li><li>Water resistant to 330 feet</li><li>Tritnite luminous hands and dotted dial markers</li><li>Stainless steel bezel, case and band</li><li>Sapphire crystal</li><li>Deployment buckle clasp</li><li>Unidirectional rotating bezel </li><li>Screw-down back case</li><li>Case diameter: 42.0 millimeters</li><li>Case Thickness: 12.0 millimeters</li><li>Band length: mens-standard</li><li>Band width: 20.0 millimeters</li></ul>
+<br /><div><a href="http://www.woot.com/Forums/ViewPost.aspx?PostID=641440">Discuss this product</a></div><br />]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1332</link>
+      <pubDate>Wed, 09 Aug 2006 05:06:54 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1332</guid>
+      <media:title xmlns="media">Invicta Men’s Stainless Steel Pro Diver Multifunction Watch</media:title>
+      <media:thumbnail xmlns="media">http://www.woot.com/Images/Sale/Invicta_Men-e2-80-99s_Stainless_Steel_Pro_Diver_Multifunction_WatchL7M-thumbnail.jpg</media:thumbnail>
+      <media:group xmlns:media="media">
+        <media:content url="http://www.woot.com/Images/Sale/Invicta_Men-e2-80-99s_Stainless_Steel_Pro_Diver_Multifunction_WatchL7M-standard.jpg" width="449" height="340" isDefault="true" type="image/jpeg" />
+        <media:content url="http://www.woot.com/Images/Sale/Invicta_Men-e2-80-99s_Stainless_Steel_Pro_Diver_Multifunction_WatchL7M-detail.jpg" width="600" height="560" isDefault="false" type="image/jpeg" />
+      </media:group>
+      <enclosure url="http://www.woot.com/Files/20060809-5HB4N9.mp3" length="1230994" type="audio/mpeg" />
+      <itunes:duration>01:42</itunes:duration>
+      <itunes:author>Woot</itunes:author>
+    </item>
+    <item>
+      <title>WWWoundup: YouTubesday</title>
+      <description><![CDATA[Ah, those crazy college kids. They've moved on from pole-sitting and bombing ROTC offices to <a href="http://youtube.com/watch?v=3SwhzFsuvQc">breaking out in song during lectures</a>, or arranging <a href="http://www.youtube.com/watch?v=kQT0MVPpqaM">a cappella versions of video game music</a>, or staging <a href="http://video.google.com/videoplay?docid=-2139555376132383479&amp;q=Mario+Live">live-action theatrical versions of those games</a>. Elsewhere in the tube-o-sphere, a guy has a <a href="http://video.google.com/videoplay?docid=4628673745848673406">really, really bad cough</a>, and another guy gets <a href="http://www.youtube.com/watch?v=nWHYSNghnZY">scolded for his japery during a local news segment</a>. If you get tired of such cerebral doings and decide you'd rather just zone out with some visual stimulation, check out <a href="http://www.youtube.com/watch?v=HJBBSFB4sKg">this gorgeous strobe light experiment</a> or this <a href="http://www.youtube.com/watch?v=vzSRVgF501M">eyeball-tweaking, LSD-simulating optical illusion</a>.<br><br><span style="font-weight: bold;">Four O' Clock Flash:</span> As promised, here's your daily Flash game time-waster, to carry you through that last hour of the day. If you've ever wanted to be a Venus flytrap, <a href="http://www.nitrome.com/games/feedme/index.php">Feed Me</a> is your chance. And you don't have to worry about those wings getting stuck between your teeth.                        
+<br>                        
+]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1331</link>
+      <pubDate>Tue, 08 Aug 2006 18:00:00 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1331</guid>
+    </item>
+    <item>
+      <title>Saitek Cyborg Graphite USB Joystick - 2 Pack</title>
+      <description><![CDATA[<a href='http://www.woot.com/Images/Sale/Saitek_Cyborg_Graphite_Joystick_-_2_PackW5E-detail.jpg'><img src='http://www.woot.com/Images/Sale/Saitek_Cyborg_Graphite_Joystick_-_2_PackW5E-thumbnail.jpg' class='thumbnail'></a>
+		<p>Like a scalded, skeletal battlebot staggering out of the nuclear
+flames to stalk a shattered post-apocalyptic futurescape, the Saitek
+Cyborg Graphite Joystick refuses to be exterminated. No matter how many
+times we peddle it, no matter how much we slash the price, it rises
+anew to demand your attention and ours. We’re starting to think its
+most impressive quality is its sheer tenacity.</p>
+
+	<p>But then we remember its three separate handle adjustments and its easy <span class="caps">USB</span>
+hookup. We’re reminded of its panoply of fire buttons, its 8-way hat
+switch, its smooth level throttle. The Saitek Cyborg Graphite
+Joystick’s got a lot more going for it than bottomless quantities at
+bottomful prices. But yeah, we’re way sick of looking at the ungainly
+things, let alone trying to write pithy, clever little essays about
+their virtues. So we’re counting on you to pick them off, two at a
+time. With your courage, perseverance, and credit card, our home page
+will be forever free of the Saitek Cyborg Graphite Joystick scourge.
+What’ll it be? Can we count on you, fellow human?</p>
+		<span style="font-weight: bold;">Warranty: </span>90 days<br /><br /><p style="font-weight: bold;">Features:</p>
+	<ul><li>Super smooth level throttle</li><li>Three axis control ( X, Y, Throttle)</li><li>8-way hat switch</li><li>Adjustable thumb length</li><li>Left or right handed throttle</li><li>Adjustable thumb angle</li><li>Adjustable hand size</li><li>4 fire buttons</li><li>Adjustment tool included</li><li>Plug’n’Play <span class="caps">USB</span> design </li><li>Compatible with Windows 98, ME, 2000 and XP</li></ul><br />
+<br /><div><a href="http://www.woot.com/Forums/ViewPost.aspx?PostID=640353">Discuss this product</a></div><br />]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1330</link>
+      <pubDate>Tue, 08 Aug 2006 05:00:08 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1330</guid>
+      <media:title xmlns="media">Saitek Cyborg Graphite USB Joystick - 2 Pack</media:title>
+      <media:thumbnail xmlns="media">http://www.woot.com/Images/Sale/Saitek_Cyborg_Graphite_Joystick_-_2_PackW5E-thumbnail.jpg</media:thumbnail>
+      <media:group xmlns:media="media">
+        <media:content url="http://www.woot.com/Images/Sale/Saitek_Cyborg_Graphite_Joystick_-_2_PackW5E-standard.jpg" width="449" height="340" isDefault="true" type="image/jpeg" />
+        <media:content url="http://www.woot.com/Images/Sale/Saitek_Cyborg_Graphite_Joystick_-_2_PackW5E-detail.jpg" width="600" height="560" isDefault="false" type="image/jpeg" />
+      </media:group>
+      <enclosure url="http://www.woot.com/Files/20060808-N6OC8H.mp3" length="1305913" type="audio/mpeg" />
+      <itunes:duration>01:48</itunes:duration>
+      <itunes:author>Woot</itunes:author>
+    </item>
+    <item>
+      <title>Winners' Gallery: the Best of Contest 84</title>
+      <description><![CDATA[ Return with us now to the thrilling days of yesterweek, when <span style="font-style: italic;">Talladega Nights</span> ruled the box office, war raged in Lebanon, and the MIMO craze was taking hold of a MIMO-hungry nation. Now that MIMO fever has faded, our challenge to <span style="font-weight: bold;"> Take any product Woot has ever sold and add a feature or features that can be accurately labeled with the acronym MIMO </span> seems like a quaint relic of a gentler, simpler, more MIMOcent time. Let's walk down MIMOry lane with these molden oldies: <br> <br> <font size="4"> <span style="font-weight: bold;"> First Prize - $100 </span> <br style="font-weight: bold;"> <span style="font-weight: bold;"> KMA2 - Maximum Impact Memory Overlay </span> </font> <br> Now that's research! Hell, even we forgot that we once sold a guitar. We also approve of the visual reference to The Only Band That Matters. <br><img src="http://www.woot.com/Images/sale/contest/84-KMA2.jpg"> <br> 
+<br> <font size="4"> <br style="font-weight: bold;"> <span style="font-weight: bold;"> Second Prize - $50 </span> <br style="font-weight: bold;"> <span style="font-weight: bold;"> digitalecho - Mint Infused Manual Operations </span> </font> <br> Because nobody wants "gamer whiff" in their rec room, kitchenette, or solarium. <br><img src="http://www.woot.com/Images/sale/contest/84-digitalecho.jpg"> <br> <br> <br> <font size="4"> <span style="font-weight: bold;"> Third Prize - $20 </span> <br style="font-weight: bold;"> <span style="font-weight: bold;"> ReverendPete - Many Intoxicating Machine Outputs </span> </font> <br> 6:30 AM, everybody! Time for one of the good Rev's homebrew wake-me-ups! <br><img src="http://www.woot.com/Images/sale/contest/84-ReverendPete.jpg"> <br> <br> <font size="4"> <span style="font-weight: bold;"> Honorable Mention </span> </font> <br> <br> <span style="font-weight: bold;"> taipan - Multiple Irregular Male Orb </span> <br> We have no idea what this one could possibly be about. <br><img src="http://www.woot.com/Images/sale/contest/84-taipan.jpg"> <br> <br> <br> <span style="font-weight: bold;"> plinth - Mechanically Inserted Mustache Option </span> <br> Is it weird that we find Natalie a little <span style="font-style: italic;"> more </span> attractive with that 'stache? <br><img src="http://www.woot.com/Images/sale/contest/84-plinth.jpg"> <br> <br> <br> <span style="font-weight: bold;"> kupdaddy - Mariachis In Maternity Outerwear </span> <br> Ah, the pitter-patter of tiny little <span style="font-style: italic;"> guitarróns </span> . <br><img src="http://www.woot.com/Images/sale/contest/84-kupdaddy.jpg"> <br> <br> <br> <span style="font-weight: bold;"> jaycous - More Illegal Media Options </span> <br> People don't really use these to listen to illegally pirated materials, do they? <br><a href="http://www.woot.com/Images/sale/contest/84-jaycous.jpg"><img style="width: 450px; height: 303px;" src="http://www.woot.com/Images/sale/contest/84-jaycous.jpg"></a> <br> <br> <br> <span style="font-weight: bold;"> Pixel8 - Manly Integrated Mouse Options </span> <br> It don't mean a thing if it ain't got that wire stripper. <br><img src="http://www.woot.com/Images/sale/contest/84-Pixel8.jpg"> <br> <br> <br> <span style="font-weight: bold;"> Omegagames - Metabolic Invasive Micro-Organisms </span> <br> We can never get past the megaboss on level 43. <br><img src="http://www.woot.com/Images/sale/contest/84-Omegagames.jpg"> <br> <br> <br> <span style="font-weight: bold;"> mnementh - Mushroom-Induced Mental Odyssey </span> <br> Man, giving away our trade secrets like, totally bums out our trip. <br><img src="http://www.woot.com/Images/sale/contest/84-mnementh.jpg"> <br> <br> <br> <span style="font-weight: bold;"> Champions' Championship Champion </span> <br style="font-weight: bold;"> <span style="font-weight: bold;"> zjr - Mysterious Indecent Malicious Odor </span> <br> People can't get enough of the baggacrap, henh? <br><img src="http://www.woot.com/Images/sale/contest/84-zjr.jpg"> <br> <br> And this week's <span style="font-weight: bold;"> Monkey Prize </span> goes to the possibly misspelled <span style="font-weight: bold;"> guiseppi </span> and his chuckle-inducing wig-out entitled <span style="font-weight: bold;"> Mullet Increases Moisture Observation </span> : <br><img src="http://www.woot.com/Images/sale/contest/84-guiseppi.jpg"> <br> <br> Well OK then. Them what created the money-winning entries are invited to email their Paypal info to <a href="mailto:jtoon@woot.com"> jtoon@woot.com</a>. The Monkey winner should send his/her mailing address to the same, and Honorable Mentioneers may use coupon code <span style="font-weight: bold;"> HONMEN-FS </span> for free shipping on a future order. Until next time, money is my opium. <br> 
+]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1329</link>
+      <pubDate>Mon, 07 Aug 2006 20:15:00 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1329</guid>
+    </item>
+    <item>
+      <title>WWWoundup: The Internet Knows Better</title>
+      <description><![CDATA[Thank God (or Gore?) for the Internet. Before it came along, I would have to ask an actual human being questions like <a href="http://www.workplacelife.com/2006/05/14/is-it-time-to-quit-three-questions-to-ask/">"Should I quit my job?"</a> or <a href="http://www.heartless-bitches.com/rants/niceguys/niceguys.shtml">"How come no girls like me even though I'm always doing whatever they want me to do (except leave them alone)?"</a> Not anymore! For one thing, I managed to hoodwink a perfectly swell girl into marrying me (Hi, sucker! I mean, honey!). For another, now I simply consult the great electronic hive-mind from the solitary safety of my bunker, and follow its dictates unto death. Right now, you might be wondering <a href="http://www.realtor.org/rmomag.NSF/pages/ArchCoach200608?OpenDocument">"How can creative lighting help the resale value of my house?"</a> or <a href="http://www.wikihow.com/Accommodate-Vegan-and-Vegetarian-Guests">"How can I accomodate vegetarian guests?"</a> No need for any scary, nerve-wracking, possibly unhygienic human contact - from <a href="http://www.kreativrauschen.com/blog/2006/08/03/what-affects-prices-on-internet-auctions/">my most public internet auctions</a> to <a href="http://huhahi.com/youth/sleeping_styles.html">my most intimate moments of sleep</a>, the Internet is the boss of me. What online wisdom have you been living by lately?
+<br>                        
+]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1324</link>
+      <pubDate>Mon, 07 Aug 2006 18:00:00 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1324</guid>
+    </item>
+    <item>
+      <title>iRobot Scooba Floor Washing Robot</title>
+      <description><![CDATA[<a href='http://www.woot.com/Images/Sale/iRobot_Scooba_Floor_Washing_RobotM5F-detail.jpg'><img src='http://www.woot.com/Images/Sale/iRobot_Scooba_Floor_Washing_RobotM5F-thumbnail.jpg' class='thumbnail'></a>		<p>I, Eugene Sneezlebaum, being of relatively sound mind, do hereby
+make the following amendments to the standing list of tasks I refuse to
+perform on the grounds that there are robots to do them for me. </p>
+
+	<p>I
+am pleased that recent advances in commercially viable robotics
+technology allow me to abstain from these often repetitive or dangerous
+activities in favor of higher pursuits.</p>
+
+	<p>Effective immediately, my friends, relatives, employers and acquaintances should no longer expect me to:</p>
+
+	<p>13. <span class="caps">EXPLORE SPACE </span><br />
+Do not expect me to explore outer space. A robot is better suited to
+this task than I, who would run out of material for all my favorite
+road trip time-killing games shortly after escaping Earth’s atmosphere.
+Imagine it: “Houston, I spy with my little eye something vast, black
+and cold as death.” </p>
+
+	<p>“Is it the empty void of space?” </p>
+
+	<p>“You win again, Houston.” Booorrinnng.</p>
+
+	<p>Also, as I indicated in list item no. 7 (EXPLORE <span class="caps">UNDERSEA CANYONS</span>), robots do not breathe air, and I totally do. I refuse to go anyplace where the oxygen is <span class="caps">BYO</span>. </p>
+
+	<p>14. <span class="caps">PERFORM RESISTANCE SPOT WELDING FOR AUTO BODY ASSEMBLY</span><br />
+I don’t know exactly what this is, but it sounds laborious, and I
+understand there are robots specialists for it, so I’m putting it on
+the list just to be safe. </p>
+
+	<p>15. <span class="caps">TRANSLATE FROM HUTTESE TO BASIC </span><br />
+Certain protocol droids are fluent in over six million forms of
+communication. They’re hard to come by, as most were manufactured a
+long time ago and superlatively far away. That they exist, however,
+means that I shall not be wasting any more time in Spanish class. </p>
+
+	<p>16. <span class="caps">CLEAN TILE</span>, LINOLEUM, <span class="caps">MARBLE AND SEALED HARDWOOD FLOORS</span><br />
+iRobot’s Scooba uses a four-stage cleaning process to prep, wash,
+scrub, and dry floors all by itself. Its dozens of sensors keep it on
+track and cleaning effectively, intelligently and safely. It’s as
+quick, clean and efficient as German lovemaking. </p>
+
+	<p>It
+has four cleaning steps, which it performs sequentially in just one
+pass over my (frankly sickeningly filthy) floor. First: it picks up
+dirt and debris; second: it sprays a sweet-smelling cleaning solution;
+third: it scrubs with a spinning brush; and fourth, it vacuums and
+squeegees up all the moisture and dirt into a separate tank, leaving
+hard floors squeaky clean and as dry as a Methodist potluck!</p>
+
+	<p>The
+marvelous little Scooba will prep, wash, scrub and dry almost any kind
+of hard floors. OK, it’s not suited for unsealed wood floors or
+laminate wood flooring like “Pergo®,” but what care I of such minor
+limitations? Scooba will deliver me forever from the drudgery of
+scrubbing my kitchen on my hands and knees, and it’ll do the job faster
+than I ever could—one 45-minute cycle is sufficient to clean a
+standard-sized kitchen in its entirety!</p>
+
+	<p>Being cordless,
+Scooba runs on a built-in rechargeable battery, which, fully charged,
+yields 80 minutes of cleaning power. The included Virtual Wall—which
+helps keeps Scooba contained where you want it cleaning—runs on a pair
+of D batteries (sold, as they say, separately). I’ve ordered mine; it’s
+in the mail. I’ve scrubbed my last tile by hand. </p>
+
+	<p>17. <span class="caps">DANCE </span>“THE <span class="caps">ROBOT</span>” <br />
+I’ve always been better at “the worm” anyway—and, in my experience, it’s more of a crowd-pleaser.</p>
+
+	<p>For
+further information, or for a copy of the complete list comprising all
+previous entries plus the above additions, please contact me at home,
+where I will be relaxing in my Iron Lung.</p>
+
+	<p>Sincerely,<br />
+Eugene K. Sneezlebaum</p>
+
+		<span style="font-weight: bold;">Warranty:</span> One year <p style="font-weight: bold;">Features:</p>
+	<ul><li>Floor-washing robot that preps, washes, scrubs, and dries in one pass</li><li>Cleans under furniture, tables, and hard-to-reach places</li><li>Safe to use on most hard floors, including sealed hardwood, linoleum, tile, and marble</li><li>Simple to operate—fill tank, press “Clean,” and empty tank when finished</li><li>Includes one 8-oz. bottle of cleaning solution</li></ul>
+
+	<p><span style="font-weight: bold;">Whats in the Box:</span><br /></p>
+	<ul><li>iRobot Scooba floor-washing robot</li><li>Battery</li><li>Power supply</li><li>1 virtual wall (requires 2 D batteries, not included)</li><li>8-oz. bottle Clorox Scooba cleaning solution</li><li>Measuring cup</li></ul>
+<br /><div><a href="http://www.woot.com/Forums/ViewPost.aspx?PostID=639341">Discuss this product</a></div><br />]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1327</link>
+      <pubDate>Mon, 07 Aug 2006 05:00:38 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1327</guid>
+      <media:title xmlns="media">iRobot Scooba Floor Washing Robot</media:title>
+      <media:thumbnail xmlns="media">http://www.woot.com/Images/Sale/iRobot_Scooba_Floor_Washing_RobotM5F-thumbnail.jpg</media:thumbnail>
+      <media:group xmlns:media="media">
+        <media:content url="http://www.woot.com/Images/Sale/iRobot_Scooba_Floor_Washing_RobotM5F-standard.jpg" width="449" height="340" isDefault="true" type="image/jpeg" />
+        <media:content url="http://www.woot.com/Images/Sale/iRobot_Scooba_Floor_Washing_RobotM5F-detail.jpg" width="600" height="560" isDefault="false" type="image/jpeg" />
+      </media:group>
+      <enclosure url="http://www.woot.com/Files/20060807-DR9KD4.mp3" length="1236323" type="audio/mpeg" />
+      <itunes:duration>01:43</itunes:duration>
+      <itunes:author>Woot</itunes:author>
+    </item>
+    <item>
+      <title>Hamilton Beach 4 Quart Capacity Ice Cream Maker</title>
+      <description><![CDATA[<a href='http://www.woot.com/Images/Sale/Hamilton_Beach_4_Quart_Capacity_Ice_Cream_MakerCDJ-detail.jpg'><img src='http://www.woot.com/Images/Sale/Hamilton_Beach_4_Quart_Capacity_Ice_Cream_MakerCDJ-thumbnail.jpg' class='thumbnail'></a>		<p>Take a hike, Baskin! Get lost, Robbins! Go fly a tie-dyed kite, Ben!
+Put that in your water pipe and smoke it, Jerry! You’re dead to us now.
+You’re redundant, unnecessary, irrelevant, outmoded. The Hamilton Beach
+4 Quart Capacity Ice Cream Maker is the killer app(liance) that will
+forever ruin your palate for major-label ice cream.</p>
+
+	<p>No, from
+now on we’ll be swinging to the sweet sounds of our own home-crafted,
+hand-tooled iced creams, yogurts, custards, sherbets, and gelati, four
+delicious quarts at a time. It’s fully automatic, eliminating the old
+ice-cream injury known as “cranker’s elbow.” It includes over 20
+recipes, since nobody’s born knowing how to make delicious ice cream.
+And the lid is of the Easy-Lock variety, because ice cream tastes
+better in your mouth than all over your kitchen counter. </p>
+
+	<p>Now
+that we’ve got the Hamilton Beach 4 Quart Capacity Ice Cream Maker,
+we’ll never touch a spoonful of anybody’s ice cream but our own. Hey,
+we don’t know where that other stuff’s been. And we certainly don’t
+trust some overworked, underpaid <span class="caps">FDA</span>-crat to make sure it’s free of animal droppings, medical waste, or seeds and stems.</p>
+		<span style="font-weight: bold;">Warranty: </span>One year<br /><br /><p style="font-weight: bold;">Features:</p>
+	<ul><li>4 Quart capacity</li><li>Makes ice cream, frozen yogurt, custard, sherbet &amp; gelato</li><li>Who doesn't like ice cream?</li><li>Seriously, it's un-American to not like ice cream</li><li>Fully automatic</li><li>Plastic outer bucket <br /></li><li>Metal ice cream canister</li><li>Easy Lock lid</li><li>Over 20 recipes included<br /></li></ul>
+<br /><div><a href="http://www.woot.com/Forums/ViewPost.aspx?PostID=638420">Discuss this product</a></div><br />]]></description>
+      <link>http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1326</link>
+      <pubDate>Sun, 06 Aug 2006 05:00:08 GMT</pubDate>
+      <guid isPermaLink="true">http://www.woot.com/Blog/BlogEntry.aspx?BlogEntryId=1326</guid>
+      <media:title xmlns="media">Hamilton Beach 4 Quart Capacity Ice Cream Maker</media:title>
+      <media:thumbnail xmlns="media">http://www.woot.com/Images/Sale/Hamilton_Beach_4_Quart_Capacity_Ice_Cream_MakerCDJ-thumbnail.jpg</media:thumbnail>
+      <media:group xmlns:media="media">
+        <media:content url="http://www.woot.com/Images/Sale/Hamilton_Beach_4_Quart_Capacity_Ice_Cream_MakerCDJ-standard.jpg" width="449" height="340" isDefault="true" type="image/jpeg" />
+        <media:content url="http://www.woot.com/Images/Sale/Hamilton_Beach_4_Quart_Capacity_Ice_Cream_MakerCDJ-detail.jpg" width="600" height="560" isDefault="false" type="image/jpeg" />
+      </media:group>
+    </item>
+  </channel>
+</rss>

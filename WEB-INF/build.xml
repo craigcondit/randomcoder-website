@@ -1,0 +1,127 @@
+<project name="randomcoder" default="build" basedir=".">
+
+	<property file="local.build.properties" />
+	<property file="build.properties" />
+	
+	<path id="classpath">
+		<fileset dir="dep">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="database.classpath">
+		<fileset dir="dep">
+			<include name="**/*.jar" />
+		</fileset>		
+	</path>
+
+	<target name="build" description="Build web app">
+		<mkdir dir="classes" />
+
+		<!-- Copy non-java elements from src to classes -->
+		<copy todir="classes" includeemptydirs="false">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<!-- Compile java classes -->
+		<javac deprecation="true"
+				classpathref="classpath"
+				srcdir="src"
+				destdir="classes"
+				debug="true">
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="javadoc" description="Build Java documentation">
+		<mkdir dir="../docs" />
+		<mkdir dir="../docs/apidocs" />
+		<javadoc
+			classpathref="classpath"
+			destdir="../docs/apidocs"
+			author="true"
+			charset="UTF-8"
+			docencoding="UTF-8"
+			windowtitle="RandomCoder.Com Website"
+			doctitle="RandomCoder.Com Website"
+			verbose="false"			
+			version="true">
+			<fileset dir="src" />			
+			<link href="http://java.sun.com/j2se/1.5.0/docs/api/" />
+			<link href="http://java.sun.com/j2ee/1.4/docs/api/" />
+			<link href="http://www.springframework.org/docs/api/" />
+			<link href="http://www.hibernate.org/hib_docs/v3/api/" />
+			<link href="http://aopalliance.sourceforge.net/doc/" />
+			<link href="http://randomcoder.com/javadoc/citadel/" />
+			<link href="http://randomcoder.com/javadoc/taglibs/" />
+		</javadoc>
+	</target>
+	
+	<target name="clean" description="Clean build targets">
+		<delete dir="../docs/apidocs" />
+		<delete dir="classes" />
+	</target>
+
+	<target name="db-init">
+		<fail unless="database.driver" message="Please set database.driver" />
+		<fail unless="database.type" message="Please set database.type" />
+		<fail unless="database.host" message="Please set database.host" />
+		<fail unless="database.name" message="Please set database.name" />
+		<fail unless="database.username" message="Please set database.username" />
+		<fail unless="database.password" message="Please set database.password" />		
+		<property name="database.url" value="jdbc:${database.type}://${database.host}/${database.name}" />		
+	</target>
+	
+	<target name="db-create" description="Create database tables" depends="db-init">
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.username}"
+			password="${database.password}">
+			<transaction src="database/create.sql" />
+		</sql>
+	</target>
+		
+	<target name="db-drop" description="Drop database tables" depends="db-init">
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.username}"
+			password="${database.password}"
+			onerror="continue"
+			autocommit="true"
+			src="database/drop.sql" />
+	</target>
+	
+	<target name="db-populate" description="Populate database tables with seed data" depends="db-init">
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.username}"
+			password="${database.password}">
+			<transaction src="database/populate.sql" />
+		</sql>	
+	</target>
+
+	<target name="db-test" description="Populate database tables with test data" depends="db-init">
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.username}"
+			password="${database.password}">
+			<transaction src="database/test.sql" />
+		</sql>	
+	</target>
+	
+	<target name="db-dev" description="Rebuild development database" depends="db-drop,db-create,db-populate,db-test" />
+
+</project>

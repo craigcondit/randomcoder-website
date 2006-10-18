@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<rss version='2.0'
+xmlns:dc='http://purl.org/dc/elements/1.1/'
+xmlns:itunes='http://www.itunes.com/dtds/podcast-1.0.dtd'>
+
+<channel>
+<title>ONJava.com</title>
+<link>http://www.onjava.com/</link>
+<description>The O'Reilly Network's ONJava  Articles and Weblogs</description>
+<copyright>Copyright O'Reilly Media, Inc.</copyright>
+<itunes:author>O'Reilly Media, Inc.</itunes:author>
+<itunes:category text='Technology' />
+<itunes:explicit>no</itunes:explicit>
+<itunes:owner>
+<itunes:name>O'Reilly Media, Inc.</itunes:name>
+<itunes:email>webmaster@oreillynet.com</itunes:email>
+</itunes:owner>
+<language>en-US</language>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+
+<item>
+	<title>Ant 1.7: Using Antlibs</title>
+	<link>http://www.onjava.com/pub/a/onjava/2006/08/09/ant-1-7-using-antlibs.html?CMP=OTC-FP2116136014&amp;ATT=Ant+1+7+Using+Antlibs</link>
+	<guid>http://www.onjava.com/pub/a/onjava/2006/08/09/ant-1-7-using-antlibs.html</guid>
+	<description><![CDATA[<a href='http://www.onjava.com/pub/a/onjava/2006/08/09/ant-1-7-using-antlibs.html?CMP=OTC-FP2116136014&amp;ATT=Ant+1+7+Using+Antlibs'><img src='http://www.oreillynet.com/onjava/2005/06/22/graphics/111-ant.gif' width='111px' height='91px' alt='tile image' align='left' border='0'/></a>Most Java developers use Ant to do builds and are familiar with its core tasks. But Ant's tasks tend toward an undesirable coupling: everything important had to be a core task because it was hard to distribute new plug-in tasks. Fortunately, Ant 1.7's new antlibs feature makes it much easier to distribute and use new Ant tasks. In this article, Kev Jackson shows you how to use, write, bundle, and test antlibs.]]></description>
+	<author>webmaster@oreillynet.com (Kev Jackson)</author>
+	<dc:date>2006-08-09T15:51:40-08:00</dc:date>
+</item>
+
+<item>
+	<title>Mustang for Mac PPC... any point now?</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/08/mustang_for_mac_ppc_any_point.html?CMP=OTC-FP2116136014&amp;ATT=Mustang+for+Mac+PPC+any+point+now</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/08/mustang_for_mac_ppc_any_point.html</guid>
+	<description><![CDATA[<p>This blog is about Mustang for the Mac, which is being developed for both PowerPC- and Intel-based Macs.  That&#8217;s kind of interesting when you consider one thing:</p>
+<p>As of yesterday, Apple doesn&#8217;t make PowerPC Macs anymore.</p>
+<p>Soooo&#8230; why are they still working on a PowerPC version of Mustang, as evidenced by posts to the java-dev list announcing each version?   Oh, sure, they don&#8217;t want to &#8220;piss off&#8221; their current Java-using audience, right?</p>
+<p>But wait a minute: Sun doesn&#8217;t expect to declare Mustang final until October.  And Apple&#8217;s release will surely fall some number of weeks or months after that (hey, we&#8217;re lucky; it used to be measured in years).  So a non-trivial amount of time will have elapsed between the end of PPC Macs and the release of a final Mac Mustang.</p>
+<p>Furthermore, how many developers need Mustang features right away?  Other than <a href="http://aerith.dev.java.net/">Aerith</a>, I mean?  For a huge majority of developers, Java SE 5.0 will be just fine, and it still enjoys Hotspot acceleration, as my G5 reports.:</p>
+<pre>[aeris:~] cadamson% java -version
+java version "1.5.0_06"
+Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_06-112)
+Java HotSpot(TM) Client VM (build 1.5.0_06-64, mixed mode, sharing)
+</pre>
+<p>So by the time anyone&#8217;s shipping Mustang-dependent applications, it could easily be a year from now, meaning a year and a half since the iMacs and laptops went Intel, and a year since the tower switched.  So if Mustang for PPC went cold, how much outcry would really be justified?</p>
+<p>I have to be careful in staying out of NDA territory discussing Mac Java &#8212; the existence of the Developer Previews is public knowledge due to its posting on the java-dev list, but the nature of the VM&#8217;s remains covered by NDA agreements that anyone who clicks into connect.apple.com is stuck with.  So even if I&#8217;ve played with Mustang on PPC and Intel, I can&#8217;t talk about it.  Guess you&#8217;ll just have to buy two Macs and try it yourself.</p>
+<p>But the BoFs at JavaOne are not NDA&#8217;ed, and Apple&#8217;s team talked about some interesting issues over the last few years.  Chiefly, they get a big win on Intel from all the compiler work that Sun and others have done for the x86 platform.  At JavaOne 2005, they talked about the C1 and C2 HotSpot compilers (are these <code>-client</code> and <code>-server</code> ?) that they already had running on Intel Macs.  They didn&#8217;t inherit all this intense optimization work on the PowerPC, and had to do it themselves.  That&#8217;s extra work that made sense when the PPC was what Macs ran on, but what about today?</p>
+<p>Ultimately, Apple is in business to sell hardware.  It may be the case that there is enough end-user Java software (Limewire, Moneydance, etc.) that Apple feels compelled to support Java for the sake of these applications.  It may also be the case that Java support is largely a means of selling attractive laptops to developers.  Sun says there are about 5 million Java developers.  If having Java means that Apple could capture 1% of that audience that wouldn&#8217;t otherwise buy Macs, that&#8217;s 50,000 computers times Apple&#8217;s notoriously high margin times the price of each computer&#8230; easily enough to pay for Apple&#8217;s Java team all by itself.</p>
+<p>And if the point of supporting Java is to sell computers, and they don&#8217;t sell PPC computers anymore, then it shouldn&#8217;t surprise anyone to see PPC support drop off the radar <i>very</i> fast. Particularly if most of the audience really is developers:  if that&#8217;s the case, then considering most Java developers do enterprise apps, and Apple isn&#8217;t that prominent in the server space, then it&#8217;s likely all the runtime is doing on the Mac is compiling and unit-testing.  If the PPC runtime gets a little less love, it may be a perfectly sensible thing for Apple to do.</p>
+<p>In other words: if Mustang stinks on PPC, don&#8217;t be surprised.  Code to Java SE 5.0, or upgrade yourself to Intel.  Even my 512 MB Core Solo mini is a surprisingly adequate Java machine.</p.
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Chris Adamson)</author>
+	<dc:date>2006-08-08T12:17:35-08:00</dc:date>
+</item>
+
+<item>
+	<title>Recreating RJS templates in Java: The beginning...</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/08/recreating_rjs_templates_in_ja.html?CMP=OTC-FP2116136014&amp;ATT=Recreating+RJS+templates+in+Java+The+beginning</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/08/recreating_rjs_templates_in_ja.html</guid>
+	<description><![CDATA[<p>Port RJS to Java.   Ugh.  i dread this task.  I really do.  Recreating<a href="http://www.codyfauser.com/articles/2005/11/20/rails-rjs-templates"> RJS templates</a> in Java&#8230;.Yuck.   I dread this task because I made fun of the prospect of some <a href="http://www.oreillynet.com/onjava/blog/2006/06/isnt_rails_supposed_to_change.html">Java programmer having to recreate RJS</a> in Java a few weeks ago on this blog, but, I&#8217;ve created an application in Rails that must be ported to Java.  Don&#8217;t ask why, just know that it must be ported to Java.   This isn&#8217;t the first time, I&#8217;ve had to <a href="http://www.discursive.com/projects/prototype-taglib/">port something from Rails to Java</a>.     </p>
+<p>So&#8230;..errr&#8230;..what does one do if your Rails &#8220;prototype&#8221; makes heavy use of some of the most advanced features of RJS templates and you have to migrate to Java?   My first thought: <b>ask the fine readership of this blog if they have found themselves in a similar situation, or, better yet, is anyone out there already doing this?</b>   C&#8217;mon, I can&#8217;t be the only one in this wide world who has been using RJS and wondered, &#8220;Why can&#8217;t I do this in my Java application?&#8221;  &#8230;.The first step, Google &#8220;RJS in Java&#8221; - that search returned a few hits, but mostly links to Rails RJS pages and links to blogs bemoaning the fact that Java isn&#8217;t there yet.   </p>
+<p>The real lesson here is <b>&#8220;Never prototype with a technology more capable than the target platform.&#8221;</b>   So, take this as a lesson, if you are using Rails as a prototyping language, don&#8217;t use RJS, you&#8217;ll end up wishing that your prototyping technology was your production technology.   As I&#8217;ve said before, J2EE is a trusted, capable platform, and in some ways it is <b>lightyears</b> ahead of Ruby, but, as far as web applications go Rails does laps around Java.  So, maybe porting RJS to Java might help level the playing field?  Maybe?   Who knows, all I know is that I&#8217;m not the only only who thinks that <a href="http://mworks.nl/marek/system/out/?month=6&amp;year=2006">Java is not Web 2.0</a>.<br />
+<a href="http://www.oreillynet.com/onjava/blog/2006/08/recreating_rjs_templates_in_ja.html"><br />
+Read on for the options&#8230;</a></p>
+<p><strong>The Options</strong></p>
+<p>Mission: &#8220;Port a Rails application to Java&#8221;, Caveat: &#8220;The Rails application makes heavy use of RJS templates&#8221;.  Specifically, your application calls RJS templates that send a mixture of freeform Javascript, insertion calls, scriptaculous effects, render _partial calls.  What options do I have?</p>
+<p><strong>1. Write Javascript Directly (Get out the Rhino book)</strong>  Just write a series of JSP pages that just alter the response MIME type and send back the appropriate Javascript using Prototype and Scriptaculous.</p>
+<p>Unfortunately, I&#8217;m gathering that much Web 2.0 development in Java consists of developers coding JavaScript directly, and I&#8217;m fairly certain that Java developers haven&#8217;t moved past XmlHttpRequest as a data transfer technology stage yet.  In fact, the idea that Javascript can evaluate a Javascript response isn&#8217;t something I&#8217;m seeing in any Java frameworks at the moment, and trying to explain the concept to people not familiar with the approach is proving difficult.    Here&#8217;s the idea, you are writing Javascript that makes a remote request, the response contains Javascript which is evaluated by the same Javascript that made the remote request.   Now dig into the details of RJS and you&#8217;ll start to realize that having an abstraction on top of this is essential.   I&#8217;m not willing to write raw Javascript because I&#8217;m not willing to debug raw Javascript; as easy as Prototype makes Javascript - <b>Javascript still sucks</b></p>
+<p>Good AJAX development should require a minimum amount of direct Javascript coding; preferably none.  You need to be able to rely on a good set of abstractions and helpers that solve 80-90% of your Javascript needs.   In Rails, the Javascript helpers and the Javascript generators make it so that one can create a highly AJAX-ified application without having to write reams of Javascript.   You only end up writing Javascript to handle the cases not covered by the helpers, and the Javascript you end up writing is straightfoward.</p>
+<p>option 1 - dead on arrival.</p>
+<p><strong>2. Recreate RJS in Java.</strong>  Create an Abstraction Similar to the <a href="http://api.rubyonrails.com/classes/ActionView/Helpers/PrototypeHelper/JavaScriptGenerator/GeneratorMethods.html#M000431">JavaScriptGenerator in Rails</a>   In this approach, An existing servlet/action/whatever would just be forwarding to a &#8220;jjs&#8221; instead of a &#8220;jsp&#8221;.   A JJSServlet would be invoked which would render a script contained in a JJS script.</p>
+<p>I&#8217;m leaning toward this option, but I&#8217;m also resigned to the fact that this approach is:  A. Very derivative of rails, B. Will be limited to a subset of Rails features.   The JJS script would be analogous to a JSP page that renders Javascript, I&#8217;d be writing some abstractions to approximate the page object, I might have to write some logic that would take care of rendering a partial.     In other words, I wouldn&#8217;t be looking to recreate the entire set of Rails features, I&#8217;d be coding to the requirements of the project in question and porting over features as I need them.</p>
+<p>&#8230;.and, the whole time, I&#8217;ll no doubt be thinking, &#8220;you know, if I could just do this in Rails, it would&#8217;ve been done ages ago&#8221;.   Porting derivative technologies is never very satisfying, you always end up playing catch up.</p>
+<p><strong>3. Use another framework, something like Google Web Toolkit.</strong>  </p>
+<p> I could just opt to use Google Web Toolkit, and this is an option I&#8217;m going to look into, but the problem here is that I&#8217;m not interested in such a dramatic change.  What I want is the ability to integrate a Javascript response in the middle of an existing Java web application.     I worry that the adoption of Google Web Toolkit is going to just create a whole new level of abstraction that I&#8217;m not interested in adopting.  But, it has to be said, Google Web Toolkit is to Java as RJS is to Ruby, but methinks that Google Web Toolkit goes a bit too far.    From what I can see GWT isn&#8217;t something that augments an existing web application, it takes it over.</p>
+<p><strong>Conclusion</strong></p>
+<p>So there you have it, I&#8217;m leaning toward Option #2 and am beginning to think that it needs to be open source for the good of Javaland.   Anyone have  any input / suggestions?
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Timothy M. O'Brien)</author>
+	<dc:date>2006-08-06T15:46:34-08:00</dc:date>
+</item>
+
+<item>
+	<title>Ten Common Misconceptions About Spring...</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/08/ten_common_misconceptions_abou.html?CMP=OTC-FP2116136014&amp;ATT=Ten+Common+Misconceptions+About+Spring</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/08/ten_common_misconceptions_abou.html</guid>
+	<description><![CDATA[<p>In light of some criticism and even attacks (justified or not) that are out there, here are the ten most common misconceptions about Spring from <a href="http://springframework.org">SpringFramework.org</a>.</p>
+<blockquote>
+<h4>The Ten Common Misconceptions About Spring</h4>
+<p>For those new to the Spring Framework, we feel as though it is necessary to address some of the concerns you may have when approaching Spring for the first time. In fact, we have compiled this list based on our collective experience in training new Spring users and observing discussions and forums throughout the Java development community. It is our goal to shed some light on these issues so that you will be better equipped to make well-informed decisions regarding the adoption of Spring on your next project. </p>
+<p>1. Spring is not lightweight. It aims to do everything and is becoming fat and bloated.<br />
+Spring&#8217;s primary goal is to enable lightweight development based on POJOs. As a developer, you should be able to focus on your domain-specific business logic rather than infrastructural issues and convoluted contracts. You should be able to rely on the framework to solve your integration concerns. However, when building enterprise-class applications, there can be an abundance of such concerns. So in a sense, Spring does aim to do everything that you - as an enterprise developer - might expect an enterprise framework to do. Spring supports such a vast array of enterprise services and third party products that it may in fact seem fat and bloated at first.<br />
+However, in order to provide a comprehensive integration platform for enterprise software development while simultaneously supporting full stack POJO-based development, the Spring Framework has been designed from day one to be non-invasive and modular. You can and should choose only what is needed for your particular project, but as requirements evolve, you can incrementally add (or remove) modules. The Spring team emphasizes keeping things as simple as possible. This applies to Spring itself, and most importantly to applications built with Spring.</p>
+<p>2. Spring is overkill for simple applications.<br />
+As mentioned in the previous point, the Spring Framework can help you to keep things as simple as possible. You can use only what you need initially yet adapt and extend your application as requirements become more clear. It makes sense that such an environment provides favorable conditions for simple applications.<br />
+For one thing, even simple applications typically require some enterprise services such as transactional database access. In that case, the simplest option may be to rely on Spring&#8217;s data access integration and declarative transaction management. Furthermore simple prototypes have an uncanny way of transforming into production applications. If you are responsible for such an application, you will appreciate a lightweight yet scalable framework that can handle those demands.</p>
+<p>3. Spring does not scale to handle very large applications.<br />
+Spring is used for very large applications by hundreds of the biggest corporations in the world. The Spring Framework is well-established in the enterprise development space where it is meeting the demands of applications for banking, government, and the airline industry.<br />
+One example is Voca, whose services are used for payment of household bills by over 70% of the UK population and for paying over 90% of UK salaries. They&#8217;ve relied on Spring to process over 5 billion transactions in 2005 - with over 72 million on a peak day.<br />
+Other acknowledgements of increased productivity and performance for large scale Spring-based applications include an online system for the French Taxation Office built by Accenture and an enterprise application of the European Patent Office.  (SpringOne 2006 Keynote, Antwerp, Belgium)</p>
+<p>4. Spring forces you to use Aspect-Oriented Programming (AOP) which is experimental.<br />
+Some of Spring&#8217;s powerful capabilities leverage a technique called Aspect-Oriented Programming or AOP (see chapters 3 and 4), but as always you can choose whether or not to use those particular features. Furthermore, Spring 2.0 has significantly improved its AspectJ integration which means there is an increasing range of AOP options to choose from. Many users become comfortable with the core concepts by using Spring&#8217;s proxy-based AOP and then begin applying AspectJ when the extra power is necessary.<br />
+Before letting FUD guide your decision-making process, there are a few things you should know. First, Spring&#8217;s proxy-based approach to AOP relies on the use of standard JDK dynamic proxies. That means that this functionality is actually enabled by the core Java language. Second, AspectJ is the product of many years of research, and is now a well-established de facto standard. Third, AOP is very focused on a particular limitation of Object-Oriented Programming and is therefore best viewed as a complementary rather than revolutionary technique.<br />
+Traditional OOP is unable to modularize certain &#8220;aspects&#8221; and thereby leads to code duplication and scattering of orthogonal logic such as auditing, security, etc. Once you overcome the initial learning curve (which is surprisingly easy once you break through the FUD), AOP is a very natural approach to solving that problem. For example, in a Spring-based application, you can provide transaction management to your entire service layer without modifying any of the code. That means the application is more flexible and easier to maintain while the code is kept clearly focused on business logic. Based on that and similar capabilities, you may join the increasing number of developers who are more than willing to begin experimenting with AOP.</p>
+<p>5. Spring replaces Java Enterprise Edition (JEE).<br />
+This is one of the most common misconceptions about Spring and yet one of the most misguided. In fact, Spring is largely about Java Enterprise Edition (JEE) integration. Spring offers a compelling alternative to the traditional, heavyweight Enterprise JavaBean-based component model while still leveraging the full power of the other JEE standards. One motivation is to simplify the usage of JEE APIs so that developers are not forced to repeatedly write extensive amounts of code. Another motivation is to encourage decoupling of application code from the JEE services. Spring offers a consistent approach to promote productivity, and where applicable, Spring provides abstractions to promote flexibility.<br />
+Spring&#8217;s integration support for JEE APIs includes:<br />
+Â·	Java Message Service (JMS)<br />
+Â·	Java Management Extensions (JMX)<br />
+Â·	Java Transaction API<br />
+Â·	JEE Connector Architecture (JCA)<br />
+Â·	Java API for XML-based Remote Procedure Calls (JAX-RPC)<br />
+Â·	JavaMail<br />
+Â·	Java Naming and Directory Interface (JNDI)<br />
+Â·	and Enterprise JavaBeans (EJB) including version 3.<br />
+Support is also provided for some very important Java Standard Edition technologies such as Java Databae Connectivity (JDBC) and Remote Method Invocation (RMI) as well as JEE 5 additions such as the Java Persistence API (JPA or the EJB3 persistence specifications). Spring consistently applies this same approach for integration with well-established third party products such as Hibernate, iBATIS, Quartz, Hessian, and so on.<br />
+Spring&#8217;s JEE integration is never based on the &#8220;lowest common denominator&#8221; approach. On the contrary, every effort is made to preserve access to the full power of the underlying technologies. In other words, while recognizing that 80% of the time you only need 20% of the functionality - the remaining 80% is available when needed.<br />
+For in-depth coverage of this particular topic, see &#8220;Expert One-on-One J2EE Development without EJB&#8221; by Rod Johnson and Juergen Hoeller.</p>
+<p>6. Spring and EJB are mutually exclusive.<br />
+In the previous point, we described Spring as &#8220;a compelling alternative to&#8221; EJB. However, Spring promotes choice - including the choice of using EJB. Spring provides support classes for implementing EJBs and providing them with access to the managed beans of a Spring container. Spring also provides a configurable proxy mechanism that allows EJB client code to have dependencies only on simple business interfaces. The details of EJB remote access, JNDI lookups, and the associated exceptions are all hidden behind the proxy and managed by Spring. That abstraction is very useful for integrating EJB-based legacy code with newly developed POJO-based code. Since the client is no longer concerned with those details, this approach also provides a convenient migration path between EJBs and POJOs. Interestingly, if you choose to use EJB3 and the associated POJO-based model for persistence (JPA), you will likely find the migration path from a Spring-based application to be much smoother than from an application based on an earlier EJB version. Furthermore, with Spring you can take full advantage of JPA without using any other features of EJB3 if you so choose.</p>
+<p>7. Spring cannot take advantage of Java 5 annotations like EJB3 does.<br />
+Pitchfork , an add-on for the Spring Framework, supports JSR-250 and a subset of the JSR-220 (EJB3) annotations. Pitchfork is a result of collaboration between Interface21 and BEA and is published under the Apache 2.0 license. It not only provides the foundation for WebLogic&#8217;s EJB3 implementation, but it also enables extension of the EJB3 programming model via the Spring Framework.<br />
+Core Spring 2.0 provides full integration support for JPA (EJB3 persistence) including its annotations. Spring 2.0 also adds support for @AspectJ-style annotations. Other annotation support in Spring includes transaction management, JMX configuration, and dependency validation.</p>
+<p>8. For a large application, Spring&#8217;s XML can become a maintenance nightmare.<br />
+If not managed properly, Spring XML files can indeed become too hard to edit and too easy to break. Here we point out how using the right tools and the right techniques can address some of the specific issues you may encounter:<br />
+too error-prone<br />
+Using the proper tools is essential. An XML editor provides code-completion and validation by leveraging a DTD or XML Schema Definition (XSD). One of the major focuses in Spring 2.0 has been on XSD-based configuration which provides considerably more information to the editor. Spring-specific IDE support as provided by IntelliJ or the Spring IDE plugin for Eclipse adds even more, such as providing completion of Class names and suggesting properties available in bean definitions. If you choose the names from a dropdown list, you will save time and you will not produce any typos.<br />
+too difficult to navigate<br />
+XML files should be split up to reflect the structure of your application&#8217;s modules. As with your code, it makes sense to keep related configuration information together and have clear separation of concerns.<br />
+too cumbersome for simple properties that may change frequently<br />
+Certain key/value pairs should be externalized into property files. This prevents that XML files are modified every time one of these simple properties needs to be modified. Spring provides configuration options that will make those properties available to the bean definitions that require them (see chapter 5).<br />
+too repetitive<br />
+Bean definition inheritance can reduce duplication any time common properties are being set on a large number of related objects. As an example, a single &#8220;dataSource&#8221; bean definition may be fulfilling a dependency of many data access beans. In that case, an abstract parent bean definition can capture that shared property in one line.<br />
+too generic<br />
+A major addition in Spring 2.0 is XSD support and domain-specific namespaces. These enable more concise formats for many commonly configured items. It is also very easy to create custom namespaces to provide domain-specific configuration of your own bean definitions or for integration with other frameworks.</p>
+<p>9. Spring does everything with reflection, so it is slow.<br />
+Spring does not do everything with reflection, but it does make extensive use of reflection. Therefore, we want to clarify the role of reflection in Spring and discuss the performance characteristics of reflection in general.<br />
+Spring uses reflection for its Dependency Injection, but it is important to understand that this occurs only at configuration time (when beans are wired together). From a performance perspective at runtime, it is no different than if you had explicitly set the dependencies in Java code.<br />
+Spring uses reflection via standard JDK dynamic proxy objects in its Aspect-Oriented Programming framework. Typically these proxy objects are configured at the coarse-grained service layer where they provide features such as transaction management, security, or exporting objects via remote access. If the call and execution of methods on a proxy object involves the network and/or database access, then the performance impact incurred by the proxy&#8217;s use of reflection will be negligible.<br />
+In any case, decisions motivated by performance concerns should always be based upon relevant benchmarks rather than intuition or hearsay. If you are using Java 1.3, then some of the traditional concerns about reflection may be valid. For example, in the 1.4 release of Java the performance of the reflection API was improved by 2,000% .</p>
+<p>10. Spring MVC is complex and not as simple as the rest of Spring.<br />
+Spring MVC is highly-configurable and highly-extensible due to its interface-based design. It uses well-established design patterns such as the strategy (e.g. ViewResolver) and the template method (e.g. SimpleFormController). Unfortunately it is easy to mistake configurability and extensibility with complexity. As with all things Spring, you can and should use only what is needed, but you will benefit considerably by taking some time to learn what options are available. You will be pleasantly surprised to discover just how simple and well-defined each Spring MVC component is. Each cohesive unit is focused on one small part of the lifecycle of handling an HTTP request and rendering a view. This promotes decoupling of business logic from presentation logic which in turn leads to applications that are powerful yet flexible. Once you use the Spring MVC framework on a project, you will most likely appreciate its power and ease of use. It is actually quite easy to implement a small, simple project with Spring MVC.
+</p></blockquote>
+<p>What do you think? For more on the new Spring 2.0, here&#8217;s a <a href="http://blog.interface21.com/main/">good resource</a> as well.
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Steve Anglin)</author>
+	<dc:date>2006-08-03T14:45:56-08:00</dc:date>
+</item>
+
+<item>
+	<title>Handling ADO.NET DataSets with Axis</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/08/handling_adonet_datasets_with.html?CMP=OTC-FP2116136014&amp;ATT=Handling+ADO+NET+DataSets+with+Axis</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/08/handling_adonet_datasets_with.html</guid>
+	<description><![CDATA[<p>First of all, SOAP is not my web service protocol of choice since I think it is overkill for the most of applications. I prefer the simplest possible solution for the problem, but when the service that you need is only available through SOAP, you don&#8217;t have much choice.</p>
+<p>The fact is that .NET developers like SOAP and use it as a de-facto the only way to expose their services. Simplicity to do so is certainly one of the most important factors in this decision. While there is nothing generally wrong with this, the simplicity hides some traps for those that don&#8217;t take care. One such trap is making methods return (or accept parameters) of general types such as <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpcontheadonetdataset.asp">ADO.NET DataSet</a> (something like JDBC ResultSet in Java).</p>
+<p>In order to explain what kind of problems you can expect in this case, let&#8217;s recapitulate the process of creating a Java client for arbitrary web service (using <a href="http://ws.apache.org/axis/">Apache Axis</a>). Usually, you will get WSDL file from your service provider defining the service. Next, you will run <a href="http://ws.apache.org/axis/java/user-guide.html#WSDL2JavaBuildingStubsSkeletonsAndDataTypesFromWSDL">WSDL2Java</a> tool which will create stub classes that abstracts service methods and their arguments (and return values).</p>
+<p>From that point on things are straightforward, since you are back in the Java world. Axis library did its job of abstracting the web service and providing you with ability to use regular Java objects to handle data through SOAP protocol.</p>
+<p>In case that your service provider has chosen to pass <code>DataSet</code> objects through SOAP calls, the above scenario falls apart and you&#8217;re left on your own. The problem is that <code>WSDL2Java</code> tool cannot create proper stub classes for this general type, so you will get <a href="http://ws.apache.org/axis/java/apiDocs/org/apache/axis/message/MessageElement.html">MessageElement</a> object and you have to find your way to deal with it. </p>
+<p>There is even an MSDN <a href="http://msdn.microsoft.com/msdnmag/issues/03/04/XMLFiles/">article</a> that suggests to .NET developers that these practices are bad and that they will lead to broken &#8220;toolkit-compatibility&#8221;. This particular article even suggests a few techniques that could be used instead of sending raw <code>DataSets</code> in order to avoid this kind of problems.</p>
+<p>But if you have a web service that exposes <code>DataSet</code> in its interface and cannot change that, what should you do? Theoretically, solution is simple: all you have to do is to make your code know how to format and parse valid XML representation of <code>DataSet</code> objects. Since the <code>MessageElement</code> class that you will get by your stub classes is the implementation of the <a href="http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/Element.html">DOM <code>Element</code> interface</a>, you can use the DOM API to finish this work. The hard part is that syntax of these datasets is complex. I found <a href="http://tools.devchannel.org/devtoolschannel/04/07/09/1650215.shtml?tid=21&amp;tid=46">this article</a> as a good resource for introduction to this topic. </p>
+<p>So, if your potential service provider didn&#8217;t start work on its web service, make sure that he reads these articles so that you can save a few days of hard work. For all others, these articles could be solid guides for general direction of their solutions. I hope that there will be some tool available soon that will bridge this functionality (if nothing else, I&#8217;ll try to find some time to write one).
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Dejan Bosanac)</author>
+	<dc:date>2006-08-03T08:46:04-08:00</dc:date>
+</item>
+
+<item>
+	<title>JDBC 4.0 Enhancements in Java SE 6</title>
+	<link>http://www.onjava.com/pub/a/onjava/2006/08/02/jjdbc-4-enhancements-in-java-se-6.html?CMP=OTC-FP2116136014&amp;ATT=JDBC+4+0+Enhancements+in+Java+SE+6</link>
+	<guid>http://www.onjava.com/pub/a/onjava/2006/08/02/jjdbc-4-enhancements-in-java-se-6.html</guid>
+	<description><![CDATA[<a href='http://www.onjava.com/pub/a/onjava/2006/08/02/jjdbc-4-enhancements-in-java-se-6.html?CMP=OTC-FP2116136014&amp;ATT=JDBC+4+0+Enhancements+in+Java+SE+6'><img src='http://www.oreillynet.com/onjava/2006/08/02/graphics/111-jdbc.gif' width='111px' height='91px' alt='tile image' align='left' border='0'/></a>Java SE 6 (aka Mustang) brings with it a new set of improvements to the JDBC API for accessing databases. Improvements include support for the RowID interface, better exception handling, annotation-based queries, and (finally!) and end to the clumsy Class.forName() system of loading database drivers. In this article, Srini Penchikala tours the major features of JDBC 4.0.]]></description>
+	<author>webmaster@oreillynet.com (Srini Penchikala)</author>
+	<dc:date>2006-08-02T14:04:43-08:00</dc:date>
+</item>
+
+<item>
+	<title>Google Project Hosting</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/google_project_hosting.html?CMP=OTC-FP2116136014&amp;ATT=Google+Project+Hosting</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/google_project_hosting.html</guid>
+	<description><![CDATA[<p>Google seems to know how to make a splash at the trade shows, don&#8217;t they?</p>
+<p>The big OSCON announcement is <a href="http://code.google.com/hosting/">code.google.com/hosting</a>, their foray into the SourceForge world. Given the the bubbling <a href="http://ranger.befunk.com/blog/archives/000680.html">animus</a> with SF.net, this might represent a very opportune moment. </p>
+<p>The hosting service is really quite lean: Subversion and Google&#8217;s own bugtracker, as well as a tie-in with groups.google.com for mailing/discussion lists. Really, though, I think this &#8220;less is more&#8221; approach is really a good thing. <a href="http://code.google.com/p/testng/">TestNG</a> is an early adopter &#8212; not surprising given Cedric&#8217;s employment. While the lack of free-form web hosting could be a small issue, it is hard not to note that with just your svn server, Google Pages and Blogger, you could put together a pretty reasonable web presence for you project, though it would certainly be less coherent than Java.net or SF.net&#8217;s project page.</p>]]></description>
+	<author>webmaster@oreillynet.com (Robert Cooper)</author>
+	<dc:date>2006-07-28T10:16:07-08:00</dc:date>
+</item>
+
+<item>
+	<title>The Case for Ogg</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/the_case_for_ogg.html?CMP=OTC-FP2116136014&amp;ATT=The+Case+for+Ogg</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/the_case_for_ogg.html</guid>
+	<description><![CDATA[<p><a href="http://www.oreillynet.com/onjava/blog/2006/07/touring_the_top_10_rfes.html">Chris ran down the Top 10 RFEs</a> pointing out some silliness there, and there was some discussion on the <a href="http://www.javaposse.com/index.php?post_id=113798">JavaPosse</a> about the post. </p>
+<p>One of the things that came up was adding Ogg V/T support to Java/JMF. I had a similar initial response to this: why bother, really. I am a Linux user myself, and I don&#8217;t use Ogg. Don&#8217;t get me wrong, it is a fine codec, but its limited adoption outside of the open source world (read: My iPod) makes it inconvenient to use for personal media. Joe didn&#8217;t even know what it was. That is how big a splash it has really made.</p>
+<p>However, I began thinking back to the conversation on Romain&#8217;s blog <a href="http://jroller.com/page/gfx?entry=java_can_do_media">about Java Media and iondb</a>. Now, because Nathan has been an active part of the ROME community in the development of the iondb code, I have seen this project go through many&#8230; not quite ready for prime time releases now. They have done a great job at abstracting players for Linux, and adding Ogg support wouldn&#8217;t really change the nature of their project. However, when discussing what &#8220;media support&#8221; in Java actually means, he made this comment:</p>
+<blockquote><p>So, what is necessary then for Java to be able to truly &#8220;do media&#8221;? Something like Flash&#8217;s support for MP3 and its own proprietary Flash Video format? Does the format/codec/engine have to be pure Java code or just part of the platform?</p>
+<p>As much as I love the idea, I don&#8217;t think platform-wide support for OGG Vorbis/Theora is the answer, unless Sun is willing to make a big investment in media tools for developers. I&#8217;ve also not been too impressed with pure Java Theora decoding, even with small files. Built-in MP3 and MPEG-4 support would be welcome. IBM has a nice MPEG-4 codec that supports JMF.</p>
+<p>Perhaps partnering with DIVX is a possible solution, since they could offer up developer support, desktop and server tools, much in the same way ON2 does for Flash with their Flix product line.</p></blockquote>
+<p>Now, while I certainly like DivX too, I think there is something to be said for Flash/Flix/FLV. The thing is, Ogg V/T would be perfectly suitable as a &#8220;This is Java video&#8221; analogue to Flash video. While this doesn&#8217;t even begin to address Chris&#8217;s issues with JMF from an editing/production standpoint, it would at least offer some of that missing functionality in Java and provide an alternative to QT4J for the handful of <a href="http://www.amazon.com/gp/product/B0000663U5/002-3711526-4815223?v=glance&amp;n=468642">consumer products in Java</a> on the market.</p>]]></description>
+	<author>webmaster@oreillynet.com (Robert Cooper)</author>
+	<dc:date>2006-07-27T08:46:26-08:00</dc:date>
+</item>
+
+<item>
+	<title>What Dublin Java Developers think you should be learning ...</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/what_dublin_java_developers_th.html?CMP=OTC-FP2116136014&amp;ATT=What+Dublin+Java+Developers+think+you+should+be+learning</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/what_dublin_java_developers_th.html</guid>
+	<description><![CDATA[<p>Yesterday, 16 Java developers from Dublin met online to discuss <b>What technologies should I be learning in the next 12 months?</b>  <a href="http://www.firstpartners.net/red-piranha/knowledgebase/VirtualJavaMeetup">The results of the Virtual Java Meetup are here</a>.If you couldn&#8217;t be bothered reading the entire thing , here&#8217;s the summary:</p>
+<ul>
+<li>Web services are going to be big, but only if they can be simple.</li>
+<li>EJB 3 and Netbeans are both worth taking a look at again, they are now much better than the previous versions that gave them a bad name.</li>
+<li>Middleware (e.g. workflow and Rules Engines) are interesting in a corporate environment, but there is a high barrier to entry.</li>
+<li>Struts , and to a lesser extent JSF , will continue to be dominant Java Web frameworks, despite not being the best technical choice.</li>
+<li>A lot of companies are still using Java 1.4, but may make the leap to Java 6 (Mustang).</li>
+<li>Service Orientated Architecuture (SOA) is a nice idea, but not so many projects have been implemented using it.</li>
+<li>IDE&#8217;s (Netbeans / Eclipse / JDeveloper) can deliver a lot of value, but only if backed up by lower level tools (e.g. Ant and Maven).</li>
+<li>More for the next 24 months , keep an eye on <a href="http://www.servicemix.org">Apache Service Mix</a>.</li>
+</ul>
+<p>What do you think? Did we miss anything? </p>]]></description>
+	<author>webmaster@oreillynet.com (Paul Browne)</author>
+	<dc:date>2006-07-26T03:17:46-08:00</dc:date>
+</item>
+
+<item>
+	<title>Deploying BIRT</title>
+	<link>http://www.onjava.com/pub/a/onjava/2006/07/26/deploying-birt.html?CMP=OTC-FP2116136014&amp;ATT=Deploying+BIRT</link>
+	<guid>http://www.onjava.com/pub/a/onjava/2006/07/26/deploying-birt.html</guid>
+	<description><![CDATA[<a href='http://www.onjava.com/pub/a/onjava/2006/07/26/deploying-birt.html?CMP=OTC-FP2116136014&amp;ATT=Deploying+BIRT'><img src='http://www.oreillynet.com/images/onjava/111-birt.gif' width='111px' height='91px' alt='tile image' align='left' border='0'/></a>If you have a need for generating or displaying reports, you may want to have a word with BIRT. The Business Intelligence and Reporting Tools project is an open source Eclipse effort to enable the creation and deployment of complex reports. Jason Weathersby shows you how to grind out reports and display them in web applications and RCP-based desktop apps.]]></description>
+	<author>webmaster@oreillynet.com (Jason Weathersby)</author>
+	<dc:date>2006-07-26T15:15:41-08:00</dc:date>
+</item>
+
+<item>
+	<title>Q&amp;A: Sun's Simon Phipps details open source strategy</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/qa_suns_simon_phipps_details_o.html?CMP=OTC-FP2116136014&amp;ATT=Q+amp+A+Sun+s+Simon+Phipps+details+open+source+strategy</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/qa_suns_simon_phipps_details_o.html</guid>
+	<description><![CDATA[<p>In this <a href="http://www.javaworld.com/javaworld/jw-07-2006/jw-0724-cw-phipps.html">JavaWorld.com/ComputerWorld interview</a>, &#8220;Sun&#8217;s Simon Phipps details open source strategy: As Java moves toward open source, other Sun products will follow.&#8221;</p>
+<p>What do you think?
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Steve Anglin)</author>
+	<dc:date>2006-07-24T09:48:42-08:00</dc:date>
+</item>
+
+<item>
+	<title>On Derby...</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/on_derby.html?CMP=OTC-FP2116136014&amp;ATT=On+Derby</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/on_derby.html</guid>
+	<description><![CDATA[<p>There were a lot of discussions lately about inclusion of Derby (aka JavaDB) in the Sun JDK. First of all, I personally think that it will not really change anything. </p>
+<p>I&#8217;m sure that developers that wanted embedded database until now were savvy enough to download Derby and include it in the project. One other argument that has been often used is that this will put unnecessary burden on the size of the JDK itself. While this is certainly true, with current Internet speeds extra 2MB size is not something that would worry most of the developers, and of course there are always alternatives to Sun JDK.</p>
+<p>But instead of heating up this discussion again, I would like to write down some of my experiences with Derby. The focus will be on Derby as an embedded database since I haven&#8217;t (and don&#8217;t plan to) use Derby as a standalone enterprise database server.</p>
+<h2>Schemas</h2>
+<p>First of all, I would like to address Derby schema and authentication mechanisms. As you probably know, if you access database without authentication, default schema that will be used is <code>APP</code>. This is a common situation in case that you use Derby as an embedded database, since there is no need for authentication. However, even in this case you will probably want to allow your customers (or yourself) to start the application with derby in network server mode so that data could be accessed (and manipulated) with third party tools. In this scenario you will need to use authentication and also allow your users to change user/password combination for database access.</p>
+<p>The problem with this approach is that default schema that will be used is the same as the username. So with every change of the username driver will try to use different schema. Of course, if you don&#8217;t take care of this, you will get &#8220;no such schema&#8221; exception.</p>
+<p>Hopefully, there are few solutions to this problem:</p>
+<ul>
+<li>
+Always prepend schema name to table name (for example <code>APP.table1</code> instead of <code>table1</code>) - this approach is a solution in most cases. It could be a problem in case that you need to rewrite your application queries.
+</li>
+<li>
+  Don&#8217;t allow users to change username and always use <code>APP</code> schema - while this would work, your users might feel restricted.
+</li>
+<li>
+  Use <code>SET SCHEMA APP</code> command to explicitly change schema name when connection is created - this might work in some applications, but in case that you use some kind of connection pool you must check whether your pool allows you to define query which will be executed upon connection creation.
+</li>
+<li>
+  Make your custom authentication class - it&#8217;s not as hard as it seems. All you need to do is to implement <code>org.apache.derby.authentication.UserAuthenticator</code> interface and use some other connection properties to authenticate your users.
+</li>
+</ul>
+<p>This is not a big issue and as you see there are some easy workarounds, but still it would be great that straightforward tasks like this are no-brainers. The fact that this issue is in the <a href="http://db.apache.org/derby/faq.html#schema_exist">FAQ</a> proves that it isn&#8217;t.</p>
+<h2>Tools</h2>
+<p>Again, it&#8217;s all about helping developers (and customers) to access and manage data stored in the database. Derby provides some tools for this purpose (such as <code>ij</code>), but in my opinion they are not as polished as they could be.</p>
+<p>It&#8217;s small things that make this tool hard to use. For a starters, not until you look into shell scripts you can realize that in order to successfully start <code>ij</code> you need to put all jars in the <code>CLASSPATH</code> or set it to be empty and set <code>DERBY_INSTALL</code> environment variable to point to Derby installation. Also, I&#8217;m not sure why this second approach is not working even if I have some classpath set on the system level.</p>
+<p>Next, some switches wouldn&#8217;t hurt, so that we can use this tool like tools that are found in similar products (PostgreSQL, MySQL, &#8230;). For example, it would be nice to allow users to use switches to define connection parameters, instead of JDBC URL.</p>
+<h2>Online backups</h2>
+<p><a href="http://issues.apache.org/jira/browse/DERBY-239">It seems like</a> from version 10.2 on Derby will support online backups that does not block update operations during backup, which is a must-have feature for these kind of applications.</p>
+<h2>Conclusion</h2>
+<p>Derby is ready-to-use embedded database that you can use in your Java applications and with all current development that is going on, I&#8217;m sure that developer experience will just get better over time.
+</p>]]></description>
+	<author>webmaster@oreillynet.com (Dejan Bosanac)</author>
+	<dc:date>2006-07-24T03:46:40-08:00</dc:date>
+</item>
+
+<item>
+	<title>Incrementally Open Sourcing Java</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/incrementally_open_sourcing_ja.html?CMP=OTC-FP2116136014&amp;ATT=Incrementally+Open+Sourcing+Java</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/incrementally_open_sourcing_ja.html</guid>
+	<description><![CDATA[<p><a href="http://www.infoworld.com/article/06/07/17/HNjavaopen_1.html">InfoWorld</a> has a discussion with Brewin about open sourcing Java in stages. While it is not <a href="http://www.oreillynet.com/xml/blog/2006/06/sun_should_open_source_swing_w.html">a new idea</a>, open sourcing SWING out of the gate would not be bad. I imagine that out of things in the JRE stack, there is less baggage there than in the rest JVM. Plus that would move a lot of things like GCJ and Harmony along at a much much faster clip. I did find this a bit annoying:</p>
+<blockquote><p>Some components of Java that could be open-sourced in an incremental fashion include the Java virtual machine, the runtime environment, the Web services stack and the Swing GUI components. There has been some discussion about releasing the virtual machine, Swing, and the runtime at the same time, Brewin said.</p></blockquote>
+<p>Now, pretty much the whole Web Services stack is already available with Glassfish. There are only a few components left that are not open source, and most of those are just API specs. However <a href="http://wiki.java.net/bin/view/Projects/GlassFishCodeDependencies">having a list of licenses like this</a> is a bit offputting. </p>]]></description>
+	<author>webmaster@oreillynet.com (Robert Cooper)</author>
+	<dc:date>2006-07-20T11:46:00-08:00</dc:date>
+</item>
+
+<item>
+	<title>JRuby - Web 2.0 in the Enterprise Java world</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/jruby_web_20_in_the_enterprise.html?CMP=OTC-FP2116136014&amp;ATT=JRuby-Web+2+0+in+the+Enterprise+Java+world</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/jruby_web_20_in_the_enterprise.html</guid>
+	<description><![CDATA[<p>On a recent project , the choice was between Enterprise Java (using frameworks such as DWR and Struts) , or Oracle Forms. The newest latest Java technology , versus a 15 year old technology that Oracle is comitted to phasing out (and moving to ADF / Oracle fusion). No contest , you think , until you hear that the decision was made (and rightly so) to us Oracle Forms.</p>
+<p>&#8216;What?!&#8217; I hear you say - how could this happen? The project in question was fairly simple - get information and store it in a database. The problem is , despite being mainstream for the last 6 years, there is no standard, easy &#8216;drag and drop&#8217; method of doing these applications in Java. C# does it in Visual Studio. Oracle does it with Forms. With Java (and despite having doing 10 or so of these projects), there is still too much plumbing that the developer needs to know.</p>
+<p>I&#8217;m expecting a deluge of &#8216;have you tried project X&#8217; on this post. And yes, I expect that an Eclipse based tool will probably fill the gap. But for these simple applications , there is no standard way of doing this (standard being a solution that dominates the market in the way Struts did the Web App framework space, <a href="http://www.firstpartners.net/red-piranha/knowledgebase/AjaxJavaLibraries">until recently</a>). But we&#8217;ve been waiting 6 long years!</p>
+<p><a target="_blank" href="http://www.rubyonrails.org/"><img title="ruby on rails logo" alt="ruby on rails logo" src="http://www.rubyonrails.org/images/rails.png" /></a></p>
+<p>All of which brings me to Ruby. Ruby on Rails&#8217; sweet spot is exactly these kind of simple, ajax enabled , no frills &#8216;get info from web and store it on database&#8217; applications.  Enterprise Java&#8217;s sweet spot is the heavy lifting <a href="http://www.firstpartners.net/blog/workflow">workflow</a> , Rules , Calculations, Integration with Legacy and other systems , web services and basically anything to do with Business logic. The two are a perfect complement to each other, which is why the news that <a target="_blank" href="http://jruby.sourceforge.net/">JRuby now runs Ruby on Rails</a> is especially interesting.</p>
+<p>JRuby is a version of Ruby that runs in the Standard Java Virtual Machine (JVM). It means that (1) You don&#8217;t have to install Ruby, which might meet resistance in a corporate environment. It also means (2) that all the methods you have available in Java you have available in Ruby. The <a target="_blank" href="http://www.oreillynet.com/ruby/">O&#8217;Reilly Ruby site</a> and <a target="_blank" href="http://www.javaworld.com/javaworld/jw-07-2006/jw-0717-ruby.html">this Javaworld Article</a> are good places to start learning more about Ruby and linking it into Java. Fellow O&#8217;Reilly Blogger Steve Anglin also has <a href="http://www.oreillynet.com/onjava/blog/2006/07/jruby_maturing.html">more information about the latest JRuby release</a>.</p>
+<p><a href="http://www.firstpartners.net/blog/technology">More on Technology in plain English</a></p>]]></description>
+	<author>webmaster@oreillynet.com (Paul Browne)</author>
+	<dc:date>2006-07-20T01:17:28-08:00</dc:date>
+</item>
+
+<item>
+	<title>Touring the Top 10 RFE's</title>
+	<link>http://www.oreillynet.com/onjava/blog/2006/07/touring_the_top_10_rfes.html?CMP=OTC-FP2116136014&amp;ATT=Touring+the+Top+10+RFE+s</link>
+	<guid>http://www.oreillynet.com/onjava/blog/2006/07/touring_the_top_10_rfes.html</guid>
+	<description><![CDATA[<p>Dolphin is coming&#8230; do you think they&#8217;ll listen to us?  From the looks of the most popular RFE&#8217;s, I&#8217;m kind of hoping they don&#8217;t.</p>
+<p>What follows is a very brief and <i>highly opinionated</i> tour of the top ten requests for enhancement (RFE&#8217;s) on Sun&#8217;s <a href="http://bugs.sun.com/bugdatabase/index.jsp">Java Bug Parade</a>.  These 10 are pulled from the dynamically-updated list of the <a href="http://bugs.sun.com/bugdatabase/top25_rfes.do">Top 25 RFE&#8217;s</a>, as voted for by registered SDN members (there is also a list of the <a href="http://bugs.sun.com/bugdatabase/top25_bugs.do">Top 25 Bugs</a>).</p>
+<p>For each, I&#8217;ll summarize the issue, and assess whether the RFE is a good idea, and whether I think it&#8217;s likely to get done in Dolphin.  You are welcome to use the comments section to tell me what a dumb-ass I am for denigrating your favorite bug.</p>
+<ol>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4499904"> 4499904 </a> - RFE: Ogg Vorbis and Tarkin support for JMF</b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">Low</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td>
+<td align="left">Zero</td>
+</tr>
+</table>
+<p><a href="http://java.sun.com/products/java-media/jmf/">JMF</a> hasn&#8217;t been touched in almost two years, Ogg Vorbis isn&#8217;t relevant to anyone outside the geek community (and even then it&#8217;s an act of ideological zealotry to rip your CDs as Ogg), and Tarkin has given way to Theora, which is also known only to zealots.   Have Java developers ever heard of a little standard called MPEG-4?  They use it for satellite TV and iPods.  Seriously, guys, look into it.  That this is the top RFE says a lot, and a lot of it not good, about Java developers.</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4449383"> 4449383 </a> - Support For &#8216;Design by Contract&#8217;, beyond &#8220;a simple assertion facility&#8221; </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin</td align="left">
+<td>Low</td>
+</tr>
+</table>
+<p>This RFE argues for a full-blown implementation of <a href="http://en.wikipedia.org/wiki/Design_by_contract">Design by Contract</a>, with checkable method pre- and post-conditions.  The comments suggest that the language may be too large to implement this feature now, and furthermore, third party tools exist for those who would like to bolt it on.  If those took off, they could be folded into the language (like Doug Lea&#8217;s concurrency libraries), so this can be seen as a very understandable &#8220;wait and see&#8221;.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4802695"> 4802695 </a> - Support Java Plug-in on 64-bit AMD Opteron </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>High</td>
+</tr>
+</table>
+<p>Already exists&#8230; <a href="http://java.sun.com/j2se/1.5.0/jre/install-solaris-64.html">for Solaris</a>, anyways.  Think Sun won&#8217;t get behind it for Linux?  They&#8217;d better; <a href="http://www-128.ibm.com/developerworks/java/jdk/linux/download.html">IBM already has</a>.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4680244"> 4680244 </a> - RPM does not follow LSB or filesystem hierachy </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>High</td>
+</tr>
+</table>
+<p>Eminently sensible to straighten out the end-user install.  On the other hand, is there any chance the <a href="http://download.java.net/dlj/DLJ-v1.1.txt">Distro License for Java</a> aspires to just let the distros themselves figure out where things are supposed to go?</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4724038"> 4724038 </a> - (fs) Add unmap method to MappedByteBuffer</b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>Low</td>
+</tr>
+</table>
+<p>It&#8217;s sensible that once you&#8217;re done with a file that you&#8217;ve mapped into memory for NIO, you&#8217;d like to have the freedom to delete or otherwise modify the file, but you can&#8217;t until the memory is freed, and that&#8217;s non-deterministic.  Reasonable RFE, but Sun&#8217;s evaluation is that they can&#8217;t see a way to do this in a fast, secure, portable way.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4820062"> 4820062 </a> - Provide &#8220;struct&#8221; syntax in the Java language </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>Medium</td>
+</tr>
+</table>
+<p>Not quite C structs, but the idea is that given some arrangement of primitive members, you know the size of the arrangement (or struct) and could operate over them in memory in a fast, efficient way.  The proposal comes from the needs of game programmers to load in OpenGL vertexes, textures, etc., in a highly-efficient way.  This isn&#8217;t as icky-C as it might first seem, but then again, one of the knocks against Java from the scripting crowd is that the primitives were a premature optimization &#8212; Sun&#8217;s evaluation suggests that similar functionality could be achieved with annotations and a library to process them.  This is an interesting problem and proposal either way.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4296022"> 4296022 </a> - html4.x support within a JEditorPane </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>Low</td>
+</tr>
+</table>
+<p>Welcome to the nightmare that is HTML handling in Java.  HotJava was abandoned years ago, and Swing&#8217;s HTML handling stopped evolving back in the HTML 3.2 era, if not earlier.  So, rendering real-world HTML in a Java GUI is a nasty proposition&#8230; so nasty that the new solution seems to be punting and loading up a native browser via <a href="https://jdic.dev.java.net/">JDIC</a>.  Too bad though, if you need to do anything with the page, like inspect its DOM.  There&#8217;s also <a href="https://xhtmlrenderer.dev.java.net/">Flying Saucer</a>, an all-Java option for the rare case of standards-compliant XHTML.  Sun does have a <a href="http://java.sun.com/webapps/survey/display?survey_id=5370 ">survey</a> up where you can tell them what your text-rendering needs are.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4267080"> 4267080 </a> - break up rt.jar into downloadable-on-demand components to reduce jre size </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>Medium</td>
+</tr>
+</table>
+<p>You call it bloat, I call it features, but the days of the monolithic JRE have to be numbered.  My guess is that they could simultaneously solve the problems of end-user deployment and library versioning (as promised at JavaOne 2005), <i>and apply that to the JRE itself</i>.  That way, you could ship a bare-bones JRE and the end-user dynamically get the pieces s/he needs &#8212; whether of your libraries, your dependencies, or the JRE itself &#8212; on an app-by-app basis.  Let&#8217;s hope they finally get this one done, and done right.
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4910812"> 4910812 </a> - Enhance Hot Code Replacement </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">???</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>???</td>
+</tr>
+</table>
+<p>This is totally out of my league, sorry.  It would seem like bytecode manipulation potentially gets you some of this, and the use cases seem completely restricted to development-time &#8220;fix and continue&#8221; functionality (you <i>wouldn&#8217;t</i> want this in the end-user&#8217;s VM, would you?).  Is this really a VM RFE, or a request for a kick-ass IDE feature?
+</p>
+</li>
+<li>
+<table border="0">
+<tr>
+<td colspan="2"><b>Bug ID <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4045688"> 4045688 </a> - Add chdir or equivalent notion of changing working directory </b></td>
+</tr>
+<tr>
+<td align="left" width="20%">Bug quality:</td>
+<td align="left">Low</td>
+</tr>
+<tr>
+<td align="left" width="20%">Odds for Dolphin:</td align="left">
+<td>Medium</td>
+</tr>
+</table>
+<p>Given 1.3&#8217;s ability to specify a current working directory for <code>Runtime.exec()</code>-type commands, what&#8217;s the value of this?  What&#8217;s the remaining problem that has 188 votes behind this?  No, I don&#8217;t consider the current directory viable when I work with <code>java.io.File</code>, but then again, I don&#8217;t trust <i>anything</i> related to the miserable API that is <code>java.io.File</code>, and I carefully construct paths with new <code>File</code> constructors whenever possible.
+</p>
+</li>
+</ol>]]></description>
+	<author>webmaster@oreillynet.com (Chris Adamson)</author>
+	<dc:date>2006-07-19T15:48:01-08:00</dc:date>
+</item>
+
+</channel>
+</rss>

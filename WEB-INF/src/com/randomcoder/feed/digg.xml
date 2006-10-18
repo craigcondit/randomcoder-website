@@ -1,0 +1,456 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:digg="http://digg.com/docs/diggrss/">
+<channel>
+<title>digg / Technology</title>
+<language>en-us</language><link>http://digg.com/view/technology</link>
+<description>digg / Technology</description>
+<item>
+<title>How To Run A Ubuntu Webserver And Torrent Client Under Windows XP</title>
+<link>http://digg.com/linux_unix/How_To_Run_A_Ubuntu_Webserver_And_Torrent_Client_Under_Windows_XP</link>
+<description>This tutorial is meant for Linux newbies who want to try and build a Ubuntu server box as a webserver and torrent client. It is a step by step instruction on how to do this in VMware on Windows XP to get the feel of it.</description>
+<pubDate>Thu, 10 Aug 2006 18:52:23 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/How_To_Run_A_Ubuntu_Webserver_And_Torrent_Client_Under_Windows_XP</guid>
+<digg:diggCount>85</digg:diggCount>
+<digg:submitter><digg:username>hausmasta</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>4</digg:commentCount>
+</item>
+<item>
+<title> How to Pick a Linux Distro (Distribution)</title>
+<link>http://digg.com/linux_unix/How_to_Pick_a_Linux_Distro_Distribution</link>
+<description>Choosing a Linux Distro (Distribution) can be a very daunting task, especially when you are new to the Linux world.  "How to pick a Linux Distro (Distribution)" will be a great help and give anyone a good start into looking for a Linux distribution, especially coming from a Microsoft Windows world.</description>
+<pubDate>Thu, 10 Aug 2006 18:35:42 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/How_to_Pick_a_Linux_Distro_Distribution</guid>
+<digg:diggCount>192</digg:diggCount>
+<digg:submitter><digg:username>thelinuxnewbie</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>40</digg:commentCount>
+</item>
+<item>
+<title>First look at Leopard (Mac OS X)</title>
+<link>http://digg.com/apple/First_look_at_Leopard_Mac_OS_X</link>
+<description>Here  are some of the first unofficial 'real life'  images taken from Leopard, including Time Machine, Mail, iCal, Preview and Spaces. </description>
+<pubDate>Thu, 10 Aug 2006 18:10:01 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/First_look_at_Leopard_Mac_OS_X</guid>
+<digg:diggCount>326</digg:diggCount>
+<digg:submitter><digg:username>mcdevcom</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>42</digg:commentCount>
+</item>
+<item>
+<title>Seagate CEO: We're Prepared for the Hard Drive Price War</title>
+<link>http://digg.com/tech_news/Seagate_CEO_We_re_Prepared_for_the_Hard_Drive_Price_War</link>
+<description>Seagate was prepared to meet hard-disk drive price cuts by competitors including Hitachi and Samsung, who are hungry for market share.</description>
+<pubDate>Thu, 10 Aug 2006 17:52:06 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Seagate_CEO_We_re_Prepared_for_the_Hard_Drive_Price_War</guid>
+<digg:diggCount>295</digg:diggCount>
+<digg:submitter><digg:username>digitalgopher</digg:username><digg:userimage>http://digg.com/userimages/digitalgopher/medium1373.gif</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>45</digg:commentCount>
+</item>
+<item>
+<title>Ubuntu adds a community manager</title>
+<link>http://digg.com/linux_unix/Ubuntu_adds_a_community_manager</link>
+<description>In July, Mark Shuttleworth, Canonical's head, started looking for a community manager for Ubuntu, the popular Linux distribution. Shuttleworth recently found his man, Jono Bacon, a UK-based technology consultant and writer.</description>
+<pubDate>Thu, 10 Aug 2006 17:21:48 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Ubuntu_adds_a_community_manager</guid>
+<digg:diggCount>240</digg:diggCount>
+<digg:submitter><digg:username>sickaltima</digg:username><digg:userimage>http://digg.com/userimages/sickaltima/medium1406.jpg</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>37</digg:commentCount>
+</item>
+<item>
+<title>Weighing a Switch to a Mac </title>
+<link>http://digg.com/apple/Weighing_a_Switch_to_a_Mac</link>
+<description>Ten years ago, if you were a Windows user, the idea of switching to a Macintosh might not have seemed enticing. An abundance of new Windows software was arriving on store shelves, while the selection available to Mac users seemed to be falling behind, often relegated to a back corner of the same store.
+
+</description>
+<pubDate>Thu, 10 Aug 2006 16:56:44 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/Weighing_a_Switch_to_a_Mac</guid>
+<digg:diggCount>776</digg:diggCount>
+<digg:submitter><digg:username>runbmd</digg:username><digg:userimage>http://digg.com/userimages/runbmd/medium7635.jpg</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>193</digg:commentCount>
+</item>
+<item>
+<title>Google to continue storing search requests despite AOL gaffe</title>
+<link>http://digg.com/tech_news/Google_to_continue_storing_search_requests_despite_AOL_gaffe</link>
+<description>Although he was alarmed by AOL's haphazard release of its subscribers' online search requests, Google Inc. CEO Eric Schmidt said Wednesday the privacy concerns raised by that breach won't change his company's practice of storing the inquiries made by its users.</description>
+<pubDate>Thu, 10 Aug 2006 16:33:18 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Google_to_continue_storing_search_requests_despite_AOL_gaffe</guid>
+<digg:diggCount>300</digg:diggCount>
+<digg:submitter><digg:username>giantAppleCore</digg:username><digg:userimage>http://digg.com/userimages/g/i/a/giantapplecore/medium6408.jpg</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>49</digg:commentCount>
+</item>
+<item>
+<title>Camera phone picture from inside YouTube's office</title>
+<link>http://digg.com/tech_news/Camera_phone_picture_from_inside_YouTube_s_office</link>
+<description>A co-worker of mine had a meeting at various sites last Friday, one of which was YouTube. They snapped a camera phone picture upon entering the less than overwhelming office, and send it to the company Where.com wall. A larger office will probably come after the inevitable acquisition.</description>
+<pubDate>Thu, 10 Aug 2006 16:10:03 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Camera_phone_picture_from_inside_YouTube_s_office</guid>
+<digg:diggCount>530</digg:diggCount>
+<digg:submitter><digg:username>agentparanoia</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>115</digg:commentCount>
+</item>
+<item>
+<title> Google: Govts are  the greatest threat to web privacy </title>
+<link>http://digg.com/tech_news/Google_Govts_are_the_greatest_threat_to_web_privacy</link>
+<description>CEO Eric Schmidt told the Search Engine Strategies industry conference that Google had put all necessary safeguards in place to protect its users' personal data from theft or accidental release.</description>
+<pubDate>Thu, 10 Aug 2006 15:17:25 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Google_Govts_are_the_greatest_threat_to_web_privacy</guid>
+<digg:diggCount>734</digg:diggCount>
+<digg:submitter><digg:username>LUPLEO</digg:username><digg:userimage>http://digg.com/userimages/l/u/p/lupleo/medium9823.png</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>55</digg:commentCount>
+</item>
+<item>
+<title>Software Mines Internet To Identify Music Piracy</title>
+<link>http://digg.com/software/Software_Mines_Internet_To_Identify_Music_Piracy</link>
+<description>The software called "Unstructured Data Module" applies analytics and algorithms to scan for hidden relationships in streams of digital data. Beyond information found in traditional databases and spreadsheets, the software digs into e-mails, file directory listings, search results for peer-to-peer (P2P) sites, and lists of top downloaded songs. </description>
+<pubDate>Thu, 10 Aug 2006 15:16:20 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/software/Software_Mines_Internet_To_Identify_Music_Piracy</guid>
+<digg:diggCount>342</digg:diggCount>
+<digg:submitter><digg:username>zepequeno</digg:username><digg:userimage>http://digg.com/userimages/zepequeno/medium3766.jpg</digg:userimage></digg:submitter>
+<digg:category>Software</digg:category>
+<digg:commentCount>43</digg:commentCount>
+</item>
+<item>
+<title>Intel Open Sources Graphics Drivers</title>
+<link>http://digg.com/linux_unix/Intel_Open_Sources_Graphics_Drivers</link>
+<description>Intel's Keith Packard announced earlier today that Intel was open sourcing graphics drivers for their new 965 Express Chipset family graphics controllers.The new drivers, available from the Linux Graphics Drivers from Intel website, are licensed under the GPL for Linux kernel drivers, and MIT license for XOrg 2D &#38; 3D rendering subsystems.</description>
+<pubDate>Thu, 10 Aug 2006 14:21:53 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Intel_Open_Sources_Graphics_Drivers</guid>
+<digg:diggCount>102</digg:diggCount>
+<digg:submitter><digg:username>linnerd40</digg:username><digg:userimage>http://digg.com/userimages/linnerd40/medium9342.jpg</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>14</digg:commentCount>
+</item>
+<item>
+<title>Ford eventually will do away with fuel filler caps</title>
+<link>http://digg.com/hardware/Ford_eventually_will_do_away_with_fuel_filler_caps</link>
+<description>The gas cap, long left sitting on trunk lids or dangling from cars as they leave gas stations, will become a thing of the past on many Ford Motor Co. models in the coming years.</description>
+<pubDate>Thu, 10 Aug 2006 14:10:02 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/hardware/Ford_eventually_will_do_away_with_fuel_filler_caps</guid>
+<digg:diggCount>913</digg:diggCount>
+<digg:submitter><digg:username>giantAppleCore</digg:username><digg:userimage>http://digg.com/userimages/g/i/a/giantapplecore/medium6408.jpg</digg:userimage></digg:submitter>
+<digg:category>Hardware</digg:category>
+<digg:commentCount>171</digg:commentCount>
+</item>
+<item>
+<title>Get A Free T-shirt from Google</title>
+<link>http://digg.com/tech_deals/Get_A_Free_T_shirt_from_Google</link>
+<description>People always ask, what makes Google tick? There are two key elements: our ongoing commitment to building great technology that empowers people like you -- and of course our passion for free T-shirts. </description>
+<pubDate>Thu, 10 Aug 2006 13:54:04 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_deals/Get_A_Free_T_shirt_from_Google</guid>
+<digg:diggCount>749</digg:diggCount>
+<digg:submitter><digg:username>bluesaze</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Tech Deals</digg:category>
+<digg:commentCount>110</digg:commentCount>
+</item>
+<item>
+<title>Interview with Chris Forsythe of Adium and Growl</title>
+<link>http://digg.com/apple/Interview_with_Chris_Forsythe_of_Adium_and_Growl</link>
+<description>OSNews features a very interesting interview with Christopher Forsythe, the developer behind the Growl notification system and project manager of Adium, the multi-protocol chat application for Mac OS X.</description>
+<pubDate>Thu, 10 Aug 2006 13:49:22 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/Interview_with_Chris_Forsythe_of_Adium_and_Growl</guid>
+<digg:diggCount>301</digg:diggCount>
+<digg:submitter><digg:username>Eugenia</digg:username><digg:userimage>http://digg.com/userimages/eugenia/medium.png</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>18</digg:commentCount>
+</item>
+<item>
+<title>Mac OS X Leopard Developer Features Leaked</title>
+<link>http://digg.com/apple/Mac_OS_X_Leopard_Developer_Features_Leaked</link>
+<description>The build released to developers includes a huge number of ground-breaking changes to the underlying technology in Mac OS X and the APIs exposed to developers.</description>
+<pubDate>Thu, 10 Aug 2006 13:30:02 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/Mac_OS_X_Leopard_Developer_Features_Leaked</guid>
+<digg:diggCount>86</digg:diggCount>
+<digg:submitter><digg:username>ndm007</digg:username><digg:userimage>http://digg.com/userimages/ndm007/medium.gif</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>4</digg:commentCount>
+</item>
+<item>
+<title>CT Scan of Apple Design Award</title>
+<link>http://digg.com/apple/CT_Scan_of_Apple_Design_Award</link>
+<description>The winners of the Apple Design Award for "Best Student Mac OS X Project" took their award to a CT scanner to see how it works. The award lights up whenever you touch it.</description>
+<pubDate>Thu, 10 Aug 2006 13:12:11 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/CT_Scan_of_Apple_Design_Award</guid>
+<digg:diggCount>582</digg:diggCount>
+<digg:submitter><digg:username>RadiantBeing</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>42</digg:commentCount>
+</item>
+<item>
+<title>Superb high resolution wallpapers (up to 2560x1600)</title>
+<link>http://digg.com/design/Superb_high_resolution_wallpapers_up_to_2560x1600</link>
+<description>An excellent source for free backgrounds, sorted by user rating. The images are available in all common resolutions, from 2560x1600 down to 1024x768, and are very diversely themed.</description>
+<pubDate>Thu, 10 Aug 2006 12:30:03 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/design/Superb_high_resolution_wallpapers_up_to_2560x1600</guid>
+<digg:diggCount>3384</digg:diggCount>
+<digg:submitter><digg:username>dmr0240</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Design</digg:category>
+<digg:commentCount>80</digg:commentCount>
+</item>
+<item>
+<title>Wi-Fi for the masses</title>
+<link>http://digg.com/hardware/Wi_Fi_for_the_masses</link>
+<description>- It looks like a large Styrofoam takeout container. The 14-pound box would fit into a backpack were it not for the two antennas, set well apart. It can withstand subfreezing temperatures and 165-mph winds; it's even lightningproof. With the lid bolted down tightly, the box offers no clue as to what's inside.</description>
+<pubDate>Thu, 10 Aug 2006 12:29:33 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/hardware/Wi_Fi_for_the_masses</guid>
+<digg:diggCount>624</digg:diggCount>
+<digg:submitter><digg:username>balognytts</digg:username><digg:userimage>http://digg.com/userimages/b/a/l/balognytts/medium6538.jpg</digg:userimage></digg:submitter>
+<digg:category>Hardware</digg:category>
+<digg:commentCount>26</digg:commentCount>
+</item>
+<item>
+<title>Intel aims for open-source graphics advantage</title>
+<link>http://digg.com/tech_news/Intel_aims_for_open_source_graphics_advantage</link>
+<description>Intel on Wednesday released open-source software intended to give Linux full-fledged 3D graphics support and to give the chipmaker an advantage over rivals ATI Technologies and Nvidia.</description>
+<pubDate>Thu, 10 Aug 2006 12:28:09 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Intel_aims_for_open_source_graphics_advantage</guid>
+<digg:diggCount>534</digg:diggCount>
+<digg:submitter><digg:username>sickaltima</digg:username><digg:userimage>http://digg.com/userimages/sickaltima/medium1406.jpg</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>40</digg:commentCount>
+</item>
+<item>
+<title>Real-Time Airport Plane Visualization - Gizmodo</title>
+<link>http://digg.com/gadgets/Real_Time_Airport_Plane_Visualization_Gizmodo</link>
+<description>Just go to the site, pick an airport, and see a real-time display on planes flying in and out of your local hub. So far only major airports like Boston Logan International, LaGuardia, LAX, and my local San Jose International airport have plane tracking up. Pretty sweet app nonetheless.
+Link: http://www.java.com/en/everywhere/airportmonitor.jsp</description>
+<pubDate>Thu, 10 Aug 2006 08:44:49 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/gadgets/Real_Time_Airport_Plane_Visualization_Gizmodo</guid>
+<digg:diggCount>849</digg:diggCount>
+<digg:submitter><digg:username>balognytts</digg:username><digg:userimage>http://digg.com/userimages/b/a/l/balognytts/medium6538.jpg</digg:userimage></digg:submitter>
+<digg:category>Gadgets</digg:category>
+<digg:commentCount>48</digg:commentCount>
+</item>
+<item>
+<title>Hydrogen Micro-Economics</title>
+<link>http://digg.com/gadgets/Hydrogen_Micro_Economics</link>
+<description>The H-racer ($40), a new toy car from a Horizon Fuel Cell Technologies, is a fascinating look into the potential hydrogen economy&#08212;although a sad excuse for a toy. The H-racer is pretty much pointless without it&#08217;s Hydrogen Station accessory ($40), which extracts hydrogen from water using electrolysis.</description>
+<pubDate>Thu, 10 Aug 2006 08:42:10 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/gadgets/Hydrogen_Micro_Economics</guid>
+<digg:diggCount>274</digg:diggCount>
+<digg:submitter><digg:username>Ether3al</digg:username><digg:userimage>http://digg.com/userimages/ether3al/medium.png</digg:userimage></digg:submitter>
+<digg:category>Gadgets</digg:category>
+<digg:commentCount>41</digg:commentCount>
+</item>
+<item>
+<title>GP2X: It's all fun and games</title>
+<link>http://digg.com/linux_unix/GP2X_It_s_all_fun_and_games</link>
+<description>The GP2X is an open, Linux-based handheld games console manufactured by Game Park Holdings of South Korea. It has a typical handheld control layout, a good quality backlit screen, built-in stereo speakers, headphone socket, and several connectivity and expansion options.</description>
+<pubDate>Thu, 10 Aug 2006 08:35:42 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/GP2X_It_s_all_fun_and_games</guid>
+<digg:diggCount>479</digg:diggCount>
+<digg:submitter><digg:username>Alexius</digg:username><digg:userimage>http://digg.com/userimages/alexius/medium1468.jpg</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>59</digg:commentCount>
+</item>
+<item>
+<title>Make a Wireless LCD in 5 minutes!</title>
+<link>http://digg.com/mods/Make_a_Wireless_LCD_in_5_minutes</link>
+<description>"I decided to relocate my graphic LCD to another person's desk but still
+have control over it.  To do this, I figured I could simply use the
+ACODE-300 wireless bluetooth modules."</description>
+<pubDate>Thu, 10 Aug 2006 08:33:27 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/mods/Make_a_Wireless_LCD_in_5_minutes</guid>
+<digg:diggCount>797</digg:diggCount>
+<digg:submitter><digg:username>bonlebon</digg:username><digg:userimage>http://digg.com/userimages/bonlebon/medium.jpg</digg:userimage></digg:submitter>
+<digg:category>Mods</digg:category>
+<digg:commentCount>38</digg:commentCount>
+</item>
+<item>
+<title>Google: We Won't Pull An AOL</title>
+<link>http://digg.com/tech_news/Google_We_Won_t_Pull_An_AOL</link>
+<description>CEO Eric Schmidt says the Net giant's top priority for its search engine is user trust.</description>
+<pubDate>Thu, 10 Aug 2006 08:10:52 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Google_We_Won_t_Pull_An_AOL</guid>
+<digg:diggCount>796</digg:diggCount>
+<digg:submitter><digg:username>curtissthompson</digg:username><digg:userimage>http://digg.com/userimages/curtissthompson/medium.gif</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>54</digg:commentCount>
+</item>
+<item>
+<title>Google: the Godfather of Open Source?</title>
+<link>http://digg.com/linux_unix/Google_the_Godfather_of_Open_Source</link>
+<description>It's well known that Google runs its vast array of servers using a custom version of GNU/Linux. But this is only one aspect of its support for free software. Others include its Summer of Code, now well established as an incubator of both coding talent and projects, and more recently its open source code repository.</description>
+<pubDate>Thu, 10 Aug 2006 07:45:49 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Google_the_Godfather_of_Open_Source</guid>
+<digg:diggCount>528</digg:diggCount>
+<digg:submitter><digg:username>jrepin</digg:username><digg:userimage>http://digg.com/userimages/jrepin/medium.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>39</digg:commentCount>
+</item>
+<item>
+<title>EU Domain Dream in Disarray</title>
+<link>http://digg.com/tech_news/EU_Domain_Dream_in_Disarray_2</link>
+<description>Europe must reboot its fledgling domain name to avoid a system crash, critics say, after alleged missteps allowed cybersquatters to stockpile trademarks for auction. "It was badly handled from start to finish," said John McCormac, who runs an Irish domain monitoring service and whose blog tracks the .eu controversy.</description>
+<pubDate>Thu, 10 Aug 2006 07:42:21 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/EU_Domain_Dream_in_Disarray_2</guid>
+<digg:diggCount>240</digg:diggCount>
+<digg:submitter><digg:username>p9s50W5k4GUD2c6</digg:username><digg:userimage>http://digg.com/userimages/p9s50w5k4gud2c6/medium.gif</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>35</digg:commentCount>
+</item>
+<item>
+<title>Ubuntu On the Thinkpad T43p: Wow!</title>
+<link>http://digg.com/linux_unix/Ubuntu_On_the_Thinkpad_T43p_Wow</link>
+<description>I cannot overstate how important this is: Ubuntu is the first real "desktop" Linux I've ever seen. There's a lot of polish to it, most of the "right" things have been hidden from non-Linux geeks.</description>
+<pubDate>Thu, 10 Aug 2006 05:46:16 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Ubuntu_On_the_Thinkpad_T43p_Wow</guid>
+<digg:diggCount>231</digg:diggCount>
+<digg:submitter><digg:username>LUPLEO</digg:username><digg:userimage>http://digg.com/userimages/l/u/p/lupleo/medium9823.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>77</digg:commentCount>
+</item>
+<item>
+<title>AMD considering open sourcing ATI drivers</title>
+<link>http://digg.com/hardware/AMD_considering_open_sourcing_ATI_drivers</link>
+<description>It seems AMD might release open source drivers for their recently acquired ATI graphics cards. This could be a major turning point for Linux &#38; BSD users as in the past, Nvidia has always been the best with its closed source binary drivers. Nothing's definite yet though, and it's still unclear how many features would be available.</description>
+<pubDate>Thu, 10 Aug 2006 04:44:25 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/hardware/AMD_considering_open_sourcing_ATI_drivers</guid>
+<digg:diggCount>156</digg:diggCount>
+<digg:submitter><digg:username>zephyrxero</digg:username><digg:userimage>http://digg.com/userimages/zephyrxero/medium.png</digg:userimage></digg:submitter>
+<digg:category>Hardware</digg:category>
+<digg:commentCount>25</digg:commentCount>
+</item>
+<item>
+<title>Nikon D80 available now!!!</title>
+<link>http://digg.com/gadgets/Nikon_D80_available_now</link>
+<description>The Nikon D80's officially real. We've been waiting for this one for the last few weeks, but by now any real mystery about the device has surely gone up in smoke. </description>
+<pubDate>Thu, 10 Aug 2006 04:43:13 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/gadgets/Nikon_D80_available_now</guid>
+<digg:diggCount>775</digg:diggCount>
+<digg:submitter><digg:username>festriaqua</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Gadgets</digg:category>
+<digg:commentCount>80</digg:commentCount>
+</item>
+<item>
+<title>Bandwidth Monitoring Tools</title>
+<link>http://digg.com/linux_unix/Bandwidth_Monitoring_Tools</link>
+<description>I did a lot of research about bandwidth monitoring tools recently. Yesterday, I wrote about ibmonitor and bandwidthd in Bandwidth Monitoring blog. Today I just would like to share another great bandwidth monitoring tools.</description>
+<pubDate>Thu, 10 Aug 2006 04:42:29 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Bandwidth_Monitoring_Tools</guid>
+<digg:diggCount>980</digg:diggCount>
+<digg:submitter><digg:username>jlchannel</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>45</digg:commentCount>
+</item>
+<item>
+<title>Dell designed so poorly you can't plug in both usb ports</title>
+<link>http://digg.com/design/Dell_designed_so_poorly_you_can_t_plug_in_both_usb_ports</link>
+<description>This is a blog posting of a hell lattitude notebook so poorly designed that you cannot plug both usb ports in at the same time. This is one serious design flaw.</description>
+<pubDate>Thu, 10 Aug 2006 04:40:04 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/design/Dell_designed_so_poorly_you_can_t_plug_in_both_usb_ports</guid>
+<digg:diggCount>1034</digg:diggCount>
+<digg:submitter><digg:username>mikew101</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Design</digg:category>
+<digg:commentCount>129</digg:commentCount>
+</item>
+<item>
+<title>TV interview with Mark 'Ubuntu' Shuttleworth</title>
+<link>http://digg.com/linux_unix/TV_interview_with_Mark_Ubuntu_Shuttleworth</link>
+<description>A rare chance to see Mark Shuttleworth, the man behind Ubuntu, on television. </description>
+<pubDate>Thu, 10 Aug 2006 04:04:51 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/TV_interview_with_Mark_Ubuntu_Shuttleworth</guid>
+<digg:diggCount>607</digg:diggCount>
+<digg:submitter><digg:username>prestidigitator</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>61</digg:commentCount>
+</item>
+<item>
+<title>HOW-TO: Replace your car stereo with a Computer</title>
+<link>http://digg.com/hardware/HOW_TO_Replace_your_car_stereo_with_a_Computer</link>
+<description>This is a really cool guide, it's basically telling you how to replace your car stereo with a PC designed specifically for the car. It's got sleep mode, hibernate mode, a touch-screen LCD, Internet access, FM radio, 100GB of MP3 storage (upgradeable), and best of all there's no proprietary components so you could build it all yourself. Nice.</description>
+<pubDate>Thu, 10 Aug 2006 04:04:35 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/hardware/HOW_TO_Replace_your_car_stereo_with_a_Computer</guid>
+<digg:diggCount>2250</digg:diggCount>
+<digg:submitter><digg:username>Harpo</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Hardware</digg:category>
+<digg:commentCount>107</digg:commentCount>
+</item>
+<item>
+<title>Mac OS X Leopard: Who's the Copycat Now?</title>
+<link>http://digg.com/apple/Mac_OS_X_Leopard_Who_s_the_Copycat_Now</link>
+<description>Paul Thurott explains why he feels Apple has been grabbing a few of Windows features, and he also touches on a few other subjects, such as all the Windows bashing that Apple has been doing.
+
+"I'm not dim: Microsoft does copy Apple on a fairly regular basis. But seriously, Steve. Apple's just as bad."</description>
+<pubDate>Thu, 10 Aug 2006 03:50:01 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/Mac_OS_X_Leopard_Who_s_the_Copycat_Now</guid>
+<digg:diggCount>1177</digg:diggCount>
+<digg:submitter><digg:username>falcon1</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>361</digg:commentCount>
+</item>
+<item>
+<title>Yowser: The new Yahoo browser</title>
+<link>http://digg.com/tech_news/Yowser_The_new_Yahoo_browser</link>
+<description>In an interview with Guy Kawasaki, he discusses that if he was the CEO of Yahoo (and he once had the chance), what would he have done differently. Guy discusses the Internet browser Yowser that Yahoo should make as well as other things that Yahoo should do to set themselves apart from Google.</description>
+<pubDate>Thu, 10 Aug 2006 02:20:44 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Yowser_The_new_Yahoo_browser</guid>
+<digg:diggCount>582</digg:diggCount>
+<digg:submitter><digg:username>webtickle</digg:username><digg:userimage>http://digg.com/userimages/w/e/b/webtickle/medium3391.png</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>83</digg:commentCount>
+</item>
+<item>
+<title>Rescue files with a boot CD using another OS</title>
+<link>http://digg.com/tech_news/Rescue_files_with_a_boot_CD_using_another_OS</link>
+<description>"Boot sector corrupt. Config.sys missing. Disk cannot be read." In other words, "You're screwed." Or are you? Just because your computer can't boot up Windows from your hard drive doesn't mean you can't boot it up with another operating system on another disk just long enough to rescue your important files. </description>
+<pubDate>Thu, 10 Aug 2006 02:20:17 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/tech_news/Rescue_files_with_a_boot_CD_using_another_OS</guid>
+<digg:diggCount>708</digg:diggCount>
+<digg:submitter><digg:username>digitalgopher</digg:username><digg:userimage>http://digg.com/userimages/digitalgopher/medium1373.gif</digg:userimage></digg:submitter>
+<digg:category>Tech Industry News</digg:category>
+<digg:commentCount>55</digg:commentCount>
+</item>
+<item>
+<title>Age of Empires III Comes to Mac!</title>
+<link>http://digg.com/apple/Age_of_Empires_III_Comes_to_Mac</link>
+<description>"MacSoft today unveiled Age of Empires III for Mac, a Universal Binary version of the real-time strategy game. [...] The title is scheduled to ship in late September (pricing was unavailable)."</description>
+<pubDate>Thu, 10 Aug 2006 02:10:01 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/apple/Age_of_Empires_III_Comes_to_Mac</guid>
+<digg:diggCount>644</digg:diggCount>
+<digg:submitter><digg:username>Tiabin</digg:username><digg:userimage>http://digg.com/userimages/t/i/a/tiabin/medium9881.jpg</digg:userimage></digg:submitter>
+<digg:category>Apple</digg:category>
+<digg:commentCount>96</digg:commentCount>
+</item>
+<item>
+<title>Intel releases open source i965 drivers</title>
+<link>http://digg.com/linux_unix/Intel_releases_open_source_i965_drivers</link>
+<description>Intel engineers announced open source i965 drivers supporting a fully programmable GL pipeline. The drivers are available via git as well as the "Linux Graphics Drivers from Intel" website, with different components licensed under either the MIT or GPL open source licenses.</description>
+<pubDate>Thu, 10 Aug 2006 01:40:02 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/Intel_releases_open_source_i965_drivers</guid>
+<digg:diggCount>764</digg:diggCount>
+<digg:submitter><digg:username>ChaseVenters</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>42</digg:commentCount>
+</item>
+<item>
+<title>Ford Mustang Shelby GT unveiled! </title>
+<link>http://digg.com/design/Ford_Mustang_Shelby_GT_unveiled</link>
+<description>Observe the 2007 Ford Mustang Shelby GT, the car that, until now, was only available as the Ford Mustang Shelby GT-H, the black and gold pony exclusively rented out at your local Hertz Rent-a-Car.</description>
+<pubDate>Thu, 10 Aug 2006 01:00:03 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/design/Ford_Mustang_Shelby_GT_unveiled</guid>
+<digg:diggCount>1274</digg:diggCount>
+<digg:submitter><digg:username>bdognurse</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Design</digg:category>
+<digg:commentCount>157</digg:commentCount>
+</item>
+<item>
+<title>AMD To Open-Source ATI Drivers?</title>
+<link>http://digg.com/linux_unix/AMD_To_Open-Source_ATI_Drivers_</link>
+<description>AMD is strongly considering open-sourcing at least a functional subset of ATI&#08217;s graphics drivers.
+Follow the link for more information...</description>
+<pubDate>Thu, 10 Aug 2006 00:41:12 GMT</pubDate>
+<guid isPermaLink="true">http://digg.com/linux_unix/AMD_To_Open-Source_ATI_Drivers_</guid>
+<digg:diggCount>1383</digg:diggCount>
+<digg:submitter><digg:username>Zaxx</digg:username><digg:userimage>http://digg.com/img/user-medium/user-default.png</digg:userimage></digg:submitter>
+<digg:category>Linux/Unix</digg:category>
+<digg:commentCount>72</digg:commentCount>
+</item>
+</channel>
+</rss>

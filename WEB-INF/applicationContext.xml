@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+			http://www.springframework.org/schema/jee
+			http://www.springframework.org/schema/jee/spring-jee-2.0.xsd
+			http://www.springframework.org/schema/tx
+			http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+	<!-- Enforce @Required annotations -->
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	
+	<!-- Message source -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="ApplicationResources" />
+	</bean>	
+	
+	<!-- JNDI resources -->
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/randomcoder" />
+	<jee:jndi-lookup id="loginEncryptionKey" jndi-name="java:comp/env/loginEncryptionKey" />
+
+	<!-- Hibernate session factory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>                 
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
+				<prop key="hibernate.jdbc.fetch_size">100</prop>
+				<prop key="hibernate.jdbc.batch_size">10</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</prop>
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>com.randomcoder.bean.User</value>
+				<value>com.randomcoder.bean.Role</value>
+				<value>com.randomcoder.bean.Article</value>
+				<value>com.randomcoder.bean.Tag</value>
+			</list>
+		</property>
+		<property name="entityCacheStrategies">
+			<props>
+				<prop key="com.randomcoder.bean.User">read-write</prop>
+				<prop key="com.randomcoder.bean.Role">read-only</prop>
+				<prop key="com.randomcoder.bean.Article">read-write</prop>
+				<prop key="com.randomcoder.bean.Tag">read-write</prop>
+			</props>
+		</property>
+		<property name="collectionCacheStrategies">
+			<props>
+				<prop key="com.randomcoder.bean.User.roles">read-write</prop>
+				<prop key="com.randomcoder.bean.Article.tags">read-write</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- Transaction manager -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>	
+	
+	<!-- Declarative Transactions via Annotations -->
+	<tx:annotation-driven />
+	
+	<!-- Content filters -->
+	<bean id="contentFilter" class="com.randomcoder.content.MultiContentFilter">
+		<property name="filters">
+			<map>
+				<entry key="text/plain" value-ref="textFilter" />
+				<entry key="application/xhtml+xml" value-ref="xhtmlFilter" />
+			</map>
+		</property>
+		<property name="defaultHandler" ref="textFilter" />
+	</bean>
+	
+	<bean id="textFilter" class="com.randomcoder.content.TextFilter" />
+	<bean id="xhtmlFilter" class="com.randomcoder.content.XHTMLFilter">
+		<property name="allowedClasses">
+			<set>
+				<value>lang-xml</value>
+				<value>lang-js</value>
+				<value>lang-css</value>
+				<value>external</value>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- Security -->
+	<bean id="userSecurityRealm" class="com.randomcoder.security.UserSecurityRealm">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	
+	<bean id="j2eeSecurityPolicy" class="com.randomcoder.citadel.policy.j2ee.J2EESecurityPolicy">
+		<property name="configLocation" value="/WEB-INF/j2ee-security.xml" />
+	</bean>
+
+	<bean id="persistentLoginStore" class="com.randomcoder.citadel.persist.PersistentLoginStore">
+		<property name="cookieName" value="JPERSISTENCE" />
+		<property name="cookieLifetime" value="86400" />
+		<property name="encryptionKey" ref="loginEncryptionKey" />
+		<property name="useIpAddress" value="true" />
+	</bean>
+	
+	<bean id="formAuthenticator" class="com.randomcoder.citadel.auth.FormAuthenticator">
+		<property name="passwordSecurityRealm" ref="userSecurityRealm" />
+		<property name="loginUrl" value="/j_security_check" />
+		<property name="loginPage" value="/login" />
+		<property name="errorPage" value="/login-error" />
+		<property name="logoutUrl" value="/logout" />
+		<property name="defaultPage" value="/" />
+		<property name="logoutPage" value="/" />
+		<property name="usernameParameter" value="j_username" />
+		<property name="passwordParameter" value="j_password" />
+		<property name="loginStore" ref="persistentLoginStore" />
+		<property name="persistParameter" value="j_persist" />
+		<property name="alwaysPersist" value="no" />
+	</bean>
+
+	<!--
+	<bean id="basicAuthenticator" class="com.randomcoder.citadel.auth.BasicAuthenticator">
+		<property name="passwordSecurityRealm" ref="userSecurityRealm" />
+		<property name="realmName" value="Test Realm" />
+	</bean>
+	-->
+	
+	<bean id="citadelFilter" class="com.randomcoder.citadel.filter.CitadelFilter">
+		<property name="securityPolicy" ref="j2eeSecurityPolicy" />
+		<property name="authenticator" ref="formAuthenticator" />
+		<property name="httpsPort" value="8443" />
+	</bean>
+	
+	<!-- Dao introduction adviser -->
+	<bean id="finderIntroductionInterceptor" class="com.randomcoder.dao.finder.FinderIntroductionInterceptor" />
+
+	<!-- Generic DAO target -->
+	<bean id="abstractDaoTarget" class="com.randomcoder.dao.hibernate.HibernateDao" abstract="true">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- Generic DAO proxy -->
+	<bean id="abstractDao" class="org.springframework.aop.framework.ProxyFactoryBean" abstract="true">
+		<property name="interceptorNames">
+			<list>
+				<value>finderIntroductionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Concrete DAO objects -->
+	<bean id="userDao" parent="abstractDao">
+		<property name="proxyInterfaces" value="com.randomcoder.dao.UserDao" />
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg value="com.randomcoder.bean.User" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="roleDao" parent="abstractDao">
+		<property name="proxyInterfaces" value="com.randomcoder.dao.RoleDao" />
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg value="com.randomcoder.bean.Role" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="articleDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.dao.ArticleDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.bean.Article" />
+	        </bean>
+    	</property>
+	</bean>
+
+	<bean id="tagDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.dao.TagDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.bean.Tag" />
+	        </bean>
+    	</property>
+	</bean>
+	
+	<!-- Business objects -->
+	<bean id="articleBusiness" class="com.randomcoder.article.ArticleBusinessImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="roleDao" ref="roleDao" />
+		<property name="articleDao" ref="articleDao" />
+		<property name="tagDao" ref="tagDao" />
+	</bean>
+	
+</beans>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+		xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="default" class="org.springframework.web.servlet.view.RedirectView">
+		<property name="contextRelative" value="true" />
+		<property name="url" value="/" />
+	</bean>
+	
+	<!-- Default view for simple pages -->
+	<bean id="main-layout" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="templateName" value="template" />
+		<property name="url" value="/WEB-INF/jsp/layout/main.jsp" />
+		<property name="attributes">
+			<map>
+				<entry key="header" value="/WEB-INF/jsp/header/default.jsp" />
+				<entry key="footer" value="/WEB-INF/jsp/footer/default.jsp" />
+				<entry key="left">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/navigation.jsp</value>
+					</list>
+				</entry>
+				<entry key="right">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- View for entry pages (no right section) -->
+	<bean id="entry-layout" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="url" value="/WEB-INF/jsp/layout/entry.jsp" />
+		<property name="attributes">
+			<map>
+				<entry key="right"><null /></entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Login page -->
+	<bean id="login" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="entry-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Login" />	
+				<entry key="javascript" value="login.js" />
+				<entry key="error">
+					<bean class="java.lang.Boolean"><constructor-arg value="false" /></bean>
+				</entry>
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/login.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Login error page -->
+	<bean id="login-error" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="login" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Login error" />	
+				<entry key="error">
+					<bean class="java.lang.Boolean"><constructor-arg value="true" /></bean>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- Home page -->
+	<bean id="home" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Home" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/article-list.jsp</value>
+						<value>/WEB-INF/jsp/content/article-pager.jsp</value>
+					</list>
+				</entry>
+				<entry key="right">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/calendar.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="article-tag-list" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="home" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Tags" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="article-view" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="home" />
+		<property name="attributes">
+			<map>
+				<entry key="title"><null /></entry>
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/article-list.jsp</value>
+					</list>
+				</entry>
+				<entry key="right">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="article-add" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="entry-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Add article" />
+				<entry key="formMode" value="add" />
+				<entry key="formAction" value="/article/add" />
+				<entry key="javascript" value="article-edit.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/article-edit.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="article-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="article-add" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Edit article" />
+				<entry key="formMode" value="edit" />
+				<entry key="formAction" value="/article/edit" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="test-form" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="entry-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Test form" />
+				<entry key="javascript" value="test-form.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/test-form.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="legal-about" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="About this site" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/legal-about.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="legal-license" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="License" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/legal-license.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+</beans>

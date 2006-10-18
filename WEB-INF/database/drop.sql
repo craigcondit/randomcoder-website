@@ -1,0 +1,10 @@
+DROP TABLE article_tag_link;
+DROP TABLE tags;
+DROP SEQUENCE tags_seq;
+DROP TABLE articles;
+DROP SEQUENCE articles_seq;
+DROP TABLE user_role_link;
+DROP TABLE roles;
+DROP SEQUENCE roles_seq;
+DROP TABLE users;
+DROP SEQUENCE users_seq;

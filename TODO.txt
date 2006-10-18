@@ -1,0 +1,40 @@
+TODO
+====
+
+* Tag management interface
+	- add
+	- edit
+	- delete
+	- rename
+	- merge
+	
+* User management
+	- add
+	- edit
+	- delete
+	- signup
+	- change password
+	- reset password
+	- profile page (settings, bio, etc.)
+	- alternate logins
+	  > OpenID
+	  > LID
+	  > Yaird
+	  > CardSpace
+	- acegi (aka spring security)?
+	
+* User comments
+	- flat
+	- nested
+	- anonymous vs. logged-in
+	- tagsoup parser
+	- other commenting formats
+	
+* Feed generation
+	- all
+	- by tag
+	- RSS 2.0
+	- Atom 3.0
+	
+* Code highlighting (based on class)
+
