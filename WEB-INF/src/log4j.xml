@@ -8,6 +8,10 @@
 			<param name="ConversionPattern" value="%d{d-MMM HH:mm:ss} - %-5.5p - %c - %m%n" />
 		</layout>
 	</appender>
+	
+	<logger name="com.randomcoder">
+		<level value="info" />
+	</logger>
 
 	<logger name="com.randomcoder.dao.hibernate">
 		<level value="warn" />
@@ -30,7 +34,7 @@
 	</logger>
 	
 	<logger name="org.hibernate.SQL">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework">
