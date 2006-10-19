@@ -99,7 +99,7 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 			
 			String name = normalizeTagName(tagName);
 			
-			if (!names.contains(name))
+			if (name != null && !names.contains(name))
 			{
 				// find tag in db
 				Tag tag = tagDao.findByName(name);

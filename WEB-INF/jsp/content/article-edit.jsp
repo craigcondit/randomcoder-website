@@ -126,7 +126,7 @@
 							Enter the content for this article.
 						</span>
 					</label>
- 					<input:textarea name="content" styleId="contentArea" cols="80" rows="10" value="${status.value}" />
+ 					<input:textarea name="content" styleId="contentArea" cols="80" rows="20" value="${status.value}" />
 				</div>
 			</div>
   	</spring:bind>

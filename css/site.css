@@ -519,5 +519,23 @@ BLOCKQUOTE
 	margin: 0.5em 2em;
 	color: #000;
 	background-color: #e8e8e8;
-	overflow-x: auto;
+}
+
+.validation
+{
+	margin-bottom: 10px;
+}
+
+.validation A,
+.validation A:hover,
+.validation A:active, 
+.validation A:link,
+.validation A:visited
+{
+	text-decoration: none;	
+}
+
+.validation IMG
+{
+	border: 0;
 }
