@@ -29,29 +29,32 @@
 	<div class="sectionHeading">
 		<c:out value="${articleDecorator.article.title}" />
 	</div>
+	<div class="sectionSubHeading">
+		Posted
+		<c:if test="${articleAuthor != null}">
+			by <strong><c:out value="${articleAuthor}" /></strong>
+		</c:if>
+		on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.creationDate}" />
+		@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.creationDate}" />
+		<c:if test="${articleDecorator.article.modificationDate != null}">
+			:: Updated
+			<c:if test="${articleDecorator.article.modifiedByUser != null}">
+				by <strong><c:out value="${articleDecorator.article.modifiedByUser.userName}" /></strong>
+			</c:if>
+			on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.modificationDate}" />
+			@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.modificationDate}" /></c:if>
+	</div>
+	<c:if test="${fn:length(articleDecorator.article.tags) > 0}">
+		<div class="sectionSubHeading">
+		  Tags
+		  <c:forEach var="tag" items="${articleDecorator.article.tags}" varStatus="tagStat">
+		    <c:url var="tagLink" value="/tags/${rcesc:urlencode(tag.name)}" />
+		    :: <a href="${tagLink}"><c:out value="${tag.displayName}" /></a></c:forEach><br />
+		</div>
+	</c:if>
 	<div class="sectionContent">
 	  ${articleDecorator.formattedText}
 		<div class="sectionFooter">
-			posted
-			<c:if test="${articleAuthor != null}">
-				by <c:out value="${articleAuthor}" />
-			</c:if>
-			on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.creationDate}" />
-			@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.creationDate}" /><br />
-			<c:if test="${articleDecorator.article.modificationDate != null}">
-				last updated
-				<c:if test="${articleDecorator.article.modifiedByUser != null}">
-					by <c:out value="${articleDecorator.article.modifiedByUser.userName}" />
-				</c:if>
-				on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.modificationDate}" />
-				@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.modificationDate}" /><br />
-			</c:if>
-			<c:if test="${fn:length(articleDecorator.article.tags) > 0}">
-			  filed under
-			  <c:forEach var="tag" items="${articleDecorator.article.tags}" varStatus="tagStat">
-			    <c:url var="tagLink" value="/tags/${rcesc:urlencode(tag.name)}" />
-			    :: <a href="${tagLink}"><c:out value="${tag.displayName}" /></a></c:forEach><br />
-			</c:if>
 			<c:choose>
 				<c:when test="${not empty articleDecorator.article.permalink}">
 					<c:url var="permUrl" value="/articles/${rcesc:urlencode(articleDecorator.article.permalink)}" />
@@ -60,11 +63,11 @@
 					<c:url var="permUrl" value="/articles/id/${articleDecorator.article.id}" />
 				</c:otherwise>
 			</c:choose>
-			<a href="${permUrl}">permalink</a>
+			<a class="permalink" href="${permUrl}">Permalink</a>
 		  <sec:loggedIn>		  	
 			  <c:if test="${articleAdmin || (articlePost && userName == articleAuthor)}">
-					:: <a href="${editLink}">edit</a>
-				  :: <a href="${deleteLink}">delete</a>
+					:: <a class="edit" href="${editLink}">Edit</a>
+				  :: <a class="delete" href="${deleteLink}">Delete</a>
 				</c:if>
 			</sec:loggedIn>
 		</div>	  

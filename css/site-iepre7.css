@@ -2,3 +2,32 @@
 	background-image: url(../images/randomcoder-logo-grid20.png);
 	background-repeat: no-repeat;
 }
+
+DIV.error SPAN.error
+{
+	background-repeat: no-repeat;
+	background-image: url(../images/silk/exclamation.gif);
+}
+
+DIV.globalError
+{
+	background-repeat: no-repeat;
+	background-position: 0.5em 0.25em;
+	background-image: url(../images/silk/exclamation.gif);
+}
+
+A.external {
+	background: url(../images/silk/bullet_go.gif) right no-repeat;	
+}
+
+A.permalink {
+	background: url(../images/silk/bullet_key.gif) right no-repeat;				
+}
+
+A.edit {
+	background: url(../images/silk/bullet_wrench.gif) right no-repeat;
+}
+
+A.delete {
+	background: url(../images/silk/bullet_delete.gif) right no-repeat;
+}
