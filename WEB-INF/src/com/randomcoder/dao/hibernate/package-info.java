@@ -1,5 +1,5 @@
 /**
- * Hibernate-specifid DAO classes.
+ * Hibernate-specific DAO classes.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.

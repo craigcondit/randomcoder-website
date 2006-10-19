@@ -16,14 +16,14 @@ import java.io.Serializable;
 public interface GenericDao<T, PK extends Serializable>
 {
 	/**
-	 * Create a new instance of <T>
+	 * Create a new instance of &lt;T&gt;
 	 * @param newInstance new class instance to save
 	 * @return primary key
 	 */
 	public PK create(T newInstance);
 
 	/**
-	 * Load an instance of <T> by primary key
+	 * Load an instance of &lt;T&gt; by primary key
 	 * @param id primary key
 	 * @return object instance
 	 */
