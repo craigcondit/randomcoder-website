@@ -21,13 +21,13 @@ A.external {
 }
 
 A.permalink {
-	background: url(../images/silk/bullet_key.gif) right no-repeat;				
+	background: url(../images/silk/bullet_key.gif) left no-repeat;				
 }
 
 A.edit {
-	background: url(../images/silk/bullet_wrench.gif) right no-repeat;
+	background: url(../images/silk/bullet_wrench.gif) left no-repeat;
 }
 
 A.delete {
-	background: url(../images/silk/bullet_delete.gif) right no-repeat;
+	background: url(../images/silk/bullet_delete.gif) left no-repeat;
 }

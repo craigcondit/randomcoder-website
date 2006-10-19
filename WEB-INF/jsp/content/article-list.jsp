@@ -52,24 +52,24 @@
 		    :: <a href="${tagLink}"><c:out value="${tag.displayName}" /></a></c:forEach><br />
 		</div>
 	</c:if>
+	<div class="sectionSubHeading">
+		<c:choose>
+			<c:when test="${not empty articleDecorator.article.permalink}">
+				<c:url var="permUrl" value="/articles/${rcesc:urlencode(articleDecorator.article.permalink)}" />
+			</c:when>
+			<c:otherwise>
+				<c:url var="permUrl" value="/articles/id/${articleDecorator.article.id}" />
+			</c:otherwise>
+		</c:choose>
+		<a class="permalink" href="${permUrl}">Permalink</a>
+	  <sec:loggedIn>		  	
+		  <c:if test="${articleAdmin || (articlePost && userName == articleAuthor)}">
+				:: <a class="edit" href="${editLink}">Edit</a>
+			  :: <a class="delete" href="${deleteLink}">Delete</a>
+			</c:if>
+		</sec:loggedIn>
+	</div>
 	<div class="sectionContent">
-	  ${articleDecorator.formattedText}
-		<div class="sectionFooter">
-			<c:choose>
-				<c:when test="${not empty articleDecorator.article.permalink}">
-					<c:url var="permUrl" value="/articles/${rcesc:urlencode(articleDecorator.article.permalink)}" />
-				</c:when>
-				<c:otherwise>
-					<c:url var="permUrl" value="/articles/id/${articleDecorator.article.id}" />
-				</c:otherwise>
-			</c:choose>
-			<a class="permalink" href="${permUrl}">Permalink</a>
-		  <sec:loggedIn>		  	
-			  <c:if test="${articleAdmin || (articlePost && userName == articleAuthor)}">
-					:: <a class="edit" href="${editLink}">Edit</a>
-				  :: <a class="delete" href="${deleteLink}">Delete</a>
-				</c:if>
-			</sec:loggedIn>
-		</div>	  
+	  ${articleDecorator.formattedText}			  
 	</div>
 </c:forEach>

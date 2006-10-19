@@ -5,21 +5,27 @@
 	<div class="sectionHeading">Login</div>
 	<div class="sectionContent" align="right">
 		<form action="${loginUrl}" method="post">
-			<div style="margin-bottom: 1em">
-				<label class="required" for="username">User name</label><br />
-				<input type="text" style="text-align: right" name="j_username" id="username" class="formText" value="" />
+			<div class="fields required">
+				<div>
+					<label for="j_username">User name</label>
+					<input type="text" class="text" name="j_username" id="j_username" value="" />
+				</div>
 			</div>
-			<div style="margin-bottom: 1em">
-				<label class="required" for="password">Password</label><br />
-				<input type="password" style="text-align: right" name="j_password" id="password" class="formPassword" value="" />
+			<div class="fields required">
+				<div>
+					<label for="j_password">Password</label>
+					<input type="password" class="password" name="j_password" id="j_password" value="" />
+				</div>
 			</div>
-			<div style="margin-bottom: 1em">
-				<label class="optional" for="persist">
-					<input type="checkbox" name="j_persist" id="persist" class="formCheckbox" value="true" />
-					Remember me
-				</label>
+			<div class="fields">
+				<div class="checkbox">
+					<input type="checkbox" class="checkbox" name="j_persist" id="j_persist" value="true" />
+					<label for="j_persist">Remember me</label>
+				</div>
 			</div>
-			<input type="submit" class="formSubmit" value="Login &#187;" />
+			<div class="buttons">
+				<input type="submit" class="submit" value="Login &#187;" />
+			</div>
 		</form>
 	</div>
 </sec:notLoggedIn>
