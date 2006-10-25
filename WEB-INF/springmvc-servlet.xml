@@ -120,6 +120,12 @@
 		<property name="userDao" ref="userDao" />
 	</bean>
 		
+	<bean id="userDeleteController" class="com.randomcoder.user.UserDeleteController">
+		<property name="viewName" value="user-list-redirect" />
+		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="userBusiness" ref="userBusiness" />
+	</bean>
+		
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="mappings">
@@ -137,6 +143,7 @@
 				<prop key="/legal/about">aboutController</prop>
 				<prop key="/legal/license">licenseController</prop>
 				<prop key="/user">userListController</prop>
+				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/test/form">testFormController</prop>
 			</props>

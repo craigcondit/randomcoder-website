@@ -10,6 +10,11 @@
 		<property name="contextRelative" value="true" />
 		<property name="url" value="/" />
 	</bean>
+
+	<bean id="user-list-redirect" class="org.springframework.web.servlet.view.RedirectView">
+		<property name="contextRelative" value="true" />
+		<property name="url" value="/user" />
+	</bean>
 	
 	<!-- Default view for simple pages -->
 	<bean id="main-layout" class="com.randomcoder.springmvc.JstlTemplateView">

@@ -1,7 +1,5 @@
 package com.randomcoder.user;
 
-import com.randomcoder.bean.UserNotFoundException;
-
 /**
  * Business interface for user management.
  * 
@@ -36,7 +34,12 @@ public interface UserBusiness
 	 * Change a user's password.
 	 * @param userName user name
 	 * @param password new password
-	 * @throws UserNotFoundException if the user could not be found
 	 */
-	public void changePassword(String userName, String password) throws UserNotFoundException;
+	public void changePassword(String userName, String password);
+	
+	/**
+	 * Deletes a user.
+	 * @param userId user id to delete
+	 */
+	public void deleteUser(Long userId);
 }

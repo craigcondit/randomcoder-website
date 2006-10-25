@@ -1,13 +1,16 @@
 package com.randomcoder.user;
 
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
+import javax.servlet.http.*;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.UserDao;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractCommandController;
+
+import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Business implementation for user management.
+ * Controller class which handles user deletion.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -34,44 +37,42 @@ import com.randomcoder.dao.UserDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserBusinessImpl implements UserBusiness
+public class UserDeleteController extends AbstractCommandController
 {
-	private UserDao userDao;
-	
+	private UserBusiness userBusiness;
+	private String viewName;
+
 	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation
+	 * Sets the UserBusiness implementation to use.
+	 * @param userBusiness UserBusiness implementation
 	 */
 	@Required
-	public void setUserDao(UserDao userDao)
+	public void setUserBusiness(UserBusiness userBusiness)
 	{
-		this.userDao = userDao;
+		this.userBusiness = userBusiness;
 	}
 
-	@Transactional
-	public void changePassword(String userName, String password)
+	/**
+	 * Sets the name of the view to pass control to once processing is complete.
+	 * @param viewName view name
+	 */
+	@Required
+	public void setViewName(String viewName)
 	{
-		User user = userDao.findByUserName(userName);
+		this.viewName = viewName;
+	}
+
+	/**
+	 * Deletes the selected user.
+	 */
+	@Override
+	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	{
+		IdCommand cmd = (IdCommand) command;
 		
-		if (user == null)
-			throw new UserNotFoundException("Unknown user: " + userName);
+		userBusiness.deleteUser(cmd.getId());
 
-		user.setPassword(User.hashPassword(password));
-		
-		userDao.update(user);
+		return new ModelAndView(viewName);
 	}
 
-	@Transactional
-	public void deleteUser(Long userId)
-	{
-		User user = loadUser(userId);
-		userDao.delete(user);
-	}
-
-	private User loadUser(Long userId)
-	{
-		User user = userDao.read(userId);
-		if (user == null) throw new UserNotFoundException();
-		return user;
-	}
 }
