@@ -5,7 +5,6 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.randomcoder.bean.*;
@@ -76,18 +75,21 @@ public class UserSecurityRealm implements PasswordSecurityRealm
 		if (dbPassword == null)
 			return null;
 		dbPassword = dbPassword.toLowerCase(Locale.US);
-		String userPassword = DigestUtils.shaHex(password).toLowerCase(Locale.US);
+		String userPassword = User.hashPassword(password);
 
 		if (!userPassword.equals(dbPassword))
 			return null;
 
 		// get roles
 		Set<Role> origRoles = user.getRoles();
-		Set<String> roles = new HashSet<String>(origRoles.size());
+		Set<String> roles = new HashSet<String>(origRoles.size() + 1);
 		for (Role role : origRoles)
 		{
-			roles.add(role.getName());
+			roles.add(role.getName());			
 		}
+		
+		// always give logged-in role
+		roles.add("logged-in");
 
 		return new UserPrincipal(username, roles);
 	}

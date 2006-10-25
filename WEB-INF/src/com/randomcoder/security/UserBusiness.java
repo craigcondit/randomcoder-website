@@ -1,12 +1,9 @@
-package com.randomcoder.article;
+package com.randomcoder.security;
 
-import javax.servlet.http.*;
-
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
+import com.randomcoder.bean.UserNotFoundException;
 
 /**
- * Controller class which handles article updating.
+ * Business interface for user management.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,30 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleEditController extends AbstractArticleController
+public interface UserBusiness
 {
-	
 	/**
-	 * Pre-populates form on new request and checks permissions.
+	 * Change a user's password.
+	 * @param userName user name
+	 * @param password new password
+	 * @throws UserNotFoundException if the user could not be found
 	 */
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
-	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.loadArticleForEditing(cmd, cmd.getId(), request.getUserPrincipal().getName());
-	}
-
-	/**
-	 * Modifies the selected article on form submission.
-	 */
-	@Override
-	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
-	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.updateArticle(cmd, cmd.getId(), request.getUserPrincipal().getName());
-		
-		return new ModelAndView(getSuccessView());
-	}
+	public void changePassword(String userName, String password) throws UserNotFoundException;
 }

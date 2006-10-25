@@ -201,4 +201,8 @@
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 	
+	<bean id="userBusiness" class="com.randomcoder.security.UserBusinessImpl">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	
 </beans>

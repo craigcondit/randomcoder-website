@@ -15,5 +15,15 @@
 			<role-name>article-post</role-name>
 		</auth-constraint>		
 	</security-constraint>	
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Change password</web-resource-name>
+			<url-pattern>/user/change-password</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>logged-in</role-name>
+		</auth-constraint>		
+	</security-constraint>	
 	
 </j2ee-security-config>

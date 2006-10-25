@@ -1,12 +1,19 @@
-package com.randomcoder.article;
+package com.randomcoder.security;
+
+import java.security.Principal;
 
 import javax.servlet.http.*;
 
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+
+import com.randomcoder.bean.User;
+import com.randomcoder.dao.UserDao;
 
 /**
- * Controller class which handles article updating.
+ * Controller used to change a user's password.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,30 +40,60 @@ import org.springframework.web.servlet.ModelAndView;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleEditController extends AbstractArticleController
+public class ChangePasswordController extends SimpleFormController
 {
+	private UserDao userDao;
+	private UserBusiness userBusiness;
 	
 	/**
-	 * Pre-populates form on new request and checks permissions.
+	 * Sets the UserDao implementation to use.
+	 * @param userDao user dao
 	 */
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	@Required
+	public void setUserDao(UserDao userDao)
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.loadArticleForEditing(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		this.userDao = userDao;
+	}
+	
+	/**
+	 * Sets the UserBusiness implementation to use.
+	 * @param userBusiness UserBusiness implementation
+	 */
+	@Required
+	public void setUserBusiness(UserBusiness userBusiness)
+	{
+		this.userBusiness = userBusiness;
 	}
 
-	/**
-	 * Modifies the selected article on form submission.
-	 */
+	@Override
+	protected void onBind(HttpServletRequest request, Object command) throws Exception
+	{
+		super.onBind(request, command);
+		
+		ChangePasswordCommand form = (ChangePasswordCommand) command;
+		
+		// populate the form with the current user
+		
+		User user = null;
+		String username = null;
+		
+		Principal principal = request.getUserPrincipal();
+		if (principal != null) username = principal.getName();
+		if (username != null) user = userDao.findByUserNameEnabled(username);
+		
+		form.setUser(user);
+	}
+
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
+		ChangePasswordCommand cmd = (ChangePasswordCommand) command;
 		
-		articleBusiness.updateArticle(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		String userName = request.getUserPrincipal().getName();
+		
+		userBusiness.changePassword(userName, cmd.getPassword());
 		
 		return new ModelAndView(getSuccessView());
 	}
+
 }

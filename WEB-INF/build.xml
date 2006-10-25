@@ -87,7 +87,18 @@
 			<transaction src="database/create.sql" />
 		</sql>
 	</target>
-		
+
+	<target name="db-upgrade" description="Upgrade database tables" depends="db-init">
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.username}"
+			password="${database.password}">
+			<transaction src="database/upgrade-1.1.sql" />
+		</sql>
+	</target>
+
 	<target name="db-drop" description="Drop database tables" depends="db-init">
 		<sql
 			classpathref="database.classpath"
@@ -122,6 +133,6 @@
 		</sql>	
 	</target>
 	
-	<target name="db-dev" description="Rebuild development database" depends="db-drop,db-create,db-populate,db-test" />
+	<target name="db-dev" description="Rebuild development database" depends="db-drop,db-create,db-populate,db-upgrade,db-test" />
 
 </project>

@@ -132,6 +132,21 @@
 		</property>
 	</bean>
 	
+	<bean id="change-password" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="entry-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Change password" />
+				<entry key="javascript" value="change-password.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/change-password.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
 	<bean id="article-add" class="com.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="entry-layout" />
 		<property name="attributes">

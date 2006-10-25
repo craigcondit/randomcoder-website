@@ -2,10 +2,11 @@ package com.randomcoder.bean;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.*;
 
 /**
@@ -191,4 +192,15 @@ public class User implements Serializable
 			}
 		}).toString();
 	}
+	
+	/**
+	 * Hashes a password.
+	 * @param password password to hash
+	 * @return hashed password
+	 */
+	public static String hashPassword(String password)
+	{
+		return DigestUtils.shaHex(password).toLowerCase(Locale.US);
+	}
+	
 }
