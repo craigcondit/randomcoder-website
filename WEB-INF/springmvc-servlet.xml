@@ -100,17 +100,17 @@
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 	
-	<bean id="changePasswordController" class="com.randomcoder.security.ChangePasswordController">
+	<bean id="changePasswordController" class="com.randomcoder.user.ChangePasswordController">
 		<property name="formView" value="change-password" />
 		<property name="successView" value="default" />
 		<property name="bindOnNewForm" value="true" />
-		<property name="commandClass" value="com.randomcoder.security.ChangePasswordCommand" />
+		<property name="commandClass" value="com.randomcoder.user.ChangePasswordCommand" />
 		<property name="validator" ref="changePasswordValidator" />
 		<property name="userDao" ref="userDao" />
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 
-	<bean id="changePasswordValidator" class="com.randomcoder.security.ChangePasswordValidator">
+	<bean id="changePasswordValidator" class="com.randomcoder.user.ChangePasswordValidator">
 		<property name="minimumPasswordLength" value="5" />
 	</bean>
 	

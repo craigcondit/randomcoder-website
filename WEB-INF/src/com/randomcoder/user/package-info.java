@@ -1,9 +1,5 @@
-package com.randomcoder.security;
-
-import com.randomcoder.bean.UserNotFoundException;
-
 /**
- * Business interface for user management.
+ * User-management classes.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,15 +24,6 @@ import com.randomcoder.bean.UserNotFoundException;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * </pre> 
  */
-public interface UserBusiness
-{
-	/**
-	 * Change a user's password.
-	 * @param userName user name
-	 * @param password new password
-	 * @throws UserNotFoundException if the user could not be found
-	 */
-	public void changePassword(String userName, String password) throws UserNotFoundException;
-}
+package com.randomcoder.user;
