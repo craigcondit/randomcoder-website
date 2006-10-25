@@ -114,32 +114,39 @@
 		<property name="minimumPasswordLength" value="5" />
 	</bean>
 	
+	<bean id="userListController" class="com.randomcoder.user.UserListController">
+		<property name="commandClass" value="com.randomcoder.user.UserListCommand" />
+		<property name="viewName" value="user-list" />
+		<property name="userDao" ref="userDao" />
+	</bean>
+		
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
-        <property name="mappings">
-            <props>
-							<prop key="/home">homeController</prop>
-							<prop key="/login">loginController</prop>
-							<prop key="/login-error">loginErrorController</prop>
-							<prop key="/logout">logoutController</prop>
-							<prop key="/article/add">articleAddController</prop>
-							<prop key="/article/edit">articleEditController</prop>
-							<prop key="/article/delete">articleDeleteController</prop>
-							<prop key="/articles/id/*">articleIdController</prop>
-							<prop key="/articles/*">articlePermalinkController</prop>
-							<prop key="/tags/*">articleTagListController</prop>
-							<prop key="/legal/about">aboutController</prop>
-							<prop key="/legal/license">licenseController</prop>
-							<prop key="/user/change-password">changePasswordController</prop>
-							<prop key="/test/form">testFormController</prop>
-            </props>
-        </property>
-    </bean>
+		<property name="mappings">
+			<props>
+				<prop key="/home">homeController</prop>
+				<prop key="/login">loginController</prop>
+				<prop key="/login-error">loginErrorController</prop>
+				<prop key="/logout">logoutController</prop>
+				<prop key="/article/add">articleAddController</prop>
+				<prop key="/article/edit">articleEditController</prop>
+				<prop key="/article/delete">articleDeleteController</prop>
+				<prop key="/articles/id/*">articleIdController</prop>
+				<prop key="/articles/*">articlePermalinkController</prop>
+				<prop key="/tags/*">articleTagListController</prop>
+				<prop key="/legal/about">aboutController</prop>
+				<prop key="/legal/license">licenseController</prop>
+				<prop key="/user">userListController</prop>
+				<prop key="/user/change-password">changePasswordController</prop>
+				<prop key="/test/form">testFormController</prop>
+			</props>
+		</property>
+	</bean>
     
-    <bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-    	<property name="order" value="0" />
-    	<property name="location" value="/WEB-INF/views.xml" />
-    </bean>
+	<bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="order" value="0" />
+		<property name="location" value="/WEB-INF/views.xml" />
+	</bean>
 
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

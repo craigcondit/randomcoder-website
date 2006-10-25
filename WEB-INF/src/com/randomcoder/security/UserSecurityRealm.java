@@ -81,7 +81,7 @@ public class UserSecurityRealm implements PasswordSecurityRealm
 			return null;
 
 		// get roles
-		Set<Role> origRoles = user.getRoles();
+		List<Role> origRoles = user.getRoles();
 		Set<String> roles = new HashSet<String>(origRoles.size() + 1);
 		for (Role role : origRoles)
 		{

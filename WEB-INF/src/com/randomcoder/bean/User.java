@@ -40,6 +40,7 @@ import org.apache.commons.lang.builder.*;
 @NamedQueries
 ({
 	@NamedQuery(name = "User.All", query = "from User u order by u.userName"),
+	@NamedQuery(name = "User.CountAll", query = "select count(u.id) from User u"),
 	@NamedQuery(name = "User.Enabled", query = "from User u where u.enabled = true order by u.userName"),
 	@NamedQuery(name = "User.ByUserName", query = "from User u where u.userName = ?"),
 	@NamedQuery(name = "User.ByUserNameEnabled", query = "from User u where u.userName = ? and u.enabled = true")
@@ -57,7 +58,7 @@ public class User implements Serializable
 	private String emailAddress;
 	private boolean enabled;
 
-	private Set<Role> roles;
+	private List<Role> roles;
 
 	/**
 	 * Gets the id of this user.
@@ -86,7 +87,8 @@ public class User implements Serializable
 	 */
 	@OneToMany
 	@JoinTable(name = "user_role_link", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = @JoinColumn(name = "role_id"))
-	public Set<Role> getRoles()
+	@OrderBy("description")
+	public List<Role> getRoles()
 	{
 		return roles;
 	}
@@ -95,7 +97,7 @@ public class User implements Serializable
 	 * Sets the roles which this user belongs to.
 	 * @param roles Set of roles
 	 */
-	public void setRoles(Set<Role> roles)
+	public void setRoles(List<Role> roles)
 	{
 		this.roles = roles;
 	}

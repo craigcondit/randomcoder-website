@@ -18,6 +18,17 @@
 
 	<security-constraint>
 		<web-resource-collection>
+			<web-resource-name>User management</web-resource-name>
+			<url-pattern>/user</url-pattern>
+			<url-pattern>/user/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>manage-users</role-name>
+		</auth-constraint>		
+	</security-constraint>	
+
+	<security-constraint>
+		<web-resource-collection>
 			<web-resource-name>Change password</web-resource-name>
 			<url-pattern>/user/change-password</url-pattern>
 		</web-resource-collection>

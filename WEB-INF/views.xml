@@ -87,7 +87,7 @@
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/article-list.jsp</value>
-						<value>/WEB-INF/jsp/content/article-pager.jsp</value>
+						<value>/WEB-INF/jsp/content/pager.jsp</value>
 					</list>
 				</entry>
 				<entry key="right">
@@ -95,6 +95,29 @@
 						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/calendar.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<!-- User list -->
+	<bean id="user-list" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Users" />
+				<entry key="javascript" value="user-list.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/user-list.jsp</value>
+						<value>/WEB-INF/jsp/content/pager.jsp</value>
+					</list>
+				</entry>
+				<entry key="right">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>

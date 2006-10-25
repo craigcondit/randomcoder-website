@@ -26,11 +26,9 @@ H3 {
 H4 {
 	font-size: 1.10em;	
 }
-
 H5 {
 	font-size: 1.05em;	
 }
-
 H6 {
 	font-size: 1em;
 }
@@ -68,6 +66,10 @@ A.permalink {
 	padding-left: 18px;
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
 }
+A.add {
+	padding-left: 12px;
+	background: url(../images/silk/bullet_add.png) -3px no-repeat;	
+}
 
 A.edit {
 	padding-left: 18px;
@@ -75,8 +77,8 @@ A.edit {
 }
 
 A.delete {
-	padding-left: 16px;
-	background: url(../images/silk/bullet_delete.png) left no-repeat;
+	padding-left: 12px;
+	background: url(../images/silk/bullet_delete.png) -3px no-repeat;
 }
 
 #header {
@@ -150,7 +152,7 @@ A.delete {
 	padding: 0.2em 0.5em 0.3em 0.5em;
 }
 
-.sectionContent {
+.sectionContent, .sectionContentFull {
 	background-color: #ffffff;
 	color: #000000;
 	border-style: solid;
@@ -159,6 +161,10 @@ A.delete {
 	padding: 0.5em;
 	font-size: 1em;
 	margin-bottom: 2em;
+}
+
+.sectionContentFull {
+	padding: 0;
 }
 
 .sectionFooter {
@@ -538,4 +544,32 @@ BLOCKQUOTE
 .validation IMG
 {
 	border: 0;
+}
+
+.even
+{
+	background-color: #ffffff;
+}
+
+.odd
+{
+	background-color: #f0f0f0;
+}
+
+DIV.even, DIV.odd
+{
+	padding: 0.3em 0.5em;
+}
+
+.actions
+{
+	float: right;
+	font-size: 0.8em;	
+	padding-top: 0.25em;
+}
+
+.details
+{
+	font-size: 0.8em;
+	margin: 0.25em 2em;
 }

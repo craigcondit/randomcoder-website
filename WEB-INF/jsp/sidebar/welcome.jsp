@@ -4,6 +4,7 @@
 <c:url var="logoutUrl" value="/logout" />
 <c:url var="postUrl" value="/article/add" />
 <c:url var="changePassUrl" value="/user/change-password" />
+<c:url var="manageUsersUrl" value="/user" />
 <sec:loggedIn>
 	<div class="sectionHeading">
 		Welcome, <c:out value="${pageContext.request.userPrincipal.name}" />
@@ -12,6 +13,9 @@
 		<ul class="nav">
 			<sec:inRole role="article-post,article-admin">
 				<li><a href="${postUrl}">Add new article</a></li>
+			</sec:inRole>
+			<sec:inRole role="manage-users">
+				<li><a href="${manageUsersUrl}">Manage users</a></li>
 			</sec:inRole>
 			<li><a href="${changePassUrl}">Change password</a></li>
 	  	<li class="navbreak"><a href="${logoutUrl}">Logout</a></li>		
