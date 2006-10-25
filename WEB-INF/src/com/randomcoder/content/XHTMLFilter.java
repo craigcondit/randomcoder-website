@@ -278,8 +278,8 @@ public class XHTMLFilter implements ContentFilter
 		{
 			String[] atts =
 			{
-					"*.href", "*.src", "*.cite", "body.background", "form.action",
-					"frame.longdesc", "head.profile", "html.xmlns", "img.ismap",
+					"*.href", "*.src", "*.cite", "*.xmlns", "body.background",
+					"form.action", "frame.longdesc", "head.profile", "img.ismap",
 					"img.longdesc", "img.usemap", "object.archive", "object.codebase",
 					"object.data", "object.usemap"
 			};
