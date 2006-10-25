@@ -15,6 +15,11 @@ INSERT INTO user_role_link (user_id, role_id) VALUES (
 
 INSERT INTO user_role_link (user_id, role_id) VALUES (
 	(SELECT user_id FROM users WHERE username = 'admin'),
+	(SELECT role_id FROM roles WHERE name = 'manage-tags')
+);
+
+INSERT INTO user_role_link (user_id, role_id) VALUES (
+	(SELECT user_id FROM users WHERE username = 'admin'),
 	(SELECT role_id FROM roles WHERE name = 'development-dwr')
 );
 
@@ -26,13 +31,5 @@ INSERT INTO users (username, password, email, enabled) VALUES (
 INSERT INTO user_role_link (user_id, role_id) VALUES (
 	(SELECT user_id FROM users WHERE username = 'test'),
 	(SELECT role_id FROM roles WHERE name = 'article-post')
-);
-
-INSERT INTO tags (name, display_name) VALUES (
-	'political-science', 'Political Science'
-);
-
-INSERT INTO tags (name, display_name) VALUES (
-	'personal', 'Personal'
 );
 
