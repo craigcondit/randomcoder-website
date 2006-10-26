@@ -331,10 +331,22 @@ FORM
 	font-weight: bold;
 }
 
-.fields INPUT.text, .fields INPUT.password, .fields SELECT, .fields TEXTAREA, .fields DIV.buttons
+.fields INPUT.text,
+.fields INPUT.password,
+.fields SELECT,
+.fields TEXTAREA,
+.fields DIV.buttons,
+.fields SPAN.constant
 {
 	margin: 0 0 0 10.5em;
 	width: 300px;
+}
+
+.fields SPAN.constant
+{
+	display: block;
+	font-weight: bold;
+	line-height: 1.7em;
 }
 
 #right .fields INPUT.text,

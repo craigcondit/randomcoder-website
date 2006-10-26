@@ -100,6 +100,10 @@
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 	
+	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator" />
+
+	<bean id="userEditValidator" class="com.randomcoder.user.UserEditValidator" parent="userAddValidator" />
+	
 	<bean id="changePasswordController" class="com.randomcoder.user.ChangePasswordController">
 		<property name="formView" value="change-password" />
 		<property name="successView" value="default" />
@@ -119,6 +123,26 @@
 		<property name="viewName" value="user-list" />
 		<property name="userDao" ref="userDao" />
 	</bean>
+		
+	<bean id="abstractUserController" abstract="true">
+		<property name="successView" value="user-list-redirect" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="userBusiness" ref="userBusiness" />
+		<property name="roleDao" ref="roleDao" />
+	</bean>
+		
+	<bean id="userAddController" class="com.randomcoder.user.UserAddController" parent="abstractUserController">
+		<property name="formView" value="user-add" />
+		<property name="commandClass" value="com.randomcoder.user.UserAddCommand" />
+		<property name="validator" ref="userAddValidator" />
+	</bean>
+		
+	<bean id="userEditController" class="com.randomcoder.user.UserEditController" parent="abstractUserController">
+		<property name="formView" value="user-edit" />
+		<property name="commandClass" value="com.randomcoder.user.UserEditCommand" />
+		<property name="validator" ref="userEditValidator" />
+	</bean>
+	
 		
 	<bean id="userDeleteController" class="com.randomcoder.user.UserDeleteController">
 		<property name="viewName" value="user-list-redirect" />
@@ -143,6 +167,8 @@
 				<prop key="/legal/about">aboutController</prop>
 				<prop key="/legal/license">licenseController</prop>
 				<prop key="/user">userListController</prop>
+				<prop key="/user/add">userAddController</prop>
+				<prop key="/user/edit">userEditController</prop>
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/test/form">testFormController</prop>

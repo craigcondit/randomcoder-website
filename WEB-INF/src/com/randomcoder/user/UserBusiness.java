@@ -1,5 +1,8 @@
 package com.randomcoder.user;
 
+import com.randomcoder.bean.*;
+import com.randomcoder.io.*;
+
 /**
  * Business interface for user management.
  * 
@@ -38,8 +41,29 @@ public interface UserBusiness
 	public void changePassword(String userName, String password);
 	
 	/**
+	 * Create a new user.
+	 * @param producer user producer
+	 */
+	public void createUser(Producer<User> producer);
+
+	/**
+	 * Loads a user for editing.
+	 * @param consumer consumer
+	 * @param userId id of user to load
+	 */
+	public void loadUserForEditing(Consumer<User> consumer, Long userId);
+
+	/**
+	 * Update an existing user.
+	 * @param user user producer
+	 * @param userId user id
+	 */
+	public void updateUser(Producer<User> producer, Long userId);
+	
+	/**
 	 * Deletes a user.
 	 * @param userId user id to delete
 	 */
 	public void deleteUser(Long userId);
+	
 }

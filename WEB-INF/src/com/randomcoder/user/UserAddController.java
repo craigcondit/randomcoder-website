@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package com.randomcoder.user;
 
 import javax.servlet.http.*;
 
@@ -6,7 +6,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Controller class which handles article updating.
+ * Controller class which handles adding users.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,29 +33,33 @@ import org.springframework.web.servlet.ModelAndView;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleEditController extends AbstractArticleController
+public class UserAddController extends AbstractUserController
 {
+	
 	/**
-	 * Pre-populates form on new request and checks permissions.
+	 * Sets default values for the form.
 	 */
 	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
+		super.onBindOnNewForm(request, command);
 		
-		articleBusiness.loadArticleForEditing(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		UserAddCommand cmd = (UserAddCommand) command;
+		
+		cmd.setEnabled(true);
 	}
 
 	/**
-	 * Modifies the selected article on form submission.
+	 * Creates a new user based on form submission.
 	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.updateArticle(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		UserAddCommand cmd = (UserAddCommand) command;
+
+		userBusiness.createUser(cmd);
 		
 		return new ModelAndView(getSuccessView());
 	}
+	
 }

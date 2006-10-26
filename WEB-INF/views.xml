@@ -245,5 +245,33 @@
 			</map>
 		</property>
 	</bean>
+
+	<bean id="user-add" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="entry-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Add user" />
+				<entry key="formMode" value="add" />
+				<entry key="formAction" value="/user/add" />
+				<entry key="javascript" value="user-edit.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/user-edit.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="user-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="user-add" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Edit user" />
+				<entry key="formMode" value="edit" />
+				<entry key="formAction" value="/user/edit" />
+			</map>
+		</property>
+	</bean>
 	
 </beans>

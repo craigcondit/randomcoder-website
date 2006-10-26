@@ -1,10 +1,12 @@
 package com.randomcoder.user;
 
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.randomcoder.bean.*;
 import com.randomcoder.dao.UserDao;
+import com.randomcoder.io.*;
 
 /**
  * Business implementation for user management.
@@ -36,6 +38,8 @@ import com.randomcoder.dao.UserDao;
  */
 public class UserBusinessImpl implements UserBusiness
 {
+	private static final Log logger = LogFactory.getLog(UserBusinessImpl.class);
+	
 	private UserDao userDao;
 	
 	/**
@@ -62,10 +66,41 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Transactional
+	public void createUser(Producer<User> producer)
+	{
+		User user = new User();
+		producer.produce(user);
+		
+		if (logger.isDebugEnabled())
+			logger.debug("Saving user: " + user);
+		
+		userDao.create(user);		
+	}
+	
+	@Transactional
+	public void updateUser(Producer<User> producer, Long userId)
+	{
+		User user = loadUser(userId);
+		producer.produce(user);
+		
+		if (logger.isDebugEnabled())
+			logger.debug("Saving user: " + user);
+		
+		userDao.update(user);
+	}
+
+	@Transactional
 	public void deleteUser(Long userId)
 	{
 		User user = loadUser(userId);
 		userDao.delete(user);
+	}
+
+	@Transactional(readOnly=true)
+	public void loadUserForEditing(Consumer<User> consumer, Long userId)
+	{
+		User user = loadUser(userId);
+		consumer.consume(user);
 	}
 
 	private User loadUser(Long userId)

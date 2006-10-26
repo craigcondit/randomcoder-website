@@ -1,9 +1,11 @@
 package com.randomcoder.bean;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 import javax.persistence.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
 /**
@@ -36,17 +38,43 @@ import org.apache.commons.lang.builder.*;
  */
 @NamedQueries
 ({
-	@NamedQuery(name = "Role.All", query = "from Role r order by r.name"),
+	@NamedQuery(name = "Role.All", query = "from Role r order by r.description"),
 	@NamedQuery(name = "Role.ByName", query = "from Role r where r.name = ?", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") })
 })
 @Entity
 @org.hibernate.annotations.Entity(mutable = false)
 @Table(name = "roles")
 @SequenceGenerator(name = "roles", sequenceName = "roles_seq", allocationSize = 1)
-public class Role implements Serializable
+public class Role implements Serializable, Comparable<Role>
 {
 	private static final long serialVersionUID = -828314946477973093L;
 
+	/**
+	 * Role Comparator (by name).
+	 */
+	public static final Comparator<Role> NAME_COMPARATOR = new Comparator<Role>()
+	{
+		public int compare(Role r1, Role r2)
+		{
+			String s1 = StringUtils.trimToEmpty(r1.getName());
+			String s2 = StringUtils.trimToEmpty(r2.getName());
+			return s1.compareTo(s2);
+		}
+	}; 
+	
+	/**
+	 * Role Comparator (by description).
+	 */
+	public static final Comparator<Role> DESCRIPTION_COMPARATOR = new Comparator<Role>()
+	{
+		public int compare(Role r1, Role r2)
+		{
+			String s1 = StringUtils.trimToEmpty(r1.getDescription());
+			String s2 = StringUtils.trimToEmpty(r2.getDescription());
+			return s1.compareTo(s2);
+		}
+	};  
+	
 	private Long id;
 	private String name;
 	private String description;
@@ -110,6 +138,43 @@ public class Role implements Serializable
 		this.description = description;
 	}
 
+	/**
+	 * Determines if two Role objects are equal.
+	 * @return true if equal, false if not
+	 */
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!(obj instanceof Role)) return false;
+		
+		Role role = (Role) obj;
+			
+		// two roles are equal if and only if their names match
+		String name1 = StringUtils.trimToEmpty(getName());
+		String name2 = StringUtils.trimToEmpty(role.getName());
+		
+		return name1.equals(name2);
+	}
+
+	/**
+	 * Gets the hash code of this role.
+	 * @return hash code
+	 */
+	@Override
+	public int hashCode()
+	{
+		return StringUtils.trimToEmpty(getName()).hashCode();
+	}
+
+	/**
+	 * Compares this role to another role by description.
+	 * @return 0 if equal, -1 if this is before, 1 if this is after
+	 */
+	public int compareTo(Role o)
+	{
+		return DESCRIPTION_COMPARATOR.compare(this, o);
+	}
+	
 	/**
 	 * Gets a string representation of this object, suitable for debugging.
 	 * @return string representation of this object

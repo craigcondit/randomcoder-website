@@ -1,12 +1,14 @@
-package com.randomcoder.article;
+package com.randomcoder.user;
 
-import javax.servlet.http.*;
+import java.beans.PropertyEditorSupport;
 
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
+import org.apache.commons.logging.*;
+
+import com.randomcoder.bean.Role;
+import com.randomcoder.dao.RoleDao;
 
 /**
- * Controller class which handles article updating.
+ * Property editor for roles.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,29 +35,44 @@ import org.springframework.web.servlet.ModelAndView;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleEditController extends AbstractArticleController
+public class RolePropertyEditor extends PropertyEditorSupport
 {
+	private static final Log logger = LogFactory.getLog(RolePropertyEditor.class);
+	
+	private final RoleDao roleDao;
+	
 	/**
-	 * Pre-populates form on new request and checks permissions.
+	 * Creates a new property editor for Role objects.
+	 * @param roleDao RoleDao implementation to use
 	 */
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	public RolePropertyEditor(RoleDao roleDao)
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.loadArticleForEditing(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		this.roleDao = roleDao;
 	}
 
-	/**
-	 * Modifies the selected article on form submission.
-	 */
 	@Override
-	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	public String getAsText()
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
+		Role role = (Role) getValue();
 		
-		articleBusiness.updateArticle(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		String result = (role == null) ? "" : role.getName();
 		
-		return new ModelAndView(getSuccessView());
+		if (logger.isDebugEnabled())
+			logger.debug("getAsText: " + result);
+		
+		return result;
 	}
+
+	@Override
+	public void setAsText(String string) throws IllegalArgumentException
+	{
+		if (logger.isDebugEnabled())
+			logger.debug("setAsText: " + string);
+		
+		Role role = roleDao.findByName(string);
+		if (role == null) throw new IllegalArgumentException("No such role: " + string);
+		
+		setValue(role);
+	}
+
 }

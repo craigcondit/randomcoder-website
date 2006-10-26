@@ -1,12 +1,12 @@
-package com.randomcoder.article;
+package com.randomcoder.user;
 
-import javax.servlet.http.*;
+import java.util.List;
 
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
+import com.randomcoder.bean.*;
+import com.randomcoder.io.Consumer;
 
 /**
- * Controller class which handles article updating.
+ * Command class for editing users.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,29 +33,40 @@ import org.springframework.web.servlet.ModelAndView;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleEditController extends AbstractArticleController
+public class UserEditCommand extends UserAddCommand implements Consumer<User>
 {
+	private static final long serialVersionUID = 2923257330122456830L;
+	
+	private Long id;
+	
 	/**
-	 * Pre-populates form on new request and checks permissions.
+	 * Gets the ID associated with this user.
+	 * @return id
 	 */
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	public Long getId()
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
-		
-		articleBusiness.loadArticleForEditing(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		return id;
 	}
 
 	/**
-	 * Modifies the selected article on form submission.
+	 * Sets the ID associated with this user.
+	 * @param id id
 	 */
-	@Override
-	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	public void setId(Long id)
 	{
-		ArticleEditCommand cmd = (ArticleEditCommand) command;
+		this.id = id;
+	}
+
+	public void consume(User user)
+	{
+		setUserName(user.getUserName());
+		setEmailAddress(user.getEmailAddress());
+		setEnabled(user.isEnabled());
 		
-		articleBusiness.updateArticle(cmd, cmd.getId(), request.getUserPrincipal().getName());
+		List<Role> roleList = user.getRoles();
+		Role[] roleArray = new Role[roleList.size()];
+		roleList.toArray(roleArray);
 		
-		return new ModelAndView(getSuccessView());
+		setRoles(roleArray);
 	}
 }
