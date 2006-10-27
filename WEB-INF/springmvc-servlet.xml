@@ -77,6 +77,8 @@
 
 	<bean id="abstractArticleController" abstract="true">
 		<property name="successView" value="default" />
+		<property name="cancelView" value="default" />
+		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="articleBusiness" ref="articleBusiness" />
 		<property name="tagDao" ref="tagDao" />
@@ -109,6 +111,8 @@
 	<bean id="changePasswordController" class="com.randomcoder.user.ChangePasswordController">
 		<property name="formView" value="change-password" />
 		<property name="successView" value="default" />
+		<property name="cancelView" value="default" />
+		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="commandClass" value="com.randomcoder.user.ChangePasswordCommand" />
 		<property name="validator" ref="changePasswordValidator" />
@@ -128,6 +132,8 @@
 		
 	<bean id="abstractUserController" abstract="true">
 		<property name="successView" value="user-list-redirect" />
+		<property name="cancelView" value="user-list-redirect" />
+		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="userBusiness" ref="userBusiness" />
 		<property name="roleDao" ref="roleDao" />

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
 import com.randomcoder.bean.*;
 import com.randomcoder.dao.TagDao;
@@ -40,7 +40,7 @@ import com.randomcoder.springmvc.EnumPropertyEditor;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class AbstractArticleController extends SimpleFormController
+public class AbstractArticleController extends CancellableFormController
 {
 
 	/**

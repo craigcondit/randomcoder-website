@@ -87,7 +87,7 @@
 	  	</c:if>
   		<div class="buttons">
 		    <input type="submit" class="submit" value="Save &#187;" />
-	  	  <input type="button" class="button" value="Cancel" onclick="document.location.href='${homeUrl}'" />
+		    <input type="submit" class="button" name="cancel" value="Cancel" />
   		</div>
   	</div>
 

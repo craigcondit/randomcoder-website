@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
 import com.randomcoder.bean.User;
 import com.randomcoder.dao.UserDao;
@@ -40,7 +40,7 @@ import com.randomcoder.dao.UserDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ChangePasswordController extends SimpleFormController
+public class ChangePasswordController extends CancellableFormController
 {
 	private UserDao userDao;
 	private UserBusiness userBusiness;

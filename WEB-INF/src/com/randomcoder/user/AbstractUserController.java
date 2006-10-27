@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
 import com.randomcoder.bean.Role;
 import com.randomcoder.dao.RoleDao;
@@ -39,7 +39,7 @@ import com.randomcoder.dao.RoleDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class AbstractUserController extends SimpleFormController
+public class AbstractUserController extends CancellableFormController
 {
 
 	/**
