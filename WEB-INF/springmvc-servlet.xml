@@ -100,7 +100,9 @@
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 	
-	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator" />
+	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator">
+		<property name="userDao" ref="userDao" />
+	</bean>
 
 	<bean id="userEditValidator" class="com.randomcoder.user.UserEditValidator" parent="userAddValidator" />
 	

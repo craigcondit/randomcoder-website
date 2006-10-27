@@ -3,6 +3,7 @@ package com.randomcoder.user;
 import java.io.Serializable;
 import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 import org.apache.commons.logging.*;
 
@@ -66,7 +67,7 @@ public class UserAddCommand implements Serializable, Producer<User>
 	 */
 	public void setUserName(String userName)
 	{
-		this.userName = userName;
+		this.userName = StringUtils.trimToNull(userName);
 	}
 
 	/**
@@ -84,7 +85,7 @@ public class UserAddCommand implements Serializable, Producer<User>
 	 */
 	public void setEmailAddress(String emailAddress)
 	{
-		this.emailAddress = emailAddress;
+		this.emailAddress = StringUtils.trimToNull(emailAddress);
 	}
 	
 	/**

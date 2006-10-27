@@ -77,8 +77,6 @@ public class AbstractUserController extends SimpleFormController
 	{
 		super.initBinder(request, binder);
 		binder.registerCustomEditor(Role.class, new RolePropertyEditor(roleDao));
-//		binder.registerCustomEditor(ContentType.class, new EnumPropertyEditor(ContentType.class));
-//		binder.registerCustomEditor(TagList.class, new TagListPropertyEditor(tagDao));
 	}
 
 	/**
