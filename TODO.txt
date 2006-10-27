@@ -9,11 +9,7 @@ TODO
 	- merge
 	
 * User management
-	- add
-	- edit
-	- delete
 	- signup
-	- change password
 	- reset password
 	- profile page (settings, bio, etc.)
 	- alternate logins
