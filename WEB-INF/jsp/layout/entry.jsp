@@ -12,6 +12,7 @@
 			<c:set var="pageTitle">${pageTitle} : ${pageSubTitle}</c:set>
 		</c:if>
 		<title><c:out value="${pageTitle}" /></title>
+		<link rel="favorite icon" href="${pageContext.request.contextPath}/favicon.ico" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/site.css" />
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/entry.css" />
 		<%-- be nice to IE --%>
