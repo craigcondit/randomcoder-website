@@ -37,4 +37,15 @@
 		</auth-constraint>		
 	</security-constraint>	
 	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Tag management</web-resource-name>
+			<url-pattern>/tag</url-pattern>
+			<url-pattern>/tag/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>manage-tags</role-name>
+		</auth-constraint>		
+	</security-constraint>	
+	
 </j2ee-security-config>
