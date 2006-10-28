@@ -1,11 +1,5 @@
-package com.randomcoder.dao;
-
-import java.util.List;
-
-import com.randomcoder.bean.Tag;
-
 /**
- * Tag data access interface.
+ * Tag-management classes.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,34 +24,6 @@ import com.randomcoder.bean.Tag;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * </pre> 
  */
-public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
-{
-	/**
-	 * Finds a given {@code Tag} by name.
-	 * @param name tag name
-	 * @return {@code Tag} instance, or null if not found
-	 */
-	public Tag findByName(String name);
-
-	/**
-	 * Lists all {@code Tag} objects, sorted by displayName.
-	 * @return List of {@code Tag} objects
-	 */
-	public List<Tag> listAll();
-	
-	/**
-	 * Lists all {@code Tag} objects in range, sorted by displayName.
-	 * @param start starting result
-	 * @param limit maximum number of results
-	 * @return List of {@code Tag} objects
-	 */
-	public List<Tag> listAllInRange(int start, int limit);
-	
-	/**
-	 * Counts all tags.
-	 * @return count of tags
-	 */
-	public int countAll();
-}
+package com.randomcoder.tag;

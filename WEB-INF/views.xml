@@ -120,10 +120,21 @@
 						<value>/WEB-INF/jsp/content/pager.jsp</value>
 					</list>
 				</entry>
-				<entry key="right">
+			</map>
+		</property>
+	</bean>
+
+	<!-- Tag list -->
+	<bean id="tag-list" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Tags" />
+				<entry key="javascript" value="tag-list.js" />
+				<entry key="content">
 					<list>
-						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
+						<value>/WEB-INF/jsp/content/tag-list.jsp</value>
+						<value>/WEB-INF/jsp/content/pager.jsp</value>
 					</list>
 				</entry>
 			</map>

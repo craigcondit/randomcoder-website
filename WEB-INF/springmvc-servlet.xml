@@ -150,12 +150,17 @@
 		<property name="commandClass" value="com.randomcoder.user.UserEditCommand" />
 		<property name="validator" ref="userEditValidator" />
 	</bean>
-	
-		
+			
 	<bean id="userDeleteController" class="com.randomcoder.user.UserDeleteController">
 		<property name="viewName" value="user-list-redirect" />
 		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
 		<property name="userBusiness" ref="userBusiness" />
+	</bean>
+	
+	<bean id="tagListController" class="com.randomcoder.tag.TagListController">
+		<property name="commandClass" value="com.randomcoder.tag.TagListCommand" />
+		<property name="viewName" value="tag-list" />
+		<property name="tagDao" ref="tagDao" />
 	</bean>
 		
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -179,6 +184,7 @@
 				<prop key="/user/edit">userEditController</prop>
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
+				<prop key="/tag">tagListController</prop>
 				<prop key="/test/form">testFormController</prop>
 			</props>
 		</property>

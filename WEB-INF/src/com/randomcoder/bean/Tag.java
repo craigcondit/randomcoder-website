@@ -1,7 +1,7 @@
 package com.randomcoder.bean;
 
 import java.io.Serializable;
-import java.util.Comparator;
+import java.util.*;
 
 import javax.persistence.*;
 
@@ -39,7 +39,10 @@ import org.apache.commons.lang.builder.*;
 @NamedQueries
 ({
 	@NamedQuery(name = "Tag.All", query = "from Tag t order by t.displayName"),
-	@NamedQuery(name = "Tag.ByName", query = "from Tag t where t.name = ?")
+	@NamedQuery(name = "Tag.CountAll", query = "select count(t.id) from Tag t"),	
+	@NamedQuery(name = "Tag.ByName", query = "from Tag t where t.name = ?"),
+	@NamedQuery(name = "Tag.AllTagStatistics", query = "select t, t.articles.size from Tag t order by t.displayName"),
+	@NamedQuery(name = "Tag.MostArticles", query = "select max(t.articles.size) from Tag t")
 })
 @Entity
 @Table(name = "tags")
@@ -78,6 +81,8 @@ public class Tag implements Serializable, Comparable<Tag>
 	private String name;
 	private String displayName;
 
+	private List<Article> articles;
+	
 	/**
 	 * Gets the id for this tag.
 	 * @return tag id
@@ -137,6 +142,26 @@ public class Tag implements Serializable, Comparable<Tag>
 		this.displayName = displayName;
 	}
 
+	/**
+	 * Gets the articles which belong to this tag.
+	 * @return article list
+	 */
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy="tags")	
+	@OrderBy("creationDate DESC")
+	public List<Article> getArticles()
+	{
+		return articles;
+	}
+	
+	/**
+	 * Sets the articles which belong to this tag.
+	 * @param articles article list
+	 */
+	public void setArticles(List<Article> articles)
+	{
+		this.articles = articles;
+	}
+	
 	/**
 	 * Determines if two Tag objects are equal.
 	 * @return true if equal, false if not

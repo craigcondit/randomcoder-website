@@ -2,10 +2,10 @@ package com.randomcoder.dao;
 
 import java.util.List;
 
-import com.randomcoder.bean.Tag;
+import com.randomcoder.tag.TagStatistics;
 
 /**
- * Tag data access interface.
+ * Base Tag data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,32 +32,25 @@ import com.randomcoder.bean.Tag;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
+public interface TagDaoBase
 {
 	/**
-	 * Finds a given {@code Tag} by name.
-	 * @param name tag name
-	 * @return {@code Tag} instance, or null if not found
+	 * Lists all Tag statistics.
+	 * @return List of TagStatistics
 	 */
-	public Tag findByName(String name);
+	public List<TagStatistics> queryAllTagStatistics();
 
 	/**
-	 * Lists all {@code Tag} objects, sorted by displayName.
-	 * @return List of {@code Tag} objects
-	 */
-	public List<Tag> listAll();
-	
-	/**
-	 * Lists all {@code Tag} objects in range, sorted by displayName.
+	 * Lists all Tag statistics in range.
 	 * @param start starting result
 	 * @param limit maximum number of results
-	 * @return List of {@code Tag} objects
+	 * @return List of TagStatistics
 	 */
-	public List<Tag> listAllInRange(int start, int limit);
+	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit);
 	
 	/**
-	 * Counts all tags.
-	 * @return count of tags
+	 * Calculates the maximum number of articles per tag. 
+	 * @return article count
 	 */
-	public int countAll();
+	public int queryMostArticles();
 }

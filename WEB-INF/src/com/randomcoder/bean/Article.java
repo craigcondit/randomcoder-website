@@ -91,7 +91,7 @@ public class Article implements Serializable
 	 * Gets the tags associated with this article.
 	 * @return List of {@code Tag} objects
 	 */
-	@OneToMany
+	@ManyToMany(cascade={ CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "article_tag_link", joinColumns = { @JoinColumn(name = "article_id") }, inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	@OrderBy("displayName")
 	public List<Tag> getTags()

@@ -1,11 +1,11 @@
-package com.randomcoder.dao;
+package com.randomcoder.tag;
 
-import java.util.List;
+import java.io.Serializable;
 
-import com.randomcoder.bean.Tag;
+import org.apache.commons.lang.builder.*;
 
 /**
- * Tag data access interface.
+ * Command class used for tag lists.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,32 +32,56 @@ import com.randomcoder.bean.Tag;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
+public class TagListCommand implements Serializable
 {
-	/**
-	 * Finds a given {@code Tag} by name.
-	 * @param name tag name
-	 * @return {@code Tag} instance, or null if not found
-	 */
-	public Tag findByName(String name);
+	private static final long serialVersionUID = 5657688205356090811L;
+	
+	private int start;
+	private int limit;
 
 	/**
-	 * Lists all {@code Tag} objects, sorted by displayName.
-	 * @return List of {@code Tag} objects
+	 * Sets the starting item number to display (0-based).
+	 * @param start item number
 	 */
-	public List<Tag> listAll();
-	
+	public void setStart(int start)
+	{
+		this.start = start;
+	}
+
 	/**
-	 * Lists all {@code Tag} objects in range, sorted by displayName.
-	 * @param start starting result
-	 * @param limit maximum number of results
-	 * @return List of {@code Tag} objects
+	 * Gets the starting item number to display.
+	 * @return item number
 	 */
-	public List<Tag> listAllInRange(int start, int limit);
-	
+	public int getStart()
+	{
+		return start;
+	}
+
 	/**
-	 * Counts all tags.
-	 * @return count of tags
+	 * Sets the number of items to display per page.
+	 * @param limit item count
 	 */
-	public int countAll();
+	public void setLimit(int limit)
+	{
+		this.limit = limit;
+	}
+
+	/**
+	 * Gets the number of items to display per page.
+	 * @return item count
+	 */
+	public int getLimit()
+	{
+		return limit;
+	}
+
+	/**
+	 * Gets a string representation of this object, suitable for debugging.
+	 * @return string representation of this object
+	 */
+	@Override
+	public String toString()
+	{
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 }

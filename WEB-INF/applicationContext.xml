@@ -184,13 +184,13 @@
     	</property>
 	</bean>
 
-	<bean id="tagDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.dao.TagDao" />
-	    <property name="target">
-	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.bean.Tag" />
-	        </bean>
-    	</property>
+	<bean id="abstractTagDaoTarget" class="com.randomcoder.dao.TagDaoImpl" parent="abstractDaoTarget" abstract="true" />
+	<bean id="abstractTagDao" parent="abstractDao" abstract="true" />	
+	<bean id="tagDao" parent="abstractTagDao">
+		<property name="proxyInterfaces" value="com.randomcoder.dao.TagDao" />
+		<property name="target">
+			<bean parent="abstractTagDaoTarget" />
+		</property>
 	</bean>
 	
 	<!-- Business objects -->
