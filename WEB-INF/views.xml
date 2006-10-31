@@ -100,6 +100,7 @@
 						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/calendar.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/tagcloud.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>

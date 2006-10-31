@@ -1,11 +1,11 @@
 package com.randomcoder.tag;
 
-import java.io.Serializable;
+import java.util.*;
 
-import com.randomcoder.bean.Tag;
+import com.randomcoder.dao.TagDao;
 
 /**
- * Statisitics for Tag instances (article count, etc).
+ * Tag management implementation.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,63 +32,32 @@ import com.randomcoder.bean.Tag;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TagStatistics implements Serializable
+public class TagBusinessImpl implements TagBusiness
 {
-	private static final long serialVersionUID = 7563892982366083919L;
+	private TagDao tagDao;
 	
-	private Tag tag;
-	private int articleCount;
+	/**
+	 * Sets the TagDao implementation to use.
+	 * @param tagDao TagDao implementation
+	 */
+	public void setTagDao(TagDao tagDao)
+	{
+		this.tagDao = tagDao;
+	}
+
+	public List<TagCloudEntry> getTagCloud()
+	{
+		List<TagStatistics> tagStats = tagDao.queryAllTagStatistics();
+		int mostArticles = tagDao.queryMostArticles();
 		
-	/**
-	 * Default constructor.
-	 */
-	public TagStatistics() {}
-	
-	/**
-	 * Creates a new TagStatistics object with the given tag and article count.
-	 * @param tag tag
-	 * @param articleCount article count
-	 */
-	public TagStatistics(Tag tag, int articleCount)
-	{
-		this.tag = tag;
-		this.articleCount = articleCount;
+		List<TagCloudEntry> cloud = new ArrayList<TagCloudEntry>(tagStats.size());
+		
+		for (TagStatistics tag : tagStats)
+		{
+			if (tag.getArticleCount() > 0)
+				cloud.add(new TagCloudEntry(tag, mostArticles));
+		}
+		
+		return cloud;
 	}
-	
-	/**
-	 * Gets the tag to which statistics apply.
-	 * @return Tag instance
-	 */
-	public Tag getTag()
-	{
-		return tag;
-	}
-	
-	/**
-	 * Sets the tag to which statistics apply.
-	 * @param tag Tag instance
-	 */
-	public void setTag(Tag tag)
-	{
-		this.tag = tag;
-	}
-	
-	/**
-	 * Gets the number of articles which this tag contains.
-	 * @return article count
-	 */
-	public int getArticleCount()
-	{
-		return articleCount;
-	}
-	
-	/**
-	 * Sets the number of articles which this tag contains.
-	 * @param articleCount article count
-	 */
-	public void setArticleCount(int articleCount)
-	{
-		this.articleCount = articleCount;
-	}
-	
 }

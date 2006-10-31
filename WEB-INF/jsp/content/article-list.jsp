@@ -49,7 +49,7 @@
 		  Tags
 		  <c:forEach var="tag" items="${articleDecorator.article.tags}" varStatus="tagStat">
 		    <c:url var="tagLink" value="/tags/${rcesc:urlencode(tag.name)}" />
-		    :: <a href="${tagLink}"><c:out value="${tag.displayName}" /></a></c:forEach><br />
+		    :: <a class="tag" rel="tag" href="${tagLink}"><c:out value="${tag.displayName}" /></a></c:forEach><br />
 		</div>
 	</c:if>
 	<div class="sectionSubHeading">
@@ -61,7 +61,7 @@
 				<c:url var="permUrl" value="/articles/id/${articleDecorator.article.id}" />
 			</c:otherwise>
 		</c:choose>
-		<a class="permalink" href="${permUrl}">Permalink</a>
+		<a rel="permalink" class="permalink" href="${permUrl}">Permalink</a>
 	  <sec:loggedIn>		  	
 		  <c:if test="${articleAdmin || (articlePost && userName == articleAuthor)}">
 				:: <a class="edit" href="${editLink}">Edit</a>

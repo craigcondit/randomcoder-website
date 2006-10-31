@@ -11,7 +11,8 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 import com.randomcoder.bean.Article;
 import com.randomcoder.content.ContentFilter;
-import com.randomcoder.dao.ArticleDao;
+import com.randomcoder.dao.*;
+import com.randomcoder.tag.*;
 
 /**
  * Abstract base class for controllers which generate article lists.
@@ -43,10 +44,34 @@ import com.randomcoder.dao.ArticleDao;
  */
 abstract public class AbstractArticleListController<PageCommand extends ArticlePageCommand> extends AbstractCommandController
 {
+	/**
+	 * Article DAO.
+	 */
 	protected ArticleDao articleDao;
+	
+	/**
+	 * Tag Business.
+	 */
+	protected TagBusiness tagBusiness;
+	
+	/**
+	 * Content Filter.
+	 */
 	protected ContentFilter contentFilter;
+	
+	/**
+	 * View name.
+	 */
 	protected String viewName;
+	
+	/**
+	 * Default page size.
+	 */
 	protected int defaultPageSize = 10;
+	
+	/**
+	 * Maximum page size.
+	 */
 	protected int maximumPageSize = 50;
 
 	/**
@@ -59,6 +84,15 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 		this.articleDao = articleDao;
 	}
 
+	/**
+	 * Sets the TagBusiness implementation to use.
+	 * @param tagBusiness TagBusiness implementation
+	 */
+	public void setTagBusiness(TagBusiness tagBusiness)
+	{
+		this.tagBusiness = tagBusiness;
+	}
+	
 	/**
 	 * Sets the default number of items to display per page (defaults to 10).
 	 * @param defaultPageSize default number of items per page
@@ -202,8 +236,7 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 			limit = defaultPageSize;
 		if (limit > maximumPageSize)
 			limit = maximumPageSize;
-	
-		
+			
 		// load articles
 		List<Article> articles = listArticlesBeforeDateInRange(pageCommand, cutoff.getTime(), start, limit);
 
@@ -218,12 +251,16 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 		for (Article article : articles)
 			wrappedArticles.add(new ArticleDecorator(article, contentFilter));
 	
+		// get tag cloud
+		List<TagCloudEntry> tagCloud = tagBusiness.getTagCloud();
+		
 		// populate model
 		mav.addObject("articles", wrappedArticles);
 		mav.addObject("days", days);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("pageStart", start);
 		mav.addObject("pageLimit", limit);
+		mav.addObject("tagCloud", tagCloud);
 	
 		String subTitle = getSubTitle(pageCommand);
 		if (subTitle != null) mav.addObject("pageSubTitle", subTitle);

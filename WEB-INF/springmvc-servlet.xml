@@ -38,6 +38,7 @@
 		<property name="defaultPageSize" value="10" />
 		<property name="maximumPageSize" value="50" />
 		<property name="contentFilter" ref="contentFilter" />	
+		<property name="tagBusiness" ref="tagBusiness" />	
 	</bean>
 	
 	<bean id="homeController" class="com.randomcoder.article.HomeController" parent="abstractArticleListController" />

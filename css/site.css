@@ -66,6 +66,12 @@ A.permalink {
 	padding-left: 18px;
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
 }
+
+A.tag {
+	padding-left: 18px;
+	background: url(../images/silk/bullet_tag.png) left no-repeat;					
+}
+
 A.add {
 	padding-left: 12px;
 	background: url(../images/silk/bullet_add.png) -3px no-repeat;	
@@ -586,3 +592,16 @@ DIV.even, DIV.odd
 	font-size: 0.8em;
 	margin: 0.25em 2em;
 }
+
+.tagCloud { font-size: 0.8em; }
+
+.cloud0 { font-size: 1.00em; }
+.cloud1 { font-size: 1.10em; }
+.cloud2 { font-size: 1.20em; }
+.cloud3 { font-size: 1.30em; }
+.cloud4 { font-size: 1.40em; }
+.cloud5 { font-size: 1.50em; }
+.cloud6 { font-size: 1.60em; }
+.cloud7 { font-size: 1.70em; }
+.cloud8 { font-size: 1.80em; }
+.cloud9 { font-size: 1.90em; }

@@ -81,7 +81,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	private String name;
 	private String displayName;
 
-	private List<Article> articles;
+	private transient List<Article> articles;
 	
 	/**
 	 * Gets the id for this tag.
