@@ -67,10 +67,12 @@ A.permalink {
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
 }
 
+/*
 A.tag {
 	padding-left: 18px;
 	background: url(../images/silk/bullet_tag.png) left no-repeat;					
 }
+*/
 
 A.add {
 	padding-left: 12px;
