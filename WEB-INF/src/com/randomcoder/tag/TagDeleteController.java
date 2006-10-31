@@ -1,9 +1,16 @@
 package com.randomcoder.tag;
 
-import java.util.List;
+import javax.servlet.http.*;
+
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractCommandController;
+
+import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Tag Management interface.
+ * Controller class which handles tag deletion.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,17 +37,42 @@ import java.util.List;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagDeleteController extends AbstractCommandController
 {
+	private TagBusiness tagBusiness;
+	private String viewName;
+
 	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
+	 * Sets the TagBusiness implementation to use.
+	 * @param tagBusiness TagBusiness implementation
 	 */
-	public List<TagCloudEntry> getTagCloud();
-	
+	@Required
+	public void setTagBusiness(TagBusiness tagBusiness)
+	{
+		this.tagBusiness = tagBusiness;
+	}
+
 	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
+	 * Sets the name of the view to pass control to once processing is complete.
+	 * @param viewName view name
 	 */
-	public void deleteTag(Long tagId);
+	@Required
+	public void setViewName(String viewName)
+	{
+		this.viewName = viewName;
+	}
+
+	/**
+	 * Deletes the selected tag.
+	 */
+	@Override
+	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	{
+		IdCommand cmd = (IdCommand) command;
+		
+		tagBusiness.deleteTag(cmd.getId());
+
+		return new ModelAndView(viewName);
+	}
+
 }

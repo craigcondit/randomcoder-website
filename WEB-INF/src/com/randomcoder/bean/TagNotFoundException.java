@@ -1,9 +1,7 @@
-package com.randomcoder.tag;
-
-import java.util.List;
+package com.randomcoder.bean;
 
 /**
- * Tag Management interface.
+ * Exception thrown when a requested tag cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,17 +28,36 @@ import java.util.List;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagNotFoundException extends RuntimeException
 {
+
+	private static final long serialVersionUID = 8212072324579650157L;
+
 	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
+	 * Default constructor.
 	 */
-	public List<TagCloudEntry> getTagCloud();
-	
+	public TagNotFoundException()
+	{
+		super();
+	}
+
 	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
+	 * Constructor taking an optional message to display.
+	 * 
+	 * @param message message to assoicate with this exception.
 	 */
-	public void deleteTag(Long tagId);
+	public TagNotFoundException(String message)
+	{
+		super(message);
+	}
+
+	/**
+	 * Gets the message (if any) associated with this exception.
+	 * @return message
+	 */
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
 }

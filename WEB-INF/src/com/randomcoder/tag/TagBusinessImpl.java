@@ -2,7 +2,11 @@ package com.randomcoder.tag;
 
 import java.util.*;
 
-import com.randomcoder.dao.TagDao;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.randomcoder.bean.*;
+import com.randomcoder.dao.*;
 
 /**
  * Tag management implementation.
@@ -35,14 +39,26 @@ import com.randomcoder.dao.TagDao;
 public class TagBusinessImpl implements TagBusiness
 {
 	private TagDao tagDao;
+	private ArticleDao articleDao;
 	
 	/**
 	 * Sets the TagDao implementation to use.
 	 * @param tagDao TagDao implementation
 	 */
+	@Required
 	public void setTagDao(TagDao tagDao)
 	{
 		this.tagDao = tagDao;
+	}
+	
+	/**
+	 * Sets the ArticleDao implementation to use.
+	 * @param articleDao ArticleDao implementation
+	 */
+	@Required
+	public void setArticleDao(ArticleDao articleDao)
+	{
+		this.articleDao = articleDao;
 	}
 
 	public List<TagCloudEntry> getTagCloud()
@@ -60,4 +76,30 @@ public class TagBusinessImpl implements TagBusiness
 		
 		return cloud;
 	}
+
+	@Transactional
+	public void deleteTag(Long tagId)
+	{
+		Tag tag = loadTag(tagId);
+		
+		// remove tag from all articles which it applies to
+		// failing to do this will result in ObjectNotFoundExceptions
+		// we use an iterator here because the list of articles could be large
+		Iterator<Article> articles = articleDao.iterateByTag(tag);
+		while (articles.hasNext())
+		{
+			Article article = articles.next();
+			article.getTags().remove(tag);
+		}
+		
+		tagDao.delete(tag);
+	}
+	
+	private Tag loadTag(Long tagId)
+	{
+		Tag tag = tagDao.read(tagId);
+		if (tag == null) throw new TagNotFoundException();
+		return tag;
+	}
+	
 }

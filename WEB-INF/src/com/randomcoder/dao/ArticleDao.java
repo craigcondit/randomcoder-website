@@ -70,6 +70,13 @@ public interface ArticleDao extends GenericDao<Article, Long>
 	 * @return list of {@code Article} objects
 	 */
 	public List<Article> listByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit);
+
+	/**
+	 * Iterates {@code Article} objects with the given tag. 
+	 * @param tag tag
+	 * @return Article iterator
+	 */
+	public Iterator<Article> iterateByTag(Tag tag);
 	
 	/**
 	 * Lists {@code Article} objects created within the specified date range.
@@ -79,6 +86,7 @@ public interface ArticleDao extends GenericDao<Article, Long>
 	 */
 	public List<Article> listBetweenDates(Date startDate, Date endDate);
 
+	
 	/**
 	 * Lists {@code Article} objects created within the specified date range.
 	 * @param tag tag to restrict by

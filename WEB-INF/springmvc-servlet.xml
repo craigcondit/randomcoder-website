@@ -164,6 +164,12 @@
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 		
+	<bean id="tagDeleteController" class="com.randomcoder.tag.TagDeleteController">
+		<property name="viewName" value="tag-list-redirect" />
+		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="tagBusiness" ref="tagBusiness" />
+	</bean>
+		
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="mappings">
@@ -186,6 +192,7 @@
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/tag">tagListController</prop>
+				<prop key="/tag/delete">tagDeleteController</prop>
 				<prop key="/test/form">testFormController</prop>
 			</props>
 		</property>

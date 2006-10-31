@@ -207,6 +207,7 @@
 
 	<bean id="tagBusiness" class="com.randomcoder.tag.TagBusinessImpl">
 		<property name="tagDao" ref="tagDao" />
+		<property name="articleDao" ref="articleDao" />
 	</bean>
 	
 </beans>

@@ -39,6 +39,7 @@ import org.apache.commons.lang.builder.*;
 @NamedQueries
 ({
 	@NamedQuery(name = "Article.All", query = "from Article a order by a.creationDate desc"),
+	@NamedQuery(name = "Article.ByTag", query = "from Article a where ? in elements(a.tags) order by a.creationDate desc"),
 	@NamedQuery(name = "Article.BeforeDate", query = "from Article a where a.creationDate < ? order by a.creationDate desc"),
 	@NamedQuery(name = "Article.ByTagBeforeDate", query = "from Article a where ? in elements(a.tags) and a.creationDate < ? order by a.creationDate desc"),
 	@NamedQuery(name = "Article.CountBeforeDate", query = "select count(a.id) from Article a where a.creationDate < ?"),
