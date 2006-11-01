@@ -1,12 +1,10 @@
 package com.randomcoder.tag;
 
-import java.util.List;
-
-import com.randomcoder.bean.Tag;
-import com.randomcoder.io.*;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
 /**
- * Tag Management interface.
+ * Base class for tag add / edit controllers.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,38 +31,20 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class AbstractTagController extends CancellableFormController
 {
 	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
+	 * Tag business object.
 	 */
-	public List<TagCloudEntry> getTagCloud();
+	protected TagBusiness tagBusiness;
 	
 	/**
-	 * Create a new tag.
-	 * @param producer tag producer
+	 * Sets the TagBusiness implementation to use.
+	 * @param tagBusiness TagBusiness implementation
 	 */
-	public void createTag(Producer<Tag> producer);
-
-	/**
-	 * Loads a tag for editing.
-	 * @param consumer consumer
-	 * @param tagId id of tag to load
-	 */
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId);
-
-	/**
-	 * Update an existing tag.
-	 * @param producer tag producer
-	 * @param tagId tag id
-	 */
-	public void updateTag(Producer<Tag> producer, Long tagId);
-	
-	
-	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
-	 */
-	public void deleteTag(Long tagId);
+	@Required
+	public void setTagBusiness(TagBusiness tagBusiness)
+	{
+		this.tagBusiness = tagBusiness;
+	}
 }

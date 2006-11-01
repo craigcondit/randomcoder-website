@@ -32,39 +32,38 @@
 				<entry key="left">
 					<list>
 						<value>/WEB-INF/jsp/sidebar/navigation.jsp</value>
-					</list>
-				</entry>
-				<entry key="right">
-					<list>
 						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>
-			</map>
-		</property>
-	</bean>
-	
-	<!-- View for entry pages (no right section) -->
-	<bean id="entry-layout" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
-		<property name="url" value="/WEB-INF/jsp/layout/entry.jsp" />
-		<property name="attributes">
-			<map>
 				<entry key="right"><null /></entry>
 			</map>
 		</property>
 	</bean>
 	
+	<!-- View for wide pages (no right section) -->
+	<bean id="wide-layout" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="main-layout" />
+		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
+	</bean>
+	
 	<!-- Login page -->
 	<bean id="login" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="entry-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Login" />	
 				<entry key="javascript" value="login.js" />
 				<entry key="error">
 					<bean class="java.lang.Boolean"><constructor-arg value="false" /></bean>
+				</entry>
+				<entry key="left">
+					<list>
+						<value>/WEB-INF/jsp/sidebar/navigation.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
+						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
+					</list>
 				</entry>
 				<entry key="content">
 					<list>
@@ -102,11 +101,8 @@
 				</entry>
 				<entry key="right">
 					<list>
-						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/calendar.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/tagcloud.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>
 			</map>
@@ -115,7 +111,7 @@
 
 	<!-- User list -->
 	<bean id="user-list" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Users" />
@@ -132,7 +128,7 @@
 
 	<!-- Tag list -->
 	<bean id="tag-list" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Tags" />
@@ -157,7 +153,7 @@
 	</bean>
 	
 	<bean id="article-view" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="home" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title"><null /></entry>
@@ -166,19 +162,12 @@
 						<value>/WEB-INF/jsp/content/article-list.jsp</value>
 					</list>
 				</entry>
-				<entry key="right">
-					<list>
-						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
-					</list>
-				</entry>
 			</map>
 		</property>
 	</bean>
 	
 	<bean id="change-password" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="entry-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Change password" />
@@ -193,7 +182,7 @@
 	</bean>
 	
 	<bean id="article-add" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="entry-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Add article" />
@@ -221,7 +210,7 @@
 	</bean>
 
 	<bean id="test-form" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="entry-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Test form" />
@@ -236,7 +225,7 @@
 	</bean>
 
 	<bean id="legal-about" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="About this site" />
@@ -250,7 +239,7 @@
 	</bean>
 
 	<bean id="legal-license" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="License" />
@@ -264,7 +253,7 @@
 	</bean>
 
 	<bean id="user-add" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="entry-layout" />
+		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Add user" />
@@ -287,6 +276,34 @@
 				<entry key="title" value="Edit user" />
 				<entry key="formMode" value="edit" />
 				<entry key="formAction" value="/user/edit" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="tag-add" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="wide-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Add tag" />
+				<entry key="formMode" value="add" />
+				<entry key="formAction" value="/tag/add" />
+				<entry key="javascript" value="tag-edit.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/tag-edit.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="tag-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="tag-add" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Edit tag" />
+				<entry key="formMode" value="edit" />
+				<entry key="formAction" value="/tag/edit" />
 			</map>
 		</property>
 	</bean>

@@ -1,12 +1,12 @@
 package com.randomcoder.tag;
 
-import java.util.List;
+import javax.servlet.http.*;
 
-import com.randomcoder.bean.Tag;
-import com.randomcoder.io.*;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Tag Management interface.
+ * Controller class which handles adding tags.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,38 +33,20 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagAddController extends AbstractTagController
 {
-	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
-	 */
-	public List<TagCloudEntry> getTagCloud();
 	
 	/**
-	 * Create a new tag.
-	 * @param producer tag producer
+	 * Creates a new tag based on form submission.
 	 */
-	public void createTag(Producer<Tag> producer);
+	@Override
+	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	{
+		TagAddCommand cmd = (TagAddCommand) command;
 
-	/**
-	 * Loads a tag for editing.
-	 * @param consumer consumer
-	 * @param tagId id of tag to load
-	 */
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId);
-
-	/**
-	 * Update an existing tag.
-	 * @param producer tag producer
-	 * @param tagId tag id
-	 */
-	public void updateTag(Producer<Tag> producer, Long tagId);
+		tagBusiness.createTag(cmd);
+		
+		return new ModelAndView(getSuccessView());
+	}
 	
-	
-	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
-	 */
-	public void deleteTag(Long tagId);
 }

@@ -10,7 +10,7 @@
 	</appender>
 	
 	<logger name="com.randomcoder">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="com.randomcoder.dao.hibernate">
@@ -34,7 +34,7 @@
 	</logger>
 	
 	<logger name="org.hibernate.SQL">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework">

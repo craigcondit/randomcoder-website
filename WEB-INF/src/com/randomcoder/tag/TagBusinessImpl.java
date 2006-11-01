@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.randomcoder.bean.*;
 import com.randomcoder.dao.*;
+import com.randomcoder.io.*;
 
 /**
  * Tag management implementation.
@@ -75,6 +76,29 @@ public class TagBusinessImpl implements TagBusiness
 		}
 		
 		return cloud;
+	}
+
+	@Transactional(readOnly=true)
+	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId)
+	{
+		Tag tag = loadTag(tagId);
+		consumer.consume(tag);
+	}
+	
+	@Transactional
+	public void createTag(Producer<Tag> producer)
+	{
+		Tag tag = new Tag();
+		producer.produce(tag);
+		tagDao.create(tag);		
+	}
+
+	@Transactional
+	public void updateTag(Producer<Tag> producer, Long tagId)
+	{
+		Tag tag = loadTag(tagId);
+		producer.produce(tag);
+		tagDao.update(tag);
 	}
 
 	@Transactional

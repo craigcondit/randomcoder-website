@@ -3,7 +3,7 @@
 <sec:notLoggedIn>
 	<c:url var="loginUrl" value="/j_security_check" />
 	<div class="sectionHeading">Login</div>
-	<div class="sectionContent" align="right">
+	<div class="sectionContent" align="left">
 		<form action="${loginUrl}" method="post">
 			<div class="fields required">
 				<div>

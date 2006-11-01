@@ -2,6 +2,8 @@ package com.randomcoder.validation;
 
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Convenience classes to validate common data types.
  * 
@@ -258,4 +260,37 @@ public abstract class DataValidationUtils
     return email.matches(pattern);
   }
   
+  /**
+   * Derives a canonical representation of a tag name.
+   * @param name tag name
+   * @return canonical tag name
+   */
+	public static String canonicalizeTagName(String name)
+	{
+		if (name == null) return null;
+		
+		// lowercase
+		name = name.toLowerCase(Locale.US);
+		
+		// convert various punctuation to space
+		name = name.replaceAll("_", " ");
+		name = name.replaceAll("-", " ");
+		name = name.replaceAll("/", " ");
+		name = name.replaceAll("\\\\", " ");
+		
+		// collapse all whitespace
+		name = name.replaceAll("\\s+", " ");
+		
+		// trim leading and trailing space
+		name = name.trim();
+		
+		// convert spaces to dash
+		name = name.replaceAll(" ", "-");
+		
+		// convert back to null if empty
+		name = StringUtils.trimToNull(name);
+		
+		return name;
+	}  
+	
 }

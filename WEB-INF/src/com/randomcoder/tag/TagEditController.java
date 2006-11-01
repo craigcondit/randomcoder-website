@@ -1,12 +1,12 @@
 package com.randomcoder.tag;
 
-import java.util.List;
+import javax.servlet.http.*;
 
-import com.randomcoder.bean.Tag;
-import com.randomcoder.io.*;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Tag Management interface.
+ * Controller class which handles tag updating.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,38 +33,31 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagEditController extends AbstractTagController
 {
 	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
+	 * Pre-populates form on new request and checks permissions.
 	 */
-	public List<TagCloudEntry> getTagCloud();
+	@Override
+	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	{
+		TagEditCommand cmd = (TagEditCommand) command;
+		tagBusiness.loadTagForEditing(cmd, cmd.getId());
+	}
 	
 	/**
-	 * Create a new tag.
-	 * @param producer tag producer
+	 * Modifies the selected tag on form submission.
 	 */
-	public void createTag(Producer<Tag> producer);
+	@Override
+	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	{
+		TagEditCommand cmd = (TagEditCommand) command;
 
-	/**
-	 * Loads a tag for editing.
-	 * @param consumer consumer
-	 * @param tagId id of tag to load
-	 */
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId);
-
-	/**
-	 * Update an existing tag.
-	 * @param producer tag producer
-	 * @param tagId tag id
-	 */
-	public void updateTag(Producer<Tag> producer, Long tagId);
-	
-	
-	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
-	 */
-	public void deleteTag(Long tagId);
+		if (logger.isDebugEnabled())
+			logger.debug("Command: " + cmd);		
+		
+		tagBusiness.updateTag(cmd, cmd.getId());
+		
+		return new ModelAndView(getSuccessView());
+	}	
 }

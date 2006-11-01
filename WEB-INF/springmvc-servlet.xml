@@ -158,10 +158,36 @@
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 	
+	<bean id="tagAddValidator" class="com.randomcoder.tag.TagAddValidator">
+		<property name="tagDao" ref="tagDao" />
+	</bean>
+
+	<bean id="tagEditValidator" class="com.randomcoder.tag.TagEditValidator" parent="tagAddValidator" />
+	
 	<bean id="tagListController" class="com.randomcoder.tag.TagListController">
 		<property name="commandClass" value="com.randomcoder.tag.TagListCommand" />
 		<property name="viewName" value="tag-list" />
 		<property name="tagDao" ref="tagDao" />
+	</bean>
+		
+	<bean id="abstractTagController" abstract="true">
+		<property name="successView" value="tag-list-redirect" />
+		<property name="cancelView" value="tag-list-redirect" />
+		<property name="cancelParamKey" value="cancel" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="tagBusiness" ref="tagBusiness" />
+	</bean>
+
+	<bean id="tagAddController" class="com.randomcoder.tag.TagAddController" parent="abstractTagController">
+		<property name="formView" value="tag-add" />
+		<property name="commandClass" value="com.randomcoder.tag.TagAddCommand" />
+		<property name="validator" ref="tagAddValidator" />
+	</bean>
+		
+	<bean id="tagEditController" class="com.randomcoder.tag.TagEditController" parent="abstractTagController">
+		<property name="formView" value="tag-edit" />
+		<property name="commandClass" value="com.randomcoder.tag.TagEditCommand" />
+		<property name="validator" ref="tagEditValidator" />
 	</bean>
 		
 	<bean id="tagDeleteController" class="com.randomcoder.tag.TagDeleteController">
@@ -192,6 +218,8 @@
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/tag">tagListController</prop>
+				<prop key="/tag/add">tagAddController</prop>
+				<prop key="/tag/edit">tagEditController</prop>
 				<prop key="/tag/delete">tagDeleteController</prop>
 				<prop key="/test/form">testFormController</prop>
 			</props>

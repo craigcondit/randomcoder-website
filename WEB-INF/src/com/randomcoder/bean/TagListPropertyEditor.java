@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 
 import com.randomcoder.dao.TagDao;
+import com.randomcoder.validation.DataValidationUtils;
 
 /**
  * Tag list property editor.
@@ -97,7 +98,7 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 		{
 			tagName = tagName.replaceAll("\\s+", " ").trim();
 			
-			String name = normalizeTagName(tagName);
+			String name = DataValidationUtils.canonicalizeTagName(tagName);
 			
 			if (name != null && !names.contains(name))
 			{
@@ -121,33 +122,5 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 		Collections.sort(tags, Tag.DISPLAY_NAME_COMPARATOR);
 		
 		setValue(new TagList(tags));
-	}
-	
-	private String normalizeTagName(String name)
-	{
-		if (name == null) return null;
-		
-		// lowercase
-		name = name.toLowerCase(Locale.US);
-		
-		// convert various punctuation to space
-		name = name.replaceAll("_", " ");
-		name = name.replaceAll("-", " ");
-		name = name.replaceAll("/", " ");
-		name = name.replaceAll("\\\\", " ");
-		
-		// collapse all whitespace
-		name = name.replaceAll("\\s+", " ");
-		
-		// trim leading and trailing space
-		name = name.trim();
-		
-		// convert spaces to dash
-		name = name.replaceAll(" ", "-");
-		
-		// convert back to null if empty
-		name = StringUtils.trimToNull(name);
-		
-		return name;
 	}
 }

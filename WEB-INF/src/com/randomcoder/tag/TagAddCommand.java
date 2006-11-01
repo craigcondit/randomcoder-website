@@ -1,12 +1,15 @@
 package com.randomcoder.tag;
 
-import java.util.List;
+import java.io.Serializable;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.randomcoder.bean.Tag;
-import com.randomcoder.io.*;
+import com.randomcoder.io.Producer;
+import com.randomcoder.validation.DataValidationUtils;
 
 /**
- * Tag Management interface.
+ * Command class for adding tags.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,38 +36,64 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagAddCommand implements Serializable, Producer<Tag>
 {
-	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
-	 */
-	public List<TagCloudEntry> getTagCloud();
+	private static final long serialVersionUID = 7436171478771499999L;
+	
+	private String name;
+	private String displayName;
 	
 	/**
-	 * Create a new tag.
-	 * @param producer tag producer
+	 * Gets the name for this tag.
+	 * @return tag name
 	 */
-	public void createTag(Producer<Tag> producer);
+	public String getName()
+	{
+		return name;
+	}
+	
+	/**
+	 * Sets the name for this tag.
+	 * @param name tag name
+	 */
+	public void setName(String name)
+	{
+		if (name != null)
+		{
+			name = name.replaceAll("\\s+", " ").trim();
+			name = DataValidationUtils.canonicalizeTagName(name);
+			name = StringUtils.trimToNull(name);
+		}
+		
+		this.name = name;
+	}
+	
+	/**
+	 * Gets the display name for this tag.
+	 * @return display name
+	 */
+	public String getDisplayName()
+	{
+		return displayName;
+	}
+	
+	/**
+	 * Sets the display name for this tag.
+	 * @param displayName display name
+	 */
+	public void setDisplayName(String displayName)
+	{
+		this.displayName = StringUtils.trimToNull(displayName);
+	}
 
-	/**
-	 * Loads a tag for editing.
-	 * @param consumer consumer
-	 * @param tagId id of tag to load
-	 */
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId);
-
-	/**
-	 * Update an existing tag.
-	 * @param producer tag producer
-	 * @param tagId tag id
-	 */
-	public void updateTag(Producer<Tag> producer, Long tagId);
+	public void produce(Tag tag)
+	{
+		if (tag.getId() == null)
+		{
+			tag.setName(getName());
+		}
+		
+		tag.setDisplayName(getDisplayName());
+	}
 	
-	
-	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
-	 */
-	public void deleteTag(Long tagId);
 }

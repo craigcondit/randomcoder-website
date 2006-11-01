@@ -10,7 +10,7 @@
 	<div class="sectionHeading">
 		Welcome, <c:out value="${pageContext.request.userPrincipal.name}" />
 	</div>
-	<div class="sectionContent" align="right">
+	<div class="sectionContent" align="left">
 		<ul class="nav">
 			<sec:inRole role="article-post,article-admin">
 				<li><a href="${postUrl}">Add new article</a></li>

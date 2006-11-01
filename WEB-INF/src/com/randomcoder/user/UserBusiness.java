@@ -55,7 +55,7 @@ public interface UserBusiness
 
 	/**
 	 * Update an existing user.
-	 * @param user user producer
+	 * @param producer user producer
 	 * @param userId user id
 	 */
 	public void updateUser(Producer<User> producer, Long userId);

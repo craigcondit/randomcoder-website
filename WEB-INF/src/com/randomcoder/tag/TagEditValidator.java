@@ -1,12 +1,9 @@
 package com.randomcoder.tag;
 
-import java.util.List;
-
-import com.randomcoder.bean.Tag;
-import com.randomcoder.io.*;
+import org.springframework.validation.Errors;
 
 /**
- * Tag Management interface.
+ * Validator used for editing tags.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -33,38 +30,29 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagBusiness
+public class TagEditValidator extends TagAddValidator
 {
-	/**
-	 * Gets a list of TagCloudEntry objects to produce a tag cloud.
-	 * @return list of TagCloudEntry objects sorted by display name.
-	 */
-	public List<TagCloudEntry> getTagCloud();
+	private static final String ERROR_TAG_ID_REQUIRED = "error.tag.id.required";
 	
-	/**
-	 * Create a new tag.
-	 * @param producer tag producer
-	 */
-	public void createTag(Producer<Tag> producer);
+	@Override
+	public boolean supports(Class targetClass)
+	{
+		return TagEditCommand.class.equals(targetClass);
+	}
 
-	/**
-	 * Loads a tag for editing.
-	 * @param consumer consumer
-	 * @param tagId id of tag to load
-	 */
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId);
+	@Override
+	public void validate(Object target, Errors errors)
+	{
+		TagEditCommand command = (TagEditCommand) target;
+		
+		if (!validateCommon(command, errors)) return;
+		
+		Long id = command.getId();
 
-	/**
-	 * Update an existing tag.
-	 * @param producer tag producer
-	 * @param tagId tag id
-	 */
-	public void updateTag(Producer<Tag> producer, Long tagId);
+		if (id == null)
+		{
+			errors.rejectValue("id", ERROR_TAG_ID_REQUIRED, "id required");
+		}
+	}
 	
-	
-	/**
-	 * Deletes the tag with the given id.
-	 * @param tagId tag id
-	 */
-	public void deleteTag(Long tagId);
 }
