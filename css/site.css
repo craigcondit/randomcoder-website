@@ -298,6 +298,7 @@ FORM
 	padding: 0.5em;	
 }
 
+#left FORM,
 #right FORM
 {
 	padding: 0 0.3em 0.5em 0.3em;	
@@ -324,15 +325,25 @@ FORM
 	left: 0;
 }
 
+#left .fields LABEL,
 #right .fields LABEL
 {
 	position: relative;
-	text-align: right;
 	line-height: normal;
 	margin: 0;
 	padding: 0;
 	left: auto;
-	top: auto;
+	top: auto;		
+}
+
+#left .fields LABEL
+{
+	text-align: left;	
+}
+
+#right .fields LABEL
+{
+	text-align: right;
 }
 
 .required LABEL, .required LEGEND
@@ -358,6 +369,11 @@ FORM
 	line-height: 1.7em;
 }
 
+#left .fields INPUT.text,
+#left .fields INPUT.password,
+#left .fields SELECT,
+#left .fields TEXTAREA,
+#left .fields DIV.buttons,
 #right .fields INPUT.text,
 #right .fields INPUT.password,
 #right .fields SELECT,
@@ -370,6 +386,12 @@ FORM
 
 INPUT.submit, INPUT.button
 {
+	margin-right: 0.5em;
+}
+
+#left INPUT.submit, INPUT.button
+{
+	margin-left: 0;	
 	margin-right: 0.5em;
 }
 
@@ -440,6 +462,12 @@ DIV.checkbox, DIV.radio
 	margin-left: 10em;	
 }
 
+#left DIV.checkbox,
+#left DIV.radio
+{
+	margin-left: 0;	
+}
+
 #right DIV.checkbox,
 #right DIV.radio
 {
@@ -456,6 +484,8 @@ DIV.checkbox LABEL, DIV.radio LABEL
 	line-height: 1.5em;
 }
 
+#left DIV.checkbox LABEL,
+#left DIV.radio LABEL,
 #right DIV.checkbox LABEL,
 #right DIV.radio LABEL
 {
@@ -471,6 +501,8 @@ INPUT.checkbox, INPUT.radio
 	margin-bottom: 0.2em;	
 }
 
+#left INPUT.checkbox,
+#left INPUT.radio,
 #right INPUT.checkbox,
 #right INPUT.radio
 {
@@ -550,7 +582,7 @@ BLOCKQUOTE
 
 .validation
 {
-	margin-bottom: 10px;
+	margin-bottom: 0.5em;
 }
 
 .validation A,
