@@ -10,7 +10,7 @@
 			<c:url var="tagLink" value="/tags/${rcesc:urlencode(tagCloudEntry.tag.name)}" />
 			<c:url var="tagClass" value="cloud${tagCloudEntry.scale}" />
 			<c:if test="${status.index > 0}">::</c:if>
-			<a rel="tag" class="tag ${tagClass}" href="${tagLink}"><c:url value="${tagCloudEntry.tag.displayName}" /></a>			
+			<a rel="tag" class="tag ${tagClass}" href="${tagLink}"><c:out value="${tagCloudEntry.tag.displayName}" /></a>			
 		</c:forEach>
 	</div>
 </div>
