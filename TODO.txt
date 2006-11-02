@@ -2,11 +2,8 @@ TODO
 ====
 
 * Tag management interface
-	- add
-	- edit
-	- delete
-	- rename
-	- merge
+	- rename ??
+	- merge ??
 	
 * User management
 	- signup
