@@ -10,7 +10,7 @@
 	</appender>
 	
 	<logger name="com.randomcoder">
-		<level value="warn" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="com.randomcoder.dao.hibernate">
