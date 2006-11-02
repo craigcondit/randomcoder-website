@@ -9,7 +9,7 @@
 		height="31" width="88" /></a>
 </div>
 <div class="validation" align="left">
-	<a title="Valid CSS" href="http://jigsaw.w3.org/css-validator/"><img
+	<a title="Valid CSS" href="http://jigsaw.w3.org/css-validator/check/referer"><img
 		style="width:80px; height:15px"
 		src="${cssUrl}" 
 		alt="Valid CSS" /></a>
