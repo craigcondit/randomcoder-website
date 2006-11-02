@@ -3,7 +3,6 @@ package com.randomcoder.tag;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.dao.TagDao;
 
 /**
  * Validator used for adding tags.

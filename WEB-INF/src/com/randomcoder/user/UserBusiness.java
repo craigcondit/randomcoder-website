@@ -1,6 +1,5 @@
 package com.randomcoder.user;
 
-import com.randomcoder.bean.*;
 import com.randomcoder.io.*;
 
 /**

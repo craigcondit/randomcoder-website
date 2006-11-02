@@ -1,7 +1,7 @@
-package com.randomcoder.bean;
+package com.randomcoder.user;
 
 /**
- * Content type enumeration.
+ * Exception thrown when a requested role cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,48 +28,36 @@ package com.randomcoder.bean;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public enum ContentType
+public class RoleNotFoundException extends RuntimeException
 {
+
+	private static final long serialVersionUID = 8212072324579650157L;
+
 	/**
-	 * Plain text.
+	 * Default constructor.
 	 */
-	TEXT ("text/html", "Plain text"),
-	
-	/**
-	 * XHTML.
-	 */
-	XHTML ("application/xhtml+xml", "XHTML");
-	
-	private final String mimeType;
-	private final String description;
-	
-	private ContentType(String mimeType, String description)
-	{		
-		this.mimeType = mimeType;
-		this.description = description;
+	public RoleNotFoundException()
+	{
+		super();
 	}
-	
+
 	/**
-	 * Get the mime-type associated with this content type.
-	 * @return mime-type
+	 * Constructor taking an optional message to display.
+	 * 
+	 * @param message message to assoicate with this exception.
 	 */
-	public String getMimeType() { return mimeType; }
-	
+	public RoleNotFoundException(String message)
+	{
+		super(message);
+	}
+
 	/**
-	 * Get the human-readable description of this content type.
-	 * @return description
+	 * Gets the message (if any) associated with this exception.
+	 * @return message
 	 */
-	public String getDescription() { return description; }
-		
-	/**
-	 * Getter for innate name() property
-	 * @return name of this enum instance
-	 */
-	public String getName() { return name(); }
-	
-	/**
-	 * Getter for innate ordinal() property
-	 * @return ordinal of this enum instance
-	 */
-	public int getOrdinal() { return ordinal(); }
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
 }

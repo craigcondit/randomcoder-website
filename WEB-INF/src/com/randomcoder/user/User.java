@@ -1,4 +1,4 @@
-package com.randomcoder.bean;
+package com.randomcoder.user;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;

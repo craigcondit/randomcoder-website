@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.TagDao;
+import com.randomcoder.content.ContentType;
 import com.randomcoder.springmvc.EnumPropertyEditor;
+import com.randomcoder.tag.*;
 
 /**
  * Base class for article add / edit controllers.

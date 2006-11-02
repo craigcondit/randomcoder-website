@@ -1,15 +1,11 @@
-package com.randomcoder.dao;
+package com.randomcoder.tag;
 
-import java.util.*;
+import java.util.List;
 
-import org.hibernate.Query;
-
-import com.randomcoder.bean.Tag;
-import com.randomcoder.dao.hibernate.HibernateDao;
-import com.randomcoder.tag.TagStatistics;
+import com.randomcoder.dao.GenericDao;
 
 /**
- * Tag data access implementation.
+ * Tag data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -36,51 +32,32 @@ import com.randomcoder.tag.TagStatistics;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TagDaoImpl extends HibernateDao<Tag, Long> implements TagDaoBase
+public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
 {
-	
-	private static final String QUERY_ALL_TAG_STATISTICS = "Tag.AllTagStatistics";
-	private static final String QUERY_MOST_ARTICLES = "Tag.MostArticles";
+	/**
+	 * Finds a given {@code Tag} by name.
+	 * @param name tag name
+	 * @return {@code Tag} instance, or null if not found
+	 */
+	public Tag findByName(String name);
 
 	/**
-	 * Default constructor.
+	 * Lists all {@code Tag} objects, sorted by displayName.
+	 * @return List of {@code Tag} objects
 	 */
-	public TagDaoImpl()
-	{
-		super(Tag.class);
-	}
-
-	public List<TagStatistics> queryAllTagStatistics()
-	{
-		return queryAllTagStatisticsInRange(0, 0);
-	}
-
-	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit)
-	{
-		Query query = getSession().getNamedQuery(QUERY_ALL_TAG_STATISTICS);
-		
-		if (start > 0) query.setFirstResult(start);
-		if (limit > 0) query.setMaxResults(limit);
-		
-		List results = query.list();
-		
-		List<TagStatistics> tagStats = new ArrayList<TagStatistics>(results.size());
-		
-		for (Object result : results)
-		{
-			Object[] data = (Object[]) result;
-			
-			Tag tag = (Tag) data[0];
-			int articleCount = ((Number) data[1]).intValue(); 
-			
-			tagStats.add(new TagStatistics(tag, articleCount));
-		}
-		
-		return tagStats;
-	}
-
-	public int queryMostArticles()
-	{
-		return ((Number) getSession().getNamedQuery(QUERY_MOST_ARTICLES).uniqueResult()).intValue();
-	}
+	public List<Tag> listAll();
+	
+	/**
+	 * Lists all {@code Tag} objects in range, sorted by displayName.
+	 * @param start starting result
+	 * @param limit maximum number of results
+	 * @return List of {@code Tag} objects
+	 */
+	public List<Tag> listAllInRange(int start, int limit);
+	
+	/**
+	 * Counts all tags.
+	 * @return count of tags
+	 */
+	public int countAll();
 }

@@ -5,8 +5,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.*;
+import com.randomcoder.article.*;
 import com.randomcoder.io.*;
 
 /**

@@ -1,7 +1,7 @@
-package com.randomcoder.bean;
+package com.randomcoder.user;
 
 /**
- * Exception thrown when a requested article cannot be found.
+ * Exception thrown when a requested user cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,7 +28,7 @@ package com.randomcoder.bean;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleNotFoundException extends RuntimeException
+public class UserNotFoundException extends RuntimeException
 {
 
 	private static final long serialVersionUID = 8212072324579650157L;
@@ -36,7 +36,7 @@ public class ArticleNotFoundException extends RuntimeException
 	/**
 	 * Default constructor.
 	 */
-	public ArticleNotFoundException()
+	public UserNotFoundException()
 	{
 		super();
 	}
@@ -46,7 +46,7 @@ public class ArticleNotFoundException extends RuntimeException
 	 * 
 	 * @param message message to assoicate with this exception.
 	 */
-	public ArticleNotFoundException(String message)
+	public UserNotFoundException(String message)
 	{
 		super(message);
 	}

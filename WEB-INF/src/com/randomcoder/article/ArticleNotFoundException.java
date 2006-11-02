@@ -1,7 +1,7 @@
-package com.randomcoder.bean;
+package com.randomcoder.article;
 
 /**
- * Exception thrown when a requested role cannot be found.
+ * Exception thrown when a requested article cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,7 +28,7 @@ package com.randomcoder.bean;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class RoleNotFoundException extends RuntimeException
+public class ArticleNotFoundException extends RuntimeException
 {
 
 	private static final long serialVersionUID = 8212072324579650157L;
@@ -36,7 +36,7 @@ public class RoleNotFoundException extends RuntimeException
 	/**
 	 * Default constructor.
 	 */
-	public RoleNotFoundException()
+	public ArticleNotFoundException()
 	{
 		super();
 	}
@@ -46,7 +46,7 @@ public class RoleNotFoundException extends RuntimeException
 	 * 
 	 * @param message message to assoicate with this exception.
 	 */
-	public RoleNotFoundException(String message)
+	public ArticleNotFoundException(String message)
 	{
 		super(message);
 	}

@@ -1,8 +1,8 @@
-package com.randomcoder.dao;
+package com.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.bean.User;
+import com.randomcoder.dao.GenericDao;
 
 /**
  * User data access interface.

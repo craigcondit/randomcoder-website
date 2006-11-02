@@ -1,8 +1,9 @@
-package com.randomcoder.dao;
+package com.randomcoder.article;
 
 import java.util.*;
 
-import com.randomcoder.bean.*;
+import com.randomcoder.dao.GenericDao;
+import com.randomcoder.tag.Tag;
 
 /**
  * Article data access interface.

@@ -42,24 +42,24 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.randomcoder.bean.User</value>
-				<value>com.randomcoder.bean.Role</value>
-				<value>com.randomcoder.bean.Article</value>
-				<value>com.randomcoder.bean.Tag</value>
+				<value>com.randomcoder.user.User</value>
+				<value>com.randomcoder.user.Role</value>
+				<value>com.randomcoder.article.Article</value>
+				<value>com.randomcoder.tag.Tag</value>
 			</list>
 		</property>
 		<property name="entityCacheStrategies">
 			<props>
-				<prop key="com.randomcoder.bean.User">read-write</prop>
-				<prop key="com.randomcoder.bean.Role">read-only</prop>
-				<prop key="com.randomcoder.bean.Article">read-write</prop>
-				<prop key="com.randomcoder.bean.Tag">read-write</prop>
+				<prop key="com.randomcoder.user.User">read-write</prop>
+				<prop key="com.randomcoder.user.Role">read-only</prop>
+				<prop key="com.randomcoder.article.Article">read-write</prop>
+				<prop key="com.randomcoder.tag.Tag">read-write</prop>
 			</props>
 		</property>
 		<property name="collectionCacheStrategies">
 			<props>
-				<prop key="com.randomcoder.bean.User.roles">read-write</prop>
-				<prop key="com.randomcoder.bean.Article.tags">read-write</prop>
+				<prop key="com.randomcoder.user.User.roles">read-write</prop>
+				<prop key="com.randomcoder.article.Article.tags">read-write</prop>
 			</props>
 		</property>
 	</bean>
@@ -158,36 +158,36 @@
 	
 	<!-- Concrete DAO objects -->
 	<bean id="userDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="com.randomcoder.dao.UserDao" />
+		<property name="proxyInterfaces" value="com.randomcoder.user.UserDao" />
 		<property name="target">
 			<bean parent="abstractDaoTarget">
-				<constructor-arg value="com.randomcoder.bean.User" />
+				<constructor-arg value="com.randomcoder.user.User" />
 			</bean>
 		</property>
 	</bean>
 	
 	<bean id="roleDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="com.randomcoder.dao.RoleDao" />
+		<property name="proxyInterfaces" value="com.randomcoder.user.RoleDao" />
 		<property name="target">
 			<bean parent="abstractDaoTarget">
-				<constructor-arg value="com.randomcoder.bean.Role" />
+				<constructor-arg value="com.randomcoder.user.Role" />
 			</bean>
 		</property>
 	</bean>
 	
 	<bean id="articleDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.dao.ArticleDao" />
+	    <property name="proxyInterfaces" value="com.randomcoder.article.ArticleDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.bean.Article" />
+	            <constructor-arg value="com.randomcoder.article.Article" />
 	        </bean>
     	</property>
 	</bean>
 
-	<bean id="abstractTagDaoTarget" class="com.randomcoder.dao.TagDaoImpl" parent="abstractDaoTarget" abstract="true" />
+	<bean id="abstractTagDaoTarget" class="com.randomcoder.tag.TagDaoImpl" parent="abstractDaoTarget" abstract="true" />
 	<bean id="abstractTagDao" parent="abstractDao" abstract="true" />	
 	<bean id="tagDao" parent="abstractTagDao">
-		<property name="proxyInterfaces" value="com.randomcoder.dao.TagDao" />
+		<property name="proxyInterfaces" value="com.randomcoder.tag.TagDao" />
 		<property name="target">
 			<bean parent="abstractTagDaoTarget" />
 		</property>

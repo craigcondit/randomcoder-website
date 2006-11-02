@@ -9,8 +9,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.bean.User;
-import com.randomcoder.dao.UserDao;
 
 /**
  * Controller used to change a user's password.

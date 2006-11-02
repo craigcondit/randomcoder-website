@@ -5,10 +5,10 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.*;
 import com.randomcoder.io.*;
 import com.randomcoder.security.UnauthorizedException;
+import com.randomcoder.tag.*;
+import com.randomcoder.user.*;
 
 /**
  * Business implementation which handles articles.

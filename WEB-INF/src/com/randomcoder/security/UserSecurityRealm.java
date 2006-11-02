@@ -7,9 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Required;
 
-import com.randomcoder.bean.*;
 import com.randomcoder.citadel.realm.PasswordSecurityRealm;
-import com.randomcoder.dao.UserDao;
+import com.randomcoder.user.*;
 
 /**
  * {@code PasswordSecurityRealm} implementation.

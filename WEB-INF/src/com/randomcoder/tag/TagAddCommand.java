@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.bean.Tag;
 import com.randomcoder.io.Producer;
 import com.randomcoder.validation.DataValidationUtils;
 

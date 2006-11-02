@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.bean.Role;
-import com.randomcoder.dao.RoleDao;
 
 /**
  * Base class for user add / edit controllers.

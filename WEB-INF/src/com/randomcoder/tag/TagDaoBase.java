@@ -1,5 +1,10 @@
+package com.randomcoder.tag;
+
+import java.util.List;
+
+
 /**
- * JavaBean data objects.
+ * Base Tag data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -24,6 +29,27 @@
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre> 
+ * </pre>
  */
-package com.randomcoder.bean;
+public interface TagDaoBase
+{
+	/**
+	 * Lists all Tag statistics.
+	 * @return List of TagStatistics
+	 */
+	public List<TagStatistics> queryAllTagStatistics();
+
+	/**
+	 * Lists all Tag statistics in range.
+	 * @param start starting result
+	 * @param limit maximum number of results
+	 * @return List of TagStatistics
+	 */
+	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit);
+	
+	/**
+	 * Calculates the maximum number of articles per tag. 
+	 * @return article count
+	 */
+	public int queryMostArticles();
+}

@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 import org.apache.commons.logging.*;
 
-import com.randomcoder.bean.*;
 import com.randomcoder.io.Producer;
 
 /**

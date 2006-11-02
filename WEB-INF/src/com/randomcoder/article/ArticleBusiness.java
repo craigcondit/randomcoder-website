@@ -1,6 +1,5 @@
 package com.randomcoder.article;
 
-import com.randomcoder.bean.Article;
 import com.randomcoder.io.*;
 
 

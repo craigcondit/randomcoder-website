@@ -7,9 +7,7 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.bean.*;
 import com.randomcoder.content.*;
-import com.randomcoder.dao.ArticleDao;
 import com.randomcoder.io.SequenceReader;
 
 /**

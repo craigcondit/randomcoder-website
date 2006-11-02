@@ -5,7 +5,6 @@ import java.util.Locale;
 import javax.servlet.http.*;
 
 
-import com.randomcoder.bean.Article;
 
 /**
  * Controller class which loads an article by permalink.

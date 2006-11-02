@@ -10,8 +10,7 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.TagDao;
+import com.randomcoder.tag.*;
 
 
 /**

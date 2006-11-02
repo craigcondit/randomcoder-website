@@ -2,7 +2,6 @@ package com.randomcoder.user;
 
 import org.springframework.validation.*;
 
-import com.randomcoder.bean.User;
 
 /**
  * Validator for the change password form.

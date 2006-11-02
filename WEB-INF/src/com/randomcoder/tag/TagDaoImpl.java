@@ -1,10 +1,13 @@
-package com.randomcoder.bean;
+package com.randomcoder.tag;
 
-import java.io.Serializable;
-import java.util.List;
+import java.util.*;
+
+import org.hibernate.Query;
+
+import com.randomcoder.dao.hibernate.HibernateDao;
 
 /**
- * Container for a list of tags.
+ * Tag data access implementation.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -31,32 +34,51 @@ import java.util.List;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TagList implements Serializable
+public class TagDaoImpl extends HibernateDao<Tag, Long> implements TagDaoBase
 {
-	private static final long serialVersionUID = 8246304617489842857L;
 	
-	private List<Tag> tags;
-	
+	private static final String QUERY_ALL_TAG_STATISTICS = "Tag.AllTagStatistics";
+	private static final String QUERY_MOST_ARTICLES = "Tag.MostArticles";
+
 	/**
 	 * Default constructor.
 	 */
-	public TagList() {}
-	
-	/**
-	 * Creates a new TagList populated with the given tag list.
-	 * @param tags tag list
-	 */
-	public TagList(List<Tag> tags) { this.tags = tags; }
-	
-	/**
-	 * Getter for tags property.
-	 * @return list of tags
-	 */
-	public List<Tag> getTags() { return tags; }
-	
-	/**
-	 * Setter for tags property.
-	 * @param tags list of tags
-	 */
-	public void setTags(List<Tag> tags) { this.tags = tags; }	
+	public TagDaoImpl()
+	{
+		super(Tag.class);
+	}
+
+	public List<TagStatistics> queryAllTagStatistics()
+	{
+		return queryAllTagStatisticsInRange(0, 0);
+	}
+
+	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit)
+	{
+		Query query = getSession().getNamedQuery(QUERY_ALL_TAG_STATISTICS);
+		
+		if (start > 0) query.setFirstResult(start);
+		if (limit > 0) query.setMaxResults(limit);
+		
+		List results = query.list();
+		
+		List<TagStatistics> tagStats = new ArrayList<TagStatistics>(results.size());
+		
+		for (Object result : results)
+		{
+			Object[] data = (Object[]) result;
+			
+			Tag tag = (Tag) data[0];
+			int articleCount = ((Number) data[1]).intValue(); 
+			
+			tagStats.add(new TagStatistics(tag, articleCount));
+		}
+		
+		return tagStats;
+	}
+
+	public int queryMostArticles()
+	{
+		return ((Number) getSession().getNamedQuery(QUERY_MOST_ARTICLES).uniqueResult()).intValue();
+	}
 }

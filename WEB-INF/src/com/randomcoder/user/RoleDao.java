@@ -1,11 +1,11 @@
-package com.randomcoder.dao;
+package com.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.tag.TagStatistics;
+import com.randomcoder.dao.GenericDao;
 
 /**
- * Base Tag data access interface.
+ * Role data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,25 +32,18 @@ import com.randomcoder.tag.TagStatistics;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagDaoBase
+public interface RoleDao extends GenericDao<Role, Long>
 {
 	/**
-	 * Lists all Tag statistics.
-	 * @return List of TagStatistics
+	 * Finds a {@code Role} instance with the given name.
+	 * @param name role name
+	 * @return {@code Role} instance, or null if not found
 	 */
-	public List<TagStatistics> queryAllTagStatistics();
+	public Role findByName(String name);
 
 	/**
-	 * Lists all Tag statistics in range.
-	 * @param start starting result
-	 * @param limit maximum number of results
-	 * @return List of TagStatistics
+	 * Lists all roles, ordered by name.
+	 * @return List of {@code Role} objects
 	 */
-	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit);
-	
-	/**
-	 * Calculates the maximum number of articles per tag. 
-	 * @return article count
-	 */
-	public int queryMostArticles();
+	public List<Role> listAll();
 }

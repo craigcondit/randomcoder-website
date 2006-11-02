@@ -11,9 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.randomcoder.bean.Article;
 import com.randomcoder.content.ContentFilter;
-import com.randomcoder.dao.ArticleDao;
 
 /**
  * Abstract controller class which provides support for displaying a single article.

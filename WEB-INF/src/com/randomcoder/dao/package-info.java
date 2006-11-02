@@ -1,5 +1,5 @@
 /**
- * Data access objects and support classes.
+ * Data access support classes.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.

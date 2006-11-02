@@ -2,7 +2,6 @@ package com.randomcoder.user;
 
 import java.io.Serializable;
 
-import com.randomcoder.bean.User;
 
 /**
  * Controller used to change a user's password.

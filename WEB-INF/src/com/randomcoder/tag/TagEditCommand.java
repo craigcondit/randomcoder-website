@@ -1,6 +1,5 @@
 package com.randomcoder.tag;
 
-import com.randomcoder.bean.Tag;
 import com.randomcoder.io.Consumer;
 
 public class TagEditCommand extends TagAddCommand implements Consumer<Tag>

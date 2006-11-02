@@ -2,7 +2,6 @@ package com.randomcoder.tag;
 
 import java.util.List;
 
-import com.randomcoder.bean.Tag;
 import com.randomcoder.io.*;
 
 /**

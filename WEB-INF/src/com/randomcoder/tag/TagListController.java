@@ -9,7 +9,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
-import com.randomcoder.dao.TagDao;
 
 /**
  * Controller for tag lists.

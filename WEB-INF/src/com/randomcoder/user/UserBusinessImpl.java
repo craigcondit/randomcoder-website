@@ -4,8 +4,6 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.randomcoder.bean.*;
-import com.randomcoder.dao.UserDao;
 import com.randomcoder.io.*;
 
 /**

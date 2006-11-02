@@ -4,8 +4,6 @@ import java.beans.PropertyEditorSupport;
 
 import org.apache.commons.logging.*;
 
-import com.randomcoder.bean.Role;
-import com.randomcoder.dao.RoleDao;
 
 /**
  * Property editor for roles.

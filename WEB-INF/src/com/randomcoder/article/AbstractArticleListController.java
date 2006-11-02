@@ -9,9 +9,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
-import com.randomcoder.bean.Article;
 import com.randomcoder.content.ContentFilter;
-import com.randomcoder.dao.*;
 import com.randomcoder.tag.*;
 
 /**

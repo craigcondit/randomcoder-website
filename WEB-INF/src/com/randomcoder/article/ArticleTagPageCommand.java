@@ -1,6 +1,6 @@
 package com.randomcoder.article;
 
-import com.randomcoder.bean.Tag;
+import com.randomcoder.tag.Tag;
 
 /**
  * Command object used for paged tag queries.

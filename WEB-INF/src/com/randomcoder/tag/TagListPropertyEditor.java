@@ -1,4 +1,4 @@
-package com.randomcoder.bean;
+package com.randomcoder.tag;
 
 import java.beans.PropertyEditorSupport;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 
-import com.randomcoder.dao.TagDao;
 import com.randomcoder.validation.DataValidationUtils;
 
 /**

@@ -1,11 +1,7 @@
-package com.randomcoder.dao;
-
-import java.util.List;
-
-import com.randomcoder.bean.Role;
+package com.randomcoder.content;
 
 /**
- * Role data access interface.
+ * Content type enumeration.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,18 +28,48 @@ import com.randomcoder.bean.Role;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface RoleDao extends GenericDao<Role, Long>
+public enum ContentType
 {
 	/**
-	 * Finds a {@code Role} instance with the given name.
-	 * @param name role name
-	 * @return {@code Role} instance, or null if not found
+	 * Plain text.
 	 */
-	public Role findByName(String name);
-
+	TEXT ("text/html", "Plain text"),
+	
 	/**
-	 * Lists all roles, ordered by name.
-	 * @return List of {@code Role} objects
+	 * XHTML.
 	 */
-	public List<Role> listAll();
+	XHTML ("application/xhtml+xml", "XHTML");
+	
+	private final String mimeType;
+	private final String description;
+	
+	private ContentType(String mimeType, String description)
+	{		
+		this.mimeType = mimeType;
+		this.description = description;
+	}
+	
+	/**
+	 * Get the mime-type associated with this content type.
+	 * @return mime-type
+	 */
+	public String getMimeType() { return mimeType; }
+	
+	/**
+	 * Get the human-readable description of this content type.
+	 * @return description
+	 */
+	public String getDescription() { return description; }
+		
+	/**
+	 * Getter for innate name() property
+	 * @return name of this enum instance
+	 */
+	public String getName() { return name(); }
+	
+	/**
+	 * Getter for innate ordinal() property
+	 * @return ordinal of this enum instance
+	 */
+	public int getOrdinal() { return ordinal(); }
 }

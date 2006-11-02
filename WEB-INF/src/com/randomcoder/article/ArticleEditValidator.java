@@ -2,7 +2,6 @@ package com.randomcoder.article;
 
 import org.springframework.validation.Errors;
 
-import com.randomcoder.bean.Article;
 
 /**
  * Validator for editing articles.

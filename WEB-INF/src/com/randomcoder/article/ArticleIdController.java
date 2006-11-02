@@ -2,7 +2,6 @@ package com.randomcoder.article;
 
 import javax.servlet.http.*;
 
-import com.randomcoder.bean.Article;
 
 /**
  * Controller class which loads an article by primary key.

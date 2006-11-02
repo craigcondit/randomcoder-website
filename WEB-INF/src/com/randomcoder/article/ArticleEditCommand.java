@@ -1,7 +1,7 @@
 package com.randomcoder.article;
 
-import com.randomcoder.bean.*;
 import com.randomcoder.io.Consumer;
+import com.randomcoder.tag.TagList;
 
 /**
  * Command class used for updating articles.

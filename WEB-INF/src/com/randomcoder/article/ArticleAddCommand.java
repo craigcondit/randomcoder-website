@@ -6,8 +6,9 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.bean.*;
+import com.randomcoder.content.ContentType;
 import com.randomcoder.io.Producer;
+import com.randomcoder.tag.*;
 
 /**
  * Command class used for adding articles.

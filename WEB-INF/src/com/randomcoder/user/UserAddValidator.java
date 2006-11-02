@@ -3,7 +3,6 @@ package com.randomcoder.user;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.dao.UserDao;
 import com.randomcoder.validation.DataValidationUtils;
 
 /**

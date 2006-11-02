@@ -1,7 +1,10 @@
-package com.randomcoder.bean;
+package com.randomcoder.tag;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * Exception thrown when a requested tag cannot be found.
+ * Container for a list of tags.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,36 +31,32 @@ package com.randomcoder.bean;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TagNotFoundException extends RuntimeException
+public class TagList implements Serializable
 {
-
-	private static final long serialVersionUID = 8212072324579650157L;
-
+	private static final long serialVersionUID = 8246304617489842857L;
+	
+	private List<Tag> tags;
+	
 	/**
 	 * Default constructor.
 	 */
-	public TagNotFoundException()
-	{
-		super();
-	}
-
+	public TagList() {}
+	
 	/**
-	 * Constructor taking an optional message to display.
-	 * 
-	 * @param message message to assoicate with this exception.
+	 * Creates a new TagList populated with the given tag list.
+	 * @param tags tag list
 	 */
-	public TagNotFoundException(String message)
-	{
-		super(message);
-	}
-
+	public TagList(List<Tag> tags) { this.tags = tags; }
+	
 	/**
-	 * Gets the message (if any) associated with this exception.
-	 * @return message
+	 * Getter for tags property.
+	 * @return list of tags
 	 */
-	@Override
-	public String getMessage()
-	{
-		return super.getMessage();
-	}
+	public List<Tag> getTags() { return tags; }
+	
+	/**
+	 * Setter for tags property.
+	 * @param tags list of tags
+	 */
+	public void setTags(List<Tag> tags) { this.tags = tags; }	
 }

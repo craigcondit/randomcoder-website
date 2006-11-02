@@ -1,11 +1,7 @@
-package com.randomcoder.dao;
-
-import java.util.List;
-
-import com.randomcoder.bean.Tag;
+package com.randomcoder.tag;
 
 /**
- * Tag data access interface.
+ * Exception thrown when a requested tag cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -32,32 +28,36 @@ import com.randomcoder.bean.Tag;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
+public class TagNotFoundException extends RuntimeException
 {
-	/**
-	 * Finds a given {@code Tag} by name.
-	 * @param name tag name
-	 * @return {@code Tag} instance, or null if not found
-	 */
-	public Tag findByName(String name);
+
+	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
-	 * Lists all {@code Tag} objects, sorted by displayName.
-	 * @return List of {@code Tag} objects
+	 * Default constructor.
 	 */
-	public List<Tag> listAll();
-	
+	public TagNotFoundException()
+	{
+		super();
+	}
+
 	/**
-	 * Lists all {@code Tag} objects in range, sorted by displayName.
-	 * @param start starting result
-	 * @param limit maximum number of results
-	 * @return List of {@code Tag} objects
+	 * Constructor taking an optional message to display.
+	 * 
+	 * @param message message to assoicate with this exception.
 	 */
-	public List<Tag> listAllInRange(int start, int limit);
-	
+	public TagNotFoundException(String message)
+	{
+		super(message);
+	}
+
 	/**
-	 * Counts all tags.
-	 * @return count of tags
+	 * Gets the message (if any) associated with this exception.
+	 * @return message
 	 */
-	public int countAll();
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
 }

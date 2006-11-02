@@ -7,7 +7,6 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.*;
 
-import com.randomcoder.bean.Article;
 import com.randomcoder.content.*;
 import com.randomcoder.io.SequenceReader;
 
