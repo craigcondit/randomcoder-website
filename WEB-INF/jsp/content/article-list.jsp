@@ -95,6 +95,9 @@
   	<a name="comments"></a>
   	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
   		<a name="comment-${commentDecorator.comment.id}"></a>
+		  <c:url var="deleteCommentLink" value="/comment/delete">
+		  	<c:param name="id" value="${commentDecorator.comment.id}" />
+		  </c:url>
 		  <c:choose>
 			  <c:when test="${commentDecorator.comment.createdByUser != null}">
 			  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
@@ -128,6 +131,11 @@
 				@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
 				:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
 			</div>
+			<sec:inRole role="manage-comments">
+				<div class="sectionSubHeading">
+					<a rel="delete" class="deleteComment delete" href="${deleteCommentLink}">Delete</a>
+				</div>
+			</sec:inRole>
   		<div class="sectionContent">
   			${commentDecorator.formattedText}
   		</div>

@@ -1,7 +1,9 @@
 package com.randomcoder.article;
 
-import java.io.Serializable;
+import java.io.*;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.persistence.*;
@@ -289,6 +291,27 @@ public class Article implements Serializable
 		this.content = content;
 	}
 
+	/**
+	 * Builds a context-relative permalink for the selected article.
+	 * @return permalink
+	 */
+	@Transient
+	public String getPermalinkUrl()
+	{
+		String perm = getPermalink();
+		try
+		{
+			if (perm != null) return "/articles/" + URLEncoder.encode(perm, "UTF-8");
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			throw new RuntimeException("Unsupported encoding", e);
+		}
+		
+		DecimalFormat df = new DecimalFormat("####################");			
+		return "/articles/id/" + df.format(id);
+	}
+	
 	/**
 	 * Gets a string representation of this object, suitable for debugging.
 	 * @return string representation of this object

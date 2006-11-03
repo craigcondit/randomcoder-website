@@ -122,6 +122,8 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		commentDao.create(comment);
 		
 		article.getComments().add(comment);
+		
+		articleDao.update(article);
 	}
 
 	@Transactional
@@ -169,6 +171,20 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.delete(article);
 	}
 	
+	@Transactional
+	public Article deleteComment(Long commentId)
+	{
+		Comment comment = loadComment(commentId);
+		Article article = comment.getArticle();
+		
+		article.getComments().remove(comment);
+		
+		commentDao.delete(comment);		
+		articleDao.update(article);
+		
+		return article;
+	}
+
 	private void checkAuthorUpdate(User user, Article article)
 	{
 		checkAuthor(user, article, "You are not allowed to edit articles you did not create.");
@@ -212,6 +228,19 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		if (article == null)
 			throw new ArticleNotFoundException("No article exists with id: " + articleId);
 		return article;
+	}
+
+	private Comment loadComment(Long commentId) throws CommentNotFoundException
+	{
+		if (commentId == null)
+			throw new CommentNotFoundException("Invalid id specified.");
+		
+		Comment comment = commentDao.read(commentId);
+
+		if (comment == null)
+			throw new CommentNotFoundException("No comment exists with id: " + commentId);
+		
+		return comment;
 	}
 	
 	private Role findRoleByName(String roleName) throws RoleNotFoundException

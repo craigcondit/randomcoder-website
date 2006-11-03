@@ -97,6 +97,11 @@
 
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>        
+		<url-pattern>/comment/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>        
 		<url-pattern>/tag/*</url-pattern>
 	</servlet-mapping>
 

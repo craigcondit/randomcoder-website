@@ -1,10 +1,7 @@
 package com.randomcoder.article;
 
-import com.randomcoder.io.*;
-
-
 /**
- * Business interface for managing articles.
+ * Exception thrown when a requested comment cannot be found.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -31,51 +28,36 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface ArticleBusiness
+public class CommentNotFoundException extends RuntimeException
 {
+
+	private static final long serialVersionUID = 8212072324579650157L;
+
 	/**
-	 * Create a new article.
-	 * @param producer article producer
-	 * @param userName user name
+	 * Default constructor.
 	 */
-	public void createArticle(Producer<Article> producer, String userName);
-	
+	public CommentNotFoundException()
+	{
+		super();
+	}
+
 	/**
-	 * Creates a new comment.
-	 * @param comment comment producer
-	 * @param articleId article id
-	 * @param userName user name
+	 * Constructor taking an optional message to display.
+	 * 
+	 * @param message message to assoicate with this exception.
 	 */
-	public void createComment(Producer<Comment> comment, Long articleId, String userName);
-	
+	public CommentNotFoundException(String message)
+	{
+		super(message);
+	}
+
 	/**
-	 * Load an existing article for editing.
-	 * @param consumer article consumer
-	 * @param articleId article id
-	 * @param userName user name
+	 * Gets the message (if any) associated with this exception.
+	 * @return message
 	 */
-	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName);
-	
-	/**
-	 * Update an existing article.
-	 * @param producer article producer
-	 * @param articleId article id
-	 * @param userName user name
-	 */
-	public void updateArticle(Producer<Article> producer, Long articleId, String userName);
-	
-	/**
-	 * Delete an article.
-	 * @param userName user name
-	 * @param articleId article id
-	 */
-	public void deleteArticle(String userName, Long articleId);
-	
-	/**
-	 * Deletes a comment.
-	 * @param commentId comment id
-	 * @return Article which comment belongs to
-	 */
-	public Article deleteComment(Long commentId);
-	
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
 }

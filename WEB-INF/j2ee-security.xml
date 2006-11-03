@@ -39,6 +39,17 @@
 	
 	<security-constraint>
 		<web-resource-collection>
+			<web-resource-name>Comment management</web-resource-name>
+			<url-pattern>/comment</url-pattern>
+			<url-pattern>/comment/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>manage-comments</role-name>
+		</auth-constraint>		
+	</security-constraint>	
+
+	<security-constraint>
+		<web-resource-collection>
 			<web-resource-name>Tag management</web-resource-name>
 			<url-pattern>/tag</url-pattern>
 			<url-pattern>/tag/*</url-pattern>

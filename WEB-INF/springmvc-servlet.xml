@@ -110,6 +110,11 @@
 		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
+
+	<bean id="commentDeleteController" class="com.randomcoder.article.CommentDeleteController">
+		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="articleBusiness" ref="articleBusiness" />
+	</bean>
 	
 	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator">
 		<property name="userDao" ref="userDao" />
@@ -215,6 +220,7 @@
 				<prop key="/article/add">articleAddController</prop>
 				<prop key="/article/edit">articleEditController</prop>
 				<prop key="/article/delete">articleDeleteController</prop>
+				<prop key="/comment/delete">commentDeleteController</prop>
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
 				<prop key="/tags/*">articleTagListController</prop>

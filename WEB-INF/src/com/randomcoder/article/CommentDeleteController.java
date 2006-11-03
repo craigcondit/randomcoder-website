@@ -1,10 +1,17 @@
 package com.randomcoder.article;
 
-import com.randomcoder.io.*;
+import javax.servlet.http.*;
 
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
+import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.mvc.AbstractCommandController;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Business interface for managing articles.
+ * Controller class which handles comment deletion.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -31,51 +38,34 @@ import com.randomcoder.io.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface ArticleBusiness
+public class CommentDeleteController extends AbstractCommandController
 {
+	private ArticleBusiness articleBusiness;
+
 	/**
-	 * Create a new article.
-	 * @param producer article producer
-	 * @param userName user name
+	 * Sets the ArticleBusiness implementation to use.
+	 * @param articleBusiness ArticleBusiness implementation
 	 */
-	public void createArticle(Producer<Article> producer, String userName);
-	
+	@Required
+	public void setArticleBusiness(ArticleBusiness articleBusiness)
+	{
+		this.articleBusiness = articleBusiness;
+	}
+
 	/**
-	 * Creates a new comment.
-	 * @param comment comment producer
-	 * @param articleId article id
-	 * @param userName user name
+	 * Deletes the selected comment, and redirects back to permalink page for
+	 * the associated article.
 	 */
-	public void createComment(Producer<Comment> comment, Long articleId, String userName);
-	
-	/**
-	 * Load an existing article for editing.
-	 * @param consumer article consumer
-	 * @param articleId article id
-	 * @param userName user name
-	 */
-	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName);
-	
-	/**
-	 * Update an existing article.
-	 * @param producer article producer
-	 * @param articleId article id
-	 * @param userName user name
-	 */
-	public void updateArticle(Producer<Article> producer, Long articleId, String userName);
-	
-	/**
-	 * Delete an article.
-	 * @param userName user name
-	 * @param articleId article id
-	 */
-	public void deleteArticle(String userName, Long articleId);
-	
-	/**
-	 * Deletes a comment.
-	 * @param commentId comment id
-	 * @return Article which comment belongs to
-	 */
-	public Article deleteComment(Long commentId);
-	
+	@Override
+	public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	{
+		IdCommand cmd = (IdCommand) command;
+				
+		Article article = articleBusiness.deleteComment(cmd.getId());
+
+		View view = new RedirectView(article.getPermalinkUrl(), true);
+		
+		return new ModelAndView(view);
+	}
+
 }
