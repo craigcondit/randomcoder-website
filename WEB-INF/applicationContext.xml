@@ -42,17 +42,19 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
+				<value>com.randomcoder.article.Article</value>
+				<value>com.randomcoder.article.Comment</value>
 				<value>com.randomcoder.user.User</value>
 				<value>com.randomcoder.user.Role</value>
-				<value>com.randomcoder.article.Article</value>
 				<value>com.randomcoder.tag.Tag</value>
 			</list>
 		</property>
 		<property name="entityCacheStrategies">
 			<props>
+				<prop key="com.randomcoder.article.Article">read-write</prop>
+				<prop key="com.randomcoder.article.Comment">read-write</prop>
 				<prop key="com.randomcoder.user.User">read-write</prop>
 				<prop key="com.randomcoder.user.Role">read-only</prop>
-				<prop key="com.randomcoder.article.Article">read-write</prop>
 				<prop key="com.randomcoder.tag.Tag">read-write</prop>
 			</props>
 		</property>
@@ -60,6 +62,7 @@
 			<props>
 				<prop key="com.randomcoder.user.User.roles">read-write</prop>
 				<prop key="com.randomcoder.article.Article.tags">read-write</prop>
+				<prop key="com.randomcoder.article.Article.comments">read-write</prop>
 			</props>
 		</property>
 	</bean>

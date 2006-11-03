@@ -13,6 +13,16 @@
 
 	<!-- Read/write bean mappings -->
 
+	<!-- Article: 0.5 hours / 1 hour / 100 elements -->
+	<cache name="com.randomcoder.article.Article" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="100" eternal="false"
+		overflowToDisk="false" />
+
+	<!-- Comment: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.article.Comment" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" />
+
 	<!-- User: 0.5 hours / 1 hour / 1000 elements -->
 	<cache name="com.randomcoder.user.User" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
@@ -23,22 +33,22 @@
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
-	<!-- Article: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="com.randomcoder.article.Article" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
-
 	<!-- Collection mappings -->
 
-	<!-- User.roles: 0.5 hours / 1 hour / 10000 elements -->
-	<cache name="com.randomcoder.user.User.roles"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
-
-	<!-- Article.tags: 0.5 hours / 1 hour / 10000 elements -->
+	<!-- Article.tags: 0.5 hours / 1 hour / 100 elements -->
 	<cache name="com.randomcoder.article.Article.tags"
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="10000" eternal="false" overflowToDisk="false" />
+		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
+
+	<!-- Article.comments: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.article.Article.comments"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+
+	<!-- User.roles: 0.5 hours / 1 hour / 100 elements -->
+	<cache name="com.randomcoder.user.User.roles"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
 
 	<!-- Query mappings -->
 

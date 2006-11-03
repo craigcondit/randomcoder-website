@@ -70,6 +70,7 @@ public class Article implements Serializable
 	private String content;
 
 	private List<Tag> tags;
+	private List<Comment> comments;
 
 	/**
 	 * Gets the id of this article.
@@ -113,6 +114,26 @@ public class Article implements Serializable
 		this.tags = tags;
 	}
 
+	/**
+	 * Gets the list of comments for this article.
+	 * @return list of comments
+	 */
+	@OneToMany(mappedBy="article")
+  @OrderBy("creationDate DESC")	
+	public List<Comment> getComments()
+	{
+		return comments;
+	}
+	
+	/**
+	 * Sets the list of comments for this article.
+	 * @param comments list of comments
+	 */
+	public void setComments(List<Comment> comments)
+	{
+		this.comments = comments;
+	}
+	
 	/**
 	 * Gets the content type for this article.
 	 * @return content type
