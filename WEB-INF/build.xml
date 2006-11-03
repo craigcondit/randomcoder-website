@@ -96,6 +96,7 @@
 			userid="${database.username}"
 			password="${database.password}">
 			<transaction src="database/upgrade-1.1.sql" />
+			<transaction src="database/upgrade-1.2.sql" />
 		</sql>
 	</target>
 
