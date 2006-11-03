@@ -72,6 +72,13 @@ public class CommentValidator implements Validator
 		this.contentFilter = contentFilter;
 	}
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * <p>
+	 * This class supports {@code CommentCommand} objects only.
+	 * </p>
+	 * @return true if supported, false otherwise
+	 */
 	public boolean supports(Class givenClass)
 	{
 		return CommentCommand.class.equals(givenClass);

@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 
 /**
- * Convenience classes to validate common data types.
+ * Convenience methods to validate common data types.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -143,7 +143,7 @@ public abstract class DataValidationUtils
    * Determines if a specified URL is valid.
    * @param url URL to validate
    * @param allowedProtocols array of valid protocols
-   * @return
+   * @return true if valid, false otherwise
    */
   public static boolean isValidUrl(String url, String[] allowedProtocols)
   {

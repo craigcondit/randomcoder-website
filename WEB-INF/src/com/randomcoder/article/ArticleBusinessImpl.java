@@ -48,18 +48,38 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	private TagDao tagDao;
 	private CommentDao commentDao;
 		
+	/**
+	 * Sets the UserDao implementation to use.
+	 * @param userDao UserDao implementation
+	 */
 	@Required
 	public void setUserDao(UserDao userDao) { this.userDao = userDao; }
 	
+	/**
+	 * Sets the RoleDao implementation to use.
+	 * @param roleDao RoleDao implementation
+	 */
 	@Required
 	public void setRoleDao(RoleDao roleDao) { this.roleDao = roleDao; }
 	
+	/**
+	 * Sets the ArticleDao implementation to use.
+	 * @param articleDao ArticleDao implementation
+	 */
 	@Required
 	public void setArticleDao(ArticleDao articleDao) { this.articleDao = articleDao; }
 	
+	/**
+	 * Sets the TagDao implementation to use.
+	 * @param tagDao TagDao implementation
+	 */
 	@Required
 	public void setTagDao(TagDao tagDao) { this.tagDao = tagDao; }
 
+	/**
+	 * Sets the CommentDao implementation to use.
+	 * @param commentDao CommentDao implementation
+	 */
 	@Required
 	public void setCommentDao(CommentDao commentDao) { this.commentDao = commentDao; }
 	

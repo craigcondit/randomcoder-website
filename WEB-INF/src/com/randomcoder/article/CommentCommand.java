@@ -79,15 +79,6 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	}
 	
 	/**
-	 * 
-	 * @param an true if anonymous, false otherwise
-	 */
-	public void populateAnonymous(boolean an)
-	{
-		this.anonymous = an;
-	}
-	
-	/**
 	 * Get the anonymous name of the comment poster.
 	 * @return anonymous name
 	 */
@@ -170,7 +161,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	
 	/**
 	 * Sets the text of the comment.
-	 * @param comment
+	 * @param content comment text
 	 */
 	public void setContent(String content)
 	{
