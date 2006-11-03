@@ -17,9 +17,7 @@ TODO
 	- acegi (aka spring security)?
 	
 * User comments
-	- flat
 	- nested
-	- anonymous vs. logged-in
 	- tagsoup parser
 	- other commenting formats
 	
