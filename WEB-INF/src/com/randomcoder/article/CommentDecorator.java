@@ -1,7 +1,6 @@
 package com.randomcoder.article;
 
 import java.io.IOException;
-import java.util.*;
 
 import javax.xml.transform.TransformerException;
 
@@ -10,7 +9,7 @@ import org.xml.sax.SAXException;
 import com.randomcoder.content.*;
 
 /**
- * Helper class which "decorates" an {@code Article} instance by providing XHTML
+ * Helper class which "decorates" an {@code Comment} instance by providing XHTML
  * formatting support.
  * 
  * <pre>
@@ -38,42 +37,29 @@ import com.randomcoder.content.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticleDecorator
+public class CommentDecorator
 {
-	private final Article article;
+	private final Comment comment;
 	private final ContentFilter filter;
-	private final List<CommentDecorator> comments;
-
+	
 	/**
-	 * Creates a new decorator using the given article and content filter.
-	 * @param article article to decorate
-	 * @param filter content filter to parse content with
+	 * Creates a new comment decorator using the given comment and filter.
+	 * @param comment comment
+	 * @param filter content filter
 	 */
-	public ArticleDecorator(Article article, ContentFilter filter)
+	public CommentDecorator(Comment comment, ContentFilter filter)
 	{
-		this.article = article;
+		this.comment = comment;
 		this.filter = filter;
-		comments = new ArrayList<CommentDecorator>(article.getComments().size());
-		for (Comment comment : article.getComments())
-			comments.add(new CommentDecorator(comment, filter));		
 	}
-
+	
 	/**
-	 * Gets the wrapped article.
-	 * @return article instance
+	 * Gets the comment wrapped by this decorator.
+	 * @return comment
 	 */
-	public Article getArticle()
+	public Comment getComment()
 	{
-		return article;
-	}
-
-	/**
-	 * Gets the comments for this article;
-	 * @return comment list
-	 */
-	public List<CommentDecorator> getComments()
-	{
-		return comments;
+		return comment;
 	}
 	
 	/**
@@ -85,6 +71,6 @@ public class ArticleDecorator
 	 */
 	public String getFormattedText() throws TransformerException, IOException, SAXException
 	{
-		return ContentUtils.formatText(article.getContent(), article.getContentType(), filter);
-	}
+		return ContentUtils.formatText(comment.getContent(), comment.getContentType(), filter);
+	}	
 }

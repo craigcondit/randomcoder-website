@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://randomcoder.com/tags-security" prefix="sec" %>
 <%@ taglib uri="http://randomcoder.com/tags-escape" prefix="rcesc" %>
+<%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
 
 <c:set var="articlePost" value="${false}" />
 <sec:inRole role="article-post"><c:set var="articlePost" value="${true}" /></sec:inRole>
@@ -70,6 +71,67 @@
 		</sec:loggedIn>
 	</div>
 	<div class="sectionContent">
-	  ${articleDecorator.formattedText}			  
+	  ${articleDecorator.formattedText}
+	  <c:if test="${template.showCommentLinks == 'true'}">
+			<div class="sectionFooter">
+				<c:set var="commentCount" value="${fn:length(articleDecorator.comments)}" />
+				<c:choose>
+					<c:when test="${commentCount == 1}">
+						<c:set var="commentText">1 comment...</c:set>
+					</c:when>
+					<c:when test="${commentCount > 1}">
+						<c:set var="commentText">${commentCount} comments...</c:set>
+					</c:when>
+					<c:otherwise>
+						<c:set var="commentText">Comment on this article...</c:set>
+					</c:otherwise>
+				</c:choose>
+				<a rel="comment" class="comment" href="${permUrl}#comments">${commentText}</a>
+			</div>
+		</c:if>
 	</div>
+
+  <c:if test="${template.showCommentLinks == 'false'}">
+  	<a name="comments"></a>
+  	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
+  		<a name="comment-${commentDecorator.comment.id}"></a>
+		  <c:choose>
+			  <c:when test="${commentDecorator.comment.createdByUser != null}">
+			  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
+			  	<%-- TODO this should eventually reference username link --%>
+			  	<c:set var="commentLink" value="${null}" />
+			  </c:when>
+			  <c:when test="${commentDecorator.comment.anonymousUserName != null}">
+			  	<c:set var="commentAuthor" value="${commentDecorator.comment.anonymousUserName}" />
+			  	<c:set var="commentLink" value="${commentDecorator.comment.anonymousWebsite}" />
+			  </c:when>
+			  <c:otherwise>
+				  <c:set var="commentAuthor" value="${null}" />			  
+			  	<c:set var="commentLink" value="${null}" />
+			  </c:otherwise>
+			</c:choose>
+  		<div class="sectionHeading"><c:out value="${commentDecorator.comment.title}" /></div>
+			<div class="sectionSubHeading">
+				Posted
+				<c:if test="${commentAuthor != null}">
+					by
+					<c:choose>
+						<c:when test="${commentLink != null}">
+							<a rel="nofollow" href="${commentLink}"><strong><c:out value="${commentAuthor}" /></strong></a>
+						</c:when>
+						<c:otherwise>
+							<strong><c:out value="${commentAuthor}" /></strong>	
+						</c:otherwise>
+					</c:choose>
+				</c:if>
+				on <fmt:formatDate type="date" dateStyle="short" value="${commentDecorator.comment.creationDate}" />
+				@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
+				:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
+			</div>
+  		<div class="sectionContent">
+  			${commentDecorator.formattedText}
+  		</div>
+  	</c:forEach>
+  </c:if>
+	
 </c:forEach>

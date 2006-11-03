@@ -30,6 +30,10 @@
 	</bean>
 
 	<bean id="articleEditValidator" class="com.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />
+
+	<bean id="commentValidator" class="com.randomcoder.article.CommentValidator">
+		<property name="contentFilter" ref="contentFilter" />
+	</bean>
 	
 	<bean id="abstractArticleListController" abstract="true">
 		<property name="commandClass" value="com.randomcoder.article.ArticlePageCommand" />
@@ -42,7 +46,7 @@
 	</bean>
 	
 	<bean id="homeController" class="com.randomcoder.article.HomeController" parent="abstractArticleListController" />
-	
+		
 	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
 		<property name="commandClass" value="com.randomcoder.article.ArticleTagPageCommand" />
 		<property name="tagDao" ref="tagDao" />
@@ -50,18 +54,22 @@
 		<property name="viewName" value="article-tag-list" />
 	</bean>
 	
-	<bean id="articleIdController" class="com.randomcoder.article.ArticleIdController">
-		<property name="urlPrefix" value="/articles/id/" />
-		<property name="viewName" value="article-view" />
+	<bean id="abstractSingleArticleController" abstract="true">
+		<property name="formView" value="article-view" />
+		<property name="successView" value="article-view" />
 		<property name="articleDao" ref="articleDao" />
+		<property name="articleBusiness" ref="articleBusiness" />
 		<property name="contentFilter" ref="contentFilter" />	
+		<property name="commandClass" value="com.randomcoder.article.CommentCommand" />
+		<property name="validator" ref="commentValidator" />
+	</bean>
+	
+	<bean id="articleIdController" class="com.randomcoder.article.ArticleIdController" parent="abstractSingleArticleController">
+		<property name="urlPrefix" value="/articles/id/" />
 	</bean>
 
-	<bean id="articlePermalinkController" class="com.randomcoder.article.ArticlePermalinkController">
+	<bean id="articlePermalinkController" class="com.randomcoder.article.ArticlePermalinkController" parent="abstractSingleArticleController">
 		<property name="urlPrefix" value="/articles/" />
-		<property name="viewName" value="article-view" />
-		<property name="articleDao" ref="articleDao" />
-		<property name="contentFilter" ref="contentFilter" />	
 	</bean>
 
 	<bean id="loginController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">

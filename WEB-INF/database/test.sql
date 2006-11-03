@@ -20,6 +20,11 @@ INSERT INTO user_role_link (user_id, role_id) VALUES (
 
 INSERT INTO user_role_link (user_id, role_id) VALUES (
 	(SELECT user_id FROM users WHERE username = 'admin'),
+	(SELECT role_id FROM roles WHERE name = 'manage-comments')
+);
+
+INSERT INTO user_role_link (user_id, role_id) VALUES (
+	(SELECT user_id FROM users WHERE username = 'admin'),
 	(SELECT role_id FROM roles WHERE name = 'development-dwr')
 );
 
@@ -32,4 +37,3 @@ INSERT INTO user_role_link (user_id, role_id) VALUES (
 	(SELECT user_id FROM users WHERE username = 'test'),
 	(SELECT role_id FROM roles WHERE name = 'article-post')
 );
-

@@ -1,13 +1,9 @@
 package com.randomcoder.article;
 
-import java.util.Locale;
-
-import javax.servlet.http.*;
-
-
+import com.randomcoder.dao.GenericDao;
 
 /**
- * Controller class which loads an article by permalink.
+ * Comment data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -34,33 +30,7 @@ import javax.servlet.http.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ArticlePermalinkController extends AbstractSingleArticleController
+public interface CommentDao extends GenericDao<Comment, Long>
 {
-	
-	@Override
-	protected Article loadArticle(HttpServletRequest request)
-	{
-		String appPath = getAppPath(request);
-		
-		String permalink = null;
-		
-		if (appPath.startsWith(urlPrefix))
-		{
-			appPath = appPath.substring(urlPrefix.length());
-			String[] params = appPath.split("/");
-			
-			if (params.length > 0)
-			{
-				permalink = params[0].trim().toLowerCase(Locale.US);
-			}
-		}
-		
-		Article article = null;
-		
-		if (permalink != null)
-			article = articleDao.findByPermalink(permalink);
-		
-		return article;
-	}
-	
+
 }

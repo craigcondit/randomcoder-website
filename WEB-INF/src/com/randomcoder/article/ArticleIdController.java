@@ -35,7 +35,7 @@ public class ArticleIdController extends AbstractSingleArticleController
 {
 	
 	@Override
-	protected Article loadArticle(HttpServletRequest request, HttpServletResponse response)
+	protected Article loadArticle(HttpServletRequest request)
 	{
 		String appPath = getAppPath(request);
 		

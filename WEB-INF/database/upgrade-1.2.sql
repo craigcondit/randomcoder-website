@@ -24,3 +24,5 @@ CREATE TABLE comments (
 	CONSTRAINT comments_title_ck CHECK (title <> '')
 );
 GRANT SELECT, INSERT, UPDATE, DELETE ON comments TO randomcoder;
+
+INSERT INTO roles (name, description) VALUES ('manage-comments', 'Manage comments');

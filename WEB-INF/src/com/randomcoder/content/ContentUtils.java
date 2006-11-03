@@ -1,12 +1,15 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.util.*;
 
 import javax.xml.transform.*;
 import javax.xml.transform.sax.*;
 import javax.xml.transform.stream.StreamResult;
 
 import org.xml.sax.*;
+
+import com.randomcoder.io.SequenceReader;
 
 /**
  * Utility methods for content formatting.
@@ -41,25 +44,24 @@ public class ContentUtils
 
 	/**
 	 * Format the given input source using the given filter into XHTML.
-	 * @param contentType content type
+	 * @param mimeType mime type
 	 * @param content original content
 	 * @param filter filter instance
 	 * @return XHTML-transformed content
-	 * @throws TransformerConfigurationException if transformer config fails
 	 * @throws TransformerException if transforming xml fails
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails
 	 */
-	public static String format(String contentType, InputSource content, ContentFilter filter) throws TransformerConfigurationException, TransformerException,
-			IOException, SAXException
+	public static String format(String mimeType, InputSource content, ContentFilter filter)
+	throws TransformerException, IOException, SAXException
 	{
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		if (!tFactory.getFeature(SAXTransformerFactory.FEATURE))
-			throw new TransformerConfigurationException("SAXTransformerFactory is not supported");
+			throw new RuntimeException("SAXTransformerFactory is not supported");
 
 		SAXTransformerFactory stFactory = (SAXTransformerFactory) tFactory;
 
-		Templates templates = filter.getXSLTemplates(contentType);
+		Templates templates = filter.getXSLTemplates(mimeType);
 
 		TransformerHandler tHandler = null;
 		if (templates == null)
@@ -70,10 +72,38 @@ public class ContentUtils
 		StringWriter out = new StringWriter();
 		tHandler.setResult(new StreamResult(out));
 
-		XMLReader reader = filter.getXMLReader(contentType);
+		XMLReader reader = filter.getXMLReader(mimeType);
 		reader.setContentHandler(tHandler);
 		reader.parse(content);
 
 		return out.toString();
 	}
+	
+	/**
+	 * Format the given content to XHTML. 
+	 * @param content content
+	 * @param contentType content type
+	 * @param filter content filter
+	 * @return transformed output
+	 * @throws TransformerException if transforming xml fails
+	 * @throws IOException if an I/O error occurs
+	 * @throws SAXException if xml parsing fails
+	 */
+	public static String formatText(String content, ContentType contentType, ContentFilter filter)
+	throws TransformerException, IOException, SAXException
+	{
+		String mimeType = contentType.getMimeType();
+
+		String prefix = filter.getPrefix(mimeType);
+		String suffix = filter.getSuffix(mimeType);
+
+		List<Reader> readers = new ArrayList<Reader>();
+		if (prefix != null) readers.add(new StringReader(prefix));
+		readers.add(new StringReader(content));
+		if (suffix != null) readers.add(new StringReader(suffix));
+
+		SequenceReader reader = new SequenceReader(readers);
+
+		return format(mimeType, new InputSource(reader), filter);
+	}	
 }

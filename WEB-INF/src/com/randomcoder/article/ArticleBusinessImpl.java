@@ -46,6 +46,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	private RoleDao roleDao;
 	private ArticleDao articleDao;
 	private TagDao tagDao;
+	private CommentDao commentDao;
 		
 	@Required
 	public void setUserDao(UserDao userDao) { this.userDao = userDao; }
@@ -58,6 +59,9 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	
 	@Required
 	public void setTagDao(TagDao tagDao) { this.tagDao = tagDao; }
+
+	@Required
+	public void setCommentDao(CommentDao commentDao) { this.commentDao = commentDao; }
 	
 	@Transactional
 	public void createArticle(Producer<Article> producer, String userName)
@@ -78,6 +82,26 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		}
 
 		articleDao.create(article);		
+	}
+
+	@Transactional
+	public void createComment(Producer<Comment> producer, Long articleId, String userName)
+	{
+		User user = userName == null ? null : findUserByName(userName);
+
+		Article article = loadArticle(articleId);
+		
+		Comment comment = new Comment();
+		
+		producer.produce(comment);
+		
+		comment.setCreatedByUser(user);
+		comment.setCreationDate(new Date());
+		comment.setArticle(article);
+		
+		commentDao.create(comment);
+		
+		article.getComments().add(comment);
 	}
 
 	@Transactional

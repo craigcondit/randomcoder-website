@@ -2,13 +2,17 @@ package com.randomcoder.article;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.Principal;
 import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.randomcoder.content.ContentFilter;
@@ -41,21 +45,14 @@ import com.randomcoder.content.ContentFilter;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-abstract public class AbstractSingleArticleController extends AbstractController
+abstract public class AbstractSingleArticleController extends SimpleFormController
 {
+	private static final Log logger = LogFactory.getLog(AbstractSingleArticleController.class);
 
-	protected String viewName;
 	protected String urlPrefix;
 	protected ArticleDao articleDao;
 	protected ContentFilter contentFilter;
-
-	/**
-	 * Sets the view name to forward to.
-	 * @param viewName view name
-	 */
-	@Required
-	public void setViewName(String viewName)
-	{ this.viewName = viewName; }
+	protected ArticleBusiness articleBusiness;
 
 	/**
 	 * Sets the url prefix to remove from the front of the url
@@ -82,46 +79,82 @@ abstract public class AbstractSingleArticleController extends AbstractController
 	{ this.contentFilter = contentFilter; }
 
 	/**
+	 * Sets the ArticleBusiness implementation to use.
+	 * @param articleBusiness ArticleBusiness implementation
+	 */
+	@Required
+	public void setArticleBusiness(ArticleBusiness articleBusiness)
+	{
+		this.articleBusiness = articleBusiness;
+	}
+	
+	/**
 	 * Loads the article associated with this request.
 	 * 
 	 * @param request HTTP request
-	 * @param response HTTP response
 	 * @return Article to display
 	 */
-	abstract protected Article loadArticle(HttpServletRequest request, HttpServletResponse response);
+	abstract protected Article loadArticle(HttpServletRequest request);
 
-	/**
-	 * Loads the selected article.
-	 */
 	@Override
-	protected final ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
+	protected Object formBackingObject(HttpServletRequest request) throws Exception
 	{
-		Article article = loadArticle(request, response);
+		logger.debug("formBackingObject(HttpServletRequest)");
 		
-		if (article == null)
-		{
-			response.sendError(HttpServletResponse.SC_NOT_FOUND, request.getRequestURI());
-			return null;
-		}
+		CommentCommand command = (CommentCommand) super.formBackingObject(request);
 		
-		// create model
-		ModelAndView mav = new ModelAndView(viewName);
-	
+		Article article = loadArticle(request);		
+		if (article == null) throw new ArticleNotFoundException();
+		
+		command.bind(article, request.getUserPrincipal() == null);
+		
+		return command;
+	}
+
+	@Override
+	protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception
+	{
+		logger.debug("referenceData()");
+		
+		CommentCommand form = (CommentCommand) command;
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		Article article = form.getArticle();		
+		
 		// wrap article list
 		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(1);
 		wrappedArticles.add(new ArticleDecorator(article, contentFilter));
-	
-		// populate model
-		mav.addObject("articles", wrappedArticles);
-		mav.addObject("pageSubTitle", article.getTitle());
-	
-		return mav;
+			
+		// populate reference data
+		data.put("articles", wrappedArticles);
+		data.put("pageSubTitle", article.getTitle());
+		
+		return data;
 	}
 
+	@Override
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
+	{
+		logger.debug("onSubmit()");
+		
+		CommentCommand form = (CommentCommand) command;
+		
+		Article article = form.getArticle();
+		
+		Principal principal = request.getUserPrincipal();		
+		String userName = null;
+		if (principal != null) userName = principal.getName();
+		
+		articleBusiness.createComment(form, article.getId(), userName);
+				
+		return new ModelAndView(new RedirectView(getAppPath(request), true));
+	}
+	
 	/**
-	 * Gets the portion of the URL within the application.
-	 * @param request HTTP request
-	 * @return application path
+	 * Gets the path of the current request relative to the context path.
+	 * @param request request
+	 * @return app path
 	 */
 	protected final String getAppPath(HttpServletRequest request)
 	{
@@ -136,6 +169,10 @@ abstract public class AbstractSingleArticleController extends AbstractController
 		{
 			throw new RuntimeException("Unsupported encoding", e);
 		}
+		
+		if (logger.isDebugEnabled())
+			logger.debug("appPath: " + appPath);
+		
 		return appPath;
 	}
 }

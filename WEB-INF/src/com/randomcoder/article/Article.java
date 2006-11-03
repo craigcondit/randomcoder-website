@@ -97,7 +97,7 @@ public class Article implements Serializable
 	 * Gets the tags associated with this article.
 	 * @return List of {@code Tag} objects
 	 */
-	@ManyToMany(cascade={ CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "article_tag_link", joinColumns = { @JoinColumn(name = "article_id") }, inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	@OrderBy("displayName")
 	public List<Tag> getTags()
@@ -118,8 +118,8 @@ public class Article implements Serializable
 	 * Gets the list of comments for this article.
 	 * @return list of comments
 	 */
-	@OneToMany(mappedBy="article")
-  @OrderBy("creationDate DESC")	
+	@OneToMany(mappedBy="article", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+  @OrderBy()	
 	public List<Comment> getComments()
 	{
 		return comments;

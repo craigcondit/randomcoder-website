@@ -7,7 +7,7 @@ Behaviour.register({
 		// add confirmation dialogs to all delete links
 		el.onclick = function()
 		{
-			return confirm("Are you sure you want to delete this article?\nThis action cannot be undone.");
+			return confirm("Are you sure you want to delete this article?\nAll comments will be deleted as well.");
 		};
 	},
 	'#j_username' : function(el)

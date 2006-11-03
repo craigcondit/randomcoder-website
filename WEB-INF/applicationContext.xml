@@ -187,6 +187,15 @@
     	</property>
 	</bean>
 
+	<bean id="commentDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.article.Comment" />
+	        </bean>
+    	</property>
+	</bean>
+
 	<bean id="abstractTagDaoTarget" class="com.randomcoder.tag.TagDaoImpl" parent="abstractDaoTarget" abstract="true" />
 	<bean id="abstractTagDao" parent="abstractDao" abstract="true" />	
 	<bean id="tagDao" parent="abstractTagDao">
@@ -202,6 +211,7 @@
 		<property name="roleDao" ref="roleDao" />
 		<property name="articleDao" ref="articleDao" />
 		<property name="tagDao" ref="tagDao" />
+		<property name="commentDao" ref="commentDao" />
 	</bean>
 	
 	<bean id="userBusiness" class="com.randomcoder.user.UserBusinessImpl">

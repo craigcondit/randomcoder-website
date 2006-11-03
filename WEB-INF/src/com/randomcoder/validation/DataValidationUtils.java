@@ -1,8 +1,10 @@
 package com.randomcoder.validation;
 
+import java.net.*;
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.*;
 
 /**
  * Convenience classes to validate common data types.
@@ -34,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public abstract class DataValidationUtils
 {
+	private static final Log logger = LogFactory.getLog(DataValidationUtils.class);
 
 	/**
 	 * Returns the canonical representation of a domain name.
@@ -121,6 +124,57 @@ public abstract class DataValidationUtils
       if (value < 0 || value > 255) return false;
     }
     return true;
+  }
+  
+  /**
+   * Determines if a specified URL is valid.
+   * <p>
+   * This validates a URL, and restricts the protocols to http and https.
+   * </p>
+   * @param url URL to validate
+   * @return true if valid, false otherwise
+   */
+  public static boolean isValidUrl(String url)
+  {
+  	return isValidUrl(url, new String[] { "http", "https" });
+  }
+  
+  /**
+   * Determines if a specified URL is valid.
+   * @param url URL to validate
+   * @param allowedProtocols array of valid protocols
+   * @return
+   */
+  public static boolean isValidUrl(String url, String[] allowedProtocols)
+  {
+  	URL validated = null;
+  	
+		try
+		{
+			validated = new URL(url);
+		}
+		catch (MalformedURLException e)
+		{
+			logger.debug("Malformed URL", e);
+			return false;
+		}
+  	
+  	String proto = validated.getProtocol();
+  	for (String allowed : allowedProtocols)
+  	{
+  		if (allowed.equals(proto))
+			{
+  	  	if (logger.isDebugEnabled())
+  	  		logger.debug("Valid URL: " + url);
+  	  	
+  			return true;
+			}
+  	}
+  	
+  	if (logger.isDebugEnabled())
+  		logger.debug("No protocols found for URL: " + url);
+  	
+  	return false;
   }
   
   /**

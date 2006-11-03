@@ -79,7 +79,7 @@ public class Comment implements Serializable
 	 * Gets the article this comment belongs to.
 	 * @return article
 	 */
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch=FetchType.LAZY, optional=false)
 	@JoinColumn(name = "article_id")
 	public Article getArticle()
 	{

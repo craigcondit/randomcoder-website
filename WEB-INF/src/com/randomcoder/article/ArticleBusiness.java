@@ -41,6 +41,14 @@ public interface ArticleBusiness
 	public void createArticle(Producer<Article> producer, String userName);
 	
 	/**
+	 * Creates a new comment.
+	 * @param comment comment producer
+	 * @param articleId article id
+	 * @param userName user name
+	 */
+	public void createComment(Producer<Comment> comment, Long articleId, String userName);
+	
+	/**
 	 * Load an existing article for editing.
 	 * @param consumer article consumer
 	 * @param articleId article id
