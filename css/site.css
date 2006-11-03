@@ -89,6 +89,11 @@ A.delete {
 	background: url(../images/silk/bullet_delete.png) -3px no-repeat;
 }
 
+A.comment {
+	padding-left: 18px;
+	background: url(../images/silk/comment_reverse.png) left no-repeat;
+}
+
 #header {
 	height: 100px;
 }
@@ -177,8 +182,8 @@ A.delete {
 }
 
 .sectionFooter {
-	margin-top: 0.5em;
-	text-align: right;	
+	margin-top: 2em;
+	text-align: left;	
 	font-size: 0.9em;
 	color: #2c6356;
 }
