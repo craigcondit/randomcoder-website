@@ -65,6 +65,7 @@ public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Ar
 		setPermalink(article.getPermalink());
 		setContentType(article.getContentType());
 		setContent(article.getContent());
+		setSummary(article.getSummary());
 		setTags(new TagList(article.getTags()));
 	}
 }

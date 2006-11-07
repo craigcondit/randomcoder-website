@@ -93,7 +93,7 @@
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Home" />
-				<entry key="showCommentLinks" value="true" />
+				<entry key="summary" value="true" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/article-list.jsp</value>
@@ -158,7 +158,7 @@
 		<property name="attributes">
 			<map>
 				<entry key="title"><null /></entry>
-				<entry key="showCommentLinks" value="false" />
+				<entry key="summary" value="false" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/article-list.jsp</value>

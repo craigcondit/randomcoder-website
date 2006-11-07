@@ -71,27 +71,42 @@
 		</sec:loggedIn>
 	</div>
 	<div class="sectionContent">
-	  ${articleDecorator.formattedText}
-	  <c:if test="${template.showCommentLinks == 'true'}">
-			<div class="sectionFooter">
-				<c:set var="commentCount" value="${fn:length(articleDecorator.comments)}" />
-				<c:choose>
-					<c:when test="${commentCount == 1}">
-						<c:set var="commentText">1 comment...</c:set>
-					</c:when>
-					<c:when test="${commentCount > 1}">
-						<c:set var="commentText">${commentCount} comments...</c:set>
-					</c:when>
-					<c:otherwise>
-						<c:set var="commentText">Comment on this article...</c:set>
-					</c:otherwise>
-				</c:choose>
-				<a rel="comment" class="comment" href="${permUrl}#comments">${commentText}</a>
-			</div>
-		</c:if>
+	  <c:choose>
+		  <c:when test="${template.summary == 'true'}">
+		  	<c:choose>
+		  		<c:when test="${articleDecorator.summaryPresent}">
+			  		${articleDecorator.formattedSummary}
+		  		</c:when>
+		  		<c:otherwise>
+		  			${articleDecorator.formattedText}
+		  		</c:otherwise>
+		  	</c:choose>
+				<div class="sectionFooter">
+					<c:set var="commentCount" value="${fn:length(articleDecorator.comments)}" />
+					<c:choose>
+						<c:when test="${commentCount == 1}">
+							<c:set var="commentText">1 comment</c:set>
+						</c:when>
+						<c:when test="${commentCount > 1}">
+							<c:set var="commentText">${commentCount} comments</c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="commentText">Comment on this article</c:set>
+						</c:otherwise>
+					</c:choose>
+					<c:if test="${articleDecorator.summaryPresent}">
+						<a class="read-more" href="${permUrl}">Read more</a> :: 
+					</c:if>
+					<a rel="comment" class="comment" href="${permUrl}#comments">${commentText}</a>
+				</div>
+	  	</c:when>
+	  	<c:otherwise>	  	
+			  ${articleDecorator.formattedText}
+	  	</c:otherwise>
+	  </c:choose>
 	</div>
 
-  <c:if test="${template.showCommentLinks == 'false'}">
+  <c:if test="${template.summary == 'false'}">
   	<a name="comments"></a>
   	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
   		<a name="comment-${commentDecorator.comment.id}"></a>

@@ -62,6 +62,26 @@
 			</div>
   	</spring:bind>
 
+  	<spring:bind path="command.tags">
+  		<c:set var="fieldClasses">fields<c:if test="${status.error}"> error</c:if></c:set>
+			<div class="${fieldClasses}">
+				<div>
+					<c:if test="${status.error}">
+						<c:forEach var="error" items="${status.errorMessages}">
+							<span class="error"><c:out value="${error}" /></span>
+						</c:forEach>
+					</c:if>
+				</div>
+				<div>					
+					<label for="contentType">Tags:</label>
+					<input:textarea name="tags" styleId="tags" value="${status.value}" rows="3" cols="80" />
+				</div>
+				<div class="description">
+					Enter descriptive &quot;tags&quot; separated by commas.
+				</div>
+			</div>
+  	</spring:bind>
+
   	<spring:bind path="command.contentType">
   		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
 			<div class="${fieldClasses}">
@@ -89,8 +109,8 @@
 			</div>
   	</spring:bind>
 
-  	<spring:bind path="command.tags">
-  		<c:set var="fieldClasses">fields<c:if test="${status.error}"> error</c:if></c:set>
+  	<spring:bind path="command.summary">
+  		<c:set var="fieldClasses">fields long<c:if test="${status.error}"> error</c:if></c:set>
 			<div class="${fieldClasses}">
 				<div>
 					<c:if test="${status.error}">
@@ -100,11 +120,13 @@
 					</c:if>
 				</div>
 				<div>					
-					<label for="contentType">Tags:</label>
-					<input:textarea name="tags" styleId="tags" value="${status.value}" rows="3" cols="80" />
-				</div>
-				<div class="description">
-					Enter descriptive &quot;tags&quot; separated by commas.
+					<label for="summary">
+						Summary:
+						<span class="description">
+							Enter a summary for this article.
+						</span>
+					</label>
+ 					<input:textarea name="summary" styleId="summary" cols="80" rows="5" value="${status.value}" />
 				</div>
 			</div>
   	</spring:bind>

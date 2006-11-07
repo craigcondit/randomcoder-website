@@ -94,6 +94,11 @@ A.comment {
 	background: url(../images/silk/comment_reverse.png) left no-repeat;
 }
 
+A.read-more {
+	padding-left: 16px;
+	background: url(../images/silk/page_small.png) -3px no-repeat;	
+}
+
 #header {
 	height: 100px;
 }

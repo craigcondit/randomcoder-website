@@ -57,7 +57,7 @@ public class ArticleDecorator
 		for (Comment comment : article.getComments())
 			comments.add(new CommentDecorator(comment, filter));		
 	}
-
+	
 	/**
 	 * Gets the wrapped article.
 	 * @return article instance
@@ -77,6 +77,15 @@ public class ArticleDecorator
 	}
 	
 	/**
+	 * Determines if a summary is present for this article.
+	 * @return true if summary exists, false otherwise
+	 */
+	public boolean isSummaryPresent()
+	{
+		return article.getSummary() != null;
+	}
+	
+	/**
 	 * Gets article content after applying filters and HTML escaping.
 	 * @return {@code String} containing the article content in XHTML.
 	 * @throws TransformerException if filtering fails
@@ -87,4 +96,20 @@ public class ArticleDecorator
 	{
 		return ContentUtils.formatText(article.getContent(), article.getContentType(), filter);
 	}
+		
+	/**
+	 * Gets article summary after applying filters and HTML escaping.
+	 * @return {@code String} containing the article summary in XHTML.
+	 * @throws TransformerException if filtering fails
+	 * @throws IOException if an I/O error occurs
+	 * @throws SAXException if parsing fails
+	 */
+	public String getFormattedSummary() throws TransformerException, IOException, SAXException
+	{
+		String summary = article.getSummary();
+		if (summary == null) return null;
+		return ContentUtils.formatText(summary, article.getContentType(), filter);
+	}
+	
+	
 }

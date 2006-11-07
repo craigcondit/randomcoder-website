@@ -70,6 +70,7 @@ public class Article implements Serializable
 	private Date modificationDate;
 	private String title;
 	private String content;
+	private String summary;
 
 	private List<Tag> tags;
 	private List<Comment> comments;
@@ -291,6 +292,25 @@ public class Article implements Serializable
 		this.content = content;
 	}
 
+	/**
+	 * Gets the summary text for this article.
+	 * @return article summyar
+	 */
+	@Column(name = "summary", nullable = true)
+	public String getSummary()
+	{
+		return summary;
+	}
+	
+	/**
+	 * Sets the summary text for this article.
+	 * @param summary summary text
+	 */
+	public void setSummary(String summary)
+	{
+		this.summary = summary;
+	}
+	
 	/**
 	 * Builds a context-relative permalink for the selected article.
 	 * @return permalink

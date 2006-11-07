@@ -45,3 +45,7 @@ A.delete {
 A.comment {
 	background-image: url(../images/silk/comment_reverse.gif);
 }
+
+A.read-more {
+	background-image: url(../images/silk/page_small.gif);	
+}

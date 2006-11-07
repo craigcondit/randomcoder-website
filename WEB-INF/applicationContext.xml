@@ -109,7 +109,8 @@
 
 	<bean id="persistentLoginStore" class="com.randomcoder.citadel.persist.PersistentLoginStore">
 		<property name="cookieName" value="JPERSISTENCE" />
-		<property name="cookieLifetime" value="86400" />
+		<!-- 30 days -->
+		<property name="cookieLifetime" value="2592000" />
 		<property name="encryptionKey" ref="loginEncryptionKey" />
 		<property name="useIpAddress" value="true" />
 	</bean>

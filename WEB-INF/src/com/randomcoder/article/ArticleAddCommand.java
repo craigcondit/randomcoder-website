@@ -68,12 +68,17 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	protected String content;
 
 	/**
+	 * Article summary.
+	 */
+	protected String summary;
+	
+	/**
 	 * Sets the title of the article.
 	 * @param title article title
 	 */
 	public void setTitle(String title)
 	{
-		this.title = title;
+		this.title = StringUtils.trimToNull(title);
 	}
 
 	/**
@@ -145,7 +150,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 */
 	public void setContent(String content)
 	{
-		this.content = content;
+		this.content = StringUtils.trimToNull(content);
 	}
 
 	/**
@@ -158,6 +163,24 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	}
 
 	/**
+	 * Gets the summary text for this article.
+	 * @return summary text
+	 */
+	public String getSummary()
+	{
+		return summary;
+	}
+	
+	/**
+	 * Sets the summary text for this article.
+	 * @param summary summary text
+	 */
+	public void setSummary(String summary)
+	{
+		this.summary = StringUtils.trimToNull(summary);
+	}
+	
+	/**
 	 * Writes out the contents of the form to the given article.
 	 */
 	public void produce(Article article)
@@ -166,6 +189,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 		article.setContentType(contentType);
 		article.setPermalink(permalink);
 		article.setContent(content);
+		article.setSummary(summary);
 		
 		if (article.getTags() == null) article.setTags(new ArrayList<Tag>());
 		

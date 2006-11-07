@@ -27,6 +27,7 @@
 	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
 		<property name="articleDao" ref="articleDao" />
 		<property name="contentFilter" ref="contentFilter" />
+		<property name="maximumSummaryLength" value="1000" />
 	</bean>
 
 	<bean id="articleEditValidator" class="com.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />

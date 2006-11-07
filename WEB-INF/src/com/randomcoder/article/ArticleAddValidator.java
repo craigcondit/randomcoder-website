@@ -42,10 +42,13 @@ public class ArticleAddValidator implements Validator
 {
 	private static final String ERROR_ARTICLE_CONTENT_INVALID = "error.article.content.invalid";
 	private static final String ERROR_ARTICLE_CONTENT_REQUIRED = "error.article.content.required";
+	private static final String ERROR_ARTICLE_SUMMARY_INVALID = "error.article.summary.invalid";
+	private static final String ERROR_ARTICLE_SUMMARY_TOO_LONG = "error.article.summary.toolong";	
 	private static final String ERROR_ARTICLE_CONTENT_TYPE_REQUIRED = "error.article.contentType.required";
 	private static final String ERROR_ARTICLE_TITLE_REQUIRED = "error.article.title.required";
 	private static final String ERROR_ARTICLE_NULL = "error.article.null";
 	private static final String ERROR_ARTICLE_PERMALINK_INVALID = "error.article.permalink.invalid";
+	private static final int DEFAULT_MAX_SUMMARY_LENGTH = 1000;
 	
 	private static final Log logger = LogFactory.getLog(ArticleAddValidator.class);
 	
@@ -61,6 +64,11 @@ public class ArticleAddValidator implements Validator
 	 */
 	protected ArticleDao articleDao;
 
+	/**
+	 * Maximum summary length.
+	 */
+	protected int maximumSummaryLength = DEFAULT_MAX_SUMMARY_LENGTH;
+	
 	/**
 	 * Sets the ContentFilter implementation to use.
 	 * @param contentFilter content filter
@@ -82,6 +90,15 @@ public class ArticleAddValidator implements Validator
 		this.articleDao = articleDao;
 	}
 
+	/**
+	 * Sets the maximum length of the summary field.
+	 * @param maximumSummaryLength max summary length
+	 */
+	public void setMaximumSummaryLength(int maximumSummaryLength)
+	{
+		this.maximumSummaryLength = maximumSummaryLength;
+	}
+	
 	/**
 	 * Determines if this validator supports the given class.
 	 * 
@@ -164,45 +181,60 @@ public class ArticleAddValidator implements Validator
 		}
 		else if (contentType != null)
 		{
-			
 			// validate the content
-			
-			String mimeType = contentType.getMimeType();
-			
-			String prefix = contentFilter.getPrefix(mimeType);
-			String suffix = contentFilter.getSuffix(mimeType);
-			
-			List<Reader> readers = new ArrayList<Reader>();
-			if (prefix != null) readers.add(new StringReader(prefix));
-			readers.add(new StringReader(content));
-			if (suffix != null) readers.add(new StringReader(suffix));
-			
-			SequenceReader reader = new SequenceReader(readers);
-			
-			try
-			{
-				contentFilter.validate(mimeType, reader);
-			}
-			catch (InvalidContentException e)
-			{
-				int line = e.getLineNumber();
-				int col = e.getColumnNumber();
-				
-				errors.rejectValue("content", ERROR_ARTICLE_CONTENT_INVALID, new Object[] { new Integer(line), new Integer(col), e.getMessage() }, "content invalid");
-			}
-			catch (InvalidContentTypeException e)
-			{
-				logger.error("Caught exception", e);
-				throw new RuntimeException("Invalid content type", e);
-			}
-			catch (IOException e)
-			{
-				// this shouldn't happen, since all readers are string readers
-				logger.error("Caught exception", e);
-				throw new RuntimeException("I/O error", e);
-			} 
+			validateContent(errors, content, contentType.getMimeType(), "content", ERROR_ARTICLE_CONTENT_INVALID, "content invalid"); 
 		}
 
+		String summary = command.getSummary();
+		if (summary != null)
+		{
+			// validate summary
+			if (summary.length() > maximumSummaryLength)
+			{
+				errors.rejectValue("summary", ERROR_ARTICLE_SUMMARY_TOO_LONG, new Object[] { new Integer(maximumSummaryLength) }, "summary too long");
+			}
+			else
+			{				
+				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID, "summary invalid"); 
+			}
+		}
+		
 		return true;
+	}
+
+	private void validateContent(Errors errors, String content, String mimeType, String fieldName, String errorMessage, String fallbackMessage)	
+	{
+		String prefix = contentFilter.getPrefix(mimeType);
+		String suffix = contentFilter.getSuffix(mimeType);
+		
+		List<Reader> readers = new ArrayList<Reader>();
+		if (prefix != null) readers.add(new StringReader(prefix));
+		readers.add(new StringReader(content));
+		if (suffix != null) readers.add(new StringReader(suffix));
+		
+		SequenceReader reader = new SequenceReader(readers);
+		
+		try
+		{
+			contentFilter.validate(mimeType, reader);
+		}
+		catch (InvalidContentException e)
+		{
+			int line = e.getLineNumber();
+			int col = e.getColumnNumber();
+			
+			errors.rejectValue(fieldName, errorMessage, new Object[] { new Integer(line), new Integer(col), e.getMessage() }, fallbackMessage);
+		}
+		catch (InvalidContentTypeException e)
+		{
+			logger.error("Caught exception", e);
+			throw new RuntimeException("Invalid content type", e);
+		}
+		catch (IOException e)
+		{
+			// this shouldn't happen, since all readers are string readers
+			logger.error("Caught exception", e);
+			throw new RuntimeException("I/O error", e);
+		}
 	}
 }
