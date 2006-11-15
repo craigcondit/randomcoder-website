@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Per Mellqvist (per@mellqvist.name), System architect, Freelance
  * @link http://www-128.ibm.com/developerworks/java/library/j-genericdao.html
  */
-public interface GenericDao<T, PK extends Serializable>
+public interface GenericDao<T, PK extends Serializable> extends GenericReadOnlyDao<T, PK>
 {
 	/**
 	 * Create a new instance of &lt;T&gt;
@@ -21,13 +21,6 @@ public interface GenericDao<T, PK extends Serializable>
 	 * @return primary key
 	 */
 	public PK create(T newInstance);
-
-	/**
-	 * Load an instance of &lt;T&gt; by primary key
-	 * @param id primary key
-	 * @return object instance
-	 */
-	public T read(PK id);
 
 	/**
 	 * Updates an object

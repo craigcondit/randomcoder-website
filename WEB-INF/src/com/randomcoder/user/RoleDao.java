@@ -2,7 +2,7 @@ package com.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.dao.GenericDao;
+import com.randomcoder.dao.GenericReadOnlyDao;
 
 /**
  * Role data access interface.
@@ -32,7 +32,7 @@ import com.randomcoder.dao.GenericDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface RoleDao extends GenericDao<Role, Long>
+public interface RoleDao extends GenericReadOnlyDao<Role, Long>
 {
 	/**
 	 * Finds a {@code Role} instance with the given name.

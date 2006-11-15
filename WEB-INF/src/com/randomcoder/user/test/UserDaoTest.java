@@ -14,7 +14,7 @@ public class UserDaoTest extends AbstractDaoTest
 	private UserDao userDao;
 	private RoleDao roleDao;
 	
-	@Before public void tearDown() throws Exception
+	@Before public void setUp() throws Exception
 	{
 		cleanDatabase();
 		userDao = (UserDao) createDao(User.class, UserDao.class);
@@ -298,7 +298,7 @@ public class UserDaoTest extends AbstractDaoTest
 		return user;
 	}
 	
-	@After public void setUp() throws Exception
+	@After public void tearDown() throws Exception
 	{
 		unbindSession();
 		userDao = null;

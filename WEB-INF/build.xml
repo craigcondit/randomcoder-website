@@ -17,7 +17,12 @@
 			<include name="**/*.jar" />
 		</fileset>		
 	</path>
-
+	
+	<fileset id="test.cases" dir="src">
+		<exclude name="**/Abstract*.java" />
+		<include name="**/*Test.java" />
+	</fileset>
+	
 	<target name="build" description="Build web app">
 		<mkdir dir="classes" />
 
@@ -120,10 +125,7 @@
 			<formatter type="plain" usefile="false" />
 			
 			<batchtest haltonfailure="no" todir="test-results">
-				<fileset dir="src">
-					<exclude name="**/Abstract*.java" />
-					<include name="**/*Test*.java" />
-				</fileset>          
+				<fileset refid="test.cases" />
 			</batchtest>
 			
 		</junit>
