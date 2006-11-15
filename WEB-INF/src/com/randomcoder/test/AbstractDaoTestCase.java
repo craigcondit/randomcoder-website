@@ -136,11 +136,11 @@ abstract public class AbstractDaoTestCase
 
 		String url = "jdbc:" + type + "://" + host + "/" + name;
 		
-		logger.debug("Normal sername: " + userUsername);
-		logger.debug("Normal password: " + userPassword);
-		logger.debug("Admin username: " + adminUsername);
-		logger.debug("Admin password: " + adminPassword);		
-		logger.debug("URL: " + url);
+		logger.error("Normal sername: " + userUsername);
+		logger.error("Normal password: " + userPassword);
+		logger.error("Admin username: " + adminUsername);
+		logger.error("Admin password: " + adminPassword);		
+		logger.error("URL: " + url);
 		
 		adminDataSource = new DriverManagerDataSource(driver, url, adminUsername, adminPassword);
 		userDataSource = new DriverManagerDataSource(driver, url, userUsername, userPassword);
