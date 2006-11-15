@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package com.randomcoder.user.test;
 
 import static org.junit.Assert.*;
 
@@ -7,13 +7,14 @@ import java.util.*;
 import org.junit.*;
 
 import com.randomcoder.test.AbstractDaoTest;
+import com.randomcoder.user.*;
 
 public class UserDaoTest extends AbstractDaoTest
 {
 	private UserDao userDao;
 	private RoleDao roleDao;
 	
-	@Before public void init() throws Exception
+	@Before public void tearDown() throws Exception
 	{
 		cleanDatabase();
 		userDao = (UserDao) createDao(User.class, UserDao.class);
@@ -21,7 +22,7 @@ public class UserDaoTest extends AbstractDaoTest
 		bindSession();
 	}	
 	
-	@Test public void countAll() throws Exception
+	@Test public void testCountAll() throws Exception
 	{		
 		// database is initially empty, so record count should be 0
 		begin();
@@ -57,7 +58,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 
-	@Test public void create() throws Exception
+	@Test public void testCreate() throws Exception
 	{
 		begin();
 		User user = createTestUser("test-create", "test-create", "test-create@example.com", true);
@@ -85,7 +86,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 	
-	@Test public void delete() throws Exception
+	@Test public void testDelete() throws Exception
 	{
 		// create a test user
 		begin();
@@ -117,7 +118,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();		
 	}
 
-	@Test public void findByUserName() throws Exception
+	@Test public void testFindByUserName() throws Exception
 	{
 		// create a user
 		begin();
@@ -135,7 +136,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 
-	@Test public void findByUserNameEnabled() throws Exception
+	@Test public void testFindByUserNameEnabled() throws Exception
 	{
 		// create some users
 		begin();
@@ -158,7 +159,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 	
-	@Test public void listAll() throws Exception
+	@Test public void testListAll() throws Exception
 	{		
 		// create test users
 		begin();
@@ -182,7 +183,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 
-	@Test public void listAllInRange() throws Exception
+	@Test public void testListAllInRange() throws Exception
 	{		
 		// create test users
 		begin();
@@ -214,7 +215,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 
-	@Test public void listEnabled() throws Exception
+	@Test public void testListEnabled() throws Exception
 	{
 		// create test users
 		begin();
@@ -239,7 +240,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 	
-	@Test public void read() throws Exception
+	@Test public void testRead() throws Exception
 	{
 		begin();
 		User created = createTestUser("test-read", "test-read", "testread@example.com", true);
@@ -256,7 +257,7 @@ public class UserDaoTest extends AbstractDaoTest
 		commit();
 	}
 	
-	@Test public void update() throws Exception
+	@Test public void testUpdate() throws Exception
 	{
 		begin();
 		createTestUser("test-update", "test-update", "testupdate@example.com", true);
@@ -297,7 +298,7 @@ public class UserDaoTest extends AbstractDaoTest
 		return user;
 	}
 	
-	@After public void destroy() throws Exception
+	@After public void setUp() throws Exception
 	{
 		unbindSession();
 		userDao = null;
