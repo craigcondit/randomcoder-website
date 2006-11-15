@@ -90,7 +90,7 @@
 		<delete dir="test-results" />
 	</target>
 		
-	<target name="cruisecontrol" depends="svnupdate,clean,test" />
+	<target name="cruisecontrol" depends="clean,test" />
 	
 	<target name="svnupdate">
 		<exec command="svn" dir="${basedir}/..">
