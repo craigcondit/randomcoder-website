@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.logging.*;
 import org.dbunit.database.*;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
@@ -28,8 +27,6 @@ import com.randomcoder.user.*;
 
 abstract public class AbstractDaoTestCase
 {
-	private static final Log logger = LogFactory.getLog(AbstractDaoTestCase.class);
-	
 	private static DataSource adminDataSource;
 	private static DataSource userDataSource;
 	private SessionFactory sessionFactory;
@@ -135,12 +132,6 @@ abstract public class AbstractDaoTestCase
 		String userPassword = System.getProperty("test.database.user.password");
 
 		String url = "jdbc:" + type + "://" + host + "/" + name;
-		
-		logger.error("Normal sername: " + userUsername);
-		logger.error("Normal password: " + userPassword);
-		logger.error("Admin username: " + adminUsername);
-		logger.error("Admin password: " + adminPassword);		
-		logger.error("URL: " + url);
 		
 		adminDataSource = new DriverManagerDataSource(driver, url, adminUsername, adminPassword);
 		userDataSource = new DriverManagerDataSource(driver, url, userUsername, userPassword);

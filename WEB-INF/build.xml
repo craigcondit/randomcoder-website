@@ -94,6 +94,8 @@
 		<delete dir="test-results" />
 	</target>
 		
+	<target name="cruisecontrol" depends="clean,test" />
+	
 	<target name="test" description="Unit tests" depends="build,test-db-init">
 		<!-- NOTE: This requires JUnit 4.x and ANT 1.7 -->
 		
