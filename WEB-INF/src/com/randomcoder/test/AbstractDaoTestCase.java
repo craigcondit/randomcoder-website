@@ -133,6 +133,10 @@ abstract public class AbstractDaoTestCase
 
 		String url = "jdbc:" + type + "://" + host + "/" + name;
 		
+		System.out.println("Username: " + userUsername);
+		System.out.println("Password: " + userPassword);
+		System.out.println("URL: " + url);
+		
 		adminDataSource = new DriverManagerDataSource(driver, url, adminUsername, adminPassword);
 		userDataSource = new DriverManagerDataSource(driver, url, userUsername, userPassword);
 	}
