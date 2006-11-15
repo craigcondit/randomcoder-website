@@ -6,10 +6,10 @@ import java.util.*;
 
 import org.junit.*;
 
-import com.randomcoder.test.AbstractDaoTest;
+import com.randomcoder.test.AbstractDaoTestCase;
 import com.randomcoder.user.*;
 
-public class UserDaoTest extends AbstractDaoTest
+public class UserDaoTest extends AbstractDaoTestCase
 {
 	private UserDao userDao;
 	private RoleDao roleDao;

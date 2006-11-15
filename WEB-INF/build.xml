@@ -19,7 +19,6 @@
 	</path>
 	
 	<fileset id="test.cases" dir="src">
-		<exclude name="**/Abstract*.java" />
 		<include name="**/*Test.java" />
 	</fileset>
 	

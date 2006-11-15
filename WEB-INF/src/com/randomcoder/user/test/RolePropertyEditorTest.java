@@ -17,15 +17,7 @@ public class RolePropertyEditorTest
 		editor = new RolePropertyEditor(roleDao);
 	}
 
-	@After
-	public void tearDown() throws Exception
-	{
-		roleDao = null;
-		editor = null;
-	}
-
-	@Test
-	public void testGetAsText()
+	@Test public void testGetAsText()
 	{
 		Role role = new Role();
 		role.setName("get-as-text");
@@ -36,8 +28,7 @@ public class RolePropertyEditorTest
 		assertEquals("Wrong value", "get-as-text", editor.getAsText());
 	}
 
-	@Test
-	public void testSetAsText()
+	@Test public void testSetAsText()
 	{
 		Role role = new Role();
 		role.setName("set-as-text");
@@ -51,6 +42,12 @@ public class RolePropertyEditorTest
 		assertTrue("Not a Role", value instanceof Role);
 		Role editorRole = (Role) value;
 		assertEquals("Wrong role name", "set-as-text", editorRole.getName());
+	}
+
+	@After public void tearDown() throws Exception
+	{
+		roleDao = null;
+		editor = null;
 	}
 
 }

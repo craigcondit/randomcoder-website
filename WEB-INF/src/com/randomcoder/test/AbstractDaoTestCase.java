@@ -25,7 +25,7 @@ import com.randomcoder.dao.hibernate.HibernateDao;
 import com.randomcoder.tag.Tag;
 import com.randomcoder.user.*;
 
-abstract public class AbstractDaoTest
+abstract public class AbstractDaoTestCase
 {
 	private static DataSource adminDataSource;
 	private static DataSource userDataSource;

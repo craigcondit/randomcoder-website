@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="WEB-INF/dep/dbunit-2.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/dep/junit-4.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/dep/postgresql.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/dep/spring-mock-2.0.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
