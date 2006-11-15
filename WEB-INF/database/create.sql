@@ -1,6 +1,5 @@
 -- users
 CREATE SEQUENCE users_seq;
-GRANT SELECT, UPDATE ON users_seq TO randomcoder;
 CREATE TABLE users (
 	user_id BIGINT NOT NULL DEFAULT NEXTVAL('users_seq'),
 	username VARCHAR(30) NOT NULL,
@@ -12,11 +11,9 @@ CREATE TABLE users (
 	CONSTRAINT users_username_ck CHECK (username <> '')
 );
 CREATE INDEX users_enabled_idx ON users (enabled);
-GRANT SELECT, INSERT, UPDATE, DELETE ON users TO randomcoder;
 
 -- roles
 CREATE SEQUENCE roles_seq;
-GRANT SELECT, UPDATE ON roles_seq TO randomcoder;
 CREATE TABLE roles (
 	role_id BIGINT NOT NULL DEFAULT NEXTVAL('roles_seq'),
 	name VARCHAR(30) NOT NULL,
@@ -25,7 +22,6 @@ CREATE TABLE roles (
 	CONSTRAINT roles_name_key UNIQUE (name),
 	CONSTRAINT roles_name_ck CHECK (name <> '')
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON roles TO randomcoder;
 
 -- user/role link
 CREATE TABLE user_role_link (
@@ -39,11 +35,9 @@ CREATE TABLE user_role_link (
 		FOREIGN KEY (role_id) REFERENCES roles (role_id)
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON user_role_link TO randomcoder;
 
 -- articles
 CREATE SEQUENCE articles_seq;
-GRANT SELECT, UPDATE ON articles_seq TO randomcoder;
 CREATE TABLE articles (
 	article_id BIGINT NOT NULL DEFAULT NEXTVAL('articles_seq'),
 	content_type VARCHAR(255) NOT NULL,
@@ -65,11 +59,9 @@ CREATE TABLE articles (
 	CONSTRAINT articles_title_ck CHECK (title <> ''),
 	CONSTRAINT articles_permalink_key UNIQUE (permalink)
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON articles TO randomcoder;
 
 -- tags
 CREATE SEQUENCE tags_seq;
-GRANT SELECT, UPDATE ON tags_seq TO randomcoder;
 CREATE TABLE tags (
 	tag_id BIGINT NOT NULl DEFAULT NEXTVAL('tags_seq'),
 	name VARCHAR(255) NOT NULL,
@@ -79,7 +71,6 @@ CREATE TABLE tags (
 	CONSTRAINT tags_name_ck CHECK (name <> '')
 );
 CREATE INDEX tags_display_name_key ON tags (display_name);
-GRANT SELECT, INSERT, UPDATE, DELETE ON tags TO randomcoder;
 
 -- article/tag link
 CREATE TABLE article_tag_link (
@@ -93,4 +84,3 @@ CREATE TABLE article_tag_link (
 		FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON article_tag_link TO randomcoder;

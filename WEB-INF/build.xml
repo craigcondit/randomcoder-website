@@ -66,24 +66,91 @@
 		<delete dir="../docs/apidocs" />
 		<delete dir="classes" />
 	</target>
+		
+	<target name="test-db-init" description="Initialize test database">
+		<echo message="Preparing test database..." />
+		
+		<antcall inheritall="false" target="test-db-init.internal">
+			<param name="database.driver" value="${test.database.driver}" />
+			<param name="database.type" value="${test.database.type}" />
+			<param name="database.host" value="${test.database.host}" />
+			<param name="database.name" value="${test.database.name}" />
+			<param name="database.admin.username" value="${test.database.admin.username}" />
+			<param name="database.admin.password" value="${test.database.admin.password}" />
+			<param name="database.user.username" value="${test.database.user.username}" />
+			<param name="database.user.password" value="${test.database.user.password}" />
+		</antcall>
+		
+		<echo message="Test database prepared." />
+	</target>
+	
+	<target name="test-db-init.internal" depends="db-init,db-drop,db-create,db-populate,db-upgrade,db-grant" />
+		
+	<target name="test-clean" description="Cleans test results">
+		<delete dir="test-results" />
+	</target>
+		
+	<target name="test" description="Unit tests" depends="build,test-db-init">
+		<!-- NOTE: This requires JUnit 4.x and ANT 1.7 -->
+		
+		<delete dir="test-results" />
+		<mkdir dir="test-results" />
+		
+		<junit printsummary="yes" fork="true" haltonfailure="yes" showoutput="false">
+			
+			<jvmarg value="-Dtest.database.driver=${test.database.driver}" />
+			<jvmarg value="-Dtest.database.type=${test.database.type}" />
+			<jvmarg value="-Dtest.database.host=${test.database.host}" />
+			<jvmarg value="-Dtest.database.name=${test.database.name}" />
+			<jvmarg value="-Dtest.database.admin.username=${test.database.admin.username}" />
+			<jvmarg value="-Dtest.database.admin.username=${test.database.admin.password}" />
+			<jvmarg value="-Dtest.database.user.username=${test.database.user.username}" />
+			<jvmarg value="-Dtest.database.user.username=${test.database.user.password}" />			
+			<jvmarg value="-Dtest.dataset.path=${basedir}/test/test-data.xml" />
+			<jvmarg value="-Dtest.webinf.dir=${basedir}" />
+			
+			<classpath>
+				<pathelement location="classes" />
+				<path refid="classpath" />
+			</classpath>
+			
+			<formatter type="xml" />
+			
+			<!-- show in console for development -->
+			<formatter type="plain" usefile="false" />
+			
+			<batchtest haltonfailure="no" todir="test-results">
+				<fileset dir="src">
+					<exclude name="**/Abstract*.java" />
+					<include name="**/*Test*.java" />
+				</fileset>          
+			</batchtest>
+			
+		</junit>
+		
+	</target>
 
 	<target name="db-init">
 		<fail unless="database.driver" message="Please set database.driver" />
 		<fail unless="database.type" message="Please set database.type" />
 		<fail unless="database.host" message="Please set database.host" />
 		<fail unless="database.name" message="Please set database.name" />
-		<fail unless="database.username" message="Please set database.username" />
-		<fail unless="database.password" message="Please set database.password" />		
+		<fail unless="database.admin.username" message="Please set database.admin.username" />
+		<fail unless="database.admin.password" message="Please set database.admin.password" />		
+		<fail unless="database.user.username" message="Please set database.user.username" />
+		<fail unless="database.user.password" message="Please set database.user.password" />		
 		<property name="database.url" value="jdbc:${database.type}://${database.host}/${database.name}" />		
+		
+		<echo message="database.url=${database.url}" />
 	</target>
 	
 	<target name="db-create" description="Create database tables" depends="db-init">
-		<sql
+		<sql 
 			classpathref="database.classpath"
 			driver="${database.driver}"
 			url="${database.url}"
-			userid="${database.username}"
-			password="${database.password}">
+			userid="${database.admin.username}"
+			password="${database.admin.password}">
 			<transaction src="database/create.sql" />
 		</sql>
 	</target>
@@ -93,8 +160,8 @@
 			classpathref="database.classpath"
 			driver="${database.driver}"
 			url="${database.url}"
-			userid="${database.username}"
-			password="${database.password}">
+			userid="${database.admin.username}"
+			password="${database.admin.password}">
 			<transaction src="database/upgrade-1.1.sql" />
 			<transaction src="database/upgrade-1.2.sql" />
 			<transaction src="database/upgrade-1.3.sql" />
@@ -106,8 +173,8 @@
 			classpathref="database.classpath"
 			driver="${database.driver}"
 			url="${database.url}"
-			userid="${database.username}"
-			password="${database.password}"
+			userid="${database.admin.username}"
+			password="${database.admin.password}"
 			onerror="continue"
 			autocommit="true"
 			src="database/drop.sql" />
@@ -118,23 +185,38 @@
 			classpathref="database.classpath"
 			driver="${database.driver}"
 			url="${database.url}"
-			userid="${database.username}"
-			password="${database.password}">
+			userid="${database.admin.username}"
+			password="${database.admin.password}">
 			<transaction src="database/populate.sql" />
 		</sql>	
 	</target>
 
+	<target name="db-grant" description="Grant database permissions" depends="db-init">
+		<tempfile property="db.grant.tempfile" destdir="${java.io.tmpdir}" prefix="grant" suffix=".sql" />		
+		<filter token="DB_USERNAME" value="${database.user.username}" />
+		<copy tofile="${db.grant.tempfile}" file="database/grant.sql" filtering="true" />
+		<sql
+			classpathref="database.classpath"
+			driver="${database.driver}"
+			url="${database.url}"
+			userid="${database.admin.username}"
+			password="${database.admin.password}">
+			<transaction src="${db.grant.tempfile}" />
+		</sql>	
+		<delete file="${db.grant.tempfile}" />
+	</target>
+	
 	<target name="db-test" description="Populate database tables with test data" depends="db-init">
 		<sql
 			classpathref="database.classpath"
 			driver="${database.driver}"
 			url="${database.url}"
-			userid="${database.username}"
-			password="${database.password}">
+			userid="${database.admin.username}"
+			password="${database.admin.password}">
 			<transaction src="database/test.sql" />
 		</sql>	
 	</target>
 	
-	<target name="db-dev" description="Rebuild development database" depends="db-drop,db-create,db-populate,db-upgrade,db-test" />
+	<target name="db-dev" description="Rebuild development database" depends="db-drop,db-create,db-populate,db-upgrade,db-grant,db-test" />
 
 </project>

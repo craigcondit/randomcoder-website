@@ -1,0 +1,71 @@
+<!ELEMENT dataset (
+    users*,
+    roles*,
+    user_role_link*,
+    articles*,
+    tags*,
+    article_tag_link*,
+    comments*)>
+
+<!ELEMENT users EMPTY>
+<!ATTLIST users
+    user_id CDATA #REQUIRED
+    username CDATA #REQUIRED
+    password CDATA #REQUIRED
+    email CDATA #REQUIRED
+    enabled CDATA #REQUIRED
+>
+
+<!ELEMENT roles EMPTY>
+<!ATTLIST roles
+    role_id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    description CDATA #IMPLIED
+>
+
+<!ELEMENT user_role_link EMPTY>
+<!ATTLIST user_role_link
+    user_id CDATA #REQUIRED
+    role_id CDATA #REQUIRED
+>
+
+<!ELEMENT articles EMPTY>
+<!ATTLIST articles
+    article_id CDATA #REQUIRED
+    content_type CDATA #REQUIRED
+    create_user_id CDATA #IMPLIED
+    create_date CDATA #REQUIRED
+    modify_user_id CDATA #IMPLIED
+    modify_date CDATA #IMPLIED
+    title CDATA #REQUIRED
+    permalink CDATA #IMPLIED
+    content CDATA #REQUIRED
+    summary CDATA #IMPLIED
+>
+
+<!ELEMENT tags EMPTY>
+<!ATTLIST tags
+    tag_id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    display_name CDATA #REQUIRED
+>
+
+<!ELEMENT article_tag_link EMPTY>
+<!ATTLIST article_tag_link
+    article_id CDATA #REQUIRED
+    tag_id CDATA #REQUIRED
+>
+
+<!ELEMENT comments EMPTY>
+<!ATTLIST comments
+    comment_id CDATA #REQUIRED
+    article_id CDATA #REQUIRED
+    content_type CDATA #REQUIRED
+    create_user_id CDATA #IMPLIED
+    create_date CDATA #REQUIRED
+    anonymous_user_name CDATA #IMPLIED
+    anonymous_email_address CDATA #IMPLIED
+    anonymous_website CDATA #IMPLIED
+    title CDATA #REQUIRED
+    content CDATA #REQUIRED
+>

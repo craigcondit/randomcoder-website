@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE dataset SYSTEM "test-data.dtd">
+<dataset>
+  <users/>
+  <roles role_id="1" name="manage-users" description="Manage users"/>
+  <roles role_id="2" name="article-post" description="Post articles"/>
+  <roles role_id="3" name="article-admin" description="Update other users&apos; articles"/>
+  <roles role_id="4" name="development-dwr" description="DWR Testing"/>
+  <roles role_id="5" name="manage-tags" description="Manage tags"/>
+  <roles role_id="6" name="manage-comments" description="Manage comments"/>
+  <user_role_link/>
+  <articles/>
+  <tags/>
+  <article_tag_link/>
+  <comments/>
+</dataset>

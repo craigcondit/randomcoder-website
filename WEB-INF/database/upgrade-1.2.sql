@@ -1,6 +1,5 @@
 -- comments
 CREATE SEQUENCE comments_seq;
-GRANT SELECT, UPDATE ON comments_seq TO randomcoder;
 
 CREATE TABLE comments (
 	comment_id BIGINT NOT NULL DEFAULT NEXTVAL('comments_seq'),
@@ -23,6 +22,5 @@ CREATE TABLE comments (
 		ON DELETE SET NULL ON UPDATE SET NULL,
 	CONSTRAINT comments_title_ck CHECK (title <> '')
 );
-GRANT SELECT, INSERT, UPDATE, DELETE ON comments TO randomcoder;
 
 INSERT INTO roles (name, description) VALUES ('manage-comments', 'Manage comments');
