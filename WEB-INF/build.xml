@@ -72,8 +72,6 @@
 	</target>
 		
 	<target name="test-db-init" description="Initialize test database">
-		<echo message="Preparing test database..." />
-		
 		<antcall inheritall="false" target="test-db-init.internal">
 			<param name="database.driver" value="${test.database.driver}" />
 			<param name="database.type" value="${test.database.type}" />
@@ -84,8 +82,6 @@
 			<param name="database.user.username" value="${test.database.user.username}" />
 			<param name="database.user.password" value="${test.database.user.password}" />
 		</antcall>
-		
-		<echo message="Test database prepared." />
 	</target>
 	
 	<target name="test-db-init.internal" depends="db-init,db-drop,db-create,db-populate,db-upgrade,db-grant" />
@@ -143,8 +139,6 @@
 		<fail unless="database.user.username" message="Please set database.user.username" />
 		<fail unless="database.user.password" message="Please set database.user.password" />		
 		<property name="database.url" value="jdbc:${database.type}://${database.host}/${database.name}" />		
-		
-		<echo message="database.url=${database.url}" />
 	</target>
 	
 	<target name="db-create" description="Create database tables" depends="db-init">
