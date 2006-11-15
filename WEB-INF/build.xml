@@ -107,9 +107,9 @@
 			<jvmarg value="-Dtest.database.host=${test.database.host}" />
 			<jvmarg value="-Dtest.database.name=${test.database.name}" />
 			<jvmarg value="-Dtest.database.admin.username=${test.database.admin.username}" />
-			<jvmarg value="-Dtest.database.admin.username=${test.database.admin.password}" />
+			<jvmarg value="-Dtest.database.admin.password=${test.database.admin.password}" />
 			<jvmarg value="-Dtest.database.user.username=${test.database.user.username}" />
-			<jvmarg value="-Dtest.database.user.username=${test.database.user.password}" />			
+			<jvmarg value="-Dtest.database.user.password=${test.database.user.password}" />			
 			<jvmarg value="-Dtest.dataset.path=${basedir}/test/test-data.xml" />
 			<jvmarg value="-Dtest.webinf.dir=${basedir}" />
 			
