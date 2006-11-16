@@ -90,9 +90,9 @@
 		<delete dir="test-results" />
 	</target>
 		
-	<target name="cruisecontrol" depends="clean,test" />
+	<target name="cruisecontrol" depends="clean,test" description="Run CruiseControl build" />
 	
-	<target name="svnupdate">
+	<target name="svnupdate" description="Updates latest code from SVN">
 		<exec command="svn" dir="${basedir}/..">
 			<arg value="update" />
 		</exec>
