@@ -116,7 +116,7 @@
 			<jvmarg value="-Dtest.database.user.password=${test.database.user.password}" />			
 			<jvmarg value="-Dtest.dataset.path=${basedir}/test/test-data.xml" />
 			<jvmarg value="-Dtest.webinf.dir=${basedir}" />
-			<jvmarg value="-Dlog4j.configuration=test/log4j.xml" />
+			<jvmarg value="-Dlog4j.configuration=./test/log4j.xml" />
 			
 			<classpath>
 				<pathelement location="classes" />
