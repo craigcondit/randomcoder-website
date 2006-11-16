@@ -104,7 +104,7 @@
 		<delete dir="test-results" />
 		<mkdir dir="test-results" />
 		
-		<junit printsummary="yes" fork="true" haltonfailure="yes" showoutput="false">
+		<junit printsummary="on" fork="true" haltonfailure="on" showoutput="off">
 			
 			<jvmarg value="-Dtest.database.driver=${test.database.driver}" />
 			<jvmarg value="-Dtest.database.type=${test.database.type}" />
@@ -116,6 +116,7 @@
 			<jvmarg value="-Dtest.database.user.password=${test.database.user.password}" />			
 			<jvmarg value="-Dtest.dataset.path=${basedir}/test/test-data.xml" />
 			<jvmarg value="-Dtest.webinf.dir=${basedir}" />
+			<jvmarg value="-Dlog4j.configuration=test/log4j.xml" />
 			
 			<classpath>
 				<pathelement location="classes" />
@@ -124,8 +125,7 @@
 			
 			<formatter type="xml" />
 			
-			<!-- show in console for development -->
-			<formatter type="plain" usefile="false" />
+			<formatter type="brief" usefile="false" />
 			
 			<batchtest haltonfailure="no" todir="test-results">
 				<fileset refid="test.cases" />
