@@ -47,9 +47,13 @@ public class UserDaoMock implements UserDao
 		
 		// validate range
 		if (start < 0 || start >= allUsers.size()) return new ArrayList<User>();
-		if (limit < 1 || start + limit >= allUsers.size()) return new ArrayList<User>();
+		
+		int end = start + limit;
+		if (limit < 1) return new ArrayList<User>();
+		
+		if (end > allUsers.size()) end = allUsers.size();
 
-		return allUsers.subList(start, start + limit + 1);
+		return allUsers.subList(start, end);
 	}
 
 	public List<User> listEnabled()

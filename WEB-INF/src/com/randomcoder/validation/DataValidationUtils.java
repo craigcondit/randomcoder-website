@@ -82,14 +82,10 @@ public abstract class DataValidationUtils
     if (domain == null) return false;
     if (domain.length() > 255) return false;
 
-    // make sure domain contains only legal characters
-    if (!domain.matches("^[a-z0-9\\.\\-\\*\\?]+$")) return false;
+    if (domain.startsWith("*."))
+    	domain = domain.substring(2);
     
-    // make sure each part isn't too long
-    String[] parts = domain.split("\\.");
-    for (String part : parts) if (part.length() > 67) return false;
-    
-    return true;
+    return isValidDomainName(domain);
   }
   
   /**
@@ -136,7 +132,7 @@ public abstract class DataValidationUtils
    */
   public static boolean isValidUrl(String url)
   {
-  	return isValidUrl(url, new String[] { "http", "https" });
+  	return isValidUrl(url, "http", "https");
   }
   
   /**
@@ -145,7 +141,7 @@ public abstract class DataValidationUtils
    * @param allowedProtocols array of valid protocols
    * @return true if valid, false otherwise
    */
-  public static boolean isValidUrl(String url, String[] allowedProtocols)
+  public static boolean isValidUrl(String url, String... allowedProtocols)
   {
   	URL validated = null;
   	
