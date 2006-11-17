@@ -97,7 +97,7 @@ public class SequenceReader extends Reader
 
 		int c = currentReader.read(cbuf, off, len);
 
-		if (c <= 0)
+		if (c < 0) // EOF
 		{
 			// try next stream
 			nextReader();

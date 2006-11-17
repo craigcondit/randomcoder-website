@@ -108,7 +108,7 @@
 		<delete dir="test-results" />
 		<mkdir dir="test-results" />
 		
-		<junit printsummary="on" fork="true" haltonfailure="on" showoutput="off" dir="${basedir}">
+		<junit printsummary="on" fork="true" haltonfailure="on" showoutput="${test.showoutput}" dir="${basedir}">
 			
 			<jvmarg value="-Dtest.database.driver=${test.database.driver}" />
 			<jvmarg value="-Dtest.database.type=${test.database.type}" />
