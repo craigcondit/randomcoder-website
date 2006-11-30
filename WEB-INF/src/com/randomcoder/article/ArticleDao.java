@@ -73,6 +73,13 @@ public interface ArticleDao extends GenericDao<Article, Long>
 	public List<Article> listByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit);
 
 	/**
+	 * Lists {@code Article} objects with the given tag. 
+	 * @param tag tag
+	 * @return list of {@code Article} objects
+	 */
+	public List<Article> listByTag(Tag tag);
+
+	/**
 	 * Iterates {@code Article} objects with the given tag. 
 	 * @param tag tag
 	 * @return Article iterator
