@@ -3,34 +3,38 @@ package com.randomcoder.dao;
 import java.io.Serializable;
 
 /**
- * The basic GenericDao interface with CRUD methods Finders are added with
- * interface inheritance and AOP introductions for concrete implementations
+ * Generic DAO.
  * 
- * Extended interfaces may declare methods starting with read... find... list...
- * or iterate... They will execute a preconfigured query that is looked up based
- * on the rest of the method name
+ * <pre>
+ * Copyright (c) 2006, Craig Condit. All rights reserved.
  * 
- * @author Per Mellqvist (per@mellqvist.name), System architect, Freelance
- * @link http://www-128.ibm.com/developerworks/java/library/j-genericdao.html
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ *   * Redistributions of source code must retain the above copyright notice,
+ *     this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright notice,
+ *     this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *     
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ * </pre>
  */
-public interface GenericDao<T, PK extends Serializable> extends GenericReadOnlyDao<T, PK>
+public interface GenericDao<T, PK extends Serializable> extends GenericWriteOnceDao<T, PK>
 {
-	/**
-	 * Create a new instance of &lt;T&gt;
-	 * @param newInstance new class instance to save
-	 * @return primary key
-	 */
-	public PK create(T newInstance);
-
 	/**
 	 * Updates an object
 	 * @param transientObject object to update
 	 */
 	public void update(T transientObject);
-
-	/**
-	 * Deletes an object
-	 * @param persistentObject object to delete
-	 */
-	public void delete(T persistentObject);
 }
