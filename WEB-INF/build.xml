@@ -3,11 +3,20 @@
 	<property file="local.build.properties" />
 	<property file="build.properties" />
 	
+	<property name="coverage" location="emma-coverage" />
+	<property name="instr" location="emma-instr" />
+	
 	<path id="classpath">
 		<fileset dir="dep">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="emma.classpath">
+		<fileset dir="emma">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -21,6 +30,8 @@
 	<fileset id="test.cases" dir="src">
 		<include name="**/*Test.java" />
 	</fileset>
+	
+  <taskdef resource="emma_ant.properties" classpathref="emma.classpath" />
 	
 	<target name="build" description="Build web app">
 		<mkdir dir="classes" />
@@ -70,7 +81,7 @@
 		</javadoc>
 	</target>
 	
-	<target name="clean" description="Clean build targets">
+	<target name="clean" description="Clean build targets" depends="emma-clean">
 		<delete dir="../docs/apidocs" />
 		<delete dir="classes" />
 	</target>
@@ -93,8 +104,13 @@
 	<target name="test-clean" description="Cleans test results">
 		<delete dir="test-results" />
 	</target>
+	
+	<target name="emma-clean" description="Cleans emma results">
+		<delete dir="${coverage}" />
+		<delete dir="${instr}" />
+	</target>
 		
-	<target name="cruisecontrol" depends="clean,test" description="Run CruiseControl build" />
+	<target name="cruisecontrol" depends="clean,coverage" description="Run CruiseControl build" />
 	
 	<target name="svnupdate" description="Updates latest code from SVN">
 		<exec command="svn" dir="${basedir}/..">
@@ -102,6 +118,32 @@
 		</exec>
 	</target>
 	
+	<target name="emma-instr" depends="build">		
+		<path id="instr.classpath">
+			<pathelement location="classes" />
+		</path>
+		<emma>
+			<instr
+				instrpathref="instr.classpath"
+				destdir="${instr}"
+				metadatafile="${coverage}/metadata.emma"
+				merge="true" />
+		</emma>		
+	</target>
+	
+	<target name="emma-report">
+		<emma>
+			<report sourcepath="src" >
+				<fileset dir="${coverage}" >
+					<include name="*.emma" />
+				</fileset>
+				<html outfile="${coverage}/coverage.html" />
+			</report>
+		</emma>		
+	</target> 
+	
+	<target name="coverage" description="Unit test coverage" depends="build,emma-clean,emma-instr,test,emma-report" />
+		
 	<target name="test" description="Unit tests" depends="build,test-db-init">
 		<!-- NOTE: This requires JUnit 4.x and ANT 1.7 -->
 		
@@ -109,7 +151,8 @@
 		<mkdir dir="test-results" />
 		
 		<junit printsummary="on" fork="true" haltonfailure="on" showoutput="${test.showoutput}" dir="${basedir}">
-			
+			<jvmarg value="-Demma.coverage.out.file=${coverage}/coverage.emma" />
+			<jvmarg value="-Demma.coverage.out.merge=true" />
 			<jvmarg value="-Dtest.database.driver=${test.database.driver}" />
 			<jvmarg value="-Dtest.database.type=${test.database.type}" />
 			<jvmarg value="-Dtest.database.host=${test.database.host}" />
@@ -124,8 +167,10 @@
 			
 			<classpath>
 				<pathelement location="test" />
+				<pathelement location="${instr}" />
 				<pathelement location="classes" />
 				<path refid="classpath" />
+				<path refid="emma.classpath" />
 			</classpath>
 			
 			<formatter type="xml" />
