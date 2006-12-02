@@ -110,6 +110,7 @@
 		<delete dir="${instr}" />
 	</target>
 		
+	<!-- Main CruiseControl target -->
 	<target name="cruisecontrol" depends="clean,coverage" description="Run CruiseControl build" />
 	
 	<target name="svnupdate" description="Updates latest code from SVN">
