@@ -77,4 +77,47 @@ public class UserSecurityRealmTest
 		assertFalse("Found wrong role", realm.isUserInRole(principal, "bad-role"));
 	}
 
+	@Test public void testValidatePasswordNullPassword()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		assertNull(realm.validatePassword("test-user", null, request));
+	}
+	
+	@Test public void testValidatePasswordNullDbPassword()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		userDao.findByUserName("test-user").setPassword(null);
+		assertNull(realm.validatePassword("test-user", "Password1", request));		
+	}
+	
+	@Test public void testIsUserInRoleNonUserPrincipal()
+	{
+		Principal principal = new PrincipalMock("test-user"); 
+		assertFalse(realm.isUserInRole(principal, "test-role"));		
+	}
+	
+	/**
+	 * This is not really a test, but exercises UserPrincipal.toString()
+	 */
+	@Test public void coverUserPrincipalToString()
+	{
+		MockHttpServletRequest request = new MockHttpServletRequest();
+		Principal principal = realm.validatePassword("test-user", "Password1", request);
+		principal.toString();
+	}
+	
+	static class PrincipalMock implements Principal
+	{
+		private final String name;
+		
+		public PrincipalMock(String name)
+		{
+			this.name = name;
+		}
+		
+		public String getName()
+		{
+			return name;
+		}		
+	}
 }

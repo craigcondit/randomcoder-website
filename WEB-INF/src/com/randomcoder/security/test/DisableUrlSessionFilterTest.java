@@ -11,6 +11,7 @@ import org.junit.*;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.security.DisableUrlSessionFilter;
+import com.randomcoder.test.GenericProxy;
 
 public class DisableUrlSessionFilterTest
 {
@@ -29,6 +30,7 @@ public class DisableUrlSessionFilterTest
 		filter = null;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Test public void testDoFilter() throws Exception
 	{
 		FilterChainMock chain = new FilterChainMock();
@@ -44,11 +46,28 @@ public class DisableUrlSessionFilterTest
 		
 		assertNull("Session still active", request.getSession(false));
 		
-		// TODO what to check?
 		HttpServletResponse wrappedResponse = (HttpServletResponse) chain.getResponse();
 		
 		assertEquals("Wrong encodeURL", "http://localhost/", wrappedResponse.encodeURL("http://localhost/"));
+		assertEquals("Wrong encodeUrl", "http://localhost/", wrappedResponse.encodeUrl("http://localhost/"));
 		assertEquals("Wrong encodeRedirectURL", "http://localhost/", wrappedResponse.encodeRedirectURL("http://localhost/"));
+		assertEquals("Wrong encodeRedirectUrl", "http://localhost/", wrappedResponse.encodeRedirectUrl("http://localhost/"));
+	}
+	
+	/**
+	 * Not a test, but covers the case where a non-HttpServletRequest is passed
+	 * to the filter. 
+	 */
+	@Test public void coverNonHttpServletRequest() throws Exception
+	{
+		FilterChainMock chain = new FilterChainMock();
+		
+		// proxy the request object so that it no longer implements HttpServletRequest
+		ServletRequest request = (ServletRequest) GenericProxy.proxy(new MockHttpServletRequest(), ServletRequest.class);
+		
+		MockHttpServletResponse response = new MockHttpServletResponse();
+		
+		filter.doFilter(request, response, chain);		
 	}
 
 	static class FilterChainMock implements FilterChain
@@ -63,7 +82,6 @@ public class DisableUrlSessionFilterTest
 		public ServletResponse getResponse()
 		{
 			return response;
-		}
-		
+		}	
 	}
 }
