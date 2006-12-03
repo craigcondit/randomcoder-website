@@ -60,8 +60,6 @@ public class SequenceReader extends Reader
 	 */
 	public SequenceReader(Reader... readers)
 	{
-		if (readers == null)
-			readers = new Reader[] {};
 		List<Reader> readerList = new ArrayList<Reader>(readers.length);
 		for (Reader reader : readers)
 			readerList.add(reader);

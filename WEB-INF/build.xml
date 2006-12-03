@@ -174,10 +174,9 @@
 				<path refid="emma.classpath" />
 			</classpath>
 			
-			<formatter type="xml" />
-			
+			<formatter type="xml" />			
 			<formatter type="brief" usefile="false" />
-			
+
 			<batchtest haltonfailure="no" todir="test-results">
 				<fileset refid="test.cases" />
 			</batchtest>

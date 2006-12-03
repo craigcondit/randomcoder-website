@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.*;
 import java.nio.CharBuffer;
+import java.util.*;
 
 import org.junit.*;
 
@@ -169,12 +170,18 @@ public class SequenceReaderTest
 			skip -= actual;
 		}
 		
-		// read last 5 chars
+		// read 3 chars
 		assertEquals('T', (char) seqReader.read());
 		assertEquals('h', (char) seqReader.read());
 		assertEquals('r', (char) seqReader.read());
-		assertEquals('e', (char) seqReader.read());
-		assertEquals('e', (char) seqReader.read());		
+		
+		// skip last 2 chars
+		assertEquals((long) 1, seqReader.skip(1));
+		assertEquals((long) 1, seqReader.skip(1));
+		
+		// skip past end
+		assertEquals((long) 0, seqReader.skip(1));
+		
 	}
 
 	@Test public void testReady() throws Exception 
@@ -190,11 +197,9 @@ public class SequenceReaderTest
 		assertFalse("Reader reports ready at end of stream", seqReader.ready());
 	}
 
-	@Test @Ignore
-	public void testMarkSupported()
+	@Test public void testMarkSupported()
 	{
 		assertFalse("Mark shouldn't be supported", seqReader.markSupported());
-		fail("Not yet implemented");
 	}
 
 	@Test(expected=IOException.class)
@@ -235,7 +240,7 @@ public class SequenceReaderTest
 
 	@Test	public void testReadCharBuffer() throws Exception
 	{
-		CharBuffer cb = CharBuffer.allocate(TEXT_COMBINED.length());
+		CharBuffer cb = CharBuffer.allocate(TEXT_COMBINED.length() + 1);
 		int c;
 		int len = 0;
 		do
@@ -243,8 +248,12 @@ public class SequenceReaderTest
 			c = seqReader.read(cb);
 			if (c > 0) len += c;
 		}
-		while (c > 0);
+		while (c >= 0);
 		
+		// try to read past end
+		assertEquals("Input past end", -1, seqReader.read(cb));
+		
+		// check length
 		assertEquals("Wrong length", TEXT_COMBINED.length(), len);
 		
 		char[] buf = new char[len];
@@ -257,4 +266,71 @@ public class SequenceReaderTest
 		assertEquals("String invalid", TEXT_COMBINED, s1);
 	}
 
+	@Test public void testListReader() throws IOException
+	{
+		List<Reader> readers = new ArrayList<Reader>();
+		readers.add(reader1);
+		readers.add(reader2);
+		readers.add(reader3);
+		
+		SequenceReader listReader = new SequenceReader(readers);
+		
+		
+		StringWriter writer = new StringWriter();
+		
+		int c;
+		do
+		{
+			c = listReader.read();
+			if (c >= 0) writer.append((char) c);
+		}
+		while (c > 0);
+		
+		writer.close();
+		writer.close();
+		
+		assertEquals("Wrong buffer in reader list", TEXT_COMBINED, writer.getBuffer().toString());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test(expected=NullPointerException.class)
+	public void testNullListConstructor()
+	{
+		new SequenceReader((List) null);
+	}
+
+	@Test(expected=NullPointerException.class)
+	public void testNullListElementConstructor()
+	{
+		List<Reader> list = new ArrayList<Reader>();
+		list.add(null);
+		list.add(reader1);
+		new SequenceReader(list);
+	}
+
+	@Test(expected=NullPointerException.class)
+	public void testNullReaderConstructor()
+	{
+		new SequenceReader((Reader) null);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNullReaderListConstructor()
+	{
+		new SequenceReader((Reader) null, reader1);
+	}
+	
+	@Test(expected=NullPointerException.class)
+	public void testNullSecondaryReader() throws IOException
+	{
+		SequenceReader reader = new SequenceReader(reader1, null);
+		
+		int c;
+		do
+		{
+			c = reader.read();			
+		}
+		while (c >= 0);
+	}
+	
 }
