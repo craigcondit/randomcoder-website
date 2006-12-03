@@ -122,12 +122,13 @@
 		<path id="instr.classpath">
 			<pathelement location="classes" />
 		</path>
-		<emma>
+		<emma>			
 			<instr
 				instrpathref="instr.classpath"
 				destdir="${instr}"
 				metadatafile="${coverage}/metadata.emma"
-				merge="true" />
+				merge="true"
+				filter="-*Test*" />
 		</emma>		
 	</target>
 	
