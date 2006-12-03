@@ -53,18 +53,11 @@ public class DisableUrlSessionFilterTest
 
 	static class FilterChainMock implements FilterChain
 	{
-		private ServletRequest request;
 		private ServletResponse response;
 		
 		public void doFilter(ServletRequest _request, ServletResponse _response) throws IOException, ServletException
 		{
-			request = _request;
 			response = _response;
-		}
-		
-		public ServletRequest getRequest()
-		{
-			return request;
 		}
 		
 		public ServletResponse getResponse()
