@@ -128,7 +128,7 @@
 				destdir="${instr}"
 				metadatafile="${coverage}/metadata.emma"
 				merge="true"
-				filter="-*Test*" />
+				filter="-*Test* -*.test.*" />
 		</emma>		
 	</target>
 	
