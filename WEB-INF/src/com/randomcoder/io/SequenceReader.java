@@ -81,10 +81,6 @@ public class SequenceReader extends Reader
 		if (currentReader == null)
 			return -1; // at end of all streams
 
-		// must have a buffer
-		if (cbuf == null)
-			throw new NullPointerException();
-
 		// off, len must be > 0, sum must be <= length
 		if (off < 0 || len < 0 || off + len > cbuf.length)
 			throw new IndexOutOfBoundsException();
@@ -173,26 +169,22 @@ public class SequenceReader extends Reader
 	@Override
 	public long skip(long n) throws IOException
 	{
-		if (n < 1)
-			throw new IllegalArgumentException("At least 1 character must be skipped");
+		if (n < 0)
+			throw new IllegalArgumentException("skip value is negative");
 
+		// do nothing for 0 skip
+		if (n == 0)
+			return 0;
+		
 		if (currentReader == null)
 			return 0;
 
 		long c = currentReader.skip(n);
 
-		if (c < 0)
+		if (c <= 0)
 		{
-			// assume end of stream
-			nextReader();
-			return skip(n);
-		}
-		if (c == 0)
-		{
-			// this is an edge case -- we don't have enough information to determine
-			// if we are at the end of the stream or not, so let's try to read a
-			// single char. if we succeed, let the caller know we ate 1. otherwise,
-			// move to the next stream and try again.
+			// we appear to be at the end of the stream. double-check by attempting
+			// a single read on the current stream.
 			if (read() < 0)
 			{
 				// we are definitely at the end

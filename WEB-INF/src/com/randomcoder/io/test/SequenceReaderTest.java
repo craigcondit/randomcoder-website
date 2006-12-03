@@ -333,4 +333,25 @@ public class SequenceReaderTest
 		while (c >= 0);
 	}
 	
+	@Test public void testSkipZero() throws IOException
+	{
+		assertEquals((long) 0, seqReader.skip(0));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSkipNegative() throws IOException
+	{
+		seqReader.skip(-1);
+	}
+	
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void testIndexOutOfBoundsRead() throws IOException
+	{
+		seqReader.read(new char[10], -1, 1);
+	}
+	
+	@Test public void testReadZeroChars() throws IOException
+	{
+		assertEquals(0, seqReader.read(new char[10], 0, 0));
+	}
 }
