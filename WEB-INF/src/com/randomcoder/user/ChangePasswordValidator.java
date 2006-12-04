@@ -75,7 +75,7 @@ public class ChangePasswordValidator implements Validator
 		else
 		{
 			String oldHash = User.hashPassword(oldPassword);
-			String userHash = (user == null) ? null : user.getPassword();
+			String userHash = user.getPassword();
 			if (!oldHash.equals(userHash))
 			{
 				errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_NO_MATCH, "Old password is wrong.");
