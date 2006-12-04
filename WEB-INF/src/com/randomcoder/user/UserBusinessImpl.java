@@ -1,6 +1,5 @@
 package com.randomcoder.user;
 
-import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,8 +35,6 @@ import com.randomcoder.io.*;
  */
 public class UserBusinessImpl implements UserBusiness
 {
-	private static final Log logger = LogFactory.getLog(UserBusinessImpl.class);
-	
 	private UserDao userDao;
 	
 	/**
@@ -68,10 +65,6 @@ public class UserBusinessImpl implements UserBusiness
 	{
 		User user = new User();
 		producer.produce(user);
-		
-		if (logger.isDebugEnabled())
-			logger.debug("Saving user: " + user);
-		
 		userDao.create(user);		
 	}
 	
@@ -80,10 +73,6 @@ public class UserBusinessImpl implements UserBusiness
 	{
 		User user = loadUser(userId);
 		producer.produce(user);
-		
-		if (logger.isDebugEnabled())
-			logger.debug("Saving user: " + user);
-		
 		userDao.update(user);
 	}
 
@@ -104,7 +93,8 @@ public class UserBusinessImpl implements UserBusiness
 	private User loadUser(Long userId)
 	{
 		User user = userDao.read(userId);
-		if (user == null) throw new UserNotFoundException();
+		if (user == null)
+			throw new UserNotFoundException();
 		return user;
 	}
 }

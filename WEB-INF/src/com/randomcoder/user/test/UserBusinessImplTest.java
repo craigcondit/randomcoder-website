@@ -39,6 +39,12 @@ public class UserBusinessImplTest
 		assertEquals("Wrong password", User.hashPassword("test-new-password"), changed.getPassword());
 	}
 
+	@Test(expected=UserNotFoundException.class)
+	public void testChangePasswordUserNotFound()
+	{
+		userBusiness.changePassword("bogus-user", "bogus-password");
+	}
+	
 	@Test
 	public void testCreateUser()
 	{
@@ -143,6 +149,13 @@ public class UserBusinessImplTest
 		assertEquals("Wrong role count", 0, cmd.getRoles().length);
 	}
 
+	@Test(expected=UserNotFoundException.class)
+	public void testLoadUserForEditingUserNotFound()
+	{
+		UserEditCommand cmd = new UserEditCommand();		
+		userBusiness.loadUserForEditing(cmd, (long) -1);		
+	}
+	
 	@After
 	public void tearDown()
 	{
