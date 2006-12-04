@@ -1,5 +1,6 @@
 package com.randomcoder.user;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
@@ -152,9 +153,9 @@ public class UserAddValidator implements Validator
 		}
 		
 		// password (if specified)
-		String password = command.getPassword();
+		String password = StringUtils.defaultIfEmpty(command.getPassword(), "");
 		
-		if (password != null && password.length() > 0)
+		if (password.length() > 0)
 		{
 			// password is specified, so validate it
 			if (password.trim().length() < minimumPasswordLength)
@@ -165,11 +166,10 @@ public class UserAddValidator implements Validator
 		}
 		
 		// compare passwords if at least one is specified
-		String password2 = command.getPassword2();
+		String password2 = StringUtils.defaultIfEmpty(command.getPassword2(), "");
 		
-		if ((password != null && password.length() > 0) ||
-				(password2 != null && password2.length() > 0))
-		{
+		if (password.length() > 0 || password2.length() > 0)
+		{			
 			if (!password.equals(password2))
 			{
 				errors.rejectValue("password2", ERROR_PASSWORD_NO_MATCH, "Passwords don't match.");								

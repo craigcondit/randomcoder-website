@@ -46,6 +46,11 @@ public class UserListControllerTest
 		controller.setViewName("success");
 	}
 	
+	@Test public void coverUserListCommandToString() throws Exception
+	{
+		new UserListCommand().toString();
+	}
+	
 	@Test public void testHandle() throws Exception
 	{
 		ModelAndView mav;
@@ -56,6 +61,18 @@ public class UserListControllerTest
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		
 		UserListCommand command = new UserListCommand();
+		
+		// values out of range
+		command.setStart(-1);
+		command.setLimit(-1);		
+		errors = new BindException(command, "command");		
+		mav = controller.handle(request, response, command, errors);
+		assertEquals("Wrong page start", 0, ((Number) mav.getModel().get("pageStart")).intValue());
+		assertEquals("Wrong page limit", 25, ((Number) mav.getModel().get("pageLimit")).intValue());
+		command.setLimit(101);
+		errors = new BindException(command, "command");		
+		mav = controller.handle(request, response, command, errors);
+		assertEquals("Wrong page limit", 100, ((Number) mav.getModel().get("pageLimit")).intValue());
 		
 		// first page
 		command.setStart(0);

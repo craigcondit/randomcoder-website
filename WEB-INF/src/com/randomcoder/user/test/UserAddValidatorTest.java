@@ -45,6 +45,11 @@ public class UserAddValidatorTest
 		user.setEnabled(true);		
 		userDao.create(user);
 		
+		// null command
+		errors = new BindException(command, "command");
+		validator.validate(null, errors);
+		assertEquals("Wrong number of errors occurred", 1, errors.getErrorCount());
+		
 		// no data supplied
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
@@ -109,6 +114,17 @@ public class UserAddValidatorTest
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for password2", 1, errors.getFieldErrorCount("password2"));
+		error = (FieldError) errors.getFieldErrors("password2").get(0);
+		assertEquals("Wrong error code", "error.user.password.nomatch", error.getCode());
+		
+		// password 2 specified, but not password 1
+		command.setPassword(null);
+		errors = new BindException(command, "command");
+		validator.validate(command, errors);
+		assertEquals("Wrong error count for password", 1, errors.getFieldErrorCount("password"));
+		assertEquals("Wrong error count for password2", 1, errors.getFieldErrorCount("password2"));
+		error = (FieldError) errors.getFieldErrors("password").get(0);
+		assertEquals("Wrong error code", "error.user.password.required", error.getCode());
 		error = (FieldError) errors.getFieldErrors("password2").get(0);
 		assertEquals("Wrong error code", "error.user.password.nomatch", error.getCode());
 		
