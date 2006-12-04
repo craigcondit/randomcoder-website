@@ -34,10 +34,12 @@ import org.apache.commons.logging.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public abstract class DataValidationUtils
+public final class DataValidationUtils
 {
 	private static final Log logger = LogFactory.getLog(DataValidationUtils.class);
 
+	private DataValidationUtils() {}
+	
 	/**
 	 * Returns the canonical representation of a domain name.
 	 * @param domain domain nam
@@ -114,7 +116,6 @@ public abstract class DataValidationUtils
     ipAddress = ipAddress.trim();
     if (!ipAddress.matches("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$")) return false;
     String[] parts = ipAddress.split("\\.");
-    if (parts.length != 4) return false;
     for (int i = 0; i < 4; i++) {
       int value = Integer.parseInt(parts[i]);
       if (value < 0 || value > 255) return false;
@@ -160,15 +161,9 @@ public abstract class DataValidationUtils
   	{
   		if (allowed.equals(proto))
 			{
-  	  	if (logger.isDebugEnabled())
-  	  		logger.debug("Valid URL: " + url);
-  	  	
   			return true;
 			}
   	}
-  	
-  	if (logger.isDebugEnabled())
-  		logger.debug("No protocols found for URL: " + url);
   	
   	return false;
   }
@@ -231,23 +226,28 @@ public abstract class DataValidationUtils
     String[] parts = splitEmailAddress(email);
     
     email = parts[0];      
-    if (email == null) return false;
+    if (email == null)
+    	return false;
 
     if (parts[1] == null) {
       // no domain specified
-      if (!local) return false;
+      if (!local)
+      	return false;
     } else {
       // validate domain
       if (wildcard) {
-        if (!isValidDomainWildcard(parts[1]) && !isValidIpAddress(parts[1])) return false;
+        if (!isValidDomainWildcard(parts[1]) && !isValidIpAddress(parts[1]))
+        	return false;
       } else {
-        if (!isValidDomainName(parts[1]) && !isValidIpAddress(parts[1])) return false;
+        if (!isValidDomainName(parts[1]) && !isValidIpAddress(parts[1]))
+        	return false;
       }
     }
     
     // validate local-name
     
-    if (strict && (email.contains(".") || email.contains("@"))) return false;        
+    if (strict && (email.contains(".") || email.contains("@")))
+    	return false;        
     if (email.matches("^\\\".+\\\"$")) {
       // quoted-string
       email = email.substring(1, email.length() - 1);
@@ -257,7 +257,6 @@ public abstract class DataValidationUtils
         if (c == '\\') {
           // peek at next character
           i++;
-          if (i >= email.length()) return false;
           c = email.charAt(i);
           
           if (c >= 1 && c <= 9) continue;
@@ -285,7 +284,6 @@ public abstract class DataValidationUtils
       if (c == '\\') {
         // peek at next character
         i++;
-        if (i >= email.length()) return false;
         c = email.charAt(i);
         
         if (c >= 1 && c <= 9) { buf.append("x"); continue; }
