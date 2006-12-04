@@ -5,7 +5,6 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
-import org.apache.commons.logging.*;
 
 import com.randomcoder.io.Producer;
 
@@ -40,8 +39,6 @@ import com.randomcoder.io.Producer;
 public class UserAddCommand implements Serializable, Producer<User>
 {
 	private static final long serialVersionUID = -4063217084413700225L;
-	
-	private static final Log logger = LogFactory.getLog(UserAddCommand.class);
 	
 	private String userName;
 	private String emailAddress;
@@ -190,15 +187,6 @@ public class UserAddCommand implements Serializable, Producer<User>
 		// get list of added roles (selected - current)
 		Set<Role> addedRoles = new HashSet<Role>(selectedRoles);
 		addedRoles.removeAll(currentRoles);
-		
-		if (logger.isDebugEnabled())
-		{
-			logger.debug("Deleted roles: ");
-			for (Role role : deletedRoles) logger.debug("  " + role);
-
-			logger.debug("Added roles: ");
-			for (Role role : addedRoles) logger.debug("  " + role);			
-		}
 		
 		// remove deleted roles 
 		user.getRoles().removeAll(deletedRoles);

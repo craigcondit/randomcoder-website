@@ -29,6 +29,11 @@ public class UserAddControllerTest
 		controller.setSuccessView("success");
 	}
 
+	@Test public void coverUserAddCommandToString()
+	{
+		new UserAddCommand().toString();
+	}
+	
 	@Test public void testOnBindOnNewForm() throws Exception
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();

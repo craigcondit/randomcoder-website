@@ -53,9 +53,6 @@ public class UserEditController extends AbstractUserController
 	{
 		UserEditCommand cmd = (UserEditCommand) command;
 
-		if (logger.isDebugEnabled())
-			logger.debug("Command: " + cmd);		
-		
 		userBusiness.updateUser(cmd, cmd.getId());
 		
 		return new ModelAndView(getSuccessView());

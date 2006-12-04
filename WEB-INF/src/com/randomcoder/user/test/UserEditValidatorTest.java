@@ -48,15 +48,23 @@ public class UserEditValidatorTest
 		command.setId(id);
 		command.consume(user);
 		
+		// no command
+		errors = new BindException(command, "command");
+		validator.validate(null, errors);
+		assertEquals("Wrong number of errors occurred", 1, errors.getErrorCount());
+		
 		// no data supplied
+		command.setId(null);
 		command.setEmailAddress(null);
 		command.setPassword(null);
 		command.setPassword2(null);
 		command.setRoles(new Role[] {});
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
-		assertEquals("Wrong number of errors occurred", 1, errors.getErrorCount());
+		assertEquals("Wrong number of errors occurred", 2, errors.getErrorCount());
 		assertEquals("Wrong error count for emailAddress", 1, errors.getFieldErrorCount("emailAddress"));
+		
+		command.setId(id);
 		
 		// email address invalid
 		command.setEmailAddress("bogus email address");
