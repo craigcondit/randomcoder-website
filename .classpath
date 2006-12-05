@@ -32,5 +32,6 @@
 	<classpathentry kind="lib" path="WEB-INF/dep/junit-4.1.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/dep/postgresql.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/dep/spring-mock-2.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/emma/emma_ant-2.0.5312.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
