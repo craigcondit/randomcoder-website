@@ -27,6 +27,12 @@ public class RolePropertyEditorTest
 		
 		assertEquals("Wrong value", "get-as-text", editor.getAsText());
 	}
+	
+	@Test public void testGetAsTextNull()
+	{
+		editor.setValue(null);
+		assertEquals("", editor.getAsText());
+	}
 
 	@Test public void testSetAsText()
 	{
@@ -44,6 +50,12 @@ public class RolePropertyEditorTest
 		assertEquals("Wrong role name", "set-as-text", editorRole.getName());
 	}
 
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetAsTextInvalidRole()
+	{
+		editor.setAsText("bogus-role");		
+	}
+	
 	@After public void tearDown() throws Exception
 	{
 		roleDao = null;

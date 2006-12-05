@@ -2,8 +2,6 @@ package com.randomcoder.user;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.commons.logging.*;
-
 
 /**
  * Property editor for roles.
@@ -35,8 +33,6 @@ import org.apache.commons.logging.*;
  */
 public class RolePropertyEditor extends PropertyEditorSupport
 {
-	private static final Log logger = LogFactory.getLog(RolePropertyEditor.class);
-	
 	private final RoleDao roleDao;
 	
 	/**
@@ -52,21 +48,13 @@ public class RolePropertyEditor extends PropertyEditorSupport
 	public String getAsText()
 	{
 		Role role = (Role) getValue();
-		
 		String result = (role == null) ? "" : role.getName();
-		
-		if (logger.isDebugEnabled())
-			logger.debug("getAsText: " + result);
-		
 		return result;
 	}
 
 	@Override
 	public void setAsText(String string) throws IllegalArgumentException
 	{
-		if (logger.isDebugEnabled())
-			logger.debug("setAsText: " + string);
-		
 		Role role = roleDao.findByName(string);
 		if (role == null) throw new IllegalArgumentException("No such role: " + string);
 		

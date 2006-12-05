@@ -281,6 +281,11 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 	
+	@Test public void coverUserToString()
+	{
+		new User().toString();
+	}
+	
 	private User createTestUser(String userName, String password, String email, boolean enabled)
 	{
 		User user = new User();
