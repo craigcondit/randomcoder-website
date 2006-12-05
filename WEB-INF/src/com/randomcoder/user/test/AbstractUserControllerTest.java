@@ -70,16 +70,16 @@ public class AbstractUserControllerTest
 		roleDao = null;
 	}
 	
-	static class AbstractUserControllerMock extends AbstractUserController
+	protected class AbstractUserControllerMock extends AbstractUserController
 	{
 		@Override
-		public void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
+		protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 		{
 			super.initBinder(request, binder);
 		}
 
 		@Override
-		public Map referenceData(HttpServletRequest request)
+		protected Map referenceData(HttpServletRequest request)
 		{
 			return super.referenceData(request);
 		}

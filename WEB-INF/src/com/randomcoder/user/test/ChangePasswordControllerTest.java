@@ -110,10 +110,10 @@ public class ChangePasswordControllerTest
 		return userDao.read(id);
 	}
 	
-	static class ChangePasswordControllerMock extends ChangePasswordController
+	protected class ChangePasswordControllerMock extends ChangePasswordController
 	{
 		@Override
-		public void onBind(HttpServletRequest request, Object command) throws Exception
+		protected void onBind(HttpServletRequest request, Object command) throws Exception
 		{
 			super.onBind(request, command);
 		}

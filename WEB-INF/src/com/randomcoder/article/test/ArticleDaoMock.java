@@ -218,7 +218,7 @@ public class ArticleDaoMock implements ArticleDao
 			throw new IllegalArgumentException("content required");	
 	}
 	
-	static class ArticleDateComparator implements Comparator<Article>
+	protected class ArticleDateComparator implements Comparator<Article>
 	{
 		public int compare(Article a1, Article a2)
 		{

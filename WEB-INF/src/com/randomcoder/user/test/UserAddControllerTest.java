@@ -76,10 +76,10 @@ public class UserAddControllerTest
 		userDao = null;
 	}
 
-	static class UserAddControllerMock extends UserAddController
+	protected class UserAddControllerMock extends UserAddController
 	{
 		@Override
-		public void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception
+		protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception
 		{
 			super.onBindOnNewForm(request, command);
 		}

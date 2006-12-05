@@ -106,11 +106,11 @@ public class UserSecurityRealmTest
 		principal.toString();
 	}
 	
-	static class PrincipalMock implements Principal
+	protected class PrincipalMock implements Principal
 	{
 		private final String name;
 		
-		public PrincipalMock(String name)
+		protected PrincipalMock(String name)
 		{
 			this.name = name;
 		}

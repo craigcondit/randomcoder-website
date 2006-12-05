@@ -133,7 +133,7 @@ public class UserDaoMock implements UserDao
 			throw new IllegalArgumentException("password required");
 	}
 	
-	static class UserNameComparator implements Comparator<User>
+	protected class UserNameComparator implements Comparator<User>
 	{
 		public int compare(User u1, User u2)
 		{

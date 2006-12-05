@@ -70,7 +70,7 @@ public class DisableUrlSessionFilterTest
 		filter.doFilter(request, response, chain);		
 	}
 
-	static class FilterChainMock implements FilterChain
+	protected class FilterChainMock implements FilterChain
 	{
 		private ServletResponse response;
 		
@@ -79,7 +79,7 @@ public class DisableUrlSessionFilterTest
 			response = _response;
 		}
 		
-		public ServletResponse getResponse()
+		protected ServletResponse getResponse()
 		{
 			return response;
 		}	

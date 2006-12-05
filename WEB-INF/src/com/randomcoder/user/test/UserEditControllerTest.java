@@ -89,12 +89,12 @@ public class UserEditControllerTest
 		command = null;
 	}
 
-	static class UserEditControllerMock extends UserEditController
+	protected class UserEditControllerMock extends UserEditController
 	{
 		@Override
-		public void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+		protected void onBindOnNewForm(HttpServletRequest request, Object _command, BindException errors)
 		{
-			super.onBindOnNewForm(request, command, errors);
+			super.onBindOnNewForm(request, _command, errors);
 		}
 		
 	}

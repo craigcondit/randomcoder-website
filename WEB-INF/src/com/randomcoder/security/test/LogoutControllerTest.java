@@ -45,11 +45,11 @@ public class LogoutControllerTest
 		assertEquals("Wrong view name", "success", mav.getViewName());		
 	}
 
-	static class LogoutControllerMock extends LogoutController
+	protected class LogoutControllerMock extends LogoutController
 	{
 		
 		@Override
-		public ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
+		protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
 		{
 			return super.handleRequestInternal(request, response);
 		}
