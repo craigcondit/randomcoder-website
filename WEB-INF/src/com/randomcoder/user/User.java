@@ -125,7 +125,7 @@ public class User implements Serializable
 	 * Gets the password hash of this user.
 	 * @return password hash
 	 */
-	@Column(name = "password", nullable = false, length = 255)
+	@Column(name = "password", nullable = true, length = 255)
 	public String getPassword()
 	{
 		return password;
