@@ -4,12 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/" />
 <c:url var="formAction" value="/user/change-password" />
-<div class="sectionHeading">
-  <c:choose>
-  	<c:when test="${template.formMode == 'edit'}">Edit article</c:when>
-  	<c:otherwise>Add article</c:otherwise>
-  </c:choose>  
-</div>
+<div class="sectionHeading">Change password</div>
 <div class="sectionContent">
   <form method="post" action="${formAction}">
   
