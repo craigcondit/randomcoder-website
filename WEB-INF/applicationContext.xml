@@ -15,15 +15,17 @@
 	<!-- Enforce @Required annotations -->
 	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 	
+	<!-- Declarative Transactions via Annotations -->
+	<tx:annotation-driven />
+	
+	<!-- JNDI resources -->
+	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/randomcoder" />
+
 	<!-- Message source -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="ApplicationResources" />
 	</bean>	
 	
-	<!-- JNDI resources -->
-	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/randomcoder" />
-	<jee:jndi-lookup id="loginEncryptionKey" jndi-name="java:comp/env/loginEncryptionKey" />
-
 	<!-- Hibernate session factory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -72,9 +74,6 @@
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>	
 	
-	<!-- Declarative Transactions via Annotations -->
-	<tx:annotation-driven />
-	
 	<!-- Content filters -->
 	<bean id="contentFilter" class="com.randomcoder.content.MultiContentFilter">
 		<property name="filters">
@@ -96,51 +95,6 @@
 				<value>external</value>
 			</set>
 		</property>
-	</bean>
-	
-	<!-- Security -->
-	<bean id="userSecurityRealm" class="com.randomcoder.security.UserSecurityRealm">
-		<property name="userDao" ref="userDao" />
-	</bean>
-	
-	<bean id="j2eeSecurityPolicy" class="com.randomcoder.citadel.policy.j2ee.J2EESecurityPolicy">
-		<property name="configLocation" value="/WEB-INF/j2ee-security.xml" />
-	</bean>
-
-	<bean id="persistentLoginStore" class="com.randomcoder.citadel.persist.PersistentLoginStore">
-		<property name="cookieName" value="JPERSISTENCE" />
-		<!-- 30 days -->
-		<property name="cookieLifetime" value="2592000" />
-		<property name="encryptionKey" ref="loginEncryptionKey" />
-		<property name="useIpAddress" value="true" />
-	</bean>
-	
-	<bean id="formAuthenticator" class="com.randomcoder.citadel.auth.FormAuthenticator">
-		<property name="passwordSecurityRealm" ref="userSecurityRealm" />
-		<property name="loginUrl" value="/j_security_check" />
-		<property name="loginPage" value="/login" />
-		<property name="errorPage" value="/login-error" />
-		<property name="logoutUrl" value="/logout" />
-		<property name="defaultPage" value="/" />
-		<property name="logoutPage" value="/" />
-		<property name="usernameParameter" value="j_username" />
-		<property name="passwordParameter" value="j_password" />
-		<property name="loginStore" ref="persistentLoginStore" />
-		<property name="persistParameter" value="j_persist" />
-		<property name="alwaysPersist" value="no" />
-	</bean>
-
-	<!--
-	<bean id="basicAuthenticator" class="com.randomcoder.citadel.auth.BasicAuthenticator">
-		<property name="passwordSecurityRealm" ref="userSecurityRealm" />
-		<property name="realmName" value="Test Realm" />
-	</bean>
-	-->
-	
-	<bean id="citadelFilter" class="com.randomcoder.citadel.filter.CitadelFilter">
-		<property name="securityPolicy" ref="j2eeSecurityPolicy" />
-		<property name="authenticator" ref="formAuthenticator" />
-		<property name="httpsPort" value="8443" />
 	</bean>
 	
 	<!-- Dao introduction adviser -->

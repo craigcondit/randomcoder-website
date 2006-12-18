@@ -11,8 +11,8 @@
 			<url-pattern>/article/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>article-admin</role-name>
-			<role-name>article-post</role-name>
+			<role-name>ROLE_MANAGE_ARTICLES</role-name>
+			<role-name>ROLE_POST_ARTICLES</role-name>
 		</auth-constraint>		
 	</security-constraint>	
 
@@ -23,7 +23,7 @@
 			<url-pattern>/user/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manage-users</role-name>
+			<role-name>ROLE_MANAGE_USERS</role-name>
 		</auth-constraint>		
 	</security-constraint>	
 
@@ -44,7 +44,7 @@
 			<url-pattern>/comment/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manage-comments</role-name>
+			<role-name>ROLE_MANAGE_COMMENTS</role-name>
 		</auth-constraint>		
 	</security-constraint>	
 
@@ -55,7 +55,7 @@
 			<url-pattern>/tag/*</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
-			<role-name>manage-tags</role-name>
+			<role-name>ROLE_MANAGE_TAGS</role-name>
 		</auth-constraint>		
 	</security-constraint>	
 	

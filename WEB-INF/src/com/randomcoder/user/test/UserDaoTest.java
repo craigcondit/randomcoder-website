@@ -81,7 +81,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		assertEquals("Wrong role count", 1, loadedUser.getRoles().size());
 		
 		Role role = loadedUser.getRoles().get(0);
-		assertEquals("Wrong role name", "article-post", role.getName());
+		assertEquals("Wrong role name", "ROLE_POST_ARTICLES", role.getName());
 		
 		commit();
 	}
@@ -295,7 +295,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		user.setEmailAddress(email);
 		
 		List<Role> roles = new ArrayList<Role>();
-		roles.add(roleDao.findByName("article-post"));
+		roles.add(roleDao.findByName("ROLE_POST_ARTICLES"));
 		user.setRoles(roles);
 		
 		userDao.create(user);

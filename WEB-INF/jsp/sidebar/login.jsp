@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://randomcoder.com/tags-security" prefix="sec" %>
-<sec:notLoggedIn>
+<c:if test="${pageContext.request.userPrincipal == null}">
 	<c:url var="loginUrl" value="/j_security_check" />
 	<div class="sectionHeading">Login</div>
 	<div class="sectionContent" align="left">
@@ -28,4 +27,4 @@
 			</div>
 		</form>
 	</div>
-</sec:notLoggedIn>
+</c:if>

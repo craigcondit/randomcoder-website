@@ -40,7 +40,7 @@ import com.randomcoder.user.*;
  */
 public class ArticleBusinessImpl implements ArticleBusiness
 {
-	private static final String ROLE_ARTICLE_ADMIN = "article-admin";
+	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
 	
 	private UserDao userDao;
 	private RoleDao roleDao;
@@ -197,7 +197,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	private void checkAuthor(User user, Article article, String errorMessage)
 	{
-		Role articleAdmin = findRoleByName(ROLE_ARTICLE_ADMIN);
+		Role articleAdmin = findRoleByName(ROLE_MANAGE_ARTICLES);
 		
 		if (!user.getRoles().contains(articleAdmin))
 		{

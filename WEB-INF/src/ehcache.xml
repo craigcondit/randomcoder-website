@@ -62,4 +62,9 @@
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
 
+	<!-- acegi user cache -->
+	<cache name="acegiUserCache"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+	
 </ehcache>

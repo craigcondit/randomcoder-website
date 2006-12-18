@@ -81,10 +81,6 @@
 		<property name="viewName" value="login-error" />
 	</bean>
 
-	<bean id="logoutController" class="com.randomcoder.security.LogoutController">
-		<property name="viewName" value="logout-done" />
-	</bean>
-
 	<bean id="abstractArticleController" abstract="true">
 		<property name="successView" value="default" />
 		<property name="cancelView" value="default" />
@@ -136,7 +132,7 @@
 	</bean>
 
 	<bean id="changePasswordValidator" class="com.randomcoder.user.ChangePasswordValidator">
-		<property name="minimumPasswordLength" value="5" />
+		<property name="minimumPasswordLength" value="6" />
 	</bean>
 	
 	<bean id="userListController" class="com.randomcoder.user.UserListController">
@@ -217,7 +213,6 @@
 				<prop key="/home">homeController</prop>
 				<prop key="/login">loginController</prop>
 				<prop key="/login-error">loginErrorController</prop>
-				<prop key="/logout">logoutController</prop>
 				<prop key="/article/add">articleAddController</prop>
 				<prop key="/article/edit">articleEditController</prop>
 				<prop key="/article/delete">articleDeleteController</prop>

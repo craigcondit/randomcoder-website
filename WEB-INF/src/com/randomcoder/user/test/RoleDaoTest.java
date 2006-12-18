@@ -22,9 +22,9 @@ public class RoleDaoTest extends AbstractDaoTestCase
 	
 	@Test public void testFindByName() throws Exception
 	{
-		Role role = roleDao.findByName("article-post");
+		Role role = roleDao.findByName("ROLE_POST_ARTICLES");
 		assertNotNull("Role not found", role);
-		assertEquals("Wrong name", "article-post", role.getName());		
+		assertEquals("Wrong name", "ROLE_POST_ARTICLES", role.getName());		
 	}
 	
 	@Test public void testListAll() throws Exception
@@ -34,19 +34,19 @@ public class RoleDaoTest extends AbstractDaoTestCase
 		assertEquals("Wrong size", 6, roles.size());
 		
 		// sort is by description, so test first and last
-		assertEquals("Wrong name at start", "development-dwr", roles.get(0).getName());
-		assertEquals("Wrong name at end", "article-admin", roles.get(5).getName());
+		assertEquals("Wrong name at start", "ROLE_DEVELOPMENT_DWR", roles.get(0).getName());
+		assertEquals("Wrong name at end", "ROLE_MANAGE_ARTICLES", roles.get(5).getName());
 	}
 	
 	@Test public void testRead() throws Exception
 	{
 		Role manageUsers = roleDao.read(1L);
-		assertNotNull("Null manage-users", manageUsers);
-		assertEquals("Wront name", "manage-users", manageUsers.getName());
+		assertNotNull("Null ROLE_MANAGE_USERS", manageUsers);
+		assertEquals("Wrong name", "ROLE_MANAGE_USERS", manageUsers.getName());
 		
 		Role articlePost = roleDao.read(2L);
-		assertNotNull("Null article-post", articlePost);
-		assertEquals("Wront name", "article-post", articlePost.getName());
+		assertNotNull("Null ROLE_POST_ARTICLES", articlePost);
+		assertEquals("Wrong name", "ROLE_POST_ARTICLES", articlePost.getName());
 	}
 	
 	@After public void tearDown() throws Exception

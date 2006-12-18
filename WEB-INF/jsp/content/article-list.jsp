@@ -2,18 +2,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://randomcoder.com/tags-security" prefix="sec" %>
+<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
 <%@ taglib uri="http://randomcoder.com/tags-escape" prefix="rcesc" %>
 <%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
 
-<c:set var="articlePost" value="${false}" />
-<sec:inRole role="article-post"><c:set var="articlePost" value="${true}" /></sec:inRole>
+<c:set var="postArticles" value="${false}" />
+<authz:authorize ifAnyGranted="ROLE_ARTICLE_POST"><c:set var="postArticles" value="${true}" /></authz:authorize>
 
-<c:set var="articleAdmin" value="${false}" />
-<sec:inRole role="article-admin"><c:set var="articleAdmin" value="${true}" /></sec:inRole>
+<c:set var="manageArticles" value="${false}" />
+<authz:authorize ifAnyGranted="ROLE_MANAGE_ARTICLES"><c:set var="manageArticles" value="${true}" /></authz:authorize>
 
 <c:set var="userName" value="" />
-<sec:loggedIn><c:set var="userName" value="${pageContext.request.userPrincipal.name}" /></sec:loggedIn>
+<c:if test="${pageContext.request.userPrincipal != null}">
+	<c:set var="userName" value="${pageContext.request.userPrincipal.name}" />
+</c:if>
 <c:set var="previousDate" value="" />
 
 <c:forEach var="articleDecorator" items="${articles}">
@@ -63,12 +65,12 @@
 			</c:otherwise>
 		</c:choose>
 		<a rel="permalink" class="permalink" href="${permUrl}">Permalink</a>
-	  <sec:loggedIn>		  	
-		  <c:if test="${articleAdmin || (articlePost && userName == articleAuthor)}">
+		<c:if test="${pageContext.request.userPrincipal != null}">
+		  <c:if test="${manageArticles || (postArticles && userName == articleAuthor)}">
 				:: <a class="edit" href="${editLink}">Edit</a>
 			  :: <a class="delete" href="${deleteLink}">Delete</a>
 			</c:if>
-		</sec:loggedIn>
+		</c:if>
 	</div>
 	<div class="sectionContent">
 	  <c:choose>
@@ -146,11 +148,11 @@
 				@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
 				:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
 			</div>
-			<sec:inRole role="manage-comments">
+			<authz:authorize ifAnyGranted="ROLE_MANAGE_COMMENTS">
 				<div class="sectionSubHeading">
 					<a rel="delete" class="deleteComment delete" href="${deleteCommentLink}">Delete</a>
 				</div>
-			</sec:inRole>
+			</authz:authorize>
   		<div class="sectionContent">
   			${commentDecorator.formattedText}
   		</div>
