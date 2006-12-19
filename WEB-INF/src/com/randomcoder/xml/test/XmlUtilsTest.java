@@ -29,15 +29,11 @@ public class XmlUtilsTest
 	private static final String PUBLIC_ID = "Public ID";
 	private static final String SYSTEM_ID = "system.dtd";
 	
-	private DocumentBuilderFactory dbf;
-	private DocumentBuilder builder;
 	private Log log;
 	
 	@Before
 	public void setUp() throws Exception
 	{
-		dbf = DocumentBuilderFactory.newInstance();
-		builder = dbf.newDocumentBuilder();
 		log = LogFactory.getLog("test");		
 	}
 
@@ -45,8 +41,6 @@ public class XmlUtilsTest
 	public void tearDown() throws Exception
 	{
 		log = null;
-		builder = null;
-		dbf = null;
 	}
 
 	@Test
@@ -131,6 +125,7 @@ public class XmlUtilsTest
 	@Test
 	public void testPrettyPrintAll() throws Exception
 	{
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		DocumentType dtd = builder.getDOMImplementation().createDocumentType("Test", PUBLIC_ID, SYSTEM_ID);
 		
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		

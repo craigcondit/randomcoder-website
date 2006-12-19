@@ -47,7 +47,7 @@ public final class XmlSecurityUtils
 	
 	static
 	{
-    org.apache.xml.security.Init.init();
+		org.apache.xml.security.Init.init();
 	}
 	
 	/**
@@ -57,10 +57,9 @@ public final class XmlSecurityUtils
 	 */
 	public static Element findFirstEncryptedData(Document doc)
 	{
-		NodeList encryptedDataList = doc.getElementsByTagNameNS(EncryptionSpecNS, _TAG_ENCRYPTEDDATA);
-		if (encryptedDataList == null) return null;
-		if (encryptedDataList.getLength() == 0) return null;
-		return (Element) encryptedDataList.item(0);				
+		NodeList list = doc.getElementsByTagNameNS(EncryptionSpecNS, _TAG_ENCRYPTEDDATA);
+		if (list == null || list.getLength() == 0) return null;
+		return (Element) list.item(0);				
 	}
 	
 	/**
@@ -70,10 +69,9 @@ public final class XmlSecurityUtils
 	 */
 	public static Element findFirstSignature(Document doc)
 	{
-		NodeList signatureList = doc.getElementsByTagNameNS(SignatureSpecNS, _TAG_SIGNATURE);
-		if (signatureList == null) return null;
-		if (signatureList.getLength() == 0) return null;
-		return (Element) signatureList.item(0);
+		NodeList list = doc.getElementsByTagNameNS(SignatureSpecNS, _TAG_SIGNATURE);
+		if (list == null || list.getLength() == 0) return null;
+		return (Element) list.item(0);				
 	}
 	
 	/**
@@ -98,17 +96,17 @@ public final class XmlSecurityUtils
 			throw new XmlSecurityConfigurationException("Unable to initialize XMLCipher", e);
 		}
 		
-    xmlCipher.setKEK(key);
+		xmlCipher.setKEK(key);
     
-    try
-    {
-    	xmlCipher.doFinal(doc, encryptedData);
-    }
-    catch (Exception e)
-    {
-    	// stupid api... throwing Exception???
-    	throw new XmlSecurityException("Unable to decrypt xml", e);
-    }
+		try
+		{
+			xmlCipher.doFinal(doc, encryptedData);
+		}
+		catch (Exception e)
+		{
+			// too bad xml-security throws exception... makes this a pain
+			throw new XmlSecurityException("Unable to decrypt xml", e);
+		}
 	}
 	
 	/**

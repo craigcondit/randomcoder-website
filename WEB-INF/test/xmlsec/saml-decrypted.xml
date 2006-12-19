@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saml:Assertion xmlns:saml="urn:oasis:names:tc:SAML:1.0:assertion" AssertionID="uuid:b89586f8-4aa8-4157-9db6-bb10afd471eb" IssueInstant="2006-12-19T18:23:21.556Z" Issuer="http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self" MajorVersion="1" MinorVersion="1">
+  <saml:Conditions NotBefore="2006-12-19T18:23:21.556Z" NotOnOrAfter="2006-12-19T19:23:21.556Z">
+    <saml:AudienceRestrictionCondition>
+      <saml:Audience>https://sid.ufie:8443/randomcoder-trunk/login</saml:Audience>
+    </saml:AudienceRestrictionCondition>
+  </saml:Conditions>
+  <saml:AttributeStatement>
+    <saml:Subject>
+      <saml:SubjectConfirmation>
+        <saml:ConfirmationMethod>urn:oasis:names:tc:SAML:1.0:cm:bearer</saml:ConfirmationMethod>
+      </saml:SubjectConfirmation>
+    </saml:Subject>
+    <saml:Attribute AttributeName="privatepersonalidentifier" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>DLb/nzDbfMEHkME4VYeny0teGTjvYtVdrQvmX9W055E=</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="givenname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Joe</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="surname" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>Blow</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute AttributeName="emailaddress" AttributeNamespace="http://schemas.xmlsoap.org/ws/2005/05/identity/claims">
+      <saml:AttributeValue>joeblow@example.com</saml:AttributeValue>
+    </saml:Attribute>
+  </saml:AttributeStatement>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+      <Reference URI="#uuid:b89586f8-4aa8-4157-9db6-bb10afd471eb">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+        <DigestValue>X8k8xnKQR0rH2W8oikDDBsx8lTw=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>ngI744Z6RJ4RCkbSCvyWf3O5/KmCP7ZBldRO2ZoANFNnozhbjqFrpiLUpdsn1/bpzhl4kaID2T7wM2p+mWteyVMq6HPOWUYAdoU1q+Zx+wy7hbWjAQRgLaolYAsSJ/3be9oCwqEDssnkjJ0sJchSb9JKSwIxQC+XoiNoOBYXh89kTpD73tO0u2V1w26NjIw0YNzAibrG6ruc7Na/k/PH7pz7NUHIHJf48fZamneECqyRmnHeibIIjXTpi+hzMRSR4YATPHPwib6i9wz69jPQcL7+Hhkk+xW5bWODnL9R4kA/18h0mjP8m/Y1Hu+BZgZU8e+Ws034csP053VY/93IlQ==</SignatureValue>
+    <KeyInfo>
+      <KeyValue>
+        <RSAKeyValue>
+          <Modulus>rOrouxYscwXFhLcpv9NwBPxtcywZZSpc+1JpY2e/rKgPxnV6Nx2xAdPIIHPml8RfDJ5TiUMtevCzJnKQKIuv9E8JD5qnxV0AiKo0kFftcgZsQyiQA1h8H5z30rKynpOTIgd80/0TD11b0gLQSYmapCXSQQJar7AW1l3JS4L9UgtBGVyZYpJU8Q9/w5q3RSHVkPSVuUGZK+045l3mODLeU0+XuTnhOue9ziLxrBogSWRpb7cQjp+2CZ2typGd+fgqnU1eoXcjGyzFI5FPgwetGCrkp8ukRcgw5sWu9/8f3LgReU6in7Sx6B/KR+eGThoxVi6491Z8F2pDQvhp622wlw==</Modulus>
+          <Exponent>AQAB</Exponent>
+        </RSAKeyValue>
+      </KeyValue>
+    </KeyInfo>
+  </Signature>
+</saml:Assertion>
