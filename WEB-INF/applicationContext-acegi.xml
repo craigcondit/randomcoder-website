@@ -121,7 +121,7 @@
 		<property name="key" ref="acegiRememberMeKey" />
 	</bean>
 	
-	<!-- provide authentication providers -->
+	<!-- authentication providers -->
 	<bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
 		<property name="providers">
 			<list>
@@ -157,7 +157,7 @@
 	</bean>
 	
 	<!-- Lookup user details with user dao -->
-	<bean id="userDetailsService" class="com.randomcoder.security.UserDetailsServiceImpl">
+	<bean id="userDetailsService" class="com.randomcoder.security.userdetails.UserDetailsServiceImpl">
 		<property name="userDao" ref="userDao" />
 	</bean>
 	

@@ -1,4 +1,4 @@
-package com.randomcoder.security;
+package com.randomcoder.security.userdetails;
 
 import java.util.*;
 

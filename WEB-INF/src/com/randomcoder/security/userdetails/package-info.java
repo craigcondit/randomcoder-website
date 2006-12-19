@@ -1,5 +1,5 @@
 /**
- * Support classes for authentication and authorization.
+ * Acegi UserDetails implementation and support classes.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-package com.randomcoder.security;
+package com.randomcoder.security.userdetails;
