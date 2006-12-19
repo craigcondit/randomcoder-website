@@ -42,13 +42,11 @@ public final class SamlUtils
 	 * @param doc DOM document
 	 * @return Element, or null if not found
 	 */
-	public static Element getFirstSamlAssertion(Document doc)
+	public static Element findFirstSamlAssertion(Document doc)
 	{
-		NodeList assertionList = doc.getElementsByTagNameNS(SAML_10_NS, SAML_EL_ASSERTION);
-		if (assertionList == null) return null;
-		if (assertionList.getLength() == 0) return null;
-		
-		return (Element) assertionList.item(0);
+		NodeList list = doc.getElementsByTagNameNS(SAML_10_NS, SAML_EL_ASSERTION);
+		if (list == null || list.getLength() == 0) return null;		
+		return (Element) list.item(0);
 	}
 	
 }

@@ -111,7 +111,7 @@ public class XmlSecurityUtilsTest
 		Element sig = XmlSecurityUtils.findFirstSignature(encryptedData);
 		assertNotNull(sig);
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setIdAttribute("AssertionID", true);
@@ -140,7 +140,7 @@ public class XmlSecurityUtilsTest
 
 		sig.removeChild(sig.getElementsByTagName("*").item(0));
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setIdAttribute("AssertionID", true);
@@ -159,7 +159,7 @@ public class XmlSecurityUtilsTest
 
 		sig.removeChild(sig.getElementsByTagName("KeyInfo").item(0));
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setIdAttribute("AssertionID", true);
@@ -179,7 +179,7 @@ public class XmlSecurityUtilsTest
 		Node kv = sig.getElementsByTagName("RSAKeyValue").item(0);
 		kv.getParentNode().removeChild(kv);
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setIdAttribute("AssertionID", true);
@@ -196,7 +196,7 @@ public class XmlSecurityUtilsTest
 		Element sig = XmlSecurityUtils.findFirstSignature(encryptedData);
 		assertNotNull(sig);
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setAttribute("AssertionID", assertion.getAttribute("AssertionID") + "x");
@@ -215,7 +215,7 @@ public class XmlSecurityUtilsTest
 		Element sig = XmlSecurityUtils.findFirstSignature(encryptedData);
 		assertNotNull(sig);
 		
-		Element assertion = SamlUtils.getFirstSamlAssertion(encryptedData);
+		Element assertion = SamlUtils.findFirstSamlAssertion(encryptedData);
 		assertNotNull(assertion);
 		
 		assertion.setAttribute("bogus", "true");
