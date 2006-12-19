@@ -20,11 +20,9 @@ import com.randomcoder.xml.security.*;
 public class XmlSecurityUtilsTest
 {
 	private static final String RES_ENCRYPTED = "/xmlsec/saml-encrypted.xml";
-	private static final String RES_DECRYPTED = "/xmlsec/saml-decrypted.xml";
 	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
 	
 	private Document encryptedData;
-	private Document decryptedData;
 	private String clientPublicKey;
 	private PrivateKey serverPrivateKey;
 	
@@ -46,9 +44,7 @@ public class XmlSecurityUtilsTest
 		keystoreFactory.afterPropertiesSet();
 		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
 		
-		encryptedData = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));
-		decryptedData = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_DECRYPTED)));
-		
+		encryptedData = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));		
 		clientPublicKey = properties.getProperty("client.publickey.encoded");
 		serverPrivateKey = certContext.getPrivateKey();		
 	}
@@ -57,35 +53,38 @@ public class XmlSecurityUtilsTest
 	public void tearDown() throws Exception
 	{
 		encryptedData = null;
-		decryptedData = null;
 		clientPublicKey = null;
 		serverPrivateKey = null;
 	}
 
 	@Test
-	public void testFindFirstEncryptedData()
+	public void testFindFirstEncryptedData() throws Exception
 	{
-		// found
+		// found in encrypted
 		Element el = XmlSecurityUtils.findFirstEncryptedData(encryptedData);
 		assertNotNull(el);
 		assertEquals("EncryptedData", el.getLocalName());
+		XmlSecurityUtils.decrypt(encryptedData, el, serverPrivateKey);
 		
-		// not found
-		el = XmlSecurityUtils.findFirstEncryptedData(decryptedData);
+		// not found in decrypted
+		el = XmlSecurityUtils.findFirstEncryptedData(encryptedData);
 		assertNull(el);
 	}
 
 	@Test
-	public void testFindFirstSignature()
+	public void testFindFirstSignature() throws Exception
 	{
-		// found
-		Element el = XmlSecurityUtils.findFirstSignature(decryptedData);
+		// not found in encrypted
+		Element el = XmlSecurityUtils.findFirstSignature(encryptedData);
+		assertNull(el);		
+		el = XmlSecurityUtils.findFirstEncryptedData(encryptedData);
 		assertNotNull(el);
-		assertEquals("Signature", el.getLocalName());
+		assertEquals("EncryptedData", el.getLocalName());
+		XmlSecurityUtils.decrypt(encryptedData, el, serverPrivateKey);
 		
-		// not found
+		// found in decrypted
 		el = XmlSecurityUtils.findFirstSignature(encryptedData);
-		assertNull(el);
+		assertNotNull(el);
 	}
 
 	@Test
