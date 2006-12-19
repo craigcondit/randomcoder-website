@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.security.PrivateKey;
-import java.util.Properties;
+import java.util.*;
 
 import org.junit.*;
 import org.springframework.core.io.*;
@@ -64,6 +64,24 @@ public class SamlUtilsTest
 		XmlSecurityUtils.decrypt(encryptedData, el, serverPrivateKey);
 		
 		assertNotNull(SamlUtils.findFirstSamlAssertion(encryptedData));
+	}
+	
+	@Test
+	public void testParseXsdDateTime()
+	{
+		Date date = SamlUtils.parseXsdDateTime("2006-12-19T18:23:21.576Z");
+		assertNotNull(date);
+		
+		Calendar result = Calendar.getInstance(Locale.US);
+		result.setTime(date);
+		result.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
+		assertEquals("Year", 2006, result.get(Calendar.YEAR));
+		assertEquals("Month", Calendar.DECEMBER, result.get(Calendar.MONTH));
+		assertEquals("Day", 19, result.get(Calendar.DAY_OF_MONTH));
+		assertEquals("Hour", 18, result.get(Calendar.HOUR_OF_DAY));
+		assertEquals("Minute", 23, result.get(Calendar.MINUTE));
+		assertEquals("Second", 21, result.get(Calendar.SECOND));		
 	}
 	
 	/**

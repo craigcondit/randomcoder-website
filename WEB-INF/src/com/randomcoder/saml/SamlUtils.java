@@ -1,5 +1,7 @@
 package com.randomcoder.saml;
 
+import java.util.*;
+
 import org.w3c.dom.*;
 
 /**
@@ -48,5 +50,30 @@ public final class SamlUtils
 		if (list == null || list.getLength() == 0) return null;		
 		return (Element) list.item(0);
 	}
+	
+	/**
+	 * Parses an XML Schema datetime value into a Date object.
+	 * @param value XSD datetime value
+	 * @return Date
+	 */
+	public static Date parseXsdDateTime(String value)
+	{
+    	String[] dateTime = value.split("T");
+    	String date = dateTime[0];
+    	String time = dateTime[1];
+    	String[] ymd = date.split("-");
+    	int year = Integer.parseInt(ymd[0]);
+    	int month = Integer.parseInt(ymd[1])-1;
+    	int day = Integer.parseInt(ymd[2]);
+    	String[] hms = time.split(":");
+    	int hour = Integer.parseInt(hms[0]);
+    	int minutes = Integer.parseInt(hms[1]);
+    	int seconds = Integer.parseInt(hms[2].substring(0, 2));
+        TimeZone tz = TimeZone.getTimeZone("GMT+00:00");
+        Calendar cal = Calendar.getInstance(tz, Locale.US);
+        cal.set(year, month, day, hour, minutes, seconds);
+        return cal.getTime();
+	}
+	
 	
 }
