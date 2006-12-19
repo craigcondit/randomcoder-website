@@ -149,7 +149,8 @@ public class XmlUtilsTest
 	/**
 	 * Not a test, but tickles the private constructor.
 	 */
-	@Test public void coverDefaultConstructor() throws Exception
+	@Test
+	public void coverDefaultConstructor() throws Exception
 	{
 		Constructor c = XmlUtils.class.getDeclaredConstructor(new Class[] {});
 		c.setAccessible(true);
