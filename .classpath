@@ -35,5 +35,9 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/acegi-security-1.0.3.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/acegi-security-tiger-1.0.3.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/jakarta-oro-2.0.8.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/serializer-2.7.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/xalan-2.7.0.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/xercesImpl-2.7.1.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/xmlsec-1.3.0.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
