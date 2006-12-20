@@ -1,7 +1,9 @@
-package com.randomcoder.saml;
+package com.randomcoder.security.cardspace;
+
+import org.acegisecurity.AuthenticationException;
 
 /**
- * Enumeration of SAML versions.
+ * Exception thrown due to invalid / missing CardSpace credentials.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,37 +30,46 @@ package com.randomcoder.saml;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum SamlVersion
+public class InvalidCredentialsException extends AuthenticationException
 {
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
-	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
+	private static final long serialVersionUID = 1729140205772443446L;
 
-	private final String description;
-
-	private SamlVersion(String description)
+	/**
+	 * Creates a new exception with the given message.
+	 * @param message message
+	 */
+	public InvalidCredentialsException(String message)
 	{
-		this.description = description;
+		super(message);
 	}
 
 	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
+	 * Creates a new exception with the given message and cause.
+	 * @param message message
+	 * @param cause cause
 	 */
-	public String getDescription()
+	public InvalidCredentialsException(String message, Throwable cause)
 	{
-		return description;
+		super(message, cause);
 	}
-
+	
+	/**
+	 * Gets the underlying cause of this exception.
+	 * @return cause of the exception
+	 */
+	@Override
+	public Throwable getCause()
+	{
+		return super.getCause();
+	}
+	
+	/**
+	 * Gets the message associated with this exception.
+	 * @return message
+	 */
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
 }

@@ -1,7 +1,7 @@
-package com.randomcoder.saml;
+package com.randomcoder.security.cardspace;
 
 /**
- * Enumeration of SAML versions.
+ * Enum containing CardSpace gender types.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,37 +28,7 @@ package com.randomcoder.saml;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum SamlVersion
+public enum Gender
 {
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
-	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
-
-	private final String description;
-
-	private SamlVersion(String description)
-	{
-		this.description = description;
-	}
-
-	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
-	 */
-	public String getDescription()
-	{
-		return description;
-	}
-
+	UNSPECIFIED, MALE, FEMALE;
 }

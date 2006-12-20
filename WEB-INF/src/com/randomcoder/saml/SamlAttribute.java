@@ -1,7 +1,11 @@
 package com.randomcoder.saml;
 
+import java.io.Serializable;
+
+import org.w3c.dom.*;
+
 /**
- * Enumeration of SAML versions.
+ * Class which represents a SAML attribute.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,37 +32,55 @@ package com.randomcoder.saml;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum SamlVersion
+public class SamlAttribute implements Serializable
 {
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
+	private static final long serialVersionUID = -213231770093250641L;
 	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
+	private SamlAttributeSpec attributeSpec;
+	private String value;
 
-	private final String description;
-
-	private SamlVersion(String description)
+	/**
+	 * Creates a new SAML attribute object from the given DOM element.
+	 * @param attribute attribute element
+	 * @throws SamlException if parsing fails
+	 */
+	public SamlAttribute(Element attribute) throws SamlException
 	{
-		this.description = description;
+		String namespace = attribute.getAttribute("AttributeNamespace");
+		if (namespace == null)
+			throw new SamlException("Missing attribute namespace");
+
+		String name = attribute.getAttribute("AttributeName");
+		if (name == null)
+			throw new SamlException("Missing attribute name");
+
+		attributeSpec = new SamlAttributeSpec(namespace, name);
+		
+		// get value
+		NodeList nl = attribute.getElementsByTagNameNS(attribute.getNamespaceURI(), "AttributeValue");
+		if (nl == null || nl.getLength() == 0)
+			throw new SamlException("Missing AttributeValue");
+
+		Element attValue = (Element) nl.item(0);
+
+		value = attValue.getTextContent();
+	}
+	
+	/**
+	 * Gets the attribute specification (namespace / local part) of this attribute. 
+	 * @return attribute spec
+	 */
+	public SamlAttributeSpec getAttributeSpec()
+	{
+		return attributeSpec;
 	}
 
 	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
+	 * Gets the value of this attribute.
+	 * @return attribute value
 	 */
-	public String getDescription()
+	public String getValue()
 	{
-		return description;
+		return value;
 	}
-
 }

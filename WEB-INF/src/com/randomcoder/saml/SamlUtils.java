@@ -36,7 +36,8 @@ public final class SamlUtils
 {
 	private SamlUtils() {}
 	
-	private static final String SAML_10_NS = "urn:oasis:names:tc:SAML:1.0:assertion";
+	public static final String SAML_10_NS = "urn:oasis:names:tc:SAML:1.0:assertion";
+	
 	private static final String SAML_EL_ASSERTION = "Assertion";
 	
 	/**

@@ -1,7 +1,7 @@
 package com.randomcoder.saml;
 
 /**
- * Enumeration of SAML versions.
+ * Exception thrown when SAML parsing fails.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,37 +28,63 @@ package com.randomcoder.saml;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum SamlVersion
+public class SamlException extends Exception
 {
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
-	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
+	private static final long serialVersionUID = -4412031167646924762L;
 
-	private final String description;
-
-	private SamlVersion(String description)
+	/**
+	 * Default constructor.
+	 */
+	public SamlException()
 	{
-		this.description = description;
+		super();
 	}
 
 	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
+	 * Creates a new exception with the given message and cause.
+	 * @param message message
+	 * @param cause cause
 	 */
-	public String getDescription()
+	public SamlException(String message, Throwable cause)
 	{
-		return description;
+		super(message, cause);
 	}
 
+	/**
+	 * Creates a new exception with the given message
+	 * @param message message
+	 */
+	public SamlException(String message)
+	{
+		super(message);
+	}
+
+	/**
+	 * Creates a new exception with the given cause
+	 * @param cause cause
+	 */
+	public SamlException(Throwable cause)
+	{
+		super(cause);
+	}
+
+	/**
+	 * Gets the message from this exception.
+	 * @return message
+	 */
+	@Override
+	public String getMessage()
+	{
+		return super.getMessage();
+	}
+
+	/**
+	 * Gets the cause of this exception
+	 * @return cause
+	 */
+	@Override
+	public Throwable getCause()
+	{
+		return super.getCause();
+	}
 }

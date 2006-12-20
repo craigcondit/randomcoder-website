@@ -1,7 +1,11 @@
-package com.randomcoder.saml;
+package com.randomcoder.user;
+
+import java.util.List;
+
+import com.randomcoder.dao.GenericDao;
 
 /**
- * Enumeration of SAML versions.
+ * CardSpaceToken data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -26,39 +30,24 @@ package com.randomcoder.saml;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre> 
+ * </pre>
  */
-public enum SamlVersion
+public interface CardSpaceTokenDao extends GenericDao<CardSpaceToken, Long>
 {
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
-	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
-
-	private final String description;
-
-	private SamlVersion(String description)
-	{
-		this.description = description;
-	}
 
 	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
+	 * Finds a {@code CardSpaceToken} with the given ppid.
+	 * @param ppid private personal identifier
+	 * @param issuerHash SHA-1 hash of public key which signed the request
+	 * @return {@code CardSpaceToken} instance, or null if not found
 	 */
-	public String getDescription()
-	{
-		return description;
-	}
+	public CardSpaceToken findByPrivatePersonalIdentifier(String ppid, String issuerHash);
 
+	/**
+	 * Lists all {@code CardSpaceToken} objects for the given user by
+	 * last login date.
+	 * @param user user
+	 * @return List of {@code CardSpaceToken} objects
+	 */
+	public List<CardSpaceToken> listByUser(User user);
 }

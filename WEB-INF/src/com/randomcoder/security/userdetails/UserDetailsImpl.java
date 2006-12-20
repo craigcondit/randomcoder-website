@@ -50,8 +50,18 @@ public final class UserDetailsImpl implements UserDetails
 	 */
 	public UserDetailsImpl(User user)
 	{
+		this(user, user.getPassword());
+	}
+	
+	/**
+	 * Creates a new UserDetailsImpl.
+	 * @param user User to read properties from.
+	 * @param password overriden password
+	 */
+	public UserDetailsImpl(User user, String password)
+	{
 		username = user.getUserName();
-		password = user.getPassword();
+		this.password = password;
 		enabled = user.isEnabled();
 		
 		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();

@@ -1,11 +1,17 @@
 package com.randomcoder.security.userdetails;
 
+import java.util.Locale;
+
+import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 
+import com.randomcoder.security.cardspace.*;
+import com.randomcoder.user.*;
 import com.randomcoder.user.User;
-import com.randomcoder.user.UserDao;
 
 /**
  * Acegi UserDetailsService implementation.
@@ -35,9 +41,12 @@ import com.randomcoder.user.UserDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserDetailsServiceImpl implements UserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUserDetailsService
 {
+	private static final Log logger = LogFactory.getLog(UserDetailsServiceImpl.class);
+	
 	private UserDao userDao;
+	private CardSpaceTokenDao cardSpaceTokenDao;
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -50,13 +59,54 @@ public class UserDetailsServiceImpl implements UserDetailsService
 	}
 	
 	/**
+	 * Sets the CardSpaceTokenDao implementation to use
+	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
+	 */
+	@Required
+	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
+	{
+		this.cardSpaceTokenDao = cardSpaceTokenDao;
+	}
+	
+	/**
 	 * Retrieves the user with the given username.
+	 * @param username user name to lookup
 	 */
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
 	{
 		User user = userDao.findByUserName(username);
-		if (user == null) throw new UsernameNotFoundException(username);		
+		if (user == null) throw new UsernameNotFoundException(username);
+		if (user.getPassword() == null) throw new UsernameNotFoundException(username);			
 		return new UserDetailsImpl(user);
+	}
+
+	/**
+	 * Retrieves the user with the given CardSpace credentials.
+	 * @param credentials CardSpace credentials to lookup
+	 */
+	public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials) throws AuthenticationException
+	{
+		String ppid = credentials.getPrivatePersonalIdentifier();
+		if (ppid == null)
+			throw new InvalidCredentialsException("No PPID found");
+		
+		logger.debug("PPID: " + ppid);
+		
+		String issuerHash = calculateIssuerHash(credentials);		
+		
+		logger.debug("Issuer hash: " + issuerHash);
+		
+		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
+		if (token == null)
+			throw new BadCredentialsException("User not found");
+		
+		User user = token.getUser();
+		return new UserDetailsImpl(user, ppid);
+	}
+
+	private String calculateIssuerHash(CardSpaceCredentials credentials)
+	{
+		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
 	}
 
 }

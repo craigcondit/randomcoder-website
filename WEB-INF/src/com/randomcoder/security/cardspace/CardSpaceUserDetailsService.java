@@ -1,7 +1,10 @@
-package com.randomcoder.saml;
+package com.randomcoder.security.cardspace;
+
+import org.acegisecurity.AuthenticationException;
+import org.acegisecurity.userdetails.UserDetails;
 
 /**
- * Enumeration of SAML versions.
+ * Acegi authority provider for CardSpace.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -26,39 +29,23 @@ package com.randomcoder.saml;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre> 
+ * </pre>
  */
-public enum SamlVersion
+public interface CardSpaceUserDetailsService
 {
 	/**
-	 * SAML 1.0
+	 * Obtains the granted authorities for the specified user.
+	 * 
+	 * <p>May throw any <code>AuthenticationException</code> or return
+	 * <code>null</code> if the authorities are unavailable.</p>
+	 * 
+	 * @param credentials CardSpace credentials to use for validation
+	 * @return the details of the indicated user (at minimum the granted
+	 *         authorities and the username)
+	 * @throws AuthenticationException if the user details are not available or
+	 *         the credentials are not valid.
+	 * 
 	 */
-	SAML_1_0("SAML 1.0"),
-	
-	/**
-	 * SAML 1.1
-	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
-
-	private final String description;
-
-	private SamlVersion(String description)
-	{
-		this.description = description;
-	}
-
-	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
-	 */
-	public String getDescription()
-	{
-		return description;
-	}
-
+  public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials)
+  throws AuthenticationException;
 }

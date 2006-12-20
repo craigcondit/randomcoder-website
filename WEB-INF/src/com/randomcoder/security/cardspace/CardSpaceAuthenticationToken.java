@@ -1,7 +1,10 @@
-package com.randomcoder.saml;
+package com.randomcoder.security.cardspace;
+
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.providers.AbstractAuthenticationToken;
 
 /**
- * Enumeration of SAML versions.
+ * Authentication implementation for use with CardSpace logins.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -28,37 +31,54 @@ package com.randomcoder.saml;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum SamlVersion
-{
-	/**
-	 * SAML 1.0
-	 */
-	SAML_1_0("SAML 1.0"),
+public class CardSpaceAuthenticationToken extends AbstractAuthenticationToken
+{	
+	private static final long serialVersionUID = -6303673335510941017L;
+	
+	private final Object principal;
+	private final CardSpaceCredentials credentials;
 	
 	/**
-	 * SAML 1.1
+	 * Creates an un-authenticated token.
+	 * @param credentials
 	 */
-	SAML_1_1("SAML 1.1"),
-	
-	/**
-	 * SAML 2.0
-	 */
-	SAML_2_0("SAML 2.0");
-
-	private final String description;
-
-	private SamlVersion(String description)
+	public CardSpaceAuthenticationToken(CardSpaceCredentials credentials)
 	{
-		this.description = description;
+		super(null);
+		this.principal = null;
+		this.credentials = credentials;
+	}
+	
+	/**
+	 * Creates an authenticated token.
+	 * @param principal principal
+	 * @param credentials SAML credentials
+	 * @param authorities list of granted authorities
+	 */
+	public CardSpaceAuthenticationToken(Object principal, CardSpaceCredentials credentials, GrantedAuthority[] authorities)
+	{
+		super(authorities);
+		this.principal = principal;
+		this.credentials = credentials;
+		setAuthenticated(true);
+	}
+	
+	/**
+	 * Gets the credentials associated with this token.
+	 * @return credentials
+	 */
+	public Object getCredentials()
+	{
+		return credentials;
 	}
 
 	/**
-	 * Gets the description of this SAML version.
-	 * @return enum description
+	 * Gets the principal associated with this token.
+	 * @return principal
 	 */
-	public String getDescription()
+	public Object getPrincipal()
 	{
-		return description;
+		return principal;
 	}
 
 }
