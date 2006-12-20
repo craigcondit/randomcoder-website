@@ -68,10 +68,10 @@ abstract public class AbstractDaoTestCase
 	private static String getProperty(String key)
 	{
 		String value = localProps.getProperty(key);
-		if (value != null) return value;
+		if (value != null && value.length() != 0) return value;
 		
 		value = testProps.getProperty(key);
-		if (value != null) return value;
+		if (value != null && value.length() != 0) return value;
 		
 		return System.getProperty(key);
 	}
