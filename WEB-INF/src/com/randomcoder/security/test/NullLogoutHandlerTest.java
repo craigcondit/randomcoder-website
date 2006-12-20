@@ -44,10 +44,19 @@ public class NullLogoutHandlerTest
 		handler.logout(request, response, new AuthenticationMock());
 		Authentication auth = mock.getAuthentication();
 		assertNotNull(auth);
-		assertEquals(AuthenticationMock.class, auth.getClass());
+		assertEquals(AuthenticationMock.class, auth.getClass());		
+	}
 		
-		assertEquals("temp", auth.getName());
-		assertEquals("temp", auth.getPrincipal());
+
+	@Test
+	public void testLogoutNull()
+	{
+		handler.logout(request, response, null);
+		Authentication auth = mock.getAuthentication();
+		assertNotNull(auth);
+		
+		assertEquals("anonymousUser", auth.getName());
+		assertEquals("anonymousUser", auth.getPrincipal());
 		assertFalse(auth.isAuthenticated());
 
 		// for code coverage
@@ -61,17 +70,6 @@ public class NullLogoutHandlerTest
 			fail("Didn't catch exception");
 		}
 		catch (IllegalArgumentException e) {}
-		
-	}
-		
-
-	@Test
-	public void testLogoutNull()
-	{
-		handler.logout(request, response, null);
-		Authentication auth = mock.getAuthentication();
-		assertNotNull(auth);
-		assertEquals("anonymousUser", auth.getName());
 	}
 	
 	@SuppressWarnings("unused")
