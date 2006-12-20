@@ -46,8 +46,8 @@ public class NullLogoutHandlerTest
 		assertNotNull(auth);
 		assertEquals(AuthenticationMock.class, auth.getClass());
 		
-		assertEquals("anonymousUser", auth.getName());
-		assertEquals("anonymousUser", auth.getPrincipal());
+		assertEquals("temp", auth.getName());
+		assertEquals("temp", auth.getPrincipal());
 		assertFalse(auth.isAuthenticated());
 
 		// for code coverage
@@ -71,6 +71,7 @@ public class NullLogoutHandlerTest
 		handler.logout(request, response, null);
 		Authentication auth = mock.getAuthentication();
 		assertNotNull(auth);
+		assertEquals("anonymousUser", auth.getName());
 	}
 	
 	@SuppressWarnings("unused")
