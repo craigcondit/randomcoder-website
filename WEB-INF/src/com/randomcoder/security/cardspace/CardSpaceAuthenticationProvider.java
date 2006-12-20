@@ -38,28 +38,31 @@ public class CardSpaceAuthenticationProvider implements AuthenticationProvider
 {
 	private CardSpaceUserDetailsService cardSpaceUserDetailsService;
 	
+	/**
+	 * Sets the CardSpaceUserDetailsService implementation to use. 
+	 * @param cardSpaceUserDetailsService user details service
+	 */
 	@Required
 	public void setCardSpaceUserDetailsService(CardSpaceUserDetailsService cardSpaceUserDetailsService)
 	{
 		this.cardSpaceUserDetailsService = cardSpaceUserDetailsService;
 	}
 
+	/**
+	 * Attempts to authenticate a CardSpace authentication token.
+	 * <p>
+	 * This class handles <code>CardSpaceAuthenticationToken</code> objects.
+	 * </p>
+	 * @param auth authentication token
+	 * @throws AuthenticationException if authentication fails
+	 * @return fully authenticated CardSpaceAuthenticationToken
+	 */
 	public Authentication authenticate(Authentication auth) throws AuthenticationException
 	{
 		if (auth == null) return null;
+		if (!(auth instanceof CardSpaceAuthenticationToken)) return null;
 		
-		if (auth instanceof CardSpaceAuthenticationToken)
-			return authenticateCardSpaceAuthenticationToken((CardSpaceAuthenticationToken) auth);
-		
-		if (auth instanceof UsernamePasswordAuthenticationToken)
-			return authenticateUsernamePasswordAuthenticationToken((UsernamePasswordAuthenticationToken) auth);
-		
-			return null;		
-	}
-
-	private Authentication authenticateCardSpaceAuthenticationToken(CardSpaceAuthenticationToken token) throws AuthenticationException
-	{
-		CardSpaceCredentials credentials = (CardSpaceCredentials) token.getCredentials();
+		CardSpaceCredentials credentials = (CardSpaceCredentials) ((CardSpaceAuthenticationToken) auth).getCredentials();
 		
 		// TODO check that credentials are valid within time period
 		
@@ -69,24 +72,15 @@ public class CardSpaceAuthenticationProvider implements AuthenticationProvider
 		return new CardSpaceAuthenticationToken(userDetails, credentials, userDetails.getAuthorities());
 	}
 
-	private Authentication authenticateUsernamePasswordAuthenticationToken(UsernamePasswordAuthenticationToken token) throws AuthenticationException
-	{
-		Object cred = token.getCredentials();
-		if (!(cred instanceof CardSpaceCredentials)) return null;
-		CardSpaceCredentials credentials = (CardSpaceCredentials) cred;
-		
-		// TODO check that credentials are valid within time period
-		
-		UserDetails userDetails = cardSpaceUserDetailsService.loadUserByCardSpaceCredentials(credentials);
-		if (userDetails == null) return null;
-		
-		return new UsernamePasswordAuthenticationToken(userDetails, credentials, userDetails.getAuthorities());
-	}
-	
+	/**
+	 * This class supports <code>CardSpaceAuthenticationToken</code> objects.
+	 * @param target target class to query
+	 * @return true if target is <code>CardSpaceAuthenticationToken</code>,
+	 *         false otherwise.
+	 */
 	public boolean supports(Class target)
 	{
 		if (target.equals(CardSpaceAuthenticationToken.class)) return true;
-		if (target.equals(UsernamePasswordAuthenticationToken.class)) return true;
 		return false;
 	}
 
