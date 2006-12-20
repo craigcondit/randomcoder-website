@@ -159,6 +159,13 @@ public class UserDetailsServiceImplTest
 		assertEquals("test", details.getUsername());
 	}
 
+	@Test
+	public void testLoadUserByUsernameDebug()
+	{
+		svc.setDebug(true);		
+		testLoadUserByUsername();
+	}
+	
 	@Test(expected=UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNotFound() throws Exception
 	{
