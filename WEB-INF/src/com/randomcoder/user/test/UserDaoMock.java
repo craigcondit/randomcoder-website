@@ -128,9 +128,6 @@ public class UserDaoMock implements UserDao
 		
 		if (StringUtils.trimToNull(user.getEmailAddress()) == null)
 			throw new IllegalArgumentException("emailAddress required");
-		
-		if (StringUtils.trimToNull(user.getPassword()) == null)
-			throw new IllegalArgumentException("password required");
 	}
 	
 	protected class UserNameComparator implements Comparator<User>
