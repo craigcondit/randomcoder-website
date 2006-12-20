@@ -32,6 +32,9 @@ import com.randomcoder.saml.SamlAttributeSpec;
  */
 abstract public class CardSpaceAttributes
 {
+	/**
+	 * CardSpace Claims Schema
+	 */
 	public static final String CARDSPACE_CLAIMS_SCHEMA = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims";
 	
 	/**
