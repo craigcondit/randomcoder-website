@@ -67,13 +67,13 @@ abstract public class AbstractDaoTestCase
 	
 	private static String getProperty(String key)
 	{
-		String value = localProps.getProperty(key);
+		String value = System.getProperty(key);
 		if (value != null && value.length() != 0) return value;
 		
-		value = testProps.getProperty(key);
+		value = localProps.getProperty(key);
 		if (value != null && value.length() != 0) return value;
 		
-		return System.getProperty(key);
+		return testProps.getProperty(key);
 	}
 	
 	protected final void cleanDatabase() throws Exception
