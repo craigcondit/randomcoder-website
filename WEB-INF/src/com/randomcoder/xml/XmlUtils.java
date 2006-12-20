@@ -76,7 +76,6 @@ public final class XmlUtils
    * @param result destination
    * @param publicId public id of dtd or null if not specified
    * @param systemId system id of dtd or null if not specified
-   * @return String containing a document
    * @throws TransformerException if transformation fails
    */
   public static void writeXml(Document doc, Result result, String publicId, String systemId)
@@ -139,7 +138,6 @@ public final class XmlUtils
   /**
    * Log XML to the given log object.
    * @param log log to output to
-   * @param message message to add
    * @param doc document to write
    */
   public static void logXml(Log log, Document doc)

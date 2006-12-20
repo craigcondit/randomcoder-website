@@ -167,7 +167,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 
 	/**
 	 * This filter by default responds to /j_acegi_cardspace_check
-	 * @returns the default 
+	 * @return the default 
 	 */
 	@Override
 	public String getDefaultFilterProcessesUrl()
