@@ -60,6 +60,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	
 	private CertificateContext certificateContext;
 	private String parameter = DEFAULT_PARAMETER;
+	private boolean debug = false;
 	
 	/**
 	 * Sets the certificate context to retrieve private keys and certificates from.
@@ -79,6 +80,15 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	public void setParameter(String parameter)
 	{
 		this.parameter = parameter;
+	}
+	
+	/**
+	 * Turns on or off debugging output of XML tokens (defaults to off).
+	 * @param debug true to enable debugging, false otherwise
+	 */
+	public void setDebug(boolean debug)
+	{
+		this.debug = debug;
 	}
 	
 	/**
@@ -109,6 +119,8 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		{
 			throw new AuthenticationServiceException("Unable to parse xml token", e);
 		}
+		
+		if (debug) XmlUtils.logXml(logger, "Encrypted Token:", doc);
 
 		// get encrypted data element
 		Element encryptedData = XmlSecurityUtils.findFirstEncryptedData(doc);
@@ -129,6 +141,8 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 			throw new InvalidCredentialsException("Unable to decrypt token", e);
 		}
 
+		if (debug) XmlUtils.logXml(logger, "Decrypted Token:", doc);
+		
 		// get assertion element
 		Element assertionElement = SamlUtils.findFirstSamlAssertion(doc);
 		if (assertionElement == null)
