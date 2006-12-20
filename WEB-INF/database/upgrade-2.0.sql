@@ -18,7 +18,7 @@ CREATE TABLE cardspace_tokens (
 	ppid VARCHAR(1024) NOT NULL,
 	issuer_hash VARCHAR(40) NOT NULL,
 	email_address VARCHAR(320) NOT NULL,
-	create_date TIMESTAMP WITH TIME ZONE NOT NULL,
+	create_date TIMESTAMP WITH TIME ZONE NULL,
 	login_date TIMESTAMP WITH TIME ZONE NOT NULL,
 	CONSTRAINT cardspace_tokens_pkey PRIMARY KEY (cardspace_token_id),
 	CONSTRAINT cardspace_tokens_ppid_key UNIQUE (ppid),

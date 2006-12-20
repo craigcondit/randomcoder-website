@@ -158,7 +158,7 @@ public class CardSpaceToken implements Serializable
 	 * Gets the last time this token was used for login.
 	 * @return last login date
 	 */
-	@Column(name="login_date", unique = false, nullable = false)
+	@Column(name="login_date", unique = false, nullable = true)
 	public Date getLastLoginDate()
 	{
 		return lastLoginDate;
