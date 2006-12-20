@@ -148,7 +148,7 @@ public class UrlMutatingChannelEntryPoint implements ChannelEntryPoint
 	/**
 	 * HttpServletRequestWrapper which overrides servletPath and pathInfo. 
 	 */
-	private static class PathMutableHttpServletRequestWrapper extends HttpServletRequestWrapper
+	private class PathMutableHttpServletRequestWrapper extends HttpServletRequestWrapper
 	{
 		private String servletPath;
 		private String pathInfo;
