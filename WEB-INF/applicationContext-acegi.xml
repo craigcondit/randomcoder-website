@@ -87,6 +87,7 @@
 		<property name="defaultTargetUrl" value="/" />
 		<property name="filterProcessesUrl" value="/j_cardspace_check" />
 		<property name="certificateContext" ref="certificateContext" />
+		<property name="debug" value="true" />
 	</bean>
 	
 	<!-- provide saved request handling / request.getRemoteUser() / isUserInRole() functionality -->
