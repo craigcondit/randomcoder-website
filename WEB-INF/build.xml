@@ -28,7 +28,7 @@
 	</path>
 	
 	<fileset id="test.cases" dir="src">
-		<include name="**/Saml*Test.java" />
+		<include name="**/*Test.java" />
 	</fileset>
 	
   <taskdef resource="emma_ant.properties" classpathref="emma.classpath" />
