@@ -111,7 +111,7 @@
 		<delete dir="${instr}" />
 	</target>
 		
-	<target name="cruisecontrol" depends="clean,coverage" description="Run CruiseControl build" />
+	<target name="cruisecontrol" depends="clean,coverage,javadoc" description="Run CruiseControl build" />
 	
 	<target name="svnupdate" description="Updates latest code from SVN">
 		<exec command="svn" dir="${basedir}/..">
