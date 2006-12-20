@@ -1,3 +1,5 @@
+DROP TABLE cardspace_tokens;
+DROP SEQUENCE cardspace_tokens_seq;
 DROP TABLE comments;
 DROP SEQUENCE comments_seq;
 DROP TABLE article_tag_link;
