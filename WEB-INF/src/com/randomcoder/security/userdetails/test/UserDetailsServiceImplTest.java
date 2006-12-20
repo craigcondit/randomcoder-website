@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.security.*;
 import java.util.*;
 
-import org.acegisecurity.BadCredentialsException;
+import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.*;
@@ -32,6 +32,7 @@ public class UserDetailsServiceImplTest
 	private UserDetailsServiceImpl svc = null;
 	private CardSpaceTokenDaoMock cardSpaceTokenDao = null;
 	private UserDaoMock userDao = null;
+	private RoleDaoMock roleDao = null;
 		
 	private SamlAssertion existingUserAssertion = null;
 	private SamlAssertion missingUserAssertion = null;
@@ -44,13 +45,13 @@ public class UserDetailsServiceImplTest
 	private CardSpaceCredentials existingUserCredentials = null;
 	private CardSpaceCredentials missingUserCredentials = null;
 	private CardSpaceCredentials missingPpidCredentials = null;
-	
-	
+		
 	@Before
 	public void setUp() throws Exception
 	{
 		cardSpaceTokenDao = new CardSpaceTokenDaoMock();
 		userDao = new UserDaoMock();
+		roleDao = new RoleDaoMock();
 		svc = new UserDetailsServiceImpl();
 		svc.setCardSpaceTokenDao(cardSpaceTokenDao);
 		svc.setUserDao(userDao);
@@ -107,12 +108,20 @@ public class UserDetailsServiceImplTest
 		}
 		
 		{
+			Role role = new Role();
+			role.setName("ROLE_TEST");
+			role.setDescription("Test role");	
+			roleDao.mockCreate(role);
+			
+			List<Role> roles = new ArrayList<Role>();
+			roles.add(role);
+			
 			User user = new User();
 			user.setUserName("test");
 			user.setEnabled(true);
 			user.setPassword(User.hashPassword("Password1"));
 			user.setEmailAddress("test@example.com");
-			user.setRoles(new ArrayList<Role> ());
+			user.setRoles(roles);
 			userDao.create(user);
 			
 			CardSpaceToken token = new CardSpaceToken();
@@ -140,6 +149,7 @@ public class UserDetailsServiceImplTest
 		svc = null;
 		cardSpaceTokenDao = null;
 		userDao = null;
+		roleDao = null;
 		existingUserAssertion = null;
 		missingUserAssertion = null;
 		missingPpidAssertion = null;
@@ -157,6 +167,18 @@ public class UserDetailsServiceImplTest
 		UserDetails details = svc.loadUserByUsername("test");
 		assertNotNull(details);
 		assertEquals("test", details.getUsername());
+		
+		assertEquals(User.hashPassword("Password1"), details.getPassword());
+		
+		GrantedAuthority[] authorities =  details.getAuthorities();
+		assertNotNull(authorities);
+		assertEquals(1, authorities.length);
+		assertEquals("ROLE_TEST", authorities[0].getAuthority());
+		
+		assertTrue(details.isAccountNonExpired());
+		assertTrue(details.isAccountNonLocked());
+		assertTrue(details.isCredentialsNonExpired());
+		assertTrue(details.isEnabled());		
 	}
 
 	@Test
