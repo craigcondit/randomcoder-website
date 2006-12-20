@@ -63,7 +63,9 @@
 		<constructor-arg value="/" /> <!-- URL redirected to after logout -->
 		<constructor-arg> <!-- list of logout handlers to poll -->
 			<list>
-				<ref bean="rememberMeServices" />
+				<bean class="com.randomcoder.security.NullLogoutHandler">
+					<property name="logoutHandler" ref="rememberMeServices" />
+				</bean>
 				<bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
 			</list>
 		</constructor-arg>
