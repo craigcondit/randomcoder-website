@@ -245,6 +245,7 @@
 	<bean id="userDetailsService" class="com.randomcoder.security.userdetails.UserDetailsServiceImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
+		<property name="debug" value="false" />
 	</bean>
 	
 	<!-- Passwords are SHA-1 hashed -->

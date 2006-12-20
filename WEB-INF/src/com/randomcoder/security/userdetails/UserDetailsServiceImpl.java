@@ -47,6 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	
 	private UserDao userDao;
 	private CardSpaceTokenDao cardSpaceTokenDao;
+	private boolean debug = false;
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -56,6 +57,15 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;
+	}
+	
+	/**
+	 * Turns debug logging of ppid and issuerhash on / off.
+	 * @param debug true if debugging is to be enabled.
+	 */
+	public void setDebug(boolean debug)
+	{
+		this.debug = debug;
 	}
 	
 	/**
@@ -89,11 +99,11 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 		if (ppid == null)
 			throw new InvalidCredentialsException("No PPID found");
 		
-		logger.debug("PPID: " + ppid);
-		
+		if (debug) logger.debug("PPID: " + ppid);
+				
 		String issuerHash = calculateIssuerHash(credentials);		
 		
-		logger.debug("Issuer hash: " + issuerHash);
+		if (debug) logger.debug("Issuer hash: " + issuerHash);
 		
 		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
 		if (token == null)
