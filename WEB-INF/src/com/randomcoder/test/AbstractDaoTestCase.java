@@ -33,6 +33,37 @@ abstract public class AbstractDaoTestCase
 	
 	private static final String DATA_XML = "/test-data.xml";
 	private static final String DATA_DTD = "/test-data.dtd";
+	private static final String TEST_PROPS = "/test.properties";
+	private static final String LOCAL_PROPS = "/local.test.properties";
+	
+	private static final Properties testProps;
+	private static final Properties localProps;
+	
+	static
+	{
+		try
+		{
+		 testProps = new Properties();		 
+		 testProps.load(AbstractDaoTestCase.class.getResourceAsStream(TEST_PROPS));
+		 localProps = new Properties();
+		 localProps.load(AbstractDaoTestCase.class.getResourceAsStream(LOCAL_PROPS));
+		}
+		catch (IOException e)
+		{
+			throw new ExceptionInInitializerError(e);
+		}
+	}
+	
+	private static String getProperty(String key)
+	{
+		String value = localProps.getProperty(key);
+		if (value != null) return value;
+		
+		value = testProps.getProperty(key);
+		if (value != null) return value;
+		
+		return System.getProperty(key);
+	}
 	
 	protected final void cleanDatabase() throws Exception
 	{		
@@ -130,16 +161,16 @@ abstract public class AbstractDaoTestCase
 	@BeforeClass
 	public static final void initDataSources() throws Exception
 	{
-		String driver = System.getProperty("test.database.driver");
-		String type = System.getProperty("test.database.type");
-		String host = System.getProperty("test.database.host");
-		String name = System.getProperty("test.database.name");
+		String driver = getProperty("test.database.driver");
+		String type = getProperty("test.database.type");
+		String host = getProperty("test.database.host");
+		String name = getProperty("test.database.name");
 
-		String adminUsername = System.getProperty("test.database.admin.username");
-		String adminPassword = System.getProperty("test.database.admin.password");
+		String adminUsername = getProperty("test.database.admin.username");
+		String adminPassword = getProperty("test.database.admin.password");
 		
-		String userUsername = System.getProperty("test.database.user.username");
-		String userPassword = System.getProperty("test.database.user.password");
+		String userUsername = getProperty("test.database.user.username");
+		String userPassword = getProperty("test.database.user.password");
 
 		String url = "jdbc:" + type + "://" + host + "/" + name;
 		
