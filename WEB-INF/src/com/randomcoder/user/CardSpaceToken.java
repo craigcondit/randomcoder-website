@@ -39,7 +39,7 @@ import org.apache.commons.lang.builder.*;
 @NamedQueries
 ({
 	@NamedQuery(name = "CardSpaceToken.ByPrivatePersonalIdentifier", query = "from CardSpaceToken t where t.privatePersonalIdentifier = ? and t.issuerHash = ?"),
-	@NamedQuery(name = "CardSpaceToken.ByUser", query = "from CardSpaceToken t where t.user = ? order by t.lastLoginDate desc"),
+	@NamedQuery(name = "CardSpaceToken.ByUser", query = "from CardSpaceToken t where t.user = ? order by t.lastLoginDate desc")
 })
 @Entity
 @Table(name="cardspace_tokens")
