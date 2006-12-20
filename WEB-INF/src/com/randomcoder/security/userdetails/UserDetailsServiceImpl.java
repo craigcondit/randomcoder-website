@@ -75,8 +75,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
 	{
 		User user = userDao.findByUserName(username);
-		if (user == null) throw new UsernameNotFoundException(username);
-		if (user.getPassword() == null) throw new UsernameNotFoundException(username);			
+		if (user == null || user.getPassword() == null) throw new UsernameNotFoundException(username);
 		return new UserDetailsImpl(user);
 	}
 
