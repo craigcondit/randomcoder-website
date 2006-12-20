@@ -160,8 +160,32 @@
 		</property>
 	</bean>
 	
-	<bean id="secureChannelProcessor" class="org.acegisecurity.securechannel.SecureChannelProcessor" />
-	<bean id="insecureChannelProcessor" class="org.acegisecurity.securechannel.InsecureChannelProcessor" />
+	<!--  handle switching to https if necessary -->
+	<bean id="secureChannelProcessor" class="org.acegisecurity.securechannel.SecureChannelProcessor">
+		<property name="entryPoint">
+			<bean class="com.randomcoder.security.UrlMutatingChannelEntryPoint">
+				<property name="channelEntryPoint">
+					<bean class="org.acegisecurity.securechannel.RetryWithHttpsEntryPoint" />
+				</property>
+				<property name="suffix" value="/index.jsp" />
+				<property name="replacement" value="/" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- handle switching to http if necessary -->
+	<bean id="insecureChannelProcessor" class="org.acegisecurity.securechannel.InsecureChannelProcessor">
+		<property name="entryPoint">
+			<bean class="com.randomcoder.security.UrlMutatingChannelEntryPoint">
+				<property name="channelEntryPoint">
+					<bean class="org.acegisecurity.securechannel.RetryWithHttpEntryPoint" />
+				</property>
+				<property name="suffix" value="/index.jsp" />
+				<property name="replacement" value="/" />
+			</bean>
+		</property>
+	</bean>
+	
 	<bean id="anyChannelProcessor" class="com.randomcoder.security.AnyChannelProcessor" />
 	
 	<!-- generate a persistent HTTP cookie to store username / password -->
