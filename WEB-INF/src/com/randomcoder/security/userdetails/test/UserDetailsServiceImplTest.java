@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.security.*;
 import java.util.*;
 
-import org.acegisecurity.AuthenticationException;
+import org.acegisecurity.BadCredentialsException;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.*;
@@ -15,7 +15,7 @@ import org.xml.sax.InputSource;
 
 import com.randomcoder.crypto.*;
 import com.randomcoder.saml.*;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import com.randomcoder.security.cardspace.*;
 import com.randomcoder.security.userdetails.UserDetailsServiceImpl;
 import com.randomcoder.user.*;
 import com.randomcoder.user.User;
@@ -33,14 +33,18 @@ public class UserDetailsServiceImplTest
 	private CardSpaceTokenDaoMock cardSpaceTokenDao = null;
 	private UserDaoMock userDao = null;
 		
-	private SamlAssertion assertion1 = null;
-	private SamlAssertion assertion2 = null;
+	private SamlAssertion existingUserAssertion = null;
+	private SamlAssertion missingUserAssertion = null;
+	private SamlAssertion missingPpidAssertion = null;
 	
-	private PublicKey key1 = null;
-	private PublicKey key2 = null;
+	private PublicKey existingUserKey = null;
+	private PublicKey missingUserKey = null;
+	private PublicKey missingPpidKey = null;
 	
-	private CardSpaceCredentials cred1 = null;
-	private CardSpaceCredentials cred2 = null;
+	private CardSpaceCredentials existingUserCredentials = null;
+	private CardSpaceCredentials missingUserCredentials = null;
+	private CardSpaceCredentials missingPpidCredentials = null;
+	
 	
 	@Before
 	public void setUp() throws Exception
@@ -75,9 +79,19 @@ public class UserDetailsServiceImplTest
 			Element sig = XmlSecurityUtils.findFirstSignature(doc);
 			Element assertionEl = SamlUtils.findFirstSamlAssertion(doc);
 			assertionEl.setIdAttribute("AssertionID", true);
-			key1 = XmlSecurityUtils.verifySignature(sig);
-			assertion1 = new SamlAssertion(assertionEl);
-			cred1 = new CardSpaceCredentials(assertion1, key1);
+			missingPpidKey = existingUserKey = XmlSecurityUtils.verifySignature(sig);
+			existingUserAssertion = new SamlAssertion(assertionEl);
+			
+			NodeList atts = assertionEl.getElementsByTagNameNS(SamlUtils.SAML_10_NS, "Attribute");
+			for (int i = 0; i < atts.getLength(); i++)
+			{
+				Element att = (Element) atts.item(i);
+				if ("privatepersonalidentifier".equals(att.getAttribute("AttributeName")))
+					att.getParentNode().removeChild(att);
+			}
+			missingPpidAssertion = new SamlAssertion(assertionEl);
+			existingUserCredentials = new CardSpaceCredentials(existingUserAssertion, existingUserKey);
+			missingPpidCredentials = new CardSpaceCredentials(missingPpidAssertion, missingPpidKey);
 		}
 		
 		{
@@ -87,9 +101,9 @@ public class UserDetailsServiceImplTest
 			Element sig = XmlSecurityUtils.findFirstSignature(doc);
 			Element assertionEl = SamlUtils.findFirstSamlAssertion(doc);
 			assertionEl.setIdAttribute("AssertionID", true);
-			key2 = XmlSecurityUtils.verifySignature(sig);
-			assertion2 = new SamlAssertion(assertionEl);
-			cred2 = new CardSpaceCredentials(assertion2, key2);
+			missingUserKey = XmlSecurityUtils.verifySignature(sig);
+			missingUserAssertion = new SamlAssertion(assertionEl);
+			missingUserCredentials = new CardSpaceCredentials(missingUserAssertion, missingUserKey);
 		}
 		
 		{
@@ -102,8 +116,8 @@ public class UserDetailsServiceImplTest
 			userDao.create(user);
 			
 			CardSpaceToken token = new CardSpaceToken();
-			token.setPrivatePersonalIdentifier(cred1.getPrivatePersonalIdentifier());
-			token.setIssuerHash(DigestUtils.shaHex(cred1.getIssuerPublicKey()));
+			token.setPrivatePersonalIdentifier(existingUserCredentials.getPrivatePersonalIdentifier());
+			token.setIssuerHash(DigestUtils.shaHex(existingUserCredentials.getIssuerPublicKey()));
 			token.setEmailAddress("test@example.com");
 			token.setCreationDate(new Date());
 			token.setUser(user);
@@ -126,12 +140,15 @@ public class UserDetailsServiceImplTest
 		svc = null;
 		cardSpaceTokenDao = null;
 		userDao = null;
-		assertion1 = null;
-		assertion2 = null;
-		key1 = null;
-		key2 = null;
-		cred1 = null;
-		cred2 = null;
+		existingUserAssertion = null;
+		missingUserAssertion = null;
+		missingPpidAssertion = null;
+		existingUserKey = null;
+		missingUserKey = null;
+		missingPpidKey = null;
+		existingUserCredentials = null;
+		missingUserCredentials = null;
+		missingPpidCredentials = null;
 	}
 
 	@Test
@@ -157,15 +174,21 @@ public class UserDetailsServiceImplTest
 	@Test
 	public void testLoadUserByCardSpaceCredentials()
 	{
-		UserDetails details = svc.loadUserByCardSpaceCredentials(cred1);
+		UserDetails details = svc.loadUserByCardSpaceCredentials(existingUserCredentials);
 		assertNotNull(details);
 		assertEquals("test", details.getUsername());
 	}
 
-	@Test(expected=AuthenticationException.class)
+	@Test(expected=BadCredentialsException.class)
 	public void testLoadUserByCardSpaceCredentialsNotFound()
 	{
-		svc.loadUserByCardSpaceCredentials(cred2);
+		svc.loadUserByCardSpaceCredentials(missingUserCredentials);
+	}
+
+	@Test(expected=InvalidCredentialsException.class)
+	public void testLoadUserByCardSpaceCredentialsMissingPpid()
+	{		
+		svc.loadUserByCardSpaceCredentials(missingPpidCredentials);
 	}
 	
 }
