@@ -55,6 +55,7 @@ public class UserDetailsServiceImplTest
 		svc = new UserDetailsServiceImpl();
 		svc.setCardSpaceTokenDao(cardSpaceTokenDao);
 		svc.setUserDao(userDao);
+		svc.setDebug(false);
 		
 		Properties properties = new Properties();
 		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
@@ -184,7 +185,7 @@ public class UserDetailsServiceImplTest
 	@Test
 	public void testLoadUserByUsernameDebug()
 	{
-		svc.setDebug(true);		
+		svc.setDebug(true);
 		testLoadUserByUsername();
 	}
 	
