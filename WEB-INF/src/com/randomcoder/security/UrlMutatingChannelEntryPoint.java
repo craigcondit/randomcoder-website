@@ -82,7 +82,7 @@ public class UrlMutatingChannelEntryPoint implements ChannelEntryPoint
 	 */
 	public void setSuffix(String suffix)
 	{
-		this.suffixes = new String[] { suffix };
+		setSuffixes(new String[] { suffix });
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class UrlMutatingChannelEntryPoint implements ChannelEntryPoint
     		// process pathInfo
     		if (pathInfo.endsWith(suffix))
     		{
-    			String replacedPathInfo = pathInfo.substring(0, servletPath.lastIndexOf(suffix)) + replacement;
+    			String replacedPathInfo = pathInfo.substring(0, pathInfo.lastIndexOf(suffix)) + replacement;
     			logger.debug("Replaced pathInfo: original=" + pathInfo + " replaced=" + replacedPathInfo);
     			req = new PathMutableHttpServletRequestWrapper(req, servletPath, replacedPathInfo);
     			
@@ -148,7 +148,7 @@ public class UrlMutatingChannelEntryPoint implements ChannelEntryPoint
 	/**
 	 * HttpServletRequestWrapper which overrides servletPath and pathInfo. 
 	 */
-	private class PathMutableHttpServletRequestWrapper extends HttpServletRequestWrapper
+	private static class PathMutableHttpServletRequestWrapper extends HttpServletRequestWrapper
 	{
 		private String servletPath;
 		private String pathInfo;
