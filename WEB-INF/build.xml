@@ -2,6 +2,8 @@
 
 	<property file="local.build.properties" />
 	<property file="build.properties" />
+	<property file="test/local.test.properties" />
+	<property file="test/test.properties" />
 	
 	<property name="coverage" location="emma-coverage" />
 	<property name="instr" location="emma-instr" />
@@ -163,7 +165,6 @@
 			<jvmarg value="-Dtest.database.admin.password=${test.database.admin.password}" />
 			<jvmarg value="-Dtest.database.user.username=${test.database.user.username}" />
 			<jvmarg value="-Dtest.database.user.password=${test.database.user.password}" />			
-			<jvmarg value="-Dtest.dataset.path=${basedir}/test/test-data.xml" />
 			<jvmarg value="-Dtest.webinf.dir=${basedir}" />
 			<jvmarg value="-Dlog4j.configuration=log4j-test.xml" />
 			
