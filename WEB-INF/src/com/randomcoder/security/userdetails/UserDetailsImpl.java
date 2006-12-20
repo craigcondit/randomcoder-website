@@ -54,7 +54,9 @@ public final class UserDetailsImpl implements UserDetails
 	}
 	
 	/**
-	 * Creates a new UserDetailsImpl.
+	 * Creates a new UserDetailsImpl with an explicit password.
+	 * <p>This is most often used for specifying non-password
+	 * tokens such as those used with CardSpace, etc.</p>
 	 * @param user User to read properties from.
 	 * @param password overriden password
 	 */
@@ -72,37 +74,65 @@ public final class UserDetailsImpl implements UserDetails
 		authorities = Collections.unmodifiableList(auth);		
 	}
 
+	/**
+	 * Gets a list of authorities granted to the current user.
+	 * @return array of granted authorities
+	 */
 	public GrantedAuthority[] getAuthorities()
 	{
 		GrantedAuthority[] authArray = new GrantedAuthority[authorities.size()];
 		return authorities.toArray(authArray);
 	}
 
+	/**
+	 * Gets the password for this user.
+	 * @return password (never null)
+	 */
 	public String getPassword()
 	{
 		return password;
 	}
 
+	/**
+	 * Gets the username for this user.
+	 * @return user name (never null)
+	 */
 	public String getUsername()
 	{
 		return username;
 	}
 
+	/**
+	 * Always returns true because randomcoder.com users do not expire.
+	 * @return always true
+	 */
 	public boolean isAccountNonExpired()
 	{
 		return true;
 	}
 
+	/**
+	 * Always returns true because randomcoder.com users are not locked.
+	 * @return always true
+	 */
 	public boolean isAccountNonLocked()
 	{
 		return true;
 	}
 
+	/**
+	 * Always returns true because randomcoder.com credentials do not expire.
+	 * @return always true
+	 */
 	public boolean isCredentialsNonExpired()
 	{
 		return true;
 	}
 
+	/**
+	 * Determines if the current user is enabled.
+	 * @return true if enabled, false otherwise
+	 */
 	public boolean isEnabled()
 	{
 		return enabled;
