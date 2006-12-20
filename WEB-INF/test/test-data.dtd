@@ -6,7 +6,7 @@
     tags*,
     article_tag_link*,
     comments*,
-    cardspace_logins*)>
+    cardspace_tokens*)>
 
 <!ELEMENT users EMPTY>
 <!ATTLIST users
@@ -71,8 +71,8 @@
     content CDATA #IMPLIED
 >
 
-<!ELEMENT cardspace_logins EMPTY>
-<!ATTLIST cardspace_logins
+<!ELEMENT cardspace_tokens EMPTY>
+<!ATTLIST cardspace_tokens
     cardspace_token_id CDATA #IMPLIED
     user_id CDATA #IMPLIED
     ppid CDATA #IMPLIED

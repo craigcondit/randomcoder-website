@@ -1,6 +1,6 @@
 package com.randomcoder.test;
 
-import java.io.File;
+import java.io.*;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -31,22 +31,31 @@ abstract public class AbstractDaoTestCase
 	private static DataSource userDataSource;
 	private SessionFactory sessionFactory;
 	
+	private static final String DATA_XML = "/test-data.xml";
+	private static final String DATA_DTD = "/test-data.dtd";
+	
 	protected final void cleanDatabase() throws Exception
 	{		
-		String dataSetPath = System.getProperty("test.dataset.path");
-		
 		Connection con = null;
+		Reader xml = null;
+		Reader dtd = null;
+		
 		try
 		{
 			con = adminDataSource.getConnection();
 			
+			xml = new InputStreamReader(getClass().getResourceAsStream(DATA_XML));
+			dtd = new InputStreamReader(getClass().getResourceAsStream(DATA_DTD));
+			
 			IDatabaseConnection dbConnection = new DatabaseConnection(con);
-			IDataSet dataSet = new FlatXmlDataSet(new File(dataSetPath));
+			IDataSet dataSet = new FlatXmlDataSet(xml, dtd);
 			DatabaseOperation.CLEAN_INSERT.execute(dbConnection, dataSet);
 		}
 		finally
 		{
 			con.close();
+			xml.close();
+			dtd.close();
 		}
 	}
 	
@@ -92,6 +101,7 @@ abstract public class AbstractDaoTestCase
 		ecProps.setProperty("com.randomcoder.article.Comment", "read-write");
 		ecProps.setProperty("com.randomcoder.user.User", "read-write");
 		ecProps.setProperty("com.randomcoder.user.Role", "read-only");
+		ecProps.setProperty("com.randomcoder.user.CardSpaceToken", "read-write");
 		ecProps.setProperty("com.randomcoder.tag.Tag", "read-write");
 		
 		Properties ccProps = new Properties();
@@ -102,7 +112,7 @@ abstract public class AbstractDaoTestCase
 		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
 		factory.setDataSource(userDataSource);
 		factory.setHibernateProperties(hibProps);		
-		factory.setAnnotatedClasses(new Class[] { Article.class, Comment.class, User.class, Role.class, Tag.class});
+		factory.setAnnotatedClasses(new Class[] { Article.class, Comment.class, User.class, Role.class, CardSpaceToken.class, Tag.class});
 		factory.setEntityCacheStrategies(ecProps);
 		factory.setCollectionCacheStrategies(ccProps);
 		
