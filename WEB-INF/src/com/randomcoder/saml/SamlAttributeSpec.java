@@ -105,6 +105,13 @@ public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Seriali
 		return toString().hashCode();
 	}
 	
+	/**
+	 * Compares this object with another instance of the same class.
+	 * <p>
+	 * This method compares by namespace and then by local name.
+	 * @param other other object to compare
+	 * @return 0 if equal, -1 if this object is first, 1 if this object is last
+	 */
 	public int compareTo(SamlAttributeSpec other)
 	{
 		int result = namespace.compareTo(other.namespace);
