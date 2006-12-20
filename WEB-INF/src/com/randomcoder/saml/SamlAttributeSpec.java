@@ -72,6 +72,17 @@ public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Seriali
 		return local;
 	}
 	
+	/**
+	 * Determines if this <code>SamlAttributeSpec</code> is equal
+	 * to another instance of this class.
+	 * 
+	 * <p>
+	 * This method will return true if and only if the namespace and local
+	 * fields in the two classes are equal.
+	 * </p>
+	 * @param obj object to compare
+	 * @return true if equal, false otherwise
+	 */
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -84,6 +95,10 @@ public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Seriali
 		return local.equals(other.local);
 	}
 
+	/**
+	 * Calculates a hash code.
+	 * @return hash code
+	 */
 	@Override
 	public int hashCode()
 	{
@@ -97,6 +112,13 @@ public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Seriali
 		return local.compareTo(other.local);
 	}
 
+	/**
+	 * Generates a string representation of this class.
+	 * <p>
+	 * The format of the returned string is {namespace}:{local}.
+	 * </p>
+	 * @return string version 
+	 */
 	@Override
 	public String toString()
 	{
