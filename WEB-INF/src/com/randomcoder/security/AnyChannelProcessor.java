@@ -59,7 +59,7 @@ public class AnyChannelProcessor implements ChannelProcessor
 	/**
 	 * Determines if this class supports the given configuration attribute.
 	 * @param att attribute to query
-	 * @returns true if attribute matches <code>REQUIRES_ANY</code>
+	 * @return true if attribute matches <code>REQUIRES_ANY</code>
 	 */
 	public boolean supports(ConfigAttribute att)	
 	{
