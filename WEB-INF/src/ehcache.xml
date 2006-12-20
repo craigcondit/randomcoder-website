@@ -28,6 +28,12 @@
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
+	<!-- CardSpaceToken: 0.5 hours / 1 hour / 1000 elements -->
+	<cache name="com.randomcoder.user.CardSpaceToken" timeToIdleSeconds="1800"
+		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
+		overflowToDisk="false" />
+
+
 	<!-- Tag: 0.5 hours / 1 hour / 1000 elements -->
 	<cache name="com.randomcoder.tag.Tag" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
@@ -62,8 +68,12 @@
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
 
-	<!-- acegi user cache -->
+	<!-- acegi caches -->
 	<cache name="acegiUserCache"
+		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
+		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+
+	<cache name="acegiCardSpaceCache"
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
 	

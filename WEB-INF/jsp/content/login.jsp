@@ -34,3 +34,19 @@
 		</div>
 	</form>
 </div>
+
+<div class="sectionHeading">CardSpace Login</div>
+<div class="sectionContent">
+	<form name="infocard" id="infocard" method="post" action="${pageContext.request.contextPath}/j_cardspace_check" id="infocard">
+		<img
+			style="cursor: pointer; cursor: hand; width: 100px; height: 86px"
+			src="${pageContext.request.contextPath}/images/informationcard.gif"
+    		onclick="document.getElementById('infocard').submit()" />
+		<object type="application/x-informationCard" name="xmlToken">
+			<param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
+			<param name="requiredClaims" value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress" />
+			<param name="optionalClaims" value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/streetaddress http://schemas.xmlsoap.org/ws/2005/05/identity/claims/locality http://schemas.xmlsoap.org/ws/2005/05/identity/claims/stateorprovince http://schemas.xmlsoap.org/ws/2005/05/identity/claims/postalcode http://schemas.xmlsoap.org/ws/2005/05/identity/claims/country http://schemas.xmlsoap.org/ws/2005/05/identity/claims/homephone http://schemas.xmlsoap.org/ws/2005/05/identity/claims/otherphone http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone http://schemas.xmlsoap.org/ws/2005/05/identity/claims/dateofbirth http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender" />
+		</object>
+	</form>	
+
+</div>

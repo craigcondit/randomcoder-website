@@ -47,6 +47,7 @@
 				<value>com.randomcoder.article.Article</value>
 				<value>com.randomcoder.article.Comment</value>
 				<value>com.randomcoder.user.User</value>
+				<value>com.randomcoder.user.CardSpaceToken</value>
 				<value>com.randomcoder.user.Role</value>
 				<value>com.randomcoder.tag.Tag</value>
 			</list>
@@ -56,6 +57,7 @@
 				<prop key="com.randomcoder.article.Article">read-write</prop>
 				<prop key="com.randomcoder.article.Comment">read-write</prop>
 				<prop key="com.randomcoder.user.User">read-write</prop>
+				<prop key="com.randomcoder.user.CardSpaceToken">read-write</prop>
 				<prop key="com.randomcoder.user.Role">read-only</prop>
 				<prop key="com.randomcoder.tag.Tag">read-write</prop>
 			</props>
@@ -120,6 +122,15 @@
 		<property name="target">
 			<bean parent="abstractDaoTarget">
 				<constructor-arg value="com.randomcoder.user.User" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cardSpaceTokenDao" parent="abstractDao">
+		<property name="proxyInterfaces" value="com.randomcoder.user.CardSpaceTokenDao" />
+		<property name="target">
+			<bean parent="abstractDaoTarget">
+				<constructor-arg value="com.randomcoder.user.CardSpaceToken" />
 			</bean>
 		</property>
 	</bean>
