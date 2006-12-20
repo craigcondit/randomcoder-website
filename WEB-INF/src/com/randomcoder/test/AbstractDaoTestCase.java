@@ -41,16 +41,27 @@ abstract public class AbstractDaoTestCase
 	
 	static
 	{
+		InputStream testStream = null;
+		InputStream localStream = null;
+		
 		try
 		{
-		 testProps = new Properties();		 
-		 testProps.load(AbstractDaoTestCase.class.getResourceAsStream(TEST_PROPS));
-		 localProps = new Properties();
-		 localProps.load(AbstractDaoTestCase.class.getResourceAsStream(LOCAL_PROPS));
+			testProps = new Properties();
+			testStream = AbstractDaoTestCase.class.getResourceAsStream(TEST_PROPS);
+			if (testStream != null) testProps.load(testStream);
+		 
+			localProps = new Properties();
+			localStream = AbstractDaoTestCase.class.getResourceAsStream(LOCAL_PROPS);
+			if (localStream != null) localProps.load(localStream);
 		}
 		catch (IOException e)
 		{
 			throw new ExceptionInInitializerError(e);
+		}
+		finally
+		{
+			if (testStream != null) try { testStream.close(); } catch (Exception ignored) {}
+			if (localStream != null) try { localStream.close(); } catch (Exception ignored) {}
 		}
 	}
 	
