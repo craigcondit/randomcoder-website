@@ -30,5 +30,18 @@ package com.randomcoder.security.cardspace;
  */
 public enum Gender
 {
-	UNSPECIFIED, MALE, FEMALE;
+	/**
+	 * Unspecified
+	 */
+	UNSPECIFIED,
+	
+	/**
+	 * Male
+	 */
+	MALE,
+	
+	/**
+	 * Female
+	 */
+	FEMALE;
 }

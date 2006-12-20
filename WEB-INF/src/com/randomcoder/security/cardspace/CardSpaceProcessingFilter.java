@@ -81,6 +81,12 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		this.parameter = parameter;
 	}
 	
+	/**
+	 * Attempts authentication using CardSpace tokens.
+	 * @param request HTTP servlet request
+	 * @throws AuthenticationException if the token is missing or invalid
+	 * @return authenticated <code>CardSpaceAuthenticationToken</code>
+	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request)
 	throws AuthenticationException
