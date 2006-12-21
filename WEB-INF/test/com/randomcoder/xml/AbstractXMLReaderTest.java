@@ -27,8 +27,8 @@ public class AbstractXMLReaderTest
 	@Test
 	public void testParse() throws SAXException, IOException
 	{
-		reader.parse("test/abstractxmlreader.xml");
-		assertEquals("test/abstractxmlreader.xml", reader.getInputSource().getSystemId());		
+		reader.parse("test/data/AbstractXmlReaderTest.xml");
+		assertEquals("test/data/AbstractXmlReaderTest.xml", reader.getInputSource().getSystemId());		
 	}
 
 	@Test
