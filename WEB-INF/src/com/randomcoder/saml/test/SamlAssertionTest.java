@@ -156,5 +156,41 @@ public class SamlAssertionTest
 		}
 		new SamlAssertion(assertionEl);		
 	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingAttributeNamespace() throws Exception
+	{
+		NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
+		for (int i = 0; i < attributes.getLength(); i++)
+		{
+			Element att = (Element) attributes.item(i);
+			att.removeAttribute("AttributeNamespace");
+		}
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingAttributeName() throws Exception
+	{
+		NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
+		for (int i = 0; i < attributes.getLength(); i++)
+		{
+			Element att = (Element) attributes.item(i);
+			att.removeAttribute("AttributeName");
+		}
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingAttributeValue() throws Exception
+	{
+		NodeList attValues = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "AttributeValue");
+		for (int i = 0; i < attValues.getLength(); i++)
+		{
+			Node node = attValues.item(i);
+			node.getParentNode().removeChild(node);
+		}
+		new SamlAssertion(assertionEl);		
+	}
 	
 }

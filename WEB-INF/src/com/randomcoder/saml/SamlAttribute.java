@@ -47,11 +47,11 @@ public class SamlAttribute implements Serializable
 	public SamlAttribute(Element attribute) throws SamlException
 	{
 		String namespace = attribute.getAttribute("AttributeNamespace");
-		if (namespace == null)
+		if (namespace == null || namespace.trim().length() == 0)
 			throw new SamlException("Missing attribute namespace");
 
 		String name = attribute.getAttribute("AttributeName");
-		if (name == null)
+		if (name == null || name.trim().length() == 0)
 			throw new SamlException("Missing attribute name");
 
 		attributeSpec = new SamlAttributeSpec(namespace, name);
