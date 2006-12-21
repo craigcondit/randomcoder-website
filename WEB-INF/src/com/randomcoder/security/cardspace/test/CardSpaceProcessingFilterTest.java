@@ -106,6 +106,23 @@ public class CardSpaceProcessingFilterTest
 		
 		CardSpaceAuthenticationToken token = (CardSpaceAuthenticationToken) auth;
 		
+		Object cred = token.getCredentials();
+		assertNotNull(cred);
+		assertEquals(CardSpaceCredentials.class, cred.getClass());
+		
+		CardSpaceCredentials credentials = (CardSpaceCredentials) cred;
+		
+		assertEquals("uuid:b89586f8-4aa8-4157-9db6-bb10afd471eb", credentials.getAssertionId());
+	}
+
+	@Test
+	public void testAttemptAuthenticationDebug()
+	{
+		filter.setDebug(true);
+		request.setParameter("testToken", xmlToken);
+		Authentication auth = filter.attemptAuthentication(request);
+		assertNotNull(auth);
+		assertEquals(CardSpaceAuthenticationToken.class, auth.getClass());
 	}
 	
 	@Test

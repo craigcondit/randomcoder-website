@@ -159,7 +159,8 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		return xmlToken;
 	}
 
-	private Document parseXmlToken(String xmlToken) throws InvalidCredentialsException, AuthenticationServiceException
+	private Document parseXmlToken(String xmlToken)
+	throws InvalidCredentialsException, AuthenticationServiceException
 	{
 		
 		StringReader reader = null;
@@ -201,6 +202,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	}
 
 	private Element findAssertion(Document doc)
+	throws InvalidCredentialsException
 	{
 		Element assertion = SamlUtils.findFirstSamlAssertion(doc);
 		if (assertion == null)
@@ -209,7 +211,8 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		return assertion;
 	}
 
-	private Element findSignature(Document doc) throws InvalidCredentialsException
+	private Element findSignature(Document doc)
+	throws InvalidCredentialsException
 	{
 		Element signature = XmlSecurityUtils.findFirstSignature(doc);
 		if (signature == null)
@@ -236,7 +239,8 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		}
 	}
 
-	private SamlAssertion buildSamlAssertion(Element assertion) throws InvalidCredentialsException
+	private SamlAssertion buildSamlAssertion(Element assertion)
+	throws InvalidCredentialsException
 	{
 		SamlAssertion samlAssertion = null;
 		try
