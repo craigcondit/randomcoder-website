@@ -172,13 +172,9 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 			
 			return XmlUtils.parseXml(source);
 		}
-		catch (SAXException e)
+		catch (Exception e)
 		{
 			throw new InvalidCredentialsException("Unable to parse xml token", e);
-		}
-		catch (IOException e)
-		{
-			throw new AuthenticationServiceException("Unable to parse xml token", e);
 		}
 		finally
 		{
@@ -187,7 +183,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	}
 
 	private void decryptXmlToken(Document doc)
-	throws AuthenticationServiceException, InvalidCredentialsException
+	throws InvalidCredentialsException
 	{
 		try
 		{
@@ -198,11 +194,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 			
 			XmlSecurityUtils.decrypt(doc, encryptedData, certificateContext.getPrivateKey());
 		}
-		catch (XmlSecurityConfigurationException e)
-		{
-			throw new AuthenticationServiceException("Unable to decrypt token", e);
-		}
-		catch (XmlSecurityException e)
+		catch (Exception e)
 		{
 			throw new InvalidCredentialsException("Unable to decrypt token", e);
 		}
@@ -210,11 +202,11 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 
 	private Element findAssertion(Document doc)
 	{
-		Element assertionElement = SamlUtils.findFirstSamlAssertion(doc);
-		if (assertionElement == null)
+		Element assertion = SamlUtils.findFirstSamlAssertion(doc);
+		if (assertion == null)
 			throw new InvalidCredentialsException("Assertion not found");
 		
-		return assertionElement;
+		return assertion;
 	}
 
 	private Element findSignature(Document doc) throws InvalidCredentialsException
@@ -222,6 +214,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		Element signature = XmlSecurityUtils.findFirstSignature(doc);
 		if (signature == null)
 			throw new InvalidCredentialsException("Signature not found");
+		
 		return signature;
 	}
 
@@ -250,7 +243,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		{
 			samlAssertion = new SamlAssertion(assertion);
 		}
-		catch (SamlException e)
+		catch (Exception e)
 		{
 			throw new InvalidCredentialsException("SAML token invalid", e);
 		}

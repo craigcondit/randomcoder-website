@@ -2,8 +2,10 @@ package com.randomcoder.security.cardspace.test;
 
 import static org.junit.Assert.*;
 
+import java.io.*;
 import java.util.Properties;
 
+import org.acegisecurity.*;
 import org.junit.*;
 import org.springframework.core.io.*;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -13,10 +15,12 @@ import com.randomcoder.security.cardspace.*;
 
 public class CardSpaceProcessingFilterTest
 {
+	private static final String RES_ENCRYPTED = "/xmlsec/saml-encrypted.xml";
 	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
 	
 	private CardSpaceProcessingFilter filter = null;
 	private MockHttpServletRequest request = null;
+	private String xmlToken = null;
 	
 	@Before
 	public void setUp() throws Exception
@@ -40,7 +44,28 @@ public class CardSpaceProcessingFilterTest
 		filter.setParameter("testToken");
 		filter.setDebug(false);
 		filter.setCertificateContext(certContext);
+		filter.setAuthenticationManager(new AuthenticationManagerMock());
 		request = new MockHttpServletRequest();
+		
+		BufferedReader reader = null;
+		try
+		{
+			reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(RES_ENCRYPTED)));
+			StringBuilder sbuf = new StringBuilder();
+			char[] buf = new char[32768];
+			int c;
+			do
+			{
+				c = reader.read(buf);
+				if (c >= 0) sbuf.append(buf, 0, c); 
+			}
+			while (c > 0);
+			xmlToken = sbuf.toString();
+		}
+		finally
+		{
+			reader.close();
+		}
 	}
 
 	@After
@@ -48,6 +73,7 @@ public class CardSpaceProcessingFilterTest
 	{
 		filter = null;
 		request = null;
+		xmlToken = null;
 	}
 
 	@Test(expected=InvalidCredentialsException.class)
@@ -70,12 +96,16 @@ public class CardSpaceProcessingFilterTest
 		filter.attemptAuthentication(request);
 	}
 
-	@Test @Ignore
+	@Test
 	public void testAttemptAuthenticationSuccess()
 	{
-		// TODO implement
-		fail("Not implemented");
-		filter.attemptAuthentication(request);
+		request.setParameter("testToken", xmlToken);
+		Authentication auth = filter.attemptAuthentication(request);
+		assertNotNull(auth);
+		assertEquals(CardSpaceAuthenticationToken.class, auth.getClass());
+		
+		CardSpaceAuthenticationToken token = (CardSpaceAuthenticationToken) auth;
+		
 	}
 	
 	@Test
@@ -84,4 +114,17 @@ public class CardSpaceProcessingFilterTest
 		assertEquals("/j_acegi_cardspace_check", filter.getDefaultFilterProcessesUrl());
 	}
 
+	@SuppressWarnings("unused")
+	private static class AuthenticationManagerMock
+	implements AuthenticationManager
+	{
+		public AuthenticationManagerMock() {}
+		
+		public Authentication authenticate(Authentication auth)
+		throws AuthenticationException
+		{
+			return auth;
+		}
+		
+	}
 }
