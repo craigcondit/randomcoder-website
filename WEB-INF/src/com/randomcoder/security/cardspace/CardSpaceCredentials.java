@@ -251,7 +251,14 @@ public final class CardSpaceCredentials implements Serializable
 	{
 		String value = attributes.get(CardSpaceAttributes.DATE_OF_BIRTH);
 		if (value == null) return null;
-		return SamlUtils.parseXsdDateTime(value);
+		Date dob = null;
+		try
+		{
+			dob = SamlUtils.parseXsdDateTime(value);
+		}
+		catch (SamlException e) {}
+		
+		return dob;
 	}
 	
 	/**

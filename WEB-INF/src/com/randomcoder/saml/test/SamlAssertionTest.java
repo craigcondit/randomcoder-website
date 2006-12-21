@@ -2,6 +2,7 @@ package com.randomcoder.saml.test;
 
 import static org.junit.Assert.*;
 
+import java.io.StringReader;
 import java.security.PrivateKey;
 import java.util.*;
 
@@ -63,7 +64,8 @@ public class SamlAssertionTest
 	public void testSamlAssertion() throws Exception
 	{
 		SamlAssertion assertion = new SamlAssertion(assertionEl);
-		assertEquals(SamlVersion.SAML_1_1, assertion.getVersion());
+		assertEquals(SamlVersion.SAML_1_1, assertion.getVersion());		
+		assertEquals("SAML 1.1", assertion.getVersion().getDescription());
 		assertEquals("uuid:b89586f8-4aa8-4157-9db6-bb10afd471eb", assertion.getAssertionId());
 		assertEquals("http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self", assertion.getIssuer());
 		
@@ -85,8 +87,74 @@ public class SamlAssertionTest
 		
 		SamlAttributeSpec spec = attributes.get(0).getAttributeSpec();
 		assertEquals(CardSpaceAttributes.PRIVATE_PERSONAL_IDENTIFIER, spec);
-		
+		assertEquals(CardSpaceAttributes.CARDSPACE_CLAIMS_SCHEMA, spec.getNamespace());
+		assertEquals("privatepersonalidentifier", spec.getLocal());
 		assertEquals("DLb/nzDbfMEHkME4VYeny0teGTjvYtVdrQvmX9W055E=", attributes.get(0).getValue());		
 	}
+	
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionBadNamespace() throws Exception
+	{
+		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<data />")));
+		Element root = (Element) doc.getElementsByTagName("*").item(0);
+		new SamlAssertion(root);		
+	}
 
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingAssertionID() throws Exception
+	{
+		assertionEl.removeAttribute("AssertionID");
+		new SamlAssertion(assertionEl);
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingIssueInstant() throws Exception
+	{
+		assertionEl.removeAttribute("IssueInstant");
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingIssuer() throws Exception
+	{
+		assertionEl.removeAttribute("Issuer");
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingConditions() throws Exception
+	{
+		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+		for (int i = 0; i < conditions.getLength(); i++)
+		{
+			Node node = conditions.item(i);
+			node.getParentNode().removeChild(node);
+		}
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingConditionsNotBefore() throws Exception
+	{
+		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+		for (int i = 0; i < conditions.getLength(); i++)
+		{
+			Element condition = (Element) conditions.item(i);
+			condition.removeAttribute("NotBefore");
+		}
+		new SamlAssertion(assertionEl);		
+	}
+
+	@Test(expected=SamlException.class)
+	public void testSamlAssertionMissingConditionsNotOnOrAfter() throws Exception
+	{
+		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+		for (int i = 0; i < conditions.getLength(); i++)
+		{
+			Element condition = (Element) conditions.item(i);
+			condition.removeAttribute("NotOnOrAfter");
+		}
+		new SamlAssertion(assertionEl);		
+	}
+	
 }

@@ -60,40 +60,37 @@ public class SamlAssertion implements Serializable
 			version = SamlVersion.SAML_1_1;
 
 		assertionId = assertion.getAttribute("AssertionID");
-		if (assertionId == null)
+		if (assertionId == null || assertionId.trim().length() == 0)
 			throw new SamlException("Missing Assertion.AssertionID");
 
 		String issueInstantValue = assertion.getAttribute("IssueInstant");
-		if (issueInstantValue == null)
+		if (issueInstantValue == null || issueInstantValue.trim().length() == 0)
 			throw new SamlException("Missing Assertion.IssueInstant");
 		issueInstant = SamlUtils.parseXsdDateTime(issueInstantValue);
 
 		issuer = assertion.getAttribute("Issuer");
-		if (issuer == null)
+		if (issuer == null || issuer.trim().length() == 0)
 			throw new SamlException("Missing Assertion.Issuer");
 
 		// get conditions
 		NodeList conditions = assertion.getElementsByTagNameNS(assertion.getNamespaceURI(), "Conditions");
-		if (conditions == null || conditions.getLength() == 0)
+		if (conditions.getLength() == 0)
 			throw new SamlException("Missing Conditions");
 
 		Element conditionsElement = (Element) conditions.item(0);
 
 		String notBeforeValue = conditionsElement.getAttribute("NotBefore");
-		if (notBeforeValue == null)
+		if (notBeforeValue == null || notBeforeValue.trim().length() == 0)
 			throw new SamlException("Missing Conditions.NotBefore");
 		notBefore = SamlUtils.parseXsdDateTime(notBeforeValue);
 
 		String notOnOrAfterValue = conditionsElement.getAttribute("NotOnOrAfter");
-		if (notOnOrAfterValue == null)
+		if (notOnOrAfterValue == null || notOnOrAfterValue.trim().length() == 0)
 			throw new SamlException("Missing Conditions.NotOnOrAfter");
 		notOnOrAfter = SamlUtils.parseXsdDateTime(notOnOrAfterValue);
 
 		// get attributes
 		NodeList atts = assertion.getElementsByTagNameNS(assertion.getNamespaceURI(), "Attribute");
-		if (atts == null)
-			throw new SamlException("Missing Attributes");
-
 		attributes = new ArrayList<SamlAttribute>();
 		for (int i = 0; i < atts.getLength(); i++)
 		{

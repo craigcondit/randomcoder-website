@@ -67,7 +67,7 @@ public class SamlUtilsTest
 	}
 	
 	@Test
-	public void testParseXsdDateTime()
+	public void testParseXsdDateTime() throws Exception
 	{
 		Date date = SamlUtils.parseXsdDateTime("2006-12-19T18:23:21.576Z");
 		assertNotNull(date);
