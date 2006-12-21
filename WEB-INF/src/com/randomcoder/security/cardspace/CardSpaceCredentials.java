@@ -37,6 +37,7 @@ import com.randomcoder.saml.*;
 public final class CardSpaceCredentials implements Serializable
 {
 	private static final long serialVersionUID = 7792602902586182911L;
+	private final Date receivedInstant;
 	private final Date issueInstant;
 	private final Date notBefore;
 	private final Date notOnOrAfter;
@@ -50,8 +51,9 @@ public final class CardSpaceCredentials implements Serializable
 	 * Creates a CardSpaceCredentials from a decrypted saml assertion. 
 	 * @param assertion SAML assertion
 	 * @param publicKey public key used to sign the assertion
+	 * @param receivedInstant date and time when assertion was received
 	 */
-	public CardSpaceCredentials(SamlAssertion assertion, PublicKey publicKey)
+	public CardSpaceCredentials(SamlAssertion assertion, PublicKey publicKey, Date receivedInstant)
 	{
 		issueInstant = assertion.getIssueInstant();
 		notBefore = assertion.getNotBefore();
@@ -60,6 +62,7 @@ public final class CardSpaceCredentials implements Serializable
 		issuer = assertion.getIssuer();
 		version = assertion.getVersion();
 		issuerPublicKey = publicKey.getEncoded();
+		this.receivedInstant = receivedInstant;
 		
 		Map<SamlAttributeSpec, String> atts = new HashMap<SamlAttributeSpec, String>();
 		
@@ -68,6 +71,15 @@ public final class CardSpaceCredentials implements Serializable
 			atts.put(att.getAttributeSpec(), att.getValue());
 		}
 		attributes = Collections.unmodifiableMap(atts);
+	}
+	
+	/**
+	 * Gets the date and time when this token was received.
+	 * @return received instant
+	 */
+	public Date getReceivedInstant()
+	{
+		return receivedInstant;
 	}
 	
 	/** 

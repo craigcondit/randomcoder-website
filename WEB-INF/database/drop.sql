@@ -1,3 +1,5 @@
+DROP TABLE cardspace_seen_tokens;
+DROP SEQUENCE cardspace_seen_tokens_seq;
 DROP TABLE cardspace_tokens;
 DROP SEQUENCE cardspace_tokens_seq;
 DROP TABLE comments;

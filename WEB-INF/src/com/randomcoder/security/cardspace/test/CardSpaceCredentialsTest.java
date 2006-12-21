@@ -65,7 +65,7 @@ public class CardSpaceCredentialsTest
 	@Test
 	public void testCardSpaceCredentials() throws Exception
 	{
-		CardSpaceCredentials cred = new CardSpaceCredentials(assertion, publicKey);
+		CardSpaceCredentials cred = new CardSpaceCredentials(assertion, publicKey, new Date());
 		
 		assertNotNull(cred.getIssueInstant());
 		assertNotNull(cred.getNotBefore());

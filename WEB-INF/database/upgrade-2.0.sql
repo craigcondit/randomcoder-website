@@ -18,8 +18,8 @@ CREATE TABLE cardspace_tokens (
 	ppid VARCHAR(1024) NOT NULL,
 	issuer_hash VARCHAR(40) NOT NULL,
 	email_address VARCHAR(320) NOT NULL,
-	create_date TIMESTAMP WITH TIME ZONE NULL,
-	login_date TIMESTAMP WITH TIME ZONE NOT NULL,
+	create_date TIMESTAMP WITH TIME ZONE NOT NULL,
+	login_date TIMESTAMP WITH TIME ZONE NULL,
 	CONSTRAINT cardspace_tokens_pkey PRIMARY KEY (cardspace_token_id),
 	CONSTRAINT cardspace_tokens_ppid_key UNIQUE (ppid),
 	CONSTRAINT cardspace_tokens_user_id_fk
@@ -29,3 +29,21 @@ CREATE TABLE cardspace_tokens (
 	CONSTRAINT cardspace_tokens_email_address_ck CHECK (email_address <> ''),
 	CONSTRAINT cardspace_tokens_issuer_hash_ck CHECK (issuer_hash <> '')
 );
+
+-- cardspace_seen_tokens
+CREATE SEQUENCE cardspace_seen_tokens_seq;
+
+CREATE TABLE cardspace_seen_tokens (
+	cardspace_seen_token_id BIGINT NOT NULL DEFAULT NEXTVAL('cardspace_seen_tokens_seq'),	
+	assertion_id VARCHAR(1024) NOT NULL,
+	ppid VARCHAR(1024) NOT NULL,
+	issuer_hash VARCHAR(40) NOT NULL,
+	create_date TIMESTAMP WITH TIME ZONE NOT NULL,
+	CONSTRAINT cardspace_seen_tokens_pkey PRIMARY KEY (cardspace_seen_token_id),
+	CONSTRAINT cardspace_seen_tokens_key UNIQUE (assertion_id, ppid, issuer_hash),
+	CONSTRAINT cardspace_seen_tokens_assertion_id_ck CHECK (assertion_id <> ''),
+	CONSTRAINT cardspace_seen_tokens_ppid_ck CHECK (ppid <> ''),
+	CONSTRAINT cardspace_seen_tokens_issuer_hash_ck CHECK (issuer_hash <> '')
+);
+CREATE INDEX cardspace_seen_tokens_create_date_key ON cardspace_seen_tokens (create_date);
+

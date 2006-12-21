@@ -1,8 +1,11 @@
 package com.randomcoder.security.cardspace;
 
+import java.util.*;
+
 import org.acegisecurity.*;
-import org.acegisecurity.providers.*;
+import org.acegisecurity.providers.AuthenticationProvider;
 import org.acegisecurity.userdetails.UserDetails;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -34,9 +37,13 @@ import org.springframework.beans.factory.annotation.Required;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public class CardSpaceAuthenticationProvider implements AuthenticationProvider
+public class CardSpaceAuthenticationProvider
+implements AuthenticationProvider, InitializingBean
 {
 	private CardSpaceUserDetailsService cardSpaceUserDetailsService;
+	
+	private List<CardSpaceCredentialsValidator> validators
+		= new ArrayList<CardSpaceCredentialsValidator>();
 	
 	/**
 	 * Sets the CardSpaceUserDetailsService implementation to use. 
@@ -46,6 +53,35 @@ public class CardSpaceAuthenticationProvider implements AuthenticationProvider
 	public void setCardSpaceUserDetailsService(CardSpaceUserDetailsService cardSpaceUserDetailsService)
 	{
 		this.cardSpaceUserDetailsService = cardSpaceUserDetailsService;
+	}
+	
+	/**
+	 * Sets a list of CardSpaceCredentialsValidator objects to query.
+	 * @param validators list of validators
+	 */
+	public void setValidators(List<CardSpaceCredentialsValidator> validators)
+	{
+		this.validators = validators;
+	}
+	
+	/**
+	 * Sets a single CardSpaceCredentialsValidator.
+	 * @param validator validator
+	 */
+	public void setValidator(CardSpaceCredentialsValidator validator)
+	{
+		this.validators = new ArrayList<CardSpaceCredentialsValidator>();
+		validators.add(validator);
+	}
+	
+	/**
+	 * Fired after all properties have been set.
+	 * @throws IllegalArgumentException if properties are not valid
+	 */
+	public void afterPropertiesSet() throws IllegalArgumentException
+	{
+		if (validators == null || validators.size() == 0)
+			throw new IllegalArgumentException("At least one validator must be specified");
 	}
 
 	/**
@@ -63,8 +99,9 @@ public class CardSpaceAuthenticationProvider implements AuthenticationProvider
 		if (!(auth instanceof CardSpaceAuthenticationToken)) return null;
 		
 		CardSpaceCredentials credentials = (CardSpaceCredentials) ((CardSpaceAuthenticationToken) auth).getCredentials();
-		
-		// TODO check that credentials are valid within time period
+
+		for (CardSpaceCredentialsValidator validator : validators)
+			validator.validate(credentials);
 		
 		UserDetails userDetails = cardSpaceUserDetailsService.loadUserByCardSpaceCredentials(credentials);
 		if (userDetails == null) return null;
@@ -83,5 +120,4 @@ public class CardSpaceAuthenticationProvider implements AuthenticationProvider
 		if (target.equals(CardSpaceAuthenticationToken.class)) return true;
 		return false;
 	}
-
 }

@@ -92,8 +92,8 @@ public class UserDetailsServiceImplTest
 					att.getParentNode().removeChild(att);
 			}
 			missingPpidAssertion = new SamlAssertion(assertionEl);
-			existingUserCredentials = new CardSpaceCredentials(existingUserAssertion, existingUserKey);
-			missingPpidCredentials = new CardSpaceCredentials(missingPpidAssertion, missingPpidKey);
+			existingUserCredentials = new CardSpaceCredentials(existingUserAssertion, existingUserKey, new Date());
+			missingPpidCredentials = new CardSpaceCredentials(missingPpidAssertion, missingPpidKey, new Date());
 		}
 		
 		{
@@ -105,7 +105,7 @@ public class UserDetailsServiceImplTest
 			assertionEl.setIdAttribute("AssertionID", true);
 			missingUserKey = XmlSecurityUtils.verifySignature(sig);
 			missingUserAssertion = new SamlAssertion(assertionEl);
-			missingUserCredentials = new CardSpaceCredentials(missingUserAssertion, missingUserKey);
+			missingUserCredentials = new CardSpaceCredentials(missingUserAssertion, missingUserKey, new Date());
 		}
 		
 		{

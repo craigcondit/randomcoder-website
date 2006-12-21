@@ -6,7 +6,8 @@
     tags*,
     article_tag_link*,
     comments*,
-    cardspace_tokens*)>
+    cardspace_tokens*,
+    cardspace_seen_tokens*)>
 
 <!ELEMENT users EMPTY>
 <!ATTLIST users
@@ -80,4 +81,13 @@
     email_address CDATA #IMPLIED
     create_date CDATA #IMPLIED
     login_date CDATA #IMPLIED
+>
+
+<!ELEMENT cardspace_seen_tokens EMPTY>
+<!ATTLIST cardspace_seen_tokens
+    cardspace_seen_token_id CDATA #IMPLIED
+    assertion_id CDATA #IMPLIED
+    ppid CDATA #IMPLIED
+    issuer_hash CDATA #IMPLIED
+    create_date CDATA #IMPLIED
 >

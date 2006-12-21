@@ -1,7 +1,8 @@
 package com.randomcoder.security.cardspace;
 
-import java.io.*;
+import java.io.StringReader;
 import java.security.PublicKey;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,12 +10,12 @@ import org.acegisecurity.*;
 import org.acegisecurity.ui.AbstractProcessingFilter;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.*;
-import org.xml.sax.*;
+import org.xml.sax.InputSource;
 
 import com.randomcoder.crypto.CertificateContext;
 import com.randomcoder.saml.*;
 import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.*;
+import com.randomcoder.xml.security.XmlSecurityUtils;
 
 /**
  * Processes a Windows CardSpace Information Card.
@@ -138,7 +139,7 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		
 		// build credentials
 		CardSpaceCredentials credentials
-			= new CardSpaceCredentials(samlAssertion, publicKey);
+			= new CardSpaceCredentials(samlAssertion, publicKey, new Date());
 		
 		// build an authentication token
 		CardSpaceAuthenticationToken authToken

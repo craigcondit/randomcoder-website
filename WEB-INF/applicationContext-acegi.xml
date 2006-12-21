@@ -30,6 +30,9 @@
 			<value>
 				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
 				PATTERN_TYPE_APACHE_ANT
+				/css/**=#NONE#
+				/images/**=#NONE#
+				/js/**=#NONE#
 				/**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,cardSpaceProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
 			</value>
 		</property>
@@ -239,6 +242,20 @@
 	<!-- CardSpace authentication provider -->
 	<bean id="cardSpaceAuthenticationProvider" class="com.randomcoder.security.cardspace.CardSpaceAuthenticationProvider">
 		<property name="cardSpaceUserDetailsService" ref="userDetailsService" />
+		<property name="validators">
+			<list>
+				<bean class="com.randomcoder.security.cardspace.CardSpaceDateConstraintValidator">
+					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
+				</bean>
+				<bean class="com.randomcoder.security.cardspace.CardSpaceMaximumAgeValidator">
+					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
+					<property name="maximumTokenAge" value="3600" /> <!-- 1 hour -->
+				</bean>
+				<bean class="com.randomcoder.security.cardspace.CardSpaceOneTimeUseValidator">
+					<property name="cardSpaceSeenTokenDao" ref="cardSpaceSeenTokenDao" />
+				</bean>
+			</list>
+		</property>
 	</bean>
 	
 	<!-- Lookup user details from database -->

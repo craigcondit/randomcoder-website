@@ -22,6 +22,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import com.randomcoder.article.*;
 import com.randomcoder.dao.finder.FinderIntroductionInterceptor;
 import com.randomcoder.dao.hibernate.HibernateDao;
+import com.randomcoder.security.cardspace.CardSpaceSeenToken;
 import com.randomcoder.tag.Tag;
 import com.randomcoder.user.*;
 
@@ -154,7 +155,9 @@ abstract public class AbstractDaoTestCase
 		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
 		factory.setDataSource(userDataSource);
 		factory.setHibernateProperties(hibProps);		
-		factory.setAnnotatedClasses(new Class[] { Article.class, Comment.class, User.class, Role.class, CardSpaceToken.class, Tag.class});
+		factory.setAnnotatedClasses(new Class[] {
+    	Article.class, Comment.class, User.class, Role.class,
+    	CardSpaceToken.class, Tag.class, CardSpaceSeenToken.class });
 		factory.setEntityCacheStrategies(ecProps);
 		factory.setCollectionCacheStrategies(ccProps);
 		
