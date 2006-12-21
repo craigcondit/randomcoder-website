@@ -34,7 +34,7 @@
 		</fileset>		
 	</path>
 	
-	<fileset id="test.cases" dir="src">
+	<fileset id="test.cases" dir="test">
 		<include name="**/*Test.java" />
 	</fileset>
 	
@@ -60,26 +60,6 @@
 		</javac>
 	</target>
 
-	<target name="test-build" depends="build" description="Build test classes">
-		<mkdir dir="test-classes" />
-
-		<!-- Copy non-java elements from src to classes -->
-		<copy todir="test-classes" includeemptydirs="false">
-			<fileset dir="test">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-
-		<!-- Compile java classes -->
-		<javac deprecation="true"
-				classpathref="test.classpath"
-				srcdir="test"
-				destdir="test-classes"
-				debug="true">
-			<compilerarg value="-Xlint:unchecked" />
-		</javac>
-	</target>
-	
 	<target name="javadoc" description="Build Java documentation">
 		<mkdir dir="../docs" />
 		<mkdir dir="../docs/apidocs" />
@@ -133,7 +113,27 @@
 		<delete dir="test-results" />
 		<delete dir="test-classes" />
 	</target>
-	
+
+	<target name="test-build" depends="build" description="Build test classes">
+		<mkdir dir="test-classes" />
+
+		<!-- Copy non-java elements from src to classes -->
+		<copy todir="test-classes" includeemptydirs="false">
+			<fileset dir="test">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<!-- Compile java classes -->
+		<javac deprecation="true"
+				classpathref="test.classpath"
+				srcdir="test"
+				destdir="test-classes"
+				debug="true">
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+		
 	<target name="emma-clean" description="Cleans emma results">
 		<delete dir="${coverage}" />
 		<delete dir="${instr}" />
@@ -171,7 +171,7 @@
 		</emma>		
 	</target> 
 	
-	<target name="coverage" description="Unit test coverage" depends="build,emma-clean,emma-instr,test,emma-report" />
+	<target name="coverage" description="Unit test coverage" depends="build,test-build,emma-clean,emma-instr,test,emma-report" />
 		
 	<target name="test" description="Unit tests" depends="build,test-build,test-db-init">
 		<!-- NOTE: This requires JUnit 4.x and ANT 1.7 -->
