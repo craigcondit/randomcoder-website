@@ -38,7 +38,7 @@ extends CardSpaceSeenTokenDaoBase, GenericWriteOnceDao<CardSpaceSeenToken, Long>
 	 * @param assertionId assertion id
 	 * @param privatePersonalIdentifier ppid
 	 * @param issuerHash SHA-1 hash of issuer's public key
-	 * @return
+	 * @return matching CardSpaceSeenToken if found, null otherwise
 	 */
 	public CardSpaceSeenToken findByKey(
 			String assertionId, String privatePersonalIdentifier, String issuerHash);
