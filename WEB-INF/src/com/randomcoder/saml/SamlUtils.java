@@ -58,6 +58,7 @@ public final class SamlUtils
 	/**
 	 * Parses an XML Schema datetime value into a Date object.
 	 * @param value XSD datetime value
+	 * @throws SamlException if parsing fails
 	 * @return Date
 	 */
 	public static Date parseXsdDateTime(String value)
