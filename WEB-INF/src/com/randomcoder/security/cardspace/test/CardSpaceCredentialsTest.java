@@ -65,20 +65,20 @@ public class CardSpaceCredentialsTest
 	@Test
 	public void testCardSpaceCredentials() throws Exception
 	{
-		CardSpaceCredentials cred = new CardSpaceCredentials(assertion, publicKey, new Date());
+		Date now = new Date();
+		
+		CardSpaceCredentials cred = new CardSpaceCredentials(assertion, publicKey, now);
 		
 		assertNotNull(cred.getIssueInstant());
 		assertNotNull(cred.getNotBefore());
 		assertNotNull(cred.getNotOnOrAfter());
-		
-		
+		assertEquals(now, cred.getReceivedInstant());		
 		assertEquals("uuid:469807fb-9f15-4ea4-89d6-f9f65ec6f55b", cred.getAssertionId());
 		assertEquals("http://schemas.xmlsoap.org/ws/2005/05/identity/issuer/self", cred.getIssuer());
 		
 		byte[] data = cred.getIssuerPublicKey();		
 		assertNotNull(data);
-		assertTrue(data.length > 0);
-		
+		assertTrue(data.length > 0);		
 		assertEquals(SamlVersion.SAML_1_1, cred.getVersion());
 		assertEquals("ma+MqcBN55LOepIdXwwG5985zYsXGZBvVArNHduQ2jU=", cred.getPrivatePersonalIdentifier());
 		assertEquals("CardSpace", cred.getFirstName());
