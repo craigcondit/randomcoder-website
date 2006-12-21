@@ -30,8 +30,10 @@ import com.randomcoder.saml.SamlAttributeSpec;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-abstract public class CardSpaceAttributes
+public final class CardSpaceAttributes
 {
+	private CardSpaceAttributes() {}
+	
 	/**
 	 * CardSpace Claims Schema
 	 */
