@@ -32,8 +32,8 @@ abstract public class AbstractDaoTestCase
 	private static DataSource userDataSource;
 	private SessionFactory sessionFactory;
 	
-	private static final String DATA_XML = "/test-data.xml";
-	private static final String DATA_DTD = "/test-data.dtd";
+	private static final String DATA_XML = "/data/database-data.xml";
+	private static final String DATA_DTD = "/data/database-schema.dtd";
 	private static final String TEST_PROPS = "/test.properties";
 	private static final String LOCAL_PROPS = "/local.test.properties";
 	

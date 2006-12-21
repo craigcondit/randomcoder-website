@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!DOCTYPE dataset SYSTEM "test-data.dtd">
+<!DOCTYPE dataset SYSTEM "database-schema.dtd">
 <dataset>
   <users/>
   <roles role_id="1" name="ROLE_MANAGE_USERS" description="Manage users"/>
