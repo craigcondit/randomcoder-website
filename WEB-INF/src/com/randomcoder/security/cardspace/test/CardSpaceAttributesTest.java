@@ -5,6 +5,8 @@ import java.lang.reflect.Constructor;
 
 import org.junit.Test;
 
+import com.randomcoder.security.cardspace.CardSpaceAttributes;
+
 public class CardSpaceAttributesTest
 {
 
@@ -14,7 +16,7 @@ public class CardSpaceAttributesTest
 	@Test
 	public void coverDefaultConstructor() throws Exception
 	{
-		Constructor c = CardSpaceAttributesTest.class.getDeclaredConstructor(new Class[] {});
+		Constructor c = CardSpaceAttributes.class.getDeclaredConstructor(new Class[] {});
 		c.setAccessible(true);
 		c.newInstance(new Object[] {});
 	}	
