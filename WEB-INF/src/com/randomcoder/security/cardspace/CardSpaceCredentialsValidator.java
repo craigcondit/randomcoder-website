@@ -35,7 +35,7 @@ public interface CardSpaceCredentialsValidator
 	/**
 	 * Validates a given CardSpaceCredentials token.
 	 * @param credentials credentials to validate
-	 * @throws AuthenticationException if token is invalid.
+	 * @throws AuthenticationException if token is invalid
 	 */
 	public void validate(CardSpaceCredentials credentials)
 	throws AuthenticationException;
