@@ -3,15 +3,19 @@ package com.randomcoder.security.cardspace.test;
 import static org.junit.Assert.*;
 
 import java.io.*;
+import java.lang.reflect.*;
 import java.util.Properties;
 
 import org.acegisecurity.*;
 import org.junit.*;
 import org.springframework.core.io.*;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 
 import com.randomcoder.crypto.*;
 import com.randomcoder.security.cardspace.*;
+import com.randomcoder.xml.XmlUtils;
 
 public class CardSpaceProcessingFilterTest
 {
@@ -46,6 +50,7 @@ public class CardSpaceProcessingFilterTest
 		filter.setCertificateContext(certContext);
 		filter.setAuthenticationManager(new AuthenticationManagerMock());
 		request = new MockHttpServletRequest();
+		
 		
 		BufferedReader reader = null;
 		try
@@ -123,6 +128,93 @@ public class CardSpaceProcessingFilterTest
 		Authentication auth = filter.attemptAuthentication(request);
 		assertNotNull(auth);
 		assertEquals(CardSpaceAuthenticationToken.class, auth.getClass());
+	}
+	
+	/**
+	 * Test the private findAssertion() method to allow injecting bad data.
+	 */
+	@Test(expected=InvalidCredentialsException.class)
+	public void testFindAssertionInvalid() throws Throwable
+	{
+		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<NotAssertion />")));
+		
+		Method findAssertion = filter.getClass().getDeclaredMethod("findAssertion", Document.class);		
+		findAssertion.setAccessible(true);
+		
+		try
+		{
+			findAssertion.invoke(filter, doc);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw e.getCause();
+		}
+	}
+
+	/**
+	 * Test the private findSignature() method to allow injecting bad data.
+	 */
+	@Test(expected=InvalidCredentialsException.class)
+	public void testFindSignatureInvalid() throws Throwable
+	{
+		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<NotSignature />")));
+		
+		Method findSignature = filter.getClass().getDeclaredMethod("findSignature", Document.class);		
+		findSignature.setAccessible(true);
+		
+		try
+		{
+			findSignature.invoke(filter, doc);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw e.getCause();
+		}
+	}
+
+	/**
+	 * Test the private verifySignature() method to allow injecting bad data.
+	 */
+	@Test(expected=InvalidCredentialsException.class)
+	public void testVerifySignatureInvalid() throws Throwable
+	{
+		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<Root><Assertion /><Signature /></Root>")));
+		Element assertion = (Element) doc.getElementsByTagName("Assertion").item(0);
+		Element signature = (Element) doc.getElementsByTagName("Signature").item(0);
+				
+		Method verifySignature = filter.getClass().getDeclaredMethod("verifySignature", Element.class, Element.class);		
+		verifySignature.setAccessible(true);
+		
+		try
+		{
+			verifySignature.invoke(filter, assertion, signature);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw e.getCause();
+		}
+	}
+
+	/**
+	 * Test the private buildSamlAssertion() method to allow injecting bad data.
+	 */
+	@Test(expected=InvalidCredentialsException.class)
+	public void testBuildSamlAssertionInvalid() throws Throwable
+	{
+		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<Root><Assertion /></Root>")));
+		Element assertion = (Element) doc.getElementsByTagName("Assertion").item(0);
+				
+		Method buildSamlAssertion = filter.getClass().getDeclaredMethod("buildSamlAssertion", Element.class);		
+		buildSamlAssertion.setAccessible(true);
+		
+		try
+		{
+			buildSamlAssertion.invoke(filter, assertion);
+		}
+		catch (InvocationTargetException e)
+		{
+			throw e.getCause();
+		}
 	}
 	
 	@Test
