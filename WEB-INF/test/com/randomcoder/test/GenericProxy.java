@@ -1,4 +1,4 @@
-package com.randomcoder.test.util;
+package com.randomcoder.test;
 
 import java.lang.reflect.*;
 

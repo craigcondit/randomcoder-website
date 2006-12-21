@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.*;
 import org.springframework.mock.web.*;
 
-import com.randomcoder.test.util.GenericProxy;
+import com.randomcoder.test.GenericProxy;
 
 public class DisableUrlSessionFilterTest
 {
