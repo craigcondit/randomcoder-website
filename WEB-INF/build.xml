@@ -17,6 +17,11 @@
 		</fileset>
 	</path>
 	
+	<path id="test.classpath">
+		<pathelement location="classes" />
+		<path refid="classpath" />
+	</path>
+	
 	<path id="emma.classpath">
 		<fileset dir="emma">
 			<include name="**/*.jar" />
@@ -55,7 +60,7 @@
 		</javac>
 	</target>
 
-	<target name="test-build" description="Build test classes">
+	<target name="test-build" depends="build" description="Build test classes">
 		<mkdir dir="test-classes" />
 
 		<!-- Copy non-java elements from src to classes -->
@@ -67,7 +72,7 @@
 
 		<!-- Compile java classes -->
 		<javac deprecation="true"
-				classpathref="classpath"
+				classpathref="test.classpath"
 				srcdir="test"
 				destdir="test-classes"
 				debug="true">
