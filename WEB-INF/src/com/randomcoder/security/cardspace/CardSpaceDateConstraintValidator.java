@@ -43,7 +43,7 @@ implements CardSpaceCredentialsValidator
 	 * <p>
 	 * By default, no clock skew is allowed.
 	 * </p>
-	 * @param clockSkew 
+	 * @param clockSkew clock skew in seconds
 	 * @throws IllegalArgumentException if clock skew is negative
 	 */
 	public void setClockSkew(int clockSkew)

@@ -113,7 +113,7 @@ implements AuthenticationProvider, InitializingBean
 	 * This class supports <code>CardSpaceAuthenticationToken</code> objects.
 	 * @param target target class to query
 	 * @return true if target is <code>CardSpaceAuthenticationToken</code>,
-	 *         false otherwise.
+	 *         false otherwise
 	 */
 	public boolean supports(Class target)
 	{
