@@ -3,7 +3,7 @@ package com.randomcoder.dao;
 import java.io.Serializable;
 
 /**
- * Createable DAO interface.
+ * DAO interface for creatable objects.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
