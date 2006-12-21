@@ -105,8 +105,25 @@ abstract public class AbstractDaoTestCase
 	@SuppressWarnings("unchecked")
 	protected final Object createDao(Class entityClass, Class daoClass) throws Exception
 	{
-		HibernateDao daoTarget = new HibernateDao(entityClass);
-		
+		return createDao(new HibernateDao(entityClass), daoClass);
+//		HibernateDao daoTarget = new HibernateDao(entityClass);
+//		
+//		daoTarget.setSessionFactory(getSessionFactory());
+//
+//		FinderIntroductionInterceptor interceptor = new FinderIntroductionInterceptor();
+//		
+//		DefaultIntroductionAdvisor advisor = new DefaultIntroductionAdvisor(interceptor);
+//		
+//		ProxyFactory proxyFactory = new ProxyFactory(new Class[] { daoClass });
+//		proxyFactory.setTarget(daoTarget);
+//		proxyFactory.addAdvisor(advisor);
+//		
+//		return proxyFactory.getProxy();		
+	}
+
+	@SuppressWarnings("unchecked")
+	protected final Object createDao(HibernateDao daoTarget, Class daoClass) throws Exception
+	{
 		daoTarget.setSessionFactory(getSessionFactory());
 
 		FinderIntroductionInterceptor interceptor = new FinderIntroductionInterceptor();
@@ -119,7 +136,7 @@ abstract public class AbstractDaoTestCase
 		
 		return proxyFactory.getProxy();		
 	}
-
+	
 	protected final SessionFactory getSessionFactory() throws Exception
 	{
 		if (sessionFactory == null) sessionFactory = createSessionFactory();

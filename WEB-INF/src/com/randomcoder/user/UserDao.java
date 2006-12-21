@@ -2,7 +2,7 @@ package com.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.dao.GenericDao;
+import com.randomcoder.dao.CrudDao;
 
 /**
  * User data access interface.
@@ -32,7 +32,7 @@ import com.randomcoder.dao.GenericDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface UserDao extends GenericDao<User, Long>
+public interface UserDao extends CrudDao<User, Long>
 {
 
 	/**

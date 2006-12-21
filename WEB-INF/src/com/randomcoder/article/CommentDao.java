@@ -1,6 +1,6 @@
 package com.randomcoder.article;
 
-import com.randomcoder.dao.GenericWriteOnceDao;
+import com.randomcoder.dao.*;
 
 /**
  * Comment data access interface.
@@ -30,7 +30,8 @@ import com.randomcoder.dao.GenericWriteOnceDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CommentDao extends GenericWriteOnceDao<Comment, Long>
+public interface CommentDao
+extends CreatableDao<Comment, Long>, ReadableDao<Comment, Long>, DeletableDao<Comment, Long>
 {
 
 }

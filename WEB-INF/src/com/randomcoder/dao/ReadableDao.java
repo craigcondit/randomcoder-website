@@ -1,9 +1,9 @@
-package com.randomcoder.security.cardspace;
+package com.randomcoder.dao;
 
-import com.randomcoder.dao.*;
+import java.io.Serializable;
 
 /**
- * CardSpaceSeenToken data access interface.
+ * DAO interface for readable objects.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,16 +30,12 @@ import com.randomcoder.dao.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CardSpaceSeenTokenDao
-extends CardSpaceSeenTokenDaoBase, CreatableDao<CardSpaceSeenToken, Long>, ReadableDao<CardSpaceSeenToken, Long>
+public interface ReadableDao<T, PK extends Serializable>
 {
 	/**
-	 * Looks up a seen CardSpace token by assertion id, ppid, and issuer hash.
-	 * @param assertionId assertion id
-	 * @param privatePersonalIdentifier ppid
-	 * @param issuerHash SHA-1 hash of issuer's public key
-	 * @return matching CardSpaceSeenToken if found, null otherwise
+	 * Load an instance of &lt;T&gt; by primary key
+	 * @param id primary key
+	 * @return object instance
 	 */
-	public CardSpaceSeenToken findByKey(
-			String assertionId, String privatePersonalIdentifier, String issuerHash);
+	public T read(PK id);
 }

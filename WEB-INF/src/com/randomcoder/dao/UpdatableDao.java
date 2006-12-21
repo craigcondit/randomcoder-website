@@ -3,7 +3,7 @@ package com.randomcoder.dao;
 import java.io.Serializable;
 
 /**
- * Generic DAO used for non-updatable objects.
+ * DAO interface for updatable objects.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,19 +30,11 @@ import java.io.Serializable;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface GenericWriteOnceDao<T, PK extends Serializable>
-extends GenericReadOnlyDao<T, PK>
+public interface UpdatableDao<T, PK extends Serializable>
 {
 	/**
-	 * Create a new instance of &lt;T&gt;
-	 * @param newInstance new class instance to save
-	 * @return primary key
+	 * Updates an object
+	 * @param transientObject object to update
 	 */
-	public PK create(T newInstance);
-	
-	/**
-	 * Deletes an object
-	 * @param persistentObject object to delete
-	 */
-	public void delete(T persistentObject);
+	public void update(T transientObject);
 }

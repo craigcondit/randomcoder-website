@@ -3,7 +3,7 @@ package com.randomcoder.dao;
 import java.io.Serializable;
 
 /**
- * Read-only DAO interface.
+ * Createable DAO interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -30,12 +30,12 @@ import java.io.Serializable;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface GenericReadOnlyDao<T, PK extends Serializable>
+public interface CreatableDao<T, PK extends Serializable>
 {
 	/**
-	 * Load an instance of &lt;T&gt; by primary key
-	 * @param id primary key
-	 * @return object instance
+	 * Create a new instance of &lt;T&gt;
+	 * @param newInstance new class instance to save
+	 * @return primary key
 	 */
-	public T read(PK id);
+	public PK create(T newInstance);
 }

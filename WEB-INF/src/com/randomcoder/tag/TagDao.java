@@ -2,7 +2,7 @@ package com.randomcoder.tag;
 
 import java.util.List;
 
-import com.randomcoder.dao.GenericDao;
+import com.randomcoder.dao.CrudDao;
 
 /**
  * Tag data access interface.
@@ -32,7 +32,7 @@ import com.randomcoder.dao.GenericDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface TagDao extends GenericDao<Tag, Long>, TagDaoBase
+public interface TagDao extends CrudDao<Tag, Long>, TagDaoBase
 {
 	/**
 	 * Finds a given {@code Tag} by name.

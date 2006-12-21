@@ -2,7 +2,7 @@ package com.randomcoder.article;
 
 import java.util.*;
 
-import com.randomcoder.dao.GenericDao;
+import com.randomcoder.dao.CrudDao;
 import com.randomcoder.tag.Tag;
 
 /**
@@ -33,7 +33,7 @@ import com.randomcoder.tag.Tag;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface ArticleDao extends GenericDao<Article, Long>
+public interface ArticleDao extends CrudDao<Article, Long>
 {
 
 	/**

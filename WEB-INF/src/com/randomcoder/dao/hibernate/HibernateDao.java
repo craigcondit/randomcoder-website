@@ -9,11 +9,11 @@ import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
-import com.randomcoder.dao.GenericDao;
+import com.randomcoder.dao.CrudDao;
 import com.randomcoder.dao.finder.*;
 
 /**
- * Hibernate implementation of GenericDao.
+ * Hibernate implementation of CrudDao.
  * 
  * <p>Inspired by Per Mellqvist's IBM developerWorks article, <a
  * href="http://www-128.ibm.com/developerworks/java/library/j-genericdao.html">Don't
@@ -44,7 +44,7 @@ import com.randomcoder.dao.finder.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class HibernateDao<T, PK extends Serializable> implements GenericDao<T, PK>, FinderExecutor
+public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>, FinderExecutor
 {
 	private SessionFactory sessionFactory;
 
