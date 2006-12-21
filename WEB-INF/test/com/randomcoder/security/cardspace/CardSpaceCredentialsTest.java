@@ -18,8 +18,8 @@ import com.randomcoder.xml.security.XmlSecurityUtils;
 public class CardSpaceCredentialsTest
 {
 
-	private static final String RES_ENCRYPTED = "/xmlsec/allfields-encrypted.xml";
-	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
+	private static final String RES_ENCRYPTED = "/data/saml-assertion-all-fields.xml";
+	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
 	
 	private SamlAssertion assertion;
 	private PublicKey publicKey;

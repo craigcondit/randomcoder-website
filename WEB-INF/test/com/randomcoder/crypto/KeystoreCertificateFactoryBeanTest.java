@@ -11,7 +11,7 @@ import org.springframework.core.io.*;
 
 public class KeystoreCertificateFactoryBeanTest
 {
-	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
+	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
 
 	private KeystoreCertificateFactoryBean target;
 	

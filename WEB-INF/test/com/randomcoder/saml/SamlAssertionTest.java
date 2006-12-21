@@ -18,8 +18,8 @@ import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class SamlAssertionTest
 {
-	private static final String RES_ENCRYPTED = "/xmlsec/saml-encrypted.xml";
-	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
+	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
+	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
 	
 	private PrivateKey serverPrivateKey;
 	private Document assertionDoc;

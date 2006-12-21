@@ -24,9 +24,9 @@ import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class UserDetailsServiceImplTest
 {
-	private static final String RES_ENCRYPTED = "/xmlsec/saml-encrypted.xml";
-	private static final String RES_ENCRYPTED2 = "/xmlsec/test-encrypted.xml";
-	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
+	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
+	private static final String RES_ENCRYPTED2 = "/data/saml-assertion-test-2.xml";
+	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
 	
 	private UserDetailsServiceImpl svc = null;
 	private CardSpaceTokenDaoMock cardSpaceTokenDao = null;

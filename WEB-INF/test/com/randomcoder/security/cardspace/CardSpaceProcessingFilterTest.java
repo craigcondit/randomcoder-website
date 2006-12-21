@@ -18,8 +18,8 @@ import com.randomcoder.xml.XmlUtils;
 
 public class CardSpaceProcessingFilterTest
 {
-	private static final String RES_ENCRYPTED = "/xmlsec/saml-encrypted.xml";
-	private static final String RES_XMLSEC_PROPS = "/xmlsec/xmlsec.properties";
+	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
+	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
 	
 	private CardSpaceProcessingFilter filter = null;
 	private MockHttpServletRequest request = null;
