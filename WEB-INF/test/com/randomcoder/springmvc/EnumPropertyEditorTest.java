@@ -54,7 +54,7 @@ public class EnumPropertyEditorTest
 		} catch (IllegalArgumentException e) {}		
 	}
 	
-	protected enum TestEnum
+	protected static enum TestEnum
 	{
 		ONE, TWO, THREE;
 	}

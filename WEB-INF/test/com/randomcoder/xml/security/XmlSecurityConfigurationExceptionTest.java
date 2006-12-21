@@ -1,6 +1,5 @@
 package com.randomcoder.xml.security;
 
-
 import static org.junit.Assert.*;
 
 import org.junit.Test;

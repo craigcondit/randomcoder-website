@@ -14,8 +14,7 @@ import org.w3c.dom.*;
 import org.xml.sax.*;
 
 public class XmlUtilsTest
-{
-	
+{	
 	private static final String XML_VALID_DOCUMENT =
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 		"<Test value='test'><Entry value='1' /><Entry value='2' /></Test>";

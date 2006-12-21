@@ -1,57 +1,28 @@
 package com.randomcoder.security.cardspace;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 import static org.junit.Assert.*;
 
-import java.security.*;
+import java.security.PublicKey;
 import java.util.*;
 
 import org.junit.*;
-import org.springframework.core.io.*;
-import org.w3c.dom.*;
-import org.xml.sax.InputSource;
+import org.w3c.dom.Document;
 
-import com.randomcoder.crypto.*;
 import com.randomcoder.saml.*;
-import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
+import com.randomcoder.test.TestObjectFactory;
 
 public class CardSpaceCredentialsTest
 {
-
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-all-fields.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private SamlAssertion assertion;
 	private PublicKey publicKey;
 	
 	@Before
 	public void setUp() throws Exception
 	{		
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		PrivateKey serverPrivateKey = certContext.getPrivateKey();		
-		Document assertionDoc = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));
-		Element el = XmlSecurityUtils.findFirstEncryptedData(assertionDoc);
-		XmlSecurityUtils.decrypt(assertionDoc, el, serverPrivateKey);
-		Element assertionEl = SamlUtils.findFirstSamlAssertion(assertionDoc);
-		assertion = new SamlAssertion(assertionEl);
-		
-		Element sig = XmlSecurityUtils.findFirstSignature(assertionDoc);
-		assertionEl.setIdAttribute("AssertionID", true);
-		publicKey = XmlSecurityUtils.verifySignature(sig);
+		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_ALL_FIELDS);
+		assertion = TestObjectFactory.getSamlAssertion(doc);
+		publicKey = TestObjectFactory.getPublicKey(doc);
 	}
 
 	@After
@@ -93,7 +64,7 @@ public class CardSpaceCredentialsTest
 		assertEquals("(800) 555-1414", cred.getMobilePhone());
 		assertNotNull(cred.getDateOfBirth());
 		assertEquals("http://www.example.com/", cred.getWebPage());		
-		assertEquals(Gender.MALE, cred.getGender());
+		assertEquals(CardSpaceGender.MALE, cred.getGender());
 		
 		Map<SamlAttributeSpec, String> claims = cred.getClaims();
 		assertNotNull(claims);

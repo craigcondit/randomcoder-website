@@ -1,33 +1,26 @@
 package com.randomcoder.security.userdetails;
 
+import static com.randomcoder.test.TestObjectFactory.*;
 import static org.junit.Assert.*;
 
-import java.security.*;
+import java.security.PublicKey;
 import java.util.*;
 
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.*;
-import org.springframework.core.io.*;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
 import com.randomcoder.saml.*;
 import com.randomcoder.security.cardspace.*;
-import com.randomcoder.test.mock.*;
+import com.randomcoder.test.TestObjectFactory;
+import com.randomcoder.test.mock.dao.*;
 import com.randomcoder.user.*;
 import com.randomcoder.user.User;
-import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class UserDetailsServiceImplTest
 {
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
-	private static final String RES_ENCRYPTED2 = "/data/saml-assertion-test-2.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private UserDetailsServiceImpl svc = null;
 	private CardSpaceTokenDaoMock cardSpaceTokenDao = null;
 	private UserDaoMock userDao = null;
@@ -56,33 +49,12 @@ public class UserDetailsServiceImplTest
 		svc.setUserDao(userDao);
 		svc.setDebug(false);
 		
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		PrivateKey serverPrivateKey = certContext.getPrivateKey();
-		
 		{
-			Document doc = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));
-			Element el = XmlSecurityUtils.findFirstEncryptedData(doc);
-			XmlSecurityUtils.decrypt(doc, el, serverPrivateKey);
-			Element sig = XmlSecurityUtils.findFirstSignature(doc);
-			Element assertionEl = SamlUtils.findFirstSamlAssertion(doc);
-			assertionEl.setIdAttribute("AssertionID", true);
-			missingPpidKey = existingUserKey = XmlSecurityUtils.verifySignature(sig);
-			existingUserAssertion = new SamlAssertion(assertionEl);
+			Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
+			missingPpidKey = existingUserKey = TestObjectFactory.getPublicKey(doc);
+			existingUserAssertion = TestObjectFactory.getSamlAssertion(doc);
 			
+			Element assertionEl = SamlUtils.findFirstSamlAssertion(doc);			
 			NodeList atts = assertionEl.getElementsByTagNameNS(SamlUtils.SAML_10_NS, "Attribute");
 			for (int i = 0; i < atts.getLength(); i++)
 			{
@@ -96,14 +68,9 @@ public class UserDetailsServiceImplTest
 		}
 		
 		{
-			Document doc = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED2)));
-			Element el = XmlSecurityUtils.findFirstEncryptedData(doc);
-			XmlSecurityUtils.decrypt(doc, el, serverPrivateKey);
-			Element sig = XmlSecurityUtils.findFirstSignature(doc);
-			Element assertionEl = SamlUtils.findFirstSamlAssertion(doc);
-			assertionEl.setIdAttribute("AssertionID", true);
-			missingUserKey = XmlSecurityUtils.verifySignature(sig);
-			missingUserAssertion = new SamlAssertion(assertionEl);
+			Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST_2);
+			missingUserKey = TestObjectFactory.getPublicKey(doc);
+			missingUserAssertion = TestObjectFactory.getSamlAssertion(doc);
 			missingUserCredentials = new CardSpaceCredentials(missingUserAssertion, missingUserKey, new Date());
 		}
 		

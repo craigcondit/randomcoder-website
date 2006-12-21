@@ -10,7 +10,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.randomcoder.springmvc.IdCommand;
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
 
 public class UserDeleteControllerTest
 {

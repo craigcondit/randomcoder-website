@@ -1,29 +1,22 @@
 package com.randomcoder.security.cardspace;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 import static org.junit.Assert.*;
 
-import java.security.*;
+import java.security.PublicKey;
 import java.util.*;
 
-import org.acegisecurity.*;
+import org.acegisecurity.Authentication;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
-import org.acegisecurity.userdetails.UserDetails;
 import org.junit.*;
-import org.springframework.core.io.*;
-import org.w3c.dom.*;
-import org.xml.sax.InputSource;
+import org.w3c.dom.Document;
 
-import com.randomcoder.crypto.*;
-import com.randomcoder.saml.*;
-import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
+import com.randomcoder.saml.SamlAssertion;
+import com.randomcoder.test.TestObjectFactory;
+import com.randomcoder.test.mock.cardspace.*;
 
 public class CardSpaceAuthenticationProviderTest
 {
-	
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-all-fields.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private SamlAssertion assertion;
 	private PublicKey publicKey;
 	private CardSpaceAuthenticationProvider provider;
@@ -31,32 +24,9 @@ public class CardSpaceAuthenticationProviderTest
 	@Before
 	public void setUp() throws Exception
 	{
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		PrivateKey serverPrivateKey = certContext.getPrivateKey();		
-		Document assertionDoc = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));
-		Element el = XmlSecurityUtils.findFirstEncryptedData(assertionDoc);
-		XmlSecurityUtils.decrypt(assertionDoc, el, serverPrivateKey);
-		Element assertionEl = SamlUtils.findFirstSamlAssertion(assertionDoc);
-		assertion = new SamlAssertion(assertionEl);
-		
-		Element sig = XmlSecurityUtils.findFirstSignature(assertionDoc);
-		assertionEl.setIdAttribute("AssertionID", true);
-		publicKey = XmlSecurityUtils.verifySignature(sig);
-		
+		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_ALL_FIELDS);
+		publicKey = TestObjectFactory.getPublicKey(doc);
+		assertion = TestObjectFactory.getSamlAssertion(doc);		
 		provider = new CardSpaceAuthenticationProvider();
 		provider.setCardSpaceUserDetailsService(new CardSpaceUserDetailsServiceMock(false));
 	}
@@ -125,72 +95,4 @@ public class CardSpaceAuthenticationProviderTest
 		assertTrue(provider.supports(CardSpaceAuthenticationToken.class));
 	}
 
-	@SuppressWarnings("unused")
-	private static class CardSpaceUserDetailsServiceMock implements CardSpaceUserDetailsService
-	{
-		private final boolean returnNull;
-		
-		public CardSpaceUserDetailsServiceMock(boolean returnNull)
-		{
-			this.returnNull = returnNull;
-		}
-
-		public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials)
-		throws AuthenticationException
-		{
-			return returnNull ? null : new UserDetailsMock();
-		}		
-	}
-	
-	@SuppressWarnings("unused")
-	private static class CardSpaceCredentialsValidatorMock implements CardSpaceCredentialsValidator
-	{
-		public CardSpaceCredentialsValidatorMock() {}
-
-		public void validate(CardSpaceCredentials credentials) throws AuthenticationException
-		{
-		}
-	}
-	
-	private static class UserDetailsMock implements UserDetails
-	{
-		private static final long serialVersionUID = -6648737648831411882L;
-
-		public UserDetailsMock() {}
-		
-		public GrantedAuthority[] getAuthorities()
-		{
-			return new GrantedAuthority[] { new GrantedAuthorityImpl("ROLE_TEST") };
-		}
-
-		public String getPassword()
-		{
-			return "pass";
-		}
-
-		public String getUsername()
-		{
-			return "test";
-		}
-
-		public boolean isAccountNonExpired()
-		{
-			return true;
-		}
-
-		public boolean isAccountNonLocked()
-		{
-			return true;
-		}
-
-		public boolean isCredentialsNonExpired()
-		{
-			return true;
-		}
-
-		public boolean isEnabled()
-		{
-			return true;
-		}		
-	}
 }

@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.*;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.mock.web.*;
+
+import com.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
 
 public class JstlTemplateViewTest
 {
@@ -81,20 +81,5 @@ public class JstlTemplateViewTest
 		assertEquals("parent", templateMap.get("parent"));
 		assertEquals("child", templateMap.get("child"));
 		assertEquals("child", templateMap.get("both"));
-	}
-	
-	protected class JstlTemplateViewMock extends JstlTemplateView
-	{
-		@Override
-		protected void exposeHelpers(HttpServletRequest request) throws Exception
-		{
-			super.exposeHelpers(request);
-		}
-
-		@Override
-		protected String getTemplateName()
-		{
-			return super.getTemplateName();
-		}
 	}
 }

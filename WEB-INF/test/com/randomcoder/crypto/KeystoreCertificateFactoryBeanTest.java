@@ -7,7 +7,7 @@ import java.security.cert.X509Certificate;
 
 import org.junit.*;
 
-import com.randomcoder.test.XmlSecurityFactory;
+import com.randomcoder.test.TestObjectFactory;
 
 public class KeystoreCertificateFactoryBeanTest
 {
@@ -16,7 +16,7 @@ public class KeystoreCertificateFactoryBeanTest
 	@Before
 	public void setUp() throws Exception
 	{
-		target = XmlSecurityFactory.getKeystoreCertificateFactoryBean();
+		target = TestObjectFactory.getKeystoreCertificateFactoryBean();
 	}
 
 	@After

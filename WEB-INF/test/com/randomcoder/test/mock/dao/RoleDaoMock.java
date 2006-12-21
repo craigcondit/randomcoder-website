@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock;
+package com.randomcoder.test.mock.dao;
 
 import java.util.*;
 

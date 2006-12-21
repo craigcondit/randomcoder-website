@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 
 import org.junit.*;
-import org.xml.sax.*;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import com.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 
 public class AbstractXMLReaderTest
 {
@@ -77,18 +79,5 @@ public class AbstractXMLReaderTest
 		reader.setProperty("test-property", "test-value");
 		assertEquals("test-value", reader.getProperty("test-property"));
 		assertNull(reader.getProperty("bogus-property"));
-	}
-
-	protected class AbstractXMLReaderMock extends AbstractXMLReader
-	{
-		private InputSource input;
-		
-		@Override
-		public void parse(InputSource _input) throws IOException, SAXException
-		{
-			input = _input;
-		}		
-		
-		public InputSource getInputSource() { return input; }
 	}
 }

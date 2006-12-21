@@ -6,7 +6,6 @@ import org.junit.Test;
 
 public class RoleNotFoundExceptionTest
 {
-
 	@Test
 	public void testRoleNotFoundException()
 	{
@@ -30,6 +29,6 @@ public class RoleNotFoundExceptionTest
 		catch (RoleNotFoundException e)
 		{
 			assertEquals("test-message", e.getMessage());
-		}	}
-
+		}
+	}
 }

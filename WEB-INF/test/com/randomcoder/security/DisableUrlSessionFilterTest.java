@@ -2,15 +2,14 @@ package com.randomcoder.security;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
-
-import javax.servlet.*;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.*;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.test.GenericProxy;
+import com.randomcoder.test.mock.jee.FilterChainMock;
 
 public class DisableUrlSessionFilterTest
 {
@@ -67,20 +66,5 @@ public class DisableUrlSessionFilterTest
 		MockHttpServletResponse response = new MockHttpServletResponse();
 		
 		filter.doFilter(request, response, chain);		
-	}
-
-	protected class FilterChainMock implements FilterChain
-	{
-		private ServletResponse response;
-		
-		public void doFilter(ServletRequest _request, ServletResponse _response) throws IOException, ServletException
-		{
-			response = _response;
-		}
-		
-		protected ServletResponse getResponse()
-		{
-			return response;
-		}	
 	}
 }

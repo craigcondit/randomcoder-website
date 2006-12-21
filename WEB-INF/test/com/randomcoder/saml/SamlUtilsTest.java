@@ -1,5 +1,6 @@
 package com.randomcoder.saml;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
@@ -7,42 +8,21 @@ import java.security.PrivateKey;
 import java.util.*;
 
 import org.junit.*;
-import org.springframework.core.io.*;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
-import com.randomcoder.xml.XmlUtils;
+import com.randomcoder.test.TestObjectFactory;
 import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class SamlUtilsTest
 {
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private Document encryptedData;
 	private PrivateKey serverPrivateKey;
 	
 	@Before
 	public void setUp() throws Exception
 	{		
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		encryptedData = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));		
-		serverPrivateKey = certContext.getPrivateKey();		
+		serverPrivateKey = TestObjectFactory.getPrivateKey();
+		encryptedData = TestObjectFactory.getXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
 	}
 
 	@After

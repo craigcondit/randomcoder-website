@@ -2,14 +2,13 @@ package com.randomcoder.user;
 
 import static org.junit.Assert.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
+import com.randomcoder.test.mock.user.UserAddControllerMock;
 
 public class UserAddControllerTest
 {
@@ -72,15 +71,5 @@ public class UserAddControllerTest
 		controller = null;
 		userBusiness = null;
 		userDao = null;
-	}
-
-	protected class UserAddControllerMock extends UserAddController
-	{
-		@Override
-		protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception
-		{
-			super.onBindOnNewForm(request, command);
-		}
-		
 	}
 }

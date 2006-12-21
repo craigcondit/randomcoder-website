@@ -1,58 +1,37 @@
 package com.randomcoder.xml.security;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Constructor;
 import java.security.*;
-import java.util.Properties;
 
 import org.apache.commons.codec.binary.Base64;
 import org.junit.*;
-import org.springframework.core.io.*;
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
 import com.randomcoder.saml.SamlUtils;
-import com.randomcoder.xml.XmlUtils;
+import com.randomcoder.test.TestObjectFactory;
 
 public class XmlSecurityUtilsTest
 {
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private Document encryptedData;
-	private String clientPublicKey;
+	private String encodedClientPublicKey;
 	private PrivateKey serverPrivateKey;
 	
 	@Before
 	public void setUp() throws Exception
 	{		
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		encryptedData = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));		
-		clientPublicKey = properties.getProperty("client.publickey.encoded");
-		serverPrivateKey = certContext.getPrivateKey();		
+		encryptedData = TestObjectFactory.getXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
+		encodedClientPublicKey = TestObjectFactory.getEncodedClientPublicKey();
+		serverPrivateKey = TestObjectFactory.getPrivateKey();
 	}
 
 	@After
 	public void tearDown() throws Exception
 	{
 		encryptedData = null;
-		clientPublicKey = null;
+		encodedClientPublicKey = null;
 		serverPrivateKey = null;
 	}
 
@@ -119,7 +98,7 @@ public class XmlSecurityUtilsTest
 		assertNotNull(publicKey);
 		
 		String encoded = new String(Base64.encodeBase64(publicKey.getEncoded()), "UTF-8");
-		assertEquals(encoded, clientPublicKey);
+		assertEquals(encoded, encodedClientPublicKey);
 	}
 
 	@Test(expected=XmlSecurityException.class)

@@ -4,14 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
+import com.randomcoder.test.mock.user.UserEditControllerMock;
 
 public class UserEditControllerTest
 {
@@ -86,15 +85,5 @@ public class UserEditControllerTest
 		userDao = null;
 		userId = null;
 		command = null;
-	}
-
-	protected class UserEditControllerMock extends UserEditController
-	{
-		@Override
-		protected void onBindOnNewForm(HttpServletRequest request, Object _command, BindException errors)
-		{
-			super.onBindOnNewForm(request, _command, errors);
-		}
-		
 	}
 }

@@ -1,26 +1,23 @@
 package com.randomcoder.security.cardspace;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 import static org.junit.Assert.*;
 
-import java.io.*;
+import java.io.StringReader;
 import java.lang.reflect.*;
-import java.util.Properties;
 
-import org.acegisecurity.*;
+import org.acegisecurity.Authentication;
 import org.junit.*;
-import org.springframework.core.io.*;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
+import com.randomcoder.test.TestObjectFactory;
+import com.randomcoder.test.mock.acegisecurity.AuthenticationManagerMock;
 import com.randomcoder.xml.XmlUtils;
 
 public class CardSpaceProcessingFilterTest
 {
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
 	private CardSpaceProcessingFilter filter = null;
 	private MockHttpServletRequest request = null;
 	private String xmlToken = null;
@@ -28,48 +25,15 @@ public class CardSpaceProcessingFilterTest
 	@Before
 	public void setUp() throws Exception
 	{
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-		
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
 		filter = new CardSpaceProcessingFilter();
 		filter.setParameter("testToken");
 		filter.setDebug(false);
-		filter.setCertificateContext(certContext);
+		filter.setCertificateContext(TestObjectFactory.getCertificateContext());
 		filter.setAuthenticationManager(new AuthenticationManagerMock());
+
 		request = new MockHttpServletRequest();
 		
-		
-		BufferedReader reader = null;
-		try
-		{
-			reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(RES_ENCRYPTED)));
-			StringBuilder sbuf = new StringBuilder();
-			char[] buf = new char[32768];
-			int c;
-			do
-			{
-				c = reader.read(buf);
-				if (c >= 0) sbuf.append(buf, 0, c); 
-			}
-			while (c > 0);
-			xmlToken = sbuf.toString();
-		}
-		finally
-		{
-			reader.close();
-		}
+		xmlToken = TestObjectFactory.getResourceAsString(RESOURCE_SAML_ASSERTION_TEST);
 	}
 
 	@After
@@ -220,19 +184,5 @@ public class CardSpaceProcessingFilterTest
 	public void testGetDefaultFilterProcessesUrl()
 	{
 		assertEquals("/j_acegi_cardspace_check", filter.getDefaultFilterProcessesUrl());
-	}
-
-	@SuppressWarnings("unused")
-	private static class AuthenticationManagerMock
-	implements AuthenticationManager
-	{
-		public AuthenticationManagerMock() {}
-		
-		public Authentication authenticate(Authentication auth)
-		throws AuthenticationException
-		{
-			return auth;
-		}
-		
 	}
 }

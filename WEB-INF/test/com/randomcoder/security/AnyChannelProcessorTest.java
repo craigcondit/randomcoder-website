@@ -2,8 +2,9 @@ package com.randomcoder.security;
 
 import static org.junit.Assert.*;
 
-import org.acegisecurity.ConfigAttribute;
 import org.junit.*;
+
+import com.randomcoder.test.mock.acegisecurity.ConfigAttributeMock;
 
 public class AnyChannelProcessorTest
 {
@@ -34,19 +35,5 @@ public class AnyChannelProcessorTest
 		assertTrue(processor.supports(new ConfigAttributeMock("REQUIRES_ANY")));
 		assertFalse(processor.supports(new ConfigAttributeMock("REQUIRES_INSECURE_CHANNEL")));
 		assertFalse(processor.supports(new ConfigAttributeMock("REQUIRES_SECURE_CHANNEL")));
-	}
-	
-	private class ConfigAttributeMock implements ConfigAttribute
-	{
-		private static final long serialVersionUID = -174801702398598227L;
-		
-		private final String attribute;
-		
-		public ConfigAttributeMock(String attribute)
-		{
-			this.attribute = attribute;
-		}
-		
-		public String getAttribute() { return attribute; }
-	}
+	}	
 }

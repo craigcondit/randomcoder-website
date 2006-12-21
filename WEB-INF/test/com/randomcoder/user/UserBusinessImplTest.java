@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.*;
 
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
 
 public class UserBusinessImplTest
 {

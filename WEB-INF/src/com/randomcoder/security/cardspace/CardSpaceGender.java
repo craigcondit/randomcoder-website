@@ -28,7 +28,7 @@ package com.randomcoder.security.cardspace;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public enum Gender
+public enum CardSpaceGender
 {
 	/**
 	 * Unspecified

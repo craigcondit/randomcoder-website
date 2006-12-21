@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import org.junit.*;
 import org.springframework.validation.*;
 
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
 
 public class UserEditValidatorTest
 {

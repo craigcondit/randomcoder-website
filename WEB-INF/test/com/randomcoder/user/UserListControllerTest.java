@@ -4,14 +4,13 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
-import javax.servlet.http.*;
-
 import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.randomcoder.test.mock.UserDaoMock;
+import com.randomcoder.test.mock.dao.UserDaoMock;
+import com.randomcoder.test.mock.user.UserListControllerMock;
 
 public class UserListControllerTest
 {
@@ -126,16 +125,5 @@ public class UserListControllerTest
 	{
 		userDao = null;
 		controller = null;
-	}
-
-	protected class UserListControllerMock extends UserListController
-	{
-
-		@Override
-		protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
-		{
-			return super.handle(request, response, command, errors);
-		}
-		
 	}
 }

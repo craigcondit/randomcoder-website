@@ -5,13 +5,13 @@ import static org.junit.Assert.*;
 import java.security.Principal;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 
-import com.randomcoder.test.mock.*;
+import com.randomcoder.test.mock.dao.*;
+import com.randomcoder.test.mock.jse.PrincipalMock;
+import com.randomcoder.test.mock.user.ChangePasswordControllerMock;
 
 public class ChangePasswordControllerTest
 {
@@ -108,14 +108,4 @@ public class ChangePasswordControllerTest
 		Long id = userDao.create(user);
 		return userDao.read(id);
 	}
-	
-	protected class ChangePasswordControllerMock extends ChangePasswordController
-	{
-		@Override
-		protected void onBind(HttpServletRequest request, Object command) throws Exception
-		{
-			super.onBind(request, command);
-		}
-		
-	}	
 }

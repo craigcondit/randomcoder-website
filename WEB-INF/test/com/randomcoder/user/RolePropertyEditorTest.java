@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.*;
 
-import com.randomcoder.test.mock.RoleDaoMock;
+import com.randomcoder.test.mock.dao.RoleDaoMock;
 
 public class RolePropertyEditorTest
 {

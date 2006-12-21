@@ -277,12 +277,12 @@ public final class CardSpaceCredentials implements Serializable
 	 * Gets the gender claimed by these credentials.
 	 * @return gender
 	 */
-	public Gender getGender()
+	public CardSpaceGender getGender()
 	{
 		String value = attributes.get(CardSpaceAttributes.GENDER);
-		if ("1".equals(value)) return Gender.MALE;
-		if ("2".equals(value)) return Gender.FEMALE;
-		return Gender.UNSPECIFIED;
+		if ("1".equals(value)) return CardSpaceGender.MALE;
+		if ("2".equals(value)) return CardSpaceGender.FEMALE;
+		return CardSpaceGender.UNSPECIFIED;
 	}
 	
 	/**

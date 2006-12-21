@@ -6,7 +6,6 @@ import org.junit.Test;
 
 public class UserNotFoundExceptionTest
 {
-
 	@Test
 	public void testUserNotFoundException()
 	{
@@ -32,5 +31,4 @@ public class UserNotFoundExceptionTest
 			assertEquals("test-message", e.getMessage());
 		}
 	}
-
 }

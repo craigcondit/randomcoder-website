@@ -1,53 +1,28 @@
 package com.randomcoder.saml;
 
+import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
-import java.security.PrivateKey;
 import java.util.*;
 
 import org.junit.*;
-import org.springframework.core.io.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
 import com.randomcoder.security.cardspace.CardSpaceAttributes;
+import com.randomcoder.test.TestObjectFactory;
 import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class SamlAssertionTest
 {
-	private static final String RES_ENCRYPTED = "/data/saml-assertion-test.xml";
-	private static final String RES_XMLSEC_PROPS = "/data/xml-security.properties";
-	
-	private PrivateKey serverPrivateKey;
 	private Document assertionDoc;
 	private Element assertionEl;
 	
 	@Before
 	public void setUp() throws Exception
 	{		
-		Properties properties = new Properties();
-		properties.load(getClass().getResourceAsStream(RES_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean keystoreFactory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty("keystore.resource"));
-		
-		keystoreFactory.setKeystoreLocation(keystoreLocation);
-		keystoreFactory.setKeystoreType(properties.getProperty("keystore.type"));
-		keystoreFactory.setKeystorePassword(properties.getProperty("keystore.password"));
-		keystoreFactory.setCertificateAlias(properties.getProperty("certificate.alias"));
-		keystoreFactory.setCertificatePassword(properties.getProperty("certificate.password"));
-		keystoreFactory.afterPropertiesSet();
-		CertificateContext certContext = (CertificateContext) keystoreFactory.getObject();
-		
-		serverPrivateKey = certContext.getPrivateKey();
-		
-		assertionDoc = XmlUtils.parseXml(new InputSource(getClass().getResourceAsStream(RES_ENCRYPTED)));
-		Element el = XmlSecurityUtils.findFirstEncryptedData(assertionDoc);
-		XmlSecurityUtils.decrypt(assertionDoc, el, serverPrivateKey);
+		assertionDoc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
 		assertionEl = SamlUtils.findFirstSamlAssertion(assertionDoc);
 	}
 
@@ -56,7 +31,6 @@ public class SamlAssertionTest
 	{
 		assertionDoc = null;
 		assertionEl = null;
-		serverPrivateKey = null;
 	}
 	
 	@Test

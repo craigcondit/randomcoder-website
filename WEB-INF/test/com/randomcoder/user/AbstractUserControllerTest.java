@@ -5,13 +5,12 @@ import static org.junit.Assert.*;
 import java.beans.PropertyEditor;
 import java.util.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.*;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import com.randomcoder.test.mock.RoleDaoMock;
+import com.randomcoder.test.mock.dao.RoleDaoMock;
+import com.randomcoder.test.mock.user.AbstractUserControllerMock;
 
 public class AbstractUserControllerTest
 {
@@ -69,21 +68,4 @@ public class AbstractUserControllerTest
 		controller = null;
 		roleDao = null;
 	}
-	
-	protected class AbstractUserControllerMock extends AbstractUserController
-	{
-		@Override
-		protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
-		{
-			super.initBinder(request, binder);
-		}
-
-		@Override
-		protected Map referenceData(HttpServletRequest request)
-		{
-			return super.referenceData(request);
-		}
-		
-	}
-	
 }
