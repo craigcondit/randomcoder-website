@@ -27,6 +27,22 @@ public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 		unbindSession();
 		cardSpaceSeenTokenDao = null;
 	}
+	
+	@Test
+	public void testCreateRead() throws Exception
+	{
+		begin();
+		CardSpaceSeenToken token = createToken("assertion1", "ppid1", "issuerHash1", new Date());
+		commit();
+		
+		rebindSession();
+		
+		token = cardSpaceSeenTokenDao.read(token.getId());
+		assertNotNull(token);
+		assertEquals("assertion1", token.getAssertionId());		
+		assertEquals("ppid1", token.getPrivatePersonalIdentifier());		
+		assertEquals("issuerHash1", token.getIssuerHash());		
+	}
 
 	@Test
 	public void testDeleteBefore() throws Exception
