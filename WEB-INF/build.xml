@@ -34,7 +34,7 @@
 	</fileset>
 	
   <taskdef resource="emma_ant.properties" classpathref="emma.classpath" />
-	
+		
 	<target name="build" description="Build web app">
 		<mkdir dir="classes" />
 
@@ -55,6 +55,26 @@
 		</javac>
 	</target>
 
+	<target name="test-build" description="Build test classes">
+		<mkdir dir="test-classes" />
+
+		<!-- Copy non-java elements from src to classes -->
+		<copy todir="test-classes" includeemptydirs="false">
+			<fileset dir="test">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<!-- Compile java classes -->
+		<javac deprecation="true"
+				classpathref="classpath"
+				srcdir="test"
+				destdir="test-classes"
+				debug="true">
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+	
 	<target name="javadoc" description="Build Java documentation">
 		<mkdir dir="../docs" />
 		<mkdir dir="../docs/apidocs" />
@@ -84,7 +104,7 @@
 		</javadoc>
 	</target>
 	
-	<target name="clean" description="Clean build targets" depends="emma-clean">
+	<target name="clean" description="Clean build targets" depends="emma-clean,test-clean">
 		<delete dir="../docs/apidocs" />
 		<delete dir="classes" />
 	</target>
@@ -104,8 +124,9 @@
 	
 	<target name="test-db-init.internal" depends="db-init,db-drop,db-create,db-populate,db-upgrade,db-grant" />
 		
-	<target name="test-clean" description="Cleans test results">
+	<target name="test-clean" description="Cleans test classes">
 		<delete dir="test-results" />
+		<delete dir="test-classes" />
 	</target>
 	
 	<target name="emma-clean" description="Cleans emma results">
@@ -130,8 +151,7 @@
 				instrpathref="instr.classpath"
 				destdir="${instr}"
 				metadatafile="${coverage}/metadata.emma"
-				merge="true"
-				filter="-*Test* -*.test.*" />
+				merge="true" />
 		</emma>		
 	</target>
 	
@@ -148,7 +168,7 @@
 	
 	<target name="coverage" description="Unit test coverage" depends="build,emma-clean,emma-instr,test,emma-report" />
 		
-	<target name="test" description="Unit tests" depends="build,test-db-init">
+	<target name="test" description="Unit tests" depends="build,test-build,test-db-init">
 		<!-- NOTE: This requires JUnit 4.x and ANT 1.7 -->
 		
 		<delete dir="test-results" />
@@ -169,7 +189,7 @@
 			<jvmarg value="-Dlog4j.configuration=log4j-test.xml" />
 			
 			<classpath>
-				<pathelement location="test" />
+				<pathelement location="test-classes" />
 				<pathelement location="${instr}" />
 				<pathelement location="classes" />
 				<path refid="classpath" />

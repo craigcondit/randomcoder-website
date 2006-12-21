@@ -11,7 +11,7 @@ import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 
-import com.randomcoder.test.PrincipalMock;
+import com.randomcoder.mock.PrincipalMock;
 import com.randomcoder.user.*;
 
 public class ChangePasswordControllerTest

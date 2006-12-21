@@ -1,4 +1,4 @@
-package com.randomcoder.test;
+package com.randomcoder.mock;
 
 import java.security.Principal;
 

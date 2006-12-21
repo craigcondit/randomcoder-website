@@ -1,4 +1,4 @@
-package com.randomcoder.test;
+package com.randomcoder.base;
 
 import java.io.*;
 import java.sql.Connection;

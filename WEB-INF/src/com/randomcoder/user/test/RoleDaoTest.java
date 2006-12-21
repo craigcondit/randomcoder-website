@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.*;
 
-import com.randomcoder.test.AbstractDaoTestCase;
+import com.randomcoder.base.AbstractDaoTestCase;
 import com.randomcoder.user.*;
 
 public class RoleDaoTest extends AbstractDaoTestCase

@@ -11,7 +11,7 @@ import org.junit.*;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.security.DisableUrlSessionFilter;
-import com.randomcoder.test.GenericProxy;
+import com.randomcoder.util.GenericProxy;
 
 public class DisableUrlSessionFilterTest
 {
