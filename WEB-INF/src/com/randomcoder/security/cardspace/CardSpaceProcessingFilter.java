@@ -92,6 +92,16 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	}
 	
 	/**
+	 * This filter by default responds to /j_acegi_cardspace_check
+	 * @return the default 
+	 */
+	@Override
+	public String getDefaultFilterProcessesUrl()
+	{
+		return "/j_acegi_cardspace_check";
+	}
+
+	/**
 	 * Attempts authentication using CardSpace tokens.
 	 * @param request HTTP servlet request
 	 * @throws AuthenticationException if the token is missing or invalid
@@ -101,15 +111,66 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	public Authentication attemptAuthentication(HttpServletRequest request)
 	throws AuthenticationException
 	{
+		// retrieve token
+		String xmlToken = getXmlToken(request);
+		
+		// parse token
+		Document doc = parseXmlToken(xmlToken);
+		
+		if (debug) XmlUtils.logXml(logger, "Encrypted Token:", doc);
+
+		// decrypt token
+		decryptXmlToken(doc);
+
+		if (debug) XmlUtils.logXml(logger, "Decrypted Token:", doc);
+		
+		// find Assertion element
+		Element assertion = findAssertion(doc);
+				
+		// find Signature element
+		Element signature = findSignature(doc);
+				
+		// verify signature
+		PublicKey publicKey = verifySignature(assertion, signature);
+		
+		// build a SAML assertion
+		SamlAssertion samlAssertion = buildSamlAssertion(assertion);
+		
+		// build credentials
+		CardSpaceCredentials credentials
+			= new CardSpaceCredentials(samlAssertion, publicKey);
+		
+		// build an authentication token
+		CardSpaceAuthenticationToken authToken
+			= new CardSpaceAuthenticationToken(credentials);
+		
+		// verify the token
+		return getAuthenticationManager().authenticate(authToken);
+	}
+
+	private String getXmlToken(HttpServletRequest request)
+	throws InvalidCredentialsException
+	{
 		String xmlToken = request.getParameter(parameter);
+		
 		if (xmlToken == null)
 			throw new InvalidCredentialsException("No information card presented.");
 		
-		// parse into xml
-		Document doc = null;
+		return xmlToken;
+	}
+
+	private Document parseXmlToken(String xmlToken) throws InvalidCredentialsException, AuthenticationServiceException
+	{
+		
+		StringReader reader = null;
+		InputSource source = null;
+		
 		try
 		{
-			doc = XmlUtils.parseXml(new InputSource(new StringReader(xmlToken)));
+			reader = new StringReader(xmlToken);
+			source = new InputSource(reader);
+			
+			return XmlUtils.parseXml(source);
 		}
 		catch (SAXException e)
 		{
@@ -119,17 +180,22 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		{
 			throw new AuthenticationServiceException("Unable to parse xml token", e);
 		}
-		
-		if (debug) XmlUtils.logXml(logger, "Encrypted Token:", doc);
+		finally
+		{
+			if (reader != null) reader.close();
+		}
+	}
 
-		// get encrypted data element
-		Element encryptedData = XmlSecurityUtils.findFirstEncryptedData(doc);
-		if (encryptedData == null)
-			throw new InvalidCredentialsException("EncryptedData not found");
-		
-		// decrypt it
+	private void decryptXmlToken(Document doc)
+	throws AuthenticationServiceException, InvalidCredentialsException
+	{
 		try
 		{
+			Element encryptedData = XmlSecurityUtils.findFirstEncryptedData(doc);
+			
+			if (encryptedData == null)
+				throw new InvalidCredentialsException("EncryptedData not found");
+			
 			XmlSecurityUtils.decrypt(doc, encryptedData, certificateContext.getPrivateKey());
 		}
 		catch (XmlSecurityConfigurationException e)
@@ -140,59 +206,55 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 		{
 			throw new InvalidCredentialsException("Unable to decrypt token", e);
 		}
+	}
 
-		if (debug) XmlUtils.logXml(logger, "Decrypted Token:", doc);
-		
-		// get assertion element
+	private Element findAssertion(Document doc)
+	{
 		Element assertionElement = SamlUtils.findFirstSamlAssertion(doc);
 		if (assertionElement == null)
 			throw new InvalidCredentialsException("Assertion not found");
 		
-		// mark the AssertionID attribute as an ID
-		if (assertionElement.hasAttributeNS(null, "AssertionID"))
-			assertionElement.setIdAttributeNS(null, "AssertionID", true);
-				
-		// get signature element
+		return assertionElement;
+	}
+
+	private Element findSignature(Document doc) throws InvalidCredentialsException
+	{
 		Element signature = XmlSecurityUtils.findFirstSignature(doc);
 		if (signature == null)
 			throw new InvalidCredentialsException("Signature not found");
-				
-		// verify signature
-		PublicKey publicKey = null;
+		return signature;
+	}
+
+	private PublicKey verifySignature(Element assertion, Element signature)
+	throws InvalidCredentialsException
+	{
 		try
 		{
-			publicKey = XmlSecurityUtils.verifySignature(signature);
+			// tag the AssertionID attribute as an ID type so that signature
+			// validation works
+			if (assertion.hasAttributeNS(null, "AssertionID"))
+				assertion.setIdAttributeNS(null, "AssertionID", true);
+			
+			return XmlSecurityUtils.verifySignature(signature);
 		}
-		catch (XmlSecurityException e)
+		catch (Exception e)
 		{
 			throw new InvalidCredentialsException("Unable to verify signature", e);
 		}
-		
-		SamlAssertion assertion = null;
+	}
+
+	private SamlAssertion buildSamlAssertion(Element assertion) throws InvalidCredentialsException
+	{
+		SamlAssertion samlAssertion = null;
 		try
 		{
-			assertion = new SamlAssertion(assertionElement);
+			samlAssertion = new SamlAssertion(assertion);
 		}
 		catch (SamlException e)
 		{
 			throw new InvalidCredentialsException("SAML token invalid", e);
 		}
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey);
-		
-		CardSpaceAuthenticationToken authToken = new CardSpaceAuthenticationToken(credentials);
-		
-		return getAuthenticationManager().authenticate(authToken);
+		return samlAssertion;
 	}
-
-	/**
-	 * This filter by default responds to /j_acegi_cardspace_check
-	 * @return the default 
-	 */
-	@Override
-	public String getDefaultFilterProcessesUrl()
-	{
-		return "/j_acegi_cardspace_check";
-	}
-
+	
 }
