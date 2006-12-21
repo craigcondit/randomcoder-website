@@ -31,7 +31,7 @@ import java.util.Locale;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Serializable
+public class SamlAttributeSpec implements Serializable
 {
 	private static final long serialVersionUID = -536785258783107725L;
 	
@@ -103,20 +103,6 @@ public class SamlAttributeSpec implements Comparable<SamlAttributeSpec>, Seriali
 	public int hashCode()
 	{
 		return toString().hashCode();
-	}
-	
-	/**
-	 * Compares this object with another instance of the same class.
-	 * <p>
-	 * This method compares by namespace and then by local name.
-	 * @param other other object to compare
-	 * @return 0 if equal, -1 if this object is first, 1 if this object is last
-	 */
-	public int compareTo(SamlAttributeSpec other)
-	{
-		int result = namespace.compareTo(other.namespace);
-		if (result != 0) return result;
-		return local.compareTo(other.local);
 	}
 
 	/**
