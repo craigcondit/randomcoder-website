@@ -37,6 +37,14 @@ public class ContentUtilsTest
 	public void testFormatNoTemplates() throws Exception
 	{
 		ContentUtils.format("bogus", new InputSource(new StringReader(SOURCE)), new ContentFilterMock());
+		ContentUtils.formatText("bogus", ContentType.TEXT, new ContentFilterMock());
+		
+	}
+
+	@Test
+	public void testFormatTextNoTemplates() throws Exception
+	{
+		ContentUtils.formatText("bogus", ContentType.TEXT, new ContentFilterMock());		
 	}
 	
 	/**

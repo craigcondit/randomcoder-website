@@ -56,9 +56,7 @@ public class ContentUtils
 	throws TransformerException, IOException, SAXException
 	{
 		TransformerFactory tFactory = TransformerFactory.newInstance();
-		if (!tFactory.getFeature(SAXTransformerFactory.FEATURE))
-			throw new RuntimeException("SAXTransformerFactory is not supported");
-
+		
 		SAXTransformerFactory stFactory = (SAXTransformerFactory) tFactory;
 
 		Templates templates = filter.getXSLTemplates(mimeType);
