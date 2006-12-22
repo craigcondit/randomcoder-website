@@ -87,6 +87,4 @@ public class XHTMLErrorHandler extends DefaultHandler
 		handle(ex);
 		throw ex;
 	}
-
 }
-
