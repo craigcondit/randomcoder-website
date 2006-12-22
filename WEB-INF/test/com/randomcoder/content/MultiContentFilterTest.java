@@ -79,4 +79,11 @@ public class MultiContentFilterTest
 		XMLReader reader = filter.getXMLReader("text/plain");		
 		reader.parse(new InputSource(new StringReader("testing")));
 	}
+	
+	@Test(expected=InvalidContentTypeException.class)
+	public void testNoDefaultHandler() throws Exception
+	{
+		filter.setDefaultHandler(null);
+		filter.getPrefix("bogus");
+	}
 }
