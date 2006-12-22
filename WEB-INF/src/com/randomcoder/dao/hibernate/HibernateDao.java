@@ -48,7 +48,6 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 {
 	private SessionFactory sessionFactory;
 
-	// defaults - override in config if necessary
 	private FinderNamingStrategy namingStrategy = new DefaultFinderNamingStrategy();
 	private FinderArgumentTypeFactory argumentTypeFactory = new DefaultFinderArgumentTypeFactory();
 	private boolean allowCreate = true;
@@ -63,24 +62,6 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 	public void setSessionFactory(SessionFactory sessionFactory)
 	{
 		this.sessionFactory = sessionFactory;
-	}
-
-	/**
-	 * Sets the naming strategy to use.
-	 * @param namingStrategy naming strategy
-	 */
-	public void setNamingStrategy(FinderNamingStrategy namingStrategy)
-	{
-		this.namingStrategy = namingStrategy;
-	}
-
-	/**
-	 * Sets the argument type factory to use.
-	 * @param argumentTypeFactory argument type factory
-	 */
-	public void setArgumentTypeFactory(FinderArgumentTypeFactory argumentTypeFactory)
-	{
-		this.argumentTypeFactory = argumentTypeFactory;
 	}
 
 	public HibernateDao(Class<T> type)
@@ -166,25 +147,11 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		return argumentTypeFactory;
 	}
 
-	/**
-	 * Gets the naming strategy in use.
-	 * @return naming strategy
-	 */
-	protected FinderNamingStrategy getNamingStrategy()
-	{
-		return namingStrategy;
-	}
-
 	private Query prepareQuery(Method method, Object[] args, int start, int limit)
 	{
 		String queryName = namingStrategy.queryNameFromMethod(type, method);
 		Query query = getSession().getNamedQuery(queryName);
-		String[] namedParameters = query.getNamedParameters();
-
-		if (namedParameters.length == 0)
-			setPositionalParams(query, args);
-		else
-			setNamedParams(query, namedParameters, args);
+		setPositionalParams(query, args);
 
 		if (start > 0)
 			query.setFirstResult(start);
@@ -212,27 +179,4 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 			}
 		}
 	}
-
-	private void setNamedParams(Query query, String[] namedParameters, Object[] args)
-	{
-		if (args == null)
-			return;
-
-		for (int i = 0; i < args.length; i++)
-		{
-			Type argType = getArgumentTypeFactory().getArgumentType(args[i]);
-			if (argType != null)
-			{
-				query.setParameter(namedParameters[i], args[i], argType);
-			}
-			else
-			{
-				if (args[i] instanceof Collection)
-					query.setParameterList(namedParameters[i], (Collection) args[i]);
-				else
-					query.setParameter(namedParameters[i], args[i]);
-			}
-		}
-	}
-
 }
