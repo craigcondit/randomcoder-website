@@ -1,8 +1,9 @@
 package com.randomcoder.content;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.StringReader;
+import java.lang.reflect.Constructor;
 
 import org.junit.Test;
 import org.xml.sax.InputSource;
@@ -29,4 +30,15 @@ public class ContentUtilsTest
 		result = result.replaceAll("\n", "");
 		assertEquals(RESULT, result);		
 	}
+	
+	/**
+	 * Not a test, but tickles the private constructor.
+	 */
+	@Test
+	public void coverDefaultConstructor() throws Exception
+	{
+		Constructor c = ContentUtils.class.getDeclaredConstructor(new Class[] {});
+		c.setAccessible(true);
+		c.newInstance(new Object[] {});
+	}	
 }
