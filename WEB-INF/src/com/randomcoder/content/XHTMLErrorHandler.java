@@ -76,15 +76,16 @@ public class XHTMLErrorHandler extends DefaultHandler
 	}
 
 	@Override
-	public void fatalError(SAXParseException ex) throws SAXException
+	public void error(SAXParseException ex) throws SAXException
 	{
-		error(ex);
+		fatalError(ex);
 	}
 	
 	@Override
-	public void error(SAXParseException ex) throws SAXException
+	public void fatalError(SAXParseException ex) throws SAXException
 	{
 		handle(ex);
 		throw ex;
 	}
+	
 }
