@@ -96,9 +96,13 @@ public class ContentUtils
 		String suffix = filter.getSuffix(mimeType);
 
 		List<Reader> readers = new ArrayList<Reader>();
-		if (prefix != null) readers.add(new StringReader(prefix));
+		if (prefix != null)
+			readers.add(new StringReader(prefix));
+		
 		readers.add(new StringReader(content));
-		if (suffix != null) readers.add(new StringReader(suffix));
+		
+		if (suffix != null)
+			readers.add(new StringReader(suffix));
 
 		SequenceReader reader = new SequenceReader(readers);
 
