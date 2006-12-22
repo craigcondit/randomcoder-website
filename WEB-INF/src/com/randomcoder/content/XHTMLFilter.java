@@ -55,7 +55,14 @@ public class XHTMLFilter implements ContentFilter
 	private static final String XSD_RESOURCE = "xhtml1-transitional.xsd";
 	private static final String NS_RESOURCE = "namespace.xsd";
 
+	/**
+	 * Prefix to add to content before parsing. 
+	 */
 	public static final String PREFIX = "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Untitled</title></head><body>";
+	
+	/**
+	 * Suffix to add to content before parsing.
+	 */
 	public static final String SUFFIX = "</body></html>";
 
 	private final Templates templates;
