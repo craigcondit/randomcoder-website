@@ -73,6 +73,8 @@ public class CardSpaceProcessingFilterTest
 		assertEquals(CardSpaceAuthenticationToken.class, auth.getClass());
 		
 		CardSpaceAuthenticationToken token = (CardSpaceAuthenticationToken) auth;
+		assertNull(token.getAuthorities());
+		assertNull(token.getPrincipal());
 		
 		Object cred = token.getCredentials();
 		assertNotNull(cred);
