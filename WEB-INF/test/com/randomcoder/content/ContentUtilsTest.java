@@ -46,6 +46,12 @@ public class ContentUtilsTest
 	{
 		ContentUtils.formatText("bogus", ContentType.TEXT, new ContentFilterMock());		
 	}
+
+	@Test
+	public void testFormatTextWithPrefixes() throws Exception
+	{
+		ContentUtils.formatText("text", ContentType.XHTML, new XHTMLFilter());		
+	}
 	
 	/**
 	 * Not a test, but tickles the private constructor.
