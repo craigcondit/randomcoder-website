@@ -1,14 +1,15 @@
 package com.randomcoder.content;
 
 import java.io.*;
-
-import javax.xml.transform.*;
-import javax.xml.transform.sax.SAXSource;
+import java.net.URL;
 
 import org.xml.sax.*;
+import org.xml.sax.helpers.AttributesImpl;
+
+import com.randomcoder.xml.AbstractXMLReader;
 
 /**
- * Plain text (text/plain) filter.
+ * Plain text to XML reader.
  * 
  * <p> This implementation does very little formatting - line breaks are
  * replaced with &lt;br /&gt; tags. </p>
@@ -38,45 +39,61 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TextFilter implements ContentFilter
+public class TextReader extends AbstractXMLReader
 {
-	private static final String XSL_RESOURCE = "text-to-xhtml.xsl";
-
-	private final Templates templates;
+	private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
 
 	/**
-	 * Creates a new text filter.
-	 * @throws TransformerConfigurationException if transformer factory fails
+	 * Parses the given input source.
+	 * @param input input source
+	 * @throws IOException if an I/O error occurs
+	 * @throws SAXException if XML parsing fails
 	 */
-	public TextFilter() throws TransformerConfigurationException
+	@Override
+	public void parse(InputSource input) throws IOException, SAXException
 	{
-		// cache templates for later use
-		TransformerFactory tFactory = TransformerFactory.newInstance();
-		templates = tFactory.newTemplates(new SAXSource(new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
-	}
+		ContentHandler handler = getContentHandler();
+		if (handler == null)
+			return;
 
-	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException
-	{
-	// all input is legal here
-	}
+		// get a reader object
+		BufferedReader reader = null;
+		if (input.getCharacterStream() != null)
+		{
+			reader = new BufferedReader(input.getCharacterStream());
+		}
+		else if (input.getByteStream() != null)
+		{
+			reader = new BufferedReader(new InputStreamReader(input.getByteStream()));
+		}
+		else if (input.getSystemId() != null)
+		{
+			reader = new BufferedReader(new InputStreamReader(new URL(input.getSystemId()).openStream()));
+		}
+		else
+		{
+			throw new SAXException("Invalid InputSource");
+		}
 
-	public XMLReader getXMLReader(String contentType)
-	{
-		return new TextReader();
-	}
+		// start document
+		handler.startDocument();
 
-	public Templates getXSLTemplates(String contentType)
-	{
-		return templates;
-	}
+		// root element
+		handler.startElement("", "text", "text", NO_ATTRIBUTES);
 
-	public String getPrefix(String contentType)
-	{
-		return null;
-	}
+		String line = null;
+		while ((line = reader.readLine()) != null)
+		{
+			handler.startElement("", "line", "line", NO_ATTRIBUTES);
+			char[] data = line.trim().toCharArray();
+			handler.characters(data, 0, data.length);
+			handler.endElement("", "line", "line");
+		}
 
-	public String getSuffix(String contentType)
-	{
-		return null;
+		// end root element
+		handler.endElement("", "text", "text");
+
+		// end document
+		handler.endDocument();
 	}
 }
