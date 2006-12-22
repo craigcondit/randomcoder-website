@@ -22,7 +22,7 @@ public class ContentFilterMock implements ContentFilter
 
 	public XMLReader getXMLReader(String contentType) throws SAXException
 	{
-		return null;
+		return new TextReader();
 	}
 
 	public Templates getXSLTemplates(String contentType)

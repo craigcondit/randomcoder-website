@@ -8,6 +8,8 @@ import java.lang.reflect.Constructor;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 
+import com.randomcoder.test.mock.content.ContentFilterMock;
+
 public class ContentUtilsTest
 {
 	private static final String SOURCE = "Line 1\r\nLine 2";
@@ -29,6 +31,12 @@ public class ContentUtilsTest
 		result = result.replaceAll("\r", "");
 		result = result.replaceAll("\n", "");
 		assertEquals(RESULT, result);		
+	}
+
+	@Test
+	public void testFormatNoTemplates() throws Exception
+	{
+		String result = ContentUtils.format("bogus", new InputSource(new StringReader(SOURCE)), new ContentFilterMock());
 	}
 	
 	/**
