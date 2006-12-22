@@ -33,4 +33,11 @@ public class ContentTypeTest
 		assertEquals(0,ContentType.TEXT.getOrdinal());
 		assertEquals(1,ContentType.XHTML.getOrdinal());
 	}
+	
+	@Test
+	public void testValueOf()
+	{
+		assertEquals(ContentType.TEXT, ContentType.valueOf("TEXT"));
+		assertEquals(ContentType.XHTML, ContentType.valueOf("XHTML"));		
+	}
 }
