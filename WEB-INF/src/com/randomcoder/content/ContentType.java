@@ -33,7 +33,7 @@ public enum ContentType
 	/**
 	 * Plain text.
 	 */
-	TEXT ("text/html", "Plain text"),
+	TEXT ("text/plain", "Plain text"),
 	
 	/**
 	 * XHTML.
