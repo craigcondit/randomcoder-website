@@ -10,17 +10,23 @@ import org.xml.sax.InputSource;
 public class ContentUtilsTest
 {
 	private static final String SOURCE = "Line 1\r\nLine 2";
-	private static final String RESULT = "<div class=\"text-plain\">\r\nLine 1<br/>\r\nLine 2\r\n</div>\r\n";
+	private static final String RESULT = "<div class=\"text-plain\">Line 1<br/>Line 2</div>";
 	
 	@Test
 	public void testFormat() throws Exception
 	{
-		assertEquals(RESULT, ContentUtils.format("text/plain", new InputSource(new StringReader(SOURCE)), new TextFilter()));
+		String result = ContentUtils.format("text/plain", new InputSource(new StringReader(SOURCE)), new TextFilter());
+		result = result.replaceAll("\r", "");
+		result = result.replaceAll("\n", "");
+		assertEquals(RESULT, result);
 	}
 
 	@Test
 	public void testFormatText() throws Exception
 	{
-		assertEquals(RESULT, ContentUtils.formatText(SOURCE, ContentType.TEXT, new TextFilter()));
+		String result = ContentUtils.formatText(SOURCE, ContentType.TEXT, new TextFilter());
+		result = result.replaceAll("\r", "");
+		result = result.replaceAll("\n", "");
+		assertEquals(RESULT, result);		
 	}
 }
