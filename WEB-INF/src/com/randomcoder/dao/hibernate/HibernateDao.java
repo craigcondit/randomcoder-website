@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 import org.hibernate.*;
-import org.hibernate.type.Type;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
@@ -49,7 +48,6 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 	private SessionFactory sessionFactory;
 
 	private FinderNamingStrategy namingStrategy = new DefaultFinderNamingStrategy();
-	private FinderArgumentTypeFactory argumentTypeFactory = new DefaultFinderArgumentTypeFactory();
 	private boolean allowCreate = true;
 
 	private Class<T> type;
@@ -138,45 +136,21 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		return SessionFactoryUtils.getSession(sessionFactory, allowCreate);
 	}
 
-	/**
-	 * Gets the argument type factory in use.
-	 * @return argument type factory
-	 */
-	protected FinderArgumentTypeFactory getArgumentTypeFactory()
-	{
-		return argumentTypeFactory;
-	}
-
 	private Query prepareQuery(Method method, Object[] args, int start, int limit)
 	{
 		String queryName = namingStrategy.queryNameFromMethod(type, method);
 		Query query = getSession().getNamedQuery(queryName);
 		setPositionalParams(query, args);
 
-		if (start > 0)
-			query.setFirstResult(start);
-		if (limit > 0)
-			query.setMaxResults(limit);
+		if (start > 0) query.setFirstResult(start);
+		if (limit > 0) query.setMaxResults(limit);
 
 		return query;
 	}
 
 	private void setPositionalParams(Query query, Object[] args)
 	{
-		if (args == null)
-			return;
-
-		for (int i = 0; i < args.length; i++)
-		{
-			Type argType = getArgumentTypeFactory().getArgumentType(args[i]);
-			if (argType != null)
-			{
-				query.setParameter(i, args[i], argType);
-			}
-			else
-			{
-				query.setParameter(i, args[i]);
-			}
-		}
+		if (args == null || args.length == 0) return;
+		for (int i = 0; i < args.length; i++) query.setParameter(i, args[i]);
 	}
 }
