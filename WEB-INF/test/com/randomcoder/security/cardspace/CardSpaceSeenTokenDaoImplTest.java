@@ -41,7 +41,8 @@ public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 		assertNotNull(token);
 		assertEquals("assertion1", token.getAssertionId());		
 		assertEquals("ppid1", token.getPrivatePersonalIdentifier());		
-		assertEquals("issuerHash1", token.getIssuerHash());		
+		assertEquals("issuerHash1", token.getIssuerHash());
+		assertNotNull(token.toString());
 	}
 
 	@Test
