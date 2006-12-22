@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import org.xml.sax.*;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * {@link ErrorHandler} implementation used to derive line and column numbers.
@@ -30,7 +31,7 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class XHTMLErrorHandler implements ErrorHandler
+public class XHTMLErrorHandler extends DefaultHandler
 {
 	private int lineNumber = 1;
 	private int columnNumber = 1;
@@ -74,22 +75,18 @@ public class XHTMLErrorHandler implements ErrorHandler
 			columnNumber -= XHTMLFilter.PREFIX.length();
 	}
 
+	@Override
+	public void fatalError(SAXParseException ex) throws SAXException
+	{
+		error(ex);
+	}
+	
+	@Override
 	public void error(SAXParseException ex) throws SAXException
 	{
 		handle(ex);
 		throw ex;
 	}
 
-	public void fatalError(SAXParseException ex) throws SAXException
-	{
-		handle(ex);
-		throw ex;
-	}
-
-	public void warning(SAXParseException ex) throws SAXException
-	{
-		handle(ex);
-		throw ex;
-	}
 }
 
