@@ -119,4 +119,10 @@ public class CardSpaceDateConstraintValidatorTest
 		validator.validate(credentials);
 	}
 	
+	@Test(expected=IllegalArgumentException.class)
+	public void testSetClockSkewNegative()
+	{
+		validator.setClockSkew(-1);
+	}
+	
 }
