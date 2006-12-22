@@ -50,7 +50,7 @@
 	
 	<!-- Login page -->
 	<bean id="login" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
+		<property name="parent" ref="main-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Login" />	
@@ -65,6 +65,7 @@
 						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>
+				<entry key="right"><null /></entry>
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/login.jsp</value>
