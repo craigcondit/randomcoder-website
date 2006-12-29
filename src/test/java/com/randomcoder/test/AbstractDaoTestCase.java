@@ -33,28 +33,21 @@ abstract public class AbstractDaoTestCase extends TestCase
 	private static DataSource userDataSource;
 	private SessionFactory sessionFactory;
 	
-	private static final String DATA_XML = "/data/database-data.xml";
-	private static final String DATA_DTD = "/data/database-schema.dtd";
-	private static final String TEST_PROPS = "/test.properties";
-	private static final String LOCAL_PROPS = "/local.test.properties";
+	private static final String DATA_XML = "/database-data.xml";
+	private static final String DATA_DTD = "/database-schema.dtd";
+	private static final String DB_PROPS = "/database.properties";
 	
-	private static final Properties testProps;
-	private static final Properties localProps;
+	private static final Properties dbProps;
 	
 	static
 	{
-		InputStream testStream = null;
-		InputStream localStream = null;
+		InputStream dbStream = null;
 		
 		try
 		{
-			testProps = new Properties();
-			testStream = AbstractDaoTestCase.class.getResourceAsStream(TEST_PROPS);
-			if (testStream != null) testProps.load(testStream);
-		 
-			localProps = new Properties();
-			localStream = AbstractDaoTestCase.class.getResourceAsStream(LOCAL_PROPS);
-			if (localStream != null) localProps.load(localStream);
+			dbProps = new Properties();
+			dbStream = AbstractDaoTestCase.class.getResourceAsStream(DB_PROPS);
+			if (dbStream != null) dbProps.load(dbStream);
 		}
 		catch (IOException e)
 		{
@@ -62,8 +55,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		}
 		finally
 		{
-			if (testStream != null) try { testStream.close(); } catch (Exception ignored) {}
-			if (localStream != null) try { localStream.close(); } catch (Exception ignored) {}
+			if (dbStream != null) try { dbStream.close(); } catch (Exception ignored) {}
 		}
 	}
 	
@@ -72,10 +64,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		String value = System.getProperty(key);
 		if (value != null && value.length() != 0) return value;
 		
-		value = localProps.getProperty(key);
-		if (value != null && value.length() != 0) return value;
-		
-		return testProps.getProperty(key);
+		return dbProps.getProperty(key);
 	}
 	
 	protected final void cleanDatabase() throws Exception
