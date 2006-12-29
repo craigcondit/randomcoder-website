@@ -1,21 +1,20 @@
 package com.randomcoder.content;
 
-import static org.junit.Assert.*;
-
 import java.io.*;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.xml.sax.*;
 
 import com.randomcoder.io.SequenceReader;
 import com.randomcoder.test.mock.content.ContentFilterMock;
 
-public class MultiContentFilterTest
+public class MultiContentFilterTest extends TestCase
 {
 	private MultiContentFilter filter;
 
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{		
 		Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
@@ -27,21 +26,19 @@ public class MultiContentFilterTest
 		filter.setFilters(filters);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		filter = null;
 	}
 
-	@Test
 	public void testValidate() throws Exception
 	{
 		filter.validate("text/plain", new StringReader("Testing"));
 	}
 
-	@Test(expected=InvalidContentException.class)
 	public void testValidateFailure() throws Exception
-	{
+	{		
 		String prefix = filter.getPrefix("application/xhtml+xml");
 		String suffix = filter.getSuffix("application/xhtml+xml");
 		
@@ -58,6 +55,11 @@ public class MultiContentFilterTest
 		{
 			reader = new SequenceReader(readers);		
 			filter.validate("application/xhtml+xml", reader);
+			fail("InvalidContentException expected");
+		}
+		catch (InvalidContentException e)
+		{
+			// pass
 		}
 		finally
 		{
@@ -65,7 +67,6 @@ public class MultiContentFilterTest
 		}
 	}
 
-	@Test
 	public void testGetXSLTemplates()
 	{
 		assertNotNull(filter.getXSLTemplates("text/plain"));
@@ -73,17 +74,23 @@ public class MultiContentFilterTest
 		assertNull(filter.getXSLTemplates("bogus"));
 	}
 	
-	@Test
 	public void testGetXMLReader() throws Exception
 	{
 		XMLReader reader = filter.getXMLReader("text/plain");		
 		reader.parse(new InputSource(new StringReader("testing")));
 	}
 	
-	@Test(expected=InvalidContentTypeException.class)
 	public void testNoDefaultHandler() throws Exception
 	{
-		filter.setDefaultHandler(null);
-		filter.getPrefix("bogus");
+		try
+		{
+			filter.setDefaultHandler(null);		
+			filter.getPrefix("bogus");
+			fail("InvalidContentTypeException expected");
+		}
+		catch (InvalidContentTypeException e)
+		{
+			// pass
+		}
 	}
 }

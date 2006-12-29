@@ -1,14 +1,12 @@
 package com.randomcoder.io;
 
-import static org.junit.Assert.*;
-
 import java.io.*;
 import java.nio.CharBuffer;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
 
-public class SequenceReaderTest
+public class SequenceReaderTest extends TestCase
 {
 	private static final String TEXT1 = "Reader Number One";
 	private static final String TEXT2 = "Reader Number Two";
@@ -22,7 +20,8 @@ public class SequenceReaderTest
 	private Reader reader2;
 	private Reader reader3; 
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		stdReader = new StringReader(TEXT_COMBINED);
 		
@@ -32,7 +31,8 @@ public class SequenceReaderTest
 		seqReader = new SequenceReader(reader1, reader2, reader3);
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		try { reader1.close(); } catch (Exception e) {}
 		try { reader2.close(); } catch (Exception e) {}
@@ -46,7 +46,7 @@ public class SequenceReaderTest
 		seqReader = null;
 	}
 	
-	@Test public void testRead() throws Exception
+	public void testRead() throws Exception
 	{
 		int c1 = -1;
 		int c2 = -1;
@@ -59,7 +59,7 @@ public class SequenceReaderTest
 		} while (c1 >= 0);
 	}
 
-	@Test public void testReadCharArray() throws Exception
+	public void testReadCharArray() throws Exception
 	{
 		int c;
 		
@@ -103,7 +103,7 @@ public class SequenceReaderTest
 		assertEquals("Results don't match", s1, s2);
 	}
 
-	@Test public void testReadCharArrayIntInt() throws Exception
+	public void testReadCharArrayIntInt() throws Exception
 	{
 		int c;
 		
@@ -155,7 +155,7 @@ public class SequenceReaderTest
 		assertEquals("Results don't match", s1, s2);
 	}
 
-	@Test public void testSkip() throws Exception
+	public void testSkip() throws Exception
 	{
 		// skip all but last 5 chars
 		long skip = TEXT_COMBINED.length() - 5;
@@ -174,15 +174,15 @@ public class SequenceReaderTest
 		assertEquals('r', (char) seqReader.read());
 		
 		// skip last 2 chars
-		assertEquals((long) 1, seqReader.skip(1));
-		assertEquals((long) 1, seqReader.skip(1));
+		assertEquals(1L, seqReader.skip(1));
+		assertEquals(1L, seqReader.skip(1));
 		
 		// skip past end
-		assertEquals((long) 0, seqReader.skip(1));
+		assertEquals(0L, seqReader.skip(1));
 		
 	}
 
-	@Test public void testReady() throws Exception 
+	public void testReady() throws Exception 
 	{
 		int c;		
 		do
@@ -195,24 +195,38 @@ public class SequenceReaderTest
 		assertFalse("Reader reports ready at end of stream", seqReader.ready());
 	}
 
-	@Test public void testMarkSupported()
+	public void testMarkSupported()
 	{
 		assertFalse("Mark shouldn't be supported", seqReader.markSupported());
 	}
 
-	@Test(expected=IOException.class)
 	public void testMark() throws Exception
 	{
-		seqReader.mark(1);
+		try
+		{
+			seqReader.mark(1);
+			fail("IOException expected");
+		}
+		catch (IOException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=IOException.class)
 	public void testReset() throws Exception
 	{
-		seqReader.reset();
+		try
+		{
+			seqReader.reset();
+			fail("IOException expected");
+		}
+		catch (IOException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test	public void testClose() throws Exception
+	public void testClose() throws Exception
 	{
 		seqReader.close();
 		
@@ -236,7 +250,7 @@ public class SequenceReaderTest
 		catch (IOException e) {}
 	}
 
-	@Test	public void testReadCharBuffer() throws Exception
+	public void testReadCharBuffer() throws Exception
 	{
 		CharBuffer cb = CharBuffer.allocate(TEXT_COMBINED.length() + 1);
 		int c;
@@ -264,7 +278,7 @@ public class SequenceReaderTest
 		assertEquals("String invalid", TEXT_COMBINED, s1);
 	}
 
-	@Test public void testListReader() throws IOException
+	public void testListReader() throws IOException
 	{
 		List<Reader> readers = new ArrayList<Reader>();
 		readers.add(reader1);
@@ -291,64 +305,115 @@ public class SequenceReaderTest
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Test(expected=NullPointerException.class)
 	public void testNullListConstructor()
 	{
-		new SequenceReader((List) null);
+		try
+		{
+			new SequenceReader((List) null);
+			fail("NullPointerException expected");
+		}
+		catch (NullPointerException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=NullPointerException.class)
 	public void testNullListElementConstructor()
 	{
 		List<Reader> list = new ArrayList<Reader>();
 		list.add(null);
 		list.add(reader1);
-		new SequenceReader(list);
+
+		try
+		{
+			new SequenceReader(list);
+			fail("NullPointerException expected");
+		}
+		catch (NullPointerException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=NullPointerException.class)
 	public void testNullReaderConstructor()
 	{
-		new SequenceReader((Reader) null);
+		try
+		{
+			new SequenceReader((Reader) null);
+			fail("NullPointerException expected");
+		} 
+		catch (NullPointerException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test(expected=NullPointerException.class)
 	public void testNullReaderListConstructor()
 	{
-		new SequenceReader((Reader) null, reader1);
+		try
+		{
+			new SequenceReader((Reader) null, reader1);
+			fail("NullPointerException expected");
+		}
+		catch (NullPointerException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test(expected=NullPointerException.class)
 	public void testNullSecondaryReader() throws IOException
 	{
-		SequenceReader reader = new SequenceReader(reader1, null);
-		
-		int c;
-		do
+		try
 		{
-			c = reader.read();			
+			SequenceReader reader = new SequenceReader(reader1, null);
+			
+			int c;
+			do
+			{
+				c = reader.read();			
+			}
+			while (c >= 0);
+			
+			fail("NullPointerException expected");
 		}
-		while (c >= 0);
+		catch (NullPointerException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test public void testSkipZero() throws IOException
+	public void testSkipZero() throws IOException
 	{
-		assertEquals((long) 0, seqReader.skip(0));
+		assertEquals(0L, seqReader.skip(0));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
 	public void testSkipNegative() throws IOException
 	{
-		seqReader.skip(-1);
+		try
+		{
+			seqReader.skip(-1);
+			fail("IllegalArgumentException expected");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test(expected=IndexOutOfBoundsException.class)
 	public void testIndexOutOfBoundsRead() throws IOException
 	{
-		seqReader.read(new char[10], -1, 1);
+		try
+		{
+			seqReader.read(new char[10], -1, 1);
+			fail("IndexOutOfBoundsException expected");
+		}
+		catch (IndexOutOfBoundsException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test public void testReadZeroChars() throws IOException
+	public void testReadZeroChars() throws IOException
 	{
 		assertEquals(0, seqReader.read(new char[10], 0, 0));
 	}

@@ -16,11 +16,11 @@ import com.randomcoder.xml.security.XmlSecurityUtils;
 
 public class TestObjectFactory
 {
-	public static final String RESOURCE_SAML_ASSERTION_TEST = "/data/saml-assertion-test.xml";
-	public static final String RESOURCE_SAML_ASSERTION_TEST_2 = "/data/saml-assertion-test-2.xml";
-	public static final String RESOURCE_SAML_ASSERTION_ALL_FIELDS = "/data/saml-assertion-all-fields.xml";
+	public static final String RESOURCE_SAML_ASSERTION_TEST = "/saml-assertion-test.xml";
+	public static final String RESOURCE_SAML_ASSERTION_TEST_2 = "/saml-assertion-test-2.xml";
+	public static final String RESOURCE_SAML_ASSERTION_ALL_FIELDS = "/saml-assertion-all-fields.xml";
 	
-	private static final String RESOURCE_XMLSEC_PROPS = "/data/xml-security.properties";
+	private static final String RESOURCE_XMLSEC_PROPS = "/xml-security.properties";
 	
 	private static final String CERTIFICATE_PASSWORD = "certificate.password";
 	private static final String CERTIFICATE_ALIAS = "certificate.alias";

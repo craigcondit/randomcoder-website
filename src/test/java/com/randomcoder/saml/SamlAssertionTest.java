@@ -1,12 +1,12 @@
 package com.randomcoder.saml;
 
 import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
-import static org.junit.Assert.*;
 
 import java.io.StringReader;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
@@ -14,26 +14,25 @@ import com.randomcoder.security.cardspace.CardSpaceAttributes;
 import com.randomcoder.test.TestObjectFactory;
 import com.randomcoder.xml.XmlUtils;
 
-public class SamlAssertionTest
+public class SamlAssertionTest extends TestCase
 {
 	private Document assertionDoc;
 	private Element assertionEl;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{		
 		assertionDoc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
 		assertionEl = SamlUtils.findFirstSamlAssertion(assertionDoc);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		assertionDoc = null;
 		assertionEl = null;
 	}
 	
-	@Test
 	public void testSamlAssertion() throws Exception
 	{
 		SamlAssertion assertion = new SamlAssertion(assertionEl);
@@ -65,105 +64,174 @@ public class SamlAssertionTest
 		assertEquals("DLb/nzDbfMEHkME4VYeny0teGTjvYtVdrQvmX9W055E=", attributes.get(0).getValue());		
 	}
 	
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionBadNamespace() throws Exception
 	{
-		Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<data />")));
-		Element root = (Element) doc.getElementsByTagName("*").item(0);
-		new SamlAssertion(root);		
+		try
+		{
+			Document doc = XmlUtils.parseXml(new InputSource(new StringReader("<data />")));
+			Element root = (Element) doc.getElementsByTagName("*").item(0);
+			new SamlAssertion(root);
+			fail("SamlException expected");
+		}
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingAssertionID() throws Exception
 	{
-		assertionEl.removeAttribute("AssertionID");
-		new SamlAssertion(assertionEl);
+		try
+		{
+			assertionEl.removeAttribute("AssertionID");
+			new SamlAssertion(assertionEl);
+			fail("SamlException expected");
+		}
+		catch (SamlException e)
+		{
+			// pass
+		}					
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingIssueInstant() throws Exception
 	{
-		assertionEl.removeAttribute("IssueInstant");
-		new SamlAssertion(assertionEl);		
+		try
+		{
+			assertionEl.removeAttribute("IssueInstant");
+			new SamlAssertion(assertionEl);
+			fail("SamlException expected");
+		}
+		catch (SamlException e)
+		{
+			// pass
+		}					
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingIssuer() throws Exception
 	{
-		assertionEl.removeAttribute("Issuer");
-		new SamlAssertion(assertionEl);		
+		try
+		{
+			assertionEl.removeAttribute("Issuer");
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
+		}
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingConditions() throws Exception
 	{
-		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
-		for (int i = 0; i < conditions.getLength(); i++)
+		try
 		{
-			Node node = conditions.item(i);
-			node.getParentNode().removeChild(node);
+			NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+			for (int i = 0; i < conditions.getLength(); i++)
+			{
+				Node node = conditions.item(i);
+				node.getParentNode().removeChild(node);
+			}
+			new SamlAssertion(assertionEl);
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingConditionsNotBefore() throws Exception
 	{
-		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
-		for (int i = 0; i < conditions.getLength(); i++)
+		try
 		{
-			Element condition = (Element) conditions.item(i);
-			condition.removeAttribute("NotBefore");
+			NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+			for (int i = 0; i < conditions.getLength(); i++)
+			{
+				Element condition = (Element) conditions.item(i);
+				condition.removeAttribute("NotBefore");
+			}
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingConditionsNotOnOrAfter() throws Exception
 	{
-		NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
-		for (int i = 0; i < conditions.getLength(); i++)
+		try
 		{
-			Element condition = (Element) conditions.item(i);
-			condition.removeAttribute("NotOnOrAfter");
+			NodeList conditions = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Conditions");
+			for (int i = 0; i < conditions.getLength(); i++)
+			{
+				Element condition = (Element) conditions.item(i);
+				condition.removeAttribute("NotOnOrAfter");
+			}
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingAttributeNamespace() throws Exception
 	{
-		NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
-		for (int i = 0; i < attributes.getLength(); i++)
+		try
 		{
-			Element att = (Element) attributes.item(i);
-			att.removeAttribute("AttributeNamespace");
+			NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
+			for (int i = 0; i < attributes.getLength(); i++)
+			{
+				Element att = (Element) attributes.item(i);
+				att.removeAttribute("AttributeNamespace");
+			}
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingAttributeName() throws Exception
 	{
-		NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
-		for (int i = 0; i < attributes.getLength(); i++)
+		try
 		{
-			Element att = (Element) attributes.item(i);
-			att.removeAttribute("AttributeName");
+			NodeList attributes = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "Attribute");
+			for (int i = 0; i < attributes.getLength(); i++)
+			{
+				Element att = (Element) attributes.item(i);
+				att.removeAttribute("AttributeName");
+			}
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
+		catch (SamlException e)
+		{
+			// pass
+		}		
 	}
 
-	@Test(expected=SamlException.class)
 	public void testSamlAssertionMissingAttributeValue() throws Exception
 	{
-		NodeList attValues = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "AttributeValue");
-		for (int i = 0; i < attValues.getLength(); i++)
+		try
 		{
-			Node node = attValues.item(i);
-			node.getParentNode().removeChild(node);
+			NodeList attValues = assertionEl.getElementsByTagNameNS(assertionEl.getNamespaceURI(), "AttributeValue");
+			for (int i = 0; i < attValues.getLength(); i++)
+			{
+				Node node = attValues.item(i);
+				node.getParentNode().removeChild(node);
+			}
+			new SamlAssertion(assertionEl);		
+			fail("SamlException expected");
 		}
-		new SamlAssertion(assertionEl);		
-	}
-	
+		catch (SamlException e)
+		{
+			// pass
+		}		
+	}	
 }
