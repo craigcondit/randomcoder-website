@@ -195,7 +195,7 @@
 	    			<configuration>
 	    				<autocommit>true</autocommit>
 	    				<srcFiles>
-	    					src/main/database/drop.sql
+	    					<srcFile>src/main/database/drop.sql</srcFile>
 	    				</srcFiles>
 	    				<onError>continue</onError>
 	    			</configuration>
