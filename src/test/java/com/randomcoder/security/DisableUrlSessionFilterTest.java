@@ -1,35 +1,36 @@
 package com.randomcoder.security;
 
-import static org.junit.Assert.*;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.*;
 
 import com.randomcoder.test.GenericProxy;
 import com.randomcoder.test.mock.jee.FilterChainMock;
 
-public class DisableUrlSessionFilterTest
+public class DisableUrlSessionFilterTest extends TestCase
 {
 	private DisableUrlSessionFilter filter;
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		filter = new DisableUrlSessionFilter();
 		MockFilterConfig config = new MockFilterConfig();
 		filter.init(config);
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		filter.destroy();
 		filter = null;
 	}
 
 	@SuppressWarnings("deprecation")
-	@Test public void testDoFilter() throws Exception
+	public void testDoFilter() throws Exception
 	{
 		FilterChainMock chain = new FilterChainMock();
 		MockHttpServletRequest request = new MockHttpServletRequest();
@@ -52,11 +53,7 @@ public class DisableUrlSessionFilterTest
 		assertEquals("Wrong encodeRedirectUrl", "http://localhost/", wrappedResponse.encodeRedirectUrl("http://localhost/"));
 	}
 	
-	/**
-	 * Not a test, but covers the case where a non-HttpServletRequest is passed
-	 * to the filter. 
-	 */
-	@Test public void coverNonHttpServletRequest() throws Exception
+	public void testNonHttpServletRequest() throws Exception
 	{
 		FilterChainMock chain = new FilterChainMock();
 		

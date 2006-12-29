@@ -1,21 +1,20 @@
 package com.randomcoder.security;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 import org.acegisecurity.Authentication;
-import org.junit.*;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.test.mock.acegisecurity.*;
 
-public class NullLogoutHandlerTest
+public class NullLogoutHandlerTest extends TestCase
 {
 	private NullLogoutHandler handler = null;
 	private LogoutHandlerMock mock = null;
 	private MockHttpServletRequest request = null;
 	private MockHttpServletResponse response = null;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		mock = new LogoutHandlerMock();
@@ -26,7 +25,7 @@ public class NullLogoutHandlerTest
 		response = new MockHttpServletResponse();
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		handler = null;
@@ -35,7 +34,6 @@ public class NullLogoutHandlerTest
 		response = null;
 	}
 
-	@Test
 	public void testLogoutNormal()
 	{
 		handler.logout(request, response, new AuthenticationMock());
@@ -44,8 +42,6 @@ public class NullLogoutHandlerTest
 		assertEquals(AuthenticationMock.class, auth.getClass());		
 	}
 		
-
-	@Test
 	public void testLogoutNull()
 	{
 		handler.logout(request, response, null);

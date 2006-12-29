@@ -1,23 +1,23 @@
 package com.randomcoder.security.cardspace;
 
 import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
-import static org.junit.Assert.*;
 
 import java.security.PublicKey;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 
 import com.randomcoder.saml.*;
 import com.randomcoder.test.TestObjectFactory;
 
-public class CardSpaceCredentialsTest
+public class CardSpaceCredentialsTest extends TestCase
 {
 	private SamlAssertion assertion;
 	private PublicKey publicKey;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{		
 		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_ALL_FIELDS);
@@ -25,14 +25,13 @@ public class CardSpaceCredentialsTest
 		publicKey = TestObjectFactory.getPublicKey(doc);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		assertion = null;
 		publicKey = null;
 	}
 
-	@Test
 	public void testCardSpaceCredentials() throws Exception
 	{
 		Date now = new Date();

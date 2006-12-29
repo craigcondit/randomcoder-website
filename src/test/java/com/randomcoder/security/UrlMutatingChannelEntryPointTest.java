@@ -1,20 +1,19 @@
 package com.randomcoder.security;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.TestCase;
 
-import org.junit.*;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.test.mock.acegisecurity.ChannelEntryPointMock;
 
-public class UrlMutatingChannelEntryPointTest
+public class UrlMutatingChannelEntryPointTest extends TestCase
 {
 	private UrlMutatingChannelEntryPoint entryPoint = null;
 	private ChannelEntryPointMock channel = null;
 	private MockHttpServletRequest request = null;
 	private MockHttpServletResponse response = null;
 
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		entryPoint = new UrlMutatingChannelEntryPoint();
@@ -26,7 +25,7 @@ public class UrlMutatingChannelEntryPointTest
 		response = new MockHttpServletResponse();
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		entryPoint = null;
@@ -35,7 +34,6 @@ public class UrlMutatingChannelEntryPointTest
 		response = null;
 	}
 
-	@Test
 	public void testCommenceServletPathMatch() throws Exception
 	{
 		request.setContextPath("");
@@ -45,7 +43,6 @@ public class UrlMutatingChannelEntryPointTest
 		assertEquals("/test/", channel.getRequest().getServletPath());
 	}
 
-	@Test
 	public void testCommenceServletPathNoMatch() throws Exception
 	{
 		request.setContextPath("");
@@ -55,7 +52,6 @@ public class UrlMutatingChannelEntryPointTest
 		assertEquals("/test/save.jsp", channel.getRequest().getServletPath());
 	}
 
-	@Test
 	public void testCommencePathInfoMatch() throws Exception
 	{
 		request.setContextPath("");
@@ -65,7 +61,6 @@ public class UrlMutatingChannelEntryPointTest
 		assertEquals("/", channel.getRequest().getPathInfo());
 	}
 
-	@Test
 	public void testCommencePathInfoNoMatch() throws Exception
 	{
 		request.setContextPath("");

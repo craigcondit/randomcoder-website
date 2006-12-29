@@ -1,38 +1,36 @@
 package com.randomcoder.saml;
 
 import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
-import static org.junit.Assert.*;
 
-import java.lang.reflect.Constructor;
 import java.security.PrivateKey;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.w3c.dom.*;
 
 import com.randomcoder.test.TestObjectFactory;
 import com.randomcoder.xml.security.XmlSecurityUtils;
 
-public class SamlUtilsTest
+public class SamlUtilsTest extends TestCase
 {
 	private Document encryptedData;
 	private PrivateKey serverPrivateKey;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{		
 		serverPrivateKey = TestObjectFactory.getPrivateKey();
 		encryptedData = TestObjectFactory.getXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		encryptedData = null;
 		serverPrivateKey = null;
 	}
 	
-	@Test
 	public void testFindFirstSamlAssertion() throws Exception
 	{
 		// does not exist in encrypted data
@@ -45,7 +43,6 @@ public class SamlUtilsTest
 		assertNotNull(SamlUtils.findFirstSamlAssertion(encryptedData));
 	}
 	
-	@Test
 	public void testParseXsdDateTime() throws Exception
 	{
 		Date date = SamlUtils.parseXsdDateTime("2006-12-19T18:23:21.576Z");
@@ -62,15 +59,4 @@ public class SamlUtilsTest
 		assertEquals("Minute", 23, result.get(Calendar.MINUTE));
 		assertEquals("Second", 21, result.get(Calendar.SECOND));		
 	}
-	
-	/**
-	 * Not a test, but tickles the private constructor.
-	 */
-	@Test
-	public void coverDefaultConstructor() throws Exception
-	{
-		Constructor c = SamlUtils.class.getDeclaredConstructor(new Class[] {});
-		c.setAccessible(true);
-		c.newInstance(new Object[] {});
-	}		
 }

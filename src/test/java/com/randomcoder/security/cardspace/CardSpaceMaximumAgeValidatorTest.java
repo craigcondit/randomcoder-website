@@ -5,20 +5,21 @@ import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TES
 import java.security.PublicKey;
 import java.util.Date;
 
+import junit.framework.TestCase;
+
 import org.acegisecurity.BadCredentialsException;
-import org.junit.*;
 import org.w3c.dom.Document;
 
 import com.randomcoder.saml.SamlAssertion;
 import com.randomcoder.test.TestObjectFactory;
 
-public class CardSpaceMaximumAgeValidatorTest
+public class CardSpaceMaximumAgeValidatorTest extends TestCase
 {
 	private CardSpaceMaximumAgeValidator validator;
 	private SamlAssertion assertion;
 	private PublicKey publicKey;	
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
@@ -27,7 +28,7 @@ public class CardSpaceMaximumAgeValidatorTest
 		validator = new CardSpaceMaximumAgeValidator();
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		validator = null;
@@ -35,32 +36,52 @@ public class CardSpaceMaximumAgeValidatorTest
 		publicKey = null;
 	}
 
-	@Test(expected=IllegalArgumentException.class)
 	public void testSetClockSkewNegative()
 	{
-		validator.setClockSkew(-1);
+		try
+		{
+			validator.setClockSkew(-1);
+			fail("IllegalArgumentException expected");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=IllegalArgumentException.class)
 	public void testSetMaximumTokenAgeNegative()
 	{
-		validator.setMaximumTokenAge(-1);
+		try
+		{
+			validator.setMaximumTokenAge(-1);
+			fail("IllegalArgumentException expected");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateTooEarly()
 	{
-		Date issueInstant = assertion.getIssueInstant();
-		Date received = new Date(issueInstant.getTime() - 60001);
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, received);
-		
-		validator.setClockSkew(60);
-		validator.setMaximumTokenAge(300);
-		validator.validate(credentials);
+		try
+		{
+			Date issueInstant = assertion.getIssueInstant();
+			Date received = new Date(issueInstant.getTime() - 60001);
+			
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, received);
+			
+			validator.setClockSkew(60);
+			validator.setMaximumTokenAge(300);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 
-	@Test
 	public void testValidateAlmostTooEarly()
 	{
 		Date issueInstant = assertion.getIssueInstant();
@@ -73,20 +94,26 @@ public class CardSpaceMaximumAgeValidatorTest
 		validator.validate(credentials);
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateTooLate()
 	{
-		Date issueInstant = assertion.getIssueInstant();
-		Date received = new Date(issueInstant.getTime() + 360000);
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, received);
-		
-		validator.setClockSkew(60);
-		validator.setMaximumTokenAge(300);
-		validator.validate(credentials);
+		try
+		{
+			Date issueInstant = assertion.getIssueInstant();
+			Date received = new Date(issueInstant.getTime() + 360000);
+			
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, received);
+			
+			validator.setClockSkew(60);
+			validator.setMaximumTokenAge(300);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 
-	@Test
 	public void testValidateAlmostTooLate()
 	{
 		Date issueInstant = assertion.getIssueInstant();

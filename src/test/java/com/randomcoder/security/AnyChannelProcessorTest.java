@@ -1,35 +1,31 @@
 package com.randomcoder.security;
 
-import static org.junit.Assert.*;
-
-import org.junit.*;
+import junit.framework.TestCase;
 
 import com.randomcoder.test.mock.acegisecurity.ConfigAttributeMock;
 
-public class AnyChannelProcessorTest
+public class AnyChannelProcessorTest extends TestCase
 {
 	private AnyChannelProcessor processor = null;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		processor = new AnyChannelProcessor();
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		processor = null;
 	}
 
-	@Test
 	public void testDecide() throws Exception
 	{
 		// this class does nothing on decide anyway...
 		processor.decide(null, null);
 	}
 
-	@Test
 	public void testSupports()
 	{
 		assertTrue(processor.supports(new ConfigAttributeMock("REQUIRES_ANY")));

@@ -5,21 +5,22 @@ import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TES
 import java.security.PublicKey;
 import java.util.Date;
 
+import junit.framework.TestCase;
+
 import org.acegisecurity.BadCredentialsException;
-import org.junit.*;
 import org.w3c.dom.*;
 
 import com.randomcoder.saml.*;
 import com.randomcoder.test.TestObjectFactory;
 
-public class CardSpaceDateConstraintValidatorTest
+public class CardSpaceDateConstraintValidatorTest extends TestCase
 {
 	private CardSpaceDateConstraintValidator validator;
 	private PublicKey publicKey;
 	private SamlAssertion assertionNormal;
 	private SamlAssertion assertionBoundsReversed;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
@@ -39,7 +40,7 @@ public class CardSpaceDateConstraintValidatorTest
 		validator = new CardSpaceDateConstraintValidator();		
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		validator = null;
@@ -47,7 +48,6 @@ public class CardSpaceDateConstraintValidatorTest
 		assertionNormal = null;
 	}
 
-	@Test
 	public void testValidateSuccess()
 	{
 		Date notBefore = assertionNormal.getNotBefore();
@@ -59,31 +59,44 @@ public class CardSpaceDateConstraintValidatorTest
 		validator.validate(credentials);
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateBoundsReversed()
 	{
-		Date notBefore = assertionBoundsReversed.getNotBefore();
-		Date received = new Date(notBefore.getTime() + 1);
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertionBoundsReversed, publicKey, received);
-		
-		validator.setClockSkew(60);
-		validator.validate(credentials);
+		try
+		{
+			Date notBefore = assertionBoundsReversed.getNotBefore();
+			Date received = new Date(notBefore.getTime() + 1);
+			
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertionBoundsReversed, publicKey, received);
+			
+			validator.setClockSkew(60);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateTooEarly()
 	{
-		Date notBefore = assertionNormal.getNotBefore();
-		Date received = new Date(notBefore.getTime() - 60001);
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertionNormal, publicKey, received);
-		
-		validator.setClockSkew(60);
-		validator.validate(credentials);
+		try
+		{
+			Date notBefore = assertionNormal.getNotBefore();
+			Date received = new Date(notBefore.getTime() - 60001);
+			
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertionNormal, publicKey, received);
+			
+			validator.setClockSkew(60);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 
-	@Test
 	public void testValidateEarlyClockSkew()
 	{
 		Date notBefore = assertionNormal.getNotBefore();
@@ -95,7 +108,6 @@ public class CardSpaceDateConstraintValidatorTest
 		validator.validate(credentials);
 	}
 
-	@Test
 	public void testValidateLateClockSkew()
 	{
 		Date notOnOrAfter = assertionNormal.getNotOnOrAfter();
@@ -107,22 +119,35 @@ public class CardSpaceDateConstraintValidatorTest
 		validator.validate(credentials);
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateTooLate()
 	{
-		Date notOnOrAfter = assertionNormal.getNotOnOrAfter();
-		Date received = new Date(notOnOrAfter.getTime() + 60000);
-		
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertionNormal, publicKey, received);
-		
-		validator.setClockSkew(60);
-		validator.validate(credentials);
+		try
+		{
+			Date notOnOrAfter = assertionNormal.getNotOnOrAfter();
+			Date received = new Date(notOnOrAfter.getTime() + 60000);
+			
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertionNormal, publicKey, received);
+			
+			validator.setClockSkew(60);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
 	public void testSetClockSkewNegative()
 	{
-		validator.setClockSkew(-1);
-	}
-	
+		try
+		{
+			validator.setClockSkew(-1);
+			fail("IllegalArgumentException expected");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// pass
+		}
+	}	
 }
