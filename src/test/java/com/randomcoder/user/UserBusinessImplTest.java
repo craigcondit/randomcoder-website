@@ -1,19 +1,17 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.junit.*;
+import junit.framework.TestCase;
 
 import com.randomcoder.test.mock.dao.UserDaoMock;
 
-public class UserBusinessImplTest
+public class UserBusinessImplTest extends TestCase
 {
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
 	
-	@Before
+	@Override
 	public void setUp()
 	{
 		userBusiness = new UserBusinessImpl();
@@ -21,7 +19,6 @@ public class UserBusinessImplTest
 		userBusiness.setUserDao(userDao);
 	}
 
-	@Test
 	public void testChangePassword()
 	{
 		User user = new User();
@@ -39,13 +36,19 @@ public class UserBusinessImplTest
 		assertEquals("Wrong password", User.hashPassword("test-new-password"), changed.getPassword());
 	}
 
-	@Test(expected=UserNotFoundException.class)
 	public void testChangePasswordUserNotFound()
 	{
-		userBusiness.changePassword("bogus-user", "bogus-password");
+		try
+		{
+			userBusiness.changePassword("bogus-user", "bogus-password");
+			fail("UserNotFoundException expected");
+		}
+		catch (UserNotFoundException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test
 	public void testCreateUser()
 	{
 		UserAddCommand cmd = new UserAddCommand();
@@ -77,7 +80,6 @@ public class UserBusinessImplTest
 		assertEquals("Wrong role name", "test-role", added.getRoles().get(0).getName());
 	}
 
-	@Test
 	public void testUpdateUser()
 	{
 		User user = new User();
@@ -106,7 +108,6 @@ public class UserBusinessImplTest
 		assertEquals("Wrong role count", 0, updated.getRoles().size());
 	}
 
-	@Test
 	public void testDeleteUser()
 	{
 		User user = new User();
@@ -126,7 +127,6 @@ public class UserBusinessImplTest
 		assertNull("Found deleted user", read);
 	}
 
-	@Test
 	public void testLoadUserForEditing()
 	{
 		User user = new User();
@@ -149,14 +149,21 @@ public class UserBusinessImplTest
 		assertEquals("Wrong role count", 0, cmd.getRoles().length);
 	}
 
-	@Test(expected=UserNotFoundException.class)
 	public void testLoadUserForEditingUserNotFound()
 	{
-		UserEditCommand cmd = new UserEditCommand();		
-		userBusiness.loadUserForEditing(cmd, (long) -1);		
+		try
+		{
+			UserEditCommand cmd = new UserEditCommand();		
+			userBusiness.loadUserForEditing(cmd, (long) -1);		
+			fail("UserNotFoundException expected");
+		}
+		catch (UserNotFoundException e)
+		{
+			// pass
+		}
 	}
 	
-	@After
+	@Override
 	public void tearDown()
 	{
 		userDao = null;

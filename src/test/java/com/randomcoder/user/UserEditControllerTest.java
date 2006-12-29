@@ -1,10 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.randomcoder.test.mock.dao.UserDaoMock;
 import com.randomcoder.test.mock.user.UserEditControllerMock;
 
-public class UserEditControllerTest
+public class UserEditControllerTest extends TestCase
 {
 	private UserEditControllerMock controller;
 	private UserBusinessImpl userBusiness;
@@ -20,7 +19,8 @@ public class UserEditControllerTest
 	private Long userId;
 	private UserEditCommand command;
 
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
 		userBusiness = new UserBusinessImpl();
@@ -42,7 +42,7 @@ public class UserEditControllerTest
 		command.setId(userId);
 	}
 
-	@Test public void testOnBindOnNewForm() throws Exception
+	public void testOnBindOnNewForm() throws Exception
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		BindException errors = new BindException(command, "command");
@@ -53,7 +53,7 @@ public class UserEditControllerTest
 		assertEquals("Wrong email address", "test@example.com", command.getEmailAddress());
 	}
 
-	@Test public void testOnSubmit()
+	public void testOnSubmit()
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -78,7 +78,8 @@ public class UserEditControllerTest
 		assertEquals("Wrong password", User.hashPassword("Password2"), loaded.getPassword());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		controller = null;
 		userBusiness = null;

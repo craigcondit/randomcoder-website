@@ -1,13 +1,9 @@
 package com.randomcoder.saml;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class SamlVersionTest
+public class SamlVersionTest extends TestCase
 {
-	
-	@Test
 	public void testGetDescription()
 	{		
 		assertEquals("SAML 1.0", SamlVersion.SAML_1_0.getDescription());
@@ -15,7 +11,6 @@ public class SamlVersionTest
 		assertEquals("SAML 2.0", SamlVersion.SAML_2_0.getDescription());				
 	}
 	
-	@Test
 	public void testValues()
 	{
 		SamlVersion[] versions = SamlVersion.values();
@@ -23,12 +18,10 @@ public class SamlVersionTest
 		assertEquals(3, versions.length);		
 	}
 
-	@Test
 	public void testValueOf()
 	{
 		assertEquals(SamlVersion.SAML_1_0, SamlVersion.valueOf("SAML_1_0"));
 		assertEquals(SamlVersion.SAML_1_1, SamlVersion.valueOf("SAML_1_1"));
 		assertEquals(SamlVersion.SAML_2_0, SamlVersion.valueOf("SAML_2_0"));
 	}
-	
 }

@@ -1,8 +1,7 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.*;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,13 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.randomcoder.test.mock.dao.UserDaoMock;
 import com.randomcoder.test.mock.user.UserAddControllerMock;
 
-public class UserAddControllerTest
+public class UserAddControllerTest extends TestCase
 {
 	private UserAddControllerMock controller;
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
 
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
 		userBusiness = new UserBusinessImpl();
@@ -26,12 +26,12 @@ public class UserAddControllerTest
 		controller.setSuccessView("success");
 	}
 
-	@Test public void coverUserAddCommandToString()
+	public void coverUserAddCommandToString()
 	{
 		new UserAddCommand().toString();
 	}
 	
-	@Test public void testOnBindOnNewForm() throws Exception
+	public void testOnBindOnNewForm() throws Exception
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		
@@ -42,7 +42,7 @@ public class UserAddControllerTest
 		assertTrue("User not enabled", command.isEnabled());
 	}
 
-	@Test public void testOnSubmit()
+	public void testOnSubmit()
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
@@ -66,7 +66,8 @@ public class UserAddControllerTest
 		assertEquals("Wrong username", "on-submit", user.getUserName());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		controller = null;
 		userBusiness = null;

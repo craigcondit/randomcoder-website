@@ -1,12 +1,9 @@
 package com.randomcoder.content;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class InvalidContentTypeExceptionTest
+public class InvalidContentTypeExceptionTest extends TestCase
 {
-	@Test
 	public void testInvalidContentTypeException()
 	{
 		try

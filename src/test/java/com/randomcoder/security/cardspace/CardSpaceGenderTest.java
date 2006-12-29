@@ -1,13 +1,9 @@
 package com.randomcoder.security.cardspace;
 
+import junit.framework.TestCase;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
-public class CardSpaceGenderTest
+public class CardSpaceGenderTest extends TestCase
 {
-	@Test
 	public void testValues()
 	{
 		CardSpaceGender[] genders = CardSpaceGender.values();
@@ -15,12 +11,10 @@ public class CardSpaceGenderTest
 		assertEquals(3, genders.length);		
 	}
 
-	@Test
 	public void testValueOf()
 	{
 		assertEquals(CardSpaceGender.MALE, CardSpaceGender.valueOf("MALE"));
 		assertEquals(CardSpaceGender.FEMALE, CardSpaceGender.valueOf("FEMALE"));
 		assertEquals(CardSpaceGender.UNSPECIFIED, CardSpaceGender.valueOf("UNSPECIFIED"));
 	}
-
 }

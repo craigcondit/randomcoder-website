@@ -1,10 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,13 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.randomcoder.springmvc.IdCommand;
 import com.randomcoder.test.mock.dao.UserDaoMock;
 
-public class UserDeleteControllerTest
+public class UserDeleteControllerTest extends TestCase
 {
 	private UserDeleteController controller;
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
 
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
 		userBusiness = new UserBusinessImpl();
@@ -28,7 +28,7 @@ public class UserDeleteControllerTest
 		controller.setViewName("success");
 	}
 
-	@Test public void testHandle() throws Exception
+	public void testHandle() throws Exception
 	{
 		User user = new User();
 		user.setUserName("test-delete");
@@ -55,7 +55,8 @@ public class UserDeleteControllerTest
 		assertNull("User was not deleted", loaded);
 	}
 	
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		controller = null;
 		userBusiness = null;

@@ -1,15 +1,15 @@
 package com.randomcoder.security.userdetails;
 
 import static com.randomcoder.test.TestObjectFactory.*;
-import static org.junit.Assert.*;
 
 import java.security.PublicKey;
 import java.util.*;
 
+import junit.framework.TestCase;
+
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.*;
 import org.w3c.dom.*;
 
 import com.randomcoder.saml.*;
@@ -19,7 +19,7 @@ import com.randomcoder.test.mock.dao.*;
 import com.randomcoder.user.*;
 import com.randomcoder.user.User;
 
-public class UserDetailsServiceImplTest
+public class UserDetailsServiceImplTest extends TestCase
 {
 	private UserDetailsServiceImpl svc = null;
 	private CardSpaceTokenDaoMock cardSpaceTokenDao = null;
@@ -38,7 +38,7 @@ public class UserDetailsServiceImplTest
 	private CardSpaceCredentials missingUserCredentials = null;
 	private CardSpaceCredentials missingPpidCredentials = null;
 		
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		cardSpaceTokenDao = new CardSpaceTokenDaoMock();
@@ -110,7 +110,7 @@ public class UserDetailsServiceImplTest
 		}
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		svc = null;
@@ -128,7 +128,6 @@ public class UserDetailsServiceImplTest
 		missingPpidCredentials = null;
 	}
 
-	@Test
 	public void testLoadUserByUsername()
 	{
 		UserDetails details = svc.loadUserByUsername("test");
@@ -148,26 +147,38 @@ public class UserDetailsServiceImplTest
 		assertTrue(details.isEnabled());		
 	}
 
-	@Test
 	public void testLoadUserByUsernameDebug()
 	{
 		svc.setDebug(true);
 		testLoadUserByUsername();
 	}
 	
-	@Test(expected=UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNotFound() throws Exception
 	{
-		svc.loadUserByUsername("bogus");
+		try
+		{
+			svc.loadUserByUsername("bogus");
+			fail("UsernameNotFoundException expected");
+		}
+		catch (UsernameNotFoundException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNoPassword() throws Exception
 	{
-		svc.loadUserByUsername("test-no-password");
+		try
+		{
+			svc.loadUserByUsername("test-no-password");
+			fail("UsernameNotFoundException expected");
+		}
+		catch (UsernameNotFoundException e)
+		{
+			// pass
+		}
 	}
 	
-	@Test
 	public void testLoadUserByCardSpaceCredentials()
 	{
 		UserDetails details = svc.loadUserByCardSpaceCredentials(existingUserCredentials);
@@ -175,16 +186,29 @@ public class UserDetailsServiceImplTest
 		assertEquals("test", details.getUsername());
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testLoadUserByCardSpaceCredentialsNotFound()
 	{
-		svc.loadUserByCardSpaceCredentials(missingUserCredentials);
+		try
+		{
+			svc.loadUserByCardSpaceCredentials(missingUserCredentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 
-	@Test(expected=InvalidCredentialsException.class)
 	public void testLoadUserByCardSpaceCredentialsMissingPpid()
-	{		
-		svc.loadUserByCardSpaceCredentials(missingPpidCredentials);
-	}
-	
+	{
+		try
+		{
+			svc.loadUserByCardSpaceCredentials(missingPpidCredentials);
+			fail("InvalidCredentialsException expected");
+		}
+		catch (InvalidCredentialsException e)
+		{
+			// pass
+		}
+	}	
 }

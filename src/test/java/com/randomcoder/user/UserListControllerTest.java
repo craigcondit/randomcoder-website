@@ -1,10 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,12 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.randomcoder.test.mock.dao.UserDaoMock;
 import com.randomcoder.test.mock.user.UserListControllerMock;
 
-public class UserListControllerTest
+public class UserListControllerTest extends TestCase
 {
 	private UserListControllerMock controller;
 	private UserDaoMock userDao;
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
 		
@@ -44,12 +44,12 @@ public class UserListControllerTest
 		controller.setViewName("success");
 	}
 	
-	@Test public void coverUserListCommandToString() throws Exception
+	public void coverUserListCommandToString() throws Exception
 	{
 		new UserListCommand().toString();
 	}
 	
-	@Test public void testHandle() throws Exception
+	public void testHandle() throws Exception
 	{
 		ModelAndView mav;
 		BindException errors;
@@ -121,7 +121,8 @@ public class UserListControllerTest
 		assertEquals("Wrong #99 username", "user-list-99", user99.getUserName());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		userDao = null;
 		controller = null;

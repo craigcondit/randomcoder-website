@@ -1,20 +1,20 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.ArrayList;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.validation.*;
 
 import com.randomcoder.test.mock.dao.UserDaoMock;
 
-public class UserEditValidatorTest
+public class UserEditValidatorTest extends TestCase
 {
 	private UserEditValidator validator;
 	private UserDaoMock userDao;
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{		
 		userDao = new UserDaoMock();
 		validator = new UserEditValidator();
@@ -23,12 +23,12 @@ public class UserEditValidatorTest
 		validator.setUserDao(userDao);
 	}
 
-	@Test	public void testSupports()
+	public void testSupports()
 	{
 		assertTrue("Validator doesn't support command class", validator.supports(UserEditCommand.class));
 	}
 
-	@Test	public void testValidate()
+	public void testValidate()
 	{
 		FieldError error;
 		BindException errors;
@@ -108,7 +108,8 @@ public class UserEditValidatorTest
 		assertEquals("Errors occurred", 0, errors.getErrorCount());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		validator = null;
 		userDao = null;

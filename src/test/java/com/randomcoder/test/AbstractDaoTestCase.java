@@ -6,12 +6,13 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import junit.framework.TestCase;
+
 import org.dbunit.database.*;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
-import org.junit.*;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -26,7 +27,7 @@ import com.randomcoder.security.cardspace.CardSpaceSeenToken;
 import com.randomcoder.tag.Tag;
 import com.randomcoder.user.*;
 
-abstract public class AbstractDaoTestCase
+abstract public class AbstractDaoTestCase extends TestCase
 {
 	private static DataSource adminDataSource;
 	private static DataSource userDataSource;
@@ -189,8 +190,8 @@ abstract public class AbstractDaoTestCase
 		return sf;
 	}
 	
-	@BeforeClass
-	public static final void initDataSources() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		String driver = getProperty("test.database.driver");
 		String type = getProperty("test.database.type");
@@ -209,8 +210,8 @@ abstract public class AbstractDaoTestCase
 		userDataSource = new DriverManagerDataSource(driver, url, userUsername, userPassword);
 	}
 	
-	@AfterClass
-	public static final void destroyDataSources() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		adminDataSource = null;
 		userDataSource = null;

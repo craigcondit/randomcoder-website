@@ -1,18 +1,13 @@
 package com.randomcoder.validation;
 
 import static com.randomcoder.validation.DataValidationUtils.*;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import java.lang.reflect.Constructor;
-
-import org.junit.Test;
-
-public class DataValidationUtilsTest
+public class DataValidationUtilsTest extends TestCase
 {
 	private static final String MAX_DOMAIN_SEGMENT = "1234567890123456789012345678901234567890123456789012345678901234567";
 	private static final String MAX_DOMAIN_LENGTH = "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.1.com";
 	
-	@Test
 	public void testCanonicalizeDomainName()
 	{
 		assertEquals("test.com", canonicalizeDomainName("TEST.COM"));
@@ -20,7 +15,6 @@ public class DataValidationUtilsTest
 		assertNull(canonicalizeDomainName(null));
 	}
 
-	@Test
 	public void testIsValidDomainName()
 	{
 		assertTrue("test.com", isValidDomainName("test.com"));
@@ -35,7 +29,6 @@ public class DataValidationUtilsTest
 		assertFalse("x" + MAX_DOMAIN_LENGTH, isValidDomainName("x" + MAX_DOMAIN_LENGTH));
 	}
 
-	@Test
 	public void testIsValidDomainWildcard()
 	{
 		assertFalse("null", isValidDomainWildcard(null));
@@ -45,7 +38,6 @@ public class DataValidationUtilsTest
 		assertFalse("*.", isValidDomainWildcard("*."));
 	}
 
-	@Test
 	public void testIsValidLocalEmailAccount()
 	{
 		assertTrue("test", isValidLocalEmailAccount("test"));
@@ -62,7 +54,6 @@ public class DataValidationUtilsTest
 		assertFalse("abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345", isValidLocalEmailAccount("abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345"));
 	}
 
-	@Test	
 	public void testIsValidIpAddress()
 	{
 		for (int i = 0; i < 256; i++)
@@ -83,7 +74,6 @@ public class DataValidationUtilsTest
 		assertFalse("null", isValidIpAddress(null));
 	}
 
-	@Test
 	public void testIsValidUrl()
 	{
 		assertTrue("http:/www.example.com/", isValidUrl("http://www.example.com/"));
@@ -94,7 +84,6 @@ public class DataValidationUtilsTest
 		assertTrue("ftp://www.example.com/", isValidUrl("ftp://www.example.com/", "ftp"));
 	}
 
-	@Test
 	public void testSplitEmailAddress()
 	{
 		String[] nullResults = splitEmailAddress(null);
@@ -112,7 +101,6 @@ public class DataValidationUtilsTest
 		assertEquals("example.com", splitEmailAddress("\"quoted@address\"@example.com")[1]);
 	}
 
-	@Test
 	public void testIsValidEmailAddress()
 	{
 		// valid
@@ -167,9 +155,8 @@ public class DataValidationUtilsTest
 		assertTrue("\"test\\\u007f@local\"@domain.com", isValidEmailAddress("\"test\\\u007f@local\"@domain.com"));
 		assertFalse("\"test\u0080@local\"@domain.com", isValidEmailAddress("\"test\u0080@local\"@domain.com"));
 		assertFalse("\"test\\\u0080@local\"@domain.com", isValidEmailAddress("\"test\\\u0080@local\"@domain.com"));
-		}
+	}
 
-	@Test
 	public void testCanonicalizeTagName()
 	{
 		assertNull(canonicalizeTagName(null));
@@ -179,16 +166,5 @@ public class DataValidationUtilsTest
 		assertEquals("testing-4", canonicalizeTagName("Testing\\4"));
 		assertEquals("testing-5", canonicalizeTagName(" Testing  5 "));
 		assertEquals("testing-6", canonicalizeTagName("Testing\t6"));
-	}
-	
-	/**
-	 * Not a test, but tickles the private constructor for full
-	 * test coverage. 
-	 */
-	@Test public void coverDefaultConstructor() throws Exception
-	{
-		Constructor c = DataValidationUtils.class.getDeclaredConstructor(new Class[] {});
-		c.setAccessible(true);
-		c.newInstance(new Object[] {});
-	}
+	}	
 }

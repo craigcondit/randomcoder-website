@@ -1,12 +1,9 @@
 package com.randomcoder.saml;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class SamlExceptionTest
+public class SamlExceptionTest extends TestCase
 {
-	@Test
 	public void testSamlException()
 	{
 		try
@@ -20,7 +17,6 @@ public class SamlExceptionTest
 		}
 	}
 
-	@Test
 	public void testSamlExceptionStringThrowable()
 	{
 		try
@@ -41,7 +37,6 @@ public class SamlExceptionTest
 		}
 	}
 
-	@Test
 	public void testSamlExceptionString()
 	{
 		try
@@ -55,7 +50,6 @@ public class SamlExceptionTest
 		}
 	}
 
-	@Test
 	public void testSamlExceptionThrowable()
 	{
 		try
@@ -74,5 +68,4 @@ public class SamlExceptionTest
 			}
 		}
 	}
-
 }

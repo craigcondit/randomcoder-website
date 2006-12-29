@@ -1,10 +1,6 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.*;
-
-import org.junit.*;
 
 import com.randomcoder.test.AbstractDaoTestCase;
 
@@ -13,15 +9,17 @@ public class UserDaoTest extends AbstractDaoTestCase
 	private UserDao userDao;
 	private RoleDao roleDao;
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
+		super.setUp();
 		cleanDatabase();
 		userDao = (UserDao) createDao(User.class, UserDao.class);
 		roleDao = (RoleDao) createDao(Role.class, RoleDao.class);
 		bindSession();
 	}	
 	
-	@Test public void testCountAll() throws Exception
+	public void testCountAll() throws Exception
 	{		
 		// database is initially empty, so record count should be 0
 		begin();
@@ -57,7 +55,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	@Test public void testCreate() throws Exception
+	public void testCreate() throws Exception
 	{
 		begin();
 		User user = createTestUser("test-create", "test-create", "test-create@example.com", true);
@@ -85,7 +83,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 	
-	@Test public void testDelete() throws Exception
+	public void testDelete() throws Exception
 	{
 		// create a test user
 		begin();
@@ -117,7 +115,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();		
 	}
 
-	@Test public void testFindByUserName() throws Exception
+	public void testFindByUserName() throws Exception
 	{
 		// create a user
 		begin();
@@ -135,7 +133,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	@Test public void testFindByUserNameEnabled() throws Exception
+	public void testFindByUserNameEnabled() throws Exception
 	{
 		// create some users
 		begin();
@@ -158,7 +156,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 	
-	@Test public void testListAll() throws Exception
+	public void testListAll() throws Exception
 	{		
 		// create test users
 		begin();
@@ -182,7 +180,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	@Test public void testListAllInRange() throws Exception
+	public void testListAllInRange() throws Exception
 	{		
 		// create test users
 		begin();
@@ -214,7 +212,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	@Test public void testListEnabled() throws Exception
+	public void testListEnabled() throws Exception
 	{
 		// create test users
 		begin();
@@ -239,7 +237,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 	
-	@Test public void testRead() throws Exception
+	public void testRead() throws Exception
 	{
 		begin();
 		User created = createTestUser("test-read", "test-read", "testread@example.com", true);
@@ -256,7 +254,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 	
-	@Test public void testUpdate() throws Exception
+	public void testUpdate() throws Exception
 	{
 		begin();
 		createTestUser("test-update", "test-update", "testupdate@example.com", true);
@@ -279,12 +277,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		assertEquals("Wrong email address", "testupdate2@example.com", updated.getEmailAddress());
 		commit();
 	}
-	
-	@Test public void coverUserToString()
-	{
-		new User().toString();
-	}
-	
+		
 	private User createTestUser(String userName, String password, String email, boolean enabled)
 	{
 		User user = new User();
@@ -302,11 +295,13 @@ public class UserDaoTest extends AbstractDaoTestCase
 		return user;
 	}
 	
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		unbindSession();
 		userDao = null;
 		roleDao = null;
+		super.tearDown();
 	}
 	
 }

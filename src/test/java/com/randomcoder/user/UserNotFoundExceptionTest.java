@@ -1,12 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class UserNotFoundExceptionTest
+public class UserNotFoundExceptionTest extends TestCase
 {
-	@Test
 	public void testUserNotFoundException()
 	{
 		try
@@ -19,7 +16,6 @@ public class UserNotFoundExceptionTest
 		}
 	}
 
-	@Test
 	public void testUserNotFoundExceptionString()
 	{
 		try

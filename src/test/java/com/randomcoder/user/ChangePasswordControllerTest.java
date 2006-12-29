@@ -1,11 +1,10 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.security.Principal;
 import java.util.ArrayList;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 
@@ -13,14 +12,15 @@ import com.randomcoder.test.mock.dao.*;
 import com.randomcoder.test.mock.jse.PrincipalMock;
 import com.randomcoder.test.mock.user.ChangePasswordControllerMock;
 
-public class ChangePasswordControllerTest
+public class ChangePasswordControllerTest extends TestCase
 {
 	private ChangePasswordControllerMock controller;
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
 	private RoleDaoMock roleDao;
 	
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
 		roleDao = new RoleDaoMock();
@@ -31,7 +31,7 @@ public class ChangePasswordControllerTest
 		controller.setUserDao(userDao);
 	}
 
-	@Test	public void testOnBind() throws Exception
+	public void testOnBind() throws Exception
 	{
 		Role role = createTestRole("on-bind-role", "On Bind");
 		User user = createTestUser("on-bind-user", "Password1", "on-bind-user@example.com", true, role);
@@ -52,7 +52,7 @@ public class ChangePasswordControllerTest
 		assertEquals("Wrong user", "on-bind-user", command.getUser().getUserName());
 	}
 
-	@Test public void testOnSubmit() throws Exception
+	public void testOnSubmit() throws Exception
 	{
 		Role role = createTestRole("on-submit-role", "On Submit");
 		User user = createTestUser("on-submit-user", "Password1", "on-submit-user@example.com", true, role);
@@ -80,7 +80,8 @@ public class ChangePasswordControllerTest
 		assertEquals("Wrong password", User.hashPassword("Password2"), changed.getPassword());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		controller = null;
 		userBusiness = null;

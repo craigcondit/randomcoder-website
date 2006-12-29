@@ -1,23 +1,22 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.beans.PropertyEditor;
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
 import com.randomcoder.test.mock.dao.RoleDaoMock;
 import com.randomcoder.test.mock.user.AbstractUserControllerMock;
 
-public class AbstractUserControllerTest
+public class AbsUserControllerTest extends TestCase
 {
 	private AbstractUserControllerMock controller;
 	private RoleDaoMock roleDao;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		roleDao = new RoleDaoMock();
@@ -25,7 +24,7 @@ public class AbstractUserControllerTest
 		controller.setRoleDao(roleDao);
 	}
 
-	@Test	public void testInitBinder() throws Exception
+	public void testInitBinder() throws Exception
 	{		
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(new Object());
@@ -37,7 +36,7 @@ public class AbstractUserControllerTest
 		assertTrue("Wrong type", editor instanceof RolePropertyEditor);
 	}
 
-	@Test	public void testReferenceData()
+	public void testReferenceData()
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		
@@ -62,7 +61,7 @@ public class AbstractUserControllerTest
 		assertEquals("Wrong role", "reference-data", testRole.getName());
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		controller = null;

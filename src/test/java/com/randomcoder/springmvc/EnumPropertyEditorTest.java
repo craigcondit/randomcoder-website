@@ -1,24 +1,24 @@
 package com.randomcoder.springmvc;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.*;
-
-public class EnumPropertyEditorTest
+public class EnumPropertyEditorTest extends TestCase
 {
 	private EnumPropertyEditor editor;
 
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		editor = new EnumPropertyEditor(TestEnum.class);
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		editor = null;
 	}
 
-	@Test public void testGetAsText()
+	public void testGetAsText()
 	{
 		editor.setValue(TestEnum.ONE);
 		assertEquals("Wrong enum value", "ONE", editor.getAsText());
@@ -33,7 +33,7 @@ public class EnumPropertyEditorTest
 		assertEquals("Expected empty enum value", "", editor.getAsText());
 	}
 
-	@Test public void testSetAsText()
+	public void testSetAsText()
 	{
 		editor.setAsText("ONE");
 		assertEquals("Wrong enum value", TestEnum.ONE, editor.getValue());

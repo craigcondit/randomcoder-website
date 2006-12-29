@@ -1,10 +1,6 @@
 package com.randomcoder.security.cardspace;
 
-import static org.junit.Assert.*;
-
 import java.util.Date;
-
-import org.junit.*;
 
 import com.randomcoder.test.AbstractDaoTestCase;
 
@@ -12,23 +8,24 @@ public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 {
 	private CardSpaceSeenTokenDao cardSpaceSeenTokenDao;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
+		super.setUp();
 		cleanDatabase();		
 		cardSpaceSeenTokenDao = (CardSpaceSeenTokenDao)
 			createDao(new CardSpaceSeenTokenDaoImpl(), CardSpaceSeenTokenDao.class);		
 		bindSession();
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		unbindSession();
 		cardSpaceSeenTokenDao = null;
+		super.tearDown();
 	}
 	
-	@Test
 	public void testCreateRead() throws Exception
 	{
 		begin();
@@ -45,7 +42,6 @@ public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 		assertNotNull(token.toString());
 	}
 
-	@Test
 	public void testDeleteBefore() throws Exception
 	{
 		Date now = new Date();

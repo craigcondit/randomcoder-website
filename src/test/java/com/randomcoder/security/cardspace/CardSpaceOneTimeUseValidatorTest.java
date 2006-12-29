@@ -5,22 +5,23 @@ import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TES
 import java.security.PublicKey;
 import java.util.Date;
 
+import junit.framework.TestCase;
+
 import org.acegisecurity.BadCredentialsException;
-import org.junit.*;
 import org.w3c.dom.Document;
 
 import com.randomcoder.saml.SamlAssertion;
 import com.randomcoder.test.TestObjectFactory;
 import com.randomcoder.test.mock.dao.CardSpaceSeenTokenDaoMock;
 
-public class CardSpaceOneTimeUseValidatorTest
+public class CardSpaceOneTimeUseValidatorTest extends TestCase
 {
 	private CardSpaceOneTimeUseValidator validator;
 	private SamlAssertion assertion;
 	private PublicKey publicKey;
 	private CardSpaceSeenTokenDao cardSpaceSeenTokenDao;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_TEST);
@@ -31,7 +32,7 @@ public class CardSpaceOneTimeUseValidatorTest
 		validator.setCardSpaceSeenTokenDao(cardSpaceSeenTokenDao);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		cardSpaceSeenTokenDao = null;
@@ -40,18 +41,24 @@ public class CardSpaceOneTimeUseValidatorTest
 		publicKey = null;
 	}
 
-	@Test
 	public void testValidateSuccess()
 	{
 		CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, new Date());		
 		validator.validate(credentials);
 	}
 
-	@Test(expected=BadCredentialsException.class)
 	public void testValidateDuplicate()
 	{
-		CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, new Date());		
-		validator.validate(credentials);
-		validator.validate(credentials);
+		try
+		{
+			CardSpaceCredentials credentials = new CardSpaceCredentials(assertion, publicKey, new Date());		
+			validator.validate(credentials);
+			validator.validate(credentials);
+			fail("BadCredentialsException expected");
+		}
+		catch (BadCredentialsException e)
+		{
+			// pass
+		}
 	}
 }

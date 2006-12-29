@@ -1,12 +1,9 @@
 package com.randomcoder.content;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.*;
-
-public class InvalidContentExceptionTest
-{
-	@Test
+public class InvalidContentExceptionTest extends TestCase
+{	
 	public void testInvalidContentException()
 	{
 		try
@@ -22,7 +19,6 @@ public class InvalidContentExceptionTest
 		}
 	}
 	
-	@Test
 	public void testInvalidContentExceptionNullMessage()
 	{
 		try

@@ -1,26 +1,26 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.*;
 import org.springframework.validation.*;
 
-public class ChangePasswordValidatorTest
+public class ChangePasswordValidatorTest extends TestCase
 {
 	private ChangePasswordValidator validator;
 
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		validator = new ChangePasswordValidator();
 		validator.setMinimumPasswordLength(6);
 	}
 
-	@Test public void testSupports()
+	public void testSupports()
 	{
 		assertTrue("Validator doesn't support command class", validator.supports(ChangePasswordCommand.class));
 	}
 
-	@Test	public void testValidate()
+	public void testValidate()
 	{
 		FieldError error;
 		BindException errors;
@@ -78,7 +78,8 @@ public class ChangePasswordValidatorTest
 		assertEquals("Errors occurred", 0, errors.getErrorCount());
 	}
 
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		validator = null;
 	}

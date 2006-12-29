@@ -1,13 +1,9 @@
 package com.randomcoder.xml.security;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class XmlSecurityConfigurationExceptionTest
+public class XmlSecurityConfigurationExceptionTest extends TestCase
 {
-
-	@Test
 	public void testXmlSecurityConfigurationExceptionMessage()
 	{
 		try
@@ -20,7 +16,6 @@ public class XmlSecurityConfigurationExceptionTest
 		}
 	}
 
-	@Test
 	public void testXmlSecurityConfigurationExceptionMessageCause()
 	{
 		try

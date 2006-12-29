@@ -1,19 +1,17 @@
 package com.randomcoder.xml;
 
-import static org.junit.Assert.*;
-
 import java.io.*;
-import java.lang.reflect.Constructor;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.stream.StreamResult;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.logging.*;
-import org.junit.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
-public class XmlUtilsTest
+public class XmlUtilsTest extends TestCase
 {	
 	private static final String XML_VALID_DOCUMENT =
 		"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
@@ -28,19 +26,18 @@ public class XmlUtilsTest
 	
 	private Log log;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		log = LogFactory.getLog("test");		
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		log = null;
 	}
 
-	@Test
 	public void testParseXmlValid() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -51,15 +48,20 @@ public class XmlUtilsTest
 		assertEquals(2, list.getLength());
 	}
 
-	@Test(expected=SAXException.class)
 	public void testParseXmlInvalid() throws Exception
 	{
-		InputSource source = new InputSource(new StringReader(XML_INVALID_DOCUMENT));		
-		XmlUtils.parseXml(source);
-		fail("Expected exception, got nothing");
+		try
+		{
+			InputSource source = new InputSource(new StringReader(XML_INVALID_DOCUMENT));		
+			XmlUtils.parseXml(source);
+			fail("SAXException expected");
+		}
+		catch (SAXException e)
+		{
+			// pass
+		}
 	}
 
-	@Test
 	public void testWriteXml() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -73,7 +75,6 @@ public class XmlUtilsTest
 		assertTrue(xml.contains("<Test"));
 	}
 
-	@Test
 	public void testLogXml() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -81,7 +82,6 @@ public class XmlUtilsTest
 		XmlUtils.logXml(log, doc);
 	}
 
-	@Test
 	public void testLogXmlDtd() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -89,7 +89,6 @@ public class XmlUtilsTest
 		XmlUtils.logXml(log, doc, PUBLIC_ID, SYSTEM_ID);
 	}
 
-	@Test
 	public void testLogXmlLogMessage() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -97,7 +96,6 @@ public class XmlUtilsTest
 		XmlUtils.logXml(log, "test-message", doc);
 	}
 
-	@Test
 	public void testLogXmlLogAll() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -105,7 +103,6 @@ public class XmlUtilsTest
 		XmlUtils.logXml(log, "test-message", doc, PUBLIC_ID, SYSTEM_ID);
 	}
 
-	@Test
 	public void testPrettyPrint() throws Exception
 	{
 		InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));		
@@ -119,7 +116,6 @@ public class XmlUtilsTest
 		assertTrue(xml.contains("\n  <Entry"));
 	}
 
-	@Test
 	public void testPrettyPrintAll() throws Exception
 	{
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -137,15 +133,4 @@ public class XmlUtilsTest
 		assertTrue(xml.contains(PUBLIC_ID));
 		assertTrue(xml.contains(SYSTEM_ID));
 	}
-
-	/**
-	 * Not a test, but tickles the private constructor.
-	 */
-	@Test
-	public void coverDefaultConstructor() throws Exception
-	{
-		Constructor c = XmlUtils.class.getDeclaredConstructor(new Class[] {});
-		c.setAccessible(true);
-		c.newInstance(new Object[] {});
-	}	
 }

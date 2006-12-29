@@ -1,23 +1,22 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
-import org.junit.*;
+import junit.framework.TestCase;
 
 import com.randomcoder.test.mock.dao.RoleDaoMock;
 
-public class RolePropertyEditorTest
+public class RolePropertyEditorTest extends TestCase
 {
 	private RolePropertyEditor editor;
 	private RoleDaoMock roleDao;
 	
-	@Before	public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
 		roleDao = new RoleDaoMock();
 		editor = new RolePropertyEditor(roleDao);
 	}
 
-	@Test public void testGetAsText()
+	public void testGetAsText()
 	{
 		Role role = new Role();
 		role.setName("get-as-text");
@@ -28,13 +27,13 @@ public class RolePropertyEditorTest
 		assertEquals("Wrong value", "get-as-text", editor.getAsText());
 	}
 	
-	@Test public void testGetAsTextNull()
+	public void testGetAsTextNull()
 	{
 		editor.setValue(null);
 		assertEquals("", editor.getAsText());
 	}
 
-	@Test public void testSetAsText()
+	public void testSetAsText()
 	{
 		Role role = new Role();
 		role.setName("set-as-text");
@@ -50,13 +49,21 @@ public class RolePropertyEditorTest
 		assertEquals("Wrong role name", "set-as-text", editorRole.getName());
 	}
 
-	@Test(expected=IllegalArgumentException.class)
 	public void testSetAsTextInvalidRole()
 	{
-		editor.setAsText("bogus-role");		
+		try
+		{
+			editor.setAsText("bogus-role");		
+			fail("IllegalArgumentException expected");
+		}
+		catch (IllegalArgumentException e)
+		{
+			// pass
+		}
 	}
 	
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		roleDao = null;
 		editor = null;

@@ -1,10 +1,6 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
-
 import java.util.List;
-
-import org.junit.*;
 
 import com.randomcoder.test.AbstractDaoTestCase;
 
@@ -12,21 +8,23 @@ public class RoleDaoTest extends AbstractDaoTestCase
 {
 	private RoleDao roleDao;
 	
-	@Before public void setUp() throws Exception
+	@Override
+	public void setUp() throws Exception
 	{
+		super.setUp();
 		cleanDatabase();
 		roleDao = (RoleDao) createDao(Role.class, RoleDao.class);
 		bindSession();
 	}
 	
-	@Test public void testFindByName() throws Exception
+	public void testFindByName() throws Exception
 	{
 		Role role = roleDao.findByName("ROLE_POST_ARTICLES");
 		assertNotNull("Role not found", role);
 		assertEquals("Wrong name", "ROLE_POST_ARTICLES", role.getName());		
 	}
 	
-	@Test public void testListAll() throws Exception
+	public void testListAll() throws Exception
 	{
 		List<Role> roles = roleDao.listAll();
 		
@@ -37,7 +35,7 @@ public class RoleDaoTest extends AbstractDaoTestCase
 		assertEquals("Wrong name at end", "ROLE_MANAGE_ARTICLES", roles.get(5).getName());
 	}
 	
-	@Test public void testRead() throws Exception
+	public void testRead() throws Exception
 	{
 		Role manageUsers = roleDao.read(1L);
 		assertNotNull("Null ROLE_MANAGE_USERS", manageUsers);
@@ -48,10 +46,12 @@ public class RoleDaoTest extends AbstractDaoTestCase
 		assertEquals("Wrong name", "ROLE_POST_ARTICLES", articlePost.getName());
 	}
 	
-	@After public void tearDown() throws Exception
+	@Override
+	public void tearDown() throws Exception
 	{
 		unbindSession();
 		roleDao = null;
+		super.tearDown();
 	}
 	
 }

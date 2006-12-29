@@ -1,12 +1,9 @@
 package com.randomcoder.security.cardspace;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class InvalidCredentialsExceptionTest
+public class InvalidCredentialsExceptionTest extends TestCase
 {
-	@Test
 	public void testInvalidCredentialsExceptionStringThrowable()
 	{
 		try
@@ -27,7 +24,6 @@ public class InvalidCredentialsExceptionTest
 		}
 	}
 
-	@Test
 	public void testInvalidCredentialsExceptionString()
 	{
 		try
@@ -40,5 +36,4 @@ public class InvalidCredentialsExceptionTest
 			assertNotNull(e.getMessage());
 		}
 	}
-
 }

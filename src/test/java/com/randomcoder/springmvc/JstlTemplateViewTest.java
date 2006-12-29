@@ -1,21 +1,20 @@
 package com.randomcoder.springmvc;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.*;
 
-import org.junit.*;
+import junit.framework.TestCase;
+
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.mock.web.*;
 
 import com.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
 
-public class JstlTemplateViewTest
+public class JstlTemplateViewTest extends TestCase
 {
 	private JstlTemplateViewMock view;
 	private JstlTemplateViewMock parent;
 	
-	@Before
+	@Override
 	public void setUp() throws Exception
 	{
 		parent = new JstlTemplateViewMock();
@@ -23,14 +22,13 @@ public class JstlTemplateViewTest
 		view.setParent(parent);
 	}
 
-	@After
+	@Override
 	public void tearDown() throws Exception
 	{
 		view = null;
 		parent = null;
 	}
 
-	@Test
 	public void testGetUrl()
 	{
 		assertEquals(null, view.getUrl());
@@ -42,7 +40,6 @@ public class JstlTemplateViewTest
 		assertEquals("/parent", view.getUrl());
 	}
 	
-	@Test
 	public void testGetTemplateName()
 	{
 		assertEquals("template", view.getTemplateName());
@@ -54,7 +51,6 @@ public class JstlTemplateViewTest
 		assertEquals("parent", view.getTemplateName());
 	}
 
-	@Test
 	public void testExposeHelpers() throws Exception
 	{
 		Map<String, Object> parentMap = new HashMap<String, Object>();

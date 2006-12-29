@@ -1,12 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class RoleTest
+public class RoleTest extends TestCase
 {
-	@Test
 	public void testEqualsObject()
 	{
 		Role role1 = new Role();
@@ -30,7 +27,6 @@ public class RoleTest
 		assertTrue(role1.equals(role3));
 	}
 
-	@Test
 	public void testCompareTo()
 	{
 		Role role1 = new Role();
@@ -46,7 +42,6 @@ public class RoleTest
 		assertEquals(1, role1.compareTo(role2));
 	}
 	
-	@Test
 	public void testNameComparator()
 	{
 		Role role1 = new Role();
@@ -59,11 +54,4 @@ public class RoleTest
 		
 		assertEquals(-1, Role.NAME_COMPARATOR.compare(role1, role2));
 	}
-
-	@Test
-	public void coverToString()
-	{
-		new Role().toString();
-	}
-
 }

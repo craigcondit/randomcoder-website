@@ -1,12 +1,9 @@
 package com.randomcoder.user;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
-public class RoleNotFoundExceptionTest
+public class RoleNotFoundExceptionTest extends TestCase
 {
-	@Test
 	public void testRoleNotFoundException()
 	{
 		try
@@ -19,7 +16,6 @@ public class RoleNotFoundExceptionTest
 		}
 	}
 
-	@Test
 	public void testRoleNotFoundExceptionString()
 	{
 		try
