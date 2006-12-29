@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+	                    http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+  	<groupId>com.randomcoder</groupId>
+  	<artifactId>randomcoder-base</artifactId>
+  	<version>1</version>
+  </parent>
+  <groupId>com.randomcoder</groupId>
+  <artifactId>randomcoder-website</artifactId>
+  <name>Randomcoder Website</name>
+  <packaging>war</packaging>
+  <version>2.0-SNAPSHOT</version>
+  <inceptionYear>2006</inceptionYear>
+  <url>http://randomcoder.com/maven/site/randomcoder-website/</url>
+  <description>
+  	This project contains the RandomCoder.Com website.
+  </description>
+  <scm>
+  	<connection>scm:svn:http://randomcoder.com/repos/public/randomcoder-website/trunk</connection>
+  	<developerConnection>scm:svn:https://randomcoder.com/repos/public/randomcoder-website/trunk</developerConnection>
+  	<url>http://randomcoder.com/repos/public/randomcoder-website/trunk</url>
+  </scm>
+  <repositories>
+  	<repository>
+  		<id>randomcoder-release</id>
+  		<name>Randomcoder Release</name>
+  		<url>http://randomcoder.com/maven/repository/release</url>
+  		<releases>
+  			<enabled>true</enabled>
+  		</releases>
+  		<snapshots>
+  			<enabled>false</enabled>
+  		</snapshots>
+  	</repository>
+  	<repository>
+  		<id>randomcoder-snapshot</id>
+  		<name>Randomcoder Snapshot</name>
+  		<url>http://randomcoder.com/maven/repository/snapshot</url>
+  		<releases>
+  			<enabled>false</enabled>
+  		</releases>
+  		<snapshots>
+  			<enabled>true</enabled>
+  		</snapshots>
+  	</repository>
+  </repositories>
+
+
+</project>
