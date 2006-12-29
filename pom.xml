@@ -36,6 +36,12 @@
       <version>2.1</version>
       <scope>test</scope>
     </dependency>
+ 		<dependency>
+ 			<groupId>postgresql</groupId>
+ 			<artifactId>postgresql</artifactId>
+ 			<version>8.1-407.jdbc3</version>
+ 			<scope>test</scope>
+ 		</dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-mock</artifactId>
@@ -75,6 +81,11 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
       <version>2.0.1</version>
     </dependency>
     <dependency>
@@ -118,9 +129,26 @@
       <testResource>
         <directory>src/test/resources</directory>
         <filtering>true</filtering>
+        <includes>
+        	<include>database.properties</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+        	<exclude>database.properties</exclude>
+        </excludes>
       </testResource>
     </testResources>
     <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
 	    <plugin>
 	    	<groupId>org.codehaus.mojo</groupId>
 	    	<artifactId>sql-maven-plugin</artifactId>

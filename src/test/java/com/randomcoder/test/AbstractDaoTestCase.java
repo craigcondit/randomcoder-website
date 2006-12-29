@@ -29,8 +29,7 @@ import com.randomcoder.user.*;
 
 abstract public class AbstractDaoTestCase extends TestCase
 {
-	private static DataSource adminDataSource;
-	private static DataSource userDataSource;
+	private static DataSource dataSource;
 	private SessionFactory sessionFactory;
 	
 	private static final String DATA_XML = "/database-data.xml";
@@ -75,7 +74,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		
 		try
 		{
-			con = adminDataSource.getConnection();
+			con = dataSource.getConnection();
 			
 			xml = new InputStreamReader(getClass().getResourceAsStream(DATA_XML));
 			dtd = new InputStreamReader(getClass().getResourceAsStream(DATA_DTD));
@@ -86,9 +85,9 @@ abstract public class AbstractDaoTestCase extends TestCase
 		}
 		finally
 		{
-			con.close();
-			xml.close();
-			dtd.close();
+			if (con != null) con.close();
+			if (xml != null) xml.close();
+			if (dtd != null) dtd.close();
 		}
 	}
 	
@@ -96,19 +95,6 @@ abstract public class AbstractDaoTestCase extends TestCase
 	protected final Object createDao(Class entityClass, Class daoClass) throws Exception
 	{
 		return createDao(new HibernateDao(entityClass), daoClass);
-//		HibernateDao daoTarget = new HibernateDao(entityClass);
-//		
-//		daoTarget.setSessionFactory(getSessionFactory());
-//
-//		FinderIntroductionInterceptor interceptor = new FinderIntroductionInterceptor();
-//		
-//		DefaultIntroductionAdvisor advisor = new DefaultIntroductionAdvisor(interceptor);
-//		
-//		ProxyFactory proxyFactory = new ProxyFactory(new Class[] { daoClass });
-//		proxyFactory.setTarget(daoTarget);
-//		proxyFactory.addAdvisor(advisor);
-//		
-//		return proxyFactory.getProxy();		
 	}
 
 	@SuppressWarnings("unchecked")
@@ -160,7 +146,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		ccProps.setProperty("com.randomcoder.article.Article.comments", "read-write");
 		
 		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
-		factory.setDataSource(userDataSource);
+		factory.setDataSource(dataSource);
 		factory.setHibernateProperties(hibProps);		
 		factory.setAnnotatedClasses(new Class[] {
     	Article.class, Comment.class, User.class, Role.class,
@@ -183,27 +169,19 @@ abstract public class AbstractDaoTestCase extends TestCase
 	public void setUp() throws Exception
 	{
 		String driver = getProperty("test.database.driver");
-		String type = getProperty("test.database.type");
-		String host = getProperty("test.database.host");
-		String name = getProperty("test.database.name");
-
-		String adminUsername = getProperty("test.database.admin.username");
-		String adminPassword = getProperty("test.database.admin.password");
+		String url = getProperty("test.database.url");
+		String username = getProperty("test.database.username");
+		String password = getProperty("test.database.password");
 		
-		String userUsername = getProperty("test.database.user.username");
-		String userPassword = getProperty("test.database.user.password");
-
-		String url = "jdbc:" + type + "://" + host + "/" + name;
+		Class.forName(driver);
 		
-		adminDataSource = new DriverManagerDataSource(driver, url, adminUsername, adminPassword);
-		userDataSource = new DriverManagerDataSource(driver, url, userUsername, userPassword);
+		dataSource = new DriverManagerDataSource(driver, url, username, password);
 	}
 	
 	@Override
 	public void tearDown() throws Exception
 	{
-		adminDataSource = null;
-		userDataSource = null;
+		dataSource = null;
 	}	
 	
 	protected final void begin() throws Exception
