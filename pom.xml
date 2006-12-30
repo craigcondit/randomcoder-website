@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
 	                    http://maven.apache.org/maven-v4_0_0.xsd">
 	                    
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>randomcoder-base</artifactId>
     <groupId>com.randomcoder</groupId>
     <version>5</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <groupId>com.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
   <packaging>war</packaging>
@@ -292,9 +292,8 @@
 						<link>http://java.sun.com/j2ee/1.4/docs/api/</link>
 						<link>http://www.springframework.org/docs/api/</link>
 						<link>http://www.hibernate.org/hib_docs/v3/api/</link>
-						<link>http://aopalliance.sourceforge.net/doc/"</link>
-						<link>http://randomcoder.com/javadoc/citadel/"</link>
-						<link>http://randomcoder.com/javadoc/taglibs/"</link>			
+						<link>http://aopalliance.sourceforge.net/doc/</link>
+						<link>http://randomcoder.com/maven/site/randomcoder-taglibs/apidocs/</link>			
   				</links>
   			</configuration>
   		</plugin>
