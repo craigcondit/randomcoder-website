@@ -1,0 +1,19 @@
+<site>
+  <bannerLeft>
+  	<src>http://randomcoder.com/images/randomcoder-logo.png</src>
+  	<href>../../../</href>
+  </bannerLeft>
+  <bannerRight>
+  	<name>${project.name}</name>
+  </bannerRight>
+  <body>
+  	<links>
+  		<item name="Home" href="../../../" />
+  		<item name="Randomcoder Website" href="../randomcoder-website/" />
+  		<item name="Randomcoder Taglibs" href="../randomcoder-taglibs/" />
+  	</links>
+  	
+  	${reports}
+  	
+  </body>
+</site>

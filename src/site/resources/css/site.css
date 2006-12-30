@@ -1,0 +1,12 @@
+#banner
+{
+	background-image: url(http://randomcoder.com/images/graph20.png);
+}
+#bannerRight
+{
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 60px;
+	font-size: 1.5em;
+}

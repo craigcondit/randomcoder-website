@@ -265,6 +265,64 @@
 	    		</execution>
 	    	</executions>
 	    </plugin>
+  		<plugin>
+  			<artifactId>maven-surefire-plugin</artifactId>
+  			<configuration>
+  				<testFailureIgnore>false</testFailureIgnore>
+  			</configuration>
+  		</plugin>
     </plugins>
+    <extensions>
+    	<extension>
+    		<groupId>org.apache.maven.wagon</groupId>
+    		<artifactId>wagon-ssh-external</artifactId>
+    		<version>1.0-beta-2</version>
+    	</extension>
+    </extensions>
   </build>  
+  <reporting>
+  	<plugins>
+  		<plugin>
+  			<artifactId>maven-javadoc-plugin</artifactId>
+  			<configuration>
+  				<charset>UTF-8</charset>
+  				<docencoding>UTF-8</docencoding>
+  				<links>
+						<link>http://java.sun.com/javase/6/docs/api/</link>
+						<link>http://java.sun.com/j2ee/1.4/docs/api/</link>
+						<link>http://www.springframework.org/docs/api/</link>
+						<link>http://www.hibernate.org/hib_docs/v3/api/</link>
+						<link>http://aopalliance.sourceforge.net/doc/"</link>
+						<link>http://randomcoder.com/javadoc/citadel/"</link>
+						<link>http://randomcoder.com/javadoc/taglibs/"</link>			
+  				</links>
+  			</configuration>
+  		</plugin>
+  		<plugin>
+  			<artifactId>maven-surefire-report-plugin</artifactId>
+  		</plugin>
+  		<plugin>
+  			<artifactId>maven-project-info-reports-plugin</artifactId>
+  			<reportSets>
+  				<reportSet>
+  					<reports>
+  						<report>index</report>
+  						<report>cim</report>
+  						<report>dependencies</report>
+  						<report>issue-tracking</report>
+  						<report>license</report>
+  						<report>summary</report>
+  						<report>project-team</report>
+  						<report>scm</report>
+  					</reports>
+  				</reportSet>
+  			</reportSets>
+  		</plugin>
+			<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>cobertura-maven-plugin</artifactId>
+  			<version>2.0</version>
+  		</plugin>
+  	</plugins>
+  </reporting>  
 </project>
