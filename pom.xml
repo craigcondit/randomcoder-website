@@ -47,6 +47,12 @@
       <url>http://randomcoder.com/maven/repository/snapshot</url>
     </repository>
   </repositories>  
+  <distributionManagement>
+  	<site>
+  		<id>randomcoder-site</id>
+  		<url>scpexe://strategichosts.com/home/maven/public_html/site/randomcoder-website</url>
+  	</site>
+  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
