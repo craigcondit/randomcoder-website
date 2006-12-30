@@ -23,6 +23,30 @@
     <developerConnection>scm:svn:https://randomcoder.com/repos/public/randomcoder-website/trunk</developerConnection>
     <url>http://randomcoder.com/repos/public/randomcoder-website/trunk</url>
   </scm>
+  <repositories>
+    <repository>
+      <releases>
+      	<enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>randomcoder-release</id>
+      <name>Randomcoder Release</name>
+      <url>http://randomcoder.com/maven/repository/release</url>
+    </repository>
+    <repository>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+      	<enabled>true</enabled>
+      </snapshots>
+      <id>randomcoder-snapshot</id>
+      <name>Randomcoder Snapshot</name>
+      <url>http://randomcoder.com/maven/repository/snapshot</url>
+    </repository>
+  </repositories>  
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
