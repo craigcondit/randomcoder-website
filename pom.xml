@@ -8,7 +8,7 @@
   <parent>
     <artifactId>randomcoder-base</artifactId>
     <groupId>com.randomcoder</groupId>
-    <version>5</version>
+    <version>6</version>
   </parent>
   <groupId>com.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
@@ -47,12 +47,6 @@
       <url>http://randomcoder.com/maven/repository/snapshot</url>
     </repository>
   </repositories>  
-  <distributionManagement>
-  	<site>
-  		<id>randomcoder-site</id>
-  		<url>scpexe://strategichosts.com/home/maven/public_html/site/randomcoder-website</url>
-  	</site>
-  </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
