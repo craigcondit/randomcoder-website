@@ -227,8 +227,12 @@
       	<configuration>
       		<warName>randomcoder</warName>
       		<webXml>${basedir}/target/jspweb.xml</webXml>
+      		<!-- 
       		<warSourceExcludes>**/*.jsp,WEB-INF/classes/**</warSourceExcludes>
       		<archiveClasses>true</archiveClasses>
+      		-->
+      		<warSourceExcludes>**/*.jsp</warSourceExcludes>
+      		<archiveClasses>false</archiveClasses>
       	</configuration>
       </plugin>
 	    <plugin>

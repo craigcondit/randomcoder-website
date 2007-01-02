@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 /**
- * Controller used to list users.
+ * Controller used to handle editing user profiles.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,12 +37,12 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserListController extends AbstractCommandController
+public class UserProfileController extends AbstractCommandController
 {
-	private UserDao userDao;	
+	private UserDao userDao;
+	private CardSpaceTokenDao cardSpaceTokenDao;
 	private String viewName;
-	private int defaultPageSize = 25;	
-	private int maximumPageSize = 100;
+	
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -55,6 +55,15 @@ public class UserListController extends AbstractCommandController
 	}
 	
 	/**
+	 * Sets the CardSpaceTokenDao implementation to use.
+	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
+	 */
+	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
+	{
+		this.cardSpaceTokenDao = cardSpaceTokenDao;
+	}
+	
+	/**
 	 * Sets the name of the view to use for the user list.
 	 * @param viewName view name
 	 */
@@ -64,52 +73,25 @@ public class UserListController extends AbstractCommandController
 		this.viewName = viewName;
 	}
 	
-	/**
-	 * Sets the default number of items to display per page (defaults to 25).
-	 * @param defaultPageSize default number of items per page
-	 */
-	public void setDefaultPageSize(int defaultPageSize)
-	{
-		this.defaultPageSize = defaultPageSize;
-	}
-
-	/**
-	 * Sets the maximum number of items to allow per page (defaults to 100).
-	 * @param maximumPageSize maximum number of items per page
-	 */
-	public void setMaximumPageSize(int maximumPageSize)
-	{
-		this.maximumPageSize = maximumPageSize;
-	}
-	
 	@Override
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{
-		UserListCommand cmd = (UserListCommand) command;
+		// get current user
+		String userName = request.getUserPrincipal().getName();
 		
-		// set range
-		int start = cmd.getStart();
-		if (start < 0) start = 0;
-		cmd.setStart(start);
+		User user = userDao.findByUserName(userName);
+		if (user == null)
+			throw new UserNotFoundException("No such user: " + userName);
 		
-		int limit = cmd.getLimit();
-		if (limit <= 0) limit = defaultPageSize;
-		if (limit > maximumPageSize) limit = maximumPageSize;		
-		cmd.setLimit(limit);
-
-		List<User> users = userDao.listAllInRange(start, limit);
-		int count = userDao.countAll();
-
+		List<CardSpaceToken> cardSpaceTokens = cardSpaceTokenDao.listByUser(user);
+		
 		// create model
 		ModelAndView mav = new ModelAndView(viewName);
 		
 		// populate model
-		mav.addObject("users", users);
-		mav.addObject("pageCount", count);
-		mav.addObject("pageStart", start);
-		mav.addObject("pageLimit", limit);
+		mav.addObject("user", user);
+		mav.addObject("cardSpaceTokens", cardSpaceTokens);
 		
 		return mav;
 	}
-
 }

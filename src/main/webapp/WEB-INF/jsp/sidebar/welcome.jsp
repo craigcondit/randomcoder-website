@@ -4,6 +4,7 @@
 <c:url var="logoutUrl" value="/logout" />
 <c:url var="postUrl" value="/article/add" />
 <c:url var="changePassUrl" value="/user/change-password" />
+<c:url var="userProfileUrl" value="/user/profile" />
 <c:url var="manageUsersUrl" value="/user" />
 <c:url var="manageTagsUrl" value="/tag" />
 <c:if test="${pageContext.request.userPrincipal != null}">
@@ -22,6 +23,7 @@
 				<li><a href="${manageTagsUrl}">Manage tags</a></li>
 			</authz:authorize>
 			<li><a href="${changePassUrl}">Change password</a></li>
+			<li><a href="${userProfileUrl}">My profile</a></li>
 	  	<li class="navbreak"><a href="${logoutUrl}">Logout</a></li>		
 		</ul>
 	</div>

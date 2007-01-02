@@ -47,6 +47,13 @@
 	</bean>
 	
 	<bean id="homeController" class="com.randomcoder.article.HomeController" parent="abstractArticleListController" />
+	
+	<bean id="userProfileController" class="com.randomcoder.user.UserProfileController">
+		<property name="userDao" ref="userDao" />
+		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
+		<property name="commandClass" value="java.lang.Object" />
+		<property name="viewName" value="user-profile" />
+	</bean>
 		
 	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
 		<property name="commandClass" value="com.randomcoder.article.ArticleTagPageCommand" />
@@ -227,6 +234,7 @@
 				<prop key="/user/edit">userEditController</prop>
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
+				<prop key="/user/profile">userProfileController</prop>
 				<prop key="/tag">tagListController</prop>
 				<prop key="/tag/add">tagAddController</prop>
 				<prop key="/tag/edit">tagEditController</prop>
