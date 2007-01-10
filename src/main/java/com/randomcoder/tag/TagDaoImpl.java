@@ -79,6 +79,7 @@ public class TagDaoImpl extends HibernateDao<Tag, Long> implements TagDaoBase
 
 	public int queryMostArticles()
 	{
-		return ((Number) getSession().getNamedQuery(QUERY_MOST_ARTICLES).uniqueResult()).intValue();
+		Number result = (Number) getSession().getNamedQuery(QUERY_MOST_ARTICLES).uniqueResult();
+		return result == null ? 0 : result.intValue();
 	}
 }
