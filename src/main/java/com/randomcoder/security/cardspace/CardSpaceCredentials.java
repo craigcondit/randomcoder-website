@@ -1,5 +1,7 @@
 package com.randomcoder.security.cardspace;
 
+import static com.randomcoder.security.cardspace.CardSpaceAttributes.CARDSPACE_CLAIMS_SCHEMA;
+
 import java.io.Serializable;
 import java.security.*;
 import java.util.*;
@@ -10,7 +12,7 @@ import com.randomcoder.saml.*;
  * CardSpace credentials implementation.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, 2007 Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -68,7 +70,12 @@ public final class CardSpaceCredentials implements Serializable
 		
 		for (SamlAttribute att : assertion.getAttributes())
 		{
-			atts.put(att.getAttributeSpec(), att.getValue());
+			SamlAttributeSpec spec = att.getAttributeSpec();
+			
+			// translate incorrect schema names sent by some clients (such as xmldap.org)
+			spec = translateClaimSchema(spec);
+			
+			atts.put(spec, att.getValue());
 		}
 		attributes = Collections.unmodifiableMap(atts);
 	}
@@ -301,5 +308,17 @@ public final class CardSpaceCredentials implements Serializable
 	public Map<SamlAttributeSpec, String> getClaims()
 	{
 		return attributes;
-	}	
+	}
+	
+	private SamlAttributeSpec translateClaimSchema(SamlAttributeSpec spec)
+	{
+		String ns = spec.getNamespace();
+		String local = spec.getLocal();
+		
+		// schema includes claim name
+		if (ns.equals(CARDSPACE_CLAIMS_SCHEMA + "/" + local))
+			return new SamlAttributeSpec(CARDSPACE_CLAIMS_SCHEMA, local);
+		
+		return spec;
+	}
 }
