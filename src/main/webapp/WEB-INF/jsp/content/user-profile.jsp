@@ -9,12 +9,14 @@
 <div class="sectionSubHeading">
 	<a class="add" href="${addUrl}">Add new card</a> :: <a href="${homeUrl}">Done</a>
 </div>
-<div class="sectionContentFull">
-	<c:choose>
-		<c:when test="${empty cardSpaceTokens}">
+<c:choose>
+	<c:when test="${empty cardSpaceTokens}">
+		<div class="sectionContent">
 			You do not have any information cards.
-		</c:when>
-		<c:otherwise>
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div class="sectionContentFull">
 			<c:set var="class" value="even" />
 			<c:forEach var="token" items="${cardSpaceTokens}" varStatus="status">
 				<c:url var="deleteLink" value="/user/delete-card">
@@ -44,6 +46,6 @@
 					<c:otherwise><c:set var="class" value="even" /></c:otherwise>
 				</c:choose>		
 			</c:forEach>
-		</c:otherwise>
-	</c:choose>
-</div>
+		</div>
+	</c:otherwise>
+</c:choose>
