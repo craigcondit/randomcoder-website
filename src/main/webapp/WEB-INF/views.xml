@@ -146,7 +146,7 @@
 	</bean>
 
 	<bean id="user-profile" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="home" />
+		<property name="parent" ref="main-layout" />
 		<property name="attributes">
 			<map>
 				<entry key="title" value="My profile" />

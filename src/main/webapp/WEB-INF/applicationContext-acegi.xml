@@ -50,6 +50,8 @@
 	      /j_security_check=REQUIRES_SECURE_CHANNEL
 	      /j_cardspace_check=REQUIRES_SECURE_CHANNEL
 	      /login*=REQUIRES_SECURE_CHANNEL
+	      /user/profile=REQUIRES_SECURE_CHANNEL
+	      /user/profile/**=REQUIRES_SECURE_CHANNEL
 	      /images/**=REQUIRES_ANY
 	      /css/**=REQUIRES_ANY
 	      /js/**=REQUIRES_ANY
@@ -143,6 +145,7 @@
 				/article/**=ROLE_MANAGE_ARTICLES,ROLE_POST_ARTICLES
 				/user/change-password=IS_AUTHENTICATED_REMEMBERED
 				/user/profile=IS_AUTHENTICATED_REMEMBERED
+				/user/profile/**=IS_AUTHENTICATED_REMEMBERED
 				/user=ROLE_MANAGE_USERS
 				/user/**=ROLE_MANAGE_USERS
 				/comment=ROLE_MANAGE_COMMENTS
