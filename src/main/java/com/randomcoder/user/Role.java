@@ -84,7 +84,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return role id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "roles")
 	@Column(name = "role_id")
 	public Long getId()
 	{

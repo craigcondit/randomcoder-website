@@ -65,7 +65,7 @@ public class User implements Serializable
 	 * @return user id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "users")
 	@Column(name = "user_id")
 	public Long getId()
 	{

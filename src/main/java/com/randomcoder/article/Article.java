@@ -80,7 +80,7 @@ public class Article implements Serializable
 	 * @return article id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "articles")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "articles")
 	@Column(name = "article_id")
 	public Long getId()
 	{

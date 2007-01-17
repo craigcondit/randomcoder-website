@@ -60,12 +60,12 @@
       <version>2.1</version>
       <scope>test</scope>
     </dependency>
- 		<dependency>
- 			<groupId>postgresql</groupId>
- 			<artifactId>postgresql</artifactId>
- 			<version>8.1-407.jdbc3</version>
- 			<scope>test</scope>
- 		</dependency>
+		<dependency>
+			<groupId>hsqldb</groupId>
+	 		<artifactId>hsqldb</artifactId>
+	 		<version>1.8.0.7</version>
+	 		<scope>test</scope>
+	 	</dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-mock</artifactId>
@@ -240,16 +240,16 @@
 	    	<artifactId>sql-maven-plugin</artifactId>
 	    	<dependencies>
 	    		<dependency>
-	    			<groupId>postgresql</groupId>
-	    			<artifactId>postgresql</artifactId>
-	    			<version>8.1-407.jdbc3</version>
+	    			<groupId>hsqldb</groupId>
+	    			<artifactId>hsqldb</artifactId>
+	    			<version>1.8.0.7</version>
 	    		</dependency>
 	    	</dependencies>
 	    	<configuration>
-	    		<username>${randomcoderWebsiteTestDatabaseUsername}</username>
-	    		<password>${randomcoderWebsiteTestDatabasePassword}</password>
-	    		<driver>org.postgresql.Driver</driver>
-	    		<url>${randomcoderWebsiteTestDatabaseUrl}</url>
+	    		<username>sa</username>
+	    		<password></password>
+	    		<driver>org.hsqldb.jdbcDriver</driver>
+	    		<url>jdbc:hsqldb:file:${project.build.directory}/test-database/test</url>
 	    	</configuration>
 	    	<executions>
 	    		<execution>
@@ -261,15 +261,8 @@
 	    			<configuration>
 	    				<autocommit>true</autocommit>
 	    				<srcFiles>
-	    					<srcFile>src/main/database/drop.sql</srcFile>
-	    					<srcFile>src/main/database/create.sql</srcFile>
-	    					<srcFile>src/main/database/populate.sql</srcFile>
-	    					<srcFile>src/main/database/upgrade-1.1.sql</srcFile>
-	    					<srcFile>src/main/database/upgrade-1.2.sql</srcFile>
-	    					<srcFile>src/main/database/upgrade-1.3.sql</srcFile>
-	    					<srcFile>src/main/database/upgrade-2.0.sql</srcFile>
+	    					<srcFile>src/test/database/test-init.sql</srcFile>
     					</srcFiles>
-	    				<onError>continue</onError>
 	    			</configuration>
 	    		</execution>
 	    	</executions>
@@ -279,6 +272,28 @@
   			<configuration>
   				<testFailureIgnore>false</testFailureIgnore>
   			</configuration>
+  		</plugin>
+			<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>cobertura-maven-plugin</artifactId>
+  			<version>2.0</version>
+  			<configuration>
+  				<instrumentation>
+  					<ignores>
+	  					<ignore>jsp.*</ignore>
+	  				</ignores>
+	  				<excludes>
+	  					<exclude>jsp/**/*.class</exclude>
+	  				</excludes>
+  				</instrumentation>
+  			</configuration>
+  			<executions>
+  				<execution>
+  					<goals>
+  						<goal>clean</goal>
+  					</goals>
+  				</execution>
+  			</executions>
   		</plugin>
     </plugins>
     <extensions>
@@ -306,6 +321,11 @@
   				</links>
   			</configuration>
   		</plugin>
+			<plugin>
+  			<groupId>org.codehaus.mojo</groupId>
+  			<artifactId>cobertura-maven-plugin</artifactId>
+  			<version>2.0</version>
+  		</plugin>
   		<plugin>
   			<artifactId>maven-surefire-report-plugin</artifactId>
   		</plugin>
@@ -325,11 +345,6 @@
   					</reports>
   				</reportSet>
   			</reportSets>
-  		</plugin>
-			<plugin>
-  			<groupId>org.codehaus.mojo</groupId>
-  			<artifactId>cobertura-maven-plugin</artifactId>
-  			<version>2.0</version>
   		</plugin>
   	</plugins>
   </reporting>  

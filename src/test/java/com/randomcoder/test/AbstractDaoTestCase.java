@@ -124,7 +124,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		Properties hibProps = new Properties();		
 		hibProps.setProperty("hibernate.current_session_context_class", "thread");
 		hibProps.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
-		hibProps.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		hibProps.setProperty("hibernate.dialect", getProperty("test.database.dialect"));
 		hibProps.setProperty("hibernate.show_sql", "false");
 		hibProps.setProperty("hibernate.max_fetch_depth", "2");
 		hibProps.setProperty("hibernate.jdbc.fetch_size", "100");

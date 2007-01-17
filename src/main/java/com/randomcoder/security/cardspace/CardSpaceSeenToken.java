@@ -59,7 +59,7 @@ public class CardSpaceSeenToken implements Serializable
 	 * @return token id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cardspace_seen_tokens")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "cardspace_seen_tokens")
 	@Column(name = "cardspace_seen_token_id")
 	public Long getId()
 	{

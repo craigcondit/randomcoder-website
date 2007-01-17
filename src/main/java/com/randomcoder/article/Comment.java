@@ -59,7 +59,7 @@ public class Comment implements Serializable
 	 * @return id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comments")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "comments")
 	@Column(name = "comment_id")
 	public Long getId()
 	{

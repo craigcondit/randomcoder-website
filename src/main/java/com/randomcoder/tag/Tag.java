@@ -90,7 +90,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return tag id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tags")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tags")
 	@Column(name = "tag_id")
 	public Long getId()
 	{
