@@ -17,10 +17,6 @@
 		<level value="warn" />
 	</logger>
 
-	<logger name="com.randomcoder.citadel">
-		<level value="warn" />
-	</logger>
-	
 	<logger name="org.apache">
 		<level value="warn" />
 	</logger>

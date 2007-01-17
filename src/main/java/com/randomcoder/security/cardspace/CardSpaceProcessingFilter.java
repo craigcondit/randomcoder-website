@@ -112,8 +112,12 @@ public class CardSpaceProcessingFilter extends AbstractProcessingFilter
 	public Authentication attemptAuthentication(HttpServletRequest request)
 	throws AuthenticationException
 	{
+		logger.debug("attemptAuthentication()");
+		
 		// retrieve token
 		String xmlToken = getXmlToken(request);
+		
+		if (debug) logger.debug("XML Token: " + xmlToken);
 		
 		// parse token
 		Document doc = parseXmlToken(xmlToken);
