@@ -7,7 +7,7 @@
 <c:url var="addUrl" value="/user/profile/add-card" />
 <div class="sectionHeading">Information cards</div>
 <div class="sectionSubHeading">
-	<a class="add" href="${addUrl}">Add new card</a> :: <a href="${homeUrl}">Done</a>
+	<a href="${homeUrl}">Done</a>
 </div>
 <c:choose>
 	<c:when test="${empty cardSpaceTokens}">
