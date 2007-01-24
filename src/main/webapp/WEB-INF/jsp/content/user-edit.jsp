@@ -35,7 +35,7 @@
 						</div>
 						<div>					
 							<label for="userName">User name:</label>
-							<input:text name="userName" styleClass="text" styleId="userName" maxlength="30" value="${status.value}" />
+							<input:text name="userName" styleClass="text" styleId="userNameText" maxlength="30" value="${status.value}" />
 						</div>
 						<div class="description">
 							Enter a login name for the new user.
@@ -94,6 +94,26 @@
 				</div>
 				<div class="description">
 					Enter the user's email address.
+				</div>
+			</div>
+  	</spring:bind>
+
+  	<spring:bind path="command.website">
+  		<c:set var="fieldClasses">fields<c:if test="${status.error}"> error</c:if></c:set>
+			<div class="${fieldClasses}">
+				<div>
+					<c:if test="${status.error}">
+						<c:forEach var="error" items="${status.errorMessages}">
+							<span class="error"><c:out value="${error}" /></span>
+						</c:forEach>
+					</c:if>
+				</div>
+				<div>					
+					<label for="website">Web site:</label>
+					<input:text name="website" styleClass="text" styleId="website" maxlength="255" value="${status.value}" />
+				</div>
+				<div class="description">
+					Enter the user's web site.
 				</div>
 			</div>
   	</spring:bind>
@@ -183,7 +203,7 @@
   	<div class="fields">
 			<c:if test="${template.formMode == 'edit'}">
 	  		<input:hidden name="id" value="${command.id}" />
-	  		<input:hidden name="userName" value="${command.userName}" />
+	  		<input:hidden name="userName" styleId="userNameHidden" value="${command.userName}" />
 	  	</c:if>
   		<div class="buttons">
 		    <input type="submit" class="submit" value="Save &#187;" />

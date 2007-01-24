@@ -12,7 +12,7 @@ import com.randomcoder.io.Producer;
  * Command class for adding users.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,6 +42,7 @@ public class UserAddCommand implements Serializable, Producer<User>
 	
 	private String userName;
 	private String emailAddress;
+	private String website;
 	private boolean enabled;	
 	private String password;
 	private String password2;
@@ -82,6 +83,24 @@ public class UserAddCommand implements Serializable, Producer<User>
 	public void setEmailAddress(String emailAddress)
 	{
 		this.emailAddress = StringUtils.trimToNull(emailAddress);
+	}
+	
+	/**
+	 * Sets the web site for this user.
+	 * @param website web site
+	 */
+	public void setWebsite(String website)
+	{
+		this.website = StringUtils.trimToNull(website);
+	}
+	
+	/**
+	 * Gets the website for this user.
+	 * @return web site
+	 */
+	public String getWebsite()
+	{
+		return website;
 	}
 	
 	/**
@@ -165,6 +184,7 @@ public class UserAddCommand implements Serializable, Producer<User>
 			user.setUserName(userName); // only for new users
 		
 		user.setEmailAddress(emailAddress);
+		user.setWebsite(website);
 		user.setEnabled(enabled);
 		
 		if (password != null && password.trim().length() > 0)
@@ -173,8 +193,6 @@ public class UserAddCommand implements Serializable, Producer<User>
 		}
 		
 		if (user.getRoles() == null) user.setRoles(new ArrayList<Role>());
-		
-		
 		
 		Set<Role> currentRoles = new HashSet<Role>(user.getRoles());
 		Set<Role> selectedRoles = new HashSet<Role>();

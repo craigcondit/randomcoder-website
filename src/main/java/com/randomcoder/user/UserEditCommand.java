@@ -8,7 +8,7 @@ import com.randomcoder.io.Consumer;
  * Command class for editing users.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -60,6 +60,7 @@ public class UserEditCommand extends UserAddCommand implements Consumer<User>
 	{
 		setUserName(user.getUserName());
 		setEmailAddress(user.getEmailAddress());
+		setWebsite(user.getWebsite());
 		setEnabled(user.isEnabled());
 		
 		List<Role> roleList = user.getRoles();

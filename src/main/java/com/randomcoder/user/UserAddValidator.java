@@ -10,7 +10,7 @@ import com.randomcoder.validation.DataValidationUtils;
  * Validator used for adding users.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,6 +45,7 @@ public class UserAddValidator implements Validator
 	private static final String ERROR_USERNAME_EXISTS = "error.user.username.exists";
 	private static final String ERROR_EMAIL_ADDRESS_REQUIRED = "error.user.emailaddress.required";
 	private static final String ERROR_EMAIL_ADDRESS_INVALID = "error.user.emailaddress.invalid";
+	private static final String ERROR_WEBSITE_INVALID = "error.user.website.invalid";
 	private static final String ERROR_PASSWORD_REQUIRED = "error.user.password.required";
 	private static final String ERROR_PASSWORD_TOO_SHORT = "error.user.password.tooshort";
 	private static final String ERROR_PASSWORD_NO_MATCH = "error.user.password.nomatch";
@@ -150,6 +151,16 @@ public class UserAddValidator implements Validator
 		else if (!DataValidationUtils.isValidEmailAddress(emailAddress))
 		{
 			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID, "Email address invalid.");
+		}
+		
+		// web site
+		String website = command.getWebsite();
+		if (website != null)
+		{
+			if (website.length() > 255 || !DataValidationUtils.isValidUrl(website))
+			{
+				errors.rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
+			}
 		}
 		
 		// password (if specified)

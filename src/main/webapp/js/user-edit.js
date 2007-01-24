@@ -3,7 +3,7 @@ Behaviour.register({
 		el.focus();
 		el.select();
 	},
-	'#userName' : function(el) {
+	'#userNameText' : function(el) {
 		el.focus();
 		el.select();
 	}

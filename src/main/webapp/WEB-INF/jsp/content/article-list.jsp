@@ -35,14 +35,30 @@
 	<div class="sectionSubHeading">
 		Posted
 		<c:if test="${articleAuthor != null}">
-			by <strong><c:out value="${articleAuthor}" /></strong>
+			by
+			<c:choose>
+				<c:when test="${articleDecorator.article.createdByUser != null && articleDecorator.article.createdByUser.website != null}">
+					<a class="external" href="${articleDecorator.article.createdByUser.website}"><c:out value="${articleAuthor}" /></a>
+				</c:when>
+				<c:otherwise>
+					<strong><c:out value="${articleAuthor}" /></strong>
+				</c:otherwise>
+			</c:choose>			
 		</c:if>
 		on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.creationDate}" />
 		@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.creationDate}" />
 		<c:if test="${articleDecorator.article.modificationDate != null}">
 			:: Updated
 			<c:if test="${articleDecorator.article.modifiedByUser != null}">
-				by <strong><c:out value="${articleDecorator.article.modifiedByUser.userName}" /></strong>
+				by
+				<c:choose>
+					<c:when test="${articleDecorator.article.modifiedByUser.website != null}">
+						<a class="external" href="${articleDecorator.article.modifiedByUser.website}"><c:out value="${articleDecorator.article.modifiedByUser.userName}" /></a>
+					</c:when>
+					<c:otherwise>
+						<strong><c:out value="${articleDecorator.article.modifiedByUser.userName}" /></strong>
+					</c:otherwise>
+				</c:choose>
 			</c:if>
 			on <fmt:formatDate type="date" dateStyle="short" value="${articleDecorator.article.modificationDate}" />
 			@ <fmt:formatDate type="time" timeStyle="short" value="${articleDecorator.article.modificationDate}" /></c:if>
@@ -118,16 +134,18 @@
 		  <c:choose>
 			  <c:when test="${commentDecorator.comment.createdByUser != null}">
 			  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
-			  	<%-- TODO this should eventually reference username link --%>
-			  	<c:set var="commentLink" value="${null}" />
+			  	<c:set var="commentLink" value="${commentDecorator.comment.createdByUser.website}" />
+			  	<c:set var="commentExternal" value="${true}" />
 			  </c:when>
 			  <c:when test="${commentDecorator.comment.anonymousUserName != null}">
 			  	<c:set var="commentAuthor" value="${commentDecorator.comment.anonymousUserName}" />
 			  	<c:set var="commentLink" value="${commentDecorator.comment.anonymousWebsite}" />
+			  	<c:set var="commentExternal" value="${true}" />
 			  </c:when>
 			  <c:otherwise>
 				  <c:set var="commentAuthor" value="${null}" />			  
 			  	<c:set var="commentLink" value="${null}" />
+			  	<c:set var="commentExternal" value="${false}" />
 			  </c:otherwise>
 			</c:choose>
   		<div class="sectionHeading"><c:out value="${commentDecorator.comment.title}" /></div>
@@ -136,8 +154,11 @@
 				<c:if test="${commentAuthor != null}">
 					by
 					<c:choose>
-						<c:when test="${commentLink != null}">
-							<a rel="nofollow" href="${commentLink}"><strong><c:out value="${commentAuthor}" /></strong></a>
+						<c:when test="${commentLink != null && commentExternal}">
+							<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
+						</c:when>
+						<c:when test="${commentLink != null && !commentExternal}">
+							<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
 						</c:when>
 						<c:otherwise>
 							<strong><c:out value="${commentAuthor}" /></strong>	
