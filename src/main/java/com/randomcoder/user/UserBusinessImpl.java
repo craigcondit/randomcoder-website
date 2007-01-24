@@ -1,15 +1,19 @@
 package com.randomcoder.user;
 
+import java.util.*;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.randomcoder.io.*;
+import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Business implementation for user management.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,6 +40,7 @@ import com.randomcoder.io.*;
 public class UserBusinessImpl implements UserBusiness
 {
 	private UserDao userDao;
+	private CardSpaceTokenDao cardSpaceTokenDao;	
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -45,6 +50,16 @@ public class UserBusinessImpl implements UserBusiness
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;
+	}
+	
+	/**
+	 * Sets the CardSpaceTokenDao implementation to use.
+	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
+	 */
+	@Required
+	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
+	{
+		this.cardSpaceTokenDao = cardSpaceTokenDao;
 	}
 
 	@Transactional
@@ -97,4 +112,31 @@ public class UserBusinessImpl implements UserBusiness
 			throw new UserNotFoundException();
 		return user;
 	}
+
+	@Transactional
+	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials)
+	{
+		User user = loadUser(userId);
+		
+		String ppid = credentials.getPrivatePersonalIdentifier();
+		String issuerHash = calculateIssuerHash(credentials);
+		
+		if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
+			throw new CardSpaceTokenExistsException();
+		
+		CardSpaceToken token = new CardSpaceToken();
+		token.setCreationDate(new Date());
+		token.setUser(user);
+		token.setPrivatePersonalIdentifier(ppid);
+		token.setIssuerHash(issuerHash);
+		token.setEmailAddress(credentials.getEmailAddress());				
+		
+		cardSpaceTokenDao.create(token);		
+	}	
+	
+	private String calculateIssuerHash(CardSpaceCredentials credentials)
+	{
+		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
+	}
+	
 }

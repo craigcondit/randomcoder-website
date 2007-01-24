@@ -200,6 +200,7 @@
 	
 	<bean id="userBusiness" class="com.randomcoder.user.UserBusinessImpl">
 		<property name="userDao" ref="userDao" />
+		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 
 	<bean id="tagBusiness" class="com.randomcoder.tag.TagBusinessImpl">

@@ -1,5 +1,9 @@
 package com.randomcoder.user;
 
+import java.util.Locale;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
@@ -36,8 +40,21 @@ import com.randomcoder.validation.DataValidationUtils;
 public class UserProfileValidator implements Validator
 {
 	private static final String ERROR_INFOCARD_REQUIRED = "error.profile.infocard.required";
+	private static final String ERROR_INFOCARD_EXISTS = "error.profile.infocard.exists";
 	private static final String ERROR_INFOCARD_PPID_REQUIRED = "error.profile.infocard.ppid.required";
 	private static final String ERROR_INFOCARD_EMAIL_REQUIRED = "error.profile.infocard.email.required";
+	
+	private CardSpaceTokenDao cardSpaceTokenDao;
+	
+	/**
+	 * Sets the CardSpaceTokenDao implementation to use.
+	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
+	 */
+	@Required
+	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
+	{
+		this.cardSpaceTokenDao = cardSpaceTokenDao;
+	}
 	
 	/**
 	 * Determines if the target class is supported by this validator.
@@ -74,6 +91,15 @@ public class UserProfileValidator implements Validator
 			return;
 		}
 		
+		// check for existing
+		String issuerHash = calculateIssuerHash(credentials);
+		
+		if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
+		{
+			errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
+			return;
+		}
+		
 		// need email address
 		String emailAddress = credentials.getEmailAddress();
 		if (emailAddress == null || emailAddress.trim().length() == 0)
@@ -88,5 +114,11 @@ public class UserProfileValidator implements Validator
 			errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
 			return;
 		}
+		
 	}
+	
+	private String calculateIssuerHash(CardSpaceCredentials credentials)
+	{
+		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
+	}	
 }

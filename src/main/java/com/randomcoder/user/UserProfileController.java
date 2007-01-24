@@ -46,6 +46,7 @@ public class UserProfileController extends SimpleFormController
 	private UserDao userDao;
 	private CardSpaceTokenDao cardSpaceTokenDao;
 	private CertificateContext certificateContext;
+	private UserBusiness userBusiness;
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -74,6 +75,15 @@ public class UserProfileController extends SimpleFormController
 	public void setCertificateContext(CertificateContext certificateContext)
 	{
 		this.certificateContext = certificateContext;
+	}
+	
+	/**
+	 * Sets the UserBusiness implementation to use.
+	 * @param userBusiness UserBusiness implementation
+	 */
+	public void setUserBusiness(UserBusiness userBusiness)
+	{
+		this.userBusiness = userBusiness;
 	}
 	
 	@Override
@@ -117,7 +127,10 @@ public class UserProfileController extends SimpleFormController
 		if (user == null)
 			throw new UserNotFoundException("No such user: " + userName);
 		
-		// TODO save token
+		UserProfileCommand form = (UserProfileCommand) command;
+		
+		// save token
+		userBusiness.associateCardSpaceCredentials(user.getId(), form.getXmlToken());
 		
 		return new ModelAndView(getSuccessView());		
 	}

@@ -1,13 +1,10 @@
 package com.randomcoder.user;
 
-import com.randomcoder.io.*;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-
 /**
- * Business interface for user management.
+ * Exception thrown when a CardSpace token already exists.
  * 
  * <pre>
- * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,46 +28,15 @@ import com.randomcoder.security.cardspace.CardSpaceCredentials;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface UserBusiness
+public class CardSpaceTokenExistsException extends RuntimeException
 {
-	/**
-	 * Change a user's password.
-	 * @param userName user name
-	 * @param password new password
-	 */
-	public void changePassword(String userName, String password);
-	
-	/**
-	 * Create a new user.
-	 * @param producer user producer
-	 */
-	public void createUser(Producer<User> producer);
+	private static final long serialVersionUID = 6206237564482067300L;
 
 	/**
-	 * Loads a user for editing.
-	 * @param consumer consumer
-	 * @param userId id of user to load
+	 * Default constructor.
 	 */
-	public void loadUserForEditing(Consumer<User> consumer, Long userId);
-
-	/**
-	 * Update an existing user.
-	 * @param producer user producer
-	 * @param userId user id
-	 */
-	public void updateUser(Producer<User> producer, Long userId);
-	
-	/**
-	 * Deletes a user.
-	 * @param userId user id to delete
-	 */
-	public void deleteUser(Long userId);
-	
-	/**
-	 * Associates the given CardSpaceCredentials with the given user.
-	 * @param userId user id of user to associate credentials with
-	 * @param credentials CardSpace credentials
-	 */
-	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials);
-	
+	public CardSpaceTokenExistsException()
+	{
+		super();
+	}
 }
