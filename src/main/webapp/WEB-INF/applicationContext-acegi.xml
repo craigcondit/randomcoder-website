@@ -275,4 +275,8 @@
 	<!-- Logging -->
 	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener" />
 	
+	<!-- Events -->
+	<bean id="authenticationEventListener" class="com.randomcoder.security.AuthenticationAuditListener">
+		<property name="userBusiness" ref="userBusiness" />
+	</bean>
 </beans>

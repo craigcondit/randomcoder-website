@@ -57,6 +57,7 @@ public class User implements Serializable
 	private String password;
 	private String emailAddress;
 	private boolean enabled;
+	private Date lastLoginDate;
 
 	private List<Role> roles;
 
@@ -178,6 +179,25 @@ public class User implements Serializable
 		this.enabled = enabled;
 	}
 
+	/**
+	 * Gets the last time this user logged in.
+	 * @return last login date
+	 */
+	@Column(name="login_date", unique = false, nullable = true)
+	public Date getLastLoginDate()
+	{
+		return lastLoginDate;
+	}
+	
+	/**
+	 * Sets the last date this user logged in.
+	 * @param lastLoginDate last login date
+	 */
+	public void setLastLoginDate(Date lastLoginDate)
+	{
+		this.lastLoginDate = lastLoginDate;
+	}
+	
 	/**
 	 * Gets a string representation of this object, suitable for debugging.
 	 * @return string representation of this object

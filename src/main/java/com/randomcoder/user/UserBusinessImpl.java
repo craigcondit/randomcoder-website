@@ -133,6 +133,39 @@ public class UserBusinessImpl implements UserBusiness
 		
 		cardSpaceTokenDao.create(token);		
 	}	
+
+	@Transactional
+	public void auditUsernamePasswordLogin(String userName)
+	{
+		User user = userDao.findByUserName(userName);
+		
+		if (user == null)
+			throw new UserNotFoundException("Unknown user: " + userName);
+		
+		user.setLastLoginDate(new Date());
+		
+		userDao.update(user);
+	}
+
+	@Transactional
+	public void auditCardSpaceLogin(CardSpaceCredentials credentials)
+	{
+		String ppid = credentials.getPrivatePersonalIdentifier();
+		String issuerHash = calculateIssuerHash(credentials);
+		
+		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
+		
+		if (token == null)
+			throw new UserNotFoundException();
+		
+		User user = token.getUser();
+		
+		user.setLastLoginDate(new Date());
+		token.setLastLoginDate(user.getLastLoginDate());
+		
+		userDao.update(user);
+		cardSpaceTokenDao.update(token);		
+	}
 	
 	private String calculateIssuerHash(CardSpaceCredentials credentials)
 	{

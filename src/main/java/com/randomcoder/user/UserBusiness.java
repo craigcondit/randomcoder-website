@@ -73,4 +73,17 @@ public interface UserBusiness
 	 */
 	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials);
 	
+	/**
+	 * Marks a user as having logged in as of a particular date and time. 
+	 * @param userName user name to update
+	 */
+	public void auditUsernamePasswordLogin(String userName);
+		
+	/**
+	 * Marks a user as having logged in as of a particular date and time
+	 * and marks the associated CardSpaceToken as used.
+	 * @param credentials credentials to update
+	 */
+	public void auditCardSpaceLogin(CardSpaceCredentials credentials);
+	
 }

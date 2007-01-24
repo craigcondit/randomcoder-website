@@ -8,6 +8,7 @@ UPDATE roles SET name = 'ROLE_MANAGE_COMMENTS' WHERE name = 'manage-comments';
 
 -- Make password nullable to support cardspace-only logins
 ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
+ALTER TABLE users ADD COLUMN login_date TIMESTAMP WITH TIME ZONE NULL;
 
 -- cardspace_tokens
 CREATE SEQUENCE cardspace_tokens_seq;
