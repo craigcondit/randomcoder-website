@@ -62,7 +62,8 @@
 			</c:if>
 		</spring:bind>	
   	<spring:bind path="command.xmlToken">
-			<div class="fields required">
+			<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
+			<div class="${fieldClasses}">
 				<div>
 					<c:if test="${status.error}">
 						<c:forEach var="error" items="${status.errorMessages}">
