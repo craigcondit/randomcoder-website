@@ -15,6 +15,11 @@
 		<property name="contextRelative" value="true" />
 		<property name="url" value="/user" />
 	</bean>
+	
+	<bean id="user-profile-redirect" class="org.springframework.web.servlet.view.RedirectView">
+		<property name="contextRelative" value="true" />
+		<property name="url" value="/user/profile" />
+	</bean>
 
 	<bean id="tag-list-redirect" class="org.springframework.web.servlet.view.RedirectView">
 		<property name="contextRelative" value="true" />

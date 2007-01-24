@@ -51,9 +51,15 @@
 	<bean id="userProfileController" class="com.randomcoder.user.UserProfileController">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
-		<property name="commandClass" value="java.lang.Object" />
-		<property name="viewName" value="user-profile" />
+		<property name="commandClass" value="com.randomcoder.user.UserProfileCommand" />
+		<property name="certificateContext" ref="certificateContext" />
+		<property name="formView" value="user-profile" />
+		<property name="successView" value="user-profile-redirect" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="userProfileValidator" />
 	</bean>
+	
+	<bean id="userProfileValidator" class="com.randomcoder.user.UserProfileValidator" />
 		
 	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
 		<property name="commandClass" value="com.randomcoder.article.ArticleTagPageCommand" />

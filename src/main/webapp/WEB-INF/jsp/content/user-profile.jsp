@@ -3,8 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://randomcoder.com/tags-escape" prefix="rcesc" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/" />
-<c:url var="addUrl" value="/user/profile/add-card" />
+<c:url var="addUrl" value="/user/profile" />
 <div class="sectionHeading">Information cards</div>
 <div class="sectionSubHeading">
 	<a href="${homeUrl}">Done</a>
@@ -52,21 +53,37 @@
 
 <div class="sectionHeading">Add an information card</div>
 <div class="sectionContent">
-	<form name="infocard" id="infocard" method="post" action="${pageContext.request.contextPath}/user/profile/add-card">
-		<div class="fields required">
-			<div>					
-				<label>Information card:</label>
-				<div style="margin-left: 10.5em">
-					<img
-						style="cursor: pointer; cursor: hand; width: 100px; height: 86px"
-						alt="Login with your information card" title="Add an information card"
-						src="${pageContext.request.contextPath}/images/informationcard.gif"
-						onclick="document.getElementById('infocard').submit()" />
-					<object type="application/x-informationCard" name="xmlToken">
-						<param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
-						<param name="requiredClaims" value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress" />
+	<form name="infocard" id="infocard" method="post" action="${addUrl}">	
+		<spring:bind path="command">
+			<c:if test="${fn:length(status.errorMessages) > 0}">
+				<c:forEach items="${status.errorMessages}" var="error">
+					<div class="globalError"><c:out value="${error}" /></div>
+				</c:forEach>
+			</c:if>
+		</spring:bind>	
+  	<spring:bind path="command.xmlToken">
+			<div class="fields required">
+				<div>
+					<c:if test="${status.error}">
+						<c:forEach var="error" items="${status.errorMessages}">
+							<span class="error"><c:out value="${error}" /></span>
+						</c:forEach>
+					</c:if>
+				</div>
+				<div>					
+					<label>Information card:</label>
+					<div style="margin-left: 10.5em">
+						<img
+							style="cursor: pointer; cursor: hand; width: 100px; height: 86px"
+							alt="Login with your information card" title="Add an information card"
+							src="${pageContext.request.contextPath}/images/informationcard.gif"
+							onclick="document.getElementById('infocard').submit()" />
+						<object type="application/x-informationCard" name="xmlToken">
+							<param name="tokenType" value="urn:oasis:names:tc:SAML:1.0:assertion" />
+							<param name="requiredClaims" value="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/privatepersonalidentifier http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress" />
+					</div>
 				</div>
 			</div>
-		</div>
+		</spring:bind>		
 	</form>	
 </div>

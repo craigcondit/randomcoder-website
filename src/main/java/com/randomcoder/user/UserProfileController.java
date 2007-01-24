@@ -1,13 +1,17 @@
 package com.randomcoder.user;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.validation.BindException;
+import org.springframework.validation.*;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractCommandController;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+
+import com.randomcoder.crypto.CertificateContext;
+import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Controller used to handle editing user profiles.
@@ -37,12 +41,11 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserProfileController extends AbstractCommandController
+public class UserProfileController extends SimpleFormController
 {
 	private UserDao userDao;
 	private CardSpaceTokenDao cardSpaceTokenDao;
-	private String viewName;
-	
+	private CertificateContext certificateContext;
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -64,18 +67,27 @@ public class UserProfileController extends AbstractCommandController
 	}
 	
 	/**
-	 * Sets the name of the view to use for the user list.
-	 * @param viewName view name
+	 * Sets the certificate context used to lookup private keys.
+	 * @param certificateContext certificate context
 	 */
 	@Required
-	public void setViewName(String viewName)
+	public void setCertificateContext(CertificateContext certificateContext)
 	{
-		this.viewName = viewName;
+		this.certificateContext = certificateContext;
 	}
 	
 	@Override
-	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
+		super.initBinder(request, binder);
+		binder.registerCustomEditor(CardSpaceCredentials.class, new CardSpaceCredentialsPropertyEditor(certificateContext));
+	}
+	
+	@Override
+	protected Map<String, Object> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception
+	{
+		Map<String, Object> data = new HashMap<String, Object>();
+
 		// get current user
 		String userName = request.getUserPrincipal().getName();
 		
@@ -83,15 +95,30 @@ public class UserProfileController extends AbstractCommandController
 		if (user == null)
 			throw new UserNotFoundException("No such user: " + userName);
 		
+		// get cardspace tokens associated with this user
 		List<CardSpaceToken> cardSpaceTokens = cardSpaceTokenDao.listByUser(user);
 		
-		// create model
-		ModelAndView mav = new ModelAndView(viewName);
+		data.put("user", user);
+		data.put("cardSpaceTokens", cardSpaceTokens);
 		
-		// populate model
-		mav.addObject("user", user);
-		mav.addObject("cardSpaceTokens", cardSpaceTokens);
+		return data;
+	}
+
+	/**
+	 * Associated the supplied CardSpace token with the current user
+	 */
+	@Override
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
+	{		
+		// get current user
+		String userName = request.getUserPrincipal().getName();
 		
-		return mav;
+		User user = userDao.findByUserName(userName);
+		if (user == null)
+			throw new UserNotFoundException("No such user: " + userName);
+		
+		// TODO save token
+		
+		return new ModelAndView(getSuccessView());		
 	}
 }
