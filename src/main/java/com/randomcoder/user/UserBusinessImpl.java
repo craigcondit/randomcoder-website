@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.randomcoder.io.*;
+import com.randomcoder.security.UnauthorizedException;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
@@ -95,7 +96,14 @@ public class UserBusinessImpl implements UserBusiness
 	public void deleteUser(Long userId)
 	{
 		User user = loadUser(userId);
-		userDao.delete(user);
+		
+		List<CardSpaceToken> tokens = cardSpaceTokenDao.listByUser(user);
+		for (CardSpaceToken token : tokens)
+		{
+			cardSpaceTokenDao.delete(token);
+		}
+		
+		userDao.delete(user);		
 	}
 
 	@Transactional(readOnly=true)
@@ -156,7 +164,7 @@ public class UserBusinessImpl implements UserBusiness
 		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
 		
 		if (token == null)
-			throw new UserNotFoundException();
+			throw new CardSpaceTokenNotFoundException();
 		
 		User user = token.getUser();
 		
@@ -167,6 +175,23 @@ public class UserBusinessImpl implements UserBusiness
 		cardSpaceTokenDao.update(token);		
 	}
 	
+	@Transactional
+	public void deleteCardSpaceToken(String userName, Long tokenId)
+	{
+		User user = userDao.findByUserName(userName);
+		if (user == null)
+			throw new UserNotFoundException("Unknown user: " + userName);
+		
+		CardSpaceToken token = cardSpaceTokenDao.read(tokenId);
+		if (token == null)
+			throw new CardSpaceTokenNotFoundException();
+		
+		if (!user.equals(token.getUser()))
+			throw new UnauthorizedException("You are not allowed to delete information cards you did not create.");
+		
+		cardSpaceTokenDao.delete(token);
+	}
+
 	private String calculateIssuerHash(CardSpaceCredentials credentials)
 	{
 		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);

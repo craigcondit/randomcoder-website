@@ -58,10 +58,16 @@
 		<property name="successView" value="user-profile-redirect" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="validator" ref="userProfileValidator" />
-	</bean>
+	</bean>	
 	
 	<bean id="userProfileValidator" class="com.randomcoder.user.UserProfileValidator">
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
+	</bean>
+	
+	<bean id="userProfileCardSpaceDeleteController" class="com.randomcoder.user.UserProfileCardSpaceDeleteController">
+		<property name="viewName" value="user-profile-redirect" />
+		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 		
 	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
@@ -244,6 +250,7 @@
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/user/profile">userProfileController</prop>
+				<prop key="/user/profile/delete-card">userProfileCardSpaceDeleteController</prop>
 				<prop key="/tag">tagListController</prop>
 				<prop key="/tag/add">tagAddController</prop>
 				<prop key="/tag/edit">tagEditController</prop>

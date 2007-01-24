@@ -86,4 +86,10 @@ public interface UserBusiness
 	 */
 	public void auditCardSpaceLogin(CardSpaceCredentials credentials);
 	
+	/**
+	 * Deletes a CardSpace token.
+	 * @param userName current user
+	 * @param tokenId id of token to delete
+	 */
+	public void deleteCardSpaceToken(String userName, Long tokenId);
 }
