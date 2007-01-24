@@ -56,6 +56,7 @@ public class User implements Serializable
 	private String userName;
 	private String password;
 	private String emailAddress;
+	private String website;
 	private boolean enabled;
 	private Date lastLoginDate;
 
@@ -159,7 +160,26 @@ public class User implements Serializable
 	{
 		this.emailAddress = emailAddress;
 	}
-
+	
+	/**
+	 * Gets the web site of this user.
+	 * @return web site
+	 */
+	@Column(name = "website", nullable = true, length = 255)
+	public String getWebsite()
+	{
+		return website;		
+	}
+	
+	/**
+	 * Sets the web site of this user.
+	 * @param website web site
+	 */
+	public void setWebsite(String website)
+	{
+		this.website = website;
+	}
+	
 	/**
 	 * Determines if this user is enabled.
 	 * @return true if enabled, false otherwise
@@ -210,7 +230,9 @@ public class User implements Serializable
 			@Override
 			protected boolean accept(Field f)
 			{
-				return super.accept(f) && !f.getName().equals("password");
+				if (f.getName().equals("password")) return false;
+				if (f.getName().equals("website")) return false;
+				return super.accept(f);
 			}
 		}).toString();
 	}

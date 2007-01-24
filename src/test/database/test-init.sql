@@ -17,6 +17,7 @@ CREATE TABLE users (
 	email VARCHAR(320) NOT NULL,
 	enabled BOOLEAN NOT NULL,
 	login_date TIMESTAMP NULL,
+	website VARCHAR(255) NULL,
 	CONSTRAINT users_pkey PRIMARY KEY (user_id),
 	CONSTRAINT users_username_key UNIQUE (username),
 	CONSTRAINT users_username_ck CHECK (username <> '')
