@@ -67,18 +67,27 @@ public class ChangePasswordValidator implements Validator
 		String password = command.getPassword();
 		String password2 = command.getPassword2();
 				
-		// validate old password
-		if (oldPassword == null || oldPassword.trim().length() == 0)
+		if (user.getPassword() == null)
 		{
-			errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_REQUIRED, "Old password is required.");
+			// no password, so user must not enter one
+			if (oldPassword != null && oldPassword.length() > 0)
+				errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_NO_MATCH, "Old password is wrong.");				
 		}
 		else
 		{
-			String oldHash = User.hashPassword(oldPassword);
-			String userHash = user.getPassword();
-			if (!oldHash.equals(userHash))
+			// validate old password
+			if (oldPassword == null || oldPassword.trim().length() == 0)
 			{
-				errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_NO_MATCH, "Old password is wrong.");
+				errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_REQUIRED, "Old password is required.");
+			}
+			else
+			{
+				String oldHash = User.hashPassword(oldPassword);
+				String userHash = user.getPassword();
+				if (!oldHash.equals(userHash))
+				{
+					errors.rejectValue("oldPassword", ERROR_OLD_PASSWORD_NO_MATCH, "Old password is wrong.");
+				}
 			}
 		}
 		

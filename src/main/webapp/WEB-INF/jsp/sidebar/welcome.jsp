@@ -22,7 +22,6 @@
 			<authz:authorize ifAnyGranted="ROLE_MANAGE_TAGS">
 				<li><a href="${manageTagsUrl}">Manage tags</a></li>
 			</authz:authorize>
-			<li><a href="${changePassUrl}">Change password</a></li>
 			<li><a href="${userProfileUrl}">My profile</a></li>
 	  	<li class="navbreak"><a href="${logoutUrl}">Logout</a></li>		
 		</ul>

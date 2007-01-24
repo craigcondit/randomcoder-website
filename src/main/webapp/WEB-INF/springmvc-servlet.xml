@@ -143,8 +143,8 @@
 	
 	<bean id="changePasswordController" class="com.randomcoder.user.ChangePasswordController">
 		<property name="formView" value="change-password" />
-		<property name="successView" value="default" />
-		<property name="cancelView" value="default" />
+		<property name="successView" value="user-profile-redirect" />
+		<property name="cancelView" value="user-profile-redirect" />
 		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="commandClass" value="com.randomcoder.user.ChangePasswordCommand" />
@@ -248,8 +248,8 @@
 				<prop key="/user/add">userAddController</prop>
 				<prop key="/user/edit">userEditController</prop>
 				<prop key="/user/delete">userDeleteController</prop>
-				<prop key="/user/change-password">changePasswordController</prop>
 				<prop key="/user/profile">userProfileController</prop>
+				<prop key="/user/profile/change-password">changePasswordController</prop>
 				<prop key="/user/profile/delete-card">userProfileCardSpaceDeleteController</prop>
 				<prop key="/tag">tagListController</prop>
 				<prop key="/tag/add">tagAddController</prop>

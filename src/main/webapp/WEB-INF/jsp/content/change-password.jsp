@@ -3,8 +3,8 @@
 <%@ taglib uri="http://randomcoder.com/tags-input" prefix="input" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/" />
-<c:url var="formAction" value="/user/change-password" />
-<div class="sectionHeading">Change password</div>
+<c:url var="formAction" value="${template.formAction}" />
+<div class="sectionHeading"><c:out value="${template.title}" /></div>
 <div class="sectionContent">
   <form method="post" action="${formAction}">
   
@@ -31,10 +31,11 @@
 					<input:password name="oldPassword" styleClass="text" styleId="oldPassword" maxlength="255" value="${status.value}" />
 				</div>
 				<div class="description">
-					Enter your current password.
+					Enter your current password.<br />
+					Leave this field blank if you do not currently have a password.
 				</div>
 			</div>
-  	</spring:bind>  	
+  	</spring:bind>
 
   	<spring:bind path="command.password">
   		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>

@@ -1,4 +1,4 @@
-<%-- Tag list --%>
+<%-- User Profile --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -6,6 +6,31 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/" />
 <c:url var="addUrl" value="/user/profile" />
+<c:url var="changePasswordUrl" value="/user/profile/change-password" />
+<c:url var="removePasswordUrl" value="/user/profile/remove-password" />
+
+<div class="sectionHeading">Username and password</div>
+<div class="sectionSubHeading">
+	<c:choose>
+		<c:when test="${empty user.password}">
+			<a class="add" href="${changePasswordUrl}">Set a password</a>
+		</c:when>
+		<c:otherwise>
+			<a class="edit" href="${changePasswordUrl}">Change password</a>
+		</c:otherwise>
+	</c:choose>
+	::
+	<a href="${homeUrl}">Done</a>
+</div>
+<div class="sectionContent">
+	<strong>Username:</strong> <c:out value="${user.userName}" /><br />
+	<strong>Password:</strong>
+	<c:choose>
+		<c:when test="${empty user.password}">Disabled</c:when>
+		<c:otherwise>********</c:otherwise>
+	</c:choose>
+</div>
+
 <div class="sectionHeading">Information cards</div>
 <div class="sectionSubHeading">
 	<a href="${homeUrl}">Done</a>
@@ -85,6 +110,6 @@
 					</div>
 				</div>
 			</div>
-		</spring:bind>		
+		</spring:bind>
 	</form>	
 </div>

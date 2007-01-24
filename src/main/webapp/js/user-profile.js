@@ -6,4 +6,5 @@ Behaviour.register({
 			return confirm("Are you sure you want to delete this information card?\nThis action cannot be undone.");
 		};
 	}
+	
 });

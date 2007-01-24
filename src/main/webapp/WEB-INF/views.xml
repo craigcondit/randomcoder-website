@@ -196,6 +196,7 @@
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Change password" />
+				<entry key="formAction" value="/user/profile/change-password" />
 				<entry key="javascript" value="change-password.js" />
 				<entry key="content">
 					<list>
