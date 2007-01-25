@@ -235,21 +235,6 @@
 		</property>
 	</bean>
 
-	<bean id="test-form" class="com.randomcoder.springmvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
-			<map>
-				<entry key="title" value="Test form" />
-				<entry key="javascript" value="test-form.js" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/test-form.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<bean id="legal-about" class="com.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">

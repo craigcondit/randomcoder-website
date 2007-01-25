@@ -12,10 +12,6 @@
 	<!-- Enforce @Required annotations -->
 	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
-	<bean id="testFormController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
-		<property name="viewName" value="test-form" />
-	</bean>
-
 	<bean id="aboutController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
 		<property name="viewName" value="legal-about" />
 	</bean>
@@ -257,7 +253,6 @@
 				<prop key="/tag/add">tagAddController</prop>
 				<prop key="/tag/edit">tagEditController</prop>
 				<prop key="/tag/delete">tagDeleteController</prop>
-				<prop key="/test/form">testFormController</prop>
 			</props>
 		</property>
 	</bean>
