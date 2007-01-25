@@ -29,7 +29,7 @@
 		</div>
 	</form>	
 </div>
-<div class="sectionHeading">Login with a username and password</div>
+<div class="sectionHeading">OR, login with a username and password</div>
 <div class="sectionContent">
 	<form action="${loginUrl}" method="post">
 		<div class="fields required">
