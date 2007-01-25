@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.CancellableFormController;
 
 import com.randomcoder.crypto.CertificateContext;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
@@ -41,7 +41,7 @@ import com.randomcoder.security.cardspace.CardSpaceCredentials;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserProfileController extends SimpleFormController
+public class UserProfileController extends CancellableFormController
 {
 	private UserDao userDao;
 	private CardSpaceTokenDao cardSpaceTokenDao;
@@ -128,9 +128,15 @@ public class UserProfileController extends SimpleFormController
 			throw new UserNotFoundException("No such user: " + userName);
 		
 		UserProfileCommand form = (UserProfileCommand) command;
-		
-		// save token
-		userBusiness.associateCardSpaceCredentials(user.getId(), form.getXmlToken());
+		if ("INFOCARD".equals(form.getFormType()))
+		{		
+			// save token
+			userBusiness.associateCardSpaceCredentials(user.getId(), form.getXmlToken());
+		}
+		else if ("PREFS".equals(form.getFormType()))
+		{
+			// TODO process preference change
+		}
 		
 		return new ModelAndView(getSuccessView());		
 	}

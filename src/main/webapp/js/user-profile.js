@@ -1,4 +1,8 @@
 Behaviour.register({
+	'#emailAddress' : function(el) {
+		el.focus();
+		el.select();
+	},
 	'A.delete' : function(el)
 	{
 		el.onclick = function()

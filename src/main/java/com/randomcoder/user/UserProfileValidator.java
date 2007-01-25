@@ -75,46 +75,58 @@ public class UserProfileValidator implements Validator
 	{
 		UserProfileCommand command = (UserProfileCommand) target;
 		
-		CardSpaceCredentials credentials = command.getXmlToken();
-		
-		if (credentials == null)
+		String formType = command.getFormType();
+		if ("INFOCARD".equals(formType))
 		{
-			errors.rejectValue("xmlToken", ERROR_INFOCARD_REQUIRED, "infocard required");
+			CardSpaceCredentials credentials = command.getXmlToken();
+			
+			if (credentials == null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_REQUIRED, "infocard required");
+				return;
+			}
+			
+			// need PPID
+			String ppid = credentials.getPrivatePersonalIdentifier();
+			if (ppid == null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_PPID_REQUIRED, "ppid required");
+				return;
+			}
+			
+			// check for existing
+			String issuerHash = calculateIssuerHash(credentials);
+			
+			if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
+				return;
+			}
+			
+			// need email address
+			String emailAddress = credentials.getEmailAddress();
+			if (emailAddress == null || emailAddress.trim().length() == 0)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
+				return;
+			}
+			
+			// email address must be valid
+			if (!DataValidationUtils.isValidEmailAddress(emailAddress))
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
+				return;
+			}
+		}
+		else if ("PREFS".equals(formType))
+		{
+			
+		}
+		else
+		{
+			errors.reject("Invalid form type: " + formType);
 			return;
 		}
-		
-		// need PPID
-		String ppid = credentials.getPrivatePersonalIdentifier();
-		if (ppid == null)
-		{
-			errors.rejectValue("xmlToken", ERROR_INFOCARD_PPID_REQUIRED, "ppid required");
-			return;
-		}
-		
-		// check for existing
-		String issuerHash = calculateIssuerHash(credentials);
-		
-		if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
-		{
-			errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
-			return;
-		}
-		
-		// need email address
-		String emailAddress = credentials.getEmailAddress();
-		if (emailAddress == null || emailAddress.trim().length() == 0)
-		{
-			errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
-			return;
-		}
-		
-		// email address must be valid
-		if (!DataValidationUtils.isValidEmailAddress(emailAddress))
-		{
-			errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
-			return;
-		}
-		
 	}
 	
 	private String calculateIssuerHash(CardSpaceCredentials credentials)

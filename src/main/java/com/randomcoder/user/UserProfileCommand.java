@@ -2,6 +2,8 @@ package com.randomcoder.user;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
@@ -36,7 +38,30 @@ public class UserProfileCommand implements Serializable
 {
 	private static final long serialVersionUID = 8464807327958297647L;
 	
+	private String formType;
+	
 	private CardSpaceCredentials xmlToken;
+	
+	private String emailAddress;
+	private String website;
+	
+	/**
+	 * Gets the type of form (currently PREFS or INFOCARD).
+	 * @return form type
+	 */
+	public String getFormType()
+	{
+		return formType;
+	}
+	
+	/**
+	 * Sets the type of form (currently PREFS or INFOCARD).
+	 * @param formType form type
+	 */
+	public void setFormType(String formType)
+	{
+		this.formType = formType;
+	}
 	
 	/**
 	 * Gets the CardSpaceCredentials posted to this form.
@@ -54,5 +79,41 @@ public class UserProfileCommand implements Serializable
 	public void setXmlToken(CardSpaceCredentials xmlToken)
 	{
 		this.xmlToken = xmlToken;
+	}
+	
+	/**
+	 * Gets the email address of this user.
+	 * @return email address
+	 */
+	public String getEmailAddress()
+	{
+		return emailAddress;
+	}
+	
+	/**
+	 * Sets the email address of this user.
+	 * @param emailAddress email address
+	 */
+	public void setEmailAddress(String emailAddress)
+	{
+		this.emailAddress = StringUtils.trimToNull(emailAddress);
+	}
+	
+	/**
+	 * Gets the website for this user.
+	 * @return web site
+	 */	
+	public String getWebsite()
+	{
+		return website;
+	}
+	
+	/**
+	 * Sets the website for this user.
+	 * @param website seb site
+	 */
+	public void setWebsite(String website)
+	{
+		this.website = StringUtils.trimToNull(website);
 	}
 }

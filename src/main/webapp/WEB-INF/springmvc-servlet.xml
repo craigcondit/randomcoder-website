@@ -56,6 +56,8 @@
 		<property name="certificateContext" ref="certificateContext" />
 		<property name="formView" value="user-profile" />
 		<property name="successView" value="user-profile-redirect" />
+		<property name="cancelView" value="default" />
+		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="validator" ref="userProfileValidator" />
 	</bean>	
