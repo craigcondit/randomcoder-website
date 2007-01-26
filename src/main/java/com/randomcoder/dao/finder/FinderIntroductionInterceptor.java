@@ -16,7 +16,7 @@ import org.springframework.aop.IntroductionInterceptor;
  * repeat the DAO!</a>.</p>
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,9 @@ public class FinderIntroductionInterceptor implements IntroductionInterceptor
 {
 
 	/**
-	 * @see IntroductionInterceptor#invoke(MethodInvocation)
+	 * Invokes the given method.
+	 * @param methodInvocation method invocation
+	 * @throws Throwable if target method throws an exception
 	 */
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable
 	{
@@ -69,7 +71,9 @@ public class FinderIntroductionInterceptor implements IntroductionInterceptor
 	}
 
 	/**
-	 * @see IntroductionInterceptor#implementsInterface(Class)
+	 * Determines if this interceptor implements the given interface.
+	 * @param intf inteface to check
+	 * @return true if intf is a subclass of FinderExecutor
 	 */
 	public boolean implementsInterface(Class intf)
 	{

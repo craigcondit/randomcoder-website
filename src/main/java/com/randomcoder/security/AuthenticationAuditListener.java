@@ -50,6 +50,10 @@ public class AuthenticationAuditListener implements ApplicationListener
 		this.userBusiness = userBusiness;
 	}
 	
+	/**
+	 * Handles an application event.
+	 * @param event event to handle
+	 */
 	public void onApplicationEvent(ApplicationEvent event)
 	{
 		if (event instanceof AuthenticationSuccessEvent)

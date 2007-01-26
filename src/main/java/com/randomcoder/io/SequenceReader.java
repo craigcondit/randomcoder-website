@@ -8,7 +8,7 @@ import java.util.*;
  * Chaining {@link Reader} implementation.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -73,7 +73,12 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#read(char[], int, int)
+	 * Reads characters into a buffer.
+	 * @param cbuf character buffer
+	 * @param off offset into buffer
+	 * @param len number of characters to read
+	 * @throws IOException if an error occurs
+	 * @return number of characters read, or -1 on EOF
 	 */
 	@Override
 	public int read(char[] cbuf, int off, int len) throws IOException
@@ -102,7 +107,9 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#read()
+	 * Reads a single character.
+	 * @throws IOException if an error occurs
+	 * @return character read or -1 if EOF
 	 */
 	@Override
 	public int read() throws IOException
@@ -123,7 +130,10 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#read(char[])
+	 * Reads characters into a buffer.
+	 * @param cbuf character buffer
+	 * @throws IOException if an error occurs
+	 * @return number of characters read or -1 on EOF
 	 */
 	@Override
 	public int read(char[] cbuf) throws IOException
@@ -132,7 +142,10 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#read(CharBuffer)
+	 * Reads characters into a buffer.
+	 * @param target character buffer to read into
+	 * @throws IOException if an error occurs
+	 * @return number of characters read or -1 on EOF
 	 */
 	@Override
 	public int read(CharBuffer target) throws IOException
@@ -153,7 +166,9 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#ready()
+	 * Determines if the underlying stream is ready.
+	 * @throws IOException if an error occurs
+	 * return true if ready, false otherwise
 	 */
 	@Override
 	public boolean ready() throws IOException
@@ -164,7 +179,9 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#skip(long)
+	 * Skips the specified number of characters.
+	 * @throws IOException if an error occurs
+	 * @return number of characters actually skipped
 	 */
 	@Override
 	public long skip(long n) throws IOException
@@ -200,7 +217,8 @@ public class SequenceReader extends Reader
 	}
 
 	/**
-	 * @see Reader#close()
+	 * Closes the reader.
+	 * @throws IOException if any underlying stream throws an exception
 	 */
 	@Override
 	public void close() throws IOException
@@ -215,9 +233,8 @@ public class SequenceReader extends Reader
 	 * Marks the position in the current stream.
 	 * 
 	 * <p> This implementation does not support marks. </p>
-	 * 
+	 * @param readAheadLimit ignored
 	 * @throws IOException always
-	 * @see Reader#mark(int)
 	 */
 	@Override
 	public void mark(int readAheadLimit) throws IOException
@@ -231,7 +248,6 @@ public class SequenceReader extends Reader
 	 * <p> This implementation does not support marks. </p>
 	 * 
 	 * @return false
-	 * @see Reader#markSupported()
 	 */
 	@Override
 	public boolean markSupported()
@@ -242,7 +258,7 @@ public class SequenceReader extends Reader
 	/**
 	 * Resets the stream back to the current mark.
 	 * 
-	 * <p> This implementation does not support marks. </p>
+	 * <p> This implementation does not support reset. </p>
 	 * 
 	 * @throws IOException always
 	 */

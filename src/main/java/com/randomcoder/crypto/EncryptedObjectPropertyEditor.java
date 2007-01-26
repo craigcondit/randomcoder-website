@@ -49,6 +49,10 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 		this.context = context;
 	}
 	
+	/**
+	 * Gets the value of the associated object as text.
+	 * @return string representation of object
+	 */
 	@Override
 	public String getAsText()
 	{			
@@ -93,6 +97,11 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 		}
 	}
 	
+	/**
+	 * Sets the value of the object as a text string.
+	 * @param string text value
+	 * @throws IllegalArgumentException if value cannot be parsed
+	 */
 	@Override
 	public void setAsText(String string) throws IllegalArgumentException
 	{		
@@ -147,6 +156,10 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 		setValue(obj);
 	}
 
+	/**
+	 * Sets the value of the associated object.
+	 * @param value object to set
+	 */
 	@Override
 	public void setValue(Object value)
 	{

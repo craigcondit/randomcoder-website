@@ -4,7 +4,7 @@ package com.randomcoder.io;
  * Interface used to read state from arbitrary objects.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ package com.randomcoder.io;
  */
 public interface Consumer<T>
 {
-	/**s
+	/**
 	 * Reads information from the given object.
 	 * @param target target object to read
 	 */

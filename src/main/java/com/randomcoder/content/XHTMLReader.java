@@ -285,7 +285,7 @@ public class XHTMLReader extends XMLFilterImpl
 	 * @param uri URI of element
 	 * @param localName local part
 	 * @param qName qualified name
-	 * @param attributes list of attributes
+	 * @param atts list of attributes
 	 * @throws SAXException if an error occurs
 	 */
 	@Override

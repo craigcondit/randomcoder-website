@@ -8,7 +8,7 @@ import org.springframework.validation.*;
  * Validator used for adding tags.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -51,11 +51,21 @@ public class TagAddValidator implements Validator
 		this.tagDao = tagDao;
 	}
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * @param targetClass class to check
+	 * @return true if class is {@code TagAddCommand}, false otherwise
+	 */
 	public boolean supports(Class targetClass)
 	{
 		return TagAddCommand.class.equals(targetClass);
 	}
 
+	/**
+	 * Validates the given object.
+	 * @param target object to validate
+	 * @param errors errors object to hold resulting validation errors
+	 */
 	public void validate(Object target, Errors errors)
 	{
 		TagAddCommand command = (TagAddCommand) target;

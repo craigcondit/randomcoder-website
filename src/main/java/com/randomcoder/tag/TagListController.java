@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  * Controller for tag lists.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -83,6 +83,15 @@ public class TagListController extends AbstractCommandController
 		this.maximumPageSize = maximumPageSize;
 	}
 	
+	/**
+	 * Handles accesses to the tag list page.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command {@code TagListCommand} instance
+	 * @param errors errors object
+	 * @throws Exception if an error occurs
+	 * @return ModelAndView populated with required data
+	 */
 	@Override
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{

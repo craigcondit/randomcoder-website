@@ -63,6 +63,11 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 		this.keySize = keySize;
 	}
 	
+	/**
+	 * Initializes the internal state of the object after all
+	 * properties have been set.
+	 * @throws Exception if an error occurs
+	 */
 	public void afterPropertiesSet() throws Exception
 	{
 		if (keyData != null) return; // can't do this twice!

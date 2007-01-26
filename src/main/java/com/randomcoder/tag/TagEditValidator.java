@@ -6,7 +6,7 @@ import org.springframework.validation.Errors;
  * Validator used for editing tags.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,12 +34,22 @@ public class TagEditValidator extends TagAddValidator
 {
 	private static final String ERROR_TAG_ID_REQUIRED = "error.tag.id.required";
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * @param targetClass class to check
+	 * @return true if targetClass is {@code TagEditCommand}, false otherwise
+	 */
 	@Override
 	public boolean supports(Class targetClass)
 	{
 		return TagEditCommand.class.equals(targetClass);
 	}
 
+	/**
+	 * Validates the given object.
+	 * @param target object to validate
+	 * @param errors error object to hold validation errors
+	 */
 	@Override
 	public void validate(Object target, Errors errors)
 	{
