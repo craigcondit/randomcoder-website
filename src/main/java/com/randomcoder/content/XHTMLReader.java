@@ -258,6 +258,10 @@ public class XHTMLReader extends XMLFilterImpl
 			attributes.addAttribute("", "class", "class", "CDATA", buf.toString());
 	}
 
+	/**
+	 * Marks the beginning of the current document.
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void startDocument() throws SAXException
 	{
@@ -265,13 +269,25 @@ public class XHTMLReader extends XMLFilterImpl
 		elementLevel = -1;
 		filterLevel = -1;
 	}
-
+	
+	/**
+	 * Marks the end of the current document.
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void endDocument() throws SAXException
 	{
 		super.endDocument();
 	}
 
+	/**
+	 * Marks the start of an element.
+	 * @param uri URI of element
+	 * @param localName local part
+	 * @param qName qualified name
+	 * @param attributes list of attributes
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException
 	{
@@ -339,6 +355,13 @@ public class XHTMLReader extends XMLFilterImpl
 		super.startElement("", tagName, tagName, filteredAtts);
 	}
 
+	/**
+	 * Marks the end of the current element.
+	 * @param uri URI of the current element
+	 * @param localName local part
+	 * @param qName fully qualified name
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException
 	{
@@ -375,6 +398,13 @@ public class XHTMLReader extends XMLFilterImpl
 		}
 	}
 
+	/**
+	 * Parses character data.
+	 * @param ch character buffer
+	 * @param start starting offset in buffer
+	 * @param length number of characters to process
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException
 	{
@@ -383,6 +413,13 @@ public class XHTMLReader extends XMLFilterImpl
 		super.characters(ch, start, length);
 	}
 
+	/**
+	 * Processes ignorable whitespace.
+	 * @param ch character buffer to read
+	 * @param start starting offset in buffer
+	 * @param length number of characters to read
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException
 	{
@@ -391,6 +428,12 @@ public class XHTMLReader extends XMLFilterImpl
 		super.ignorableWhitespace(ch, start, length);
 	}
 
+	/**
+	 * Handles processing instructions.
+	 * @param target target of processing instruction
+	 * @param data associated data
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void processingInstruction(String target, String data) throws SAXException
 	{
@@ -399,6 +442,14 @@ public class XHTMLReader extends XMLFilterImpl
 		super.processingInstruction(target, data);
 	}
 
+	/**
+	 * Handles unparsed entity declaractions.
+	 * @param name name of entity
+	 * @param publicId public identifier
+	 * @param systemId system identifier
+	 * @param notationName notation name
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException
 	{
@@ -407,12 +458,24 @@ public class XHTMLReader extends XMLFilterImpl
 		super.unparsedEntityDecl(name, publicId, systemId, notationName);
 	}
 
+	/**
+	 * Resolves an entity.
+	 * @param publicId public identifier
+	 * @param systemId system identifier
+	 * @return InputSource pointing to the requested entity
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException
 	{
 		return super.resolveEntity(publicId, systemId);
 	}
 
+	/**
+	 * Skips an entity.
+	 * @param name name of entity to skip
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void skippedEntity(String name) throws SAXException
 	{
@@ -421,6 +484,13 @@ public class XHTMLReader extends XMLFilterImpl
 		super.skippedEntity(name);
 	}
 
+	/**
+	 * Processes a notation declaration.
+	 * @param name notation name
+	 * @param publicId public identifier
+	 * @param systemId system identifier
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void notationDecl(String name, String publicId, String systemId) throws SAXException
 	{
@@ -429,6 +499,12 @@ public class XHTMLReader extends XMLFilterImpl
 		super.notationDecl(name, publicId, systemId);
 	}
 
+	/**
+	 * Starts mapping a prefix.
+	 * @param prefix name of prefix to map
+	 * @param uri URI of prefix to map
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void startPrefixMapping(String prefix, String uri) throws SAXException
 	{
@@ -437,6 +513,11 @@ public class XHTMLReader extends XMLFilterImpl
 		super.startPrefixMapping(prefix, uri);
 	}
 
+	/**
+	 * Ends the current prefix mapping.
+	 * @param prefix prefix to be mapped
+	 * @throws SAXException if an error occurs
+	 */
 	@Override
 	public void endPrefixMapping(String prefix) throws SAXException
 	{

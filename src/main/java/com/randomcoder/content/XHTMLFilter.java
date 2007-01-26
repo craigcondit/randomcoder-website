@@ -49,6 +49,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class XHTMLFilter implements ContentFilter
 {
+	/**
+	 * Apache logger.
+	 */
 	protected static final Log logger = LogFactory.getLog(XHTMLFilter.class);
 	
 	private static final String XSL_RESOURCE = "xhtml-to-xhtml.xsl";

@@ -6,7 +6,7 @@ import org.xml.sax.*;
  * {@link ErrorHandler} implementation used to derive line and column numbers.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -62,7 +62,40 @@ public class XHTMLErrorHandler implements ErrorHandler
 	{
 		return message;
 	}
+	
+	/**
+	 * Handles SAX warnings.
+	 * @param ex SAX exception to handle.
+	 * @throws SAXException the passed-in exception
+	 */
+	public void warning(SAXParseException ex) throws SAXException
+	{
+		handle(ex);
+		throw ex;
+	}
 
+	/**
+	 * Handles SAX errors.
+	 * @param ex SAX exception to handle.
+	 * @throws SAXException the passed-in exception
+	 */
+	public void error(SAXParseException ex) throws SAXException
+	{
+		handle(ex);
+		throw ex;
+	}
+	
+	/**
+	 * Handles SAX fatal errors.
+	 * @param ex SAX exception to handle.
+	 * @throws SAXException the passed-in exception
+	 */
+	public void fatalError(SAXParseException ex) throws SAXException
+	{
+		handle(ex);
+		throw ex;
+	}
+	
 	private void handle(SAXParseException ex)
 	{
 		lineNumber = ex.getLineNumber();
@@ -72,23 +105,5 @@ public class XHTMLErrorHandler implements ErrorHandler
 		// account for prefix
 		if (lineNumber == 1)
 			columnNumber -= XHTMLFilter.PREFIX.length();
-	}
-
-	public void warning(SAXParseException ex) throws SAXException
-	{
-		handle(ex);
-		throw ex;
-	}
-
-	public void error(SAXParseException ex) throws SAXException
-	{
-		handle(ex);
-		throw ex;
-	}
-	
-	public void fatalError(SAXParseException ex) throws SAXException
-	{
-		handle(ex);
-		throw ex;
-	}
+	}	
 }
