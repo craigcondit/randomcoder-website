@@ -322,6 +322,7 @@
 						<link>http://www.springframework.org/docs/api/</link>
 						<link>http://www.hibernate.org/hib_docs/v3/api/</link>
 						<link>http://aopalliance.sourceforge.net/doc/</link>
+						<link>http://www.acegisecurity.org/multiproject/acegi-security-cas/apidocs/</link>
 						<link>http://randomcoder.com/maven/site/randomcoder-taglibs/apidocs/</link>			
   				</links>
   				<excludePackageNames>jsp</excludePackageNames>

@@ -57,7 +57,7 @@ public class UserProfileValidator implements Validator
 	/**
 	 * Determines if the target class is supported by this validator.
 	 * @param targetClass target class
-	 * @returns true if target class is UserProfileCommand, false otherwise
+	 * @return true if target class is UserProfileCommand, false otherwise
 	 */
 	public boolean supports(Class targetClass)
 	{
