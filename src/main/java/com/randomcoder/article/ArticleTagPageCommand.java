@@ -6,7 +6,7 @@ import com.randomcoder.tag.Tag;
  * Command object used for paged tag queries.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,6 +36,15 @@ public class ArticleTagPageCommand extends ArticlePageCommand
 	
 	private Tag tag;
 	
+	/**
+	 * Gets the tag associated with this command.
+	 * @return tag
+	 */
 	public Tag getTag() { return tag; }
+	
+	/**
+	 * Sets the tag associated with this command.
+	 * @param tag tag
+	 */
 	public void setTag(Tag tag) { this.tag = tag; }
 }

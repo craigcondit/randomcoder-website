@@ -21,7 +21,7 @@ import com.randomcoder.content.ContentFilter;
  * Abstract controller class which provides support for displaying a single article.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,9 +49,24 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 {
 	private static final Log logger = LogFactory.getLog(AbstractSingleArticleController.class);
 
+	/**
+	 * URL prefix.
+	 */
 	protected String urlPrefix;
+	
+	/**
+	 * Article DAO.
+	 */
 	protected ArticleDao articleDao;
+	
+	/**
+	 * Content filter.
+	 */
 	protected ContentFilter contentFilter;
+	
+	/**
+	 * Article business methods.
+	 */
 	protected ArticleBusiness articleBusiness;
 
 	/**
@@ -96,6 +111,11 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 	 */
 	abstract protected Article loadArticle(HttpServletRequest request);
 
+	/**
+	 * Creates a new {@link CommentCommand} bound to the requested article.
+	 * @param request HTTP request
+	 * @return CommentCommand instance
+	 */
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception
 	{
@@ -111,6 +131,13 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 		return command;
 	}
 
+	/**
+	 * Populates model with required data.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @param errors errors object
+	 * @return Map containing data needed for view
+	 */
 	@Override
 	protected Map referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception
 	{
@@ -133,6 +160,15 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 		return data;
 	}
 
+	/**
+	 * Creates a comment upon form submission.
+	 * 
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors errors object
+	 * @return ModelAndView which redirects back to article page
+	 */
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{
