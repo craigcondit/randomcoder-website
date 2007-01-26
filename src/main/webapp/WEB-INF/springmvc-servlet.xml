@@ -160,6 +160,22 @@
 		<property name="viewName" value="user-list" />
 		<property name="userDao" ref="userDao" />
 	</bean>
+	
+	<bean id="accountCreateController" class="com.randomcoder.user.AccountCreateController">
+		<property name="successView" value="account-create-done" />
+		<property name="cancelView" value="default" />
+		<property name="cancelParamKey" value="cancel" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="userBusiness" ref="userBusiness" />
+		<property name="certificateContext" ref="certificateContext" />
+		<property name="formView" value="account-create" />
+		<property name="commandClass" value="com.randomcoder.user.AccountCreateCommand" />
+		<property name="validator" ref="accountCreateValidator" />
+	</bean>
+
+	<bean id="accountCreateValidator" class="com.randomcoder.user.AccountCreateValidator">
+		<property name="userDao" ref="userDao" />
+	</bean>
 		
 	<bean id="abstractUserController" abstract="true">
 		<property name="successView" value="user-list-redirect" />
@@ -230,18 +246,18 @@
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="mappings">
 			<props>
-				<prop key="/home">homeController</prop>
-				<prop key="/login">loginController</prop>
-				<prop key="/login-error">loginErrorController</prop>
+				<prop key="/account/create">accountCreateController</prop>
 				<prop key="/article/add">articleAddController</prop>
 				<prop key="/article/edit">articleEditController</prop>
 				<prop key="/article/delete">articleDeleteController</prop>
-				<prop key="/comment/delete">commentDeleteController</prop>
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
-				<prop key="/tags/*">articleTagListController</prop>
+				<prop key="/comment/delete">commentDeleteController</prop>
+				<prop key="/home">homeController</prop>
 				<prop key="/legal/about">aboutController</prop>
 				<prop key="/legal/license">licenseController</prop>
+				<prop key="/login">loginController</prop>
+				<prop key="/login-error">loginErrorController</prop>
 				<prop key="/user">userListController</prop>
 				<prop key="/user/add">userAddController</prop>
 				<prop key="/user/edit">userEditController</prop>
@@ -253,6 +269,7 @@
 				<prop key="/tag/add">tagAddController</prop>
 				<prop key="/tag/edit">tagEditController</prop>
 				<prop key="/tag/delete">tagDeleteController</prop>
+				<prop key="/tags/*">articleTagListController</prop>
 			</props>
 		</property>
 	</bean>

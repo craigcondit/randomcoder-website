@@ -167,7 +167,7 @@
 					<div style="margin-left: 10.5em">
 						<img
 							style="cursor: pointer; cursor: hand; width: 100px; height: 86px"
-							alt="Login with your information card" title="Add an information card"
+							alt="Add an information card" title="Add an information card"
 							src="${pageContext.request.contextPath}/images/informationcard.gif"
 							onclick="document.getElementById('infocard').submit()" />
 						<object type="application/x-informationCard" name="xmlToken">

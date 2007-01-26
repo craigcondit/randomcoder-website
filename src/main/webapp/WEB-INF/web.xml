@@ -88,6 +88,11 @@
 
 	<servlet-mapping>
 		<servlet-name>springmvc</servlet-name>        
+		<url-pattern>/account/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>        
 		<url-pattern>/article/*</url-pattern>
 	</servlet-mapping>
 

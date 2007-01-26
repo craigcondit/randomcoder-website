@@ -52,6 +52,8 @@
 	      /login*=REQUIRES_SECURE_CHANNEL
 	      /user/profile=REQUIRES_SECURE_CHANNEL
 	      /user/profile/**=REQUIRES_SECURE_CHANNEL
+	      /account=REQUIRES_SECURE_CHANNEL
+	      /account/**=REQUIRES_SECURE_CHANNEL
 	      /images/**=REQUIRES_ANY
 	      /css/**=REQUIRES_ANY
 	      /js/**=REQUIRES_ANY

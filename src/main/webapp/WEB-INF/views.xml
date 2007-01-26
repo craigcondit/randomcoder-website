@@ -116,6 +116,37 @@
 		</property>
 	</bean>
 
+	<bean id="account-create" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="wide-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Create account" />
+				<entry key="formAction" value="/account/create" />
+				<entry key="javascript" value="account-create.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/account-create.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean id="account-create-done" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="wide-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Account created" />
+				<entry key="javascript" value="account-create-done.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/account-create-done.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<!-- User list -->
 	<bean id="user-list" class="com.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
