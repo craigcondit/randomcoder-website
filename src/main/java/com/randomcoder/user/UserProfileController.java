@@ -98,12 +98,7 @@ public class UserProfileController extends CancellableFormController
 	{
 		Map<String, Object> data = new HashMap<String, Object>();
 
-		// get current user
-		String userName = request.getUserPrincipal().getName();
-		
-		User user = userDao.findByUserName(userName);
-		if (user == null)
-			throw new UserNotFoundException("No such user: " + userName);
+		User user = getUser(request);
 		
 		// get cardspace tokens associated with this user
 		List<CardSpaceToken> cardSpaceTokens = cardSpaceTokenDao.listByUser(user);
@@ -115,17 +110,27 @@ public class UserProfileController extends CancellableFormController
 	}
 
 	/**
+	 * Pre-populates form on new request.
+	 */
+	@Override
+	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
+	throws Exception
+	{
+		UserProfileCommand cmd = (UserProfileCommand) command;
+		
+		User user = getUser(request);
+		
+		cmd.setEmailAddress(user.getEmailAddress());
+		cmd.setWebsite(user.getWebsite());
+	}
+
+	/**
 	 * Associated the supplied CardSpace token with the current user
 	 */
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{		
-		// get current user
-		String userName = request.getUserPrincipal().getName();
-		
-		User user = userDao.findByUserName(userName);
-		if (user == null)
-			throw new UserNotFoundException("No such user: " + userName);
+		User user = getUser(request);
 		
 		UserProfileCommand form = (UserProfileCommand) command;
 		if ("INFOCARD".equals(form.getFormType()))
@@ -135,9 +140,20 @@ public class UserProfileController extends CancellableFormController
 		}
 		else if ("PREFS".equals(form.getFormType()))
 		{
-			// TODO process preference change
+			userBusiness.updateUser(form, user.getId());
 		}
 		
 		return new ModelAndView(getSuccessView());		
 	}
+	
+	private User getUser(HttpServletRequest request)
+	{
+		// get current user
+		String userName = request.getUserPrincipal().getName();
+		
+		User user = userDao.findByUserName(userName);
+		if (user == null)
+			throw new UserNotFoundException("No such user: " + userName);
+		return user;
+	}	
 }

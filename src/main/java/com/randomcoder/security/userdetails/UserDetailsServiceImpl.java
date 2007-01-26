@@ -1,14 +1,12 @@
 package com.randomcoder.security.userdetails;
 
-import java.util.Locale;
-
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 
+import com.randomcoder.cardspace.CardSpaceUtils;
 import com.randomcoder.security.cardspace.*;
 import com.randomcoder.user.*;
 import com.randomcoder.user.User;
@@ -101,7 +99,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 		
 		if (debug) logger.debug("PPID: " + ppid);
 				
-		String issuerHash = calculateIssuerHash(credentials);		
+		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);		
 		
 		if (debug) logger.debug("Issuer hash: " + issuerHash);
 		
@@ -111,11 +109,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 		
 		User user = token.getUser();
 		return new UserDetailsImpl(user, ppid);
-	}
-
-	private String calculateIssuerHash(CardSpaceCredentials credentials)
-	{
-		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
 	}
 
 }

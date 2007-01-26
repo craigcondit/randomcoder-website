@@ -137,7 +137,6 @@
 		<property name="attributes">
 			<map>
 				<entry key="title" value="Account created" />
-				<entry key="javascript" value="account-create-done.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/account-create-done.jsp</value>

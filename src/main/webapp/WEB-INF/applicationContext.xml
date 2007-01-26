@@ -208,4 +208,9 @@
 		<property name="articleDao" ref="articleDao" />
 	</bean>
 	
+	<!-- Crypto -->
+	<bean id="encryptionContext" class="com.randomcoder.crypto.TransientAESEncryptionContext">
+		<property name="keySize" value="256" />
+	</bean>
+	
 </beans>

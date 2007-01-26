@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
+import com.randomcoder.cardspace.CardSpaceTokenSpec;
 import com.randomcoder.io.Producer;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
@@ -42,8 +43,10 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 	private static final long serialVersionUID = 7346261261522108772L;
 	
 	private String formType;
+	private boolean formComplete;
 	
 	private CardSpaceCredentials xmlToken;
+	private CardSpaceTokenSpec cardSpaceTokenSpec;
 	
 	private String userName;
 	private String emailAddress;
@@ -68,6 +71,24 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 	{
 		this.formType = formType;
 	}
+
+	/**
+	 * Gets form complete status.
+	 * @return true if form is complete, false otherwise
+	 */
+	public boolean isFormComplete()
+	{
+		return formComplete;
+	}
+	
+	/**
+	 * Sets form complete status.
+	 * @param formComplete true if form is complete, false otherwise
+	 */
+	public void setFormComplete(boolean formComplete)
+	{
+		this.formComplete = formComplete;
+	}
 	
 	/**
 	 * Gets the CardSpaceCredentials posted to this form.
@@ -78,7 +99,6 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 		return xmlToken;
 	}
 	
-	
 	/**
 	 * Sets the CardSpaceCredentials posted to this form.
 	 * @param xmlToken CardSpace credentials
@@ -86,6 +106,24 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 	public void setXmlToken(CardSpaceCredentials xmlToken)
 	{
 		this.xmlToken = xmlToken;
+	}
+	
+	/**
+	 * Gets the CardSpace token spec for this form. 
+	 * @return CardSpace token
+	 */
+	public CardSpaceTokenSpec getCardSpaceTokenSpec()
+	{
+		return cardSpaceTokenSpec;
+	}
+	
+	/**
+	 * Sets the CardSpace token spec for this form. 
+	 * @param cardSpaceTokenSpec CardSpace token
+	 */
+	public void setCardSpaceTokenSpec(CardSpaceTokenSpec cardSpaceTokenSpec)
+	{
+		this.cardSpaceTokenSpec = cardSpaceTokenSpec;
 	}
 	
 	/**
@@ -183,11 +221,18 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 	 */
 	public void produce(User user)
 	{		
-		user.setUserName(userName); // only for new users
+		user.setUserName(userName);
 		user.setEmailAddress(emailAddress);
 		user.setWebsite(website);
 		user.setEnabled(true);
-		user.setPassword(User.hashPassword(password));
+		if ("PASS".equals(formType))
+		{
+			user.setPassword(User.hashPassword(password));			
+		}
+		else
+		{
+			user.setPassword(null);
+		}
 		user.setRoles(new ArrayList<Role>());
 	}
 

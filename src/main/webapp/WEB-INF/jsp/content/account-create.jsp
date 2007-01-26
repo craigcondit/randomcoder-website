@@ -4,6 +4,29 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/user" />
 <c:url var="formAction" value="${template.formAction}" />
+<c:choose>
+	<c:when test="${empty command.formType}">
+		<c:set var="initialScreen" value="${true}" />
+		<c:set var="infoCard" value="${false}" />
+		<c:set var="password" value="${false}" />
+		<c:set var="authorityExists" value="${false}" />
+	</c:when>
+	<c:when test="${command.formType == 'INFOCARD'}">
+		<c:set var="initialScreen" value="${false}" />
+		<c:set var="infoCard" value="${true}" />
+		<c:set var="password" value="${false}" />
+		<c:set var="authorityExists" value="${false}" />
+		<c:if test="${not empty command.cardSpaceTokenSpec}">
+			<c:set var="authorityExists" value="${true}" />
+		</c:if>
+	</c:when>
+	<c:when test="${command.formType == 'PASS'}">
+		<c:set var="initialScreen" value="${false}" />
+		<c:set var="infoCard" value="${false}" />
+		<c:set var="password" value="${true}" />	
+		<c:set var="authorityExists" value="${false}" />
+	</c:when>
+</c:choose>
   
 <spring:bind path="command">
 	<c:if test="${fn:length(status.errorMessages) > 0}">
@@ -13,12 +36,16 @@
 	</c:if>
 </spring:bind>
 
-<c:if test="${(empty command.formType) or command.formType == 'INFOCARD'}">
+<c:if test="${initialScreen or (infoCard and not authorityExists)}">
 	<div class="sectionHeading">Create an account using an information card</div>
 	<div class="sectionContent">
 		<form name="infocard" id="infocard" method="post" action="${formAction}">
 		
-			<input type="hidden" name="formType" value="INFOCARD" />
+			<input:hidden name="formType" value="INFOCARD" />
+			<input:hidden name="formComplete" value="false" />
+	  	<spring:bind path="command.cardSpaceTokenSpec">
+				<input:hidden name="cardSpaceTokenSpec" value="${status.value}" />
+			</spring:bind>
 			
 	  	<spring:bind path="command.xmlToken">
 				<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
@@ -52,16 +79,30 @@
 	</div>
 </c:if>
 
-<c:if test="${empty command.formType}">
+<c:if test="${initialScreen}">
 	<div class="sectionHeading">OR, create an account using a password</div>
 </c:if>
-<c:if test="${command.formType == 'PASS'}">
+<c:if test="${password}">
 	<div class="sectionHeading">Enter account details</div>		
 </c:if>
-<c:if test="${(empty command.formType) or command.formType == 'PASS'}">
+<c:if test="${authorityExists}">
+	<div class="sectionHeading">Verify account details</div>		
+</c:if>
+<c:if test="${initialScreen or password or authorityExists}">
 	<div class="sectionContent">
 	  <form method="post" action="${formAction}">
-			<input type="hidden" name="formType" value="PASS" />
+	  	<c:choose>
+	  		<c:when test="${empty command.formType}">
+					<input:hidden name="formType" value="PASS" />
+	  		</c:when>
+	  		<c:otherwise>
+					<input:hidden name="formType" value="${command.formType}" />
+	  		</c:otherwise>
+	  	</c:choose>
+			<input:hidden name="formComplete" value="true" />
+	  	<spring:bind path="command.cardSpaceTokenSpec">
+				<input:hidden name="cardSpaceTokenSpec" value="${status.value}" />
+			</spring:bind>
 		  
 	  	<spring:bind path="command.userName">
 	  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
@@ -78,11 +119,54 @@
 						<input:text name="userName" styleClass="text" styleId="userNameText" maxlength="30" value="${status.value}" />
 					</div>
 					<div class="description">
-						Enter a login name for your new account.
+						Enter a user name for your new account.<br />
+						This will be your public identity on this site.
 					</div>
 				</div>
 	  	</spring:bind>
 	  	
+			<c:if test="${not authorityExists}">
+		  	<spring:bind path="command.password">
+		  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
+					<div class="${fieldClasses}">
+						<div>
+							<c:if test="${status.error}">
+								<c:forEach var="error" items="${status.errorMessages}">
+									<span class="error"><c:out value="${error}" /></span>
+								</c:forEach>
+							</c:if>
+						</div>
+						<div>					
+							<label for="password">Password:</label>
+							<input:password name="password" styleClass="text" styleId="password" value="${status.value}" />
+						</div>
+						<div class="description">
+							Enter a password for your account.
+						</div>
+					</div>
+		  	</spring:bind>
+		
+		  	<spring:bind path="command.password2">
+		  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
+					<div class="${fieldClasses}">
+						<div>
+							<c:if test="${status.error}">
+								<c:forEach var="error" items="${status.errorMessages}">
+									<span class="error"><c:out value="${error}" /></span>
+								</c:forEach>
+							</c:if>
+						</div>
+						<div>					
+							<label for="password2">Password (again):</label>
+							<input:password name="password2" styleClass="text" styleId="password2" value="${status.value}" />
+						</div>
+						<div class="description">
+							Enter your password again for verification.
+						</div>
+					</div>
+		  	</spring:bind>
+		  </c:if>
+		  	
 	  	<spring:bind path="command.emailAddress">
 	  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
 				<div class="${fieldClasses}">
@@ -122,50 +206,10 @@
 					</div>
 				</div>
 	  	</spring:bind>
-	
-	  	<spring:bind path="command.password">
-	  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
-				<div class="${fieldClasses}">
-					<div>
-						<c:if test="${status.error}">
-							<c:forEach var="error" items="${status.errorMessages}">
-								<span class="error"><c:out value="${error}" /></span>
-							</c:forEach>
-						</c:if>
-					</div>
-					<div>					
-						<label for="password">Password:</label>
-						<input:password name="password" styleClass="text" styleId="password" value="${status.value}" />
-					</div>
-					<div class="description">
-						Enter a password for your account.
-					</div>
-				</div>
-	  	</spring:bind>
-	
-	  	<spring:bind path="command.password2">
-	  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
-				<div class="${fieldClasses}">
-					<div>
-						<c:if test="${status.error}">
-							<c:forEach var="error" items="${status.errorMessages}">
-								<span class="error"><c:out value="${error}" /></span>
-							</c:forEach>
-						</c:if>
-					</div>
-					<div>					
-						<label for="password2">Password (again):</label>
-						<input:password name="password2" styleClass="text" styleId="password2" value="${status.value}" />
-					</div>
-					<div class="description">
-						Enter your password again for verification.
-					</div>
-				</div>
-	  	</spring:bind>
 	  	
 	  	<div class="fields">
 	  		<div class="buttons">
-			    <input type="submit" class="submit" value="Save &#187;" />
+			    <input type="submit" class="submit" value="Register &#187;" />
 		  	  <input type="submit" class="button" name="cancel" value="Cancel" />
 	  		</div>
 	  	</div>

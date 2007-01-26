@@ -1,5 +1,7 @@
 package com.randomcoder.user;
 
+import java.util.Date;
+
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Required;
@@ -8,14 +10,15 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.crypto.CertificateContext;
+import com.randomcoder.cardspace.*;
+import com.randomcoder.crypto.*;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Controller class which handles adding user accounts.
  * 
  * <pre>
- * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,9 +44,11 @@ import com.randomcoder.security.cardspace.CardSpaceCredentials;
  */
 public class AccountCreateController extends CancellableFormController
 {
-
+	private static final long TOKEN_EXPIRATION_TIME = 30 * 60 * 1000; // 30 minutes
+	
 	private UserBusiness userBusiness;
 	private CertificateContext certificateContext;
+	private EncryptionContext encryptionContext;
 
 	/**
 	 * Sets the UserBusiness implementation to use.
@@ -65,11 +70,22 @@ public class AccountCreateController extends CancellableFormController
 		this.certificateContext = certificateContext;
 	}
 	
+	/**
+	 * Sets the encryption context to use.
+	 * @param encryptionContext encryption context
+	 */
+	@Required
+	public void setEncryptionContext(EncryptionContext encryptionContext)
+	{
+		this.encryptionContext = encryptionContext;
+	}
+	
 	@Override
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
 		super.initBinder(request, binder);
 		binder.registerCustomEditor(CardSpaceCredentials.class, new CardSpaceCredentialsPropertyEditor(certificateContext));
+		binder.registerCustomEditor(CardSpaceTokenSpec.class, new EncryptedObjectPropertyEditor(encryptionContext));
 	}
 	
 	/**
@@ -77,11 +93,42 @@ public class AccountCreateController extends CancellableFormController
 	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+	throws Exception
 	{
-		AccountCreateCommand cmd = (AccountCreateCommand) command;
-
-		userBusiness.createUser(cmd);
+		AccountCreateCommand form = (AccountCreateCommand) command;
 		
+		if ("INFOCARD".equals(form.getFormType()))
+		{
+			CardSpaceCredentials credentials = form.getXmlToken();
+			
+			if (!form.isFormComplete())
+			{				
+				if (credentials != null)
+				{
+					// update form
+					String ppid = credentials.getPrivatePersonalIdentifier();
+					String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
+					Date now = new Date();
+					Date expiration = new Date(now.getTime() + TOKEN_EXPIRATION_TIME);				
+					
+					CardSpaceTokenSpec spec = new CardSpaceTokenSpec(ppid, issuerHash, expiration);
+					form.setCardSpaceTokenSpec(spec);
+					form.setEmailAddress(credentials.getEmailAddress());
+					form.setWebsite(credentials.getWebPage());
+				}
+				
+				// redirect to form
+				return showForm(request, response, errors);
+			}
+			
+			userBusiness.createAccount(form, form.getCardSpaceTokenSpec());
+		}
+		else if ("PASS".equals(form.getFormType()))
+		{
+			// password auth, done
+			userBusiness.createAccount(form);			
+		}
+
 		return new ModelAndView(getSuccessView());
 	}
 	

@@ -1,11 +1,9 @@
 package com.randomcoder.user;
 
-import java.util.Locale;
-
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
+import com.randomcoder.cardspace.CardSpaceUtils;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 import com.randomcoder.validation.DataValidationUtils;
 
@@ -95,7 +93,7 @@ public class UserProfileValidator implements Validator
 			}
 			
 			// check for existing
-			String issuerHash = calculateIssuerHash(credentials);
+			String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
 			
 			if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
 			{
@@ -128,9 +126,5 @@ public class UserProfileValidator implements Validator
 			return;
 		}
 	}
-	
-	private String calculateIssuerHash(CardSpaceCredentials credentials)
-	{
-		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
-	}	
+
 }

@@ -1,9 +1,13 @@
 package com.randomcoder.user;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
+import com.randomcoder.cardspace.*;
+import com.randomcoder.security.cardspace.CardSpaceCredentials;
 import com.randomcoder.validation.DataValidationUtils;
 
 /**
@@ -49,10 +53,17 @@ public class AccountCreateValidator implements Validator
 	private static final String ERROR_PASSWORD_REQUIRED = "error.user.password.required";
 	private static final String ERROR_PASSWORD_TOO_SHORT = "error.user.password.tooshort";
 	private static final String ERROR_PASSWORD_NO_MATCH = "error.user.password.nomatch";
+
+	private static final String ERROR_INFOCARD_REQUIRED = "error.profile.infocard.required";
+	private static final String ERROR_INFOCARD_EXPIRED = "error.profile.infocard.expired";
+	private static final String ERROR_INFOCARD_EXISTS = "error.profile.infocard.exists";
+	private static final String ERROR_INFOCARD_PPID_REQUIRED = "error.profile.infocard.ppid.required";
+	private static final String ERROR_INFOCARD_EMAIL_REQUIRED = "error.profile.infocard.email.required";
 	
 	private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
 	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;	
 	private UserDao userDao;
+	private CardSpaceTokenDao cardSpaceTokenDao;
 	
 	/**
 	 * Sets the minimum password length.
@@ -82,6 +93,16 @@ public class AccountCreateValidator implements Validator
 		this.userDao = userDao;
 	}
 	
+	/**
+	 * Sets the CardSpaceTokenDao implementation to use.
+	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
+	 */
+	@Required
+	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
+	{
+		this.cardSpaceTokenDao = cardSpaceTokenDao;
+	}
+	
 	public boolean supports(Class targetClass)
 	{
 		return AccountCreateCommand.class.equals(targetClass);
@@ -98,21 +119,112 @@ public class AccountCreateValidator implements Validator
 			return;
 		}
 
-		// username
-		String userName = command.getUserName();
-		if (userName == null)
-		{
-			errors.rejectValue("userName", ERROR_USERNAME_REQUIRED, "Username required.");
+		String formType = command.getFormType();
+		if ("INFOCARD".equals(formType))
+		{			
+			// new account using infocard
+			CardSpaceTokenSpec spec = command.getCardSpaceTokenSpec();
+			if (spec != null)
+			{
+				Date now = new Date();
+				Date expiration = spec.getExpirationDate();
+				if (!(now.before(expiration)))
+				{
+					// remove spec
+					command.setCardSpaceTokenSpec(spec);
+					command.setXmlToken(null);
+					command.setFormComplete(false);
+					errors.rejectValue("xmlToken", ERROR_INFOCARD_EXPIRED, "infocard expired");
+					return;
+				}
+				
+				if (command.isFormComplete())
+				{
+					validateUsername(command, errors);			
+					validateEmailAddress(command, errors);
+					validateWebsite(command, errors);
+					return;
+				}
+			}
+			
+			// initial submission, check token
+			CardSpaceCredentials credentials = command.getXmlToken();
+			
+			if (credentials == null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_REQUIRED, "infocard required");
+				return;
+			}
+			
+			// need PPID
+			String ppid = credentials.getPrivatePersonalIdentifier();
+			if (ppid == null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_PPID_REQUIRED, "ppid required");
+				return;
+			}
+			
+			// check for existing
+			String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
+			
+			if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
+				return;
+			}
+			
+			// need email address
+			String emailAddress = credentials.getEmailAddress();
+			if (emailAddress == null || emailAddress.trim().length() == 0)
+			{
+				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
+				return;
+			}			
 		}
-		else if (userName.length() < minimumUsernameLength)
+		else if ("PASS".equals(formType))
 		{
-			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT, "Username too short.");
+			// new account using password
+			validateUsername(command, errors);						
+			validatePassword(command, errors);
+			validateEmailAddress(command, errors);
+			validateWebsite(command, errors);
+		} 
+		else
+		{
+			errors.reject("Invalid form type: " + formType);
+			return;			
 		}
-		else if (userDao.findByUserName(userName) != null)
+	}
+
+	private void validateWebsite(AccountCreateCommand command, Errors errors)
+	{
+		// web site
+		String website = command.getWebsite();
+		if (website != null)
 		{
-			errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");			
-		}			
-		
+			if (website.length() > 255 || !DataValidationUtils.isValidUrl(website))
+			{
+				errors.rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
+			}
+		}
+	}
+
+	private void validateEmailAddress(AccountCreateCommand command, Errors errors)
+	{
+		// email address
+		String emailAddress = command.getEmailAddress();
+		if (emailAddress == null)
+		{
+			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_REQUIRED, "Email address required.");
+		}
+		else if (!DataValidationUtils.isValidEmailAddress(emailAddress))
+		{
+			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID, "Email address invalid.");
+		}
+	}
+
+	private void validatePassword(AccountCreateCommand command, Errors errors)
+	{
 		// password
 		String password = StringUtils.defaultIfEmpty(command.getPassword(), "");
 		String password2 = StringUtils.defaultIfEmpty(command.getPassword2(), "");
@@ -143,26 +255,23 @@ public class AccountCreateValidator implements Validator
 				errors.rejectValue("password2", ERROR_PASSWORD_REQUIRED, "Password required.");											
 			}
 		}
-		
-		// email address
-		String emailAddress = command.getEmailAddress();
-		if (emailAddress == null)
+	}
+
+	private void validateUsername(AccountCreateCommand command, Errors errors)
+	{
+		// username
+		String userName = command.getUserName();
+		if (userName == null)
 		{
-			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_REQUIRED, "Email address required.");
+			errors.rejectValue("userName", ERROR_USERNAME_REQUIRED, "Username required.");
 		}
-		else if (!DataValidationUtils.isValidEmailAddress(emailAddress))
+		else if (userName.length() < minimumUsernameLength)
 		{
-			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID, "Email address invalid.");
+			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT, "Username too short.");
 		}
-		
-		// web site
-		String website = command.getWebsite();
-		if (website != null)
+		else if (userDao.findByUserName(userName) != null)
 		{
-			if (website.length() > 255 || !DataValidationUtils.isValidUrl(website))
-			{
-				errors.rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
-			}
-		}			
+			errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");			
+		}
 	}
 }

@@ -45,7 +45,20 @@ public interface UserBusiness
 	 * @param producer user producer
 	 */
 	public void createUser(Producer<User> producer);
+	
+	/**
+	 * Creates a new account using a password.
+	 * @param producer user producer
+	 */
+	public void createAccount(Producer<User> producer);	
 
+	/**
+	 * Creates a new account using CardSpace credentials.
+	 * @param userProducer user producer
+	 * @param tokenProducer CardSpace token producer
+	 */
+	public void createAccount(Producer<User> userProducer, Producer<CardSpaceToken> tokenProducer);	
+	
 	/**
 	 * Loads a user for editing.
 	 * @param consumer consumer

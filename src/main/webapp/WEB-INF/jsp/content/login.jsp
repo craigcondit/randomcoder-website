@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:url var="loginUrl" value="/j_security_check" />
 <c:url var="homeUrl" value="/" />
+<c:url var="createUrl" value="/account/create" />
 
 <c:if test="${template.error}">
 	<div class="globalError">Login incorrect. Please try again.</div>
@@ -26,6 +27,10 @@
 				</div>
 			</div>
 		</div>
+		
+		<p>
+			Don't have an account? <a href="${createUrl}">Sign up now</a>.
+		</p>
 	</form>	
 </div>
 <div class="sectionHeading">OR, login with a username and password</div>
@@ -55,5 +60,10 @@
 				<input type="button" class="formButton" value="Cancel" onclick="document.location.href='${homeUrl}'" />
 			</div>
 		</div>
+		
+		<p>
+			Don't have an account? <a href="${createUrl}">Sign up now</a>.
+		</p>
+		
 	</form>
 </div>

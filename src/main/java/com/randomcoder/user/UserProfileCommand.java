@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.randomcoder.io.Producer;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
@@ -34,7 +35,7 @@ import com.randomcoder.security.cardspace.CardSpaceCredentials;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserProfileCommand implements Serializable
+public class UserProfileCommand implements Serializable, Producer<User>
 {
 	private static final long serialVersionUID = 8464807327958297647L;
 	
@@ -115,5 +116,11 @@ public class UserProfileCommand implements Serializable
 	public void setWebsite(String website)
 	{
 		this.website = StringUtils.trimToNull(website);
+	}
+
+	public void produce(User target)
+	{
+		target.setWebsite(website);
+		target.setEmailAddress(emailAddress);
 	}
 }

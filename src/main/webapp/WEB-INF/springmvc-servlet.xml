@@ -168,6 +168,7 @@
 		<property name="bindOnNewForm" value="true" />
 		<property name="userBusiness" ref="userBusiness" />
 		<property name="certificateContext" ref="certificateContext" />
+		<property name="encryptionContext" ref="encryptionContext" />
 		<property name="formView" value="account-create" />
 		<property name="commandClass" value="com.randomcoder.user.AccountCreateCommand" />
 		<property name="validator" ref="accountCreateValidator" />
@@ -175,6 +176,7 @@
 
 	<bean id="accountCreateValidator" class="com.randomcoder.user.AccountCreateValidator">
 		<property name="userDao" ref="userDao" />
+		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 		
 	<bean id="abstractUserController" abstract="true">

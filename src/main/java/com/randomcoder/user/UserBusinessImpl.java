@@ -2,10 +2,10 @@ package com.randomcoder.user;
 
 import java.util.*;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.randomcoder.cardspace.CardSpaceUtils;
 import com.randomcoder.io.*;
 import com.randomcoder.security.UnauthorizedException;
 import com.randomcoder.security.cardspace.CardSpaceCredentials;
@@ -85,6 +85,31 @@ public class UserBusinessImpl implements UserBusiness
 	}
 	
 	@Transactional
+	public void createAccount(Producer<User> producer)
+	{
+		User user = new User();
+		producer.produce(user);
+		userDao.create(user);		
+	}
+
+	@Transactional
+	public void createAccount(Producer<User> userProducer, Producer<CardSpaceToken> tokenProducer)	
+	{
+		User user = new User();
+		userProducer.produce(user);
+		userDao.create(user);
+		
+		CardSpaceToken token = new CardSpaceToken();
+		tokenProducer.produce(token);
+		token.setCreationDate(new Date());
+		token.setLastLoginDate(null);
+		token.setEmailAddress(user.getEmailAddress());
+		token.setUser(user);
+		
+		cardSpaceTokenDao.create(token);
+	}
+	
+	@Transactional
 	public void updateUser(Producer<User> producer, Long userId)
 	{
 		User user = loadUser(userId);
@@ -127,7 +152,7 @@ public class UserBusinessImpl implements UserBusiness
 		User user = loadUser(userId);
 		
 		String ppid = credentials.getPrivatePersonalIdentifier();
-		String issuerHash = calculateIssuerHash(credentials);
+		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
 		
 		if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
 			throw new CardSpaceTokenExistsException();
@@ -159,7 +184,7 @@ public class UserBusinessImpl implements UserBusiness
 	public void auditCardSpaceLogin(CardSpaceCredentials credentials)
 	{
 		String ppid = credentials.getPrivatePersonalIdentifier();
-		String issuerHash = calculateIssuerHash(credentials);
+		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
 		
 		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
 		
@@ -192,9 +217,4 @@ public class UserBusinessImpl implements UserBusiness
 		cardSpaceTokenDao.delete(token);
 	}
 
-	private String calculateIssuerHash(CardSpaceCredentials credentials)
-	{
-		return DigestUtils.shaHex(credentials.getIssuerPublicKey()).toLowerCase(Locale.US);
-	}
-	
 }
