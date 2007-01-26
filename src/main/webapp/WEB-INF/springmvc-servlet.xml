@@ -20,6 +20,10 @@
 		<property name="viewName" value="legal-license" />
 	</bean>
 	
+	<bean id="redirectController" class="com.randomcoder.security.RedirectController">
+		<property name="commandClass" value="com.randomcoder.security.RedirectCommand" />
+	</bean>
+	
 	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
 		<property name="articleDao" ref="articleDao" />
 		<property name="contentFilter" ref="contentFilter" />
@@ -260,6 +264,12 @@
 				<prop key="/legal/license">licenseController</prop>
 				<prop key="/login">loginController</prop>
 				<prop key="/login-error">loginErrorController</prop>
+				<prop key="/redirect">redirectController</prop>
+				<prop key="/tag">tagListController</prop>
+				<prop key="/tag/add">tagAddController</prop>
+				<prop key="/tag/edit">tagEditController</prop>
+				<prop key="/tag/delete">tagDeleteController</prop>
+				<prop key="/tags/*">articleTagListController</prop>
 				<prop key="/user">userListController</prop>
 				<prop key="/user/add">userAddController</prop>
 				<prop key="/user/edit">userEditController</prop>
@@ -267,11 +277,6 @@
 				<prop key="/user/profile">userProfileController</prop>
 				<prop key="/user/profile/change-password">changePasswordController</prop>
 				<prop key="/user/profile/delete-card">userProfileCardSpaceDeleteController</prop>
-				<prop key="/tag">tagListController</prop>
-				<prop key="/tag/add">tagAddController</prop>
-				<prop key="/tag/edit">tagEditController</prop>
-				<prop key="/tag/delete">tagDeleteController</prop>
-				<prop key="/tags/*">articleTagListController</prop>
 			</props>
 		</property>
 	</bean>

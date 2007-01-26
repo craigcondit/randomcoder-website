@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.acegisecurity.ui.AbstractProcessingFilter;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -172,6 +173,10 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 		ArticlePageCommand pager = (ArticlePageCommand) command;
 		PageCommand pageCommand = getPageCommand(command);
 	
+		// removed any saved request in case login was canceled
+		HttpSession session = request.getSession(false);
+		if (session != null) session.removeAttribute(AbstractProcessingFilter.ACEGI_SAVED_REQUEST_KEY);
+		
 		// get current month
 		Calendar currentMonth = Calendar.getInstance();
 		currentMonth.setTime(new Date());

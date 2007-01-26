@@ -5,7 +5,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
 <url:current var="formAction" />
-<c:url var="loginUrl" value="/login" />
+<url:current var="currentUrl" />
+<c:url var="loginUrl" value="/redirect">
+	<c:param name="url" value="${currentUrl}#post-comments" />
+</c:url>
 <a name="post-comments"></a>
 <div class="sectionHeading">Comment on this article</div>
 <div class="sectionContent">
