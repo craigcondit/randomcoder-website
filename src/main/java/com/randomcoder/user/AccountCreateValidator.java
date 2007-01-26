@@ -14,7 +14,7 @@ import com.randomcoder.validation.DataValidationUtils;
  * Validator used for adding accounts.
  * 
  * <pre>
- * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -103,11 +103,22 @@ public class AccountCreateValidator implements Validator
 		this.cardSpaceTokenDao = cardSpaceTokenDao;
 	}
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * @param targetClass class to test
+	 * @return
+	 * 	true if targetClass is {@code AccountCreateCommand}, false otherwise
+	 */
 	public boolean supports(Class targetClass)
 	{
 		return AccountCreateCommand.class.equals(targetClass);
 	}
 
+	/**
+	 * Validates the given object.
+	 * @param target object to validate
+	 * @param errors error object to populate with validation errors
+	 */
 	public void validate(Object target, Errors errors)
 	{
 		AccountCreateCommand command = (AccountCreateCommand) target;

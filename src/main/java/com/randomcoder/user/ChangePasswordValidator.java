@@ -7,7 +7,7 @@ import org.springframework.validation.*;
  * Validator for the change password form.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -53,11 +53,22 @@ public class ChangePasswordValidator implements Validator
 		this.minimumPasswordLength = minimumPasswordLength;
 	}
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * @param givenClass class to check
+	 * @return
+	 * 	true if givenClass is {@code ChangePasswordCommand}, false otherwise
+	 */
 	public boolean supports(Class givenClass)
 	{
 		return ChangePasswordCommand.class.equals(givenClass);
 	}
-
+	
+	/**
+	 * Validates the given object.
+	 * @param obj object to validate
+	 * @param errors error object to populate with validation errors
+	 */
 	public void validate(Object obj, Errors errors)
 	{
 		ChangePasswordCommand command = (ChangePasswordCommand) obj;

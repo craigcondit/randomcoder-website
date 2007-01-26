@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.CancellableFormController;
  * Controller used to change a user's password.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -63,6 +63,12 @@ public class ChangePasswordController extends CancellableFormController
 		this.userBusiness = userBusiness;
 	}
 
+	/**
+	 * Binds the current user to the given command.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @throws Exception if an error occurs
+	 */
 	@Override
 	protected void onBind(HttpServletRequest request, Object command) throws Exception
 	{
@@ -82,6 +88,14 @@ public class ChangePasswordController extends CancellableFormController
 		form.setUser(user);
 	}
 
+	/**
+	 * Handles form submissions.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
+	 * @return ModelAndView configured using {@link #setSuccessView(String)}
+	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
 	{

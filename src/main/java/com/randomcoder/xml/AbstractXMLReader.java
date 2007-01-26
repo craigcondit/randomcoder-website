@@ -9,7 +9,7 @@ import org.xml.sax.*;
  * Abstract base class for {@link XMLReader} implementations.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -49,12 +49,17 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * <p> Subclasses must implement this method to handle XML parsing. </p>
 	 * 
 	 * @param input input source to parse
+	 * @throws IOException if resource cannot be read
+	 * @throws SAXException if an error occurs
 	 * @see XMLReader#parse(InputSource)
 	 */
 	abstract public void parse(InputSource input) throws IOException, SAXException;
 
 	/**
-	 * @see XMLReader#parse(String)
+	 * Parses a document using the given system id.
+	 * @param systemId system id
+	 * @throws IOException if resource cannot be read
+	 * @throws SAXException if an error occurs
 	 */
 	public void parse(String systemId) throws IOException, SAXException
 	{
@@ -62,7 +67,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getContentHandler()
+	 * Gets the content handler defined for this reader.
+	 * @return content handler
 	 */
 	public ContentHandler getContentHandler()
 	{
@@ -70,7 +76,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setContentHandler(ContentHandler)
+	 * Sets the content handler for this reader.
+	 * @param contentHandler content handler
 	 */
 	public void setContentHandler(ContentHandler contentHandler)
 	{
@@ -78,7 +85,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getDTDHandler()
+	 * Gets the DTD handler for this reader.
+	 * @return DTD handler
 	 */
 	public DTDHandler getDTDHandler()
 	{
@@ -86,7 +94,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setDTDHandler(DTDHandler)
+	 * Sets the DTD handler for this reader.
+	 * @param dtdHandler DTD handler
 	 */
 	public void setDTDHandler(DTDHandler dtdHandler)
 	{
@@ -94,7 +103,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getEntityResolver()
+	 * Gets the entity resolver for this reader.
+	 * @return entity resolver
 	 */
 	public EntityResolver getEntityResolver()
 	{
@@ -102,7 +112,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setEntityResolver(EntityResolver)
+	 * Sets the entity resolver for this reader.
+	 * @param entityResolver entity resolver
 	 */
 	public void setEntityResolver(EntityResolver entityResolver)
 	{
@@ -110,7 +121,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getErrorHandler()
+	 * Gets the error handler for this reader.
+	 * @return error handler
 	 */
 	public ErrorHandler getErrorHandler()
 	{
@@ -118,7 +130,8 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setErrorHandler(ErrorHandler)
+	 * Sets the error handler for this reader.
+	 * @param errorHandler error handler
 	 */
 	public void setErrorHandler(ErrorHandler errorHandler)
 	{
@@ -126,7 +139,11 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getFeature(String)
+	 * Determines if this reader supports the given feature.
+	 * @param name feature name
+	 * @throws SAXNotRecognizedException if the feature is not recognized
+	 * @throws SAXNotSupportedException if the method is not supported
+	 * @return true if feature is available, false otherwise
 	 */
 	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
@@ -137,7 +154,11 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setFeature(String, boolean)
+	 * Sets the availability of the given feature.
+	 * @param name feature name
+	 * @param value true if enabled, false otherwise
+	 * @throws SAXNotRecognizedException if the feature is not recognized
+	 * @throws SAXNotSupportedException if the method is not supported
 	 */
 	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
@@ -145,7 +166,11 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#getProperty(String)
+	 * Gets the value of the named property.
+	 * @param name property name
+	 * @return property value
+	 * @throws SAXNotRecognizedException if the property is not recognized
+	 * @throws SAXNotSupportedException if the method is not supported
 	 */
 	public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
@@ -153,7 +178,11 @@ abstract public class AbstractXMLReader implements XMLReader
 	}
 
 	/**
-	 * @see XMLReader#setProperty(String, Object)
+	 * Sets the value o fthe named property.
+	 * @param name property name
+	 * @param value property value
+	 * @throws SAXNotRecognizedException if the property is not recognized
+	 * @throws SAXNotSupportedException if the method is not supported
 	 */
 	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException
 	{

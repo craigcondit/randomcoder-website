@@ -80,6 +80,12 @@ public class AccountCreateController extends CancellableFormController
 		this.encryptionContext = encryptionContext;
 	}
 	
+	/**
+	 * Binds custom property editors.
+	 * @param request HTTP request
+	 * @param binder data binder
+	 * @throws Exception if an error occurs 
+	 */
 	@Override
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{

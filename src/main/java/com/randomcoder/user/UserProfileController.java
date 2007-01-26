@@ -86,6 +86,12 @@ public class UserProfileController extends CancellableFormController
 		this.userBusiness = userBusiness;
 	}
 	
+	/**
+	 * Initializes form with custom property editors.
+	 * @param request HTTP request
+	 * @param binder data binder
+	 * @throws Exception if an error occurs
+	 */
 	@Override
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
@@ -93,6 +99,13 @@ public class UserProfileController extends CancellableFormController
 		binder.registerCustomEditor(CardSpaceCredentials.class, new CardSpaceCredentialsPropertyEditor(certificateContext));
 	}
 	
+	/**
+	 * Populates the model with reference data.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @param errors error object
+	 * @return required data for view 
+	 */
 	@Override
 	protected Map<String, Object> referenceData(HttpServletRequest request, Object command, Errors errors) throws Exception
 	{
@@ -111,6 +124,10 @@ public class UserProfileController extends CancellableFormController
 
 	/**
 	 * Pre-populates form on new request.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @param errors error object
+	 * @throws Exception if an error occurs
 	 */
 	@Override
 	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
@@ -125,7 +142,13 @@ public class UserProfileController extends CancellableFormController
 	}
 
 	/**
-	 * Associated the supplied CardSpace token with the current user
+	 * Associates the supplied CardSpace token with the current user.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
+	 * @throws Exception if an error occurs
+	 * @return ModelAndView configured with {@link #setSuccessView(String)}
 	 */
 	@Override
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception

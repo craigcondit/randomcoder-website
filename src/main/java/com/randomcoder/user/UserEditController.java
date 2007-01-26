@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller class which handles user updating.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,6 +37,9 @@ public class UserEditController extends AbstractUserController
 {
 	/**
 	 * Pre-populates form on new request and checks permissions.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @param errors error object
 	 */
 	@Override
 	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException errors)
@@ -47,10 +50,15 @@ public class UserEditController extends AbstractUserController
 	
 	/**
 	 * Modifies the selected user on form submission.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
+	 * @return ModelAndView configured with {@link #getSuccessView()}
 	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
-	{
+	{		
 		UserEditCommand cmd = (UserEditCommand) command;
 
 		userBusiness.updateUser(cmd, cmd.getId());

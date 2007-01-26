@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  * Controller used to list users.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -82,6 +82,14 @@ public class UserListController extends AbstractCommandController
 		this.maximumPageSize = maximumPageSize;
 	}
 	
+	/**
+	 * Handles user list requests.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
+	 * @return ModelAndView configured with {@link #setViewName(String)}
+	 */	
 	@Override
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{

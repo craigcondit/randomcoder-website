@@ -7,7 +7,7 @@ import java.beans.PropertyEditorSupport;
  * Property editor for roles.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,10 @@ public class RolePropertyEditor extends PropertyEditorSupport
 		this.roleDao = roleDao;
 	}
 
+	/**
+	 * Gets the value of the associated object as a text string.
+	 * @return text representation of object
+	 */
 	@Override
 	public String getAsText()
 	{
@@ -52,6 +56,11 @@ public class RolePropertyEditor extends PropertyEditorSupport
 		return result;
 	}
 
+	/**
+	 * Sets the value of the associated object as a text string.
+	 * @param string text value
+	 * @throws IllegalArgumentException if parsing fails
+	 */
 	@Override
 	public void setAsText(String string) throws IllegalArgumentException
 	{

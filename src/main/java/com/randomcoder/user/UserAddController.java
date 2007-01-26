@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
  * Controller class which handles adding users.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,6 +38,9 @@ public class UserAddController extends AbstractUserController
 	
 	/**
 	 * Sets default values for the form.
+	 * @param request HTTP request
+	 * @param command command object
+	 * @throws Exception if an error occurs
 	 */
 	@Override
 	protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception
@@ -51,6 +54,11 @@ public class UserAddController extends AbstractUserController
 
 	/**
 	 * Creates a new user based on form submission.
+	 * @param request HTTP request
+	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
+	 * @return ModelAndView from {@link #getSuccessView()}
 	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)

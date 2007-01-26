@@ -10,7 +10,7 @@ import com.randomcoder.validation.DataValidationUtils;
  * Validator used for adding users.
  * 
  * <pre>
- * Copyright (c) 2006, 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -82,11 +82,21 @@ public class UserAddValidator implements Validator
 		this.userDao = userDao;
 	}
 	
+	/**
+	 * Determines if this validator supports the given class.
+	 * @param targetClass class to check
+	 * @return true if targetClass is {@code UserAddCommand}, false otherwise
+	 */
 	public boolean supports(Class targetClass)
 	{
 		return UserAddCommand.class.equals(targetClass);
 	}
 
+	/**
+	 * Validates the given object.
+	 * @param target object to validate
+	 * @param errors error object to populate with validation errors
+	 */
 	public void validate(Object target, Errors errors)
 	{
 		UserAddCommand command = (UserAddCommand) target;
