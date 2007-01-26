@@ -4,19 +4,22 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import com.randomcoder.test.mock.dao.UserDaoMock;
+import com.randomcoder.test.mock.dao.*;
 
 public class UserBusinessImplTest extends TestCase
 {
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
+	private CardSpaceTokenDaoMock cardSpaceTokenDao;
 	
 	@Override
 	public void setUp()
 	{
 		userBusiness = new UserBusinessImpl();
 		userDao = new UserDaoMock();
+		cardSpaceTokenDao = new CardSpaceTokenDaoMock();
 		userBusiness.setUserDao(userDao);
+		userBusiness.setCardSpaceTokenDao(cardSpaceTokenDao);
 	}
 
 	public void testChangePassword()
@@ -167,6 +170,7 @@ public class UserBusinessImplTest extends TestCase
 	public void tearDown()
 	{
 		userDao = null;
+		cardSpaceTokenDao = null;
 		userBusiness = null;
 	}
 }

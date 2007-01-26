@@ -9,20 +9,23 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.randomcoder.springmvc.IdCommand;
-import com.randomcoder.test.mock.dao.UserDaoMock;
+import com.randomcoder.test.mock.dao.*;
 
 public class UserDeleteControllerTest extends TestCase
 {
 	private UserDeleteController controller;
 	private UserBusinessImpl userBusiness;
 	private UserDaoMock userDao;
+	private CardSpaceTokenDaoMock cardSpaceTokenDao;
 
 	@Override
 	public void setUp() throws Exception
 	{
 		userDao = new UserDaoMock();
+		cardSpaceTokenDao = new CardSpaceTokenDaoMock();
 		userBusiness = new UserBusinessImpl();
 		userBusiness.setUserDao(userDao);
+		userBusiness.setCardSpaceTokenDao(cardSpaceTokenDao);
 		controller = new UserDeleteController();
 		controller.setUserBusiness(userBusiness);
 		controller.setViewName("success");
@@ -61,5 +64,6 @@ public class UserDeleteControllerTest extends TestCase
 		controller = null;
 		userBusiness = null;
 		userDao = null;
+		cardSpaceTokenDao = null;
 	}
 }
