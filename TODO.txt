@@ -6,15 +6,12 @@ TODO
 	- merge ??
 	
 * User management
-	- signup
 	- reset password
 	- profile page (settings, bio, etc.)
 	- alternate logins
 	  > OpenID
 	  > LID
 	  > Yaird
-	  > CardSpace
-	- acegi (aka spring security)?
 	
 * User comments
 	- nested
