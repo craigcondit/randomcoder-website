@@ -7,7 +7,8 @@
 	<ul class="nav">
 	  <li><a href="${homeUrl}">Home</a></li>
 	  <li class="navbreak"><a href="http://randomcoder.com/repos/public/">Subversion Repository</a></li>
-	  <li><a href="${javadocUrl}">JavaDoc</a></li>
+	  <li><a href="http://randomcoder.com/maven/site/randomcoder-website/">Maven Site</a></li>
+	  <li><a href="http://randomcoder.com/maven/site/randomcoder-website/apidocs/">JavaDoc</a></li>
 		<li class="navbreak"><a href="${aboutUrl}">About this site</a></li>
 	</ul>
 </div>

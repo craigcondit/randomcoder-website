@@ -10,18 +10,22 @@
 	</appender>
 	
 	<logger name="com.randomcoder">
-		<level value="debug" />
+		<level value="info" />
 	</logger>
 
 	<logger name="com.randomcoder.dao.hibernate">
 		<level value="warn" />
 	</logger>
 
-	<logger name="org.apache">
+	<logger name="net.sf.ehcache">
 		<level value="warn" />
 	</logger>
-	
-	<logger name="net.sf.ehcache">
+
+	<logger name="org.acegisecurity">
+		<level value="warn" />
+	</logger>
+
+	<logger name="org.apache">
 		<level value="warn" />
 	</logger>
 	
@@ -30,7 +34,7 @@
 	</logger>
 	
 	<logger name="org.hibernate.SQL">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework">
