@@ -2,7 +2,7 @@
 <div class="sectionHeading">License</div>
 <div class="sectionContent">
 	<p>
-		Copyright &#169; 2006, Craig Condit. All rights reserved.
+		Copyright &#169; 2006-2007, Craig Condit. All rights reserved.
 	</p>
 
 	<p>

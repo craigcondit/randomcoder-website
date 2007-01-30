@@ -275,7 +275,9 @@
 	<bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder" />
 
 	<!-- Logging -->
+	<!-- 
 	<bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener" />
+	-->
 	
 	<!-- Events -->
 	<bean id="authenticationEventListener" class="com.randomcoder.security.AuthenticationAuditListener">
