@@ -146,6 +146,22 @@
 		</property>
 	</bean>
 
+	<!-- Download -->
+	<bean id="download" class="com.randomcoder.springmvc.JstlTemplateView">
+		<property name="parent" ref="wide-layout" />
+		<property name="attributes">
+			<map>
+				<entry key="title" value="Download" />
+				<entry key="javascript" value="download.js" />
+				<entry key="content">
+					<list>
+						<value>/WEB-INF/jsp/content/download.jsp</value>
+					</list>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
 	<!-- User list -->
 	<bean id="user-list" class="com.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />

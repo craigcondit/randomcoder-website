@@ -24,6 +24,12 @@
 		<property name="commandClass" value="com.randomcoder.security.RedirectCommand" />
 	</bean>
 	
+	<bean id="downloadController" class="com.randomcoder.download.DownloadController">
+		<property name="viewName" value="download" />
+		<property name="supportedMethods" value="GET" />
+		<property name="packageListProducer" ref="dummyPackageListProducer" />
+	</bean>
+	
 	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
 		<property name="articleDao" ref="articleDao" />
 		<property name="contentFilter" ref="contentFilter" />
@@ -259,6 +265,7 @@
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
 				<prop key="/comment/delete">commentDeleteController</prop>
+				<prop key="/download">downloadController</prop>
 				<prop key="/home">homeController</prop>
 				<prop key="/legal/about">aboutController</prop>
 				<prop key="/legal/license">licenseController</prop>

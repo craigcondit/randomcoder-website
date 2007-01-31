@@ -99,6 +99,16 @@ A.read-more {
 	background: url(../images/silk/page_small.png) -3px no-repeat;	
 }
 
+A.expando-shown {
+	padding-left: 16px;
+	background: url(../images/minus.png) left no-repeat;	
+}
+
+A.expando-hidden {
+	padding-left: 16px;
+	background: url(../images/plus.png) left no-repeat;	
+}
+
 #header {
 	height: 100px;
 }
@@ -210,6 +220,32 @@ A.read-more {
 	margin-bottom: 1.5em;
 	border-width: 1px;
 	overflow: hidden;
+}
+
+TABLE.data {
+	border-collapse: collapse;
+	border-width: 0;	
+}
+
+TABLE.data THEAD TR TH {
+	color: #666666;
+	background-color: #f0f0f0;
+	font-weight: normal;
+}
+
+TABLE.data THEAD TR TH,
+TABLE.data TBODY TR TD {
+	padding: 1px 0.5em;
+	text-align: left;	
+	font-size: 0.9em;
+}
+
+TR.row-heading TD {
+	background-color: #ccd4cc;
+}
+
+TR.row-subheading TD {
+	background-color: #d8dcd8;
 }
 
 TABLE.calendar {

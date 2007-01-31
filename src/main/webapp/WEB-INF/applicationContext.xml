@@ -213,4 +213,50 @@
 		<property name="keySize" value="256" />
 	</bean>
 	
+	<!-- Repositories -->
+	<bean id="publicRepository" class="com.randomcoder.repository.MavenRepository">
+		<property name="url" value="http://randomcoder.com/maven/repository/release/" />
+		<property name="projects">
+			<list>
+				<bean class="com.randomcoder.repository.MavenProject">
+					<property name="projectName" value="Randomcoder Website" />
+					<property name="directory" value="com/randomcoder/randomcoder-website" />
+					<property name="artifactTypes">
+						<list>
+							<value>documentation</value>
+						</list>
+					</property>
+					<property name="extensionMappings">
+						<map>
+							<entry key="-javadoc.jar" value="documentation" />
+						</map>
+					</property>
+				</bean>
+				<bean class="com.randomcoder.repository.MavenProject">
+					<property name="projectName" value="Randomcoder Taglibs" />
+					<property name="directory" value="com/randomcoder/randomcoder-taglibs" />					
+					<property name="artifactTypes">
+						<list>
+							<value>binary</value>
+							<value>source</value>
+							<value>documentation</value>
+						</list>
+					</property>
+					<property name="extensionMappings">
+						<map>
+							<entry key=".jar" value="binary" />
+							<entry key="-src.tar.bz2" value="source" />
+							<entry key="-src.tar.gz" value="source" />
+							<entry key="-src.zip" value="source" />
+							<entry key="-javadoc.jar" value="documentation" />
+							<entry key="-tlddoc.jar" value="documentation" />
+						</map>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- downloads -->
+	<bean id="dummyPackageListProducer" class="com.randomcoder.download.DummyPackageListProducer" />
 </beans>
