@@ -20,7 +20,7 @@ A.external {
 	background-image: url(../images/silk/bullet_go.gif);	
 }
 
-A.permalink {
+A.permalink, A.hash {
 	background-image: url(../images/silk/bullet_key.gif);
 }
 

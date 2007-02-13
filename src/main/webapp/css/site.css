@@ -62,9 +62,14 @@ A.external {
 	background: url(../images/silk/bullet_go.png) right no-repeat;	
 }
 
-A.permalink {
+A.permalink, A.hash {
 	padding-left: 18px;
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
+}
+
+A.hash {
+	font-size: 0.75em;
+	padding-left: 14px;
 }
 
 /*
@@ -241,11 +246,11 @@ TABLE.data TBODY TR TD {
 }
 
 TR.row-heading TD {
-	background-color: #ccd4cc;
+	background-color: #cccccc;
 }
 
 TR.row-subheading TD {
-	background-color: #d8dcd8;
+	background-color: #d8d8d8;
 }
 
 TABLE.calendar {

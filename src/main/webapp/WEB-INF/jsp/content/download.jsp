@@ -34,16 +34,18 @@
 <div class="sectionHeading">File releases</div>
 <div class="sectionContentFull">
 	<table style="width: 100%" class="data">
-		<col width="10%" />
-		<col width="10%" />
-		<col width="45%" />
-		<col width="15%" />
-		<col width="20%" />
+		<col width="8%" />
+		<col width="8%" />
+		<col width="40%" />
+		<col width="13%" />
+		<col width="14%" />
+		<col width="17%" />
 		<thead>
 			<tr>
 				<th>Package</th>
 				<th>Release</th>
 				<th>Filename</th>
+				<th style="text-align: center">Hash</th>
 				<th style="text-align: center">Size</th>
 				<th>Type</th>
 			</tr>
@@ -51,7 +53,7 @@
 		<tbody>
 			<c:forEach var="package" items="${packages}" varStatus="packageStat">
 				<tr class="row-heading">
-					<td colspan="5">
+					<td colspan="6">
 						<a name="download${packageStat.index}"></a>
 						<a id="packageexpand-${packageStat.index}" class="package-expando expando-shown" href="#"><c:out value="${package.name}" /></a>
 					</td>
@@ -63,7 +65,7 @@
 					</c:choose>
 					<tr class="fileset-target row-subheading" id="fileset-${packageStat.index}-${fileSetStat.index}">
 					  <td>&#160;</td>
-						<td colspan="4">
+						<td colspan="5">
 							<a class="fileset-expando ${versionClass}" id="filesetexpand-${packageStat.index}-${fileSetStat.index}" href="#"><c:out value="${fileSet.version}" /></a>
 							<c:if test="${not empty fileSet.files[0].lastModified}">
 								(<fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${fileSet.files[0].lastModified}" />)
@@ -77,6 +79,17 @@
 							<td>&#160;</td>
 							<td>&#160;</td>
 							<td><a href="${file.downloadLink}"><c:out value="${file.fileName}" /></a></td>
+							<td style="text-align: center">
+								<c:if test="${empty file.md5Link and empty file.sha1Link}">
+									&#160;
+								</c:if>
+								<c:if test="${not empty file.md5Link}">
+								  <a class="hash" href="${file.md5Link}">md5</a>
+								</c:if>
+								<c:if test="${not empty file.sha1Link}">
+								  <a class="hash" href="${file.sha1Link}">sha1</a>
+								</c:if>
+							</td>
 							<td style="text-align: center"><c:out value="${file.fileSize}" /></td>
 							<td><fmt:message key="${fileTypeKey}" /></td>
 						</tr>
