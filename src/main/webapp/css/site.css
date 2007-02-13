@@ -237,7 +237,7 @@ TABLE.data THEAD TR TH,
 TABLE.data TBODY TR TD {
 	padding: 1px 0.5em;
 	text-align: left;	
-	font-size: 0.9em;
+	font-size: 0.95em;
 }
 
 TR.row-heading TD {
