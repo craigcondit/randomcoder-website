@@ -7,6 +7,7 @@ import java.util.*;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.*;
 import org.apache.commons.httpclient.util.*;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.*;
@@ -46,6 +47,7 @@ import com.randomcoder.xml.MavenMetadataHandler;
  */
 public class MavenRepository implements PackageListProducer, InitializingBean, DisposableBean
 {
+	private static final Log logger = LogFactory.getLog(MavenRepository.class);
 	private static final String METADATA_FILENAME = "maven-metadata.xml";
 	
 	private URL url;
@@ -99,22 +101,37 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	 */
 	public List<Package> getPackages() throws PackageListException
 	{
-		List<Package> packages = new ArrayList<Package>();
+		logger.debug("Loading package list");
+		long startTime = logger.isDebugEnabled() ? System.nanoTime() : 0;
 		
-		// create http client
-		HttpClient client = new HttpClient(connectionManager);
-		
-		for (MavenProject project : projects)
+		try
 		{
-			// process project
-			Package pkg = processProject(client, project);
-			if (pkg != null) packages.add(pkg);
+			List<Package> packages = new ArrayList<Package>();
+			
+			// create http client
+			HttpClient client = new HttpClient(connectionManager);
+			
+			for (MavenProject project : projects)
+			{
+				// process project
+				Package pkg = processProject(client, project);
+				if (pkg != null) packages.add(pkg);
+			}
+			
+			// sort by name
+			Collections.sort(packages);
+			
+			return packages;
 		}
-		
-		// sort by name
-		Collections.sort(packages);
-		
-		return packages;
+		finally
+		{
+			if (logger.isDebugEnabled())
+			{
+				long endTime = System.nanoTime();
+				double elapsedTime = ((double) (endTime - startTime)) / 1000000000;
+				logger.debug("Package list completed in " + elapsedTime + " seconds");
+			}			
+		}
 	}
 
 	private Package processProject(HttpClient client, MavenProject project) throws PackageListException

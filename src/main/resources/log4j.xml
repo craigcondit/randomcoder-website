@@ -17,6 +17,14 @@
 		<level value="warn" />
 	</logger>
 
+	<logger name="com.randomcoder.springmvc">
+		<level value="warn" />
+	</logger>
+
+	<logger name="httpclient.wire">
+		<level value="warn" />
+	</logger>
+
 	<logger name="net.sf.ehcache">
 		<level value="warn" />
 	</logger>

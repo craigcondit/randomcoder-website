@@ -7,6 +7,7 @@ import java.util.*;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.*;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.*;
 
 import com.randomcoder.download.*;
@@ -42,6 +43,8 @@ import com.randomcoder.download.Package;
  */
 public class HttpRepository implements PackageListProducer, InitializingBean, DisposableBean
 {
+	private static final Log logger = LogFactory.getLog(HttpRepository.class);
+	
 	private MultiThreadedHttpConnectionManager connectionManager;
 	private List<HttpProject> projects;
 	
@@ -80,21 +83,36 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 	 */
 	public List<Package> getPackages() throws PackageListException
 	{
-		List<Package> packages = new ArrayList<Package>();
+		logger.debug("Loading package list");
+		long startTime = logger.isDebugEnabled() ? System.nanoTime() : 0;
 		
-		// create http client
-		HttpClient client = new HttpClient(connectionManager);
-		
-		for (HttpProject project : projects)
+		try
 		{
-			// process project
-			Package pkg = processProject(client, project);
-			if (pkg != null) packages.add(pkg);
+			List<Package> packages = new ArrayList<Package>();
+			
+			// create http client
+			HttpClient client = new HttpClient(connectionManager);
+			
+			for (HttpProject project : projects)
+			{
+				// process project
+				Package pkg = processProject(client, project);
+				if (pkg != null) packages.add(pkg);
+			}
+	
+			// sort by name
+			Collections.sort(packages);
+			return packages;
 		}
-
-		// sort by name
-		Collections.sort(packages);
-		return packages;
+		finally
+		{
+			if (logger.isDebugEnabled())
+			{
+				long endTime = System.nanoTime();
+				double elapsedTime = ((double) (endTime - startTime)) / 1000000000;
+				logger.debug("Package list completed in " + elapsedTime + " seconds");
+			}
+		}
 	}
 
 	private Package processProject(HttpClient client, HttpProject project) throws PackageListException
