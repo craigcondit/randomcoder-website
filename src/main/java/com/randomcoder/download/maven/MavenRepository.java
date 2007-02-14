@@ -247,6 +247,8 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		}
 		
 		if (fs.getFiles().isEmpty()) return null;
+		
+		Collections.sort(fs.getFiles());
 		return fs;
 	}
 

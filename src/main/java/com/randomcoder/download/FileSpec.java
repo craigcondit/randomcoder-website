@@ -1,7 +1,7 @@
 package com.randomcoder.download;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 /**
  * JavaBean which holds details for a downloadable file. 
@@ -31,7 +31,7 @@ import java.util.Date;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class FileSpec implements Serializable, Cloneable
+public class FileSpec implements Serializable, Cloneable, Comparable<FileSpec>
 {
 	private static final long serialVersionUID = 1667518184832349650L;
 	
@@ -171,6 +171,21 @@ public class FileSpec implements Serializable, Cloneable
 	public void setFileType(String fileType)
 	{
 		this.fileType = fileType;
+	}
+
+	/**
+	 * Compares this FileSpec to another FileSpec.
+	 * @param obj FileSpec to compare
+	 * @return negative, 0, or positive number depending on if this object
+	 *         is before, equal, or after <code>obj</code>
+	 */
+	public int compareTo(FileSpec obj)
+	{
+		if (obj == null) return 1;
+		
+		// we employ a hack here to make periods sort earlier than hyphens
+		// this tends to bubble the important stuff (.jar, etc.) to the top
+		return fileName.toLowerCase(Locale.US).replace('.', '*').compareTo(obj.fileName.toLowerCase(Locale.US).replace('.', '*'));
 	}
 
 	/**

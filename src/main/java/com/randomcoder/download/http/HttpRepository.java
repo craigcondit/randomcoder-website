@@ -155,6 +155,8 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 		}
 		
 		if (fs.getFiles().isEmpty()) return null;
+		
+		Collections.sort(fs.getFiles());
 		return fs;
 	}
 
