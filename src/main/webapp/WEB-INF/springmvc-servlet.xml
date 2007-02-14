@@ -27,7 +27,7 @@
 	<bean id="downloadController" class="com.randomcoder.download.DownloadController">
 		<property name="viewName" value="download" />
 		<property name="supportedMethods" value="GET" />
-		<property name="packageListProducer" ref="dummyPackageListProducer" />
+		<property name="packageListProducer" ref="packageListProducer" />
 	</bean>
 	
 	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">

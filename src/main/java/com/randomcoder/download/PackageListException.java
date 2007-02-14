@@ -1,12 +1,7 @@
-package com.randomcoder.repository;
-
-import java.net.URL;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Required;
+package com.randomcoder.download;
 
 /**
- * Maven repository. 
+ * Interface used to query a list of downloadable packages. 
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -33,28 +28,43 @@ import org.springframework.beans.factory.annotation.Required;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class MavenRepository
+public class PackageListException extends Exception
 {
-	private URL url;
-	private List<MavenProject> projects;
-	
+	private static final long serialVersionUID = 4298370367619312048L;
+
 	/**
-	 * Sets the base url of this repository
-	 * @param url base url
+	 * Creates a new exception.
 	 */
-	@Required
-	public void setUrl(URL url)
+	public PackageListException()
 	{
-		this.url = url;
+		super();
 	}
-	
+
 	/**
-	 * Sets the list of projects to query.
-	 * @param projects list of projects
+	 * Creates an exception with the given message.
+	 * @param message message to associate with this exception
 	 */
-	@Required
-	public void setProjects(List<MavenProject> projects)
+	public PackageListException(String message)
 	{
-		this.projects = projects;
+		super(message);
+	}
+
+	/**
+	 * Creates an exception with the given cause.
+	 * @param cause root cause of this exception
+	 */
+	public PackageListException(Throwable cause)
+	{
+		super(cause);
+	}
+
+	/**
+	 * Creates an exception with the given message and cause.
+	 * @param message message to associate with this exception
+	 * @param cause root cause of this exception
+	 */
+	public PackageListException(String message, Throwable cause)
+	{
+		super(message, cause);
 	}
 }

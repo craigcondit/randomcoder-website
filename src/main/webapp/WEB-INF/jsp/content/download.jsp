@@ -5,12 +5,10 @@
 <div class="sectionHeading">Latest releases</div>
 <div class="sectionContentFull">
 	<table style="width: 100%" class="data">
-		<col width="40%" />
-		<col width="30%" />
-		<col width="30%" />
 		<thead>
 			<tr>
 				<th>Package</th>
+				<th>Description</th>
 				<th style="text-align: center">Release</th>
 				<th style="text-align: center">Date</th>
 			</tr>
@@ -20,6 +18,16 @@
 			<c:forEach var="package" items="${packages}" varStatus="packageStat">
 				<tr class="${class}">
 					<td><a href="#download${packageStat.index}"><c:out value="${package.name}" /></a></td>
+					<td>
+						<c:choose>
+							<c:when test="${empty package.description}">
+								&#160;
+							</c:when>
+							<c:otherwise>
+								<c:out value="${package.description}" />
+							</c:otherwise>
+						</c:choose>
+					</td>
 					<td style="text-align: center"><c:out value="${package.fileSets[0].version}" /></td>						
 					<td style="text-align: center"><fmt:formatDate pattern="MMMM d, yyyy" value="${package.fileSets[0].files[0].lastModified}" /></td>
 				</tr>									
@@ -90,7 +98,25 @@
 								  <a class="hash" href="${file.sha1Link}">sha1</a>
 								</c:if>
 							</td>
-							<td style="text-align: center"><c:out value="${file.fileSize}" /></td>
+							<td style="text-align: center">
+								<c:choose>
+									<c:when test="${file.fileSize < 0}">
+										Unknown
+									</c:when>
+									<c:when test="${file.fileSize < 1024}">
+										<c:out value="${file.fileSize}" /> bytes
+									</c:when>
+									<c:when test="${file.fileSize < 1048576}">
+										<fmt:formatNumber pattern="###.#" value="${file.fileSize / 1024.0}" /> KB
+									</c:when>
+									<c:when test="${file.fileSize < 1073741824}">
+										<fmt:formatNumber pattern="###.#" value="${file.fileSize / 1048576.0}" /> MB
+									</c:when>
+									<c:otherwise>
+										<fmt:formatNumber pattern="###.#" value="${file.fileSize / 1073741824.0}" /> GB
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td><fmt:message key="${fileTypeKey}" /></td>
 						</tr>
 						<c:choose>

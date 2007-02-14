@@ -31,7 +31,7 @@ import java.util.Date;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class FileSpec implements Serializable
+public class FileSpec implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 1667518184832349650L;
 	
@@ -171,5 +171,26 @@ public class FileSpec implements Serializable
 	public void setFileType(String fileType)
 	{
 		this.fileType = fileType;
+	}
+
+	/**
+	 * Clones this object.
+	 * @throws CloneNotSupportedException never
+	 */
+	@Override
+	protected Object clone() throws CloneNotSupportedException
+	{
+		FileSpec target = new FileSpec();
+		target.downloadLink = downloadLink;
+		target.fileName = fileName;
+		target.fileSize = fileSize;
+		target.fileType = fileType;
+		if (lastModified != null)
+			target.lastModified = new Date(lastModified.getTime());
+		target.md5Link = md5Link;
+		target.sha1Link = sha1Link;
+		return target;
 	}	
+	
+	
 }

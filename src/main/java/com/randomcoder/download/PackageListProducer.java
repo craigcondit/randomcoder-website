@@ -33,8 +33,9 @@ import java.util.List;
 public interface PackageListProducer
 {
 	/**
-	 * Gets a list of downloadable packages. 
+	 * Gets a list of downloadable packages.
+	 * @throws PackageListException if an error occurs
 	 * @return List of Package objects
 	 */
-	public List<Package> getPackages();
+	public List<Package> getPackages() throws PackageListException;
 }

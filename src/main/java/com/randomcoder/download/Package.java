@@ -31,7 +31,7 @@ import java.util.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class Package implements Serializable
+public class Package implements Serializable, Comparable<Package>
 {
 	private static final long serialVersionUID = -7453421374223486173L;
 	
@@ -83,5 +83,16 @@ public class Package implements Serializable
 	{
 		return fileSets;
 	}
-	
+
+	/**
+	 * Compares this package to another package by name.
+	 * @param obj package to compare
+   * @return  a negative integer, zero, or a positive integer as this object
+   *		is less than, equal to, or greater than the specified object.
+	 */
+	public int compareTo(Package obj)
+	{
+		if (obj == null) return 1;
+		return name.compareTo(obj.name);
+	}	
 }

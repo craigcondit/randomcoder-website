@@ -1,11 +1,13 @@
-package com.randomcoder.repository;
+package com.randomcoder.download.http;
 
+import java.io.Serializable;
+import java.net.URL;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Required;
 
 /**
- * Maven project definition. 
+ * HTTP project definition. 
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -32,15 +34,19 @@ import org.springframework.beans.factory.annotation.Required;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class MavenProject
+public class HttpProject implements Serializable
 {
+	private static final long serialVersionUID = 8968671673710798968L;
+	
 	private String projectName;
-	private String directory;
-	private List<String> artifactTypes;
+	private String projectDescription;
+	private String baseName;
+	private URL baseUrl;
 	private Map<String, String> extensionMappings;
+	private List<String> versions;
 	
 	/**
-	 * Sets the name of the project.
+	 * Sets the name of this project.
 	 * @param projectName project name
 	 */
 	@Required
@@ -50,7 +56,7 @@ public class MavenProject
 	}
 	
 	/**
-	 * Gets the name of the project.
+	 * Gets the name of this project.
 	 * @return project name
 	 */
 	public String getProjectName()
@@ -59,44 +65,76 @@ public class MavenProject
 	}
 	
 	/**
-	 * Sets the name of the directory within the repository where the project
-	 * metadata can be found.
-	 * @param directory project directory
+	 * Sets the description of this project.
+	 * @param projectDescription project description
+	 */
+	public void setProjectDescription(String projectDescription)
+	{
+		this.projectDescription = projectDescription;
+	}
+	
+	/**
+	 * Gets the description of this project.
+	 * @return project description
+	 */
+	public String getProjectDescription()
+	{
+		return projectDescription;
+	}
+	
+	/**
+	 * Sets the base filename.
+	 * @param baseName base filename
+	 */
+	public void setBaseName(String baseName)
+	{
+		this.baseName = baseName;
+	}
+	
+	/**
+	 * gets the base filename of artifacts found in this repository.
+	 * @return base filename
+	 */
+	public String getBaseName()
+	{
+		return baseName;
+	}
+	
+	/**
+	 * Sets the base URL for this project (must be a directory).
+	 * @param baseUrl base url
 	 */
 	@Required
-	public void setDirectory(String directory)
+	public void setBaseUrl(URL baseUrl)
 	{
-		this.directory = directory;
+		this.baseUrl = baseUrl;
 	}
 	
 	/**
-	 * Gets the name of the directory within the repository where the project
-	 * metadata can be found.
-	 * @return project directory
+	 * Gets the base URL for this project.
+	 * @return base url
 	 */
-	public String getDirectory()
+	public URL getBaseUrl()
 	{
-		return directory;
+		return baseUrl;
 	}
 	
 	/**
-	 * Sets the list of artifact types which are present in the project.
-	 * The resulting set of files will be ordered based on this list. 
-	 * @param artifactTypes list of artifact types
+	 * Sets a list of versions to query.
+	 * @param versions list of versions
 	 */
-	@Required
-	public void setArtifactTypes(List<String> artifactTypes)
+	public void setVersions(List<String> versions)
 	{
-		this.artifactTypes = artifactTypes;
+		this.versions = versions;
 	}
 	
 	/**
-	 * Gets the list of artifact types which are present in the project.
-	 * @return list of artifact types
+	 * Gets a list of versions to query.
+	 * @return list of versions
 	 */
-	public List<String> getArtifactTypes()
+	public List<String> getVersions()
 	{
-		return artifactTypes;
+		return versions;
 	}
 	
 	/**
@@ -116,5 +154,5 @@ public class MavenProject
 	public Map<String, String> getExtensionMappings()
 	{
 		return extensionMappings;
-	}	
+	}		
 }
