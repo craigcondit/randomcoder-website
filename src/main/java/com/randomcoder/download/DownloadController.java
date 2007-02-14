@@ -1,10 +1,14 @@
 package com.randomcoder.download;
 
+import java.util.*;
+
 import javax.servlet.http.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 /**
  * Controller which generates download links. 
@@ -34,11 +38,20 @@ import org.springframework.web.servlet.mvc.AbstractController;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class DownloadController extends AbstractController
+public class DownloadController extends AbstractCommandController
 {
 	private String viewName;
 	private PackageListProducer packageListProducer;
+	private int maximumVersionCount = 1;
 	
+	/**
+	 * Sets the maximum number of versions to display per project.
+	 * @param maximumVersionCount maximum number of versions
+	 */
+	public void setMaximumVersionCount(int maximumVersionCount)
+	{
+		this.maximumVersionCount = maximumVersionCount;
+	}
 	
 	/**
 	 * Sets the name of the view to display.
@@ -64,13 +77,38 @@ public class DownloadController extends AbstractController
 	 * Generates a list of packages and forwards to the default view.
 	 * @param request HTTP request
 	 * @param response HTTP response
+	 * @param command command object
+	 * @param errors error object
 	 * @throws Exception if an error occurs
 	 */
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception
+	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{
+		DownloadCommand form = (DownloadCommand) command;
+		
 		ModelAndView mav = new ModelAndView(viewName);
-		mav.addObject("packages", packageListProducer.getPackages());		
+		
+		List<Package> packages = packageListProducer.getPackages();
+		
+		String packageName = form.getPackageName();
+		if (StringUtils.isEmpty(packageName))
+		{
+			mav.addObject("packages", packages);			
+		}
+		else
+		{
+			List<Package> filtered = new ArrayList<Package>();
+			for (Package pkg : packages)
+			{
+				if (packageName.equals(pkg.getName()))
+					filtered.add(pkg);
+			}
+			mav.addObject("packages", filtered);						
+			mav.addObject("packageName", packageName);
+		}
+		mav.addObject("showAll", form.isShowAll());
+		mav.addObject("maximumVersionCount", form.isShowAll() ? Integer.MAX_VALUE : maximumVersionCount);
+		
 		return mav;
 	}
 

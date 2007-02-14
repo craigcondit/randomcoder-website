@@ -72,6 +72,12 @@ A.hash {
 	padding-left: 14px;
 }
 
+A.action {
+	font-size: 0.75em;
+	padding-left: 14px;
+	background: url(../images/silk/bullet_star.png) left no-repeat;
+}
+
 /*
 A.tag {
 	padding-left: 18px;

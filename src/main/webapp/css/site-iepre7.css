@@ -24,6 +24,10 @@ A.permalink, A.hash {
 	background-image: url(../images/silk/bullet_key.gif);
 }
 
+A.action {	
+	background-image: url(../images/silk/bullet_star.gif);
+}
+
 /*
 A.tag {
 	background-image: url(../images/silk/bullet_tag.gif);

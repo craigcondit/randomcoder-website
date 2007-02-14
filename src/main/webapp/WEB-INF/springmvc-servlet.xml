@@ -28,6 +28,7 @@
 		<property name="viewName" value="download" />
 		<property name="supportedMethods" value="GET" />
 		<property name="packageListProducer" ref="packageListProducer" />
+		<property name="commandClass" value="com.randomcoder.download.DownloadCommand" />
 	</bean>
 	
 	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
