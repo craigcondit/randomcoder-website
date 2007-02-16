@@ -79,10 +79,11 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 
 	public byte[] encrypt(byte[] data) throws EncryptionException
 	{
+		if (data == null)
+			throw new EncryptionException("No data supplied");
+		
 		try
-		{
-			if (data == null) throw new EncryptionException("No data supplied");
-			
+		{			
 			SecretKeySpec keySpec = new SecretKeySpec(keyData, ALGORITHM);
 			
 			Cipher cipher = Cipher.getInstance(CIPHER);
@@ -98,42 +99,22 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 			bos.close();
 			return bos.toByteArray();
 		}
-		catch (InvalidKeyException e)
+		catch (Exception e)
 		{
-			throw new EncryptionException("Invalid key", e);
-		}
-		catch (NoSuchAlgorithmException e)
-		{
-			throw new EncryptionException("No such algorithm", e);
-		}
-		catch (NoSuchPaddingException e)
-		{
-			throw new EncryptionException("No such padding", e);
-		}
-		catch (IllegalBlockSizeException e)
-		{
-			throw new EncryptionException("Illegal block size", e);
-		}
-		catch (BadPaddingException e)
-		{
-			throw new EncryptionException("Bad padding", e);
-		}
-		catch (IOException e)
-		{
-			throw new EncryptionException("I/O error", e);
+			throw new EncryptionException("Error while encrypting data", e);
 		}
 	}
 	
 	public byte[] decrypt(byte[] data) throws EncryptionException
 	{
+		if (data == null)
+			throw new EncryptionException("No data supplied");
+		
+		if (data.length < IV_SIZE)
+			throw new EncryptionException("Unable to read initialization vector");
+		
 		try
 		{
-			if (data == null)
-				throw new EncryptionException("No data supplied");
-			
-			if (data.length < IV_SIZE)
-				throw new EncryptionException("Unable to read initialization vector");
-			
 			byte[] iv = new byte[16];
 			System.arraycopy(data, 0, iv, 0, IV_SIZE);
 			
@@ -143,29 +124,9 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 			cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv));
 			return cipher.doFinal(data, IV_SIZE, data.length - IV_SIZE);
 		}
-		catch (InvalidAlgorithmParameterException e)
+		catch (Exception e)
 		{
-			throw new EncryptionException("Invalid algorithm parameter", e);			
-		}
-		catch (InvalidKeyException e)
-		{
-			throw new EncryptionException("Invalid key", e);
-		}
-		catch (NoSuchAlgorithmException e)
-		{
-			throw new EncryptionException("No such algorithm", e);
-		}
-		catch (NoSuchPaddingException e)
-		{
-			throw new EncryptionException("No such padding", e);
-		}
-		catch (IllegalBlockSizeException e)
-		{
-			throw new EncryptionException("Illegal block size", e);
-		}
-		catch (BadPaddingException e)
-		{
-			throw new EncryptionException("Bad padding", e);
+			throw new EncryptionException("Error while decrypting data", e);
 		}
 	}
 }

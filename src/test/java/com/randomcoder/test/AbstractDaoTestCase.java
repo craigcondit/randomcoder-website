@@ -63,7 +63,13 @@ abstract public class AbstractDaoTestCase extends TestCase
 		String value = System.getProperty(key);
 		if (value != null && value.length() != 0) return value;
 		
-		return dbProps.getProperty(key);
+		value = dbProps.getProperty(key);
+		
+		// hack to prevent ugly dir from being created 
+		if("test.database.url".equals(key) && value != null && value.contains("${"))
+			throw new IllegalArgumentException("Database URL is not set");
+		
+		return value;
 	}
 	
 	protected final void cleanDatabase() throws Exception

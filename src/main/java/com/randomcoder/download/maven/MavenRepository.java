@@ -15,7 +15,6 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.randomcoder.download.*;
 import com.randomcoder.download.Package;
-import com.randomcoder.xml.MavenMetadataHandler;
 
 /**
  * Maven repository parser. 
@@ -56,7 +55,7 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	private MultiThreadedHttpConnectionManager connectionManager;
 	
 	/**
-	 * Sets the base url of this repository
+	 * Sets the base url of this repository.
 	 * @param url base url
 	 */
 	@Required
@@ -146,52 +145,17 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 			get = new GetMethod(metadataUrl.toExternalForm());
 			get.setFollowRedirects(false);
 			
-			int status;
-			try
-			{
-				status = client.executeMethod(get);
-			}
-			catch (IOException e)
-			{
-				throw new PackageListException("Error while connecting to repository", e);
-			}
-			
+			int status = client.executeMethod(get);			
 			if (status != HttpStatus.SC_OK) return null;
 
-			try
-			{
-				is = get.getResponseBodyAsStream();
-			}
-			catch (IOException e)
-			{
-				throw new PackageListException("Unable to read repository metadata", e);
-			}
+			is = get.getResponseBodyAsStream();
 			
 			// parse XML
-			XMLReader reader;
-			try
-			{
-				reader = XMLReaderFactory.createXMLReader();
-			}
-			catch (SAXException e)
-			{
-				throw new PackageListException("Unable to create XML reader", e);
-			}
+			XMLReader reader = XMLReaderFactory.createXMLReader();
 			MavenMetadataHandler handler = new MavenMetadataHandler();
 			reader.setContentHandler(handler);
 			reader.setErrorHandler(handler);
-			try
-			{
-				reader.parse(new InputSource(is));
-			}
-			catch (IOException e)
-			{
-				throw new PackageListException("I/O error while parsing metadata", e);
-			}
-			catch (SAXException e)
-			{
-				throw new PackageListException("Unable to parse metadata", e);
-			}
+			reader.parse(new InputSource(is));
 			
 			// get versions
 			List<String> versions = handler.getVersions();
@@ -212,6 +176,14 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 			if (pkg.getFileSets().isEmpty()) return null; // no files for this project
 			
 			return pkg;
+		}
+		catch (IOException e)
+		{
+			throw new PackageListException("Unable to read repository metadata", e);
+		}
+		catch (SAXException e)
+		{
+			throw new PackageListException("Unable to parse repository metadata", e);
 		}
 		finally
 		{
@@ -255,67 +227,44 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	private FileSpec processFile(HttpClient client, URL baseUrl, String fileName, String fileType)
 	throws PackageListException
 	{		
-		URL fileUrl = null;
 		try
 		{
-			fileUrl = new URL(baseUrl, fileName);
+			URL fileUrl = new URL(baseUrl, fileName);
+			
+			FileSpec spec = new FileSpec();
+			if (!statFile(client, spec, fileUrl)) return null;
+			
+			spec.setFileName(fileName);
+			spec.setFileType(fileType);
+			spec.setDownloadLink(fileUrl.toExternalForm());
+			
+			URL md5Url = new URL(baseUrl, fileName + ".md5");
+			if (statUrl(client, md5Url)) spec.setMd5Link(md5Url.toExternalForm());
+			
+			URL sha1Url = new URL(baseUrl, fileName + ".sha1");
+			if (statUrl(client, sha1Url)) spec.setSha1Link(sha1Url.toExternalForm());
+			return spec;
 		}
 		catch (MalformedURLException e)
 		{
-			throw new PackageListException("Invalid file URL", e);
+			throw new PackageListException("Invalid repository url", e);
 		}
-
-		FileSpec spec = new FileSpec();
-		if (!statFile(client, spec, fileUrl)) return null;
-		
-		spec.setFileName(fileName);
-		spec.setFileType(fileType);
-		spec.setDownloadLink(fileUrl.toExternalForm());
-		
-		URL md5Url = null;
-		try
-		{
-			md5Url = new URL(baseUrl, fileName + ".md5");
-		}
-		catch (MalformedURLException e)
-		{
-			throw new PackageListException("Invalid MD5 URL", e);
-		}
-		if (statUrl(client, md5Url)) spec.setMd5Link(md5Url.toExternalForm());
-		
-		URL sha1Url = null;
-		try
-		{
-			sha1Url = new URL(baseUrl, fileName + ".sha1");
-		}
-		catch (MalformedURLException e)
-		{
-			throw new PackageListException("Invalid SHA-1 URL", e);
-		}		
-		if (statUrl(client, sha1Url)) spec.setSha1Link(sha1Url.toExternalForm());
-		
-		return spec;
 	}
 	
-	private boolean statUrl(HttpClient client, URL url)
+	private boolean statUrl(HttpClient client, URL _url)
 	throws PackageListException
 	{
 		HeadMethod head = null;
 		try
 		{
 			// check for existence of file
-			head = new HeadMethod(url.toExternalForm());
-			int status;
-			try
-			{
-				status = client.executeMethod(head);
-			}
-			catch (IOException e)
-			{
-				throw new PackageListException("Error while reading file information", e);
-			}
-			return status == HttpStatus.SC_OK;
+			head = new HeadMethod(_url.toExternalForm());
+			return client.executeMethod(head) == HttpStatus.SC_OK;
 		} 
+		catch (IOException e)
+		{
+			throw new PackageListException("Error while reading file information", e);
+		}
 		finally
 		{
 			if (head != null) try { head.releaseConnection(); } catch (Exception ignored) {}			
@@ -330,16 +279,7 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		{
 			// check for existence of file
 			head = new HeadMethod(fileUrl.toExternalForm());
-			int status;
-			try
-			{
-				status = client.executeMethod(head);
-			}
-			catch (IOException e)
-			{
-				throw new PackageListException("Error while reading file information", e);
-			}
-			if (status != HttpStatus.SC_OK) return false;
+			if (client.executeMethod(head) != HttpStatus.SC_OK) return false;
 			
 			// get metadata
 			Header contentLength = head.getResponseHeader("Content-Length");
@@ -347,28 +287,24 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 			
 			spec.setFileSize(-1);
 			if (contentLength != null)
-			{
-				try
-				{
-					spec.setFileSize(Long.valueOf(contentLength.getValue()));
-				}
-				catch (NumberFormatException e)
-				{
-					throw new PackageListException("Unable to parse content length header", e);
-				}
-			}
+				spec.setFileSize(Long.valueOf(contentLength.getValue()));
+
 			if (lastModified != null)
-			{
-				try
-				{
-					spec.setLastModified(DateUtil.parseDate(lastModified.getValue()));
-				}
-				catch (DateParseException e)
-				{
-					throw new PackageListException("Unable to parse last modified header", e);
-				}
-			}
+				spec.setLastModified(DateUtil.parseDate(lastModified.getValue()));
+			
 			return true;
+		}
+		catch (IOException e)
+		{
+			throw new PackageListException("Error while reading file information", e);
+		}
+		catch (NumberFormatException e)
+		{
+			throw new PackageListException("Unable to parse content length header", e);
+		}
+		catch (DateParseException e)
+		{
+			throw new PackageListException("Unable to parse last modified header", e);
 		}
 		finally
 		{

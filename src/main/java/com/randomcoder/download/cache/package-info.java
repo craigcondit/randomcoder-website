@@ -1,5 +1,5 @@
 /**
- * Method caching classes.
+ * Support classes for caching package lists.
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-package com.randomcoder.cache;
+package com.randomcoder.download.cache;

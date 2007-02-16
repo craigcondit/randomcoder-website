@@ -4,7 +4,7 @@
   <parent>
     <artifactId>randomcoder-base</artifactId>
     <groupId>com.randomcoder</groupId>
-    <version>6</version>
+    <version>7</version>
   </parent>
   <groupId>com.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
@@ -342,6 +342,7 @@
 						<link>http://www.springframework.org/docs/api/</link>
 						<link>http://www.hibernate.org/hib_docs/v3/api/</link>
 						<link>http://aopalliance.sourceforge.net/doc/</link>
+						<link>http://ehcache.sourceforge.net/javadoc/</link>
 						<link>http://www.acegisecurity.org/multiproject/acegi-security/apidocs/</link>
 						<link>http://randomcoder.com/maven/site/randomcoder-taglibs/apidocs/</link>			
   				</links>
@@ -351,7 +352,7 @@
 			<plugin>
   			<groupId>org.codehaus.mojo</groupId>
   			<artifactId>cobertura-maven-plugin</artifactId>
-  			<version>2.0</version>
+  			<version>2.1</version>
   		</plugin>
   		<plugin>
   			<artifactId>maven-surefire-report-plugin</artifactId>

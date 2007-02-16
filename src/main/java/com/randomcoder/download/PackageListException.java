@@ -1,7 +1,7 @@
 package com.randomcoder.download;
 
 /**
- * Interface used to query a list of downloadable packages. 
+ * Exception thrown if errors occur during package list generation. 
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.

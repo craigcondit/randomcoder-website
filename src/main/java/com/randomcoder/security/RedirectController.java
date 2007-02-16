@@ -57,19 +57,7 @@ public class RedirectController extends AbstractCommandController
 			return null;
 		}
 		
-		// make relative to current site
-		String file = target.getFile();
-		String ref = target.getRef();
-		
-		if (ref != null) file += "#" + ref;
-		
-		if (!url.startsWith("request"))
-		
-		// sanity check
-		if (!ref.startsWith("/"))
-			ref = "/";
-		
-		response.sendRedirect(url);
+		response.sendRedirect(target.toExternalForm());
 		return null;		
 	}
 

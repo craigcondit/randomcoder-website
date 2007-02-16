@@ -4,7 +4,6 @@ import java.beans.PropertyEditorSupport;
 import java.io.*;
 
 import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.logging.*;
 
 /**
  * Property editor which supports converting to / from encrypted form.
@@ -36,8 +35,6 @@ import org.apache.commons.logging.*;
  */
 public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 {
-	private static final Log logger = LogFactory.getLog(EncryptedObjectPropertyEditor.class);
-	
 	private final EncryptionContext context;
 	
 	/**
@@ -56,44 +53,23 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 	@Override
 	public String getAsText()
 	{			
-		Object obj = getValue();
-		if (obj == null) return "";
-		if (!(obj instanceof Serializable))
-			throw new IllegalArgumentException("Object must be serializable");
-		
-		// serialize
-		byte[] ser = null;
 		try
 		{
-			ser = serializeObject(obj);
-		}
-		catch (IOException e)
-		{
-			logger.error("Caught exception", e);
-			throw new RuntimeException("I/O error", e);
-		}
+			Object obj = getValue();
+			if (obj == null) return "";
+			
+			// serialize
+			byte[] ser = serializeObject(obj);
 
-		// encrypt
-		byte[] enc = null;
-		try
-		{
-			enc = context.encrypt(ser);
-		}
-		catch (EncryptionException e)
-		{
-			logger.error("Caught exception", e);
-			throw new RuntimeException("Encryption error", e);
-		}
+			// encrypt
+			byte[] enc = context.encrypt(ser);
 
-		// base-64 encode
-		try
-		{
+			// base-64 encode
 			return new String(Base64.encodeBase64(enc), "UTF-8");
 		}
-		catch (UnsupportedEncodingException e)
+		catch (Exception e)
 		{
-			logger.error("Caught exception", e);
-			throw new RuntimeException("Unsupported encoding", e);
+			throw new RuntimeException("Error encrypting object", e);
 		}
 	}
 	
@@ -105,55 +81,30 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 	@Override
 	public void setAsText(String string) throws IllegalArgumentException
 	{		
-		if (string == null || string.trim().length() == 0)
-		{
-			setValue(null);
-			return;
-		}
-		
-		// base-64 decode
-		byte[] enc = null;
 		try
 		{
-			enc = Base64.decodeBase64(string.getBytes("UTF-8"));
-		}
-		catch (UnsupportedEncodingException e)
-		{
-			logger.error("Caught exception", e);
-			throw new RuntimeException("Unsupported encoding", e);
-		}
-		
-		// decrypt
-		byte[] ser = null;
-		try
-		{
-			ser = context.decrypt(enc);
-		}
-		catch (EncryptionException e)
-		{
-			logger.error("Caught exception", e);
-			throw new IllegalArgumentException("Unable to decrypt object", e);
-		}
-		
-		// deserialize
-		Object obj = null;
-		try
-		{
-			obj = deserializeObject(ser);
-		}
-		catch (IOException e)
-		{
-			logger.error("Caught exception", e);
-			throw new IllegalArgumentException("Invalid object specified", e);
+			if (string == null || string.trim().length() == 0)
+			{
+				setValue(null);
+				return;
+			}
 			
+			// base-64 decode
+			byte[] enc = Base64.decodeBase64(string.getBytes("UTF-8"));
+			
+			// decrypt
+			byte[] ser = context.decrypt(enc);
+			
+			// deserialize
+			Object obj = deserializeObject(ser);
+			
+			// set value
+			setValue(obj);
 		}
-		catch (ClassNotFoundException e)
+		catch (Exception e)
 		{
-			throw new IllegalArgumentException("Class not found", e);
+			throw new IllegalArgumentException("Error decrypting object", e);
 		}
-		
-		// set value
-		setValue(obj);
 	}
 
 	/**
@@ -163,10 +114,17 @@ public final class EncryptedObjectPropertyEditor extends PropertyEditorSupport
 	@Override
 	public void setValue(Object value)
 	{
-		if (value != null && !(value instanceof Serializable))
+		try
+		{
+			// attempt serialization if value is specified
+			if (value != null) serializeObject(value);
+			
+			super.setValue(value);
+		}
+		catch (IOException e)
+		{
 			throw new IllegalArgumentException("Value must be serializable");
-		
-		super.setValue(value);
+		}
 	}
 	
 	private byte[] serializeObject(Object obj)
