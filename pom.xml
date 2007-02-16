@@ -10,14 +10,14 @@
   <artifactId>randomcoder-website</artifactId>
   <packaging>war</packaging>
   <name>Randomcoder Website</name>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2.0</version>
   <description>This project contains the RandomCoder.Com website.</description>
   <url>http://randomcoder.com/maven/site/randomcoder-website/</url>
   <inceptionYear>2006</inceptionYear>
   <scm>
-    <connection>scm:svn:http://randomcoder.com/repos/public/randomcoder-website/trunk</connection>
-    <developerConnection>scm:svn:https://randomcoder.com/repos/public/randomcoder-website/trunk</developerConnection>
-    <url>http://randomcoder.com/repos/public/randomcoder-website/trunk</url>
+    <connection>scm:svn:http://randomcoder.com/repos/public/randomcoder-website/tags/2.2.0</connection>
+    <developerConnection>scm:svn:https://randomcoder.com/repos/public/randomcoder-website/tags/2.2.0</developerConnection>
+    <url>http://randomcoder.com/repos/public/randomcoder-website/tags/2.2.0</url>
   </scm>
   <repositories>
     <repository>
