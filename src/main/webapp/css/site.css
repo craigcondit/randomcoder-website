@@ -67,6 +67,10 @@ A.permalink, A.hash {
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
 }
 
+.moderated {
+	text-decoration: line-through;	
+}
+
 A.hash {
 	font-size: 0.75em;
 	padding-left: 14px;
@@ -98,6 +102,16 @@ A.edit {
 A.delete {
 	padding-left: 12px;
 	background: url(../images/silk/bullet_delete.png) -3px no-repeat;
+}
+
+A.approve {
+	padding-left: 12px;	
+	background: url(../images/silk/bullet_toggle_plus.png) -3px no-repeat;
+}
+
+A.disapprove {
+	padding-left: 12px;	
+	background: url(../images/silk/bullet_toggle_minus.png) -3px no-repeat;
 }
 
 A.comment {
@@ -166,6 +180,14 @@ A.expando-hidden {
 	font-size: 0.8em;
 	font-style: normal;
 	font-weight: normal;	
+}
+
+DIV.footerMessage {
+	text-align: center;
+	font-size: 0.8em;
+	font-style: normal;
+	font-weight: normal;
+	margin-bottom: 2em;
 }
 
 .sectionHeading {

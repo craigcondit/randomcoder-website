@@ -14,7 +14,16 @@
 <div class="sectionContent">
 
 	<c:if test="${command.anonymous}">
-		<p>You are not currently logged in. <a href="${loginUrl}">Login now</a> or post as a guest.</p>
+		<p>
+			You are not currently logged in. <a href="${loginUrl}">Login now</a> or
+			post as a guest.
+		</p>
+		
+		<p>
+			<strong>NOTE:</strong>: All comments are subject to moderation. In
+			addition, comments by guests will not appear until moderation has been
+			completed.
+		</p>
 	</c:if>
 	
   <form method="post" action="${formAction}#post-comments">

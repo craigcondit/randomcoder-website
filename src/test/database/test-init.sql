@@ -2,6 +2,9 @@
 DROP TABLE IF EXISTS cardspace_seen_tokens;
 DROP TABLE IF EXISTS cardspace_tokens;
 DROP TABLE IF EXISTS comments;
+DROP TABLE IF EXISTS comment_useragents;
+DROP TABLE IF EXISTS comment_ips;
+DROP TABLE IF EXISTS comment_referrers;
 DROP TABLE IF EXISTS article_tag_link;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS articles;
@@ -95,6 +98,39 @@ CREATE TABLE article_tag_link (
 		ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+-- comment_referrers
+CREATE TABLE comment_referrers (
+	comment_referrer_id BIGINT IDENTITY NOT NULL,
+	referrer VARCHAR(1024) NOT NULL,
+	create_date TIMESTAMP NOT NULL,
+	CONSTRAINT comment_referrers_pkey PRIMARY KEY (comment_referrer_id),
+	CONSTRAINT comment_referrers_key UNIQUE (referrer),
+	CONSTRAINT comment_referrers_referrer_ck CHECK (referrer <> '')
+);
+CREATE INDEX comment_referrers_create_date_idx ON comment_referrers (create_date);
+
+-- comment_ips
+CREATE TABLE comment_ips (
+	comment_ip_id BIGINT IDENTITY NOT NULL,
+	ip_address varchar(255) NOT NULL,
+	create_date TIMESTAMP NOT NULL,
+	CONSTRAINT comment_ips_pkey PRIMARY KEY (comment_ip_id),
+	CONSTRAINT comment_ips_key UNIQUE (ip_address),
+	CONSTRAINT comment_ips_ip_address_ck CHECK (ip_address <> '')
+);
+CREATE INDEX comment_ips_create_date_idx ON comment_ips (create_date);
+
+-- comment_useragents
+CREATE TABLE comment_useragents (
+	comment_useragent_id BIGINT IDENTITY NOT NULL,
+	user_agent varchar(255) NOT NULL,
+	create_date TIMESTAMP NOT NULL,
+  CONSTRAINT comment_useragents_pkey PRIMARY KEY (comment_useragent_id),
+  CONSTRAINT comment_useragents_key UNIQUE (user_agent),
+	CONSTRAINT comment_useragents_user_agent_ck CHECK (user_agent <> '')
+);
+CREATE INDEX comment_useragents_create_date_idx ON comment_useragents (create_date);
+
 -- comments
 CREATE TABLE comments (
 	comment_id BIGINT IDENTITY NOT NULL,
@@ -107,6 +143,11 @@ CREATE TABLE comments (
 	anonymous_website VARCHAR(255) NULL,
 	title VARCHAR(255) NOT NULL,
 	content LONGVARCHAR NOT NULL,	
+	visible BOOLEAN NOT NULL,
+	moderation_status VARCHAR(255) NOT NULL,
+	comment_referrer_id BIGINT NULL,
+	comment_ip_id BIGINT NULL,
+	comment_useragent_id BIGINT NULL,
 	CONSTRAINT comments_pkey PRIMARY KEY (comment_id),
 	CONSTRAINT comments_content_type_ck CHECK (content_type IN ('TEXT', 'XHTML')),
 	CONSTRAINT comments_article_id_fk
@@ -115,8 +156,20 @@ CREATE TABLE comments (
 	CONSTRAINT comments_create_user_id_fk
 		FOREIGN KEY (create_user_id) REFERENCES users (user_id)
 		ON DELETE SET NULL ON UPDATE SET NULL,
-	CONSTRAINT comments_title_ck CHECK (title <> '')
+	CONSTRAINT comments_title_ck CHECK (title <> ''),
+	CONSTRAINT comments_moderation_status_ck CHECK (moderation_status <> ''),
+	CONSTRAINT comments_comment_referrer_id_fk
+		FOREIGN KEY (comment_referrer_id) REFERENCES comment_referrers (comment_referrer_id)
+		ON DELETE SET NULL ON UPDATE SET NULL,
+	CONSTRAINT comments_comment_ip_id_fk
+		FOREIGN KEY (comment_ip_id) REFERENCES comment_ips (comment_ip_id)
+		ON DELETE SET NULL ON UPDATE SET NULL,
+	CONSTRAINT comments_comment_useragent_id_fk
+		FOREIGN KEY (comment_useragent_id) REFERENCES comment_useragents (comment_useragent_id)
+		ON DELETE SET NULL ON UPDATE SET NULL		
 );
+CREATE INDEX comments_visible_idx ON comments (visible);
+CREATE INDEX comments_moderation_status_idx ON comments (moderation_status);
 
 -- cardspace_tokens
 CREATE TABLE cardspace_tokens (

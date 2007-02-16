@@ -20,3 +20,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON cardspace_tokens TO randomcoder;
 
 GRANT SELECT, UPDATE ON cardspace_seen_tokens_seq TO randomcoder;
 GRANT SELECT, INSERT, UPDATE, DELETE ON cardspace_seen_tokens TO randomcoder;
+
+-- 2.2
+GRANT SELECT, UPDATE ON comment_referrers_seq TO randomcoder;
+GRANT SELECT, INSERT, UPDATE, DELETE ON comment_referrers TO randomcoder;
+
+GRANT SELECT, UPDATE ON comment_ips_seq TO randomcoder;
+GRANT SELECT, INSERT, UPDATE, DELETE ON comment_ips TO randomcoder;
+
+GRANT SELECT, UPDATE ON comment_useragents_seq TO randomcoder;
+GRANT SELECT, INSERT, UPDATE, DELETE ON comment_useragents TO randomcoder;

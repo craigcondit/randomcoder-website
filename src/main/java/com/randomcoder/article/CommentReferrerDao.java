@@ -1,12 +1,12 @@
 package com.randomcoder.article;
 
-import com.randomcoder.springmvc.IdCommand;
+import com.randomcoder.dao.*;
 
 /**
- * Controller class which handles comment deletion.
+ * Comment referrer data access interface.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,16 +30,13 @@ import com.randomcoder.springmvc.IdCommand;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class CommentDeleteController extends AbstractCommentStatusController
+public interface CommentReferrerDao
+extends CreatableDao<CommentReferrer, Long>, ReadableDao<CommentReferrer, Long>
 {
 	/**
-	 * Deletes the selected comment.
-	 * @param command command object
-	 * @return Article which the comment belongs to
+	 * Finds a given {@code CommentReferrer} by uri.
+	 * @param uri referrer uri
+	 * @return {@code CommentReferrer} instance, or null if not found
 	 */
-	@Override
-	protected Article updateCommentStatus(IdCommand command)
-	{
-		return articleBusiness.deleteComment(command.getId());
-	}
+	public CommentReferrer findByUri(String uri);
 }

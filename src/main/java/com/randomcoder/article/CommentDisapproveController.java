@@ -3,10 +3,10 @@ package com.randomcoder.article;
 import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Controller class which handles comment deletion.
+ * Controller class which handles comment disapproval.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,16 +30,18 @@ import com.randomcoder.springmvc.IdCommand;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class CommentDeleteController extends AbstractCommentStatusController
+public class CommentDisapproveController extends AbstractCommentStatusController
 {
 	/**
-	 * Deletes the selected comment.
+	 * Disapproves the selected comment.
 	 * @param command command object
 	 * @return Article which the comment belongs to
+	 * @throws Exception if an error occurs
 	 */
 	@Override
 	protected Article updateCommentStatus(IdCommand command)
+	throws Exception
 	{
-		return articleBusiness.deleteComment(command.getId());
+		return articleBusiness.disapproveComment(command.getId());
 	}
 }

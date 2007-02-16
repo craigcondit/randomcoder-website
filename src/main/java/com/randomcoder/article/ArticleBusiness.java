@@ -1,13 +1,13 @@
 package com.randomcoder.article;
 
+import com.randomcoder.article.moderation.ModerationException;
 import com.randomcoder.io.*;
-
 
 /**
  * Business interface for managing articles.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -45,8 +45,11 @@ public interface ArticleBusiness
 	 * @param comment comment producer
 	 * @param articleId article id
 	 * @param userName user name
+	 * @param referrer HTTP referrer
+	 * @param ipAddress remote IP address
+	 * @param userAgent HTTP user-agent
 	 */
-	public void createComment(Producer<Comment> comment, Long articleId, String userName);
+	public void createComment(Producer<Comment> comment, Long articleId, String userName, String referrer, String ipAddress, String userAgent);
 	
 	/**
 	 * Load an existing article for editing.
@@ -78,4 +81,27 @@ public interface ArticleBusiness
 	 */
 	public Article deleteComment(Long commentId);
 	
+	/**
+	 * Approves a comment.
+	 * @param commentId comment id
+	 * @return Article which comment belongs to
+	 * @throws ModerationException if moderation cannot be completed
+	 */
+	public Article approveComment(Long commentId) throws ModerationException;
+	
+	/**
+	 * Disapproves a comment.
+	 * @param commentId comment id
+	 * @return Article which comment belongs to
+	 * @throws ModerationException if moderation cannot be completed
+	 */
+	public Article disapproveComment(Long commentId) throws ModerationException;
+	
+	/**
+	 * Moderate a batch of comments.
+	 * @param count number of comments to moderate
+	 * @return true if comments were moderated, false otherwise
+	 * @throws ModerationException if moderation cannot be completed
+	 */
+	public boolean moderateComments(int count) throws ModerationException;
 }

@@ -20,11 +20,15 @@
 	
 	<!-- JNDI resources -->
 	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/randomcoder" />
+	<jee:jndi-lookup id="akismetSiteKey" jndi-name="java:comp/env/akismetSiteKey" />
+	<jee:jndi-lookup id="akismetSiteUrl" jndi-name="java:comp/env/akismetSiteUrl" />
 
 	<!-- Message source -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="ApplicationResources" />
 	</bean>	
+	
+	<bean id="applicationInformation" class="com.randomcoder.about.ApplicationInformationFactoryBean" />
 	
 	<!-- Hibernate session factory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -46,6 +50,9 @@
 			<list>
 				<value>com.randomcoder.article.Article</value>
 				<value>com.randomcoder.article.Comment</value>
+				<value>com.randomcoder.article.CommentReferrer</value>
+				<value>com.randomcoder.article.CommentIp</value>
+				<value>com.randomcoder.article.CommentUserAgent</value>
 				<value>com.randomcoder.user.User</value>
 				<value>com.randomcoder.user.CardSpaceToken</value>
 				<value>com.randomcoder.user.Role</value>
@@ -163,6 +170,33 @@
     	</property>
 	</bean>
 
+	<bean id="commentReferrerDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentReferrerDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.article.CommentReferrer" />
+	        </bean>
+    	</property>
+	</bean>
+
+	<bean id="commentIpDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentIpDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.article.CommentIp" />
+	        </bean>
+    	</property>
+	</bean>
+
+	<bean id="commentUserAgentDao" parent="abstractDao">
+	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentUserAgentDao" />
+	    <property name="target">
+	        <bean parent="abstractDaoTarget">
+	            <constructor-arg value="com.randomcoder.article.CommentUserAgent" />
+	        </bean>
+    	</property>
+	</bean>
+
 	<bean
 		id="abstractTagDaoTarget"
 		class="com.randomcoder.tag.TagDaoImpl"
@@ -196,6 +230,10 @@
 		<property name="articleDao" ref="articleDao" />
 		<property name="tagDao" ref="tagDao" />
 		<property name="commentDao" ref="commentDao" />
+		<property name="commentReferrerDao" ref="commentReferrerDao" />
+		<property name="commentIpDao" ref="commentIpDao" />
+		<property name="commentUserAgentDao" ref="commentUserAgentDao" />
+		<property name="moderator" ref="akismetModerator" />
 	</bean>
 	
 	<bean id="userBusiness" class="com.randomcoder.user.UserBusinessImpl">
@@ -211,6 +249,33 @@
 	<!-- Crypto -->
 	<bean id="encryptionContext" class="com.randomcoder.crypto.TransientAESEncryptionContext">
 		<property name="keySize" value="256" />
+	</bean>
+	
+	<!-- Moderation -->
+	<bean id="akismetModerator" class="com.randomcoder.article.moderation.AkismetModerator">
+		<property name="applicationInformation" ref="applicationInformation" />
+		<property name="apiKey" ref="akismetSiteKey" />
+		<property name="siteUrl" ref="akismetSiteUrl" />
+	</bean>
+		
+	<bean id="moderationTimer" class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref bean="moderationUpdateTask" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="moderationUpdateTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<property name="delay" value="30000" /> <!-- 30 seconds -->
+		<property name="period" value="60000" /> <!-- 1 minute -->
+		<property name="fixedRate" value="false" />
+		<property name="timerTask">
+			<bean class="com.randomcoder.article.moderation.ModeratorTimerTask">
+				<property name="articleBusiness" ref="articleBusiness" />
+				<property name="batchSize" value="5" />
+			</bean>
+		</property>
 	</bean>
 	
 </beans>

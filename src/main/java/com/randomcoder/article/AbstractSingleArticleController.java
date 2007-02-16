@@ -182,7 +182,11 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 		String userName = null;
 		if (principal != null) userName = principal.getName();
 		
-		articleBusiness.createComment(form, article.getId(), userName);
+		String referrer = request.getHeader("Referer");
+		String ipAddress = request.getRemoteAddr();
+		String userAgent = request.getHeader("User-Agent");
+		
+		articleBusiness.createComment(form, article.getId(), userName, referrer, ipAddress, userAgent);
 				
 		return new ModelAndView(new RedirectView(getAppPath(request), true));
 	}

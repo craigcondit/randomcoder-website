@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.*;
 
+import com.randomcoder.article.moderation.ModerationStatus;
 import com.randomcoder.content.ContentType;
 import com.randomcoder.user.User;
 
@@ -12,7 +13,7 @@ import com.randomcoder.user.User;
  * JavaBean representing an article comment.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,12 +37,16 @@ import com.randomcoder.user.User;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@NamedQueries
+({
+	@NamedQuery(name = "Comment.ForModeration", query = "from Comment c where c.moderationStatus = 'PENDING' order by c.creationDate")
+})
 @Entity
 @Table(name = "comments")
 @SequenceGenerator(name = "comments", sequenceName = "comments_seq", allocationSize = 1)
 public class Comment implements Serializable
 {
-	private static final long serialVersionUID = -5014690740216777622L;
+	private static final long serialVersionUID = 7444605318685376170L;
 	
 	private Long id;
 	private Article article;
@@ -53,6 +58,11 @@ public class Comment implements Serializable
 	private String anonymousWebsite;
 	private String title;
 	private String content;
+	private boolean visible;
+	private ModerationStatus moderationStatus;
+	private CommentReferrer referrer;
+	private CommentIp ipAddress;
+	private CommentUserAgent userAgent;
 	
 	/**
 	 * Gets the ID for this comment.
@@ -249,4 +259,102 @@ public class Comment implements Serializable
 		this.content = content;
 	}
 	
+	/**
+	 * Determines if this comment is visible.
+	 * @return true if visible, false otherwise
+	 */
+	@Column(name = "visible", nullable = false)
+	public boolean isVisible()
+	{
+		return visible;
+	}
+	
+	/**
+	 * Marks this comment as visible or not.
+	 * @param visible true if visible, false otherwise
+	 */
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+	}
+	
+	/**
+	 * Gets the moderation status of this comment.
+	 * @return moderation status
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "moderation_status", nullable = false, length = 255)
+	public ModerationStatus getModerationStatus()
+	{
+		return moderationStatus;
+	}
+	
+	/**
+	 * Sets the moderation status of this comment.
+	 * @param moderationStatus moderation status
+	 */
+	public void setModerationStatus(ModerationStatus moderationStatus)
+	{
+		this.moderationStatus = moderationStatus;
+	}
+	
+	/**
+	 * Gets the HTTP referrer sent when this comment was posted.
+	 * @return HTTP referrer
+	 */
+	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "comment_referrer_id", nullable = true)
+	public CommentReferrer getReferrer()
+	{
+		return referrer;
+	}
+	
+	/**
+	 * Sets the HTTP referrer sent when this comment was posted.
+	 * @param referrer HTTP referrer
+	 */
+	public void setReferrer(CommentReferrer referrer)
+	{
+		this.referrer = referrer;
+	}
+	
+	/**
+	 * Gets the IP address of the user who posted this comment.
+	 * @return IP address
+	 */
+	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "comment_ip_id", nullable = true)
+	public CommentIp getIpAddress()
+	{
+		return ipAddress;
+	}
+	
+	/**
+	 * Sets the IP address of the user who posted this comment.
+	 * @param ipAddress IP address
+	 */
+	public void setIpAddress(CommentIp ipAddress)
+	{
+		this.ipAddress = ipAddress;
+	}
+	
+	/**
+	 * Gets the HTTP user agent of the user who posted this comment.
+	 * @return HTTP user agent
+	 */
+	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
+	@JoinColumn(name = "comment_useragent_id", nullable = true)	
+	public CommentUserAgent getUserAgent()
+	{
+		return userAgent;
+	}
+	
+	/**
+	 * Sets the HTTP user agent of the user who posted this comment.
+	 * @param userAgent HTTP user agent
+	 */
+	public void setUserAgent(CommentUserAgent userAgent)
+	{
+		this.userAgent = userAgent;
+	}
 }

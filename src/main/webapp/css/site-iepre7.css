@@ -46,6 +46,14 @@ A.delete {
 	background-image: url(../images/silk/bullet_delete.gif);
 }
 
+A.approve {
+	background-image: url(../images/silk/bullet_toggle_plus.gif);
+}
+
+A.disapprove {
+	background-image: url(../images/silk/bullet_toggle_minus.gif);
+}
+
 A.comment {
 	background-image: url(../images/silk/comment_reverse.gif);
 }

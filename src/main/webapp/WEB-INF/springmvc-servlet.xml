@@ -139,10 +139,14 @@
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 
-	<bean id="commentDeleteController" class="com.randomcoder.article.CommentDeleteController">
+	<bean id="abstractCommentStatusController" abstract="true">
 		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
+	
+	<bean id="commentDeleteController" class="com.randomcoder.article.CommentDeleteController" parent="abstractCommentStatusController" />
+	<bean id="commentApproveController" class="com.randomcoder.article.CommentApproveController" parent="abstractCommentStatusController" />
+	<bean id="commentDisapproveController" class="com.randomcoder.article.CommentDisapproveController" parent="abstractCommentStatusController" />
 	
 	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator">
 		<property name="userDao" ref="userDao" />
@@ -266,6 +270,8 @@
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
 				<prop key="/comment/delete">commentDeleteController</prop>
+				<prop key="/comment/approve">commentApproveController</prop>
+				<prop key="/comment/disapprove">commentDisapproveController</prop>
 				<prop key="/download">downloadController</prop>
 				<prop key="/home">homeController</prop>
 				<prop key="/legal/about">aboutController</prop>

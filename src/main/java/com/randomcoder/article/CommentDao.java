@@ -1,6 +1,8 @@
 package com.randomcoder.article;
 
-import com.randomcoder.dao.*;
+import java.util.Iterator;
+
+import com.randomcoder.dao.CrudDao;
 
 /**
  * Comment data access interface.
@@ -31,7 +33,13 @@ import com.randomcoder.dao.*;
  * </pre>
  */
 public interface CommentDao
-extends CreatableDao<Comment, Long>, ReadableDao<Comment, Long>, DeletableDao<Comment, Long>
+extends CrudDao<Comment, Long>
 {
-
+	/**
+	 * Iterates through all comments which are available to be moderated.
+	 * @param start starting index
+	 * @param limit maximum number of results to return
+	 * @return Comment Iterator.
+	 */
+	public Iterator<Comment> iterateForModerationInRange(int start, int limit);
 }

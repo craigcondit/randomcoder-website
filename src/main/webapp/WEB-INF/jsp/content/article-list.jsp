@@ -125,59 +125,98 @@
 	</div>
 
   <c:if test="${template.summary == 'false'}">
+  	<c:set var="manageComments" value="${false}" />
+		<authz:authorize ifAnyGranted="ROLE_MANAGE_COMMENTS">
+	  	<c:set var="manageComments" value="${true}" />
+		</authz:authorize>
   	<a name="comments"></a>
+  	<c:set var="hiddenCount" value="${0}" />
   	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
-  		<a name="comment-${commentDecorator.comment.id}"></a>
-		  <c:url var="deleteCommentLink" value="/comment/delete">
-		  	<c:param name="id" value="${commentDecorator.comment.id}" />
-		  </c:url>
-		  <c:choose>
-			  <c:when test="${commentDecorator.comment.createdByUser != null}">
-			  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
-			  	<c:set var="commentLink" value="${commentDecorator.comment.createdByUser.website}" />
-			  	<c:set var="commentExternal" value="${true}" />
-			  </c:when>
-			  <c:when test="${commentDecorator.comment.anonymousUserName != null}">
-			  	<c:set var="commentAuthor" value="${commentDecorator.comment.anonymousUserName}" />
-			  	<c:set var="commentLink" value="${commentDecorator.comment.anonymousWebsite}" />
-			  	<c:set var="commentExternal" value="${true}" />
-			  </c:when>
-			  <c:otherwise>
-				  <c:set var="commentAuthor" value="${null}" />			  
-			  	<c:set var="commentLink" value="${null}" />
-			  	<c:set var="commentExternal" value="${false}" />
-			  </c:otherwise>
-			</c:choose>
-  		<div class="sectionHeading"><c:out value="${commentDecorator.comment.title}" /></div>
-			<div class="sectionSubHeading">
-				Posted
-				<c:if test="${commentAuthor != null}">
-					by
-					<c:choose>
-						<c:when test="${commentLink != null && commentExternal}">
-							<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
-						</c:when>
-						<c:when test="${commentLink != null && !commentExternal}">
-							<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
-						</c:when>
-						<c:otherwise>
-							<strong><c:out value="${commentAuthor}" /></strong>	
-						</c:otherwise>
-					</c:choose>
-				</c:if>
-				on <fmt:formatDate type="date" dateStyle="short" value="${commentDecorator.comment.creationDate}" />
-				@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
-				:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
-			</div>
-			<authz:authorize ifAnyGranted="ROLE_MANAGE_COMMENTS">
+  		<c:if test="${not commentDecorator.comment.visible}"><c:set var="hiddenCount" value="${hiddenCount+1}" /></c:if>
+  		<c:if test="${manageComments or commentDecorator.comment.visible}">
+	  		<a name="comment-${commentDecorator.comment.id}"></a>
+			  <c:url var="deleteCommentLink" value="/comment/delete">
+			  	<c:param name="id" value="${commentDecorator.comment.id}" />
+			  </c:url>
+			  <c:url var="approveCommentLink" value="/comment/approve">
+			  	<c:param name="id" value="${commentDecorator.comment.id}" />
+			  </c:url>
+			  <c:url var="disapproveCommentLink" value="/comment/disapprove">
+			  	<c:param name="id" value="${commentDecorator.comment.id}" />
+			  </c:url>
+			  <c:choose>
+				  <c:when test="${commentDecorator.comment.createdByUser != null}">
+				  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
+				  	<c:set var="commentLink" value="${commentDecorator.comment.createdByUser.website}" />
+				  	<c:set var="commentExternal" value="${true}" />
+				  </c:when>
+				  <c:when test="${commentDecorator.comment.anonymousUserName != null}">
+				  	<c:set var="commentAuthor" value="${commentDecorator.comment.anonymousUserName}" />
+				  	<c:set var="commentLink" value="${commentDecorator.comment.anonymousWebsite}" />
+				  	<c:set var="commentExternal" value="${true}" />
+				  </c:when>
+				  <c:otherwise>
+					  <c:set var="commentAuthor" value="${null}" />			  
+				  	<c:set var="commentLink" value="${null}" />
+				  	<c:set var="commentExternal" value="${false}" />
+				  </c:otherwise>
+				</c:choose>
+	  		<div class="sectionHeading">
+	  			<c:choose>
+	  				<c:when test="${commentDecorator.comment.visible}">
+			  			<c:out value="${commentDecorator.comment.title}" />
+	  				</c:when>
+	  				<c:otherwise>
+	  					<span class="moderated"><c:out value="${commentDecorator.comment.title}" /></span>
+	  				</c:otherwise>
+	  			</c:choose>
+	  		</div>
 				<div class="sectionSubHeading">
-					<a rel="delete" class="deleteComment delete" href="${deleteCommentLink}">Delete</a>
+					Posted
+					<c:if test="${commentAuthor != null}">
+						by
+						<c:choose>
+							<c:when test="${commentLink != null && commentExternal}">
+								<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
+							</c:when>
+							<c:when test="${commentLink != null && !commentExternal}">
+								<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
+							</c:when>
+							<c:otherwise>
+								<strong><c:out value="${commentAuthor}" /></strong>	
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+					on <fmt:formatDate type="date" dateStyle="short" value="${commentDecorator.comment.creationDate}" />
+					@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
+					:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
 				</div>
-			</authz:authorize>
-  		<div class="sectionContent">
-  			${commentDecorator.formattedText}
-  		</div>
+				<c:if test="${manageComments}">
+					<div class="sectionSubHeading">
+						<c:choose>
+							<c:when test="${commentDecorator.comment.visible}">
+								<a ref="disapprove" class="disapprove" href="${disapproveCommentLink}">Disapprove</a>
+							</c:when>
+							<c:otherwise>
+								<a ref="approve" class="approve" href="${approveCommentLink}">Approve</a>
+							</c:otherwise>
+						</c:choose>
+						:: <a rel="delete" class="deleteComment delete" href="${deleteCommentLink}">Delete</a>
+					</div>
+				</c:if>
+	  		<div class="sectionContent">
+	  			${commentDecorator.formattedText}
+	  		</div>
+	  	</c:if>
   	</c:forEach>
+  	<c:choose>
+	  	<c:when test="${hiddenCount == 1}">
+				<div class="footerMessage">${hiddenCount} moderated comment<c:if test="${not manageComments}"> not displayed</c:if>.</div>
+  		</c:when>
+	  	<c:when test="${hiddenCount > 1}">
+				<div class="footerMessage">${hiddenCount} moderated comments<c:if test="${not manageComments}"> not displayed</c:if>.</div>
+  		</c:when>
+  	</c:choose>
   </c:if>
 	
 </c:forEach>

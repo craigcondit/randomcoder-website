@@ -155,7 +155,8 @@ abstract public class AbstractDaoTestCase extends TestCase
 		factory.setDataSource(dataSource);
 		factory.setHibernateProperties(hibProps);		
 		factory.setAnnotatedClasses(new Class[] {
-    	Article.class, Comment.class, User.class, Role.class,
+    	Article.class, Comment.class, CommentReferrer.class, CommentIp.class,
+    	CommentUserAgent.class, User.class, Role.class,
     	CardSpaceToken.class, Tag.class, CardSpaceSeenToken.class });
 		factory.setEntityCacheStrategies(ecProps);
 		factory.setCollectionCacheStrategies(ccProps);

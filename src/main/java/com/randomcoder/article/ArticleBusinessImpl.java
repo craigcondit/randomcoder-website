@@ -1,10 +1,13 @@
 package com.randomcoder.article;
 
-import java.util.Date;
+import java.util.*;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.randomcoder.article.moderation.*;
 import com.randomcoder.io.*;
 import com.randomcoder.security.UnauthorizedException;
 import com.randomcoder.tag.*;
@@ -14,7 +17,7 @@ import com.randomcoder.user.*;
  * Business implementation which handles articles.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2006-2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,13 +43,20 @@ import com.randomcoder.user.*;
  */
 public class ArticleBusinessImpl implements ArticleBusiness
 {
+	private static final Log logger = LogFactory.getLog(ArticleBusinessImpl.class);
+	
 	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
+	private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 	
 	private UserDao userDao;
 	private RoleDao roleDao;
 	private ArticleDao articleDao;
 	private TagDao tagDao;
 	private CommentDao commentDao;
+	private CommentReferrerDao commentReferrerDao;
+	private CommentIpDao commentIpDao;
+	private CommentUserAgentDao commentUserAgentDao;
+	private Moderator moderator;
 		
 	/**
 	 * Sets the UserDao implementation to use.
@@ -83,6 +93,46 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	@Required
 	public void setCommentDao(CommentDao commentDao) { this.commentDao = commentDao; }
 	
+	/**
+	 * Sets the CommentReferrerDao implementation to use.
+	 * @param commentReferrerDao CommentReferrerDao implementation
+	 */
+	@Required
+	public void setCommentReferrerDao(CommentReferrerDao commentReferrerDao)
+	{
+		this.commentReferrerDao = commentReferrerDao;
+	}
+	
+	/**
+	 * Sets the CommentIpDao implementation to use.
+	 * @param commentIpDao CommentIpDao implementation
+	 */
+	@Required
+	public void setCommentIpDao(CommentIpDao commentIpDao)
+	{
+		this.commentIpDao = commentIpDao;
+	}
+	
+	/**
+	 * Sets the CommentUserAgentDao implementation to use.
+	 * @param commentUserAgentDao CommentUserAgentDao implementation
+	 */
+	@Required
+	public void setCommentUserAgentDao(CommentUserAgentDao commentUserAgentDao)
+	{
+		this.commentUserAgentDao = commentUserAgentDao;
+	}
+	
+	/**
+	 * Sets the moderator to use for automatic comment moderation
+	 * @param moderator comment moderator
+	 */
+	@Required
+	public void setModerator(Moderator moderator)
+	{
+		this.moderator = moderator;
+	}
+	
 	@Transactional
 	public void createArticle(Producer<Article> producer, String userName)
 	{
@@ -105,7 +155,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Transactional
-	public void createComment(Producer<Comment> producer, Long articleId, String userName)
+	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent)
 	{
 		User user = userName == null ? null : findUserByName(userName);
 
@@ -118,6 +168,60 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		comment.setCreatedByUser(user);
 		comment.setCreationDate(new Date());
 		comment.setArticle(article);
+		
+		if (user == null)
+		{
+			comment.setVisible(false); // anonymous users have to pass the checks
+			comment.setModerationStatus(ModerationStatus.PENDING);
+		}
+		else
+		{
+			comment.setVisible(true); // allow comment to display initially
+			boolean trusted = isUserTrustedForComments(user);			
+			comment.setModerationStatus(trusted ? ModerationStatus.HAM : ModerationStatus.PENDING);
+		}
+		
+		referrer = StringUtils.trimToNull(referrer);
+		if (referrer != null)
+		{
+			CommentReferrer ref = commentReferrerDao.findByUri(referrer);
+			if (ref != null)
+			{
+				ref = new CommentReferrer();
+				ref.setCreationDate(new Date());
+				ref.setReferrerUri(referrer);
+				commentReferrerDao.create(ref);
+			}
+			comment.setReferrer(ref);
+		}
+				
+		ipAddress = StringUtils.trimToNull(ipAddress);
+		if (ipAddress != null)
+		{
+			CommentIp ip = commentIpDao.findByIpAddress(ipAddress);
+			if (ip != null)
+			{
+				ip = new CommentIp();
+				ip.setCreationDate(new Date());
+				ip.setIpAddress(ipAddress);
+				commentIpDao.create(ip);
+			}
+			comment.setIpAddress(ip);
+		}
+		
+		userAgent = StringUtils.trimToNull(userAgent);
+		if (userAgent != null)
+		{
+			CommentUserAgent ua = commentUserAgentDao.findByName(userAgent);
+			if (ua != null)
+			{
+				ua = new CommentUserAgent();
+				ua.setCreationDate(new Date());
+				ua.setUserAgentName(userAgent);
+				commentUserAgentDao.create(ua);
+			}
+			comment.setUserAgent(ua);
+		}
 		
 		commentDao.create(comment);
 		
@@ -171,10 +275,47 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.delete(article);
 	}
 	
+	@Transactional(rollbackFor=ModerationException.class)
+	public Article approveComment(Long commentId) throws ModerationException
+	{
+		Comment comment = loadComment(commentId);
+		
+		logger.info("Approving comment #" + comment.getId());
+		
+		Article article = comment.getArticle();		
+		comment.setModerationStatus(ModerationStatus.HAM);
+		comment.setVisible(true);
+		commentDao.update(comment);
+		
+		moderator.markAsHam(comment);
+		
+		return article;
+	}
+
+	@Transactional(rollbackFor=ModerationException.class)
+	public Article disapproveComment(Long commentId) throws ModerationException
+	{
+		Comment comment = loadComment(commentId);
+		
+		logger.info("Disapproving comment #" + comment.getId());
+		
+		Article article = comment.getArticle();
+		comment.setModerationStatus(ModerationStatus.SPAM);
+		comment.setVisible(false);
+		commentDao.update(comment);
+
+		moderator.markAsSpam(comment);
+		
+		return article;
+	}
+
 	@Transactional
 	public Article deleteComment(Long commentId)
 	{
 		Comment comment = loadComment(commentId);
+		
+		logger.info("Deleting comment #" + comment.getId());
+		
 		Article article = comment.getArticle();
 		
 		article.getComments().remove(comment);
@@ -183,6 +324,29 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.update(article);
 		
 		return article;
+	}
+
+	@Transactional
+	public boolean moderateComments(int count) throws ModerationException
+	{
+		Iterator<Comment> comments = commentDao.iterateForModerationInRange(0, count);
+		if (!comments.hasNext()) return false;
+		
+		while (comments.hasNext())
+		{
+			Comment comment = comments.next();
+			
+			logger.info("Moderating comment #" + comment.getId());
+			
+			boolean valid = moderator.validate(comment);
+			
+			logger.info(valid ? "  HAM" : "  SPAM");
+			
+			comment.setVisible(valid);
+			comment.setModerationStatus(valid ? ModerationStatus.HAM : ModerationStatus.SPAM);
+			commentDao.update(comment);
+		}
+		return true;
 	}
 
 	private void checkAuthorUpdate(User user, Article article)
@@ -207,6 +371,23 @@ public class ArticleBusinessImpl implements ArticleBusiness
 			if (createdBy == null || !user.getId().equals(createdBy.getId()))
 				throw new UnauthorizedException(errorMessage);
 		}
+	}
+	
+	private boolean isUserTrustedForComments(User user)
+	{
+		if (user == null) return false; // anonymous users are not trusted
+		
+		List<Role> roles = user.getRoles();
+		
+		// trust users who can post / modify articles
+		if (roles.contains(findRoleByName(ROLE_MANAGE_ARTICLES)))
+				return true;
+		
+		// trust users who can modify comments
+		if (roles.contains(findRoleByName(ROLE_MANAGE_COMMENTS)))
+				return true;
+		
+		return false;
 	}
 	
 	private User findUserByName(String userName) throws UserNotFoundException

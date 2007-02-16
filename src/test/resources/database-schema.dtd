@@ -5,6 +5,9 @@
     articles*,
     tags*,
     article_tag_link*,
+    comment_referrers*,
+    comment_ips*,
+    comment_useragents*,
     comments*,
     cardspace_tokens*,
     cardspace_seen_tokens*)>
@@ -58,6 +61,27 @@
     tag_id CDATA #IMPLIED
 >
 
+<!ELEMENT comment_referrers EMPTY>
+<!ATTLIST comment_referrers
+    comment_referrer_id CDATA #IMPLIED
+    referrer CDATA #IMPLIED
+    create_date CDATA #IMPLIED
+>
+
+<!ELEMENT comment_ips EMPTY>
+<!ATTLIST comment_ips
+    comment_ip_id CDATA #IMPLIED
+    ip_address CDATA #IMPLIED
+    create_date CDATA #IMPLIED
+>
+
+<!ELEMENT comment_useragents EMPTY>
+<!ATTLIST comment_useragents
+    comment_useragent_id CDATA #IMPLIED
+    user_agent CDATA #IMPLIED
+    create_date CDATA #IMPLIED
+>
+
 <!ELEMENT comments EMPTY>
 <!ATTLIST comments
     comment_id CDATA #IMPLIED
@@ -70,6 +94,11 @@
     anonymous_website CDATA #IMPLIED
     title CDATA #IMPLIED
     content CDATA #IMPLIED
+    visible CDATA #IMPLIED
+    moderation_status CDATA #IMPLIED
+    comment_referrer_id CDATA #IMPLIED
+    comment_ip_id CDATA #IMPLIED
+    comment_useragent_id CDATA #IMPLIED
 >
 
 <!ELEMENT cardspace_tokens EMPTY>
