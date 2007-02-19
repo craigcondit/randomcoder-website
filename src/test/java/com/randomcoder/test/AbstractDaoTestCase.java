@@ -21,6 +21,7 @@ import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBea
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import com.randomcoder.article.*;
+import com.randomcoder.article.comment.*;
 import com.randomcoder.dao.finder.FinderIntroductionInterceptor;
 import com.randomcoder.dao.hibernate.HibernateDao;
 import com.randomcoder.security.cardspace.CardSpaceSeenToken;
@@ -140,7 +141,7 @@ abstract public class AbstractDaoTestCase extends TestCase
 		
 		Properties ecProps = new Properties();
 		ecProps.setProperty("com.randomcoder.article.Article", "read-write");
-		ecProps.setProperty("com.randomcoder.article.Comment", "read-write");
+		ecProps.setProperty("com.randomcoder.article.comment.Comment", "read-write");
 		ecProps.setProperty("com.randomcoder.user.User", "read-write");
 		ecProps.setProperty("com.randomcoder.user.Role", "read-only");
 		ecProps.setProperty("com.randomcoder.user.CardSpaceToken", "read-write");

@@ -1,12 +1,10 @@
-package com.randomcoder.article;
-
-import com.randomcoder.springmvc.IdCommand;
+package com.randomcoder.article.comment;
 
 /**
- * Controller class which handles comment disapproval.
+ * Exception thrown when a requested comment cannot be found.
  * 
  * <pre>
- * Copyright (c) 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,18 +28,36 @@ import com.randomcoder.springmvc.IdCommand;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class CommentDisapproveController extends AbstractCommentStatusController
+public class CommentNotFoundException extends RuntimeException
 {
+
+	private static final long serialVersionUID = 8212072324579650157L;
+
 	/**
-	 * Disapproves the selected comment.
-	 * @param command command object
-	 * @return Article which the comment belongs to
-	 * @throws Exception if an error occurs
+	 * Default constructor.
+	 */
+	public CommentNotFoundException()
+	{
+		super();
+	}
+
+	/**
+	 * Constructor taking an optional message to display.
+	 * 
+	 * @param message message to assoicate with this exception.
+	 */
+	public CommentNotFoundException(String message)
+	{
+		super(message);
+	}
+
+	/**
+	 * Gets the message (if any) associated with this exception.
+	 * @return message
 	 */
 	@Override
-	protected Article updateCommentStatus(IdCommand command)
-	throws Exception
+	public String getMessage()
 	{
-		return articleBusiness.disapproveComment(command.getId());
+		return super.getMessage();
 	}
 }

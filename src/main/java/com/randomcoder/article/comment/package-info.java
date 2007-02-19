@@ -1,12 +1,8 @@
-package com.randomcoder.article;
-
-import com.randomcoder.springmvc.IdCommand;
-
 /**
- * Controller class which handles comment deletion.
+ * Article commenting classes.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,18 +24,6 @@ import com.randomcoder.springmvc.IdCommand;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * </pre> 
  */
-public class CommentDeleteController extends AbstractCommentStatusController
-{
-	/**
-	 * Deletes the selected comment.
-	 * @param command command object
-	 * @return Article which the comment belongs to
-	 */
-	@Override
-	protected Article updateCommentStatus(IdCommand command)
-	{
-		return articleBusiness.deleteComment(command.getId());
-	}
-}
+package com.randomcoder.article.comment;

@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
 import com.randomcoder.dao.*;
 

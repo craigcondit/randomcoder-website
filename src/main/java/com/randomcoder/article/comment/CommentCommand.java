@@ -1,9 +1,10 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.randomcoder.article.Article;
 import com.randomcoder.content.ContentType;
 import com.randomcoder.io.Producer;
 

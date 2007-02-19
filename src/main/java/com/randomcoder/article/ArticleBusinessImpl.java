@@ -7,6 +7,7 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.randomcoder.article.comment.*;
 import com.randomcoder.article.moderation.*;
 import com.randomcoder.io.*;
 import com.randomcoder.security.UnauthorizedException;

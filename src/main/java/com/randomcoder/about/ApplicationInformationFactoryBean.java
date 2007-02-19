@@ -79,7 +79,7 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 	}
 
 	/**
-	 * Gets an instance of the object from the factory
+	 * Gets an instance of the object from the factory.
 	 * @throws Exception if an error occurs
 	 * @return ApplicationInformation instance
 	 */

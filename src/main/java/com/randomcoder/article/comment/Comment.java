@@ -1,10 +1,11 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
 
+import com.randomcoder.article.Article;
 import com.randomcoder.article.moderation.ModerationStatus;
 import com.randomcoder.content.ContentType;
 import com.randomcoder.user.User;

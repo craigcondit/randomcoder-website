@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UrlPathHelper;
 
+import com.randomcoder.article.comment.CommentCommand;
 import com.randomcoder.content.ContentFilter;
 
 /**

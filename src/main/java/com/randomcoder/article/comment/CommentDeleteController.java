@@ -1,12 +1,13 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
-import com.randomcoder.dao.*;
+import com.randomcoder.article.Article;
+import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Comment user agent data access interface.
+ * Controller class which handles comment deletion.
  * 
  * <pre>
- * Copyright (c) 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,14 +31,16 @@ import com.randomcoder.dao.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CommentUserAgentDao
-extends CreatableDao<CommentUserAgent, Long>, ReadableDao<CommentUserAgent, Long>
+public class CommentDeleteController extends AbstractCommentStatusController
 {
 	/**
-	 * Finds a given {@code CommentUserAgent} by name.
-	 * @param name user agent name
-	 * @return {@code CommentUserAgent} instance, or null if not found
+	 * Deletes the selected comment.
+	 * @param command command object
+	 * @return Article which the comment belongs to
 	 */
-	public CommentUserAgent findByName(String name);
-
+	@Override
+	protected Article updateCommentStatus(IdCommand command)
+	{
+		return articleBusiness.deleteComment(command.getId());
+	}
 }

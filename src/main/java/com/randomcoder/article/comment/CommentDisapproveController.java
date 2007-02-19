@@ -1,19 +1,13 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
-import java.io.IOException;
-
-import javax.xml.transform.TransformerException;
-
-import org.xml.sax.SAXException;
-
-import com.randomcoder.content.*;
+import com.randomcoder.article.Article;
+import com.randomcoder.springmvc.IdCommand;
 
 /**
- * Helper class which "decorates" an {@code Comment} instance by providing XHTML
- * formatting support.
+ * Controller class which handles comment disapproval.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,40 +31,18 @@ import com.randomcoder.content.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class CommentDecorator
+public class CommentDisapproveController extends AbstractCommentStatusController
 {
-	private final Comment comment;
-	private final ContentFilter filter;
-	
 	/**
-	 * Creates a new comment decorator using the given comment and filter.
-	 * @param comment comment
-	 * @param filter content filter
+	 * Disapproves the selected comment.
+	 * @param command command object
+	 * @return Article which the comment belongs to
+	 * @throws Exception if an error occurs
 	 */
-	public CommentDecorator(Comment comment, ContentFilter filter)
+	@Override
+	protected Article updateCommentStatus(IdCommand command)
+	throws Exception
 	{
-		this.comment = comment;
-		this.filter = filter;
+		return articleBusiness.disapproveComment(command.getId());
 	}
-	
-	/**
-	 * Gets the comment wrapped by this decorator.
-	 * @return comment
-	 */
-	public Comment getComment()
-	{
-		return comment;
-	}
-	
-	/**
-	 * Gets article content after applying filters and HTML escaping.
-	 * @return {@code String} containing the article content in XHTML.
-	 * @throws TransformerException if filtering fails
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if parsing fails
-	 */
-	public String getFormattedText() throws TransformerException, IOException, SAXException
-	{
-		return ContentUtils.formatText(comment.getContent(), comment.getContentType(), filter);
-	}	
 }

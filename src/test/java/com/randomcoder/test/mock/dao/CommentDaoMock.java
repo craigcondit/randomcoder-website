@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.article.*;
+import com.randomcoder.article.comment.*;
 import com.randomcoder.article.moderation.ModerationStatus;
 
 public class CommentDaoMock implements CommentDao

@@ -1,10 +1,8 @@
-package com.randomcoder.article;
-
 /**
- * Exception thrown when a requested comment cannot be found.
+ * Article moderation classes.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,38 +24,6 @@ package com.randomcoder.article;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * </pre> 
  */
-public class CommentNotFoundException extends RuntimeException
-{
-
-	private static final long serialVersionUID = 8212072324579650157L;
-
-	/**
-	 * Default constructor.
-	 */
-	public CommentNotFoundException()
-	{
-		super();
-	}
-
-	/**
-	 * Constructor taking an optional message to display.
-	 * 
-	 * @param message message to assoicate with this exception.
-	 */
-	public CommentNotFoundException(String message)
-	{
-		super(message);
-	}
-
-	/**
-	 * Gets the message (if any) associated with this exception.
-	 * @return message
-	 */
-	@Override
-	public String getMessage()
-	{
-		return super.getMessage();
-	}
-}
+package com.randomcoder.article.moderation;

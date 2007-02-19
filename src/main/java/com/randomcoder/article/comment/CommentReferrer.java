@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,7 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
 /**
- * JavaBean representing a comment IP address.
+ * JavaBean representing a comment referrer.
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -38,33 +38,33 @@ import org.apache.commons.lang.builder.*;
  */
 @NamedQueries
 ({
-	@NamedQuery(name = "CommentIp.ByIpAddress", query = "from CommentIp ci where ci.ipAddress = ?")
+	@NamedQuery(name = "CommentReferrer.ByUri", query = "from CommentReferrer cr where cr.referrerUri = ?")
 })
 @Entity
-@Table(name = "comment_ips")
-@SequenceGenerator(name = "comment_ips", sequenceName = "comment_ips_seq", allocationSize = 1)
-public class CommentIp implements Serializable
-{	
-	private static final long serialVersionUID = -8330136445379369299L;
+@Table(name = "comment_referrers")
+@SequenceGenerator(name = "comment_referrers", sequenceName = "comment_referrers_seq", allocationSize = 1)
+public class CommentReferrer implements Serializable
+{
+	private static final long serialVersionUID = 4101138502746346499L;
 	
 	private Long id;
-	private String ipAddress;
+	private String referrerUri;
 	private Date creationDate;
 	
 	/**
-	 * Gets the ID for this IP address.
+	 * Gets the ID for this referrer.
 	 * @return id
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "comment_ips")
-	@Column(name = "comment_ip_id")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "comment_referrers")
+	@Column(name = "comment_referrer_id")
 	public Long getId()
 	{
 		return id;
 	}
 	
 	/**
-	 * Sets the ID for this IP address.
+	 * Sets the ID for this referrer.
 	 * @param id id
 	 */
 	public void setId(Long id)
@@ -73,26 +73,26 @@ public class CommentIp implements Serializable
 	}
 	
 	/**
-	 * Gets the remote IP address.
-	 * @return IP address
+	 * Gets the URI sent as the HTTP referrer.
+	 * @return referrer URI
 	 */
-	@Column(name = "ip_address", nullable = false, length = 255)
-	public String getIpAddress()
+	@Column(name = "referrer", nullable = false, length = 1024)
+	public String getReferrerUri()
 	{
-		return ipAddress;
+		return referrerUri;
 	}
 	
 	/**
-	 * Sets the remote IP address. 
-	 * @param ipAddress IP address
+	 * Sets the URI sent as the HTTP referrer. 
+	 * @param referrerUri referrer URI
 	 */
-	public void setIpAddress(String ipAddress)
+	public void setReferrerUri(String referrerUri)
 	{
-		this.ipAddress = ipAddress;
+		this.referrerUri = referrerUri;
 	}
 	
 	/**
-	 * Gets the creation date of this IP address.
+	 * Gets the creation date of this referrer.
 	 * @return creation date
 	 */
 	@Column(name = "create_date", nullable = false)
@@ -102,7 +102,7 @@ public class CommentIp implements Serializable
 	}
 
 	/**
-	 * Sets the creation date of this IP address.
+	 * Sets the creation date of this referrer.
 	 * @param creationDate creation date
 	 */
 	public void setCreationDate(Date creationDate)
@@ -111,31 +111,31 @@ public class CommentIp implements Serializable
 	}	
 	
 	/**
-	 * Gets the hash code of this IP address.
+	 * Gets the hash code of this referrer.
 	 * @return hash code
 	 */
 	@Override
 	public int hashCode()
 	{
-		return StringUtils.trimToEmpty(getIpAddress()).hashCode();
-	}	
-
+		return StringUtils.trimToEmpty(getReferrerUri()).hashCode();
+	}
+	
 	/**
-	 * Determines if two CommentIp objects are equal.
+	 * Determines if two CommentReferrer objects are equal.
 	 * @return true if equal, false if not
 	 */
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (!(obj instanceof CommentIp)) return false;
+		if (!(obj instanceof CommentReferrer)) return false;
 		
-		CommentIp ip = (CommentIp) obj;
+		CommentReferrer ref = (CommentReferrer) obj;
 			
-		// equal if and only if ip addresses match
-		String addr1 = StringUtils.trimToEmpty(getIpAddress());
-		String addr2 = StringUtils.trimToEmpty(ip.getIpAddress());
+		// two referrers are equal if and only if their uris match
+		String uri1 = StringUtils.trimToEmpty(getReferrerUri());
+		String uri2 = StringUtils.trimToEmpty(ref.getReferrerUri());
 		
-		return addr1.equals(addr2);
+		return uri1.equals(uri2);
 	}
 	
 	/**
@@ -146,5 +146,5 @@ public class CommentIp implements Serializable
 	public String toString()
 	{
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+	}	
 }

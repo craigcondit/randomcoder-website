@@ -1,9 +1,9 @@
-package com.randomcoder.article;
+package com.randomcoder.article.comment;
 
 import com.randomcoder.dao.*;
 
 /**
- * Comment ip data access interface.
+ * Comment IP data access interface.
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.

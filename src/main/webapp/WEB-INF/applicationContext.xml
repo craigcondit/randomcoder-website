@@ -49,10 +49,10 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.randomcoder.article.Article</value>
-				<value>com.randomcoder.article.Comment</value>
-				<value>com.randomcoder.article.CommentReferrer</value>
-				<value>com.randomcoder.article.CommentIp</value>
-				<value>com.randomcoder.article.CommentUserAgent</value>
+				<value>com.randomcoder.article.comment.Comment</value>
+				<value>com.randomcoder.article.comment.CommentReferrer</value>
+				<value>com.randomcoder.article.comment.CommentIp</value>
+				<value>com.randomcoder.article.comment.CommentUserAgent</value>
 				<value>com.randomcoder.user.User</value>
 				<value>com.randomcoder.user.CardSpaceToken</value>
 				<value>com.randomcoder.user.Role</value>
@@ -63,7 +63,7 @@
 		<property name="entityCacheStrategies">
 			<props>
 				<prop key="com.randomcoder.article.Article">read-write</prop>
-				<prop key="com.randomcoder.article.Comment">read-write</prop>
+				<prop key="com.randomcoder.article.comment.Comment">read-write</prop>
 				<prop key="com.randomcoder.user.User">read-write</prop>
 				<prop key="com.randomcoder.user.CardSpaceToken">read-write</prop>
 				<prop key="com.randomcoder.user.Role">read-only</prop>
@@ -162,37 +162,37 @@
 	</bean>
 
 	<bean id="commentDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentDao" />
+	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.Comment" />
+	            <constructor-arg value="com.randomcoder.article.comment.Comment" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentReferrerDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentReferrerDao" />
+	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentReferrerDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.CommentReferrer" />
+	            <constructor-arg value="com.randomcoder.article.comment.CommentReferrer" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentIpDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentIpDao" />
+	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentIpDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.CommentIp" />
+	            <constructor-arg value="com.randomcoder.article.comment.CommentIp" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentUserAgentDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.CommentUserAgentDao" />
+	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentUserAgentDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.CommentUserAgent" />
+	            <constructor-arg value="com.randomcoder.article.comment.CommentUserAgent" />
 	        </bean>
     	</property>
 	</bean>

@@ -1,5 +1,6 @@
 package com.randomcoder.article;
 
+import com.randomcoder.article.comment.Comment;
 import com.randomcoder.article.moderation.ModerationException;
 import com.randomcoder.io.*;
 

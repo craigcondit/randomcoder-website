@@ -39,7 +39,7 @@
 
 	<bean id="articleEditValidator" class="com.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />
 
-	<bean id="commentValidator" class="com.randomcoder.article.CommentValidator">
+	<bean id="commentValidator" class="com.randomcoder.article.comment.CommentValidator">
 		<property name="contentFilter" ref="contentFilter" />
 	</bean>
 	
@@ -92,7 +92,7 @@
 		<property name="articleDao" ref="articleDao" />
 		<property name="articleBusiness" ref="articleBusiness" />
 		<property name="contentFilter" ref="contentFilter" />	
-		<property name="commandClass" value="com.randomcoder.article.CommentCommand" />
+		<property name="commandClass" value="com.randomcoder.article.comment.CommentCommand" />
 		<property name="validator" ref="commentValidator" />
 	</bean>
 	
@@ -144,9 +144,9 @@
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 	
-	<bean id="commentDeleteController" class="com.randomcoder.article.CommentDeleteController" parent="abstractCommentStatusController" />
-	<bean id="commentApproveController" class="com.randomcoder.article.CommentApproveController" parent="abstractCommentStatusController" />
-	<bean id="commentDisapproveController" class="com.randomcoder.article.CommentDisapproveController" parent="abstractCommentStatusController" />
+	<bean id="commentDeleteController" class="com.randomcoder.article.comment.CommentDeleteController" parent="abstractCommentStatusController" />
+	<bean id="commentApproveController" class="com.randomcoder.article.comment.CommentApproveController" parent="abstractCommentStatusController" />
+	<bean id="commentDisapproveController" class="com.randomcoder.article.comment.CommentDisapproveController" parent="abstractCommentStatusController" />
 	
 	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator">
 		<property name="userDao" ref="userDao" />

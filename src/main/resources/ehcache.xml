@@ -19,22 +19,22 @@
 		overflowToDisk="false" />
 
 	<!-- Comment: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="com.randomcoder.article.Comment" timeToIdleSeconds="1800"
+	<cache name="com.randomcoder.article.comment.Comment" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentReferrer: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="com.randomcoder.article.CommentReferrer" timeToIdleSeconds="1800"
+	<cache name="com.randomcoder.article.comment.CommentReferrer" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentIp: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="com.randomcoder.article.CommentIp" timeToIdleSeconds="1800"
+	<cache name="com.randomcoder.article.comment.CommentIp" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentUserAgent: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="com.randomcoder.article.CommentUserAgent" timeToIdleSeconds="1800"
+	<cache name="com.randomcoder.article.comment.CommentUserAgent" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 

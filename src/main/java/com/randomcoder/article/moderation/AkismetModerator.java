@@ -10,7 +10,7 @@ import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Required;
 
 import com.randomcoder.about.ApplicationInformation;
-import com.randomcoder.article.*;
+import com.randomcoder.article.comment.*;
 import com.randomcoder.user.User;
 
 /**
