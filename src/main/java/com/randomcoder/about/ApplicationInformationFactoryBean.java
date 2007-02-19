@@ -5,6 +5,8 @@ import java.util.Properties;
 
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.io.Resource;
 
 /**
  * Spring FactoryBean to generate ApplicationInformation instances.
@@ -38,13 +40,23 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 {
 	private static final Log logger = LogFactory.getLog(ApplicationInformationFactoryBean.class);
 	
-	private static final String VERSION_RESOURCE = "/version.properties";
 	private static final String APP_NAME_PROPERTY = "application.name";
 	private static final String APP_VERSION_PROPERTY = "application.version";
 	private static final String DEFAULT_APP_NAME = "Randomcoder Website";
 	private static final String DEFAULT_APP_VERSION = "Unknown";
 	
+	private Resource propertyFile;
 	private ApplicationInformation info;
+	
+	/**
+	 * Sets the location of the property file
+	 * @param propertyFile
+	 */
+	@Required
+	public void setPropertyFile(Resource propertyFile)
+	{
+		this.propertyFile = propertyFile;
+	}
 	
 	/**
 	 * Initializes the factory.
@@ -57,7 +69,7 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 		
 		try
 		{
-			is = getClass().getResourceAsStream(VERSION_RESOURCE); 
+			is = propertyFile.getInputStream(); 
 			p.load(is);			
 		}
 		finally
