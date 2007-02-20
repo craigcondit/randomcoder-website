@@ -36,7 +36,7 @@ import com.randomcoder.saml.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-public final class CardSpaceCredentials implements Serializable
+public class CardSpaceCredentials implements Serializable
 {
 	private static final long serialVersionUID = 7792602902586182911L;
 	private final Date receivedInstant;
