@@ -29,10 +29,18 @@ public class ChangePasswordValidatorTest extends TestCase
 		ChangePasswordCommand command = new ChangePasswordCommand();
 		User user = new User();
 		user.setUserName("validate-user");
-		user.setPassword(User.hashPassword("Password1"));
 		command.setUser(user);
 		
+		// old password supplied when user doesn't have one
+		user.setPassword(null);
+		command.setOldPassword("Password1");
+		errors = new BindException(command, "command");
+		validator.validate(command, errors);
+		assertEquals("Wrong error count for oldPassword", 1, errors.getFieldErrorCount("oldPassword"));
+				
 		// no data supplied
+		user.setPassword(User.hashPassword("Password1"));
+		command.setOldPassword(null);
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong number of errors occurred", 3, errors.getErrorCount());
