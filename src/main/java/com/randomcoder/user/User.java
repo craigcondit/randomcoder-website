@@ -231,6 +231,7 @@ public class User implements Serializable
 			protected boolean accept(Field f)
 			{
 				if (f.getName().equals("password")) return false;
+				if (f.getName().equals("emailAddress")) return false;
 				if (f.getName().equals("website")) return false;
 				return super.accept(f);
 			}
