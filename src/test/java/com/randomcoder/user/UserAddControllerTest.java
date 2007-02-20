@@ -26,11 +26,6 @@ public class UserAddControllerTest extends TestCase
 		controller.setSuccessView("success");
 	}
 
-	public void coverUserAddCommandToString()
-	{
-		new UserAddCommand().toString();
-	}
-	
 	public void testOnBindOnNewForm() throws Exception
 	{
 		MockHttpServletRequest request = new MockHttpServletRequest();

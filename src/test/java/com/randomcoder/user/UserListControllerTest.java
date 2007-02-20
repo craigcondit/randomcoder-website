@@ -44,11 +44,6 @@ public class UserListControllerTest extends TestCase
 		controller.setViewName("success");
 	}
 	
-	public void coverUserListCommandToString() throws Exception
-	{
-		new UserListCommand().toString();
-	}
-	
 	public void testHandle() throws Exception
 	{
 		ModelAndView mav;
