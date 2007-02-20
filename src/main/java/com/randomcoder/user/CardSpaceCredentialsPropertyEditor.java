@@ -1,18 +1,18 @@
 package com.randomcoder.user;
 
 import java.beans.PropertyEditorSupport;
-import java.io.StringReader;
+import java.io.*;
 import java.security.PublicKey;
 import java.util.Date;
 
 import org.w3c.dom.*;
-import org.xml.sax.InputSource;
+import org.xml.sax.*;
 
 import com.randomcoder.crypto.CertificateContext;
 import com.randomcoder.saml.*;
 import com.randomcoder.security.cardspace.*;
 import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
+import com.randomcoder.xml.security.*;
 
 /**
  * Property editor for CardSpace tokens.
@@ -75,34 +75,40 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 			return;
 		}
 		
-		// parse token
-		Document doc = parseXmlToken(string);
+		try
+		{
+			// parse token
+			Document doc = parseXmlToken(string);
 
-		// decrypt token
-		decryptXmlToken(doc);
-		
-		
-		// find Assertion element
-		Element assertion = findAssertion(doc);
-				
-		// find Signature element
-		Element signature = findSignature(doc);
-				
-		// verify signature
-		PublicKey publicKey = verifySignature(assertion, signature);
-		
-		// build a SAML assertion
-		SamlAssertion samlAssertion = buildSamlAssertion(assertion);
-		
-		// build credentials
-		CardSpaceCredentials credentials
-			= new CardSpaceCredentials(samlAssertion, publicKey, new Date());
-		
-		setValue(credentials);
+			// decrypt token
+			decryptXmlToken(doc);
+					
+			// find Assertion element
+			Element assertion = findAssertion(doc);
+					
+			// find Signature element
+			Element signature = findSignature(doc);
+					
+			// verify signature
+			PublicKey publicKey = verifySignature(assertion, signature);
+			
+			// build a SAML assertion
+			SamlAssertion samlAssertion = buildSamlAssertion(assertion);
+			
+			// build credentials
+			CardSpaceCredentials credentials
+				= new CardSpaceCredentials(samlAssertion, publicKey, new Date());
+			
+			setValue(credentials);
+		}
+		catch (Exception e)
+		{
+			throw new IllegalArgumentException("The information card you submitted was invalid.", e);
+		}
 	}
 	
 	private Document parseXmlToken(String xmlToken)
-	throws IllegalArgumentException
+	throws IOException, SAXException
 	{
 		
 		StringReader reader = null;
@@ -115,10 +121,6 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 			
 			return XmlUtils.parseXml(source);
 		}
-		catch (Exception e)
-		{
-			throw new IllegalArgumentException("The information card you submitted was invalid.", e);
-		}
 		finally
 		{
 			if (reader != null) reader.close();
@@ -126,21 +128,14 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 	}
 	
 	private void decryptXmlToken(Document doc)
-	throws IllegalArgumentException
+	throws IllegalArgumentException, XmlSecurityException, XmlSecurityConfigurationException
 	{
-		try
-		{
-			Element encryptedData = XmlSecurityUtils.findFirstEncryptedData(doc);
-			
-			if (encryptedData == null)
-				throw new IllegalArgumentException("The information card you submitted was invalid.");
-			
-			XmlSecurityUtils.decrypt(doc, encryptedData, certificateContext.getPrivateKey());
-		}
-		catch (Exception e)
-		{
-			throw new InvalidCredentialsException("The information card you submitted was invalid.", e);
-		}
+		Element encryptedData = XmlSecurityUtils.findFirstEncryptedData(doc);
+		
+		if (encryptedData == null)
+			throw new IllegalArgumentException("No encrypted data found");
+		
+		XmlSecurityUtils.decrypt(doc, encryptedData, certificateContext.getPrivateKey());
 	}
 
 	private Element findAssertion(Document doc)
@@ -148,7 +143,7 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 	{
 		Element assertion = SamlUtils.findFirstSamlAssertion(doc);
 		if (assertion == null)
-			throw new InvalidCredentialsException("The information card you submitted was invalid.");
+			throw new IllegalArgumentException("No SAML assertion found");
 		
 		return assertion;
 	}
@@ -158,42 +153,26 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 	{
 		Element signature = XmlSecurityUtils.findFirstSignature(doc);
 		if (signature == null)
-			throw new InvalidCredentialsException("The information card you submitted was invalid.");
+			throw new IllegalArgumentException("No signature found");
 		
 		return signature;
 	}
 
 	private PublicKey verifySignature(Element assertion, Element signature)
-	throws IllegalArgumentException
+	throws XmlSecurityException
 	{
-		try
-		{
-			// tag the AssertionID attribute as an ID type so that signature
-			// validation works
-			if (assertion.hasAttributeNS(null, "AssertionID"))
-				assertion.setIdAttributeNS(null, "AssertionID", true);
-			
-			return XmlSecurityUtils.verifySignature(signature);
-		}
-		catch (Exception e)
-		{
-			throw new IllegalArgumentException("The information card you submitted was invalid.", e);
-		}
+		// tag the AssertionID attribute as an ID type so that signature
+		// validation works
+		if (assertion.hasAttributeNS(null, "AssertionID"))
+			assertion.setIdAttributeNS(null, "AssertionID", true);
+		
+		return XmlSecurityUtils.verifySignature(signature);
 	}
 
 	private SamlAssertion buildSamlAssertion(Element assertion)
-	throws IllegalArgumentException
+	throws SamlException
 	{
-		SamlAssertion samlAssertion = null;
-		try
-		{
-			samlAssertion = new SamlAssertion(assertion);
-		}
-		catch (Exception e)
-		{
-			throw new IllegalArgumentException("The information card you submitted was invalid.", e);
-		}
-		return samlAssertion;
+		return new SamlAssertion(assertion);
 	}
 		
 }
