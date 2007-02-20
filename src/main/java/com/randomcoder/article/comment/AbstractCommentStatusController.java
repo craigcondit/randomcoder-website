@@ -60,7 +60,7 @@ abstract public class AbstractCommentStatusController extends AbstractCommandCon
 	 * Updates the selected comment, and redirects back to permalink page for
 	 * the associated article.
 	 * @param request HTTP request
-	 * @param resposne HTTP response
+	 * @param response HTTP response
 	 * @param command command object
 	 * @param errors error object
 	 * @throws Exception if an error occurs
