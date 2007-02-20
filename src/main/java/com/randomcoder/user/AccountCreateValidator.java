@@ -203,7 +203,6 @@ public class AccountCreateValidator implements Validator
 		else
 		{
 			errors.reject("Invalid form type: " + formType);
-			return;			
 		}
 	}
 
