@@ -158,20 +158,11 @@ public class XHTMLReader extends XMLFilterImpl
 
 	private boolean isAllowedElement(String elName)
 	{
-		if (elName == null)
-			return false;
 		return ALLOWED_TAGS.contains(elName.toLowerCase(Locale.US));
 	}
 
 	private boolean isAllowedAttribute(String elName, String attName)
 	{
-		if (elName == null)
-			return false;
-		if (attName == null)
-			return false;
-
-		if (ALLOWED_ATTRIBUTES.contains(elName + ".*"))
-			return true;
 		if (ALLOWED_ATTRIBUTES.contains(elName + ".-"))
 			return false;
 		if (ALLOWED_ATTRIBUTES.contains("*." + attName))
@@ -182,15 +173,6 @@ public class XHTMLReader extends XMLFilterImpl
 	
 	private boolean isUrlAttribute(String elName, String attName)
 	{
-		if (elName == null)
-			return false;
-		if (attName == null)
-			return false;
-		
-		if (URL_ATTRIBUTES.contains(elName + ".*"))
-			return true;
-		if (URL_ATTRIBUTES.contains(elName + ".-"))
-			return false;
 		if (URL_ATTRIBUTES.contains("*." + attName))
 			return true;
 		
@@ -224,18 +206,13 @@ public class XHTMLReader extends XMLFilterImpl
 
 	private String getCanonicalElement(String localName)
 	{
-		if (localName == null)
-			return null;
 		String canon = REPLACED_TAGS.get(localName);
-		if (canon != null)
-			return canon;
+		if (canon != null) return canon;
 		return localName.toLowerCase(Locale.US);
 	}
 
 	private String getCanonicalAttribute(String localName)
 	{
-		if (localName == null)
-			return null;
 		return localName.toLowerCase(Locale.US);
 	}
 
@@ -277,6 +254,12 @@ public class XHTMLReader extends XMLFilterImpl
 	@Override
 	public void endDocument() throws SAXException
 	{
+		if (elementLevel == 1)
+		{
+			// match the content we added
+			super.endElement("", "body", "body");
+			super.endElement("", "html", "html");
+		}
 		super.endDocument();
 	}
 
@@ -303,7 +286,7 @@ public class XHTMLReader extends XMLFilterImpl
 				// substitute our own wrapper
 				super.startElement("", "html", "html", NO_ATTRIBUTES);
 				super.startElement("", "body", "body", NO_ATTRIBUTES);
-				return;
+				elementLevel += 2;
 			}
 		}
 
@@ -368,17 +351,6 @@ public class XHTMLReader extends XMLFilterImpl
 		try
 		{
 			String tagName = getCanonicalElement(localName);
-
-			if (elementLevel == 0)
-			{
-				// ending root element
-				if (!HTML.equals(tagName))
-				{
-					super.endElement("", "body", "body");
-					super.endElement("", "html", "html");
-					return;
-				}
-			}
 
 			// check for filtered elements
 			if (filterLevel >= 0)
