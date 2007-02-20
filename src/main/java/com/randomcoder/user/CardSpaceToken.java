@@ -1,7 +1,6 @@
 package com.randomcoder.user;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -199,13 +198,6 @@ public class CardSpaceToken implements Serializable
 	@Override
 	public String toString()
 	{
-		return (new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-		{
-			@Override
-			protected boolean accept(Field f)
-			{
-				return super.accept(f); // && !f.getName().equals("password");
-			}
-		}).toString();
+		return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
 	}	
 }
