@@ -186,7 +186,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		if (referrer != null)
 		{
 			CommentReferrer ref = commentReferrerDao.findByUri(referrer);
-			if (ref != null)
+			if (ref == null)
 			{
 				ref = new CommentReferrer();
 				ref.setCreationDate(new Date());
@@ -200,7 +200,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		if (ipAddress != null)
 		{
 			CommentIp ip = commentIpDao.findByIpAddress(ipAddress);
-			if (ip != null)
+			if (ip == null)
 			{
 				ip = new CommentIp();
 				ip.setCreationDate(new Date());
@@ -214,7 +214,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		if (userAgent != null)
 		{
 			CommentUserAgent ua = commentUserAgentDao.findByName(userAgent);
-			if (ua != null)
+			if (ua == null)
 			{
 				ua = new CommentUserAgent();
 				ua.setCreationDate(new Date());
