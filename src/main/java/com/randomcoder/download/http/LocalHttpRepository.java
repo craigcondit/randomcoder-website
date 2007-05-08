@@ -92,8 +92,6 @@ public class LocalHttpRepository implements PackageListProducer
 	private Package processProject(LocalHttpProject project)
 	throws PackageListException
 	{
-		logger.debug("Processing " + project.getBaseName());
-		
 		// get versions
 		List<String> versions = project.getVersions();
 		
@@ -127,8 +125,6 @@ public class LocalHttpRepository implements PackageListProducer
 		
 		String baseName = project.getBaseName() + "-" + version;
 		
-		logger.debug("Basename: " + baseName);
-		
 		for (String extension : mappings.keySet())
 		{
 			FileSpec spec = processFile(project.getBaseDir(), project.getBaseUrl(), baseName + extension, mappings.get(extension));
@@ -144,11 +140,6 @@ public class LocalHttpRepository implements PackageListProducer
 	private FileSpec processFile(File baseDir, URL baseUrl, String fileName, String fileType)
 	throws PackageListException
 	{	
-		logger.debug("Base dir: " + baseDir.getAbsolutePath());
-		logger.debug("Base url: " + baseUrl.toExternalForm());
-		logger.debug("File name: " + fileName);
-		logger.debug("File type: " + fileType);
-		
 		URL fileUrl = null;
 		try
 		{
