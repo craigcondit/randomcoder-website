@@ -22,7 +22,10 @@
 	<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/randomcoder" />
 	<jee:jndi-lookup id="akismetSiteKey" jndi-name="java:comp/env/akismetSiteKey" />
 	<jee:jndi-lookup id="akismetSiteUrl" jndi-name="java:comp/env/akismetSiteUrl" />
-
+	<jee:jndi-lookup id="mavenRepositoryDir" jndi-name="java:comp/env/mavenRepositoryDir" />
+	<jee:jndi-lookup id="taglibsRepositoryDir" jndi-name="java:comp/env/taglibsRepositoryDir" />
+	<jee:jndi-lookup id="citadelRepositoryDir" jndi-name="java:comp/env/citadelRepositoryDir" />
+	
 	<!-- Message source -->
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="ApplicationResources" />

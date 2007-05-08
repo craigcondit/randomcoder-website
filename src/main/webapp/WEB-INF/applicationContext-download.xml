@@ -42,13 +42,14 @@
 		</property>
 	</bean>
 	
-	<bean id="legacyRepository" class="com.randomcoder.download.http.HttpRepository">
+	<bean id="legacyRepository" class="com.randomcoder.download.http.LocalHttpRepository">
 		<property name="projects">
 			<list>
-				<bean class="com.randomcoder.download.http.HttpProject">
+				<bean class="com.randomcoder.download.http.LocalHttpProject">
 					<property name="projectName" value="randomcoder-taglibs" />
 					<property name="projectDescription" value="JSP tag libraries for common website functionality" />
 					<property name="baseUrl" value="http://randomcoder.com/projects/taglibs/" />
+					<property name="baseDir" ref="taglibsRepositoryDir" />
 					<property name="baseName" value="randomcoder-taglibs" />
 					<property name="extensionMappings">
 						<map>
@@ -77,10 +78,11 @@
 						</list>
 					</property>
 				</bean>
-				<bean class="com.randomcoder.download.http.HttpProject">
+				<bean class="com.randomcoder.download.http.LocalHttpProject">
 					<property name="projectName" value="randomcoder-citadel" />
 					<property name="projectDescription" value="Java security framework (deprecated)" />
 					<property name="baseUrl" value="http://randomcoder.com/projects/citadel/" />
+					<property name="baseDir" ref="citadelRepositoryDir" />
 					<property name="baseName" value="randomcoder-citadel" />
 					<property name="extensionMappings">
 						<map>
