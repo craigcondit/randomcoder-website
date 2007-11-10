@@ -23,7 +23,6 @@ import com.randomcoder.tag.Tag;
 import com.randomcoder.user.User;
 import com.randomcoder.validation.DataValidationUtils;
 import com.randomcoder.xml.XmlUtils;
-import com.sun.xml.internal.fastinfoset.stax.events.XMLConstants;
 
 /**
  * Generator for Atom 1.0 feeds.
