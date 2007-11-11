@@ -113,9 +113,12 @@ public class AtomFeedGenerator implements FeedGenerator
 		this.applicationInformation = applicationInformation;
 	}
 	
-	public String generateFeed(
-			String title, String subtitle, URL feedUrl, URL altUrl, String feedId,
-			List<Article> articles) throws FeedException
+	public String getContentType()
+	{
+		return "application/atom+xml";
+	}
+
+	public String generateFeed(FeedInfo info) throws FeedException
 	{
 		// need to write out XML
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -142,10 +145,11 @@ public class AtomFeedGenerator implements FeedGenerator
 
 		// write feed title
 		Element titleEl = doc.createElementNS(ATOM_1_0_NS, "title");
-		titleEl.appendChild(doc.createTextNode(title));
+		titleEl.appendChild(doc.createTextNode(info.getTitle()));
 		root.appendChild(titleEl);
 		
 		// write feed subtitle
+		String subtitle = info.getSubtitle();
 		if (subtitle != null)
 		{
 			Element subtitleEl = doc.createElementNS(ATOM_1_0_NS, "subtitle");
@@ -164,10 +168,11 @@ public class AtomFeedGenerator implements FeedGenerator
 		Element feedEl = doc.createElementNS(ATOM_1_0_NS, "link");
 		feedEl.setAttribute("rel", "self");
 		feedEl.setAttribute("type", "application/atom+xml");
-		feedEl.setAttribute("href", feedUrl.toExternalForm());
+		feedEl.setAttribute("href", info.getFeedUrl().toExternalForm());
 		root.appendChild(feedEl);
 		
 		// write alternate URL
+		URL altUrl = info.getAltUrl();
 		if (altUrl != null)
 		{
 			Element altEl = doc.createElementNS(ATOM_1_0_NS, "link");
@@ -179,7 +184,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		
 		// write feed id
 		Element idEl = doc.createElementNS(ATOM_1_0_NS, "id");
-		idEl.appendChild(doc.createTextNode(feedId));
+		idEl.appendChild(doc.createTextNode(uriPrefix + info.getFeedId()));
 		root.appendChild(idEl);
 		
 		// write feed updated date
@@ -188,7 +193,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		
 		Date feedUpdated = null;
 		
-		for (Article article : articles)
+		for (Article article : info.getArticles())
 		{
 			Element entryEl = doc.createElementNS(ATOM_1_0_NS, "entry");
 			
@@ -379,69 +384,4 @@ public class AtomFeedGenerator implements FeedGenerator
 		String text = sdf.format(date);
 		return  text.substring(0, text.length() - 2) + ":" + text.substring(text.length() - 2);
 	}
-	
-	public static void main(String[] args)
-	{
-		try
-		{
-			XHTMLFilter filter = new XHTMLFilter();
-			filter.setAllowedClasses(new HashSet<String>());
-			
-			User user = new User();
-			user.setId(1L);
-			user.setEnabled(true);
-			user.setUserName("ccondit");
-			user.setWebsite("http://randomcoder.com/");
-			
-			com.randomcoder.article.comment.Comment comment = new com.randomcoder.article.comment.Comment();			
-			comment.setContentType(ContentType.TEXT);
-			comment.setCreationDate(new Date());
-			comment.setTitle("I agree");
-			comment.setContent("Yes, I really do.\r\n\r\nSee?");
-			
-			List<com.randomcoder.article.comment.Comment> comments = new ArrayList<com.randomcoder.article.comment.Comment>();
-			comments.add(comment);
-			
-			Tag tag = new Tag();
-			tag.setDisplayName("Test Articles");
-			tag.setName("test-articles");
-			
-			List<Tag> tags = new ArrayList<Tag>();
-			tags.add(tag);
-			
-			Article article = new Article();
-			article.setContent("<p>testing</p>");
-			article.setContentType(ContentType.XHTML);
-			article.setSummary("<p>summary</p>");
-			article.setCreatedByUser(user);
-			article.setComments(comments);
-			article.setCreationDate(new Date(new Date().getTime() - 100000));
-			article.setId(1L);
-			article.setModificationDate(new Date(new Date().getTime() - 50000));
-			article.setPermalink("test-article");
-			article.setModifiedByUser(user);
-			article.setTags(tags);
-			article.setTitle("This is the article title");
-			
-			List<Article> articles = new ArrayList<Article>();
-			articles.add(article);
-			
-			AtomFeedGenerator gen = new AtomFeedGenerator();
-			gen.setApplicationInformation(new ApplicationInformation("Randomcoder-Website", "2.4-SNAPSHOT"));
-			gen.setBaseUrl("http://randomcoder.com");
-			gen.setUriPrefix("tag:randomcoder.com,2007:");
-			gen.setContentFilter(filter);
-			
-			URL feedUrl = new URL("http://randomcoder.com/feeds/atom/all");
-			URL altUrl = new URL("http://randomcoder.com/");
-			
-			String feed = gen.generateFeed("This is the title", "This is the subtitle", feedUrl, altUrl, "tag:randomcoder.com,2007:atom-all", articles);
-			
-			System.out.println(feed);
-		}
-		catch (Throwable t)
-		{
-			t.printStackTrace();
-		}
-	}	
 }

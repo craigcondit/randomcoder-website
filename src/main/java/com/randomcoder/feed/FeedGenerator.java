@@ -1,13 +1,8 @@
 package com.randomcoder.feed;
 
-import java.net.URL;
-import java.util.List;
-
-import com.randomcoder.article.Article;
-
 /**
- * Feed generator interface. A feed generator is responsible for generating
- * a syndicated feed from a group of articles.
+ * Feed generator interface. A feed generator is responsible for generating a
+ * syndicated feed from a group of articles.
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -21,7 +16,7 @@ import com.randomcoder.article.Article;
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
  *     
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
  * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
@@ -39,23 +34,18 @@ public interface FeedGenerator
 	/**
 	 * Generates a feed from the given list of articles.
 	 * 
-	 * @param title
-	 *          Feed title
-	 * @param subtitle
-	 *          Feed subtitle, or <code>null</code> to omit
-	 * @param feedUrl
-	 *          Feed URL
-	 * @param altUrl
-	 *          Alternative URL, or <code>null</code> to omit
-	 * @param feedId
-	 *          Feed identifier (must be XML ID safe)
-	 * @param articles
-	 *          list of articles to generate a feed for
+	 * @param info
+	 *          feed info
 	 * @return string representation of feed
 	 * @throws FeedException
 	 *           if an error occurs during feed generation
 	 */
-	public String generateFeed(
-			String title, String subtitle, URL feedUrl, URL altUrl, String feedId,
-			List<Article> articles) throws FeedException;
+	public String generateFeed(FeedInfo info) throws FeedException;
+
+	/**
+	 * Gets the content (mime) type of generated feeds.
+	 * 
+	 * @return mime type
+	 */
+	public String getContentType();
 }

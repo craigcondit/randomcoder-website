@@ -283,4 +283,11 @@
 		</property>
 	</bean>
 	
+	<!-- Feeds -->
+	<bean id="atomFeedGenerator" class="com.randomcoder.feed.AtomFeedGenerator">
+		<property name="applicationInformation" ref="applicationInformation" />
+		<property name="baseUrl" value="http://randomcoder.com/" />
+		<property name="uriPrefix" value="tag:randomcoder.com,2007:" />
+		<property name="contentFilter" ref="contentFilter" />
+	</bean>
 </beans>

@@ -259,6 +259,18 @@
 		<property name="tagBusiness" ref="tagBusiness" />
 	</bean>
 		
+	<bean id="allAtomFeedController" class="com.randomcoder.feed.AllFeedController">
+		<property name="title" value="randomCoder" />
+		<property name="subtitle" value="// TODO build a better web" />
+		<property name="urlPrefix" value="/feeds/atom" />
+		<property name="feedGenerator" ref="atomFeedGenerator" />
+		<property name="feedId" value="atom-all" />
+		<property name="feedUrl" value="http://randomcoder.com/feeds/atom/all" />
+		<property name="altUrl" value="http://randomcoder.com/" />
+		<property name="limit" value="20" />
+		<property name="articleDao" ref="articleDao" />
+	</bean>
+	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
 		<property name="mappings">
@@ -269,6 +281,7 @@
 				<prop key="/article/delete">articleDeleteController</prop>
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
+				<prop key="/feeds/atom/all">allAtomFeedController</prop>				
 				<prop key="/comment/delete">commentDeleteController</prop>
 				<prop key="/comment/approve">commentApproveController</prop>
 				<prop key="/comment/disapprove">commentDisapproveController</prop>
