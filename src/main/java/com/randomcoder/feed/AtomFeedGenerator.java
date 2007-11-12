@@ -302,23 +302,28 @@ public class AtomFeedGenerator implements FeedGenerator
 				entryEl.appendChild(categoryEl);
 			}
 
-			// write summary -- will need content filter
-			Element summaryEl = doc.createElementNS(ATOM_1_0_NS, "summary");
-			summaryEl.setAttribute("type", "xhtml");
-			summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:lang", "en-US");
-			summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:base", articleUrl.toExternalForm());
+			String summary = article.getSummary();
 			
-			try
+			if (summary != null)
 			{
-				addXHTML(doc, summaryEl, article.getSummary(), article.getContentType());
+				// write summary -- will need content filter
+				Element summaryEl = doc.createElementNS(ATOM_1_0_NS, "summary");
+				summaryEl.setAttribute("type", "xhtml");
+				summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:lang", "en-US");
+				summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:base", articleUrl.toExternalForm());
+				
+				try
+				{
+					addXHTML(doc, summaryEl, summary, article.getContentType());
+				}
+				catch (Exception e)
+				{
+					throw new FeedException("Unable to generate summary for article with id " + df.format(article.getId()), e);
+				}
+				
+				entryEl.appendChild(summaryEl);
 			}
-			catch (Exception e)
-			{
-				throw new FeedException("Unable to generate summary for article with id " + df.format(article.getId()), e);
-			}
-
-			entryEl.appendChild(summaryEl);
-			
+						
 			// write content
 			Element contentEl = doc.createElementNS(ATOM_1_0_NS, "summary");
 			contentEl.setAttribute("type", "xhtml");
