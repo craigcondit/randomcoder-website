@@ -119,6 +119,11 @@ A.comment {
 	background: url(../images/silk/comment_reverse.png) left no-repeat;
 }
 
+A.feed {
+	padding-left: 18px;
+	background: url(../images/feed-icon-14x14.png) left no-repeat;	
+}
+
 A.read-more {
 	padding-left: 16px;
 	background: url(../images/silk/page_small.png) -3px no-repeat;	
