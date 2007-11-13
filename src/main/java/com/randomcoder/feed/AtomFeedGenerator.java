@@ -325,7 +325,7 @@ public class AtomFeedGenerator implements FeedGenerator
 			}
 						
 			// write content
-			Element contentEl = doc.createElementNS(ATOM_1_0_NS, "summary");
+			Element contentEl = doc.createElementNS(ATOM_1_0_NS, "content");
 			contentEl.setAttribute("type", "xhtml");
 			contentEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:lang", "en-US");
 			contentEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:base", articleUrl.toExternalForm());
@@ -368,7 +368,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		Element root = doc.createElementNS(XHTML_NS, "div");
 		Element tempRoot = doc.createElementNS(XHTML_NS, "div");
 		
-		ContentUtils.formatText(text, contentType, contentFilter, new DOMResult(tempRoot));
+		ContentUtils.formatText(text, null, contentType, contentFilter, new DOMResult(tempRoot));
 
 		// copy children to remove extra nesting
 		Node child = tempRoot.getFirstChild();

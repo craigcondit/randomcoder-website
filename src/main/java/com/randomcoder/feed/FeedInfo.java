@@ -63,7 +63,7 @@ public class FeedInfo implements Serializable
 	 * @param feedUrl
 	 *          canonical feed URL
 	 * @param altUrl
-	 *          alternate URL of content, or <code>null</code> to omit
+	 *          alternate URL of content
 	 * @param feedId
 	 *          unique feed identifier
 	 * @param articles
@@ -146,8 +146,7 @@ public class FeedInfo implements Serializable
 	}
 
 	/**
-	 * Gets the alternate URL for this feed, or <code>null</code> if none is
-	 * available.
+	 * Gets the alternate URL for this feed.
 	 * 
 	 * @return alternate URL
 	 */
@@ -157,8 +156,7 @@ public class FeedInfo implements Serializable
 	}
 
 	/**
-	 * Sets the alternate URL for this feed, or <code>null</code> if none is
-	 * available.
+	 * Sets the alternate URL for this feed.
 	 * 
 	 * @param altUrl
 	 *          alternate URL

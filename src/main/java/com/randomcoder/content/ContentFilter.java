@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.net.URL;
 
 import javax.xml.transform.Templates;
 
@@ -49,11 +50,12 @@ public interface ContentFilter
 
 	/**
 	 * Gets an XML reader suitable for the given content type.
+	 * @param baseUrl base URL for content, or <code>null</code> to omit
 	 * @param contentType content type of input
 	 * @return XML reader
 	 * @throws SAXException if a SAX parsing error occurs
 	 */
-	public XMLReader getXMLReader(String contentType) throws SAXException;
+	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException;
 
 	/**
 	 * Gets XSL templates for the given content type.

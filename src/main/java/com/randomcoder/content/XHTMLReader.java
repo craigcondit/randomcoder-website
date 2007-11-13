@@ -144,16 +144,19 @@ public class XHTMLReader extends XMLFilterImpl
 	private int filterLevel = -1;
 
 	private final Set<String> allowedClasses;
-
+	private final URL baseUrl;
+	
 	/**
 	 * Creates a new XHTMLReader.
 	 * @param parent parent reader to wrap
 	 * @param allowedClasses set of allowed css classes
+	 * @param baseUrl base URL for links
 	 */
-	public XHTMLReader(XMLReader parent, Set<String> allowedClasses)
+	public XHTMLReader(XMLReader parent, Set<String> allowedClasses, URL baseUrl)
 	{
 		super(parent);
 		this.allowedClasses = allowedClasses;
+		this.baseUrl = baseUrl;
 	}
 
 	private boolean isAllowedElement(String elName)
@@ -204,6 +207,19 @@ public class XHTMLReader extends XMLFilterImpl
 		return false;
 	}
 
+	private String rebaseUrl(String url)
+	{
+		try
+		{
+			return new URL(baseUrl, url).toExternalForm();
+		}
+		catch (MalformedURLException e)
+		{
+			// shouldn't happen...
+			return "#";
+		}
+	}
+	
 	private String getCanonicalElement(String localName)
 	{
 		String canon = REPLACED_TAGS.get(localName);
@@ -315,11 +331,15 @@ public class XHTMLReader extends XMLFilterImpl
 			{
 				if (isUrlAttribute(tagName, attName))
 				{
-					// filter out urls
+					// filter urls	
+					String url = atts.getValue(i);
 					
-					if (validateUrl(atts.getValue(i)))
+					if (validateUrl(url))
 					{
-						filteredAtts.addAttribute("", attName, attName, atts.getType(i), atts.getValue(i));
+						if (baseUrl != null)
+							url = rebaseUrl(url);
+						
+						filteredAtts.addAttribute("", attName, attName, atts.getType(i), url);
 					}
 					else
 					{

@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.net.URL;
 
 import javax.xml.transform.*;
 import javax.xml.transform.sax.SAXSource;
@@ -60,7 +61,7 @@ public class TextFilter implements ContentFilter
 	// all input is legal here
 	}
 
-	public XMLReader getXMLReader(String contentType)
+	public XMLReader getXMLReader(URL baseUrl, String contentType)
 	{
 		return new TextReader();
 	}

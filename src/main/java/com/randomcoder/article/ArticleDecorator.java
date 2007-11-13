@@ -95,7 +95,7 @@ public class ArticleDecorator
 	 */
 	public String getFormattedText() throws TransformerException, IOException, SAXException
 	{
-		return ContentUtils.formatText(article.getContent(), article.getContentType(), filter);
+		return ContentUtils.formatText(article.getContent(), null, article.getContentType(), filter);
 	}
 		
 	/**
@@ -109,7 +109,7 @@ public class ArticleDecorator
 	{
 		String summary = article.getSummary();
 		if (summary == null) return null;
-		return ContentUtils.formatText(summary, article.getContentType(), filter);
+		return ContentUtils.formatText(summary, null, article.getContentType(), filter);
 	}
 	
 	

@@ -1,6 +1,7 @@
 package com.randomcoder.test.mock.content;
 
 import java.io.*;
+import java.net.URL;
 
 import javax.xml.transform.Templates;
 
@@ -20,7 +21,7 @@ public class ContentFilterMock implements ContentFilter
 		return null;
 	}
 
-	public XMLReader getXMLReader(String contentType) throws SAXException
+	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
 	{
 		return new TextReader();
 	}

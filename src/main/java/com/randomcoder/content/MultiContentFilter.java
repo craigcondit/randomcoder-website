@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Map;
 
 import javax.xml.transform.Templates;
@@ -66,9 +67,9 @@ public class MultiContentFilter implements ContentFilter
 		getFilterForContentType(contentType).validate(contentType, content);
 	}
 
-	public XMLReader getXMLReader(String contentType) throws SAXException
+	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
 	{
-		return getFilterForContentType(contentType).getXMLReader(contentType);
+		return getFilterForContentType(contentType).getXMLReader(baseUrl, contentType);
 	}
 
 	public Templates getXSLTemplates(String contentType)

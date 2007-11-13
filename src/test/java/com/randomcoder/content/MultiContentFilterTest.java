@@ -76,7 +76,7 @@ public class MultiContentFilterTest extends TestCase
 	
 	public void testGetXMLReader() throws Exception
 	{
-		XMLReader reader = filter.getXMLReader("text/plain");		
+		XMLReader reader = filter.getXMLReader(null, "text/plain");		
 		reader.parse(new InputSource(new StringReader("testing")));
 	}
 	

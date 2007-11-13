@@ -23,7 +23,7 @@ public class XHTMLReaderTest extends TestCase
 		Set<String> allowedClasses = new HashSet<String>();
 		allowedClasses.add("allowed");		
 		allowedClasses.add("allowed2");		
-		reader = new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses);
+		reader = new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, null);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
 	}

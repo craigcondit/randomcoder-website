@@ -71,6 +71,6 @@ public class CommentDecorator
 	 */
 	public String getFormattedText() throws TransformerException, IOException, SAXException
 	{
-		return ContentUtils.formatText(comment.getContent(), comment.getContentType(), filter);
+		return ContentUtils.formatText(comment.getContent(), null, comment.getContentType(), filter);
 	}	
 }

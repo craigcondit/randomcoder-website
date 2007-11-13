@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import javax.xml.transform.*;
@@ -45,6 +46,7 @@ public class ContentUtils
 	/**
 	 * Format the given input source using the given filter into XHTML.
 	 * @param mimeType mime type
+	 * @param baseUrl base URL for links, or <code>null</code> to omit
 	 * @param content original content
 	 * @param filter filter instance
 	 * @param output XSLT result object
@@ -54,7 +56,7 @@ public class ContentUtils
 	 * @throws SAXException if xml parsing fails
 	 *
 	 */
-	public static void format(String mimeType, InputSource content, ContentFilter filter, Result output)
+	public static void format(String mimeType, URL baseUrl, InputSource content, ContentFilter filter, Result output)
 	throws TransformerException, IOException, SAXException
 	{
 		// TODO needs unit testing
@@ -73,7 +75,7 @@ public class ContentUtils
 
 		tHandler.setResult(output);
 
-		XMLReader reader = filter.getXMLReader(mimeType);
+		XMLReader reader = filter.getXMLReader(baseUrl, mimeType);
 		reader.setContentHandler(tHandler);
 		reader.parse(content);
 	}
@@ -81,6 +83,7 @@ public class ContentUtils
 	/**
 	 * Format the given input source using the given filter into XHTML.
 	 * @param mimeType mime type
+	 * @param baseUrl base URL for links, or <code>null</code> to omit.
 	 * @param content original content
 	 * @param filter filter instance
 	 * @return XHTML-transformed content
@@ -88,11 +91,11 @@ public class ContentUtils
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails
 	 */
-	public static String format(String mimeType, InputSource content, ContentFilter filter)
+	public static String format(String mimeType, URL baseUrl, InputSource content, ContentFilter filter)
 	throws TransformerException, IOException, SAXException
 	{
 		StringWriter out = new StringWriter();
-		format(mimeType, content, filter, new StreamResult(out));
+		format(mimeType, baseUrl, content, filter, new StreamResult(out));
 		return out.toString();
 	}
 
@@ -101,12 +104,13 @@ public class ContentUtils
 	 * @param content content
 	 * @param contentType content type
 	 * @param filter content filter
+	 * @param baseURL base URL for links, or <code>null</code> to omit
 	 * @return transformed output
 	 * @throws TransformerException if transforming xml fails
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails
 	 */
-	public static String formatText(String content, ContentType contentType, ContentFilter filter)
+	public static String formatText(String content, URL baseUrl, ContentType contentType, ContentFilter filter)
 	throws TransformerException, IOException, SAXException
 	{
 		String mimeType = contentType.getMimeType();
@@ -125,12 +129,13 @@ public class ContentUtils
 
 		SequenceReader reader = new SequenceReader(readers);
 
-		return format(mimeType, new InputSource(reader), filter);
+		return format(mimeType, baseUrl, new InputSource(reader), filter);
 	}
 	
 	/**
 	 * Format the given content to XHTML. 
 	 * @param content content
+	 * @param baseUrl base URL for links, or <code>null</code> to omit
 	 * @param contentType content type
 	 * @param filter content filter
 	 * @param result XSLT result
@@ -139,7 +144,7 @@ public class ContentUtils
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails
 	 */
-	public static void formatText(String content, ContentType contentType, ContentFilter filter, Result result)
+	public static void formatText(String content, URL baseUrl, ContentType contentType, ContentFilter filter, Result result)
 	throws TransformerException, IOException, SAXException
 	{
 		String mimeType = contentType.getMimeType();
@@ -158,6 +163,6 @@ public class ContentUtils
 
 		SequenceReader reader = new SequenceReader(readers);
 
-		format(mimeType, new InputSource(reader), filter, result);
+		format(mimeType, baseUrl, new InputSource(reader), filter, result);
 	}		
 }

@@ -15,7 +15,7 @@ public class ContentUtilsTest extends TestCase
 	
 	public void testFormat() throws Exception
 	{
-		String result = ContentUtils.format("text/plain", new InputSource(new StringReader(SOURCE)), new TextFilter());
+		String result = ContentUtils.format("text/plain", null, new InputSource(new StringReader(SOURCE)), new TextFilter());
 		result = result.replaceAll("\r", "");
 		result = result.replaceAll("\n", "");
 		assertEquals(RESULT, result);
@@ -23,7 +23,7 @@ public class ContentUtilsTest extends TestCase
 
 	public void testFormatText() throws Exception
 	{
-		String result = ContentUtils.formatText(SOURCE, ContentType.TEXT, new TextFilter());
+		String result = ContentUtils.formatText(SOURCE, null, ContentType.TEXT, new TextFilter());
 		result = result.replaceAll("\r", "");
 		result = result.replaceAll("\n", "");
 		assertEquals(RESULT, result);		
@@ -31,18 +31,17 @@ public class ContentUtilsTest extends TestCase
 
 	public void testFormatNoTemplates() throws Exception
 	{
-		ContentUtils.format("bogus", new InputSource(new StringReader(SOURCE)), new ContentFilterMock());
-		ContentUtils.formatText("bogus", ContentType.TEXT, new ContentFilterMock());
-		
+		ContentUtils.format("bogus", null, new InputSource(new StringReader(SOURCE)), new ContentFilterMock());
+		ContentUtils.formatText("bogus", null, ContentType.TEXT, new ContentFilterMock());		
 	}
 
 	public void testFormatTextNoTemplates() throws Exception
 	{
-		ContentUtils.formatText("bogus", ContentType.TEXT, new ContentFilterMock());		
+		ContentUtils.formatText("bogus", null, ContentType.TEXT, new ContentFilterMock());		
 	}
 
 	public void testFormatTextWithPrefixes() throws Exception
 	{
-		ContentUtils.formatText("text", ContentType.XHTML, new XHTMLFilter());		
+		ContentUtils.formatText("text", null, ContentType.XHTML, new XHTMLFilter());		
 	}	
 }

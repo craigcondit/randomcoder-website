@@ -270,6 +270,18 @@
 		<property name="limit" value="20" />
 		<property name="articleDao" ref="articleDao" />
 	</bean>
+
+	<bean id="allRss20FeedController" class="com.randomcoder.feed.AllFeedController">
+		<property name="title" value="randomCoder" />
+		<property name="subtitle" value="// TODO build a better web" />
+		<property name="urlPrefix" value="/feeds/rss20" />
+		<property name="feedGenerator" ref="rss20FeedGenerator" />
+		<property name="feedId" value="atom-all" />
+		<property name="feedUrl" value="http://randomcoder.com/feeds/rss20/all" />
+		<property name="altUrl" value="http://randomcoder.com/" />
+		<property name="limit" value="20" />
+		<property name="articleDao" ref="articleDao" />
+	</bean>
 	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="alwaysUseFullPath" value="true" />
@@ -281,7 +293,8 @@
 				<prop key="/article/delete">articleDeleteController</prop>
 				<prop key="/articles/id/*">articleIdController</prop>
 				<prop key="/articles/*">articlePermalinkController</prop>
-				<prop key="/feeds/atom/all">allAtomFeedController</prop>				
+				<prop key="/feeds/atom/all">allAtomFeedController</prop>
+				<prop key="/feeds/rss20/all">allRss20FeedController</prop>				
 				<prop key="/comment/delete">commentDeleteController</prop>
 				<prop key="/comment/approve">commentApproveController</prop>
 				<prop key="/comment/disapprove">commentDisapproveController</prop>

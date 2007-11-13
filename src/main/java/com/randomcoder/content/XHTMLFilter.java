@@ -1,6 +1,7 @@
 package com.randomcoder.content;
 
 import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 import javax.xml.XMLConstants;
@@ -101,9 +102,9 @@ public class XHTMLFilter implements ContentFilter
 		schema = sFactory.newSchema(new Source[] { nsSource, xhtmlSource });
 	}
 
-	public XMLReader getXMLReader(String contentType) throws SAXException
+	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
 	{
-		return new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses);
+		return new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, baseUrl);
 	}
 
 	public Templates getXSLTemplates(String contentType)
@@ -121,7 +122,8 @@ public class XHTMLFilter implements ContentFilter
 		return SUFFIX;
 	}
 
-	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException
+	public void validate(String contentType, Reader content) 
+	throws InvalidContentException, InvalidContentTypeException, IOException
 	{
 		Validator validator = schema.newValidator();
 		XHTMLErrorHandler handler = new XHTMLErrorHandler();
