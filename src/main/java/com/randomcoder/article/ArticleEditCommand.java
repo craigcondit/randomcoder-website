@@ -58,6 +58,7 @@ public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Ar
 	/**
 	 * Populates the form based on the supplied article
 	 */
+	@Override
 	public void consume(Article article)
 	{
 		setId(article.getId());

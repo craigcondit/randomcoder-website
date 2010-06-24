@@ -8,6 +8,7 @@ public class CardSpaceCredentialsValidatorMock implements CardSpaceCredentialsVa
 {
 	public CardSpaceCredentialsValidatorMock() {}
 
+	@Override
 	public void validate(CardSpaceCredentials credentials) throws AuthenticationException
 	{
 	}

@@ -11,11 +11,13 @@ public class UserDaoMock implements UserDao
 	private final List<User> users = new ArrayList<User>();
 	private long primaryKey = 0;
 	
+	@Override
 	public int countAll()
 	{
 		return users.size();
 	}
 
+	@Override
 	public User findByUserName(String name)
 	{
 		for (User user : users)
@@ -25,6 +27,7 @@ public class UserDaoMock implements UserDao
 		return null;
 	}
 
+	@Override
 	public User findByUserNameEnabled(String name)
 	{
 		for (User user : users)
@@ -34,6 +37,7 @@ public class UserDaoMock implements UserDao
 		return null;
 	}
 
+	@Override
 	public List<User> listAll()
 	{
 		List<User> allUsers = new ArrayList<User>(users);
@@ -41,6 +45,7 @@ public class UserDaoMock implements UserDao
 		return allUsers;
 	}
 
+	@Override
 	public List<User> listAllInRange(int start, int limit)
 	{
 		List<User> allUsers = listAll();
@@ -56,6 +61,7 @@ public class UserDaoMock implements UserDao
 		return allUsers.subList(start, end);
 	}
 
+	@Override
 	public List<User> listEnabled()
 	{
 		List<User> enabled = new LinkedList<User>(listAll());
@@ -68,6 +74,7 @@ public class UserDaoMock implements UserDao
 		return enabled;
 	}
 
+	@Override
 	public Long create(User newInstance)
 	{
 		validateRequiredFields(newInstance);
@@ -81,6 +88,7 @@ public class UserDaoMock implements UserDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public void delete(User persistentObject)
 	{
 		Long id = persistentObject.getId();
@@ -96,6 +104,7 @@ public class UserDaoMock implements UserDao
 		throw new IllegalArgumentException("NOT FOUND: id = " + id);
 	}
 
+	@Override
 	public User read(Long id)
 	{
 		for (Iterator<User> it = users.iterator(); it.hasNext();)
@@ -106,6 +115,7 @@ public class UserDaoMock implements UserDao
 		return null;
 	}
 
+	@Override
 	public void update(User transientObject)
 	{
 		Long id = transientObject.getId();
@@ -132,6 +142,7 @@ public class UserDaoMock implements UserDao
 	
 	protected class UserNameComparator implements Comparator<User>
 	{
+		@Override
 		public int compare(User u1, User u2)
 		{
 			String s1 = u1.getUserName();

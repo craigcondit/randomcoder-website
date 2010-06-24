@@ -183,6 +183,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	/**
 	 * Writes out the contents of the form to the given article.
 	 */
+	@Override
 	public void produce(Article article)
 	{
 		article.setTitle(title);

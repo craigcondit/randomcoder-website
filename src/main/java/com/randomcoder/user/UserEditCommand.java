@@ -56,6 +56,7 @@ public class UserEditCommand extends UserAddCommand implements Consumer<User>
 		this.id = id;
 	}
 
+	@Override
 	public void consume(User user)
 	{
 		setUserName(user.getUserName());

@@ -9,36 +9,43 @@ public class UserDetailsMock implements UserDetails
 
 	public UserDetailsMock() {}
 	
+	@Override
 	public GrantedAuthority[] getAuthorities()
 	{
 		return new GrantedAuthority[] { new GrantedAuthorityImpl("ROLE_TEST") };
 	}
 
+	@Override
 	public String getPassword()
 	{
 		return "pass";
 	}
 
+	@Override
 	public String getUsername()
 	{
 		return "test";
 	}
 
+	@Override
 	public boolean isAccountNonExpired()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isAccountNonLocked()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isCredentialsNonExpired()
 	{
 		return true;
 	}
 
+	@Override
 	public boolean isEnabled()
 	{
 		return true;

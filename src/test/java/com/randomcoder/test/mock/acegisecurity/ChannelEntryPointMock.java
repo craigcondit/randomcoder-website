@@ -13,6 +13,7 @@ public class ChannelEntryPointMock implements ChannelEntryPoint
 	
 	private HttpServletRequest req = null;
 	
+	@Override
 	public void commence(ServletRequest _req, ServletResponse resp)
 	throws IOException, ServletException
 	{

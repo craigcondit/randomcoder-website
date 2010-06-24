@@ -6,6 +6,7 @@ public class AuthenticationManagerMock implements AuthenticationManager
 {
 	public AuthenticationManagerMock() {}
 	
+	@Override
 	public Authentication authenticate(Authentication auth)
 	throws AuthenticationException
 	{

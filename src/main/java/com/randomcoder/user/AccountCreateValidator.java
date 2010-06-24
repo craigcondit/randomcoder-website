@@ -109,6 +109,7 @@ public class AccountCreateValidator implements Validator
 	 * @return
 	 * 	true if targetClass is {@code AccountCreateCommand}, false otherwise
 	 */
+	@Override
 	public boolean supports(Class targetClass)
 	{
 		return AccountCreateCommand.class.equals(targetClass);
@@ -119,6 +120,7 @@ public class AccountCreateValidator implements Validator
 	 * @param target object to validate
 	 * @param errors error object to populate with validation errors
 	 */
+	@Override
 	public void validate(Object target, Errors errors)
 	{
 		AccountCreateCommand command = (AccountCreateCommand) target;

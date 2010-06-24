@@ -59,6 +59,7 @@ public class UserProfileValidator implements Validator
 	 * @param targetClass target class
 	 * @return true if target class is UserProfileCommand, false otherwise
 	 */
+	@Override
 	public boolean supports(Class targetClass)
 	{
 		return UserProfileCommand.class.equals(targetClass);
@@ -69,6 +70,7 @@ public class UserProfileValidator implements Validator
 	 * @param target target object to validate
 	 * @param errors errors object to populate
 	 */
+	@Override
 	public void validate(Object target, Errors errors)
 	{
 		UserProfileCommand command = (UserProfileCommand) target;

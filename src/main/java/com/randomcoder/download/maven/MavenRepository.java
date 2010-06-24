@@ -78,6 +78,7 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	 * Initializes the repository.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		connectionManager = new MultiThreadedHttpConnectionManager();
@@ -88,6 +89,7 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	 * Destroys the repository.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void destroy() throws Exception
 	{
 		connectionManager.shutdown();
@@ -98,6 +100,7 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 	 * @throws PackageListException if an error occurs
 	 * @return List of Package objects
 	 */
+	@Override
 	public List<Package> getPackages() throws PackageListException
 	{
 		logger.debug("Loading package list");

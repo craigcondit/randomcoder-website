@@ -118,6 +118,7 @@ public class UserProfileCommand implements Serializable, Producer<User>
 		this.website = StringUtils.trimToNull(website);
 	}
 
+	@Override
 	public void produce(User target)
 	{
 		target.setWebsite(website);

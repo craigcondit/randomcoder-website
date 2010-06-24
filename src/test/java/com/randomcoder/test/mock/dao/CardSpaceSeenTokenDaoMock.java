@@ -11,6 +11,7 @@ public class CardSpaceSeenTokenDaoMock implements CardSpaceSeenTokenDao
 	private final List<CardSpaceSeenToken> tokens = new ArrayList<CardSpaceSeenToken>();
 	private long primaryKey = 0;
 
+	@Override
 	public CardSpaceSeenToken findByKey(String assertionId, String privatePersonalIdentifier, String issuerHash)
 	{
 		for (CardSpaceSeenToken token : tokens)
@@ -23,6 +24,7 @@ public class CardSpaceSeenTokenDaoMock implements CardSpaceSeenTokenDao
 		return null;
 	}
 
+	@Override
 	public void deleteBefore(Date cutoff)
 	{
 		for (Iterator<CardSpaceSeenToken> it = tokens.iterator(); it.hasNext();)
@@ -33,6 +35,7 @@ public class CardSpaceSeenTokenDaoMock implements CardSpaceSeenTokenDao
 
 	}
 
+	@Override
 	public Long create(CardSpaceSeenToken newInstance)
 	{
 		validateRequiredFields(newInstance);
@@ -46,6 +49,7 @@ public class CardSpaceSeenTokenDaoMock implements CardSpaceSeenTokenDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public CardSpaceSeenToken read(Long id)
 	{
 		for (Iterator<CardSpaceSeenToken> it = tokens.iterator(); it.hasNext();)

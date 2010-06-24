@@ -178,6 +178,7 @@ public class UserAddCommand implements Serializable, Producer<User>
 	/**
 	 * Writes out the contents of the current form to the given user.
 	 */
+	@Override
 	public void produce(User user)
 	{		
 		if (user.getId() == null)

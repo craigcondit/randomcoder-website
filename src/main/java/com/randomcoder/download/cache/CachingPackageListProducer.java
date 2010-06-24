@@ -81,6 +81,7 @@ public class CachingPackageListProducer implements PackageListProducer
 	 * @throws PackageListException if an error occurs
 	 * @return list of packages
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Package> getPackages() throws PackageListException
 	{

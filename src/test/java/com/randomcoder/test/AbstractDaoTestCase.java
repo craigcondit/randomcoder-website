@@ -104,7 +104,6 @@ abstract public class AbstractDaoTestCase extends TestCase
 		return createDao(new HibernateDao(entityClass), daoClass);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected final Object createDao(HibernateDao daoTarget, Class daoClass) throws Exception
 	{
 		daoTarget.setSessionFactory(getSessionFactory());

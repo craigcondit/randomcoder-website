@@ -79,6 +79,7 @@ public class CommentValidator implements Validator
 	 * </p>
 	 * @return true if supported, false otherwise
 	 */
+	@Override
 	public boolean supports(Class givenClass)
 	{
 		return CommentCommand.class.equals(givenClass);
@@ -90,6 +91,7 @@ public class CommentValidator implements Validator
 	 * @param obj {@code CommentCommand} to validate
 	 * @param errors Spring Errors object to populate
 	 */
+	@Override
 	public void validate(Object obj, Errors errors)
 	{
 		CommentCommand command = (CommentCommand) obj;

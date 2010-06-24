@@ -61,6 +61,7 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 	 * Initializes the repository.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		connectionManager = new MultiThreadedHttpConnectionManager();
@@ -71,6 +72,7 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 	 * Destroys the repository.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void destroy() throws Exception
 	{
 		connectionManager.shutdown();
@@ -81,6 +83,7 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 	 * @throws PackageListException if an error occurs
 	 * @return List of Package objects
 	 */
+	@Override
 	public List<Package> getPackages() throws PackageListException
 	{
 		logger.debug("Loading package list");

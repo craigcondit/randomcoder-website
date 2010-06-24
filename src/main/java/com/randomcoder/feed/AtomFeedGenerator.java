@@ -113,11 +113,13 @@ public class AtomFeedGenerator implements FeedGenerator
 		this.applicationInformation = applicationInformation;
 	}
 	
+	@Override
 	public String getContentType()
 	{
 		return "application/atom+xml";
 	}
 
+	@Override
 	public String generateFeed(FeedInfo info) throws FeedException
 	{
 		// need to write out XML

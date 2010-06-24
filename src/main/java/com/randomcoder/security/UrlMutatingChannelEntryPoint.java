@@ -106,6 +106,7 @@ public class UrlMutatingChannelEntryPoint implements ChannelEntryPoint
 	 * @throws IOException if an I/O error occurs
 	 * @throws ServletException if any other error occurs 
 	 */
+	@Override
 	public void commence(ServletRequest request, ServletResponse response) throws IOException, ServletException
 	{
 		HttpServletRequest req = (HttpServletRequest) request;

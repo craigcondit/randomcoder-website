@@ -84,6 +84,7 @@ public class LocalMavenRepository implements PackageListProducer
 	 * @throws PackageListException if an error occurs
 	 * @return List of Package objects
 	 */
+	@Override
 	public List<Package> getPackages() throws PackageListException
 	{
 		logger.debug("Loading package list");

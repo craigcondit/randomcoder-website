@@ -60,6 +60,7 @@ implements CardSpaceCredentialsValidator
 	 * the notBefore and notOnOrAfter claims. 
 	 * @throws AuthenticationException if credentials are invalid
 	 */
+	@Override
 	public void validate(CardSpaceCredentials credentials)
 	throws AuthenticationException
 	{

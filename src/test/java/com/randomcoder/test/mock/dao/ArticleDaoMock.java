@@ -12,6 +12,7 @@ public class ArticleDaoMock implements ArticleDao
 	private final List<Article> articles = new ArrayList<Article>();
 	private long primaryKey = 0;
 
+	@Override
 	public int countBeforeDate(Date endDate)
 	{
 		int count = 0;
@@ -22,6 +23,7 @@ public class ArticleDaoMock implements ArticleDao
 		return count;
 	}
 
+	@Override
 	public int countByTagBeforeDate(Tag tag, Date endDate)
 	{
 		int count = 0;
@@ -32,6 +34,7 @@ public class ArticleDaoMock implements ArticleDao
 		return count;
 	}
 
+	@Override
 	public Article findByPermalink(String permalink)
 	{
 		for (Article article : articles)
@@ -40,6 +43,7 @@ public class ArticleDaoMock implements ArticleDao
 		return null;
 	}
 
+	@Override
 	public List<Article> listByTag(Tag tag)
 	{
 		List<Article> list = new LinkedList<Article>();
@@ -51,11 +55,13 @@ public class ArticleDaoMock implements ArticleDao
 		return list;
 	}
 
+	@Override
 	public Iterator<Article> iterateByTag(Tag tag)
 	{
 		return listByTag(tag).iterator();
 	}
 
+	@Override
 	public List<Article> listAllInRange(int start, int limit)
 	{
 		List<Article> list = listAll();
@@ -71,6 +77,7 @@ public class ArticleDaoMock implements ArticleDao
 		return list.subList(start, end);
 	}
 
+	@Override
 	public List<Article> listBeforeDateInRange(Date endDate, int start, int limit)
 	{
 		List<Article> list = listAll();
@@ -92,6 +99,7 @@ public class ArticleDaoMock implements ArticleDao
 		return list.subList(start, end);
 	}
 
+	@Override
 	public List<Article> listBetweenDates(Date startDate, Date endDate)
 	{
 		List<Article> list = listAll();
@@ -106,6 +114,7 @@ public class ArticleDaoMock implements ArticleDao
 		return list;
 	}
 
+	@Override
 	public List<Article> listByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit)
 	{
 		List<Article> list = listAll();
@@ -128,6 +137,7 @@ public class ArticleDaoMock implements ArticleDao
 		return list.subList(start, end);
 	}
 
+	@Override
 	public List<Article> listByTagBetweenDates(Tag tag, Date startDate, Date endDate)
 	{
 		List<Article> list = listAll();
@@ -143,6 +153,7 @@ public class ArticleDaoMock implements ArticleDao
 		return list;
 	}
 
+	@Override
 	public Long create(Article newInstance)
 	{
 		validateRequiredFields(newInstance);
@@ -157,6 +168,7 @@ public class ArticleDaoMock implements ArticleDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public void delete(Article persistentObject)
 	{
 		Long id = persistentObject.getId();
@@ -172,6 +184,7 @@ public class ArticleDaoMock implements ArticleDao
 		throw new IllegalArgumentException("NOT FOUND: id = " + id);
 	}
 
+	@Override
 	public void update(Article transientObject)
 	{
 		Long id = transientObject.getId();
@@ -187,6 +200,7 @@ public class ArticleDaoMock implements ArticleDao
 		articles.add(transientObject);
 	}
 
+	@Override
 	public Article read(Long id)
 	{
 		for (Article article : articles)
@@ -220,6 +234,7 @@ public class ArticleDaoMock implements ArticleDao
 	
 	protected class ArticleDateComparator implements Comparator<Article>
 	{
+		@Override
 		public int compare(Article a1, Article a2)
 		{
 			return a2.getCreationDate().compareTo(a1.getCreationDate());

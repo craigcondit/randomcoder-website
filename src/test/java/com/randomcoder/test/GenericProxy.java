@@ -11,6 +11,7 @@ public class GenericProxy implements InvocationHandler
 		_target = target;
 	}
 	
+	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable
 	{
 		return method.invoke(_target, args);

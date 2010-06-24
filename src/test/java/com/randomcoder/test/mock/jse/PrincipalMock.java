@@ -11,6 +11,7 @@ public class PrincipalMock implements Principal
 		this.name = name;
 	}
 	
+	@Override
 	public String getName()
 	{
 		return name;

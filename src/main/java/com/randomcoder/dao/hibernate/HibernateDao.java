@@ -67,28 +67,33 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		this.type = type;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public PK create(T o)
 	{
 		return (PK) getSession().save(o);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public T read(PK id)
 	{
 		return (T) getSession().get(type, id);
 	}
 
+	@Override
 	public void update(T o)
 	{
 		getSession().update(o);
 	}
 
+	@Override
 	public void delete(T o)
 	{
 		getSession().delete(o);
 	}
 
+	@Override
 	public int count(Method method, Object[] args)
 	{
 		Query query = prepareQuery(method, args, 0, 0);
@@ -98,29 +103,34 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		return result.intValue();
 	}
 
+	@Override
 	public Object find(Method method, Object[] args)
 	{
 		return prepareQuery(method, args, 0, 0).uniqueResult();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> list(Method method, final Object[] args)
 	{
 		return prepareQuery(method, args, 0, 0).list();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<T> list(Method method, final Object[] args, int start, int limit)
 	{
 		return prepareQuery(method, args, start, limit).list();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Iterator<T> iterate(Method method, final Object[] args)
 	{
 		return prepareQuery(method, args, 0, 0).iterate();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Iterator<T> iterate(Method method, final Object[] args, int start, int limit)
 	{

@@ -54,6 +54,7 @@ public class Role implements Serializable, Comparable<Role>
 	 */
 	public static final Comparator<Role> NAME_COMPARATOR = new Comparator<Role>()
 	{
+		@Override
 		public int compare(Role r1, Role r2)
 		{
 			String s1 = StringUtils.trimToEmpty(r1.getName());
@@ -67,6 +68,7 @@ public class Role implements Serializable, Comparable<Role>
 	 */
 	public static final Comparator<Role> DESCRIPTION_COMPARATOR = new Comparator<Role>()
 	{
+		@Override
 		public int compare(Role r1, Role r2)
 		{
 			String s1 = StringUtils.trimToEmpty(r1.getDescription());
@@ -170,6 +172,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * Compares this role to another role by description.
 	 * @return 0 if equal, -1 if this is before, 1 if this is after
 	 */
+	@Override
 	public int compareTo(Role o)
 	{
 		return DESCRIPTION_COMPARATOR.compare(this, o);

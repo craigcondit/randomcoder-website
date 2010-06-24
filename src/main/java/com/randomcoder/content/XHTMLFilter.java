@@ -102,26 +102,31 @@ public class XHTMLFilter implements ContentFilter
 		schema = sFactory.newSchema(new Source[] { nsSource, xhtmlSource });
 	}
 
+	@Override
 	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
 	{
 		return new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, baseUrl);
 	}
 
+	@Override
 	public Templates getXSLTemplates(String contentType)
 	{
 		return templates;
 	}
 
+	@Override
 	public String getPrefix(String contentType)
 	{
 		return PREFIX;
 	}
 
+	@Override
 	public String getSuffix(String contentType)
 	{
 		return SUFFIX;
 	}
 
+	@Override
 	public void validate(String contentType, Reader content) 
 	throws InvalidContentException, InvalidContentTypeException, IOException
 	{

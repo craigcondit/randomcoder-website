@@ -70,6 +70,7 @@ public class NullLogoutHandler implements LogoutHandler
 	 * @param response http response
 	 * @param authentication auth token
 	 */
+	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 	{
 		if (authentication == null) authentication = new NullAuthentication(username);		
@@ -86,37 +87,44 @@ public class NullLogoutHandler implements LogoutHandler
 			this.username = username;
 		}
 		
+		@Override
 		public GrantedAuthority[] getAuthorities()
 		{
 			return new GrantedAuthority[] {};
 		}
 
+		@Override
 		public Object getCredentials()
 		{
 			return null;
 		}
 
+		@Override
 		public Object getDetails()
 		{
 			return null;
 		}
 
+		@Override
 		public Object getPrincipal()
 		{
 			return username;
 		}
 
+		@Override
 		public boolean isAuthenticated()
 		{
 			return false;
 		}
 
+		@Override
 		public void setAuthenticated(boolean authenticated) throws IllegalArgumentException
 		{
 			if (authenticated)
 				throw new IllegalArgumentException("Cannot set authenticated to true");
 		}
 
+		@Override
 		public String getName()
 		{
 			return username;

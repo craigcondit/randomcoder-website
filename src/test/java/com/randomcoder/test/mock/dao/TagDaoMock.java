@@ -19,11 +19,13 @@ public class TagDaoMock implements TagDao
 		this.articleDao = articleDao;
 	}
 	
+	@Override
 	public int countAll()
 	{
 		return tags.size();
 	}
 
+	@Override
 	public Tag findByName(String name)
 	{
 		for (Tag tag : tags)
@@ -37,6 +39,7 @@ public class TagDaoMock implements TagDao
 		return null;
 	}
 
+	@Override
 	public List<Tag> listAll()
 	{
 		List<Tag> list = new ArrayList<Tag>(tags);
@@ -48,6 +51,7 @@ public class TagDaoMock implements TagDao
 		return list;
 	}
 
+	@Override
 	public List<Tag> listAllInRange(int start, int limit)
 	{
 		List<Tag> list = listAll();
@@ -63,6 +67,7 @@ public class TagDaoMock implements TagDao
 		return list.subList(start, end);
 	}
 
+	@Override
 	public Long create(Tag newInstance)
 	{
 		validateRequiredFields(newInstance);
@@ -77,6 +82,7 @@ public class TagDaoMock implements TagDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public void delete(Tag persistentObject)
 	{
 		Long id = persistentObject.getId();
@@ -92,6 +98,7 @@ public class TagDaoMock implements TagDao
 		throw new IllegalArgumentException("NOT FOUND: id = " + id);
 	}
 
+	@Override
 	public void update(Tag transientObject)
 	{
 		Long id = transientObject.getId();
@@ -107,6 +114,7 @@ public class TagDaoMock implements TagDao
 		tags.add(transientObject);
 	}
 
+	@Override
 	public Tag read(Long id)
 	{
 		for (Tag tag : tags)
@@ -116,6 +124,7 @@ public class TagDaoMock implements TagDao
 		return null;
 	}
 
+	@Override
 	public List<TagStatistics> queryAllTagStatistics()
 	{
 		List<Tag> tagList = listAll();
@@ -125,6 +134,7 @@ public class TagDaoMock implements TagDao
 		return statList;
 	}
 
+	@Override
 	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit)
 	{
 		List<TagStatistics> list = queryAllTagStatistics();
@@ -140,6 +150,7 @@ public class TagDaoMock implements TagDao
 		return list.subList(start, end);
 	}
 
+	@Override
 	public int queryMostArticles()
 	{
 		int max = 0;

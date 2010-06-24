@@ -78,6 +78,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Gets a list of authorities granted to the current user.
 	 * @return array of granted authorities
 	 */
+	@Override
 	public GrantedAuthority[] getAuthorities()
 	{
 		GrantedAuthority[] authArray = new GrantedAuthority[authorities.size()];
@@ -88,6 +89,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Gets the password for this user.
 	 * @return password (never null)
 	 */
+	@Override
 	public String getPassword()
 	{
 		return password;
@@ -97,6 +99,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Gets the username for this user.
 	 * @return user name (never null)
 	 */
+	@Override
 	public String getUsername()
 	{
 		return username;
@@ -106,6 +109,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Always returns true because randomcoder.com users do not expire.
 	 * @return always true
 	 */
+	@Override
 	public boolean isAccountNonExpired()
 	{
 		return true;
@@ -115,6 +119,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Always returns true because randomcoder.com users are not locked.
 	 * @return always true
 	 */
+	@Override
 	public boolean isAccountNonLocked()
 	{
 		return true;
@@ -124,6 +129,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Always returns true because randomcoder.com credentials do not expire.
 	 * @return always true
 	 */
+	@Override
 	public boolean isCredentialsNonExpired()
 	{
 		return true;
@@ -133,6 +139,7 @@ public final class UserDetailsImpl implements UserDetails
 	 * Determines if the current user is enabled.
 	 * @return true if enabled, false otherwise
 	 */
+	@Override
 	public boolean isEnabled()
 	{
 		return enabled;

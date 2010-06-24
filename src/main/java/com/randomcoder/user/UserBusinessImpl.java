@@ -63,6 +63,7 @@ public class UserBusinessImpl implements UserBusiness
 		this.cardSpaceTokenDao = cardSpaceTokenDao;
 	}
 
+	@Override
 	@Transactional
 	public void changePassword(String userName, String password)
 	{
@@ -76,6 +77,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.update(user);
 	}
 
+	@Override
 	@Transactional
 	public void createUser(Producer<User> producer)
 	{
@@ -84,6 +86,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.create(user);		
 	}
 	
+	@Override
 	@Transactional
 	public void createAccount(Producer<User> producer)
 	{
@@ -92,6 +95,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.create(user);		
 	}
 
+	@Override
 	@Transactional
 	public void createAccount(Producer<User> userProducer, Producer<CardSpaceToken> tokenProducer)	
 	{
@@ -109,6 +113,7 @@ public class UserBusinessImpl implements UserBusiness
 		cardSpaceTokenDao.create(token);
 	}
 	
+	@Override
 	@Transactional
 	public void updateUser(Producer<User> producer, Long userId)
 	{
@@ -117,6 +122,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.update(user);
 	}
 
+	@Override
 	@Transactional
 	public void deleteUser(Long userId)
 	{
@@ -131,6 +137,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.delete(user);		
 	}
 
+	@Override
 	@Transactional(readOnly=true)
 	public void loadUserForEditing(Consumer<User> consumer, Long userId)
 	{
@@ -146,6 +153,7 @@ public class UserBusinessImpl implements UserBusiness
 		return user;
 	}
 
+	@Override
 	@Transactional
 	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials)
 	{
@@ -167,6 +175,7 @@ public class UserBusinessImpl implements UserBusiness
 		cardSpaceTokenDao.create(token);		
 	}	
 
+	@Override
 	@Transactional
 	public void auditUsernamePasswordLogin(String userName)
 	{
@@ -180,6 +189,7 @@ public class UserBusinessImpl implements UserBusiness
 		userDao.update(user);
 	}
 
+	@Override
 	@Transactional
 	public void auditCardSpaceLogin(CardSpaceCredentials credentials)
 	{
@@ -200,6 +210,7 @@ public class UserBusinessImpl implements UserBusiness
 		cardSpaceTokenDao.update(token);		
 	}
 	
+	@Override
 	@Transactional
 	public void deleteCardSpaceToken(String userName, Long tokenId)
 	{

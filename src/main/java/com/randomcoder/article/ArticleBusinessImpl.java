@@ -134,6 +134,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		this.moderator = moderator;
 	}
 	
+	@Override
 	@Transactional
 	public void createArticle(Producer<Article> producer, String userName)
 	{
@@ -155,6 +156,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.create(article);		
 	}
 
+	@Override
 	@Transactional
 	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent)
 	{
@@ -231,6 +233,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.update(article);
 	}
 
+	@Override
 	@Transactional
 	public void updateArticle(Producer<Article> producer, Long articleId, String userName)
 	{
@@ -254,6 +257,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.update(article);		
 	}
 
+	@Override
 	@Transactional(readOnly=true)
 	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName)
 	{
@@ -265,6 +269,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		consumer.consume(article);
 	}
 	
+	@Override
 	@Transactional
 	public void deleteArticle(String userName, Long articleId)
 	{
@@ -276,6 +281,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		articleDao.delete(article);
 	}
 	
+	@Override
 	@Transactional(rollbackFor=ModerationException.class)
 	public Article approveComment(Long commentId) throws ModerationException
 	{
@@ -293,6 +299,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		return article;
 	}
 
+	@Override
 	@Transactional(rollbackFor=ModerationException.class)
 	public Article disapproveComment(Long commentId) throws ModerationException
 	{
@@ -310,6 +317,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		return article;
 	}
 
+	@Override
 	@Transactional
 	public Article deleteComment(Long commentId)
 	{
@@ -327,6 +335,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		return article;
 	}
 
+	@Override
 	@Transactional
 	public boolean moderateComments(int count) throws ModerationException
 	{

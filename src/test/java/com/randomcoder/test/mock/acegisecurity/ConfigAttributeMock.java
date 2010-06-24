@@ -13,5 +13,6 @@ public class ConfigAttributeMock implements ConfigAttribute
 		this.attribute = attribute;
 	}
 	
+	@Override
 	public String getAttribute() { return attribute; }
 }

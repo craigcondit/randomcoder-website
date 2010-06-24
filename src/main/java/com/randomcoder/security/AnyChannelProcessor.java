@@ -51,6 +51,7 @@ public class AnyChannelProcessor implements ChannelProcessor
 	 * @param invocation not used
 	 * @param definition not used
 	 */
+	@Override
 	public void decide(FilterInvocation invocation, ConfigAttributeDefinition definition)
 	throws IOException, ServletException
 	{
@@ -61,6 +62,7 @@ public class AnyChannelProcessor implements ChannelProcessor
 	 * @param att attribute to query
 	 * @return true if attribute matches <code>REQUIRES_ANY</code>
 	 */
+	@Override
 	public boolean supports(ConfigAttribute att)	
 	{
 		return (ATTRIBUTE.equals(att.getAttribute()));

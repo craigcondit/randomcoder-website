@@ -47,6 +47,7 @@ public class VersionComparator implements Comparator<String>
    * 	       first argument is less than, equal to, or greater than the
    *	       second. 
 	 */
+	@Override
 	public int compare(String version1, String version2)
 	{
 		// sanitize

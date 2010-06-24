@@ -93,6 +93,7 @@ public class AkismetModerator implements Moderator, InitializingBean, Disposable
 	 * Initializes the Akismet filter. 
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		connectionManager = new MultiThreadedHttpConnectionManager();
@@ -149,11 +150,13 @@ public class AkismetModerator implements Moderator, InitializingBean, Disposable
 	 * Shuts down the Akismet filter.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void destroy() throws Exception
 	{
 		connectionManager.shutdown();
 	}
 
+	@Override
 	public boolean validate(Comment comment) throws ModerationException
 	{
 		PostMethod post = null;
@@ -182,6 +185,7 @@ public class AkismetModerator implements Moderator, InitializingBean, Disposable
 		}
 	}
 		
+	@Override
 	public void markAsHam(Comment comment) throws ModerationException
 	{
 		PostMethod post = null;
@@ -206,6 +210,7 @@ public class AkismetModerator implements Moderator, InitializingBean, Disposable
 		}
 	}
 
+	@Override
 	public void markAsSpam(Comment comment) throws ModerationException
 	{
 		PostMethod post = null;

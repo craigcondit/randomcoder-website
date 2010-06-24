@@ -82,6 +82,7 @@ public final class CardSpaceTokenSpec implements Serializable, Producer<CardSpac
 		return expirationDate;
 	}
 
+	@Override
 	public void produce(CardSpaceToken target)
 	{
 		target.setPrivatePersonalIdentifier(ppid);

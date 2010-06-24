@@ -11,6 +11,7 @@ public class LogoutHandlerMock implements LogoutHandler
 	
 	public LogoutHandlerMock() {}
 	
+	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth)
 	{
 		authentication = auth;

@@ -53,6 +53,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws SAXException if an error occurs
 	 * @see XMLReader#parse(InputSource)
 	 */
+	@Override
 	abstract public void parse(InputSource input) throws IOException, SAXException;
 
 	/**
@@ -61,6 +62,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws IOException if resource cannot be read
 	 * @throws SAXException if an error occurs
 	 */
+	@Override
 	public void parse(String systemId) throws IOException, SAXException
 	{
 		parse(new InputSource(systemId));
@@ -70,6 +72,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Gets the content handler defined for this reader.
 	 * @return content handler
 	 */
+	@Override
 	public ContentHandler getContentHandler()
 	{
 		return contentHandler;
@@ -79,6 +82,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the content handler for this reader.
 	 * @param contentHandler content handler
 	 */
+	@Override
 	public void setContentHandler(ContentHandler contentHandler)
 	{
 		this.contentHandler = contentHandler;
@@ -88,6 +92,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Gets the DTD handler for this reader.
 	 * @return DTD handler
 	 */
+	@Override
 	public DTDHandler getDTDHandler()
 	{
 		return dtdHandler;
@@ -97,6 +102,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the DTD handler for this reader.
 	 * @param dtdHandler DTD handler
 	 */
+	@Override
 	public void setDTDHandler(DTDHandler dtdHandler)
 	{
 		this.dtdHandler = dtdHandler;
@@ -106,6 +112,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Gets the entity resolver for this reader.
 	 * @return entity resolver
 	 */
+	@Override
 	public EntityResolver getEntityResolver()
 	{
 		return entityResolver;
@@ -115,6 +122,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the entity resolver for this reader.
 	 * @param entityResolver entity resolver
 	 */
+	@Override
 	public void setEntityResolver(EntityResolver entityResolver)
 	{
 		this.entityResolver = entityResolver;
@@ -124,6 +132,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Gets the error handler for this reader.
 	 * @return error handler
 	 */
+	@Override
 	public ErrorHandler getErrorHandler()
 	{
 		return errorHandler;
@@ -133,6 +142,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the error handler for this reader.
 	 * @param errorHandler error handler
 	 */
+	@Override
 	public void setErrorHandler(ErrorHandler errorHandler)
 	{
 		this.errorHandler = errorHandler;
@@ -145,6 +155,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws SAXNotSupportedException if the method is not supported
 	 * @return true if feature is available, false otherwise
 	 */
+	@Override
 	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
 		Boolean exists = features.get(name);
@@ -160,6 +171,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws SAXNotRecognizedException if the feature is not recognized
 	 * @throws SAXNotSupportedException if the method is not supported
 	 */
+	@Override
 	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
 		features.put(name, value);
@@ -172,6 +184,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws SAXNotRecognizedException if the property is not recognized
 	 * @throws SAXNotSupportedException if the method is not supported
 	 */
+	@Override
 	public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
 		return properties.get(name);
@@ -184,6 +197,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @throws SAXNotRecognizedException if the property is not recognized
 	 * @throws SAXNotSupportedException if the method is not supported
 	 */
+	@Override
 	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException
 	{
 		properties.put(name, value);

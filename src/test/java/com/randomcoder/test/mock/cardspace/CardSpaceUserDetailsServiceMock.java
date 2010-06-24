@@ -15,6 +15,7 @@ public class CardSpaceUserDetailsServiceMock implements CardSpaceUserDetailsServ
 		this.returnNull = returnNull;
 	}
 
+	@Override
 	public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials)
 	throws AuthenticationException
 	{

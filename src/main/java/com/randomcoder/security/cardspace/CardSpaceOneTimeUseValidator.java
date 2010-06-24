@@ -54,6 +54,7 @@ public class CardSpaceOneTimeUseValidator implements CardSpaceCredentialsValidat
 	 * is only presented once.
 	 * @throws AuthenticationException if credentials are invalid
 	 */
+	@Override
 	@Transactional(noRollbackFor={AuthenticationException.class, BadCredentialsException.class})
 	public void validate(CardSpaceCredentials credentials)
 	throws AuthenticationException

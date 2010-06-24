@@ -219,6 +219,7 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 	/**
 	 * Writes out the contents of the current form to the given user.
 	 */
+	@Override
 	public void produce(User user)
 	{		
 		user.setUserName(userName);

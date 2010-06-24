@@ -172,6 +172,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	/**
 	 * Populates a comment object with data.
 	 */
+	@Override
 	public void produce(Comment comment)
 	{
 		if (anonymous)

@@ -59,6 +59,7 @@ public class ChangePasswordValidator implements Validator
 	 * @return
 	 * 	true if givenClass is {@code ChangePasswordCommand}, false otherwise
 	 */
+	@Override
 	public boolean supports(Class givenClass)
 	{
 		return ChangePasswordCommand.class.equals(givenClass);
@@ -69,6 +70,7 @@ public class ChangePasswordValidator implements Validator
 	 * @param obj object to validate
 	 * @param errors error object to populate with validation errors
 	 */
+	@Override
 	public void validate(Object obj, Errors errors)
 	{
 		ChangePasswordCommand command = (ChangePasswordCommand) obj;

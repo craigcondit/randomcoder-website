@@ -54,6 +54,7 @@ public class AuthenticationAuditListener implements ApplicationListener
 	 * Handles an application event.
 	 * @param event event to handle
 	 */
+	@Override
 	public void onApplicationEvent(ApplicationEvent event)
 	{
 		if (event instanceof AuthenticationSuccessEvent)

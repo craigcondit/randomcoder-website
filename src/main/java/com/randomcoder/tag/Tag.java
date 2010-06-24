@@ -58,6 +58,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 */
 	public static final Comparator<Tag> NAME_COMPARATOR = new Comparator<Tag>()
 	{
+		@Override
 		public int compare(Tag t1, Tag t2)
 		{
 			String s1 = StringUtils.trimToEmpty(t1.getName());
@@ -71,6 +72,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 */
 	public static final Comparator<Tag> DISPLAY_NAME_COMPARATOR = new Comparator<Tag>()
 	{
+		@Override
 		public int compare(Tag t1, Tag t2)
 		{
 			String s1 = StringUtils.trimToEmpty(t1.getDisplayName());
@@ -196,6 +198,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * Compares this Tag to another Tag by name.
 	 * @return 0 if equal, -1 if this is before, 1 if this is after
 	 */
+	@Override
 	public int compareTo(Tag o)
 	{
 		return NAME_COMPARATOR.compare(this, o);

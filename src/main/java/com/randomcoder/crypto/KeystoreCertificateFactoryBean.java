@@ -102,6 +102,7 @@ public class KeystoreCertificateFactoryBean implements FactoryBean, Initializing
 	 * Performs final setup of the class.
 	 * @throws Exception if initialization fails
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		InputStream is = keystoreLocation.getInputStream();
@@ -122,6 +123,7 @@ public class KeystoreCertificateFactoryBean implements FactoryBean, Initializing
 	 * Gets the object type this factory returns.
 	 * @return always <code>CertificateContext</code>
 	 */
+	@Override
 	public Class getObjectType()
 	{
 		return CertificateContext.class;
@@ -131,6 +133,7 @@ public class KeystoreCertificateFactoryBean implements FactoryBean, Initializing
 	 * Determines if this factory returns a singleton or not.
 	 * @return always false
 	 */
+	@Override
 	public boolean isSingleton()
 	{
 		return false;
@@ -141,6 +144,7 @@ public class KeystoreCertificateFactoryBean implements FactoryBean, Initializing
 	 * @return CertificateContext instance
 	 * @throws Exception if instantiation fails
 	 */
+	@Override
 	public Object getObject() throws Exception
 	{
 		if (!init)

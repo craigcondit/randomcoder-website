@@ -78,6 +78,7 @@ implements AuthenticationProvider, InitializingBean
 	 * Fired after all properties have been set.
 	 * @throws IllegalArgumentException if properties are not valid
 	 */
+	@Override
 	public void afterPropertiesSet() throws IllegalArgumentException
 	{
 		if (validators == null || validators.size() == 0)
@@ -93,6 +94,7 @@ implements AuthenticationProvider, InitializingBean
 	 * @throws AuthenticationException if authentication fails
 	 * @return fully authenticated CardSpaceAuthenticationToken
 	 */
+	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException
 	{
 		if (auth == null) return null;
@@ -115,6 +117,7 @@ implements AuthenticationProvider, InitializingBean
 	 * @return true if target is <code>CardSpaceAuthenticationToken</code>,
 	 *         false otherwise
 	 */
+	@Override
 	public boolean supports(Class target)
 	{
 		if (target.equals(CardSpaceAuthenticationToken.class)) return true;

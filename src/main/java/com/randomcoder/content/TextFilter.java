@@ -56,26 +56,31 @@ public class TextFilter implements ContentFilter
 		templates = tFactory.newTemplates(new SAXSource(new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
 	}
 
+	@Override
 	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException
 	{
 	// all input is legal here
 	}
 
+	@Override
 	public XMLReader getXMLReader(URL baseUrl, String contentType)
 	{
 		return new TextReader();
 	}
 
+	@Override
 	public Templates getXSLTemplates(String contentType)
 	{
 		return templates;
 	}
 
+	@Override
 	public String getPrefix(String contentType)
 	{
 		return null;
 	}
 
+	@Override
 	public String getSuffix(String contentType)
 	{
 		return null;

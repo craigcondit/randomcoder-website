@@ -75,6 +75,7 @@ implements CardSpaceCredentialsValidator
 	 * the issueInstant claim. 
 	 * @throws AuthenticationException if credentials are invalid
 	 */
+	@Override
 	public void validate(CardSpaceCredentials credentials)
 	throws AuthenticationException
 	{

@@ -50,6 +50,7 @@ public class DefaultFinderNamingStrategy implements FinderNamingStrategy
 	 * finderMethod is {@code "findAllInRange"}, the resulting query method would
 	 * be <strong>User.All</strong>. </p>
 	 */
+	@Override
 	public String queryNameFromMethod(Class findTargetType, Method finderMethod)
 	{
 		String methodName = finderMethod.getName();

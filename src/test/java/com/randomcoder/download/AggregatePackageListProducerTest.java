@@ -91,6 +91,7 @@ public class AggregatePackageListProducerTest extends TestCase
 			this.filename = filename;
 		}
 		
+		@Override
 		public List<Package> getPackages()
 		{
 			List<Package> packages = new ArrayList<Package>();

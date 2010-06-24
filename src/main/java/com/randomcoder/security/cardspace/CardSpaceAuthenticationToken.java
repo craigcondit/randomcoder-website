@@ -67,6 +67,7 @@ public class CardSpaceAuthenticationToken extends AbstractAuthenticationToken
 	 * Gets the credentials associated with this token.
 	 * @return credentials
 	 */
+	@Override
 	public Object getCredentials()
 	{
 		return credentials;
@@ -76,6 +77,7 @@ public class CardSpaceAuthenticationToken extends AbstractAuthenticationToken
 	 * Gets the principal associated with this token.
 	 * @return principal
 	 */
+	@Override
 	public Object getPrincipal()
 	{
 		return principal;

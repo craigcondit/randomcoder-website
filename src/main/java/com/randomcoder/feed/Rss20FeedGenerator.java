@@ -89,6 +89,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 		this.contentFilter = contentFilter;
 	}
 
+	@Override
 	public String generateFeed(FeedInfo info) throws FeedException
 	{
 		// need to write out XML
@@ -237,6 +238,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 		return writer.toString();	
 	}
 
+	@Override
 	public String getContentType()
 	{
 		return "application/rss+xml";

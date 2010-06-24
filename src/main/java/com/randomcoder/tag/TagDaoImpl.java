@@ -48,11 +48,13 @@ public class TagDaoImpl extends HibernateDao<Tag, Long> implements TagDaoBase
 		super(Tag.class);
 	}
 
+	@Override
 	public List<TagStatistics> queryAllTagStatistics()
 	{
 		return queryAllTagStatisticsInRange(0, 0);
 	}
 
+	@Override
 	public List<TagStatistics> queryAllTagStatisticsInRange(int start, int limit)
 	{
 		Query query = getSession().getNamedQuery(QUERY_ALL_TAG_STATISTICS);
@@ -77,6 +79,7 @@ public class TagDaoImpl extends HibernateDao<Tag, Long> implements TagDaoBase
 		return tagStats;
 	}
 
+	@Override
 	public int queryMostArticles()
 	{
 		Number result = (Number) getSession().getNamedQuery(QUERY_MOST_ARTICLES).uniqueResult();

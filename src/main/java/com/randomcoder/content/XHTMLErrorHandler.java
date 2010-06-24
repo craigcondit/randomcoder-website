@@ -68,6 +68,7 @@ public class XHTMLErrorHandler implements ErrorHandler
 	 * @param ex SAX exception to handle.
 	 * @throws SAXException the passed-in exception
 	 */
+	@Override
 	public void warning(SAXParseException ex) throws SAXException
 	{
 		handle(ex);
@@ -79,6 +80,7 @@ public class XHTMLErrorHandler implements ErrorHandler
 	 * @param ex SAX exception to handle.
 	 * @throws SAXException the passed-in exception
 	 */
+	@Override
 	public void error(SAXParseException ex) throws SAXException
 	{
 		handle(ex);
@@ -90,6 +92,7 @@ public class XHTMLErrorHandler implements ErrorHandler
 	 * @param ex SAX exception to handle.
 	 * @throws SAXException the passed-in exception
 	 */
+	@Override
 	public void fatalError(SAXParseException ex) throws SAXException
 	{
 		handle(ex);

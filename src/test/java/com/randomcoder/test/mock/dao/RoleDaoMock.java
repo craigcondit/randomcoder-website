@@ -9,6 +9,7 @@ public class RoleDaoMock implements RoleDao
 	private long primaryKey = 0;	
 	private final List<Role> roles = new ArrayList<Role>();
 
+	@Override
 	public Role findByName(String name)
 	{
 		for (Role role : roles)
@@ -18,6 +19,7 @@ public class RoleDaoMock implements RoleDao
 		return null;
 	}
 
+	@Override
 	public List<Role> listAll()
 	{
 		List<Role> all = new ArrayList<Role>(roles);
@@ -25,6 +27,7 @@ public class RoleDaoMock implements RoleDao
 		return all;
 	}
 
+	@Override
 	public Role read(Long id)
 	{
 		for (Iterator<Role> it = roles.iterator(); it.hasNext();)

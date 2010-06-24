@@ -51,6 +51,7 @@ implements CardSpaceSeenTokenDaoBase
 	 * Deletes all tokens created before the cutoff date.
 	 * @param cutoff cutoff date
 	 */
+	@Override
 	public void deleteBefore(Date cutoff)
 	{
 		Query query = getSession().getNamedQuery(QUERY_DELETE_BEFORE);

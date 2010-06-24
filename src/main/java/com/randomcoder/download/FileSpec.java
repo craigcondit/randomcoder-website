@@ -179,6 +179,7 @@ public class FileSpec implements Serializable, Cloneable, Comparable<FileSpec>
 	 * @return negative, 0, or positive number depending on if this object
 	 *         is before, equal, or after <code>obj</code>
 	 */
+	@Override
 	public int compareTo(FileSpec obj)
 	{
 		if (obj == null) return 1;

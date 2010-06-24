@@ -80,6 +80,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	 * Retrieves the user with the given username.
 	 * @param username user name to lookup
 	 */
+	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
 	{
 		User user = userDao.findByUserName(username);
@@ -91,6 +92,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	 * Retrieves the user with the given CardSpace credentials.
 	 * @param credentials CardSpace credentials to lookup
 	 */
+	@Override
 	public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials) throws AuthenticationException
 	{
 		String ppid = credentials.getPrivatePersonalIdentifier();

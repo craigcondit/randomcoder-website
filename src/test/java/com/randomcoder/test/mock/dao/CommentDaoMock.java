@@ -12,6 +12,7 @@ public class CommentDaoMock implements CommentDao
 	private final List<Comment> comments = new ArrayList<Comment>();
 	private long primaryKey;
 	
+	@Override
 	public Long create(Comment newInstance)
 	{
 		validateRequiredFields(newInstance);		
@@ -20,6 +21,7 @@ public class CommentDaoMock implements CommentDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public void delete(Comment persistentObject)
 	{
 		Long id = persistentObject.getId();
@@ -35,6 +37,7 @@ public class CommentDaoMock implements CommentDao
 		throw new IllegalArgumentException("NOT FOUND: id = " + id);
 	}
 
+	@Override
 	public Comment read(Long id)
 	{
 		for (Comment comment : comments)
@@ -44,6 +47,7 @@ public class CommentDaoMock implements CommentDao
 		return null;
 	}
 
+	@Override
 	public void update(Comment transientObject)
 	{
 		Long id = transientObject.getId();
@@ -59,6 +63,7 @@ public class CommentDaoMock implements CommentDao
 		comments.add(transientObject);
 	}
 
+	@Override
 	public Iterator<Comment> iterateForModerationInRange(int start, int limit)
 	{
 		List<Comment> list = new ArrayList<Comment>(comments);
@@ -100,6 +105,7 @@ public class CommentDaoMock implements CommentDao
 	
 	static class CreationDateComparator implements Comparator<Comment>
 	{
+		@Override
 		public int compare(Comment o1, Comment o2)
 		{
 			return o1.getCreationDate().compareTo(o2.getCreationDate());

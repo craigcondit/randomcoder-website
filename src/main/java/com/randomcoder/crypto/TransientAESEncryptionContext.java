@@ -68,6 +68,7 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 	 * properties have been set.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		if (keyData != null) return; // can't do this twice!
@@ -77,6 +78,7 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 		keyData = kgen.generateKey().getEncoded();
 	}
 
+	@Override
 	public byte[] encrypt(byte[] data) throws EncryptionException
 	{
 		if (data == null)
@@ -105,6 +107,7 @@ public final class TransientAESEncryptionContext implements EncryptionContext, I
 		}
 	}
 	
+	@Override
 	public byte[] decrypt(byte[] data) throws EncryptionException
 	{
 		if (data == null)

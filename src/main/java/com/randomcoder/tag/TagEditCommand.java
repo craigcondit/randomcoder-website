@@ -26,6 +26,7 @@ public class TagEditCommand extends TagAddCommand implements Consumer<Tag>
 		this.id = id;
 	}
 
+	@Override
 	public void consume(Tag tag)
 	{
 		setId(tag.getId());

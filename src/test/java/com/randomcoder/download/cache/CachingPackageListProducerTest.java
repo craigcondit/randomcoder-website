@@ -59,6 +59,7 @@ public class CachingPackageListProducerTest extends TestCase
 
 	class MockPackageListProducer implements PackageListProducer
 	{
+		@Override
 		public List<Package> getPackages() throws PackageListException
 		{
 			return new ArrayList<Package>();

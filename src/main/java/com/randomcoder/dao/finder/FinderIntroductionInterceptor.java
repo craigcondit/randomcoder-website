@@ -48,6 +48,7 @@ public class FinderIntroductionInterceptor implements IntroductionInterceptor
 	 * @param methodInvocation method invocation
 	 * @throws Throwable if target method throws an exception
 	 */
+	@Override
 	public Object invoke(MethodInvocation methodInvocation) throws Throwable
 	{
 
@@ -75,6 +76,7 @@ public class FinderIntroductionInterceptor implements IntroductionInterceptor
 	 * @param intf inteface to check
 	 * @return true if intf is a subclass of FinderExecutor
 	 */
+	@Override
 	public boolean implementsInterface(Class intf)
 	{
 		return intf.isInterface() && FinderExecutor.class.isAssignableFrom(intf);

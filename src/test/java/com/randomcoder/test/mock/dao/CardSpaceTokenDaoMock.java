@@ -11,6 +11,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 	private final List<CardSpaceToken> tokens = new ArrayList<CardSpaceToken>();
 	private long primaryKey = 0;
 
+	@Override
 	public CardSpaceToken findByPrivatePersonalIdentifier(String ppid, String issuerHash)
 	{
 		for (CardSpaceToken token : tokens)
@@ -21,6 +22,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 		return null;
 	}
 
+	@Override
 	public List<CardSpaceToken> listByUser(User user)
 	{
 		List<CardSpaceToken> list = new ArrayList<CardSpaceToken>(tokens);
@@ -28,6 +30,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 		return list;
 	}
 
+	@Override
 	public void update(CardSpaceToken transientObject)
 	{
 		Long id = transientObject.getId();
@@ -43,6 +46,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 		tokens.add(transientObject);
 	}
 
+	@Override
 	public Long create(CardSpaceToken newInstance)
 	{		
 		validateRequiredFields(newInstance);
@@ -59,6 +63,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 		return newInstance.getId();
 	}
 
+	@Override
 	public void delete(CardSpaceToken persistentObject)
 	{
 		Long id = persistentObject.getId();
@@ -74,6 +79,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 		throw new IllegalArgumentException("NOT FOUND: id = " + id);
 	}
 
+	@Override
 	public CardSpaceToken read(Long id)
 	{
 		for (Iterator<CardSpaceToken> it = tokens.iterator(); it.hasNext();)
@@ -88,6 +94,7 @@ public class CardSpaceTokenDaoMock implements CardSpaceTokenDao
 	{
 		public CardSpaceTokenLoginDateComparator() {}
 		
+		@Override
 		public int compare(CardSpaceToken o1, CardSpaceToken o2)
 		{
 			Date d1 = o1.getLastLoginDate();

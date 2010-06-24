@@ -62,26 +62,31 @@ public class MultiContentFilter implements ContentFilter
 		this.defaultFilter = defaultFilter;
 	}
 
+	@Override
 	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException
 	{
 		getFilterForContentType(contentType).validate(contentType, content);
 	}
 
+	@Override
 	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
 	{
 		return getFilterForContentType(contentType).getXMLReader(baseUrl, contentType);
 	}
 
+	@Override
 	public Templates getXSLTemplates(String contentType)
 	{
 		return getFilterForContentType(contentType).getXSLTemplates(contentType);
 	}
 
+	@Override
 	public String getPrefix(String contentType)
 	{
 		return getFilterForContentType(contentType).getPrefix(contentType);
 	}
 
+	@Override
 	public String getSuffix(String contentType)
 	{
 		return getFilterForContentType(contentType).getSuffix(contentType);

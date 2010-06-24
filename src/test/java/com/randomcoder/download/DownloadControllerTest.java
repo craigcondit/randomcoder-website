@@ -88,6 +88,7 @@ public class DownloadControllerTest extends TestCase
 		private static final String[] EXTENSIONS = new String[] { ".jar", "-javadoc.jar" };
 		private static final String[] TYPES = new String[] { "jar", "javadoc" };
 		
+		@Override
 		public List<Package> getPackages()
 		{
 			List<Package> packages = new ArrayList<Package>();

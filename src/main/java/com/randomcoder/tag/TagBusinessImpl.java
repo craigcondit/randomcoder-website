@@ -61,6 +61,7 @@ public class TagBusinessImpl implements TagBusiness
 		this.articleDao = articleDao;
 	}
 
+	@Override
 	public List<TagCloudEntry> getTagCloud()
 	{
 		List<TagStatistics> tagStats = tagDao.queryAllTagStatistics();
@@ -77,6 +78,7 @@ public class TagBusinessImpl implements TagBusiness
 		return cloud;
 	}
 
+	@Override
 	@Transactional(readOnly=true)
 	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId)
 	{
@@ -84,6 +86,7 @@ public class TagBusinessImpl implements TagBusiness
 		consumer.consume(tag);
 	}
 	
+	@Override
 	@Transactional
 	public void createTag(Producer<Tag> producer)
 	{
@@ -92,6 +95,7 @@ public class TagBusinessImpl implements TagBusiness
 		tagDao.create(tag);		
 	}
 
+	@Override
 	@Transactional
 	public void updateTag(Producer<Tag> producer, Long tagId)
 	{
@@ -100,6 +104,7 @@ public class TagBusinessImpl implements TagBusiness
 		tagDao.update(tag);
 	}
 
+	@Override
 	@Transactional
 	public void deleteTag(Long tagId)
 	{

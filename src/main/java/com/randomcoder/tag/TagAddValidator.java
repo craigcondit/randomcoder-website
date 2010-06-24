@@ -56,6 +56,7 @@ public class TagAddValidator implements Validator
 	 * @param targetClass class to check
 	 * @return true if class is {@code TagAddCommand}, false otherwise
 	 */
+	@Override
 	public boolean supports(Class targetClass)
 	{
 		return TagAddCommand.class.equals(targetClass);
@@ -66,6 +67,7 @@ public class TagAddValidator implements Validator
 	 * @param target object to validate
 	 * @param errors errors object to hold resulting validation errors
 	 */
+	@Override
 	public void validate(Object target, Errors errors)
 	{
 		TagAddCommand command = (TagAddCommand) target;

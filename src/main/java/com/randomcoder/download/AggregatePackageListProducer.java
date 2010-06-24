@@ -56,6 +56,7 @@ public class AggregatePackageListProducer implements PackageListProducer
 	 * @throws PackageListException if an error occurs
 	 * @return List of Package elements
 	 */
+	@Override
 	public List<Package> getPackages()
 	throws PackageListException
 	{

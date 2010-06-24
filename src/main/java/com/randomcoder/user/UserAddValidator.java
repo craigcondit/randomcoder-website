@@ -87,6 +87,7 @@ public class UserAddValidator implements Validator
 	 * @param targetClass class to check
 	 * @return true if targetClass is {@code UserAddCommand}, false otherwise
 	 */
+	@Override
 	public boolean supports(Class targetClass)
 	{
 		return UserAddCommand.class.equals(targetClass);
@@ -97,6 +98,7 @@ public class UserAddValidator implements Validator
 	 * @param target object to validate
 	 * @param errors error object to populate with validation errors
 	 */
+	@Override
 	public void validate(Object target, Errors errors)
 	{
 		UserAddCommand command = (UserAddCommand) target;

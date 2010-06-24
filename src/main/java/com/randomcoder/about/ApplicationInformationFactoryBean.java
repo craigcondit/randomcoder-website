@@ -62,6 +62,7 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 	 * Initializes the factory.
 	 * @throws Exception if an error occurs
 	 */
+	@Override
 	public void afterPropertiesSet() throws Exception
 	{
 		Properties p = new Properties();
@@ -95,6 +96,7 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 	 * @throws Exception if an error occurs
 	 * @return ApplicationInformation instance
 	 */
+	@Override
 	public Object getObject() throws Exception
 	{
 		return info;
@@ -104,6 +106,7 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 	 * Gets the class of the returned object.
 	 * @return ApplicationInformation.class
 	 */
+	@Override
 	public Class getObjectType()
 	{
 		return ApplicationInformation.class;
@@ -113,5 +116,6 @@ public class ApplicationInformationFactoryBean implements FactoryBean, Initializ
 	 * Determines if the returned object is a singleton.
 	 * @return true always
 	 */
+	@Override
 	public boolean isSingleton() { return true; }
 }

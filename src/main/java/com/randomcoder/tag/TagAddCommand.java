@@ -85,6 +85,7 @@ public class TagAddCommand implements Serializable, Producer<Tag>
 		this.displayName = StringUtils.trimToNull(displayName);
 	}
 
+	@Override
 	public void produce(Tag tag)
 	{
 		if (tag.getId() == null)

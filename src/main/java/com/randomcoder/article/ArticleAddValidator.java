@@ -106,6 +106,7 @@ public class ArticleAddValidator implements Validator
 	 * 
 	 * @param givenClass class to check
 	 */
+	@Override
 	public boolean supports(Class givenClass)
 	{
 		return ArticleAddCommand.class.equals(givenClass);
@@ -117,6 +118,7 @@ public class ArticleAddValidator implements Validator
 	 * @param obj {@code ArticleAddCommand} to validate
 	 * @param errors Spring Errors object to populate
 	 */
+	@Override
 	public void validate(Object obj, Errors errors)
 	{
 		ArticleAddCommand command = (ArticleAddCommand) obj;
