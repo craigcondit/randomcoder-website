@@ -87,7 +87,6 @@ public class SamlAttributeSpec implements Serializable
 	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof SamlAttributeSpec)) return false;
-		if (obj == null) return false;
 		
 		SamlAttributeSpec other = (SamlAttributeSpec) obj;
 		
