@@ -1,6 +1,6 @@
 -- Add admin user, password 'admin'
 INSERT INTO users (username, password, email, website, enabled) VALUES (
-	'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@randomcoder.com', 'http://randomcoder.com/', true
+	'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@randomcoder.org', 'http://randomcoder.org/', true
 );
 
 INSERT INTO user_role_link (user_id, role_id) VALUES (
@@ -30,7 +30,7 @@ INSERT INTO user_role_link (user_id, role_id) VALUES (
 
 -- Add test user, password 'test'
 INSERT INTO users (username, password, email, website, enabled) VALUES (
-	'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test@randomcoder.com', null, true
+	'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test@randomcoder.org', null, true
 );
 
 INSERT INTO user_role_link (user_id, role_id) VALUES (

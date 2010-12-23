@@ -11,13 +11,13 @@
   <packaging>war</packaging>
   <name>Randomcoder Website</name>
   <version>2.5-SNAPSHOT</version>
-  <description>This project contains the RandomCoder.Com website.</description>
-  <url>http://randomcoder.com/maven/site/randomcoder-website/</url>
+  <description>This project contains the RandomCoder.Org website.</description>
+  <url>http://randomcoder.org/maven/site/randomcoder-website/</url>
   <inceptionYear>2006</inceptionYear>
   <scm>
-    <connection>scm:svn:http://randomcoder.com/repos/public/randomcoder-website/trunk</connection>
-    <developerConnection>scm:svn:https://randomcoder.com/repos/public/randomcoder-website/trunk</developerConnection>
-    <url>http://randomcoder.com/repos/public/randomcoder-website/trunk</url>
+    <connection>scm:svn:http://randomcoder.org/repos/public/randomcoder-website/trunk</connection>
+    <developerConnection>scm:svn:https://randomcoder.org/repos/public/randomcoder-website/trunk</developerConnection>
+    <url>http://randomcoder.org/repos/public/randomcoder-website/trunk</url>
   </scm>
   <profiles>
   	<profile>
@@ -40,7 +40,7 @@
       </snapshots>
       <id>randomcoder-release</id>
       <name>Randomcoder Release</name>
-      <url>http://randomcoder.com/maven/repository/release</url>
+      <url>http://randomcoder.org/maven/repository/release</url>
     </repository>
     <repository>
       <releases>
@@ -51,7 +51,7 @@
       </snapshots>
       <id>randomcoder-snapshot</id>
       <name>Randomcoder Snapshot</name>
-      <url>http://randomcoder.com/maven/repository/snapshot</url>
+      <url>http://randomcoder.org/maven/repository/snapshot</url>
     </repository>
   </repositories>  
   <dependencies>
@@ -160,6 +160,12 @@
       <groupId>org.acegisecurity</groupId>
       <artifactId>acegi-security</artifactId>
       <version>1.0.3</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.easymock</groupId>
+    	<artifactId>easymock</artifactId>
+    	<version>2.2</version>
+    	<scope>test</scope>
     </dependency>
     <dependency>
     	<groupId>org.hibernate</groupId>
@@ -376,7 +382,7 @@
 						<link>http://aopalliance.sourceforge.net/doc/</link>
 						<link>http://ehcache.sourceforge.net/javadoc/</link>
 						<link>http://www.acegisecurity.org/multiproject/acegi-security/apidocs/</link>
-						<link>http://randomcoder.com/maven/site/randomcoder-taglibs/apidocs/</link>			
+						<link>http://randomcoder.org/maven/site/randomcoder-taglibs/apidocs/</link>			
   				</links>
   				<excludePackageNames>jsp</excludePackageNames>
   			</configuration>

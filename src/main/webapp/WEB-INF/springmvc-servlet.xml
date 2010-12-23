@@ -265,8 +265,8 @@
 		<property name="urlPrefix" value="/feeds/atom" />
 		<property name="feedGenerator" ref="atomFeedGenerator" />
 		<property name="feedId" value="atom-all" />
-		<property name="feedUrl" value="http://randomcoder.com/feeds/atom/all" />
-		<property name="altUrl" value="http://randomcoder.com/" />
+		<property name="feedUrl" value="http://randomcoder.org/feeds/atom/all" />
+		<property name="altUrl" value="http://randomcoder.org/" />
 		<property name="limit" value="20" />
 		<property name="articleDao" ref="articleDao" />
 	</bean>
@@ -277,8 +277,8 @@
 		<property name="urlPrefix" value="/feeds/rss20" />
 		<property name="feedGenerator" ref="rss20FeedGenerator" />
 		<property name="feedId" value="atom-all" />
-		<property name="feedUrl" value="http://randomcoder.com/feeds/rss20/all" />
-		<property name="altUrl" value="http://randomcoder.com/" />
+		<property name="feedUrl" value="http://randomcoder.org/feeds/rss20/all" />
+		<property name="altUrl" value="http://randomcoder.org/" />
 		<property name="limit" value="20" />
 		<property name="articleDao" ref="articleDao" />
 	</bean>

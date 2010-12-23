@@ -161,7 +161,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		
 		// write feed generator
 		Element generatorEl = doc.createElementNS(ATOM_1_0_NS, "generator");
-		generatorEl.setAttribute("uri", "http://randomcoder.com/");
+		generatorEl.setAttribute("uri", "http://randomcoder.org/");
 		generatorEl.setAttribute("version", applicationInformation.getApplicationVersion());
 		generatorEl.appendChild(doc.createTextNode(applicationInformation.getApplicationName()));
 		root.appendChild(generatorEl);

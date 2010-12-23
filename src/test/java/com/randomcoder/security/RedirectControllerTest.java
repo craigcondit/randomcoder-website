@@ -38,10 +38,10 @@ public class RedirectControllerTest extends TestCase
 
 	public void testHandle() throws Exception
 	{
-		command.setUrl("http://randomcoder.com/test/");		
+		command.setUrl("http://randomcoder.org/test/");		
 		ModelAndView mav = controller.handle(request, response, command, errors);
 		assertNull("MAV specified", mav);
-		assertEquals("Wrong redirect", "http://randomcoder.com/test/", response.getRedirectedUrl());
+		assertEquals("Wrong redirect", "http://randomcoder.org/test/", response.getRedirectedUrl());
 	}
 
 	public void testHandleError() throws Exception

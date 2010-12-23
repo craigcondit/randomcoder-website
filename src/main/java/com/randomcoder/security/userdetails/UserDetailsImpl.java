@@ -106,7 +106,7 @@ public final class UserDetailsImpl implements UserDetails
 	}
 
 	/**
-	 * Always returns true because randomcoder.com users do not expire.
+	 * Always returns true because randomcoder.org users do not expire.
 	 * @return always true
 	 */
 	@Override
@@ -116,7 +116,7 @@ public final class UserDetailsImpl implements UserDetails
 	}
 
 	/**
-	 * Always returns true because randomcoder.com users are not locked.
+	 * Always returns true because randomcoder.org users are not locked.
 	 * @return always true
 	 */
 	@Override
@@ -126,7 +126,7 @@ public final class UserDetailsImpl implements UserDetails
 	}
 
 	/**
-	 * Always returns true because randomcoder.com credentials do not expire.
+	 * Always returns true because randomcoder.org credentials do not expire.
 	 * @return always true
 	 */
 	@Override
