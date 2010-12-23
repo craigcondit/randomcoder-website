@@ -50,7 +50,6 @@ public class ContentUtils
 	 * @param content original content
 	 * @param filter filter instance
 	 * @param output XSLT result object
-	 * @return XHTML-transformed content
 	 * @throws TransformerException if transforming xml fails
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails
@@ -104,7 +103,7 @@ public class ContentUtils
 	 * @param content content
 	 * @param contentType content type
 	 * @param filter content filter
-	 * @param baseURL base URL for links, or <code>null</code> to omit
+	 * @param baseUrl base URL for links, or <code>null</code> to omit
 	 * @return transformed output
 	 * @throws TransformerException if transforming xml fails
 	 * @throws IOException if an I/O error occurs
@@ -139,7 +138,6 @@ public class ContentUtils
 	 * @param contentType content type
 	 * @param filter content filter
 	 * @param result XSLT result
-	 * @return transformed output
 	 * @throws TransformerException if transforming xml fails
 	 * @throws IOException if an I/O error occurs
 	 * @throws SAXException if xml parsing fails

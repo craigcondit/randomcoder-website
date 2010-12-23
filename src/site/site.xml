@@ -1,4 +1,4 @@
-<site>
+<project>
   <bannerLeft>
   	<src>http://randomcoder.org/images/randomcoder-logo.png</src>
   	<href>../../../</href>
@@ -16,4 +16,4 @@
   	${reports}
   	
   </body>
-</site>
+</project>
