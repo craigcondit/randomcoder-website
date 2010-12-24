@@ -97,9 +97,9 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-    	<groupId>com.randomcoder</groupId>
+    	<groupId>org.randomcoder</groupId>
     	<artifactId>randomcoder-taglibs</artifactId>
-    	<version>1.5.2</version>
+    	<version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
