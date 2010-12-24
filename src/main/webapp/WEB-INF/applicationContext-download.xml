@@ -14,6 +14,19 @@
 				<bean class="org.randomcoder.download.maven.MavenProject">
 					<property name="projectName" value="randomcoder-website" />
 					<property name="projectDescription" value="Randomcoder.org web site" />
+					<property name="directory" value="org/randomcoder/randomcoder-website" />
+					<property name="extensionMappings">
+						<map>
+							<entry key="-src.tar.bz2" value="src" />
+							<entry key="-src.tar.gz" value="src" />
+							<entry key="-src.zip" value="src" />
+							<entry key="-javadoc.jar" value="javadoc" />
+						</map>
+					</property>
+				</bean>
+				<bean class="org.randomcoder.download.maven.MavenProject">
+					<property name="projectName" value="randomcoder-website-old" />
+					<property name="projectDescription" value="Randomcoder.com web site (old version)" />
 					<property name="directory" value="com/randomcoder/randomcoder-website" />
 					<property name="extensionMappings">
 						<map>
@@ -27,6 +40,21 @@
 				<bean class="org.randomcoder.download.maven.MavenProject">
 					<property name="projectName" value="randomcoder-taglibs" />
 					<property name="projectDescription" value="JSP tag libraries for common website functionality" />
+					<property name="directory" value="org/randomcoder/randomcoder-taglibs" />					
+					<property name="extensionMappings">
+						<map>
+							<entry key=".jar" value="jar" />
+							<entry key="-src.tar.bz2" value="src" />
+							<entry key="-src.tar.gz" value="src" />
+							<entry key="-src.zip" value="src" />
+							<entry key="-javadoc.jar" value="javadoc" />
+							<entry key="-tlddoc.jar" value="tlddoc" />
+						</map>
+					</property>
+				</bean>
+				<bean class="org.randomcoder.download.maven.MavenProject">
+					<property name="projectName" value="randomcoder-taglibs-old" />
+					<property name="projectDescription" value="JSP tag libraries for common website functionality (old version)" />
 					<property name="directory" value="com/randomcoder/randomcoder-taglibs" />					
 					<property name="extensionMappings">
 						<map>
@@ -47,7 +75,7 @@
 		<property name="projects">
 			<list>
 				<bean class="org.randomcoder.download.http.LocalHttpProject">
-					<property name="projectName" value="randomcoder-taglibs" />
+					<property name="projectName" value="randomcoder-taglibs-old" />
 					<property name="projectDescription" value="JSP tag libraries for common website functionality" />
 					<property name="baseUrl" value="http://randomcoder.org/projects/taglibs/" />
 					<property name="baseDir" ref="taglibsRepositoryDir" />
