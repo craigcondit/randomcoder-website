@@ -4,7 +4,7 @@
   <parent>
     <artifactId>randomcoder-base</artifactId>
     <groupId>org.randomcoder</groupId>
-    <version>9</version>
+    <version>11</version>
   </parent>
   <groupId>com.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
