@@ -6,12 +6,12 @@
 			http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean id="mavenRepository" class="com.randomcoder.download.maven.LocalMavenRepository">
+	<bean id="mavenRepository" class="org.randomcoder.download.maven.LocalMavenRepository">
 		<property name="url" value="http://randomcoder.org/maven/repository/release/" />
 		<property name="dir" ref="mavenRepositoryDir" />
 		<property name="projects">
 			<list>
-				<bean class="com.randomcoder.download.maven.MavenProject">
+				<bean class="org.randomcoder.download.maven.MavenProject">
 					<property name="projectName" value="randomcoder-website" />
 					<property name="projectDescription" value="Randomcoder.org web site" />
 					<property name="directory" value="com/randomcoder/randomcoder-website" />
@@ -24,7 +24,7 @@
 						</map>
 					</property>
 				</bean>
-				<bean class="com.randomcoder.download.maven.MavenProject">
+				<bean class="org.randomcoder.download.maven.MavenProject">
 					<property name="projectName" value="randomcoder-taglibs" />
 					<property name="projectDescription" value="JSP tag libraries for common website functionality" />
 					<property name="directory" value="com/randomcoder/randomcoder-taglibs" />					
@@ -43,10 +43,10 @@
 		</property>
 	</bean>
 	
-	<bean id="legacyRepository" class="com.randomcoder.download.http.LocalHttpRepository">
+	<bean id="legacyRepository" class="org.randomcoder.download.http.LocalHttpRepository">
 		<property name="projects">
 			<list>
-				<bean class="com.randomcoder.download.http.LocalHttpProject">
+				<bean class="org.randomcoder.download.http.LocalHttpProject">
 					<property name="projectName" value="randomcoder-taglibs" />
 					<property name="projectDescription" value="JSP tag libraries for common website functionality" />
 					<property name="baseUrl" value="http://randomcoder.org/projects/taglibs/" />
@@ -79,7 +79,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean class="com.randomcoder.download.http.LocalHttpProject">
+				<bean class="org.randomcoder.download.http.LocalHttpProject">
 					<property name="projectName" value="randomcoder-citadel" />
 					<property name="projectDescription" value="Java security framework (deprecated)" />
 					<property name="baseUrl" value="http://randomcoder.org/projects/citadel/" />
@@ -112,7 +112,7 @@
 	</bean>
 	
 	<!-- aggregate repositories -->	
-	<bean id="packageListProducer" class="com.randomcoder.download.AggregatePackageListProducer">
+	<bean id="packageListProducer" class="org.randomcoder.download.AggregatePackageListProducer">
 		<property name="producers">
 			<list>
 				<ref local="cachingMavenRepository" />
@@ -122,21 +122,21 @@
 	</bean>	
 	
 	<!-- caching -->	
-	<bean id="cachingMavenRepository" class="com.randomcoder.download.cache.CachingPackageListProducer">
+	<bean id="cachingMavenRepository" class="org.randomcoder.download.cache.CachingPackageListProducer">
 		<property name="target" ref="mavenRepository" />
 		<property name="cache">
 			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<property name="cacheName" value="com.randomcoder.MAVEN_REPOSITORY_CACHE" />
+				<property name="cacheName" value="org.randomcoder.MAVEN_REPOSITORY_CACHE" />
 			</bean>
 		</property>
 		<property name="cacheKey" value="mavenRepository" />
 	</bean>
 
-	<bean id="cachingLegacyRepository" class="com.randomcoder.download.cache.CachingPackageListProducer">
+	<bean id="cachingLegacyRepository" class="org.randomcoder.download.cache.CachingPackageListProducer">
 		<property name="target" ref="legacyRepository" />
 		<property name="cache">
 			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-				<property name="cacheName" value="com.randomcoder.LEGACY_REPOSITORY_CACHE" />
+				<property name="cacheName" value="org.randomcoder.LEGACY_REPOSITORY_CACHE" />
 			</bean>
 		</property>
 		<property name="cacheKey" value="legacyRepository" />

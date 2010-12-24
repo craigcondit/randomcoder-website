@@ -27,7 +27,7 @@
 	</bean>
 	
 	<!-- Default view for simple pages -->
-	<bean id="main-layout" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="main-layout" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="templateName" value="template" />
 		<property name="url" value="/WEB-INF/jsp/layout/main.jsp" />
 		<property name="attributes">
@@ -49,13 +49,13 @@
 	</bean>
 	
 	<!-- View for wide pages (no right section) -->
-	<bean id="wide-layout" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="wide-layout" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
 	<!-- Login page -->
-	<bean id="login" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="login" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
 		<property name="attributes">
 			<map>
@@ -83,7 +83,7 @@
 	</bean>
 	
 	<!-- Login error page -->
-	<bean id="login-error" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="login-error" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="login" />
 		<property name="attributes">
 			<map>
@@ -96,7 +96,7 @@
 	</bean>
 	
 	<!-- Home page -->
-	<bean id="home" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="home" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
 		<property name="attributes">
 			<map>
@@ -119,7 +119,7 @@
 		</property>
 	</bean>
 
-	<bean id="account-create" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="account-create" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -135,7 +135,7 @@
 		</property>
 	</bean>
 
-	<bean id="account-create-done" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="account-create-done" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -150,7 +150,7 @@
 	</bean>
 
 	<!-- Download -->
-	<bean id="download" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="download" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -166,7 +166,7 @@
 	</bean>
 
 	<!-- User list -->
-	<bean id="user-list" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="user-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -183,7 +183,7 @@
 	</bean>
 
 	<!-- Tag list -->
-	<bean id="tag-list" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="tag-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -200,7 +200,7 @@
 	</bean>
 
 	<!-- User Profile -->
-	<bean id="user-profile" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="user-profile" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
 		<property name="attributes">
 			<map>
@@ -215,7 +215,7 @@
 		</property>
 	</bean>
 	
-	<bean id="article-tag-list" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="article-tag-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="home" />
 		<property name="attributes">
 			<map>
@@ -224,7 +224,7 @@
 		</property>
 	</bean>
 	
-	<bean id="article-view" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="article-view" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -241,7 +241,7 @@
 		</property>
 	</bean>
 	
-	<bean id="change-password" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="change-password" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -257,7 +257,7 @@
 		</property>
 	</bean>
 	
-	<bean id="article-add" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="article-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -274,7 +274,7 @@
 		</property>
 	</bean>
 	
-	<bean id="article-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="article-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="article-add" />
 		<property name="attributes">
 			<map>
@@ -285,7 +285,7 @@
 		</property>
 	</bean>
 
-	<bean id="legal-about" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="legal-about" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -299,7 +299,7 @@
 		</property>
 	</bean>
 
-	<bean id="legal-license" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="legal-license" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -313,7 +313,7 @@
 		</property>
 	</bean>
 
-	<bean id="user-add" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="user-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -330,7 +330,7 @@
 		</property>
 	</bean>
 	
-	<bean id="user-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="user-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="user-add" />
 		<property name="attributes">
 			<map>
@@ -341,7 +341,7 @@
 		</property>
 	</bean>
 
-	<bean id="tag-add" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="tag-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="attributes">
 			<map>
@@ -358,7 +358,7 @@
 		</property>
 	</bean>
 	
-	<bean id="tag-edit" class="com.randomcoder.springmvc.JstlTemplateView">
+	<bean id="tag-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="tag-add" />
 		<property name="attributes">
 			<map>

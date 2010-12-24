@@ -20,31 +20,31 @@
 		<property name="viewName" value="legal-license" />
 	</bean>
 	
-	<bean id="redirectController" class="com.randomcoder.security.RedirectController">
-		<property name="commandClass" value="com.randomcoder.security.RedirectCommand" />
+	<bean id="redirectController" class="org.randomcoder.security.RedirectController">
+		<property name="commandClass" value="org.randomcoder.security.RedirectCommand" />
 	</bean>
 	
-	<bean id="downloadController" class="com.randomcoder.download.DownloadController">
+	<bean id="downloadController" class="org.randomcoder.download.DownloadController">
 		<property name="viewName" value="download" />
 		<property name="supportedMethods" value="GET" />
 		<property name="packageListProducer" ref="packageListProducer" />
-		<property name="commandClass" value="com.randomcoder.download.DownloadCommand" />
+		<property name="commandClass" value="org.randomcoder.download.DownloadCommand" />
 	</bean>
 	
-	<bean id="articleAddValidator" class="com.randomcoder.article.ArticleAddValidator">
+	<bean id="articleAddValidator" class="org.randomcoder.article.ArticleAddValidator">
 		<property name="articleDao" ref="articleDao" />
 		<property name="contentFilter" ref="contentFilter" />
 		<property name="maximumSummaryLength" value="1000" />
 	</bean>
 
-	<bean id="articleEditValidator" class="com.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />
+	<bean id="articleEditValidator" class="org.randomcoder.article.ArticleEditValidator" parent="articleAddValidator" />
 
-	<bean id="commentValidator" class="com.randomcoder.article.comment.CommentValidator">
+	<bean id="commentValidator" class="org.randomcoder.article.comment.CommentValidator">
 		<property name="contentFilter" ref="contentFilter" />
 	</bean>
 	
 	<bean id="abstractArticleListController" abstract="true">
-		<property name="commandClass" value="com.randomcoder.article.ArticlePageCommand" />
+		<property name="commandClass" value="org.randomcoder.article.ArticlePageCommand" />
 		<property name="viewName" value="home" />
 		<property name="articleDao" ref="articleDao" />
 		<property name="defaultPageSize" value="10" />
@@ -53,13 +53,13 @@
 		<property name="tagBusiness" ref="tagBusiness" />	
 	</bean>
 	
-	<bean id="homeController" class="com.randomcoder.article.HomeController" parent="abstractArticleListController" />
+	<bean id="homeController" class="org.randomcoder.article.HomeController" parent="abstractArticleListController" />
 	
-	<bean id="userProfileController" class="com.randomcoder.user.UserProfileController">
+	<bean id="userProfileController" class="org.randomcoder.user.UserProfileController">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 		<property name="userBusiness" ref="userBusiness" />
-		<property name="commandClass" value="com.randomcoder.user.UserProfileCommand" />
+		<property name="commandClass" value="org.randomcoder.user.UserProfileCommand" />
 		<property name="certificateContext" ref="certificateContext" />
 		<property name="formView" value="user-profile" />
 		<property name="successView" value="user-profile-redirect" />
@@ -69,18 +69,18 @@
 		<property name="validator" ref="userProfileValidator" />
 	</bean>	
 	
-	<bean id="userProfileValidator" class="com.randomcoder.user.UserProfileValidator">
+	<bean id="userProfileValidator" class="org.randomcoder.user.UserProfileValidator">
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 	
-	<bean id="userProfileCardSpaceDeleteController" class="com.randomcoder.user.UserProfileCardSpaceDeleteController">
+	<bean id="userProfileCardSpaceDeleteController" class="org.randomcoder.user.UserProfileCardSpaceDeleteController">
 		<property name="viewName" value="user-profile-redirect" />
-		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 		
-	<bean id="articleTagListController" class="com.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
-		<property name="commandClass" value="com.randomcoder.article.ArticleTagPageCommand" />
+	<bean id="articleTagListController" class="org.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
+		<property name="commandClass" value="org.randomcoder.article.ArticleTagPageCommand" />
 		<property name="tagDao" ref="tagDao" />
 		<property name="urlPrefix" value="/tags/" />
 		<property name="viewName" value="article-tag-list" />
@@ -92,15 +92,15 @@
 		<property name="articleDao" ref="articleDao" />
 		<property name="articleBusiness" ref="articleBusiness" />
 		<property name="contentFilter" ref="contentFilter" />	
-		<property name="commandClass" value="com.randomcoder.article.comment.CommentCommand" />
+		<property name="commandClass" value="org.randomcoder.article.comment.CommentCommand" />
 		<property name="validator" ref="commentValidator" />
 	</bean>
 	
-	<bean id="articleIdController" class="com.randomcoder.article.ArticleIdController" parent="abstractSingleArticleController">
+	<bean id="articleIdController" class="org.randomcoder.article.ArticleIdController" parent="abstractSingleArticleController">
 		<property name="urlPrefix" value="/articles/id/" />
 	</bean>
 
-	<bean id="articlePermalinkController" class="com.randomcoder.article.ArticlePermalinkController" parent="abstractSingleArticleController">
+	<bean id="articlePermalinkController" class="org.randomcoder.article.ArticlePermalinkController" parent="abstractSingleArticleController">
 		<property name="urlPrefix" value="/articles/" />
 	</bean>
 
@@ -121,62 +121,62 @@
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 	
-	<bean id="articleAddController" class="com.randomcoder.article.ArticleAddController" parent="abstractArticleController">
+	<bean id="articleAddController" class="org.randomcoder.article.ArticleAddController" parent="abstractArticleController">
 		<property name="formView" value="article-add" />
-		<property name="commandClass" value="com.randomcoder.article.ArticleAddCommand" />
+		<property name="commandClass" value="org.randomcoder.article.ArticleAddCommand" />
 		<property name="validator" ref="articleAddValidator" />
 	</bean>
 
-	<bean id="articleEditController" class="com.randomcoder.article.ArticleEditController" parent="abstractArticleController">
+	<bean id="articleEditController" class="org.randomcoder.article.ArticleEditController" parent="abstractArticleController">
 		<property name="formView" value="article-edit" />
-		<property name="commandClass" value="com.randomcoder.article.ArticleEditCommand" />
+		<property name="commandClass" value="org.randomcoder.article.ArticleEditCommand" />
 		<property name="validator" ref="articleEditValidator" />
 	</bean>
 	
-	<bean id="articleDeleteController" class="com.randomcoder.article.ArticleDeleteController">
+	<bean id="articleDeleteController" class="org.randomcoder.article.ArticleDeleteController">
 		<property name="viewName" value="default" />
-		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 
 	<bean id="abstractCommentStatusController" abstract="true">
-		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
 		<property name="articleBusiness" ref="articleBusiness" />
 	</bean>
 	
-	<bean id="commentDeleteController" class="com.randomcoder.article.comment.CommentDeleteController" parent="abstractCommentStatusController" />
-	<bean id="commentApproveController" class="com.randomcoder.article.comment.CommentApproveController" parent="abstractCommentStatusController" />
-	<bean id="commentDisapproveController" class="com.randomcoder.article.comment.CommentDisapproveController" parent="abstractCommentStatusController" />
+	<bean id="commentDeleteController" class="org.randomcoder.article.comment.CommentDeleteController" parent="abstractCommentStatusController" />
+	<bean id="commentApproveController" class="org.randomcoder.article.comment.CommentApproveController" parent="abstractCommentStatusController" />
+	<bean id="commentDisapproveController" class="org.randomcoder.article.comment.CommentDisapproveController" parent="abstractCommentStatusController" />
 	
-	<bean id="userAddValidator" class="com.randomcoder.user.UserAddValidator">
+	<bean id="userAddValidator" class="org.randomcoder.user.UserAddValidator">
 		<property name="userDao" ref="userDao" />
 	</bean>
 
-	<bean id="userEditValidator" class="com.randomcoder.user.UserEditValidator" parent="userAddValidator" />
+	<bean id="userEditValidator" class="org.randomcoder.user.UserEditValidator" parent="userAddValidator" />
 	
-	<bean id="changePasswordController" class="com.randomcoder.user.ChangePasswordController">
+	<bean id="changePasswordController" class="org.randomcoder.user.ChangePasswordController">
 		<property name="formView" value="change-password" />
 		<property name="successView" value="user-profile-redirect" />
 		<property name="cancelView" value="user-profile-redirect" />
 		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
-		<property name="commandClass" value="com.randomcoder.user.ChangePasswordCommand" />
+		<property name="commandClass" value="org.randomcoder.user.ChangePasswordCommand" />
 		<property name="validator" ref="changePasswordValidator" />
 		<property name="userDao" ref="userDao" />
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 
-	<bean id="changePasswordValidator" class="com.randomcoder.user.ChangePasswordValidator">
+	<bean id="changePasswordValidator" class="org.randomcoder.user.ChangePasswordValidator">
 		<property name="minimumPasswordLength" value="6" />
 	</bean>
 	
-	<bean id="userListController" class="com.randomcoder.user.UserListController">
-		<property name="commandClass" value="com.randomcoder.user.UserListCommand" />
+	<bean id="userListController" class="org.randomcoder.user.UserListController">
+		<property name="commandClass" value="org.randomcoder.user.UserListCommand" />
 		<property name="viewName" value="user-list" />
 		<property name="userDao" ref="userDao" />
 	</bean>
 	
-	<bean id="accountCreateController" class="com.randomcoder.user.AccountCreateController">
+	<bean id="accountCreateController" class="org.randomcoder.user.AccountCreateController">
 		<property name="successView" value="account-create-done" />
 		<property name="cancelView" value="default" />
 		<property name="cancelParamKey" value="cancel" />
@@ -185,11 +185,11 @@
 		<property name="certificateContext" ref="certificateContext" />
 		<property name="encryptionContext" ref="encryptionContext" />
 		<property name="formView" value="account-create" />
-		<property name="commandClass" value="com.randomcoder.user.AccountCreateCommand" />
+		<property name="commandClass" value="org.randomcoder.user.AccountCreateCommand" />
 		<property name="validator" ref="accountCreateValidator" />
 	</bean>
 
-	<bean id="accountCreateValidator" class="com.randomcoder.user.AccountCreateValidator">
+	<bean id="accountCreateValidator" class="org.randomcoder.user.AccountCreateValidator">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
@@ -203,32 +203,32 @@
 		<property name="roleDao" ref="roleDao" />
 	</bean>
 		
-	<bean id="userAddController" class="com.randomcoder.user.UserAddController" parent="abstractUserController">
+	<bean id="userAddController" class="org.randomcoder.user.UserAddController" parent="abstractUserController">
 		<property name="formView" value="user-add" />
-		<property name="commandClass" value="com.randomcoder.user.UserAddCommand" />
+		<property name="commandClass" value="org.randomcoder.user.UserAddCommand" />
 		<property name="validator" ref="userAddValidator" />
 	</bean>
 		
-	<bean id="userEditController" class="com.randomcoder.user.UserEditController" parent="abstractUserController">
+	<bean id="userEditController" class="org.randomcoder.user.UserEditController" parent="abstractUserController">
 		<property name="formView" value="user-edit" />
-		<property name="commandClass" value="com.randomcoder.user.UserEditCommand" />
+		<property name="commandClass" value="org.randomcoder.user.UserEditCommand" />
 		<property name="validator" ref="userEditValidator" />
 	</bean>
 			
-	<bean id="userDeleteController" class="com.randomcoder.user.UserDeleteController">
+	<bean id="userDeleteController" class="org.randomcoder.user.UserDeleteController">
 		<property name="viewName" value="user-list-redirect" />
-		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 	
-	<bean id="tagAddValidator" class="com.randomcoder.tag.TagAddValidator">
+	<bean id="tagAddValidator" class="org.randomcoder.tag.TagAddValidator">
 		<property name="tagDao" ref="tagDao" />
 	</bean>
 
-	<bean id="tagEditValidator" class="com.randomcoder.tag.TagEditValidator" parent="tagAddValidator" />
+	<bean id="tagEditValidator" class="org.randomcoder.tag.TagEditValidator" parent="tagAddValidator" />
 	
-	<bean id="tagListController" class="com.randomcoder.tag.TagListController">
-		<property name="commandClass" value="com.randomcoder.tag.TagListCommand" />
+	<bean id="tagListController" class="org.randomcoder.tag.TagListController">
+		<property name="commandClass" value="org.randomcoder.tag.TagListCommand" />
 		<property name="viewName" value="tag-list" />
 		<property name="tagDao" ref="tagDao" />
 	</bean>
@@ -241,25 +241,25 @@
 		<property name="tagBusiness" ref="tagBusiness" />
 	</bean>
 
-	<bean id="tagAddController" class="com.randomcoder.tag.TagAddController" parent="abstractTagController">
+	<bean id="tagAddController" class="org.randomcoder.tag.TagAddController" parent="abstractTagController">
 		<property name="formView" value="tag-add" />
-		<property name="commandClass" value="com.randomcoder.tag.TagAddCommand" />
+		<property name="commandClass" value="org.randomcoder.tag.TagAddCommand" />
 		<property name="validator" ref="tagAddValidator" />
 	</bean>
 		
-	<bean id="tagEditController" class="com.randomcoder.tag.TagEditController" parent="abstractTagController">
+	<bean id="tagEditController" class="org.randomcoder.tag.TagEditController" parent="abstractTagController">
 		<property name="formView" value="tag-edit" />
-		<property name="commandClass" value="com.randomcoder.tag.TagEditCommand" />
+		<property name="commandClass" value="org.randomcoder.tag.TagEditCommand" />
 		<property name="validator" ref="tagEditValidator" />
 	</bean>
 		
-	<bean id="tagDeleteController" class="com.randomcoder.tag.TagDeleteController">
+	<bean id="tagDeleteController" class="org.randomcoder.tag.TagDeleteController">
 		<property name="viewName" value="tag-list-redirect" />
-		<property name="commandClass" value="com.randomcoder.springmvc.IdCommand" />
+		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
 		<property name="tagBusiness" ref="tagBusiness" />
 	</bean>
 		
-	<bean id="allAtomFeedController" class="com.randomcoder.feed.AllFeedController">
+	<bean id="allAtomFeedController" class="org.randomcoder.feed.AllFeedController">
 		<property name="title" value="randomCoder" />
 		<property name="subtitle" value="// TODO build a better web" />
 		<property name="urlPrefix" value="/feeds/atom" />
@@ -271,7 +271,7 @@
 		<property name="articleDao" ref="articleDao" />
 	</bean>
 
-	<bean id="allRss20FeedController" class="com.randomcoder.feed.AllFeedController">
+	<bean id="allRss20FeedController" class="org.randomcoder.feed.AllFeedController">
 		<property name="title" value="randomCoder" />
 		<property name="subtitle" value="// TODO build a better web" />
 		<property name="urlPrefix" value="/feeds/rss20" />

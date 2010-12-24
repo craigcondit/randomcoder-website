@@ -9,15 +9,15 @@
 		</layout>
 	</appender>
 	
-	<logger name="com.randomcoder">
+	<logger name="org.randomcoder">
 		<level value="info" />
 	</logger>
 
-	<logger name="com.randomcoder.dao.hibernate">
+	<logger name="org.randomcoder.dao.hibernate">
 		<level value="warn" />
 	</logger>
 
-	<logger name="com.randomcoder.springmvc">
+	<logger name="org.randomcoder.springmvc">
 		<level value="warn" />
 	</logger>
 

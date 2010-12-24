@@ -11,15 +11,15 @@
 
 	<appender name="null" class="org.apache.log4j.varia.NullAppender" />
 	
-	<logger name="com.randomcoder">
+	<logger name="org.randomcoder">
 		<level value="debug" />
 	</logger>
 
-	<logger name="com.randomcoder.dao.hibernate">
+	<logger name="org.randomcoder.dao.hibernate">
 		<level value="warn" />
 	</logger>
 
-	<logger name="com.randomcoder.citadel">
+	<logger name="org.randomcoder.citadel">
 		<level value="warn" />
 	</logger>
 

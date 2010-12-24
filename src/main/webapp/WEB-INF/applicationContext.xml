@@ -31,7 +31,7 @@
 		<property name="basename" value="ApplicationResources" />
 	</bean>	
 	
-	<bean id="applicationInformation" class="com.randomcoder.about.ApplicationInformationFactoryBean">
+	<bean id="applicationInformation" class="org.randomcoder.about.ApplicationInformationFactoryBean">
 		<property name="propertyFile" value="classpath:/version.properties" />
 	</bean>
 	
@@ -53,33 +53,33 @@
 		</property>
 		<property name="annotatedClasses">
 			<list>
-				<value>com.randomcoder.article.Article</value>
-				<value>com.randomcoder.article.comment.Comment</value>
-				<value>com.randomcoder.article.comment.CommentReferrer</value>
-				<value>com.randomcoder.article.comment.CommentIp</value>
-				<value>com.randomcoder.article.comment.CommentUserAgent</value>
-				<value>com.randomcoder.user.User</value>
-				<value>com.randomcoder.user.CardSpaceToken</value>
-				<value>com.randomcoder.user.Role</value>
-				<value>com.randomcoder.tag.Tag</value>
-				<value>com.randomcoder.security.cardspace.CardSpaceSeenToken</value>
+				<value>org.randomcoder.article.Article</value>
+				<value>org.randomcoder.article.comment.Comment</value>
+				<value>org.randomcoder.article.comment.CommentReferrer</value>
+				<value>org.randomcoder.article.comment.CommentIp</value>
+				<value>org.randomcoder.article.comment.CommentUserAgent</value>
+				<value>org.randomcoder.user.User</value>
+				<value>org.randomcoder.user.CardSpaceToken</value>
+				<value>org.randomcoder.user.Role</value>
+				<value>org.randomcoder.tag.Tag</value>
+				<value>org.randomcoder.security.cardspace.CardSpaceSeenToken</value>
 			</list>
 		</property>
 		<property name="entityCacheStrategies">
 			<props>
-				<prop key="com.randomcoder.article.Article">read-write</prop>
-				<prop key="com.randomcoder.article.comment.Comment">read-write</prop>
-				<prop key="com.randomcoder.user.User">read-write</prop>
-				<prop key="com.randomcoder.user.CardSpaceToken">read-write</prop>
-				<prop key="com.randomcoder.user.Role">read-only</prop>
-				<prop key="com.randomcoder.tag.Tag">read-write</prop>
+				<prop key="org.randomcoder.article.Article">read-write</prop>
+				<prop key="org.randomcoder.article.comment.Comment">read-write</prop>
+				<prop key="org.randomcoder.user.User">read-write</prop>
+				<prop key="org.randomcoder.user.CardSpaceToken">read-write</prop>
+				<prop key="org.randomcoder.user.Role">read-only</prop>
+				<prop key="org.randomcoder.tag.Tag">read-write</prop>
 			</props>
 		</property>
 		<property name="collectionCacheStrategies">
 			<props>
-				<prop key="com.randomcoder.user.User.roles">read-write</prop>
-				<prop key="com.randomcoder.article.Article.tags">read-write</prop>
-				<prop key="com.randomcoder.article.Article.comments">read-write</prop>
+				<prop key="org.randomcoder.user.User.roles">read-write</prop>
+				<prop key="org.randomcoder.article.Article.tags">read-write</prop>
+				<prop key="org.randomcoder.article.Article.comments">read-write</prop>
 			</props>
 		</property>
 	</bean>
@@ -90,7 +90,7 @@
 	</bean>	
 	
 	<!-- Content filters -->
-	<bean id="contentFilter" class="com.randomcoder.content.MultiContentFilter">
+	<bean id="contentFilter" class="org.randomcoder.content.MultiContentFilter">
 		<property name="filters">
 			<map>
 				<entry key="text/plain" value-ref="textFilter" />
@@ -100,8 +100,8 @@
 		<property name="defaultHandler" ref="textFilter" />
 	</bean>
 	
-	<bean id="textFilter" class="com.randomcoder.content.TextFilter" />
-	<bean id="xhtmlFilter" class="com.randomcoder.content.XHTMLFilter">
+	<bean id="textFilter" class="org.randomcoder.content.TextFilter" />
+	<bean id="xhtmlFilter" class="org.randomcoder.content.XHTMLFilter">
 		<property name="allowedClasses">
 			<set>
 				<value>lang-xml</value>
@@ -113,10 +113,10 @@
 	</bean>
 	
 	<!-- Dao introduction adviser -->
-	<bean id="finderIntroductionInterceptor" class="com.randomcoder.dao.finder.FinderIntroductionInterceptor" />
+	<bean id="finderIntroductionInterceptor" class="org.randomcoder.dao.finder.FinderIntroductionInterceptor" />
 
 	<!-- Generic DAO target -->
-	<bean id="abstractDaoTarget" class="com.randomcoder.dao.hibernate.HibernateDao" abstract="true">
+	<bean id="abstractDaoTarget" class="org.randomcoder.dao.hibernate.HibernateDao" abstract="true">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
@@ -131,85 +131,85 @@
 	
 	<!-- Concrete DAO objects -->
 	<bean id="userDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="com.randomcoder.user.UserDao" />
+		<property name="proxyInterfaces" value="org.randomcoder.user.UserDao" />
 		<property name="target">
 			<bean parent="abstractDaoTarget">
-				<constructor-arg value="com.randomcoder.user.User" />
+				<constructor-arg value="org.randomcoder.user.User" />
 			</bean>
 		</property>
 	</bean>
 
 	<bean id="cardSpaceTokenDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="com.randomcoder.user.CardSpaceTokenDao" />
+		<property name="proxyInterfaces" value="org.randomcoder.user.CardSpaceTokenDao" />
 		<property name="target">
 			<bean parent="abstractDaoTarget">
-				<constructor-arg value="com.randomcoder.user.CardSpaceToken" />
+				<constructor-arg value="org.randomcoder.user.CardSpaceToken" />
 			</bean>
 		</property>
 	</bean>
 	
 	<bean id="roleDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="com.randomcoder.user.RoleDao" />
+		<property name="proxyInterfaces" value="org.randomcoder.user.RoleDao" />
 		<property name="target">
 			<bean parent="abstractDaoTarget">
-				<constructor-arg value="com.randomcoder.user.Role" />
+				<constructor-arg value="org.randomcoder.user.Role" />
 			</bean>
 		</property>
 	</bean>
 	
 	<bean id="articleDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.ArticleDao" />
+	    <property name="proxyInterfaces" value="org.randomcoder.article.ArticleDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.Article" />
+	            <constructor-arg value="org.randomcoder.article.Article" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentDao" />
+	    <property name="proxyInterfaces" value="org.randomcoder.article.comment.CommentDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.comment.Comment" />
+	            <constructor-arg value="org.randomcoder.article.comment.Comment" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentReferrerDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentReferrerDao" />
+	    <property name="proxyInterfaces" value="org.randomcoder.article.comment.CommentReferrerDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.comment.CommentReferrer" />
+	            <constructor-arg value="org.randomcoder.article.comment.CommentReferrer" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentIpDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentIpDao" />
+	    <property name="proxyInterfaces" value="org.randomcoder.article.comment.CommentIpDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.comment.CommentIp" />
+	            <constructor-arg value="org.randomcoder.article.comment.CommentIp" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean id="commentUserAgentDao" parent="abstractDao">
-	    <property name="proxyInterfaces" value="com.randomcoder.article.comment.CommentUserAgentDao" />
+	    <property name="proxyInterfaces" value="org.randomcoder.article.comment.CommentUserAgentDao" />
 	    <property name="target">
 	        <bean parent="abstractDaoTarget">
-	            <constructor-arg value="com.randomcoder.article.comment.CommentUserAgent" />
+	            <constructor-arg value="org.randomcoder.article.comment.CommentUserAgent" />
 	        </bean>
     	</property>
 	</bean>
 
 	<bean
 		id="abstractTagDaoTarget"
-		class="com.randomcoder.tag.TagDaoImpl"
+		class="org.randomcoder.tag.TagDaoImpl"
 		parent="abstractDaoTarget"
 		abstract="true" />
 	<bean id="abstractTagDao" parent="abstractDao" abstract="true" />	
 	<bean id="tagDao" parent="abstractTagDao">
-		<property name="proxyInterfaces" value="com.randomcoder.tag.TagDao" />
+		<property name="proxyInterfaces" value="org.randomcoder.tag.TagDao" />
 		<property name="target">
 			<bean parent="abstractTagDaoTarget" />
 		</property>
@@ -217,19 +217,19 @@
 
 	<bean
 		id="abstractCardSpaceSeenTokenDaoTarget"
-		class="com.randomcoder.security.cardspace.CardSpaceSeenTokenDaoImpl"
+		class="org.randomcoder.security.cardspace.CardSpaceSeenTokenDaoImpl"
 		parent="abstractDaoTarget"
 		abstract="true" />
 	<bean id="abstractCardSpaceSeenTokenDao" parent="abstractDao" abstract="true" />	
 	<bean id="cardSpaceSeenTokenDao" parent="abstractCardSpaceSeenTokenDao">
-		<property name="proxyInterfaces" value="com.randomcoder.security.cardspace.CardSpaceSeenTokenDao" />
+		<property name="proxyInterfaces" value="org.randomcoder.security.cardspace.CardSpaceSeenTokenDao" />
 		<property name="target">
 			<bean parent="abstractCardSpaceSeenTokenDaoTarget" />
 		</property>
 	</bean>
 	
 	<!-- Business objects -->
-	<bean id="articleBusiness" class="com.randomcoder.article.ArticleBusinessImpl">
+	<bean id="articleBusiness" class="org.randomcoder.article.ArticleBusinessImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="roleDao" ref="roleDao" />
 		<property name="articleDao" ref="articleDao" />
@@ -241,23 +241,23 @@
 		<property name="moderator" ref="akismetModerator" />
 	</bean>
 	
-	<bean id="userBusiness" class="com.randomcoder.user.UserBusinessImpl">
+	<bean id="userBusiness" class="org.randomcoder.user.UserBusinessImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 
-	<bean id="tagBusiness" class="com.randomcoder.tag.TagBusinessImpl">
+	<bean id="tagBusiness" class="org.randomcoder.tag.TagBusinessImpl">
 		<property name="tagDao" ref="tagDao" />
 		<property name="articleDao" ref="articleDao" />
 	</bean>
 	
 	<!-- Crypto -->
-	<bean id="encryptionContext" class="com.randomcoder.crypto.TransientAESEncryptionContext">
+	<bean id="encryptionContext" class="org.randomcoder.crypto.TransientAESEncryptionContext">
 		<property name="keySize" value="256" />
 	</bean>
 	
 	<!-- Moderation -->
-	<bean id="akismetModerator" class="com.randomcoder.article.moderation.AkismetModerator">
+	<bean id="akismetModerator" class="org.randomcoder.article.moderation.AkismetModerator">
 		<property name="applicationInformation" ref="applicationInformation" />
 		<property name="apiKey" ref="akismetSiteKey" />
 		<property name="siteUrl" ref="akismetSiteUrl" />
@@ -276,7 +276,7 @@
 		<property name="period" value="60000" /> <!-- 1 minute -->
 		<property name="fixedRate" value="false" />
 		<property name="timerTask">
-			<bean class="com.randomcoder.article.moderation.ModeratorTimerTask">
+			<bean class="org.randomcoder.article.moderation.ModeratorTimerTask">
 				<property name="articleBusiness" ref="articleBusiness" />
 				<property name="batchSize" value="5" />
 			</bean>
@@ -284,14 +284,14 @@
 	</bean>
 	
 	<!-- Feeds -->
-	<bean id="atomFeedGenerator" class="com.randomcoder.feed.AtomFeedGenerator">
+	<bean id="atomFeedGenerator" class="org.randomcoder.feed.AtomFeedGenerator">
 		<property name="applicationInformation" ref="applicationInformation" />
 		<property name="baseUrl" value="http://randomcoder.org/" />
 		<property name="uriPrefix" value="tag:randomcoder.org,2007:" />
 		<property name="contentFilter" ref="contentFilter" />
 	</bean>
 	
-	<bean id="rss20FeedGenerator" class="com.randomcoder.feed.Rss20FeedGenerator">
+	<bean id="rss20FeedGenerator" class="org.randomcoder.feed.Rss20FeedGenerator">
 		<property name="applicationInformation" ref="applicationInformation" />
 		<property name="baseUrl" value="http://randomcoder.org/" />
 		<property name="contentFilter" ref="contentFilter" />

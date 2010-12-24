@@ -17,7 +17,7 @@
 	<jee:jndi-lookup id="cardSpaceCertificateAlias" jndi-name="java:comp/env/cardSpaceCertificateAlias" />
 	<jee:jndi-lookup id="cardSpaceCertificatePassword" jndi-name="java:comp/env/cardSpaceCertificatePassword" />
 
-	<bean id="certificateContext" class="com.randomcoder.crypto.KeystoreCertificateFactoryBean">
+	<bean id="certificateContext" class="org.randomcoder.crypto.KeystoreCertificateFactoryBean">
 		<property name="keystoreLocation" ref="cardSpaceKeystoreLocation" />
 		<property name="keystoreType" ref="cardSpaceKeystoreType" />		
 		<property name="keystorePassword" ref="cardSpaceKeystorePassword" />
@@ -70,7 +70,7 @@
 		<constructor-arg value="/" /> <!-- URL redirected to after logout -->
 		<constructor-arg> <!-- list of logout handlers to poll -->
 			<list>
-				<bean class="com.randomcoder.security.NullLogoutHandler">
+				<bean class="org.randomcoder.security.NullLogoutHandler">
 					<property name="logoutHandler" ref="rememberMeServices" />
 				</bean>
 				<bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
@@ -88,7 +88,7 @@
 	</bean>
 
 	<!-- handle requests for cardspace authentication -->
-	<bean id="cardSpaceProcessingFilter" class="com.randomcoder.security.cardspace.CardSpaceProcessingFilter">
+	<bean id="cardSpaceProcessingFilter" class="org.randomcoder.security.cardspace.CardSpaceProcessingFilter">
 		<property name="authenticationManager" ref="authenticationManager" />
 		<property name="authenticationFailureUrl" value="/login-error" />
 		<property name="defaultTargetUrl" value="/" />
@@ -175,7 +175,7 @@
 	<!--  handle switching to https if necessary -->
 	<bean id="secureChannelProcessor" class="org.acegisecurity.securechannel.SecureChannelProcessor">
 		<property name="entryPoint">
-			<bean class="com.randomcoder.security.UrlMutatingChannelEntryPoint">
+			<bean class="org.randomcoder.security.UrlMutatingChannelEntryPoint">
 				<property name="channelEntryPoint">
 					<bean class="org.acegisecurity.securechannel.RetryWithHttpsEntryPoint" />
 				</property>
@@ -188,7 +188,7 @@
 	<!-- handle switching to http if necessary -->
 	<bean id="insecureChannelProcessor" class="org.acegisecurity.securechannel.InsecureChannelProcessor">
 		<property name="entryPoint">
-			<bean class="com.randomcoder.security.UrlMutatingChannelEntryPoint">
+			<bean class="org.randomcoder.security.UrlMutatingChannelEntryPoint">
 				<property name="channelEntryPoint">
 					<bean class="org.acegisecurity.securechannel.RetryWithHttpEntryPoint" />
 				</property>
@@ -198,7 +198,7 @@
 		</property>
 	</bean>
 	
-	<bean id="anyChannelProcessor" class="com.randomcoder.security.AnyChannelProcessor" />
+	<bean id="anyChannelProcessor" class="org.randomcoder.security.AnyChannelProcessor" />
 	
 	<!-- generate a persistent HTTP cookie to store username / password -->
 	<bean id="rememberMeServices" class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
@@ -246,18 +246,18 @@
 	</bean>
 
 	<!-- CardSpace authentication provider -->
-	<bean id="cardSpaceAuthenticationProvider" class="com.randomcoder.security.cardspace.CardSpaceAuthenticationProvider">
+	<bean id="cardSpaceAuthenticationProvider" class="org.randomcoder.security.cardspace.CardSpaceAuthenticationProvider">
 		<property name="cardSpaceUserDetailsService" ref="userDetailsService" />
 		<property name="validators">
 			<list>
-				<bean class="com.randomcoder.security.cardspace.CardSpaceDateConstraintValidator">
+				<bean class="org.randomcoder.security.cardspace.CardSpaceDateConstraintValidator">
 					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
 				</bean>
-				<bean class="com.randomcoder.security.cardspace.CardSpaceMaximumAgeValidator">
+				<bean class="org.randomcoder.security.cardspace.CardSpaceMaximumAgeValidator">
 					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
 					<property name="maximumTokenAge" value="3600" /> <!-- 1 hour -->
 				</bean>
-				<bean class="com.randomcoder.security.cardspace.CardSpaceOneTimeUseValidator">
+				<bean class="org.randomcoder.security.cardspace.CardSpaceOneTimeUseValidator">
 					<property name="cardSpaceSeenTokenDao" ref="cardSpaceSeenTokenDao" />
 				</bean>
 			</list>
@@ -265,7 +265,7 @@
 	</bean>
 	
 	<!-- Lookup user details from database -->
-	<bean id="userDetailsService" class="com.randomcoder.security.userdetails.UserDetailsServiceImpl">
+	<bean id="userDetailsService" class="org.randomcoder.security.userdetails.UserDetailsServiceImpl">
 		<property name="userDao" ref="userDao" />
 		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 		<property name="debug" value="false" />
@@ -280,7 +280,7 @@
 	-->
 	
 	<!-- Events -->
-	<bean id="authenticationEventListener" class="com.randomcoder.security.AuthenticationAuditListener">
+	<bean id="authenticationEventListener" class="org.randomcoder.security.AuthenticationAuditListener">
 		<property name="userBusiness" ref="userBusiness" />
 	</bean>
 </beans>
