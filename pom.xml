@@ -6,7 +6,7 @@
     <groupId>org.randomcoder</groupId>
     <version>11</version>
   </parent>
-  <groupId>com.randomcoder</groupId>
+  <groupId>org.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
   <packaging>war</packaging>
   <name>Randomcoder Website</name>
