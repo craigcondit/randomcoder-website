@@ -1,4 +1,4 @@
-package com.randomcoder.test;
+package org.randomcoder.test;
 
 import java.io.*;
 import java.net.*;

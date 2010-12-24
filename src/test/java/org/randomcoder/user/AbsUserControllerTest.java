@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.beans.PropertyEditor;
 import java.util.*;
@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import com.randomcoder.test.mock.dao.RoleDaoMock;
-import com.randomcoder.test.mock.user.AbstractUserControllerMock;
+import org.randomcoder.test.mock.dao.RoleDaoMock;
+import org.randomcoder.test.mock.user.AbstractUserControllerMock;
 
 public class AbsUserControllerTest extends TestCase
 {

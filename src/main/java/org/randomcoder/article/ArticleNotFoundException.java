@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 /**
  * Exception thrown when a requested article cannot be found.

@@ -1,8 +1,8 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
-import com.randomcoder.article.comment.Comment;
-import com.randomcoder.article.moderation.ModerationException;
-import com.randomcoder.io.*;
+import org.randomcoder.article.comment.Comment;
+import org.randomcoder.article.moderation.ModerationException;
+import org.randomcoder.io.*;
 
 /**
  * Business interface for managing articles.

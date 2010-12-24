@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 /**
  * Feed exception thrown when configuration is invalid.

@@ -1,14 +1,14 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.randomcoder.cardspace.CardSpaceUtils;
-import com.randomcoder.io.*;
-import com.randomcoder.security.UnauthorizedException;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.cardspace.CardSpaceUtils;
+import org.randomcoder.io.*;
+import org.randomcoder.security.UnauthorizedException;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Business implementation for user management.

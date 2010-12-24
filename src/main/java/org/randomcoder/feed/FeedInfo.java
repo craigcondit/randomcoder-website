@@ -1,10 +1,10 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
 
-import com.randomcoder.article.Article;
+import org.randomcoder.article.Article;
 
 /**
  * JavaBean which holds information about a syndicated feed.

@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-package com.randomcoder.download.http;
+package org.randomcoder.download.http;

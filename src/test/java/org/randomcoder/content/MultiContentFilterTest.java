@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 import java.io.*;
 import java.util.*;
@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 
 import org.xml.sax.*;
 
-import com.randomcoder.io.SequenceReader;
-import com.randomcoder.test.mock.content.ContentFilterMock;
+import org.randomcoder.io.SequenceReader;
+import org.randomcoder.test.mock.content.ContentFilterMock;
 
 public class MultiContentFilterTest extends TestCase
 {

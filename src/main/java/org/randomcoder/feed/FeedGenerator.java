@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 /**
  * Feed generator interface. A feed generator is responsible for generating a

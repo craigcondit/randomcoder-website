@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.io.*;
 import java.util.*;
@@ -7,8 +7,8 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.content.*;
-import com.randomcoder.io.SequenceReader;
+import org.randomcoder.content.*;
+import org.randomcoder.io.SequenceReader;
 
 /**
  * Validator for adding articles.

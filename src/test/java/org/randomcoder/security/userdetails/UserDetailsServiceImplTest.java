@@ -1,6 +1,6 @@
-package com.randomcoder.security.userdetails;
+package org.randomcoder.security.userdetails;
 
-import static com.randomcoder.test.TestObjectFactory.*;
+import static org.randomcoder.test.TestObjectFactory.*;
 
 import java.security.PublicKey;
 import java.util.*;
@@ -12,12 +12,12 @@ import org.acegisecurity.userdetails.*;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.*;
 
-import com.randomcoder.saml.*;
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.dao.*;
-import com.randomcoder.user.*;
-import com.randomcoder.user.User;
+import org.randomcoder.saml.*;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.dao.*;
+import org.randomcoder.user.*;
+import org.randomcoder.user.User;
 
 public class UserDetailsServiceImplTest extends TestCase
 {

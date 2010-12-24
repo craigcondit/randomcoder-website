@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-package com.randomcoder.download.maven;
+package org.randomcoder.download.maven;

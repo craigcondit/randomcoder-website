@@ -1,8 +1,8 @@
-package com.randomcoder.test.mock.springmvc;
+package org.randomcoder.test.mock.springmvc;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.randomcoder.springmvc.JstlTemplateView;
+import org.randomcoder.springmvc.JstlTemplateView;
 
 public class JstlTemplateViewMock extends JstlTemplateView
 {

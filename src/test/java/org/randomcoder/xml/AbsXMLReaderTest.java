@@ -1,4 +1,4 @@
-package com.randomcoder.xml;
+package org.randomcoder.xml;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.randomcoder.test.mock.xml.AbstractXMLReaderMock;
+import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 
 public class AbsXMLReaderTest extends TestCase
 {

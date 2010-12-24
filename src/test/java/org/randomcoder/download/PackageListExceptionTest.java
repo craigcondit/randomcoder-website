@@ -1,4 +1,4 @@
-package com.randomcoder.download;
+package org.randomcoder.download;
 
 import junit.framework.TestCase;
 

@@ -1,11 +1,11 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.io.Producer;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.io.Producer;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Command class for updating a user profile.

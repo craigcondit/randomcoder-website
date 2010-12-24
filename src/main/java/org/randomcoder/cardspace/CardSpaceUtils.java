@@ -1,10 +1,10 @@
-package com.randomcoder.cardspace;
+package org.randomcoder.cardspace;
 
 import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * CardSpace convenience methods.

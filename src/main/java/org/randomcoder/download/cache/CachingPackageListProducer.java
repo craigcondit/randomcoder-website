@@ -1,4 +1,4 @@
-package com.randomcoder.download.cache;
+package org.randomcoder.download.cache;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import net.sf.ehcache.*;
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 
 /**
  * Package list producer which caches lookups to an underlying target.

@@ -1,9 +1,9 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.util.*;
 
-import com.randomcoder.dao.CrudDao;
-import com.randomcoder.tag.Tag;
+import org.randomcoder.dao.CrudDao;
+import org.randomcoder.tag.Tag;
 
 /**
  * Article data access interface.

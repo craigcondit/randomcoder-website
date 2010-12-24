@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.cardspace.CardSpaceTokenSpec;
-import com.randomcoder.io.Producer;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.cardspace.CardSpaceTokenSpec;
+import org.randomcoder.io.Producer;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Command class for adding users.

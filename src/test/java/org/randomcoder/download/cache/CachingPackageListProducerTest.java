@@ -1,12 +1,12 @@
-package com.randomcoder.download.cache;
+package org.randomcoder.download.cache;
 
 import java.util.*;
 
 import junit.framework.TestCase;
 import net.sf.ehcache.*;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 
 public class CachingPackageListProducerTest extends TestCase
 {

@@ -1,4 +1,4 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.beans.PropertyEditorSupport;
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Tag list property editor.

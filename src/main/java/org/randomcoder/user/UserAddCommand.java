@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.io.Serializable;
 import java.util.*;
@@ -6,7 +6,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.io.Producer;
+import org.randomcoder.io.Producer;
 
 /**
  * Command class for adding users.

@@ -1,4 +1,4 @@
-package com.randomcoder.springmvc;
+package org.randomcoder.springmvc;
 
 import java.beans.PropertyEditorSupport;
 

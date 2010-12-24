@@ -1,8 +1,8 @@
-package com.randomcoder.test.mock.cardspace;
+package org.randomcoder.test.mock.cardspace;
 
 import org.acegisecurity.AuthenticationException;
 
-import com.randomcoder.security.cardspace.*;
+import org.randomcoder.security.cardspace.*;
 
 public class CardSpaceCredentialsValidatorMock implements CardSpaceCredentialsValidator
 {

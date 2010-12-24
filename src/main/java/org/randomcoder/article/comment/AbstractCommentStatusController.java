@@ -1,4 +1,4 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 import javax.servlet.http.*;
 
@@ -8,8 +8,8 @@ import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.randomcoder.article.*;
-import com.randomcoder.springmvc.IdCommand;
+import org.randomcoder.article.*;
+import org.randomcoder.springmvc.IdCommand;
 
 /**
  * Abstract base class for controllers which modify a comment's status.

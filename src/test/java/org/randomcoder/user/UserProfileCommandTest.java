@@ -1,6 +1,6 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
 import java.security.PublicKey;
 import java.util.Date;
@@ -9,9 +9,9 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-import com.randomcoder.test.TestObjectFactory;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.test.TestObjectFactory;
 
 public class UserProfileCommandTest extends TestCase
 {

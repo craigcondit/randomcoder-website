@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.*;
 
@@ -8,8 +8,8 @@ import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.randomcoder.test.mock.dao.UserDaoMock;
-import com.randomcoder.test.mock.user.UserListControllerMock;
+import org.randomcoder.test.mock.dao.UserDaoMock;
+import org.randomcoder.test.mock.user.UserListControllerMock;
 
 public class UserListControllerTest extends TestCase
 {

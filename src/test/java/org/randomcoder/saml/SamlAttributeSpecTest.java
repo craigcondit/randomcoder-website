@@ -1,4 +1,4 @@
-package com.randomcoder.saml;
+package org.randomcoder.saml;
 
 import junit.framework.TestCase;
 

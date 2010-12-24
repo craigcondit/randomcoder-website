@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 import java.io.*;
 import java.net.URL;
@@ -6,7 +6,7 @@ import java.net.URL;
 import org.xml.sax.*;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.randomcoder.xml.AbstractXMLReader;
+import org.randomcoder.xml.AbstractXMLReader;
 
 /**
  * Plain text to XML reader.

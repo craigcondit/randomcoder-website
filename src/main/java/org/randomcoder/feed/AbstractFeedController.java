@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

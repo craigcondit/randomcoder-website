@@ -1,4 +1,4 @@
-package com.randomcoder.dao.finder;
+package org.randomcoder.dao.finder;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.IntroductionInterceptor;

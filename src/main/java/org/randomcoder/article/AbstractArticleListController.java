@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.util.*;
 
@@ -10,8 +10,8 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
-import com.randomcoder.content.ContentFilter;
-import com.randomcoder.tag.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.tag.*;
 
 /**
  * Abstract base class for controllers which generate article lists.

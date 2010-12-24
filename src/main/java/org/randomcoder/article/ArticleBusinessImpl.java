@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.util.*;
 
@@ -7,12 +7,12 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.randomcoder.article.comment.*;
-import com.randomcoder.article.moderation.*;
-import com.randomcoder.io.*;
-import com.randomcoder.security.UnauthorizedException;
-import com.randomcoder.tag.*;
-import com.randomcoder.user.*;
+import org.randomcoder.article.comment.*;
+import org.randomcoder.article.moderation.*;
+import org.randomcoder.io.*;
+import org.randomcoder.security.UnauthorizedException;
+import org.randomcoder.tag.*;
+import org.randomcoder.user.*;
 
 /**
  * Business implementation which handles articles.

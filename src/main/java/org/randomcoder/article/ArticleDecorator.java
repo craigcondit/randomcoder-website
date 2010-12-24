@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.io.IOException;
 import java.util.*;
@@ -7,8 +7,8 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
-import com.randomcoder.article.comment.*;
-import com.randomcoder.content.*;
+import org.randomcoder.article.comment.*;
+import org.randomcoder.content.*;
 
 /**
  * Helper class which "decorates" an {@code Article} instance by providing XHTML

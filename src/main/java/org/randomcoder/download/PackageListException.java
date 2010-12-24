@@ -1,4 +1,4 @@
-package com.randomcoder.download;
+package org.randomcoder.download;
 
 /**
  * Exception thrown if errors occur during package list generation. 

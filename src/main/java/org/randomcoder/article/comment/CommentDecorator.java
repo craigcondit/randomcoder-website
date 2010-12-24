@@ -1,4 +1,4 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 import java.io.IOException;
 
@@ -6,7 +6,7 @@ import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
-import com.randomcoder.content.*;
+import org.randomcoder.content.*;
 
 /**
  * Helper class which "decorates" an {@code Comment} instance by providing XHTML

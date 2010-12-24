@@ -1,11 +1,11 @@
-package com.randomcoder.article.moderation;
+package org.randomcoder.article.moderation;
 
 import java.util.TimerTask;
 
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.randomcoder.article.ArticleBusiness;
+import org.randomcoder.article.ArticleBusiness;
 
 /**
  * Timer task which handles periodic comment moderation.

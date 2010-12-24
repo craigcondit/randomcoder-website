@@ -1,6 +1,6 @@
-package com.randomcoder.saml;
+package org.randomcoder.saml;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 
 import java.io.StringReader;
 import java.util.*;
@@ -10,9 +10,9 @@ import junit.framework.TestCase;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
-import com.randomcoder.security.cardspace.CardSpaceAttributes;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.xml.XmlUtils;
+import org.randomcoder.security.cardspace.CardSpaceAttributes;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.xml.XmlUtils;
 
 public class SamlAssertionTest extends TestCase
 {

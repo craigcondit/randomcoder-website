@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.springframework.validation.*;
 
-import com.randomcoder.test.mock.dao.UserDaoMock;
+import org.randomcoder.test.mock.dao.UserDaoMock;
 
 public class UserAddValidatorTest extends TestCase
 {

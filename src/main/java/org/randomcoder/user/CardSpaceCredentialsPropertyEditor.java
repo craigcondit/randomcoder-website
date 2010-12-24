@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.beans.PropertyEditorSupport;
 import java.io.*;
@@ -8,11 +8,11 @@ import java.util.Date;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
-import com.randomcoder.crypto.CertificateContext;
-import com.randomcoder.saml.*;
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.*;
+import org.randomcoder.crypto.CertificateContext;
+import org.randomcoder.saml.*;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.xml.XmlUtils;
+import org.randomcoder.xml.security.*;
 
 /**
  * Property editor for CardSpace tokens.

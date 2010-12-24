@@ -1,6 +1,6 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
 import java.security.PublicKey;
 import java.util.*;
@@ -12,12 +12,12 @@ import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.context.ApplicationEvent;
 import org.w3c.dom.Document;
 
-import com.randomcoder.cardspace.CardSpaceUtils;
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.dao.*;
-import com.randomcoder.user.*;
+import org.randomcoder.cardspace.CardSpaceUtils;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.dao.*;
+import org.randomcoder.user.*;
 
 public class AuthenticationAuditListenerTest extends TestCase
 {

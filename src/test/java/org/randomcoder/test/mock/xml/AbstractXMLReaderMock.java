@@ -1,10 +1,10 @@
-package com.randomcoder.test.mock.xml;
+package org.randomcoder.test.mock.xml;
 
 import java.io.IOException;
 
 import org.xml.sax.*;
 
-import com.randomcoder.xml.AbstractXMLReader;
+import org.randomcoder.xml.AbstractXMLReader;
 
 public class AbstractXMLReaderMock extends AbstractXMLReader
 {

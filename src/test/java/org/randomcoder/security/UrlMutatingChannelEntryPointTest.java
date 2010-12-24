@@ -1,10 +1,10 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import junit.framework.TestCase;
 
 import org.springframework.mock.web.*;
 
-import com.randomcoder.test.mock.acegisecurity.ChannelEntryPointMock;
+import org.randomcoder.test.mock.acegisecurity.ChannelEntryPointMock;
 
 public class UrlMutatingChannelEntryPointTest extends TestCase
 {

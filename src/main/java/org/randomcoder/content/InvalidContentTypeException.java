@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 /**
  * Exception thrown when an unhandled content type is encountered.

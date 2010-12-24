@@ -1,4 +1,4 @@
-package com.randomcoder.security.userdetails;
+package org.randomcoder.security.userdetails;
 
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
@@ -6,10 +6,10 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
 
-import com.randomcoder.cardspace.CardSpaceUtils;
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.user.*;
-import com.randomcoder.user.User;
+import org.randomcoder.cardspace.CardSpaceUtils;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.user.*;
+import org.randomcoder.user.User;
 
 /**
  * Acegi UserDetailsService implementation.

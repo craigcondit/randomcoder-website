@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock.user;
+package org.randomcoder.test.mock.user;
 
 import java.util.Map;
 
@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import com.randomcoder.user.AbstractUserController;
+import org.randomcoder.user.AbstractUserController;
 
 public class AbstractUserControllerMock extends AbstractUserController
 {

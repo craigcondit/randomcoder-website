@@ -1,11 +1,11 @@
-package com.randomcoder.test.mock.dao;
+package org.randomcoder.test.mock.dao;
 
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.article.*;
-import com.randomcoder.tag.Tag;
+import org.randomcoder.article.*;
+import org.randomcoder.tag.Tag;
 
 public class ArticleDaoMock implements ArticleDao
 {

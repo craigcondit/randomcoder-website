@@ -1,8 +1,8 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.util.List;
 
-import com.randomcoder.dao.CrudDao;
+import org.randomcoder.dao.CrudDao;
 
 /**
  * Tag data access interface.

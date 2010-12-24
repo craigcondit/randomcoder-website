@@ -1,11 +1,11 @@
-package com.randomcoder.test.mock.dao;
+package org.randomcoder.test.mock.dao;
 
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.article.comment.*;
-import com.randomcoder.article.moderation.ModerationStatus;
+import org.randomcoder.article.comment.*;
+import org.randomcoder.article.moderation.ModerationStatus;
 
 public class CommentDaoMock implements CommentDao
 {

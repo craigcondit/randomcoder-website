@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import junit.framework.TestCase;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 
-import com.randomcoder.test.mock.dao.*;
-import com.randomcoder.test.mock.jse.PrincipalMock;
-import com.randomcoder.test.mock.user.ChangePasswordControllerMock;
+import org.randomcoder.test.mock.dao.*;
+import org.randomcoder.test.mock.jse.PrincipalMock;
+import org.randomcoder.test.mock.user.ChangePasswordControllerMock;
 
 public class ChangePasswordControllerTest extends TestCase
 {

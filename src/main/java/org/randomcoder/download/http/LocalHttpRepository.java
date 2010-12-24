@@ -1,4 +1,4 @@
-package com.randomcoder.download.http;
+package org.randomcoder.download.http;
 
 import java.io.File;
 import java.net.*;
@@ -6,8 +6,8 @@ import java.util.*;
 
 import org.apache.commons.logging.*;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 
 /**
  * HTTP repository parser which reads from local files. 

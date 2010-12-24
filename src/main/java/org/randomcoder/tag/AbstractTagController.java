@@ -1,4 +1,4 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.CancellableFormController;

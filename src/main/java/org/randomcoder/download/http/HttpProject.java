@@ -1,4 +1,4 @@
-package com.randomcoder.download.http;
+package org.randomcoder.download.http;
 
 import java.io.Serializable;
 import java.net.URL;

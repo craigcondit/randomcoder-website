@@ -1,10 +1,10 @@
-package com.randomcoder.test.mock.cardspace;
+package org.randomcoder.test.mock.cardspace;
 
 import org.acegisecurity.AuthenticationException;
 import org.acegisecurity.userdetails.UserDetails;
 
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.test.mock.acegisecurity.UserDetailsMock;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.test.mock.acegisecurity.UserDetailsMock;
 
 public class CardSpaceUserDetailsServiceMock implements CardSpaceUserDetailsService
 {

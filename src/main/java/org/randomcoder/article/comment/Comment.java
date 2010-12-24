@@ -1,14 +1,14 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
 
-import com.randomcoder.article.Article;
-import com.randomcoder.article.moderation.ModerationStatus;
-import com.randomcoder.content.ContentType;
-import com.randomcoder.user.User;
+import org.randomcoder.article.Article;
+import org.randomcoder.article.moderation.ModerationStatus;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.user.User;
 
 /**
  * JavaBean representing an article comment.

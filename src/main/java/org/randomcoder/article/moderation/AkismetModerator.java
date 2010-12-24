@@ -1,4 +1,4 @@
-package com.randomcoder.article.moderation;
+package org.randomcoder.article.moderation;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -9,9 +9,9 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Required;
 
-import com.randomcoder.about.ApplicationInformation;
-import com.randomcoder.article.comment.*;
-import com.randomcoder.user.User;
+import org.randomcoder.about.ApplicationInformation;
+import org.randomcoder.article.comment.*;
+import org.randomcoder.user.User;
 
 /**
  * Moderator implementation which queries Akismet.

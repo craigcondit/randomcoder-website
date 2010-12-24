@@ -1,6 +1,6 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
-import com.randomcoder.dao.*;
+import org.randomcoder.dao.*;
 
 /**
  * Comment user agent data access interface.

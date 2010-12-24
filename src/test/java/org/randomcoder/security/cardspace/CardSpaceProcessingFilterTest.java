@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 
 import java.io.StringReader;
 import java.lang.reflect.*;
@@ -12,9 +12,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.acegisecurity.AuthenticationManagerMock;
-import com.randomcoder.xml.XmlUtils;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.acegisecurity.AuthenticationManagerMock;
+import org.randomcoder.xml.XmlUtils;
 
 public class CardSpaceProcessingFilterTest extends TestCase
 {

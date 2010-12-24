@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock.jee;
+package org.randomcoder.test.mock.jee;
 
 import java.io.IOException;
 

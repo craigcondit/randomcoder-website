@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 /**
  * Exception thrown when invalid content is encountered.

@@ -1,4 +1,4 @@
-package com.randomcoder.test;
+package org.randomcoder.test;
 
 import java.io.*;
 import java.security.*;
@@ -9,10 +9,10 @@ import org.springframework.core.io.*;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 
-import com.randomcoder.crypto.*;
-import com.randomcoder.saml.*;
-import com.randomcoder.xml.XmlUtils;
-import com.randomcoder.xml.security.XmlSecurityUtils;
+import org.randomcoder.crypto.*;
+import org.randomcoder.saml.*;
+import org.randomcoder.xml.XmlUtils;
+import org.randomcoder.xml.security.XmlSecurityUtils;
 
 public class TestObjectFactory
 {

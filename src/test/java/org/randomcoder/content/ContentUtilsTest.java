@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 import java.io.StringReader;
 
@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.xml.sax.InputSource;
 
-import com.randomcoder.test.mock.content.ContentFilterMock;
+import org.randomcoder.test.mock.content.ContentFilterMock;
 
 public class ContentUtilsTest extends TestCase
 {

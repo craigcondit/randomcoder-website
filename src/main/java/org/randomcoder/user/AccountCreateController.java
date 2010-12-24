@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.Date;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.cardspace.*;
-import com.randomcoder.crypto.*;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.cardspace.*;
+import org.randomcoder.crypto.*;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Controller class which handles adding user accounts.

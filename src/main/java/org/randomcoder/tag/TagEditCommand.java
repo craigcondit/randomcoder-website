@@ -1,6 +1,6 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
-import com.randomcoder.io.Consumer;
+import org.randomcoder.io.Consumer;
 
 public class TagEditCommand extends TagAddCommand implements Consumer<Tag>
 {

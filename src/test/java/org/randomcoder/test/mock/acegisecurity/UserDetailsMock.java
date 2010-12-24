@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock.acegisecurity;
+package org.randomcoder.test.mock.acegisecurity;
 
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.UserDetails;

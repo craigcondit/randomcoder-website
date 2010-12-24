@@ -1,4 +1,4 @@
-package com.randomcoder.saml;
+package org.randomcoder.saml;
 
 /**
  * Enumeration of SAML versions.

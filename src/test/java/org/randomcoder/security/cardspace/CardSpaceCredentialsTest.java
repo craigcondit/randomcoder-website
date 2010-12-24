@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
 import java.security.PublicKey;
 import java.util.*;
@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
-import com.randomcoder.saml.*;
-import com.randomcoder.test.TestObjectFactory;
+import org.randomcoder.saml.*;
+import org.randomcoder.test.TestObjectFactory;
 
 public class CardSpaceCredentialsTest extends TestCase
 {

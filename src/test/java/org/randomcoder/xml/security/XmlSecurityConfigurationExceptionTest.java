@@ -1,4 +1,4 @@
-package com.randomcoder.xml.security;
+package org.randomcoder.xml.security;
 
 import junit.framework.TestCase;
 

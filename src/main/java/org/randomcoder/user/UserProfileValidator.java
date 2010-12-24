@@ -1,11 +1,11 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.cardspace.CardSpaceUtils;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.cardspace.CardSpaceUtils;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator for UserProfileCommand objects.

@@ -1,10 +1,10 @@
-package com.randomcoder.cardspace;
+package org.randomcoder.cardspace;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import com.randomcoder.io.Producer;
-import com.randomcoder.user.CardSpaceToken;
+import org.randomcoder.io.Producer;
+import org.randomcoder.user.CardSpaceToken;
 
 /**
  * JavaBean which holds the details necessary to identify a CardSpace token.

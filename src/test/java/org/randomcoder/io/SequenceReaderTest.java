@@ -1,4 +1,4 @@
-package com.randomcoder.io;
+package org.randomcoder.io;
 
 import java.io.*;
 import java.nio.CharBuffer;

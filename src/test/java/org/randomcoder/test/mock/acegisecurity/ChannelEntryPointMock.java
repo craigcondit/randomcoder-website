@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock.acegisecurity;
+package org.randomcoder.test.mock.acegisecurity;
 
 import java.io.IOException;
 

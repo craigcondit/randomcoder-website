@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.*;
 
@@ -8,9 +8,9 @@ import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.randomcoder.springmvc.IdCommand;
-import com.randomcoder.test.mock.dao.*;
-import com.randomcoder.test.mock.jse.PrincipalMock;
+import org.randomcoder.springmvc.IdCommand;
+import org.randomcoder.test.mock.dao.*;
+import org.randomcoder.test.mock.jse.PrincipalMock;
 
 public class UserProfileCardSpaceDeleteControllerTest extends TestCase
 {

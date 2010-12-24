@@ -1,4 +1,4 @@
-package com.randomcoder.io;
+package org.randomcoder.io;
 
 /**
  * Interface used to read state from arbitrary objects.

@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.Date;
 
@@ -6,9 +6,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.cardspace.*;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.cardspace.*;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator used for adding accounts.

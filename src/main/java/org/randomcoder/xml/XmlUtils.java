@@ -1,4 +1,4 @@
-package com.randomcoder.xml;
+package org.randomcoder.xml;
 
 import java.io.*;
 

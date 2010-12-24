@@ -1,10 +1,10 @@
-package com.randomcoder.test.mock.user;
+package org.randomcoder.test.mock.user;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.BindException;
 
-import com.randomcoder.user.UserEditController;
+import org.randomcoder.user.UserEditController;
 
 public class UserEditControllerMock extends UserEditController
 {

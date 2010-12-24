@@ -1,12 +1,12 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.event.authentication.AuthenticationSuccessEvent;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.*;
 
-import com.randomcoder.security.cardspace.*;
-import com.randomcoder.user.UserBusiness;
+import org.randomcoder.security.cardspace.*;
+import org.randomcoder.user.UserBusiness;
 
 /**
  * ApplicationEvent listener which audits authentication events.  

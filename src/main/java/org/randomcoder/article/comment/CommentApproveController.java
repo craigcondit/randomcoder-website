@@ -1,7 +1,7 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
-import com.randomcoder.article.Article;
-import com.randomcoder.springmvc.IdCommand;
+import org.randomcoder.article.Article;
+import org.randomcoder.springmvc.IdCommand;
 
 /**
  * Controller class which handles comment approval.

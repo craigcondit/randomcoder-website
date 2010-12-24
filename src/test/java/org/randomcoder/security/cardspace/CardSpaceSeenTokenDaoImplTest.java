@@ -1,8 +1,8 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
 import java.util.Date;
 
-import com.randomcoder.test.AbstractDaoTestCase;
+import org.randomcoder.test.AbstractDaoTestCase;
 
 public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 {

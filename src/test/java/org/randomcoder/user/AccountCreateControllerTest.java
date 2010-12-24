@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.beans.PropertyEditor;
 import java.security.PublicKey;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 
-import com.randomcoder.cardspace.CardSpaceTokenSpec;
-import com.randomcoder.crypto.*;
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.dao.*;
-import com.randomcoder.test.mock.user.AccountCreateControllerMock;
+import org.randomcoder.cardspace.CardSpaceTokenSpec;
+import org.randomcoder.crypto.*;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.dao.*;
+import org.randomcoder.test.mock.user.AccountCreateControllerMock;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
 public class AccountCreateControllerTest extends TestCase
 {

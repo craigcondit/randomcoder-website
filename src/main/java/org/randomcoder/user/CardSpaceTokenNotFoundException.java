@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 /**
  * Exception thrown when a CardSpace token cannot be found.

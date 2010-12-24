@@ -1,4 +1,4 @@
-package com.randomcoder.download.maven;
+package org.randomcoder.download.maven;
 
 import java.io.*;
 import java.net.*;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 
 /**
  * Maven repository parser. 

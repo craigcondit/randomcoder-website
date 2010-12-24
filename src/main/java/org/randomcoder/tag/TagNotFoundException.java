@@ -1,4 +1,4 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 /**
  * Exception thrown when a requested tag cannot be found.

@@ -1,4 +1,4 @@
-package com.randomcoder.crypto;
+package org.randomcoder.crypto;
 
 import java.io.*;
 import java.security.*;

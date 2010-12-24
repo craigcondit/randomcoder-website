@@ -1,4 +1,4 @@
-package com.randomcoder.article.moderation;
+package org.randomcoder.article.moderation;
 
 /**
  * Exception thrown if moderation fails.

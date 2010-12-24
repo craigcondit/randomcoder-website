@@ -1,4 +1,4 @@
-package com.randomcoder.download.http;
+package org.randomcoder.download.http;
 
 import java.io.IOException;
 import java.net.*;
@@ -7,9 +7,9 @@ import java.util.*;
 
 import junit.framework.TestCase;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
-import com.randomcoder.test.TestHttpServer;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
+import org.randomcoder.test.TestHttpServer;
 
 public class HttpRepositoryTest extends TestCase
 {

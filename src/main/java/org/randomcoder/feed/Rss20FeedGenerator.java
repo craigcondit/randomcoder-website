@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 import java.io.*;
 import java.net.*;
@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-import com.randomcoder.about.ApplicationInformation;
-import com.randomcoder.article.Article;
-import com.randomcoder.content.*;
-import com.randomcoder.tag.Tag;
-import com.randomcoder.xml.XmlUtils;
+import org.randomcoder.about.ApplicationInformation;
+import org.randomcoder.article.Article;
+import org.randomcoder.content.*;
+import org.randomcoder.tag.Tag;
+import org.randomcoder.xml.XmlUtils;
 
 /**
  * Generator for RSS 1.0 feeds.

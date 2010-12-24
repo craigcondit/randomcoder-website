@@ -1,4 +1,4 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
 import org.acegisecurity.AuthenticationException;
 

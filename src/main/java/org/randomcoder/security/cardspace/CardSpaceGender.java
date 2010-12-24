@@ -1,4 +1,4 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
 /**
  * Enum containing CardSpace gender types.

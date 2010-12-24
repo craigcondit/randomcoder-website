@@ -1,8 +1,8 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.dao.CrudDao;
+import org.randomcoder.dao.CrudDao;
 
 /**
  * User data access interface.

@@ -1,6 +1,6 @@
-package com.randomcoder.xml.security;
+package org.randomcoder.xml.security;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 
 import java.security.*;
 
@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.*;
 
-import com.randomcoder.saml.SamlUtils;
-import com.randomcoder.test.TestObjectFactory;
+import org.randomcoder.saml.SamlUtils;
+import org.randomcoder.test.TestObjectFactory;
 
 public class XmlSecurityUtilsTest extends TestCase
 {

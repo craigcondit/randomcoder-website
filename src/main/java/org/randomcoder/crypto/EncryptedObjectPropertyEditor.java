@@ -1,4 +1,4 @@
-package com.randomcoder.crypto;
+package org.randomcoder.crypto;
 
 import java.beans.PropertyEditorSupport;
 import java.io.*;

@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.io.Serializable;
 import java.util.*;
@@ -6,9 +6,9 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.content.ContentType;
-import com.randomcoder.io.Producer;
-import com.randomcoder.tag.*;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.io.Producer;
+import org.randomcoder.tag.*;
 
 /**
  * Command class used for adding articles.

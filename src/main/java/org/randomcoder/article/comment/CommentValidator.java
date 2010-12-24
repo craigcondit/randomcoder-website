@@ -1,4 +1,4 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 import java.io.*;
 import java.util.*;
@@ -7,9 +7,9 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.content.*;
-import com.randomcoder.io.SequenceReader;
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.content.*;
+import org.randomcoder.io.SequenceReader;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator for posting comments.

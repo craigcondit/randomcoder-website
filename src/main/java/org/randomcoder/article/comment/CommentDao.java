@@ -1,8 +1,8 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 import java.util.Iterator;
 
-import com.randomcoder.dao.CrudDao;
+import org.randomcoder.dao.CrudDao;
 
 /**
  * Comment data access interface.

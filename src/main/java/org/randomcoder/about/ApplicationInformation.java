@@ -1,4 +1,4 @@
-package com.randomcoder.about;
+package org.randomcoder.about;
 
 /**
  * JavaBean which holds application information.

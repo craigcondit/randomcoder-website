@@ -1,11 +1,11 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import junit.framework.TestCase;
 
 import org.acegisecurity.Authentication;
 import org.springframework.mock.web.*;
 
-import com.randomcoder.test.mock.acegisecurity.*;
+import org.randomcoder.test.mock.acegisecurity.*;
 
 public class NullLogoutHandlerTest extends TestCase
 {

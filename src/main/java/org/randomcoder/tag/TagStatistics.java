@@ -1,4 +1,4 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.io.Serializable;
 

@@ -1,11 +1,11 @@
-package com.randomcoder.security.userdetails;
+package org.randomcoder.security.userdetails;
 
 import java.util.*;
 
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.UserDetails;
 
-import com.randomcoder.user.*;
+import org.randomcoder.user.*;
 
 /**
  * Acegi UserDetails implementation.

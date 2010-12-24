@@ -1,4 +1,4 @@
-package com.randomcoder.dao;
+package org.randomcoder.dao;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 import java.net.URL;
 import java.util.List;
@@ -7,7 +7,7 @@ import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.Required;
 
-import com.randomcoder.article.*;
+import org.randomcoder.article.*;
 
 /**
  * Feed controller which generates feeds for all articles.

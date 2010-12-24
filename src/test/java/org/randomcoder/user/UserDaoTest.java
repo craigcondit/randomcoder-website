@@ -1,8 +1,8 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.*;
 
-import com.randomcoder.test.AbstractDaoTestCase;
+import org.randomcoder.test.AbstractDaoTestCase;
 
 public class UserDaoTest extends AbstractDaoTestCase
 {

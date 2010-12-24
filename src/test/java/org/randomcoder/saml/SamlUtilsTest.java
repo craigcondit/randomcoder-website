@@ -1,6 +1,6 @@
-package com.randomcoder.saml;
+package org.randomcoder.saml;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 
 import java.security.PrivateKey;
 import java.util.*;
@@ -9,8 +9,8 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.*;
 
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.xml.security.XmlSecurityUtils;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.xml.security.XmlSecurityUtils;
 
 public class SamlUtilsTest extends TestCase
 {

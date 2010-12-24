@@ -1,8 +1,8 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.List;
 
-import com.randomcoder.io.Consumer;
+import org.randomcoder.io.Consumer;
 
 /**
  * Command class for editing users.

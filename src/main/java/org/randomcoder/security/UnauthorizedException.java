@@ -1,4 +1,4 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 /**
  * Exception thrown when the current user is not authorized for the given

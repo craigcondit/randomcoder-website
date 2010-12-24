@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
  */
-package com.randomcoder.dao.hibernate;
+package org.randomcoder.dao.hibernate;

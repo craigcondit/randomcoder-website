@@ -1,4 +1,4 @@
-package com.randomcoder.test.mock.content;
+package org.randomcoder.test.mock.content;
 
 import java.io.*;
 import java.net.URL;
@@ -7,7 +7,7 @@ import javax.xml.transform.Templates;
 
 import org.xml.sax.*;
 
-import com.randomcoder.content.*;
+import org.randomcoder.content.*;
 
 public class ContentFilterMock implements ContentFilter
 {

@@ -1,6 +1,6 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 import static org.easymock.EasyMock.*;
 
 import java.beans.PropertyEditor;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 
-import com.randomcoder.crypto.CertificateContext;
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.jse.PrincipalMock;
+import org.randomcoder.crypto.CertificateContext;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.jse.PrincipalMock;
 
 public class UserProfileControllerTest extends TestCase
 {

@@ -1,8 +1,8 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import junit.framework.TestCase;
 
-import com.randomcoder.test.mock.dao.RoleDaoMock;
+import org.randomcoder.test.mock.dao.RoleDaoMock;
 
 public class RolePropertyEditorTest extends TestCase
 {

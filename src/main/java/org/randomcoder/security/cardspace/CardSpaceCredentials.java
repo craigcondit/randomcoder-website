@@ -1,12 +1,12 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import static com.randomcoder.security.cardspace.CardSpaceAttributes.CARDSPACE_CLAIMS_SCHEMA;
+import static org.randomcoder.security.cardspace.CardSpaceAttributes.CARDSPACE_CLAIMS_SCHEMA;
 
 import java.io.Serializable;
 import java.security.*;
 import java.util.*;
 
-import com.randomcoder.saml.*;
+import org.randomcoder.saml.*;
 
 /**
  * CardSpace credentials implementation.

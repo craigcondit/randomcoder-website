@@ -25,4 +25,4 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre> 
- */package com.randomcoder.dao.finder;
+ */package org.randomcoder.dao.finder;

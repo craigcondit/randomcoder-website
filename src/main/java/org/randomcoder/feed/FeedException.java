@@ -1,4 +1,4 @@
-package com.randomcoder.feed;
+package org.randomcoder.feed;
 
 /**
  * Superclass of exceptions thrown during feed generation.

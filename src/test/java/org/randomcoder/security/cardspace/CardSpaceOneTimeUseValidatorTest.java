@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_TEST;
 
 import java.security.PublicKey;
 import java.util.Date;
@@ -10,9 +10,9 @@ import junit.framework.TestCase;
 import org.acegisecurity.BadCredentialsException;
 import org.w3c.dom.Document;
 
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.dao.CardSpaceSeenTokenDaoMock;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.dao.CardSpaceSeenTokenDaoMock;
 
 public class CardSpaceOneTimeUseValidatorTest extends TestCase
 {

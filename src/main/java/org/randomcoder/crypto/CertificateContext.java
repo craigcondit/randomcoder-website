@@ -1,4 +1,4 @@
-package com.randomcoder.crypto;
+package org.randomcoder.crypto;
 
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;

@@ -1,7 +1,7 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
-import com.randomcoder.io.Consumer;
-import com.randomcoder.tag.TagList;
+import org.randomcoder.io.Consumer;
+import org.randomcoder.tag.TagList;
 
 /**
  * Command class used for updating articles.

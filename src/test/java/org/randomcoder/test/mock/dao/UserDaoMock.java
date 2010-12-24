@@ -1,10 +1,10 @@
-package com.randomcoder.test.mock.dao;
+package org.randomcoder.test.mock.dao;
 
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.user.*;
+import org.randomcoder.user.*;
 
 public class UserDaoMock implements UserDao
 {

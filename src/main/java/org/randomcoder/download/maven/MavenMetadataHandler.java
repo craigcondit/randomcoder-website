@@ -1,4 +1,4 @@
-package com.randomcoder.download.maven;
+package org.randomcoder.download.maven;
 
 import java.text.*;
 import java.util.*;

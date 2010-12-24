@@ -1,6 +1,6 @@
-package com.randomcoder.validation;
+package org.randomcoder.validation;
 
-import static com.randomcoder.validation.DataValidationUtils.*;
+import static org.randomcoder.validation.DataValidationUtils.*;
 import junit.framework.TestCase;
 
 public class DataValidationUtilsTest extends TestCase

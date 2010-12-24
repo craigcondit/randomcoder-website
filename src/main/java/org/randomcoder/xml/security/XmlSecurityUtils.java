@@ -1,4 +1,4 @@
-package com.randomcoder.xml.security;
+package org.randomcoder.xml.security;
 
 import static org.apache.xml.security.encryption.XMLCipher.DECRYPT_MODE;
 import static org.apache.xml.security.utils.Constants.*;

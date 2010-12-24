@@ -1,4 +1,4 @@
-package com.randomcoder.download.http;
+package org.randomcoder.download.http;
 
 import java.io.IOException;
 import java.net.*;
@@ -10,8 +10,8 @@ import org.apache.commons.httpclient.util.*;
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.*;
 
-import com.randomcoder.download.*;
-import com.randomcoder.download.Package;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 
 /**
  * HTTP repository parser. 

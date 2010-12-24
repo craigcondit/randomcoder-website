@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -15,8 +15,8 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.randomcoder.article.comment.CommentCommand;
-import com.randomcoder.content.ContentFilter;
+import org.randomcoder.article.comment.CommentCommand;
+import org.randomcoder.content.ContentFilter;
 
 /**
  * Abstract controller class which provides support for displaying a single article.

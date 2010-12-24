@@ -1,10 +1,10 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
 import java.util.Date;
 
 import org.hibernate.Query;
 
-import com.randomcoder.dao.hibernate.HibernateDao;
+import org.randomcoder.dao.hibernate.HibernateDao;
 
 /**
  * CardSpaceSeenToken data access implementation.

@@ -1,4 +1,4 @@
-package com.randomcoder.saml;
+package org.randomcoder.saml;
 
 /**
  * Exception thrown when SAML parsing fails.

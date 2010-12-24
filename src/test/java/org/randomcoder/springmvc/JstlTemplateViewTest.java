@@ -1,4 +1,4 @@
-package com.randomcoder.springmvc;
+package org.randomcoder.springmvc;
 
 import java.util.*;
 
@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.mock.web.*;
 
-import com.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
+import org.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
 
 public class JstlTemplateViewTest extends TestCase
 {

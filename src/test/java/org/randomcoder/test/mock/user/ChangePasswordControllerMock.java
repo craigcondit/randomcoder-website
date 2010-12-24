@@ -1,8 +1,8 @@
-package com.randomcoder.test.mock.user;
+package org.randomcoder.test.mock.user;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.randomcoder.user.ChangePasswordController;
+import org.randomcoder.user.ChangePasswordController;
 
 public class ChangePasswordControllerMock extends ChangePasswordController
 {

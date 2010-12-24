@@ -1,4 +1,4 @@
-package com.randomcoder.dao.hibernate;
+package org.randomcoder.dao.hibernate;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -8,8 +8,8 @@ import org.hibernate.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
-import com.randomcoder.dao.CrudDao;
-import com.randomcoder.dao.finder.*;
+import org.randomcoder.dao.CrudDao;
+import org.randomcoder.dao.finder.*;
 
 /**
  * Hibernate implementation of CrudDao.

@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import static com.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
+import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
 import java.security.PublicKey;
 import java.util.*;
@@ -11,9 +11,9 @@ import org.acegisecurity.Authentication;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
 import org.w3c.dom.Document;
 
-import com.randomcoder.saml.SamlAssertion;
-import com.randomcoder.test.TestObjectFactory;
-import com.randomcoder.test.mock.cardspace.*;
+import org.randomcoder.saml.SamlAssertion;
+import org.randomcoder.test.TestObjectFactory;
+import org.randomcoder.test.mock.cardspace.*;
 
 public class CardSpaceAuthenticationProviderTest extends TestCase
 {

@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -10,10 +10,10 @@ import javax.persistence.*;
 
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.article.comment.Comment;
-import com.randomcoder.content.ContentType;
-import com.randomcoder.tag.Tag;
-import com.randomcoder.user.User;
+import org.randomcoder.article.comment.Comment;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.tag.Tag;
+import org.randomcoder.user.User;
 
 /**
  * JavaBean representing an article.

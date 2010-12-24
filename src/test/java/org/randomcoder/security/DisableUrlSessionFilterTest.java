@@ -1,4 +1,4 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -7,8 +7,8 @@ import junit.framework.TestCase;
 
 import org.springframework.mock.web.*;
 
-import com.randomcoder.test.GenericProxy;
-import com.randomcoder.test.mock.jee.FilterChainMock;
+import org.randomcoder.test.GenericProxy;
+import org.randomcoder.test.mock.jee.FilterChainMock;
 
 public class DisableUrlSessionFilterTest extends TestCase
 {

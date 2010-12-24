@@ -1,4 +1,4 @@
-package com.randomcoder.validation;
+package org.randomcoder.validation;
 
 import java.net.*;
 import java.util.Locale;

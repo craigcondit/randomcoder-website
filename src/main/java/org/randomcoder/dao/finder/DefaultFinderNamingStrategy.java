@@ -1,4 +1,4 @@
-package com.randomcoder.dao.finder;
+package org.randomcoder.dao.finder;
 
 import java.lang.reflect.Method;
 

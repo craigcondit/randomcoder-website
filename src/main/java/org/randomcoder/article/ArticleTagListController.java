@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.net.URLDecoder;
 import java.util.*;
@@ -10,7 +10,7 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.util.UrlPathHelper;
 
-import com.randomcoder.tag.*;
+import org.randomcoder.tag.*;
 
 
 /**

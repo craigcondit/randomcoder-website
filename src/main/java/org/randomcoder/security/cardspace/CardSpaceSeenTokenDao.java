@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import com.randomcoder.dao.*;
+import org.randomcoder.dao.*;
 
 /**
  * CardSpaceSeenToken data access interface.

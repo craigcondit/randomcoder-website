@@ -1,10 +1,10 @@
-package com.randomcoder.test.mock.user;
+package org.randomcoder.test.mock.user;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import com.randomcoder.user.AccountCreateController;
+import org.randomcoder.user.AccountCreateController;
 
 public class AccountCreateControllerMock extends AccountCreateController
 {

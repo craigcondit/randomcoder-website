@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import java.util.*;
 
@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.content.ContentType;
-import com.randomcoder.springmvc.EnumPropertyEditor;
-import com.randomcoder.tag.*;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.springmvc.EnumPropertyEditor;
+import org.randomcoder.tag.*;
 
 /**
  * Base class for article add / edit controllers.

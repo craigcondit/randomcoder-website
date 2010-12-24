@@ -1,8 +1,8 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.util.List;
 
-import com.randomcoder.io.*;
+import org.randomcoder.io.*;
 
 /**
  * Tag Management interface.

@@ -26,4 +26,4 @@
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-package com.randomcoder.feed;
+package org.randomcoder.feed;

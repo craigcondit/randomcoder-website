@@ -1,10 +1,10 @@
-package com.randomcoder.cardspace;
+package org.randomcoder.cardspace;
 
 import java.util.Date;
 
 import junit.framework.TestCase;
 
-import com.randomcoder.user.CardSpaceToken;
+import org.randomcoder.user.CardSpaceToken;
 
 public class CardSpaceTokenSpecTest extends TestCase
 {

@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 /**
  * Exception thrown when a requested user cannot be found.

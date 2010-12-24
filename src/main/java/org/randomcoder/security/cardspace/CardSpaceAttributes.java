@@ -1,6 +1,6 @@
-package com.randomcoder.security.cardspace;
+package org.randomcoder.security.cardspace;
 
-import com.randomcoder.saml.SamlAttributeSpec;
+import org.randomcoder.saml.SamlAttributeSpec;
 
 /**
  * Constants representing CardSpace-specific claims.

@@ -1,4 +1,4 @@
-package com.randomcoder.article.comment;
+package org.randomcoder.article.comment;
 
 /**
  * Exception thrown when a requested comment cannot be found.

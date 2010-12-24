@@ -1,4 +1,4 @@
-package com.randomcoder.content;
+package org.randomcoder.content;
 
 import java.io.*;
 import java.net.URL;
@@ -10,7 +10,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.xml.sax.*;
 
-import com.randomcoder.io.SequenceReader;
+import org.randomcoder.io.SequenceReader;
 
 /**
  * Utility methods for content formatting.

@@ -1,8 +1,8 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import junit.framework.TestCase;
 
-import com.randomcoder.test.mock.acegisecurity.ConfigAttributeMock;
+import org.randomcoder.test.mock.acegisecurity.ConfigAttributeMock;
 
 public class AnyChannelProcessorTest extends TestCase
 {

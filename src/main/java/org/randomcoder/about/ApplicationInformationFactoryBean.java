@@ -1,4 +1,4 @@
-package com.randomcoder.about;
+package org.randomcoder.about;
 
 import java.io.InputStream;
 import java.util.Properties;

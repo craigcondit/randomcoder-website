@@ -1,11 +1,11 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.randomcoder.io.Producer;
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.io.Producer;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Command class for adding tags.

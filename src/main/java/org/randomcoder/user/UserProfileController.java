@@ -1,4 +1,4 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import java.util.*;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import com.randomcoder.crypto.CertificateContext;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.crypto.CertificateContext;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Controller used to handle editing user profiles.

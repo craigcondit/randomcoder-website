@@ -1,4 +1,4 @@
-package com.randomcoder.test;
+package org.randomcoder.test;
 
 import java.io.*;
 import java.sql.Connection;
@@ -20,13 +20,13 @@ import org.springframework.orm.hibernate3.*;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import com.randomcoder.article.*;
-import com.randomcoder.article.comment.*;
-import com.randomcoder.dao.finder.FinderIntroductionInterceptor;
-import com.randomcoder.dao.hibernate.HibernateDao;
-import com.randomcoder.security.cardspace.CardSpaceSeenToken;
-import com.randomcoder.tag.Tag;
-import com.randomcoder.user.*;
+import org.randomcoder.article.*;
+import org.randomcoder.article.comment.*;
+import org.randomcoder.dao.finder.FinderIntroductionInterceptor;
+import org.randomcoder.dao.hibernate.HibernateDao;
+import org.randomcoder.security.cardspace.CardSpaceSeenToken;
+import org.randomcoder.tag.Tag;
+import org.randomcoder.user.*;
 
 abstract public class AbstractDaoTestCase extends TestCase
 {
@@ -139,17 +139,17 @@ abstract public class AbstractDaoTestCase extends TestCase
 		hibProps.setProperty("hibernate.cache.provider_class", "net.sf.ehcache.hibernate.SingletonEhCacheProvider");
 		
 		Properties ecProps = new Properties();
-		ecProps.setProperty("com.randomcoder.article.Article", "read-write");
-		ecProps.setProperty("com.randomcoder.article.comment.Comment", "read-write");
-		ecProps.setProperty("com.randomcoder.user.User", "read-write");
-		ecProps.setProperty("com.randomcoder.user.Role", "read-only");
-		ecProps.setProperty("com.randomcoder.user.CardSpaceToken", "read-write");
-		ecProps.setProperty("com.randomcoder.tag.Tag", "read-write");
+		ecProps.setProperty("org.randomcoder.article.Article", "read-write");
+		ecProps.setProperty("org.randomcoder.article.comment.Comment", "read-write");
+		ecProps.setProperty("org.randomcoder.user.User", "read-write");
+		ecProps.setProperty("org.randomcoder.user.Role", "read-only");
+		ecProps.setProperty("org.randomcoder.user.CardSpaceToken", "read-write");
+		ecProps.setProperty("org.randomcoder.tag.Tag", "read-write");
 		
 		Properties ccProps = new Properties();
-		ccProps.setProperty("com.randomcoder.user.User.roles", "read-write");
-		ccProps.setProperty("com.randomcoder.article.Article.tags", "read-write");
-		ccProps.setProperty("com.randomcoder.article.Article.comments", "read-write");
+		ccProps.setProperty("org.randomcoder.user.User.roles", "read-write");
+		ccProps.setProperty("org.randomcoder.article.Article.tags", "read-write");
+		ccProps.setProperty("org.randomcoder.article.Article.comments", "read-write");
 		
 		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
 		factory.setDataSource(dataSource);

@@ -1,4 +1,4 @@
-package com.randomcoder.security;
+package org.randomcoder.security;
 
 import java.io.IOException;
 

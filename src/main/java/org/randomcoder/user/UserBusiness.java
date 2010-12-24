@@ -1,7 +1,7 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
-import com.randomcoder.io.*;
-import com.randomcoder.security.cardspace.CardSpaceCredentials;
+import org.randomcoder.io.*;
+import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Business interface for user management.

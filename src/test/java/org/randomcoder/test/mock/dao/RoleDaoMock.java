@@ -1,8 +1,8 @@
-package com.randomcoder.test.mock.dao;
+package org.randomcoder.test.mock.dao;
 
 import java.util.*;
 
-import com.randomcoder.user.*;
+import org.randomcoder.user.*;
 
 public class RoleDaoMock implements RoleDao
 {

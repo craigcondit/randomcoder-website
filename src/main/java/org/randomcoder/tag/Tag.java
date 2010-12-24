@@ -1,4 +1,4 @@
-package com.randomcoder.tag;
+package org.randomcoder.tag;
 
 import java.io.Serializable;
 import java.util.*;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 
-import com.randomcoder.article.Article;
+import org.randomcoder.article.Article;
 
 /**
  * JavaBean representing an article tag or category.

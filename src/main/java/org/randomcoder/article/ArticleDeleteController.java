@@ -1,4 +1,4 @@
-package com.randomcoder.article;
+package org.randomcoder.article;
 
 import javax.servlet.http.*;
 
@@ -7,7 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
-import com.randomcoder.springmvc.IdCommand;
+import org.randomcoder.springmvc.IdCommand;
 
 /**
  * Controller class which handles article deletion.

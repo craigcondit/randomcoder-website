@@ -1,10 +1,10 @@
-package com.randomcoder.user;
+package org.randomcoder.user;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
-import com.randomcoder.validation.DataValidationUtils;
+import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator used for adding users.
