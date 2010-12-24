@@ -1,9 +1,9 @@
 <%-- Article comments --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://randomcoder.com/tags-input" prefix="input" %>
+<%@ taglib uri="http://randomcoder.org/tags-input" prefix="input" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
+<%@ taglib uri="http://randomcoder.org/tags-url" prefix="url" %>
 <url:current var="formAction" />
 <url:current var="currentUrl" />
 <c:url var="loginUrl" value="/redirect">

@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://randomcoder.com/tags-input" prefix="input" %>
+<%@ taglib uri="http://randomcoder.org/tags-input" prefix="input" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/user" />
 <c:url var="formAction" value="${template.formAction}" />

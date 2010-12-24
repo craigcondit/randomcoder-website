@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
+<%@ taglib uri="http://randomcoder.org/tags-url" prefix="url" %>
 <url:current var="currentUrl" />					
 <c:if test="${!showAll}">
 	<div class="sectionHeading">Latest releases</div>

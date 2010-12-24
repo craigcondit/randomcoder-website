@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://randomcoder.com/tags-escape" prefix="rcesc" %>
-<%@ taglib uri="http://randomcoder.com/tags-input" prefix="input" %>
+<%@ taglib uri="http://randomcoder.org/tags-escape" prefix="rcesc" %>
+<%@ taglib uri="http://randomcoder.org/tags-input" prefix="input" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/" />
 <c:url var="addUrl" value="/user/profile" />

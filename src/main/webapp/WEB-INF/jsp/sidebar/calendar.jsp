@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://randomcoder.com/tags-ui" prefix="ui" %>
-<%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
+<%@ taglib uri="http://randomcoder.org/tags-ui" prefix="ui" %>
+<%@ taglib uri="http://randomcoder.org/tags-url" prefix="url" %>
 <url:modify var="baseUrl">
 	<url:removeParam name="month" />
 	<url:removeParam name="day" />

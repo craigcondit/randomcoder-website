@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
-<%@ taglib uri="http://randomcoder.com/tags-escape" prefix="rcesc" %>
-<%@ taglib uri="http://randomcoder.com/tags-url" prefix="url" %>
+<%@ taglib uri="http://randomcoder.org/tags-escape" prefix="rcesc" %>
+<%@ taglib uri="http://randomcoder.org/tags-url" prefix="url" %>
 
 <c:set var="postArticles" value="${false}" />
 <authz:authorize ifAnyGranted="ROLE_ARTICLE_POST"><c:set var="postArticles" value="${true}" /></authz:authorize>
