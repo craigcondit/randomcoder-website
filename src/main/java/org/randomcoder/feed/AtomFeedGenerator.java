@@ -1,20 +1,16 @@
 package org.randomcoder.feed;
 
-import static javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
+import static javax.xml.XMLConstants.*;
 
 import java.io.*;
 import java.net.*;
 import java.text.*;
-import java.util.*;
+import java.util.Date;
 
 import javax.xml.parsers.*;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
-
-import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
 import org.randomcoder.about.ApplicationInformation;
 import org.randomcoder.article.Article;
@@ -23,6 +19,9 @@ import org.randomcoder.tag.Tag;
 import org.randomcoder.user.User;
 import org.randomcoder.validation.DataValidationUtils;
 import org.randomcoder.xml.XmlUtils;
+import org.springframework.beans.factory.annotation.Required;
+import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 /**
  * Generator for Atom 1.0 feeds.
@@ -69,7 +68,9 @@ public class AtomFeedGenerator implements FeedGenerator
 	 * Sets the base URL to use for articles.
 	 * 
 	 * @param baseUrl
-	 *          base url
+	 *            base url
+	 * @throws MalformedURLException
+	 *             if URL is invalid
 	 */
 	@Required
 	public void setBaseUrl(String baseUrl) throws MalformedURLException

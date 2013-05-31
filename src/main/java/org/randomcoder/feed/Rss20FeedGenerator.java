@@ -69,7 +69,8 @@ public class Rss20FeedGenerator implements FeedGenerator
 	 * Sets the base URL to use for articles.
 	 * 
 	 * @param baseUrl
-	 *          base url
+	 *            base url
+	 * @throws MalformedURLException if URL is invalid
 	 */
 	@Required
 	public void setBaseUrl(String baseUrl) throws MalformedURLException
