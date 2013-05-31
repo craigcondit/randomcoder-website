@@ -14,9 +14,11 @@ import org.randomcoder.dao.finder.*;
 /**
  * Hibernate implementation of CrudDao.
  * 
- * <p>Inspired by Per Mellqvist's IBM developerWorks article, <a
- * href="http://www-128.ibm.com/developerworks/java/library/j-genericdao.html">Don't
- * repeat the DAO!</a>.</p>
+ * <p>
+ * Inspired by Per Mellqvist's IBM developerWorks article, <a
+ * href="http://www-128.ibm.com/developerworks/java/library/j-genericdao.html"
+ * >Don't repeat the DAO!</a>.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -42,6 +44,11 @@ import org.randomcoder.dao.finder.*;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
+ * @param <PK>
+ *            primary key type
  */
 public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>, FinderExecutor
 {
@@ -62,6 +69,12 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+	 * Creates a new Hibernate DAO for the specified type.
+	 * 
+	 * @param type
+	 *            DAO type
+	 */
 	public HibernateDao(Class<T> type)
 	{
 		this.type = type;

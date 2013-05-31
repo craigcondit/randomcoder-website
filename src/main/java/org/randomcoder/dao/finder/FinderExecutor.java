@@ -6,9 +6,11 @@ import java.util.*;
 /**
  * Interface to map custom DAO methods to named queries.
  * 
- * <p>Inspired by Per Mellqvist's IBM developerWorks article, <a
- * href="http://www-128.ibm.com/developerworks/java/library/j-genericdao.html">Don't
- * repeat the DAO!</a>.</p>
+ * <p>
+ * Inspired by Per Mellqvist's IBM developerWorks article, <a
+ * href="http://www-128.ibm.com/developerworks/java/library/j-genericdao.html"
+ * >Don't repeat the DAO!</a>.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -34,6 +36,9 @@ import java.util.*;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
  */
 public interface FinderExecutor<T>
 {
