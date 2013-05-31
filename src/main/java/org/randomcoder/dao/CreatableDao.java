@@ -39,7 +39,9 @@ public interface CreatableDao<T, PK extends Serializable>
 {
 	/**
 	 * Create a new instance of &lt;T&gt;
-	 * @param newInstance new class instance to save
+	 * 
+	 * @param newInstance
+	 *            new class instance to save
 	 * @return primary key
 	 */
 	public PK create(T newInstance);
