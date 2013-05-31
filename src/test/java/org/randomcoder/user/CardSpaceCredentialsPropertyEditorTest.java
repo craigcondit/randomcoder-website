@@ -14,6 +14,7 @@ import org.randomcoder.saml.SamlAssertion;
 import org.randomcoder.security.cardspace.CardSpaceCredentials;
 import org.randomcoder.test.TestObjectFactory;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceCredentialsPropertyEditorTest extends TestCase
 {
 	private CardSpaceCredentialsPropertyEditor editor;

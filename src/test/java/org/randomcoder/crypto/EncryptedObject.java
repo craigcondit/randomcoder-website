@@ -2,6 +2,7 @@ package org.randomcoder.crypto;
 
 import java.io.Serializable;
 
+@SuppressWarnings("javadoc")
 public class EncryptedObject implements Serializable
 {
 	private static final long serialVersionUID = -6632756368780131317L;

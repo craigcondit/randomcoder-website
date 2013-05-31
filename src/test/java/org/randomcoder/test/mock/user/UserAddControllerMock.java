@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.user.UserAddController;
 
+@SuppressWarnings("javadoc")
 public class UserAddControllerMock extends UserAddController
 {
 	@Override

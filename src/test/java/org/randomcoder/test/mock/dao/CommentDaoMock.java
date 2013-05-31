@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.ModerationStatus;
 
+@SuppressWarnings("javadoc")
 public class CommentDaoMock implements CommentDao
 {
 	private final List<Comment> comments = new ArrayList<Comment>();

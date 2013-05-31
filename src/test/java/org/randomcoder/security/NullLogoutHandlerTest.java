@@ -7,6 +7,7 @@ import org.springframework.mock.web.*;
 
 import org.randomcoder.test.mock.acegisecurity.*;
 
+@SuppressWarnings("javadoc")
 public class NullLogoutHandlerTest extends TestCase
 {
 	private NullLogoutHandler handler = null;

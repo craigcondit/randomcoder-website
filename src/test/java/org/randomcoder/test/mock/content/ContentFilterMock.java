@@ -9,6 +9,7 @@ import org.xml.sax.*;
 
 import org.randomcoder.content.*;
 
+@SuppressWarnings("javadoc")
 public class ContentFilterMock implements ContentFilter
 {
 	@Override

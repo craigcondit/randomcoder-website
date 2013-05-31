@@ -6,6 +6,7 @@ import org.springframework.mock.web.*;
 
 import org.randomcoder.test.mock.acegisecurity.ChannelEntryPointMock;
 
+@SuppressWarnings("javadoc")
 public class UrlMutatingChannelEntryPointTest extends TestCase
 {
 	private UrlMutatingChannelEntryPoint entryPoint = null;

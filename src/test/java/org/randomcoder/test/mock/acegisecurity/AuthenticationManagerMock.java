@@ -2,6 +2,7 @@ package org.randomcoder.test.mock.acegisecurity;
 
 import org.acegisecurity.*;
 
+@SuppressWarnings("javadoc")
 public class AuthenticationManagerMock implements AuthenticationManager
 {
 	public AuthenticationManagerMock() {}

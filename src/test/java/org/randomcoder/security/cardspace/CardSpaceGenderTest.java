@@ -2,6 +2,7 @@ package org.randomcoder.security.cardspace;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceGenderTest extends TestCase
 {
 	public void testValues()

@@ -16,6 +16,7 @@ import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.acegisecurity.AuthenticationManagerMock;
 import org.randomcoder.xml.XmlUtils;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceProcessingFilterTest extends TestCase
 {
 	private CardSpaceProcessingFilter filter = null;

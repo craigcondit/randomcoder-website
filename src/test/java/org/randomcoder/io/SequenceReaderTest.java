@@ -6,6 +6,7 @@ import java.util.*;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class SequenceReaderTest extends TestCase
 {
 	private static final String TEXT1 = "Reader Number One";
@@ -298,7 +299,7 @@ public class SequenceReaderTest extends TestCase
 		}
 		while (c > 0);
 		
-		writer.close();
+		listReader.close();
 		writer.close();
 		
 		assertEquals("Wrong buffer in reader list", TEXT_COMBINED, writer.getBuffer().toString());
@@ -373,6 +374,8 @@ public class SequenceReaderTest extends TestCase
 				c = reader.read();			
 			}
 			while (c >= 0);
+			
+			reader.close();
 			
 			fail("NullPointerException expected");
 		}

@@ -2,6 +2,7 @@ package org.randomcoder.test;
 
 import java.lang.reflect.*;
 
+@SuppressWarnings("javadoc")
 public class GenericProxy implements InvocationHandler
 {
 	private final Object _target;

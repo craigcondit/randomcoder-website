@@ -6,6 +6,7 @@ import org.acegisecurity.userdetails.UserDetails;
 import org.randomcoder.security.cardspace.*;
 import org.randomcoder.test.mock.acegisecurity.UserDetailsMock;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceUserDetailsServiceMock implements CardSpaceUserDetailsService
 {
 	private final boolean returnNull;

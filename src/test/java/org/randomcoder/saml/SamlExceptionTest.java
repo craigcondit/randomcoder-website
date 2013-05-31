@@ -2,6 +2,7 @@ package org.randomcoder.saml;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class SamlExceptionTest extends TestCase
 {
 	public void testSamlException()

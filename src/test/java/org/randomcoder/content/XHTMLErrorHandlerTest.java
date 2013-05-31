@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.xml.sax.*;
 
+@SuppressWarnings("javadoc")
 public class XHTMLErrorHandlerTest extends TestCase
 {
 	private XHTMLErrorHandler handler;

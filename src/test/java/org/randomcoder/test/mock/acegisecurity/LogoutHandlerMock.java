@@ -5,6 +5,7 @@ import javax.servlet.http.*;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.ui.logout.LogoutHandler;
 
+@SuppressWarnings("javadoc")
 public class LogoutHandlerMock implements LogoutHandler
 {		
 	private Authentication authentication = null;

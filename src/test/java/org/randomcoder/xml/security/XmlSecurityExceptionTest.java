@@ -2,6 +2,7 @@ package org.randomcoder.xml.security;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class XmlSecurityExceptionTest extends TestCase
 {
 	public void testXmlSecurityExceptionMessage()

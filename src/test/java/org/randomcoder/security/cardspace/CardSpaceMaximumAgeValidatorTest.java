@@ -13,6 +13,7 @@ import org.w3c.dom.Document;
 import org.randomcoder.saml.SamlAssertion;
 import org.randomcoder.test.TestObjectFactory;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceMaximumAgeValidatorTest extends TestCase
 {
 	private CardSpaceMaximumAgeValidator validator;

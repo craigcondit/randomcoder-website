@@ -2,6 +2,7 @@ package org.randomcoder.security;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class UnauthorizedExceptionTest extends TestCase
 {
 	public void testUnauthorizedException()

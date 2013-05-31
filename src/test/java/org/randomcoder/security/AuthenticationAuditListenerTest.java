@@ -19,6 +19,7 @@ import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.user.*;
 
+@SuppressWarnings("javadoc")
 public class AuthenticationAuditListenerTest extends TestCase
 {
 	private AuthenticationAuditListener aal;

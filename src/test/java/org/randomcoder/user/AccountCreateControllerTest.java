@@ -22,6 +22,7 @@ import org.randomcoder.test.mock.user.AccountCreateControllerMock;
 
 import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
 
+@SuppressWarnings("javadoc")
 public class AccountCreateControllerTest extends TestCase
 {
 	private AccountCreateControllerMock controller;

@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.randomcoder.user.*;
 
+@SuppressWarnings("javadoc")
 public class RoleDaoMock implements RoleDao
 {
 	private long primaryKey = 0;	

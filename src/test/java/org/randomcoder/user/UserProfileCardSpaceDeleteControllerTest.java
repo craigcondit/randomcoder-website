@@ -12,6 +12,7 @@ import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 
+@SuppressWarnings("javadoc")
 public class UserProfileCardSpaceDeleteControllerTest extends TestCase
 {
 	private UserProfileCardSpaceDeleteController controller;

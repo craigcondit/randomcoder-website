@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.test.mock.acegisecurity.ConfigAttributeMock;
 
+@SuppressWarnings("javadoc")
 public class AnyChannelProcessorTest extends TestCase
 {
 	private AnyChannelProcessor processor = null;

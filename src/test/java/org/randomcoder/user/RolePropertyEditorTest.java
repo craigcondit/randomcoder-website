@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.test.mock.dao.RoleDaoMock;
 
+@SuppressWarnings("javadoc")
 public class RolePropertyEditorTest extends TestCase
 {
 	private RolePropertyEditor editor;

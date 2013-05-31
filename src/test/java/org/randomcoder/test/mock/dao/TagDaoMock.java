@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.randomcoder.article.ArticleDao;
 import org.randomcoder.tag.*;
 
+@SuppressWarnings("javadoc")
 public class TagDaoMock implements TagDao
 {
 	private final ArticleDao articleDao;

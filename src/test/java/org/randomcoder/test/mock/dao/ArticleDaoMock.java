@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.randomcoder.article.*;
 import org.randomcoder.tag.Tag;
 
+@SuppressWarnings("javadoc")
 public class ArticleDaoMock implements ArticleDao
 {
 	private final List<Article> articles = new ArrayList<Article>();

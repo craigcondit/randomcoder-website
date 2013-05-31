@@ -22,6 +22,7 @@ import org.randomcoder.security.cardspace.CardSpaceCredentials;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 
+@SuppressWarnings("javadoc")
 public class UserProfileControllerTest extends TestCase
 {
 	private UserProfileController controller;

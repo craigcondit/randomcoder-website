@@ -28,6 +28,7 @@ import org.randomcoder.security.cardspace.CardSpaceSeenToken;
 import org.randomcoder.tag.Tag;
 import org.randomcoder.user.*;
 
+@SuppressWarnings("javadoc")
 abstract public class AbstractDaoTestCase extends TestCase
 {
 	private static DataSource dataSource;

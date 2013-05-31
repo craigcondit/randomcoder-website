@@ -2,6 +2,7 @@ package org.randomcoder.crypto;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class TransientAESEncryptionContextTest extends TestCase
 {
 	TransientAESEncryptionContext context;

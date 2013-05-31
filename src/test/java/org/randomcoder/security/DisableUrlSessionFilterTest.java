@@ -10,6 +10,7 @@ import org.springframework.mock.web.*;
 import org.randomcoder.test.GenericProxy;
 import org.randomcoder.test.mock.jee.FilterChainMock;
 
+@SuppressWarnings("javadoc")
 public class DisableUrlSessionFilterTest extends TestCase
 {
 	private DisableUrlSessionFilter filter;

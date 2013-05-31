@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.randomcoder.test.AbstractDaoTestCase;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceSeenTokenDaoImplTest extends AbstractDaoTestCase
 {
 	private CardSpaceSeenTokenDao cardSpaceSeenTokenDao;

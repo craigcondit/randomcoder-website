@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.springmvc.JstlTemplateView;
 
+@SuppressWarnings("javadoc")
 public class JstlTemplateViewMock extends JstlTemplateView
 {
 	@Override

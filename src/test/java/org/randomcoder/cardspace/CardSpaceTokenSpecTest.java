@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.user.CardSpaceToken;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceTokenSpecTest extends TestCase
 {
 	private Date expirationDate;

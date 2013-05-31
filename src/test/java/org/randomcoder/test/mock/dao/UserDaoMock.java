@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.randomcoder.user.*;
 
+@SuppressWarnings("javadoc")
 public class UserDaoMock implements UserDao
 {
 	private final List<User> users = new ArrayList<User>();

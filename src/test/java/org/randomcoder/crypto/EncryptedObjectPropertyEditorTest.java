@@ -2,6 +2,7 @@ package org.randomcoder.crypto;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class EncryptedObjectPropertyEditorTest extends TestCase
 {
 	TransientAESEncryptionContext context;

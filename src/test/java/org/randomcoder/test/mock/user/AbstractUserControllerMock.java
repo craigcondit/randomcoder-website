@@ -8,6 +8,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 import org.randomcoder.user.AbstractUserController;
 
+@SuppressWarnings("javadoc")
 public class AbstractUserControllerMock extends AbstractUserController
 {
 	@Override

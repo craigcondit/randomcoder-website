@@ -4,6 +4,7 @@ import java.util.*;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class AggregatePackageListProducerTest extends TestCase
 {
 	private AggregatePackageListProducer producer;

@@ -2,6 +2,7 @@ package org.randomcoder.content;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class ContentTypeTest extends TestCase
 {
 	public void testGetMimeType()

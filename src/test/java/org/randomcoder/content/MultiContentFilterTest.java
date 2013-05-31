@@ -10,6 +10,7 @@ import org.xml.sax.*;
 import org.randomcoder.io.SequenceReader;
 import org.randomcoder.test.mock.content.ContentFilterMock;
 
+@SuppressWarnings("javadoc")
 public class MultiContentFilterTest extends TestCase
 {
 	private MultiContentFilter filter;

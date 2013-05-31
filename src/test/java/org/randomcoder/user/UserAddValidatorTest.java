@@ -8,6 +8,7 @@ import org.springframework.validation.*;
 
 import org.randomcoder.test.mock.dao.UserDaoMock;
 
+@SuppressWarnings("javadoc")
 public class UserAddValidatorTest extends TestCase
 {
 	private UserAddValidator validator;

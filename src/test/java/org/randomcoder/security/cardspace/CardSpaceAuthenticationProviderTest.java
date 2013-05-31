@@ -15,6 +15,7 @@ import org.randomcoder.saml.SamlAssertion;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.cardspace.*;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceAuthenticationProviderTest extends TestCase
 {
 	private SamlAssertion assertion;

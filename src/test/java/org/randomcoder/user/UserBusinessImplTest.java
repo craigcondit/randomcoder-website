@@ -16,6 +16,7 @@ import org.randomcoder.security.cardspace.CardSpaceCredentials;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.dao.*;
 
+@SuppressWarnings("javadoc")
 public class UserBusinessImplTest extends TestCase
 {
 	private UserBusinessImpl userBusiness;

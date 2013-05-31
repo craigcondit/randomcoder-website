@@ -2,6 +2,7 @@ package org.randomcoder.test.mock.acegisecurity;
 
 import org.acegisecurity.*;
 
+@SuppressWarnings("javadoc")
 public class AuthenticationMock implements Authentication
 {
 	private static final long serialVersionUID = 3105620828874678824L;

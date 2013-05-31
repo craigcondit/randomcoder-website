@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.test.mock.dao.*;
 
+@SuppressWarnings("javadoc")
 public class UserDeleteControllerTest extends TestCase
 {
 	private UserDeleteController controller;

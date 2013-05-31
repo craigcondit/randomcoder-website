@@ -11,6 +11,7 @@ import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 import org.randomcoder.test.TestHttpServer;
 
+@SuppressWarnings("javadoc")
 public class MavenRepositoryTest extends TestCase
 {
 	private MavenRepository repo;

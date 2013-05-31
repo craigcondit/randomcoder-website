@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class UserNotFoundExceptionTest extends TestCase
 {
 	public void testUserNotFoundException()

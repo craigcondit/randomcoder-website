@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class RoleTest extends TestCase
 {
 	public void testEqualsObject()

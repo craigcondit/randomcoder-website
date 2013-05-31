@@ -14,6 +14,7 @@ import org.randomcoder.saml.*;
 import org.randomcoder.xml.XmlUtils;
 import org.randomcoder.xml.security.XmlSecurityUtils;
 
+@SuppressWarnings("javadoc")
 public class TestObjectFactory
 {
 	public static final String RESOURCE_SAML_ASSERTION_TEST = "/saml-assertion-test.xml";

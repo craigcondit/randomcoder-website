@@ -14,6 +14,7 @@ import org.randomcoder.saml.SamlAssertion;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.dao.CardSpaceSeenTokenDaoMock;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceOneTimeUseValidatorTest extends TestCase
 {
 	private CardSpaceOneTimeUseValidator validator;

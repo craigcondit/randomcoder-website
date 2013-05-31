@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.UserAddControllerMock;
 
+@SuppressWarnings("javadoc")
 public class UserAddControllerTest extends TestCase
 {
 	private UserAddControllerMock controller;

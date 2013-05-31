@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.randomcoder.user.UserListController;
 
+@SuppressWarnings("javadoc")
 public class UserListControllerMock extends UserListController
 {
 

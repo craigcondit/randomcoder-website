@@ -3,6 +3,7 @@ package org.randomcoder.test.mock.acegisecurity;
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.UserDetails;
 
+@SuppressWarnings("javadoc")
 public class UserDetailsMock implements UserDetails
 {
 	private static final long serialVersionUID = -6648737648831411882L;

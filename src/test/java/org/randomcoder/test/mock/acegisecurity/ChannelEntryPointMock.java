@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.acegisecurity.securechannel.ChannelEntryPoint;
 
+@SuppressWarnings("javadoc")
 public class ChannelEntryPointMock implements ChannelEntryPoint
 {
 	public ChannelEntryPointMock() {}

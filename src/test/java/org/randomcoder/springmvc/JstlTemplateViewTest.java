@@ -9,6 +9,7 @@ import org.springframework.mock.web.*;
 
 import org.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
 
+@SuppressWarnings("javadoc")
 public class JstlTemplateViewTest extends TestCase
 {
 	private JstlTemplateViewMock view;

@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.user.ChangePasswordController;
 
+@SuppressWarnings("javadoc")
 public class ChangePasswordControllerMock extends ChangePasswordController
 {
 	@Override

@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.randomcoder.security.cardspace.*;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceSeenTokenDaoMock implements CardSpaceSeenTokenDao
 {
 	private final List<CardSpaceSeenToken> tokens = new ArrayList<CardSpaceSeenToken>();

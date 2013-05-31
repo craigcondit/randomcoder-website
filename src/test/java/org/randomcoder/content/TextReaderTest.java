@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
+@SuppressWarnings("javadoc")
 public class TextReaderTest extends TestCase
 {
 	private static final String TEST_RESOURCE = "/text-reader.txt";

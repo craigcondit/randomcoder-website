@@ -19,6 +19,7 @@ import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.user.*;
 import org.randomcoder.user.User;
 
+@SuppressWarnings("javadoc")
 public class UserDetailsServiceImplTest extends TestCase
 {
 	private UserDetailsServiceImpl svc = null;

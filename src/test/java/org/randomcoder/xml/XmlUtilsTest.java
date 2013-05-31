@@ -11,6 +11,7 @@ import org.apache.commons.logging.*;
 import org.w3c.dom.*;
 import org.xml.sax.*;
 
+@SuppressWarnings("javadoc")
 public class XmlUtilsTest extends TestCase
 {	
 	private static final String XML_VALID_DOCUMENT =

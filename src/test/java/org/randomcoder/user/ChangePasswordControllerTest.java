@@ -12,6 +12,7 @@ import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 import org.randomcoder.test.mock.user.ChangePasswordControllerMock;
 
+@SuppressWarnings("javadoc")
 public class ChangePasswordControllerTest extends TestCase
 {
 	private ChangePasswordControllerMock controller;

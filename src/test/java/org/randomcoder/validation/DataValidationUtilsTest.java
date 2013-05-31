@@ -3,6 +3,7 @@ package org.randomcoder.validation;
 import static org.randomcoder.validation.DataValidationUtils.*;
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class DataValidationUtilsTest extends TestCase
 {
 	private static final String MAX_DOMAIN_SEGMENT = "1234567890123456789012345678901234567890123456789012345678901234567";

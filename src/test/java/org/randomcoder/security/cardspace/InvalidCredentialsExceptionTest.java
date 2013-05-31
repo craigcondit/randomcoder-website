@@ -2,6 +2,7 @@ package org.randomcoder.security.cardspace;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class InvalidCredentialsExceptionTest extends TestCase
 {
 	public void testInvalidCredentialsExceptionStringThrowable()

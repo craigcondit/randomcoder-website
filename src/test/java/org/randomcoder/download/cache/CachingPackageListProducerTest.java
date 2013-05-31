@@ -8,6 +8,7 @@ import net.sf.ehcache.*;
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 
+@SuppressWarnings("javadoc")
 public class CachingPackageListProducerTest extends TestCase
 {
 	CachingPackageListProducer producer;

@@ -6,6 +6,7 @@ import org.xml.sax.*;
 
 import org.randomcoder.xml.AbstractXMLReader;
 
+@SuppressWarnings("javadoc")
 public class AbstractXMLReaderMock extends AbstractXMLReader
 {
 	private InputSource input;

@@ -9,6 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 
+@SuppressWarnings("javadoc")
 public class AbsXMLReaderTest extends TestCase
 {
 	private AbstractXMLReaderMock reader;

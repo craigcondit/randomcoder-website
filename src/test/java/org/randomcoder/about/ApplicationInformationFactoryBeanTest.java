@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.springframework.core.io.*;
 
+@SuppressWarnings("javadoc")
 public class ApplicationInformationFactoryBeanTest extends TestCase
 {
 	private ApplicationInformationFactoryBean bean; 

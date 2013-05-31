@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.test.TestObjectFactory;
 
+@SuppressWarnings("javadoc")
 public class KeystoreCertificateFactoryBeanTest extends TestCase
 {
 	private KeystoreCertificateFactoryBean target;

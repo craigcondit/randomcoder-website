@@ -12,6 +12,7 @@ import org.w3c.dom.*;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.xml.security.XmlSecurityUtils;
 
+@SuppressWarnings("javadoc")
 public class SamlUtilsTest extends TestCase
 {
 	private Document encryptedData;

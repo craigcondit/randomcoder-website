@@ -13,6 +13,7 @@ import org.w3c.dom.*;
 import org.randomcoder.saml.*;
 import org.randomcoder.test.TestObjectFactory;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceDateConstraintValidatorTest extends TestCase
 {
 	private CardSpaceDateConstraintValidator validator;

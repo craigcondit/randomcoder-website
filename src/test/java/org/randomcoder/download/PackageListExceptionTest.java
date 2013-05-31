@@ -2,6 +2,7 @@ package org.randomcoder.download;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class PackageListExceptionTest extends TestCase
 {
 

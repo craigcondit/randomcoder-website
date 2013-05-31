@@ -2,6 +2,7 @@ package org.randomcoder.springmvc;
 
 import junit.framework.TestCase;
 
+@SuppressWarnings("javadoc")
 public class EnumPropertyEditorTest extends TestCase
 {
 	private EnumPropertyEditor editor;

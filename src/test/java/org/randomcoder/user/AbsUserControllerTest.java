@@ -11,6 +11,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.randomcoder.test.mock.dao.RoleDaoMock;
 import org.randomcoder.test.mock.user.AbstractUserControllerMock;
 
+@SuppressWarnings("javadoc")
 public class AbsUserControllerTest extends TestCase
 {
 	private AbstractUserControllerMock controller;

@@ -12,6 +12,7 @@ import org.w3c.dom.Document;
 import org.randomcoder.saml.*;
 import org.randomcoder.test.TestObjectFactory;
 
+@SuppressWarnings("javadoc")
 public class CardSpaceCredentialsTest extends TestCase
 {
 	private SamlAssertion assertion;

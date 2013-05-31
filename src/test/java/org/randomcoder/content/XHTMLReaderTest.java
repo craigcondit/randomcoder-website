@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
+@SuppressWarnings("javadoc")
 public class XHTMLReaderTest extends TestCase
 {
 	private static final String TEST_PREFIX = "<html><body>";

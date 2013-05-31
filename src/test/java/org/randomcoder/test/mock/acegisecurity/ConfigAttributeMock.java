@@ -2,6 +2,7 @@ package org.randomcoder.test.mock.acegisecurity;
 
 import org.acegisecurity.ConfigAttribute;
 
+@SuppressWarnings("javadoc")
 public class ConfigAttributeMock implements ConfigAttribute
 {
 	private static final long serialVersionUID = -174801702398598227L;

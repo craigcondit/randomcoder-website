@@ -8,6 +8,7 @@ import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+@SuppressWarnings("javadoc")
 public class RedirectControllerTest extends TestCase
 {
 	private MockRedirectController controller;

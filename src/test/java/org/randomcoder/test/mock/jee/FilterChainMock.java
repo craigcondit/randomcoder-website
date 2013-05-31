@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.*;
 
+@SuppressWarnings("javadoc")
 public class FilterChainMock implements FilterChain
 {
 	private ServletResponse response;

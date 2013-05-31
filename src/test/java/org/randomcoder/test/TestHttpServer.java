@@ -5,6 +5,7 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@SuppressWarnings("javadoc")
 abstract public class TestHttpServer
 {
 	protected final ServerSocket socket;

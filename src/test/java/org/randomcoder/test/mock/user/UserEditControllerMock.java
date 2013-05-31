@@ -6,6 +6,7 @@ import org.springframework.validation.BindException;
 
 import org.randomcoder.user.UserEditController;
 
+@SuppressWarnings("javadoc")
 public class UserEditControllerMock extends UserEditController
 {
 	@Override

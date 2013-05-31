@@ -14,6 +14,7 @@ import org.randomcoder.security.cardspace.CardSpaceAttributes;
 import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.xml.XmlUtils;
 
+@SuppressWarnings("javadoc")
 public class SamlAssertionTest extends TestCase
 {
 	private Document assertionDoc;

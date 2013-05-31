@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.springframework.validation.*;
 
+@SuppressWarnings("javadoc")
 public class ChangePasswordValidatorTest extends TestCase
 {
 	private ChangePasswordValidator validator;

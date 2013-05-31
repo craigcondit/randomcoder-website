@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.randomcoder.test.AbstractDaoTestCase;
 
+@SuppressWarnings("javadoc")
 public class UserDaoTest extends AbstractDaoTestCase
 {
 	private UserDao userDao;
