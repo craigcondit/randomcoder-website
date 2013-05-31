@@ -66,12 +66,14 @@ public interface ContentFilter
 
 	/**
 	 * Gets the data to prepend to a content stream before processing.
+	 * @param contentType content type
 	 * @return prefix data or null if none
 	 */
 	public String getPrefix(String contentType);
 
 	/**
 	 * Gets the data to append to a content stream before processing.
+	 * @param contentType content type
 	 * @return suffixs data or null if none
 	 */
 	public String getSuffix(String contentType);

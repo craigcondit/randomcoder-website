@@ -40,6 +40,8 @@ import org.randomcoder.tag.*;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <PageCommand> command type
  */
 abstract public class AbstractArticleListController<PageCommand extends ArticlePageCommand> extends AbstractCommandController
 {
@@ -160,6 +162,7 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 	/**
 	 * Gets the subtitle to add to the page.
 	 * 
+	 * @param command page command
 	 * @return subtitle or null if none 
 	 */
 	abstract protected String getSubTitle(PageCommand command);

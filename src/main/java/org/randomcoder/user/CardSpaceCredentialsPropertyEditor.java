@@ -46,6 +46,12 @@ public class CardSpaceCredentialsPropertyEditor extends PropertyEditorSupport
 {
 	private final CertificateContext certificateContext;
 	
+	/**
+	 * Creates a new editor.
+	 * 
+	 * @param certificateContext
+	 *            context
+	 */
 	public CardSpaceCredentialsPropertyEditor(CertificateContext certificateContext)
 	{
 		this.certificateContext = certificateContext;

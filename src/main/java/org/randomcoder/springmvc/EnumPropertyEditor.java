@@ -38,6 +38,12 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 
 	private Class<? extends Enum> enumType;
 	
+	/**
+	 * Creates a new property editor.
+	 * 
+	 * @param enumType
+	 *            enum type
+	 */
 	public EnumPropertyEditor(Class<? extends Enum> enumType)
 	{
 		this.enumType = enumType;
