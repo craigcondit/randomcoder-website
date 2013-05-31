@@ -29,12 +29,19 @@ import java.io.Serializable;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
+ * @param <PK>
+ *            primary key type
  */
 public interface ReadableDao<T, PK extends Serializable>
 {
 	/**
 	 * Load an instance of &lt;T&gt; by primary key
-	 * @param id primary key
+	 * 
+	 * @param id
+	 *            primary key
 	 * @return object instance
 	 */
 	public T read(PK id);

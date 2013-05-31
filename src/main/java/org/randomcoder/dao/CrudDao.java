@@ -29,8 +29,13 @@ import java.io.Serializable;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
+ * @param <PK>
+ *            primary key type
  */
 public interface CrudDao<T, PK extends Serializable>
-extends CreatableDao<T, PK>, ReadableDao<T, PK>, UpdatableDao<T, PK>, DeletableDao<T, PK>
+		extends CreatableDao<T, PK>, ReadableDao<T, PK>, UpdatableDao<T, PK>, DeletableDao<T, PK>
 {
 }

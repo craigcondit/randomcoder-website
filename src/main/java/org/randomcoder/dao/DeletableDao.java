@@ -29,12 +29,19 @@ import java.io.Serializable;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
+ * @param <PK>
+ *            primary key type
  */
 public interface DeletableDao<T, PK extends Serializable>
 {
 	/**
 	 * Deletes an object
-	 * @param persistentObject object to delete
+	 * 
+	 * @param persistentObject
+	 *            object to delete
 	 */
 	public void delete(T persistentObject);
 }

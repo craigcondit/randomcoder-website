@@ -29,12 +29,19 @@ import java.io.Serializable;
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
+ * 
+ * @param <T>
+ *            entity type
+ * @param <PK>
+ *            primary key type
  */
 public interface UpdatableDao<T, PK extends Serializable>
 {
 	/**
 	 * Updates an object
-	 * @param transientObject object to update
+	 * 
+	 * @param transientObject
+	 *            object to update
 	 */
 	public void update(T transientObject);
 }
