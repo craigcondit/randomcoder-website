@@ -62,13 +62,13 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<version>2.1</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.randomcoder</groupId>
@@ -165,7 +165,7 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>jasper</artifactId>
 			<version>6.0.18</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>xerces</groupId>
@@ -282,7 +282,6 @@
 					<archiveClasses>true</archiveClasses>
 					-->
 					<warSourceExcludes>**/*.jsp</warSourceExcludes>
-					<packagingExcludes>WEB-INF/lib/jasper*.jar,WEB-INF/lib/jsp-api*.jar,WEB-INF/lib/servlet-api*.jar</packagingExcludes>
 					<archiveClasses>false</archiveClasses>
 				</configuration>
 			</plugin>
