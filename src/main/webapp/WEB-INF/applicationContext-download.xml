@@ -71,6 +71,18 @@
 						</map>
 					</property>
 				</bean>
+				<bean class="org.randomcoder.download.maven.MavenProject">
+					<property name="projectName" value="randomcoder-citadel" />
+					<property name="projectDescription" value="Java security framework (deprecated)" />
+					<property name="directory" value="com/randomcoder/randomcoder-citadel" />					
+					<property name="extensionMappings">
+						<map>
+							<entry key=".jar" value="jar" />
+							<entry key="-sources.jar" value="src" />
+							<entry key="-javadoc.jar" value="javadoc" />
+						</map>
+					</property>
+				</bean>
 			</list>
 		</property>
 	</bean>
