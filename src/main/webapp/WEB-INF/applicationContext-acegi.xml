@@ -47,17 +47,17 @@
 	    <value>
 	      CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
 	      PATTERN_TYPE_APACHE_ANT
-	      /j_security_check=REQUIRES_SECURE_CHANNEL
-	      /j_cardspace_check=REQUIRES_SECURE_CHANNEL
-	      /login*=REQUIRES_SECURE_CHANNEL
-	      /user/profile=REQUIRES_SECURE_CHANNEL
-	      /user/profile/**=REQUIRES_SECURE_CHANNEL
-	      /account=REQUIRES_SECURE_CHANNEL
-	      /account/**=REQUIRES_SECURE_CHANNEL
+	      /j_security_check=REQUIRES_ANY
+	      /j_cardspace_check=REQUIRES_ANY
+	      /login*=REQUIRES_ANY
+	      /user/profile=REQUIRES_ANY
+	      /user/profile/**=REQUIRES_ANY
+	      /account=REQUIRES_ANY
+	      /account/**=REQUIRES_ANY
 	      /images/**=REQUIRES_ANY
 	      /css/**=REQUIRES_ANY
 	      /js/**=REQUIRES_ANY
-	      /**=REQUIRES_INSECURE_CHANNEL
+	      /**=REQUIRES_ANY
 	    </value>
   	</property>
 	</bean>
