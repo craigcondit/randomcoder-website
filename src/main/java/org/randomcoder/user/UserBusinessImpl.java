@@ -2,13 +2,9 @@ package org.randomcoder.user;
 
 import java.util.*;
 
+import org.randomcoder.io.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.randomcoder.cardspace.CardSpaceUtils;
-import org.randomcoder.io.*;
-import org.randomcoder.security.UnauthorizedException;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Business implementation for user management.
@@ -41,7 +37,6 @@ import org.randomcoder.security.cardspace.CardSpaceCredentials;
 public class UserBusinessImpl implements UserBusiness
 {
 	private UserDao userDao;
-	private CardSpaceTokenDao cardSpaceTokenDao;	
 	
 	/**
 	 * Sets the UserDao implementation to use.
@@ -53,16 +48,6 @@ public class UserBusinessImpl implements UserBusiness
 		this.userDao = userDao;
 	}
 	
-	/**
-	 * Sets the CardSpaceTokenDao implementation to use.
-	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
-	 */
-	@Required
-	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
-	{
-		this.cardSpaceTokenDao = cardSpaceTokenDao;
-	}
-
 	@Override
 	@Transactional
 	public void changePassword(String userName, String password)
@@ -94,24 +79,6 @@ public class UserBusinessImpl implements UserBusiness
 		producer.produce(user);
 		userDao.create(user);		
 	}
-
-	@Override
-	@Transactional
-	public void createAccount(Producer<User> userProducer, Producer<CardSpaceToken> tokenProducer)	
-	{
-		User user = new User();
-		userProducer.produce(user);
-		userDao.create(user);
-		
-		CardSpaceToken token = new CardSpaceToken();
-		tokenProducer.produce(token);
-		token.setCreationDate(new Date());
-		token.setLastLoginDate(null);
-		token.setEmailAddress(user.getEmailAddress());
-		token.setUser(user);
-		
-		cardSpaceTokenDao.create(token);
-	}
 	
 	@Override
 	@Transactional
@@ -127,12 +94,6 @@ public class UserBusinessImpl implements UserBusiness
 	public void deleteUser(Long userId)
 	{
 		User user = loadUser(userId);
-		
-		List<CardSpaceToken> tokens = cardSpaceTokenDao.listByUser(user);
-		for (CardSpaceToken token : tokens)
-		{
-			cardSpaceTokenDao.delete(token);
-		}
 		
 		userDao.delete(user);		
 	}
@@ -155,28 +116,6 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional
-	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials)
-	{
-		User user = loadUser(userId);
-		
-		String ppid = credentials.getPrivatePersonalIdentifier();
-		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
-		
-		if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
-			throw new CardSpaceTokenExistsException();
-		
-		CardSpaceToken token = new CardSpaceToken();
-		token.setCreationDate(new Date());
-		token.setUser(user);
-		token.setPrivatePersonalIdentifier(ppid);
-		token.setIssuerHash(issuerHash);
-		token.setEmailAddress(credentials.getEmailAddress());				
-		
-		cardSpaceTokenDao.create(token);		
-	}	
-
-	@Override
-	@Transactional
 	public void auditUsernamePasswordLogin(String userName)
 	{
 		User user = userDao.findByUserName(userName);
@@ -188,44 +127,4 @@ public class UserBusinessImpl implements UserBusiness
 		
 		userDao.update(user);
 	}
-
-	@Override
-	@Transactional
-	public void auditCardSpaceLogin(CardSpaceCredentials credentials)
-	{
-		String ppid = credentials.getPrivatePersonalIdentifier();
-		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
-		
-		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
-		
-		if (token == null)
-			throw new CardSpaceTokenNotFoundException();
-		
-		User user = token.getUser();
-		
-		user.setLastLoginDate(new Date());
-		token.setLastLoginDate(user.getLastLoginDate());
-		
-		userDao.update(user);
-		cardSpaceTokenDao.update(token);		
-	}
-	
-	@Override
-	@Transactional
-	public void deleteCardSpaceToken(String userName, Long tokenId)
-	{
-		User user = userDao.findByUserName(userName);
-		if (user == null)
-			throw new UserNotFoundException("Unknown user: " + userName);
-		
-		CardSpaceToken token = cardSpaceTokenDao.read(tokenId);
-		if (token == null)
-			throw new CardSpaceTokenNotFoundException();
-		
-		if (!user.equals(token.getUser()))
-			throw new UnauthorizedException("You are not allowed to delete information cards you did not create.");
-		
-		cardSpaceTokenDao.delete(token);
-	}
-
 }

@@ -3,9 +3,7 @@ package org.randomcoder.user;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.randomcoder.io.Producer;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Command class for updating a user profile.
@@ -39,48 +37,8 @@ public class UserProfileCommand implements Serializable, Producer<User>
 {
 	private static final long serialVersionUID = 8464807327958297647L;
 	
-	private String formType;
-	
-	private CardSpaceCredentials xmlToken;
-	
 	private String emailAddress;
 	private String website;
-	
-	/**
-	 * Gets the type of form (currently PREFS or INFOCARD).
-	 * @return form type
-	 */
-	public String getFormType()
-	{
-		return formType;
-	}
-	
-	/**
-	 * Sets the type of form (currently PREFS or INFOCARD).
-	 * @param formType form type
-	 */
-	public void setFormType(String formType)
-	{
-		this.formType = formType;
-	}
-	
-	/**
-	 * Gets the CardSpaceCredentials posted to this form.
-	 * @return CardSpace credentials
-	 */
-	public CardSpaceCredentials getXmlToken()
-	{
-		return xmlToken;
-	}
-	
-	/**
-	 * Sets the CardSpaceCredentials posted to this form.
-	 * @param xmlToken CardSpace credentials
-	 */
-	public void setXmlToken(CardSpaceCredentials xmlToken)
-	{
-		this.xmlToken = xmlToken;
-	}
 	
 	/**
 	 * Gets the email address of this user.

@@ -1,7 +1,6 @@
 package org.randomcoder.user;
 
 import org.randomcoder.io.*;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Business interface for user management.
@@ -53,13 +52,6 @@ public interface UserBusiness
 	public void createAccount(Producer<User> producer);	
 
 	/**
-	 * Creates a new account using CardSpace credentials.
-	 * @param userProducer user producer
-	 * @param tokenProducer CardSpace token producer
-	 */
-	public void createAccount(Producer<User> userProducer, Producer<CardSpaceToken> tokenProducer);	
-	
-	/**
 	 * Loads a user for editing.
 	 * @param consumer consumer
 	 * @param userId id of user to load
@@ -80,29 +72,8 @@ public interface UserBusiness
 	public void deleteUser(Long userId);
 	
 	/**
-	 * Associates the given CardSpaceCredentials with the given user.
-	 * @param userId user id of user to associate credentials with
-	 * @param credentials CardSpace credentials
-	 */
-	public void associateCardSpaceCredentials(Long userId, CardSpaceCredentials credentials);
-	
-	/**
 	 * Marks a user as having logged in as of a particular date and time. 
 	 * @param userName user name to update
 	 */
-	public void auditUsernamePasswordLogin(String userName);
-		
-	/**
-	 * Marks a user as having logged in as of a particular date and time
-	 * and marks the associated CardSpaceToken as used.
-	 * @param credentials credentials to update
-	 */
-	public void auditCardSpaceLogin(CardSpaceCredentials credentials);
-	
-	/**
-	 * Deletes a CardSpace token.
-	 * @param userName current user
-	 * @param tokenId id of token to delete
-	 */
-	public void deleteCardSpaceToken(String userName, Long tokenId);
+	public void auditUsernamePasswordLogin(String userName);		
 }

@@ -10,9 +10,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
-import org.randomcoder.crypto.CertificateContext;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
-
 /**
  * Controller used to handle editing user profiles.
  * 
@@ -44,8 +41,6 @@ import org.randomcoder.security.cardspace.CardSpaceCredentials;
 public class UserProfileController extends CancellableFormController
 {
 	private UserDao userDao;
-	private CardSpaceTokenDao cardSpaceTokenDao;
-	private CertificateContext certificateContext;
 	private UserBusiness userBusiness;
 	
 	/**
@@ -56,25 +51,6 @@ public class UserProfileController extends CancellableFormController
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;
-	}
-	
-	/**
-	 * Sets the CardSpaceTokenDao implementation to use.
-	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
-	 */
-	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
-	{
-		this.cardSpaceTokenDao = cardSpaceTokenDao;
-	}
-	
-	/**
-	 * Sets the certificate context used to lookup private keys.
-	 * @param certificateContext certificate context
-	 */
-	@Required
-	public void setCertificateContext(CertificateContext certificateContext)
-	{
-		this.certificateContext = certificateContext;
 	}
 	
 	/**
@@ -96,7 +72,6 @@ public class UserProfileController extends CancellableFormController
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(CardSpaceCredentials.class, new CardSpaceCredentialsPropertyEditor(certificateContext));
 	}
 	
 	/**
@@ -113,11 +88,7 @@ public class UserProfileController extends CancellableFormController
 
 		User user = getUser(request);
 		
-		// get cardspace tokens associated with this user
-		List<CardSpaceToken> cardSpaceTokens = cardSpaceTokenDao.listByUser(user);
-		
 		data.put("user", user);
-		data.put("cardSpaceTokens", cardSpaceTokens);
 		
 		return data;
 	}
@@ -142,7 +113,7 @@ public class UserProfileController extends CancellableFormController
 	}
 
 	/**
-	 * Associates the supplied CardSpace token with the current user.
+	 * Updates the current user's profile.
 	 * @param request HTTP request
 	 * @param response HTTP response
 	 * @param command command object
@@ -156,15 +127,7 @@ public class UserProfileController extends CancellableFormController
 		User user = getUser(request);
 		
 		UserProfileCommand form = (UserProfileCommand) command;
-		if ("INFOCARD".equals(form.getFormType()))
-		{		
-			// save token
-			userBusiness.associateCardSpaceCredentials(user.getId(), form.getXmlToken());
-		}
-		else if ("PREFS".equals(form.getFormType()))
-		{
-			userBusiness.updateUser(form, user.getId());
-		}
+		userBusiness.updateUser(form, user.getId());
 		
 		return new ModelAndView(getSuccessView());		
 	}

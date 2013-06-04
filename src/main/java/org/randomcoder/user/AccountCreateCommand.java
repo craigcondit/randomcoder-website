@@ -5,10 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
-
-import org.randomcoder.cardspace.CardSpaceTokenSpec;
 import org.randomcoder.io.Producer;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Command class for adding users.
@@ -42,89 +39,11 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 {	
 	private static final long serialVersionUID = 7346261261522108772L;
 	
-	private String formType;
-	private boolean formComplete;
-	
-	private CardSpaceCredentials xmlToken;
-	private CardSpaceTokenSpec cardSpaceTokenSpec;
-	
 	private String userName;
 	private String emailAddress;
 	private String website;
 	private String password;
 	private String password2;
-	
-	/**
-	 * Gets the type of form (INFOCARD or PASS).
-	 * @return form type
-	 */
-	public String getFormType()
-	{
-		return formType;
-	}
-	
-	/**
-	 * Sets the type of form (INFOCARD or PASS).
-	 * @param formType form type
-	 */
-	public void setFormType(String formType)
-	{
-		this.formType = formType;
-	}
-
-	/**
-	 * Gets form complete status.
-	 * @return true if form is complete, false otherwise
-	 */
-	public boolean isFormComplete()
-	{
-		return formComplete;
-	}
-	
-	/**
-	 * Sets form complete status.
-	 * @param formComplete true if form is complete, false otherwise
-	 */
-	public void setFormComplete(boolean formComplete)
-	{
-		this.formComplete = formComplete;
-	}
-	
-	/**
-	 * Gets the CardSpaceCredentials posted to this form.
-	 * @return CardSpace credentials
-	 */
-	public CardSpaceCredentials getXmlToken()
-	{
-		return xmlToken;
-	}
-	
-	/**
-	 * Sets the CardSpaceCredentials posted to this form.
-	 * @param xmlToken CardSpace credentials
-	 */
-	public void setXmlToken(CardSpaceCredentials xmlToken)
-	{
-		this.xmlToken = xmlToken;
-	}
-	
-	/**
-	 * Gets the CardSpace token spec for this form. 
-	 * @return CardSpace token
-	 */
-	public CardSpaceTokenSpec getCardSpaceTokenSpec()
-	{
-		return cardSpaceTokenSpec;
-	}
-	
-	/**
-	 * Sets the CardSpace token spec for this form. 
-	 * @param cardSpaceTokenSpec CardSpace token
-	 */
-	public void setCardSpaceTokenSpec(CardSpaceTokenSpec cardSpaceTokenSpec)
-	{
-		this.cardSpaceTokenSpec = cardSpaceTokenSpec;
-	}
 	
 	/**
 	 * Gets the username of this user.
@@ -226,14 +145,7 @@ public class AccountCreateCommand implements Serializable, Producer<User>
 		user.setEmailAddress(emailAddress);
 		user.setWebsite(website);
 		user.setEnabled(true);
-		if ("PASS".equals(formType))
-		{
-			user.setPassword(User.hashPassword(password));			
-		}
-		else
-		{
-			user.setPassword(null);
-		}
+		user.setPassword(User.hashPassword(password));			
 		user.setRoles(new ArrayList<Role>());
 	}
 

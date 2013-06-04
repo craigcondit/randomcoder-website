@@ -2,11 +2,9 @@ package org.randomcoder.security;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.event.authentication.AuthenticationSuccessEvent;
+import org.randomcoder.user.UserBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.*;
-
-import org.randomcoder.security.cardspace.*;
-import org.randomcoder.user.UserBusiness;
 
 /**
  * ApplicationEvent listener which audits authentication events.  
@@ -67,19 +65,6 @@ public class AuthenticationAuditListener implements ApplicationListener
 	{
 		Authentication auth = event.getAuthentication();
 		
-		if (auth instanceof CardSpaceAuthenticationToken)
-		{
-			// cardspace login			
-			CardSpaceAuthenticationToken token = (CardSpaceAuthenticationToken) auth;
-			CardSpaceCredentials credentials = (CardSpaceCredentials) token.getCredentials();
-			
-			userBusiness.auditCardSpaceLogin(credentials);
-		}
-		else
-		{
-			// username / password login
-			userBusiness.auditUsernamePasswordLogin(auth.getName());
-		}
-	}
-	
+		userBusiness.auditUsernamePasswordLogin(auth.getName());
+	}	
 }

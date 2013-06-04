@@ -1,18 +1,13 @@
 package org.randomcoder.user;
 
-import java.util.Date;
-
 import javax.servlet.http.*;
 
+import org.randomcoder.crypto.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-
-import org.randomcoder.cardspace.*;
-import org.randomcoder.crypto.*;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
 
 /**
  * Controller class which handles adding user accounts.
@@ -90,8 +85,6 @@ public class AccountCreateController extends CancellableFormController
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(CardSpaceCredentials.class, new CardSpaceCredentialsPropertyEditor(certificateContext));
-		binder.registerCustomEditor(CardSpaceTokenSpec.class, new EncryptedObjectPropertyEditor(encryptionContext));
 	}
 	
 	/**
@@ -103,37 +96,8 @@ public class AccountCreateController extends CancellableFormController
 	{
 		AccountCreateCommand form = (AccountCreateCommand) command;
 		
-		if ("INFOCARD".equals(form.getFormType()))
-		{
-			CardSpaceCredentials credentials = form.getXmlToken();
-			
-			if (!form.isFormComplete())
-			{				
-				if (credentials != null)
-				{
-					// update form
-					String ppid = credentials.getPrivatePersonalIdentifier();
-					String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
-					Date now = new Date();
-					Date expiration = new Date(now.getTime() + TOKEN_EXPIRATION_TIME);				
-					
-					CardSpaceTokenSpec spec = new CardSpaceTokenSpec(ppid, issuerHash, expiration);
-					form.setCardSpaceTokenSpec(spec);
-					form.setEmailAddress(credentials.getEmailAddress());
-					form.setWebsite(credentials.getWebPage());
-				}
-				
-				// redirect to form
-				return showForm(request, response, errors);
-			}
-			
-			userBusiness.createAccount(form, form.getCardSpaceTokenSpec());
-		}
-		else if ("PASS".equals(form.getFormType()))
-		{
-			// password auth, done
-			userBusiness.createAccount(form);			
-		}
+		// password auth, done
+		userBusiness.createAccount(form);			
 
 		return new ModelAndView(getSuccessView());
 	}

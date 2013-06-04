@@ -1,22 +1,12 @@
 package org.randomcoder.user;
 
-import static org.randomcoder.test.TestObjectFactory.RESOURCE_SAML_ASSERTION_ALL_FIELDS;
-
-import java.security.PublicKey;
-import java.util.Date;
-
 import junit.framework.TestCase;
-
-import org.w3c.dom.Document;
-
-import org.randomcoder.saml.SamlAssertion;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
-import org.randomcoder.test.TestObjectFactory;
 
 @SuppressWarnings("javadoc")
 public class UserProfileCommandTest extends TestCase
 {
 	private UserProfileCommand command;
+	
 	@Override
 	protected void setUp() throws Exception
 	{
@@ -27,25 +17,6 @@ public class UserProfileCommandTest extends TestCase
 	protected void tearDown() throws Exception
 	{
 		command = null;
-	}
-
-	public void testGetFormType()
-	{
-		command.setFormType("PREFS");
-		assertEquals("PREFS", command.getFormType());
-	}
-
-	public void testGetXmlToken() throws Exception
-	{
-		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_ALL_FIELDS);
-		SamlAssertion assertion = TestObjectFactory.getSamlAssertion(doc);
-		PublicKey publicKey = TestObjectFactory.getPublicKey(doc);
-		Date now = new Date();
-		
-		CardSpaceCredentials cred = new CardSpaceCredentials(assertion, publicKey, now);
-		
-		command.setXmlToken(cred);
-		assertSame(cred, command.getXmlToken());
 	}
 
 	public void testGetEmailAddress()
@@ -63,7 +34,6 @@ public class UserProfileCommandTest extends TestCase
 	public void testProduce()
 	{
 		command.setEmailAddress("test@example.com");
-		command.setFormType("PREFS");
 		command.setWebsite("http://test.com/");
 		
 		User user = new User();

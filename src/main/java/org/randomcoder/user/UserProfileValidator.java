@@ -1,11 +1,6 @@
 package org.randomcoder.user;
 
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
-
-import org.randomcoder.cardspace.CardSpaceUtils;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
-import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator for UserProfileCommand objects.
@@ -37,23 +32,6 @@ import org.randomcoder.validation.DataValidationUtils;
  */
 public class UserProfileValidator implements Validator
 {
-	private static final String ERROR_INFOCARD_REQUIRED = "error.profile.infocard.required";
-	private static final String ERROR_INFOCARD_EXISTS = "error.profile.infocard.exists";
-	private static final String ERROR_INFOCARD_PPID_REQUIRED = "error.profile.infocard.ppid.required";
-	private static final String ERROR_INFOCARD_EMAIL_REQUIRED = "error.profile.infocard.email.required";
-	
-	private CardSpaceTokenDao cardSpaceTokenDao;
-	
-	/**
-	 * Sets the CardSpaceTokenDao implementation to use.
-	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
-	 */
-	@Required
-	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
-	{
-		this.cardSpaceTokenDao = cardSpaceTokenDao;
-	}
-	
 	/**
 	 * Determines if the target class is supported by this validator.
 	 * @param targetClass target class
@@ -74,59 +52,5 @@ public class UserProfileValidator implements Validator
 	public void validate(Object target, Errors errors)
 	{
 		UserProfileCommand command = (UserProfileCommand) target;
-		
-		String formType = command.getFormType();
-		if ("INFOCARD".equals(formType))
-		{
-			CardSpaceCredentials credentials = command.getXmlToken();
-			
-			if (credentials == null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_REQUIRED, "infocard required");
-				return;
-			}
-			
-			// need PPID
-			String ppid = credentials.getPrivatePersonalIdentifier();
-			if (ppid == null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_PPID_REQUIRED, "ppid required");
-				return;
-			}
-			
-			// check for existing
-			String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
-			
-			if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
-				return;
-			}
-			
-			// need email address
-			String emailAddress = credentials.getEmailAddress();
-			if (emailAddress == null || emailAddress.trim().length() == 0)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
-				return;
-			}
-			
-			// email address must be valid
-			if (!DataValidationUtils.isValidEmailAddress(emailAddress))
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
-				return;
-			}
-		}
-		else if ("PREFS".equals(formType))
-		{
-			
-		}
-		else
-		{
-			errors.reject("Invalid form type: " + formType);
-			return;
-		}
 	}
-
 }

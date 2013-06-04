@@ -1,14 +1,9 @@
 package org.randomcoder.user;
 
-import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
+import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
-
-import org.randomcoder.cardspace.*;
-import org.randomcoder.security.cardspace.CardSpaceCredentials;
-import org.randomcoder.validation.DataValidationUtils;
 
 /**
  * Validator used for adding accounts.
@@ -63,7 +58,6 @@ public class AccountCreateValidator implements Validator
 	private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
 	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;	
 	private UserDao userDao;
-	private CardSpaceTokenDao cardSpaceTokenDao;
 	
 	/**
 	 * Sets the minimum password length.
@@ -91,16 +85,6 @@ public class AccountCreateValidator implements Validator
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;
-	}
-	
-	/**
-	 * Sets the CardSpaceTokenDao implementation to use.
-	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
-	 */
-	@Required
-	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
-	{
-		this.cardSpaceTokenDao = cardSpaceTokenDao;
 	}
 	
 	/**
@@ -132,80 +116,11 @@ public class AccountCreateValidator implements Validator
 			return;
 		}
 
-		String formType = command.getFormType();
-		if ("INFOCARD".equals(formType))
-		{			
-			// new account using infocard
-			CardSpaceTokenSpec spec = command.getCardSpaceTokenSpec();
-			if (spec != null)
-			{
-				Date now = new Date();
-				Date expiration = spec.getExpirationDate();
-				if (!(now.before(expiration)))
-				{
-					// remove spec
-					command.setCardSpaceTokenSpec(spec);
-					command.setXmlToken(null);
-					command.setFormComplete(false);
-					errors.rejectValue("xmlToken", ERROR_INFOCARD_EXPIRED, "infocard expired");
-					return;
-				}
-				
-				if (command.isFormComplete())
-				{
-					validateUsername(command, errors);			
-					validateEmailAddress(command, errors);
-					validateWebsite(command, errors);
-					return;
-				}
-			}
-			
-			// initial submission, check token
-			CardSpaceCredentials credentials = command.getXmlToken();
-			
-			if (credentials == null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_REQUIRED, "infocard required");
-				return;
-			}
-			
-			// need PPID
-			String ppid = credentials.getPrivatePersonalIdentifier();
-			if (ppid == null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_PPID_REQUIRED, "ppid required");
-				return;
-			}
-			
-			// check for existing
-			String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);
-			
-			if (cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash) != null)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_EXISTS, "infocard exists");
-				return;
-			}
-			
-			// need email address
-			String emailAddress = credentials.getEmailAddress();
-			if (emailAddress == null || emailAddress.trim().length() == 0)
-			{
-				errors.rejectValue("xmlToken", ERROR_INFOCARD_EMAIL_REQUIRED, "email required");
-				return;
-			}			
-		}
-		else if ("PASS".equals(formType))
-		{
-			// new account using password
-			validateUsername(command, errors);						
-			validatePassword(command, errors);
-			validateEmailAddress(command, errors);
-			validateWebsite(command, errors);
-		} 
-		else
-		{
-			errors.reject("Invalid form type: " + formType);
-		}
+		// new account using password
+		validateUsername(command, errors);						
+		validatePassword(command, errors);
+		validateEmailAddress(command, errors);
+		validateWebsite(command, errors);
 	}
 
 	private void validateWebsite(AccountCreateCommand command, Errors errors)
