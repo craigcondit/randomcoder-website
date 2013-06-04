@@ -9,8 +9,9 @@
   <body>
   	<links>
   		<item name="Home" href="../../../../../../" />
-  		<item name="Randomcoder Website" href="../randomcoder-website/" />
-  		<item name="Randomcoder Taglibs" href="../randomcoder-taglibs/" />
+  		<item name="Base" href="../randomcoder-base/" />
+  		<item name="Website" href="../randomcoder-website/" />
+  		<item name="Taglibs" href="../randomcoder-taglibs/" />
   	</links>
   	
   	${reports}
