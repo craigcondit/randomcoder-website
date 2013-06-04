@@ -10,7 +10,7 @@
 	<artifactId>randomcoder-website</artifactId>
 	<packaging>war</packaging>
 	<name>Randomcoder Website</name>
-	<version>2.5.1-SNAPSHOT</version>
+	<version>2.5.1</version>
 	<description>This project contains the RandomCoder.Org website.</description>
 	<url>https://randomcoder.org/nexus/content/repositories/releases/org/randomcoder/randomcoder-website</url>
 	<inceptionYear>2006</inceptionYear>
@@ -327,7 +327,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
