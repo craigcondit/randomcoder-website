@@ -37,15 +37,6 @@ abstract public class AbstractDaoTestCase extends TestCase
 	private static final String DATA_DTD = "/database-schema.dtd";
 	private static final String DB_PROPS = "/database.properties";
 	
-	private static final String[] SQL_SCRIPTS = new String[] {
-		"/database/create.sql",
-		"/database/upgrade-1.1.sql",
-		"/database/upgrade-1.2.sql",
-		"/database/upgrade-1.3.sql",
-		"/database/upgrade-2.0.sql",
-		"/database/upgrade-2.2.sql"
-	};
-	
 	private static final Properties dbProps;
 	
 	static
@@ -192,106 +183,11 @@ abstract public class AbstractDaoTestCase extends TestCase
 		Class.forName(driver);
 		
 		dataSource = new DriverManagerDataSource(driver, url, username, password);
-		
-		createDatabase();
-	}
-	
-	private void dropDatabase() throws Exception
-	{
-		Connection con = null;
-		try
-		{
-			con = dataSource.getConnection();
-			Statement st = null;
-			try
-			{
-				st = con.createStatement();
-				st.execute("drop schema public cascade");				
-			}
-			finally
-			{
-				st.close();
-			}
-		}
-		finally
-		{
-			con.close();
-		}
-	}
-	
-	private void createDatabase() throws Exception
-	{		
-		Connection con = null;
-		try
-		{
-			con = dataSource.getConnection();
-			
-			StringBuilder sql = new StringBuilder();
-			
-			for (String res : SQL_SCRIPTS)
-			{
-				BufferedReader r = null;
-				try
-				{
-					r = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(res)));
-					
-					sql.setLength(0);
-					String line = null;
-					while ((line = r.readLine()) != null)
-					{
-						// try to 
-						line = line.trim();
-						line = line.replaceAll(" DEFAULT NEXTVAL\\(.*\\),", " IDENTITY,");
-						line = line.replaceAll("WITH TIME ZONE", "");
-						line = line.replaceAll("TEXT", "VARCHAR");
-						line = line.replaceAll("DROP NOT NULL", "SET NULL");
-						if (line.startsWith("--"))
-						{
-							continue;
-						}
-						if (!line.endsWith(";"))
-						{
-							sql.append(line);
-							sql.append("\r\n");
-						}
-						else
-						{
-							sql.append(line);
-							sql.setLength(sql.length() - 1);
-							sql.append("\r\n");
-							String cmd = sql.toString();
-							sql.setLength(0);
-							
-							Statement st = null;
-							try
-							{
-								st = con.createStatement();
-								st.execute(cmd);
-							}
-							finally
-							{
-								st.close();
-							}
-						}
-					}
-				}
-				finally
-				{
-					r.close();
-				}
-			}
-			
-		}
-		finally
-		{
-			con.close();
-		}
 	}
 	
 	@Override
 	public void tearDown() throws Exception
 	{
-		dropDatabase();
 		dataSource = null;
 	}	
 	

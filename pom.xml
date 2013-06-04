@@ -277,13 +277,41 @@
 				<configuration>
 					<warName>randomcoder</warName>
 					<webXml>${basedir}/target/jspweb.xml</webXml>
-					<!-- 
-					<warSourceExcludes>**/*.jsp,WEB-INF/classes/**</warSourceExcludes>
-					<archiveClasses>true</archiveClasses>
-					-->
 					<warSourceExcludes>**/*.jsp</warSourceExcludes>
 					<archiveClasses>false</archiveClasses>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>hsqldb</groupId>
+						<artifactId>hsqldb</artifactId>
+						<version>1.8.0.10</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<username>sa</username>
+					<driver>org.hsqldb.jdbcDriver</driver>
+					<url>jdbc:hsqldb:file:${project.build.directory}/test-database/test</url>
+				</configuration>
+				<executions>
+					<execution>
+						<id>prep-before-test</id>
+						<phase>process-test-resources</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<autocommit>true</autocommit>
+							<srcFiles>
+								<srcFile>src/test/database/test-init.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -335,6 +363,19 @@
 									</pluginExecutionFilter>
 									<action>
 										<ignore />
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.codehaus.mojo</groupId>
+										<artifactId>sql-maven-plugin</artifactId>
+										<versionRange>[1.5,)</versionRange>
+										<goals>
+											<goal>execute</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
