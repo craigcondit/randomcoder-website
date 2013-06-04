@@ -307,7 +307,7 @@
 						<configuration>
 							<autocommit>true</autocommit>
 							<srcFiles>
-								<srcFile>src/test/database/test-init.sql</srcFile>
+								<srcFile>src/test/resources/test-init.sql</srcFile>
 							</srcFiles>
 						</configuration>
 					</execution>
@@ -375,7 +375,9 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<execute>
+											<runOnIncremental>false</runOnIncremental>
+										</execute>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
