@@ -19,6 +19,12 @@
 		<developerConnection>scm:git:https://randomcoder.org/scm/git/randomcoder-website</developerConnection>
 		<url>https://randomcoder.org/gitlist/randomcoder-website</url>
 	</scm>
+	<distributionManagement>
+		<site>
+			<id>randomcoder-site</id>
+			<url>dav:https://randomcoder.org/nexus/content/sites/site/${project.groupId}/${project.artifactId}</url>
+		</site>
+	</distributionManagement>
 	<properties>
 		<spring.version>2.0.7</spring.version>
 	</properties>
