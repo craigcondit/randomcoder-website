@@ -1,6 +1,6 @@
 <project>
   <bannerLeft>
-  	<src>//randomcoder.org/images/randomcoder-logo.png</src>
+  	<src>https://randomcoder.org/images/randomcoder-logo.png</src>
   	<href>../../../../../../</href>
   </bannerLeft>
   <bannerRight>
