@@ -21,7 +21,6 @@ CREATE TABLE users (
 	enabled BOOLEAN NOT NULL,
 	login_date TIMESTAMP NULL,
 	website VARCHAR(255) NULL,
-	CONSTRAINT users_pkey PRIMARY KEY (user_id),
 	CONSTRAINT users_username_key UNIQUE (username),
 	CONSTRAINT users_username_ck CHECK (username <> '')
 );
@@ -32,7 +31,6 @@ CREATE TABLE roles (
 	role_id BIGINT IDENTITY NOT NULL,
 	name VARCHAR(30) NOT NULL,
 	description VARCHAR(255),
-	CONSTRAINT roles_pkey PRIMARY KEY (role_id),
 	CONSTRAINT roles_name_key UNIQUE (name),
 	CONSTRAINT roles_name_ck CHECK (name <> '')
 );
@@ -62,7 +60,6 @@ CREATE TABLE articles (
 	permalink VARCHAR(100) NULL,
 	content LONGVARCHAR NOT NULL,
 	summary LONGVARCHAR NULL,
-	CONSTRAINT articles_pkey PRIMARY KEY (article_id),
 	CONSTRAINT articles_content_type_ck CHECK (content_type IN ('TEXT','XHTML')),
 	CONSTRAINT articles_create_user_id_fk
 		FOREIGN KEY (create_user_id) REFERENCES users (user_id)
@@ -79,7 +76,6 @@ CREATE TABLE tags (
 	tag_id BIGINT IDENTITY NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	display_name VARCHAR(255) NOT NULL,
-	CONSTRAINT tags_pkey PRIMARY KEY (tag_id),
 	CONSTRAINT tags_name_key UNIQUE (name),
 	CONSTRAINT tags_name_ck CHECK (name <> '')
 );
@@ -103,7 +99,6 @@ CREATE TABLE comment_referrers (
 	comment_referrer_id BIGINT IDENTITY NOT NULL,
 	referrer VARCHAR(1024) NOT NULL,
 	create_date TIMESTAMP NOT NULL,
-	CONSTRAINT comment_referrers_pkey PRIMARY KEY (comment_referrer_id),
 	CONSTRAINT comment_referrers_key UNIQUE (referrer),
 	CONSTRAINT comment_referrers_referrer_ck CHECK (referrer <> '')
 );
@@ -114,7 +109,6 @@ CREATE TABLE comment_ips (
 	comment_ip_id BIGINT IDENTITY NOT NULL,
 	ip_address varchar(255) NOT NULL,
 	create_date TIMESTAMP NOT NULL,
-	CONSTRAINT comment_ips_pkey PRIMARY KEY (comment_ip_id),
 	CONSTRAINT comment_ips_key UNIQUE (ip_address),
 	CONSTRAINT comment_ips_ip_address_ck CHECK (ip_address <> '')
 );
@@ -125,7 +119,6 @@ CREATE TABLE comment_useragents (
 	comment_useragent_id BIGINT IDENTITY NOT NULL,
 	user_agent varchar(255) NOT NULL,
 	create_date TIMESTAMP NOT NULL,
-  CONSTRAINT comment_useragents_pkey PRIMARY KEY (comment_useragent_id),
   CONSTRAINT comment_useragents_key UNIQUE (user_agent),
 	CONSTRAINT comment_useragents_user_agent_ck CHECK (user_agent <> '')
 );
@@ -134,7 +127,7 @@ CREATE INDEX comment_useragents_create_date_idx ON comment_useragents (create_da
 -- comments
 CREATE TABLE comments (
 	comment_id BIGINT IDENTITY NOT NULL,
-	article_id BIGINT NOT NULL,
+	article_id BIGINT NULL,
 	content_type VARCHAR(255) NOT NULL,
 	create_user_id BIGINT NULL,
 	create_date TIMESTAMP NOT NULL,
@@ -148,11 +141,10 @@ CREATE TABLE comments (
 	comment_referrer_id BIGINT NULL,
 	comment_ip_id BIGINT NULL,
 	comment_useragent_id BIGINT NULL,
-	CONSTRAINT comments_pkey PRIMARY KEY (comment_id),
 	CONSTRAINT comments_content_type_ck CHECK (content_type IN ('TEXT', 'XHTML')),
 	CONSTRAINT comments_article_id_fk
 		FOREIGN KEY (article_id) REFERENCES articles (article_id)
-		ON DELETE SET NULL ON UPDATE SET NULL,
+		ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT comments_create_user_id_fk
 		FOREIGN KEY (create_user_id) REFERENCES users (user_id)
 		ON DELETE SET NULL ON UPDATE SET NULL,
@@ -180,7 +172,6 @@ CREATE TABLE cardspace_tokens (
 	email_address VARCHAR(320) NOT NULL,
 	create_date TIMESTAMP NOT NULL,
 	login_date TIMESTAMP NULL,
-	CONSTRAINT cardspace_tokens_pkey PRIMARY KEY (cardspace_token_id),
 	CONSTRAINT cardspace_tokens_ppid_key UNIQUE (ppid),
 	CONSTRAINT cardspace_tokens_user_id_fk
 		FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -197,7 +188,6 @@ CREATE TABLE cardspace_seen_tokens (
 	ppid VARCHAR(1024) NOT NULL,
 	issuer_hash VARCHAR(40) NOT NULL,
 	create_date TIMESTAMP NOT NULL,
-	CONSTRAINT cardspace_seen_tokens_pkey PRIMARY KEY (cardspace_seen_token_id),
 	CONSTRAINT cardspace_seen_tokens_key UNIQUE (assertion_id, ppid, issuer_hash),
 	CONSTRAINT cardspace_seen_tokens_assertion_id_ck CHECK (assertion_id <> ''),
 	CONSTRAINT cardspace_seen_tokens_ppid_ck CHECK (ppid <> ''),
