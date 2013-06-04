@@ -238,8 +238,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	// doesn't work with hsqldb
-	public void ignoredTestRead() throws Exception
+	public void testRead() throws Exception
 	{
 		begin();
 		User created = createTestUser("test-read", "test-read", "testread@example.com", true);
