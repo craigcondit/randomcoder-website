@@ -10,7 +10,7 @@ import junit.framework.TestCase;
 
 import org.dbunit.database.*;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
+import org.dbunit.dataset.xml.*;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
 import org.randomcoder.article.Article;
@@ -87,7 +87,11 @@ abstract public class AbstractDaoTestCase extends TestCase
 			dtd = new InputStreamReader(getClass().getResourceAsStream(DATA_DTD));
 			
 			IDatabaseConnection dbConnection = new DatabaseConnection(con);
-			IDataSet dataSet = new FlatXmlDataSet(xml, dtd);
+			
+			IDataSet dataSet = new FlatXmlDataSetBuilder()
+				.setMetaDataSetFromDtd(dtd)
+				.build(xml);
+			
 			DatabaseOperation.CLEAN_INSERT.execute(dbConnection, dataSet);
 		}
 		finally
