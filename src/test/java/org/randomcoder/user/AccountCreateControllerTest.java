@@ -4,8 +4,6 @@ import java.beans.PropertyEditor;
 
 import junit.framework.TestCase;
 
-import org.randomcoder.crypto.*;
-import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.AccountCreateControllerMock;
 import org.springframework.mock.web.*;
@@ -19,8 +17,6 @@ public class AccountCreateControllerTest extends TestCase
 	private AccountCreateControllerMock controller;
 	private UserDaoMock userDao;
 	private UserBusinessImpl userBusiness;
-	private CertificateContext certificateContext;
-	private TransientAESEncryptionContext encryptionContext;
 	
 	@Override
 	protected void setUp() throws Exception
@@ -28,13 +24,8 @@ public class AccountCreateControllerTest extends TestCase
 		userDao = new UserDaoMock();
 		userBusiness = new UserBusinessImpl();
 		userBusiness.setUserDao(userDao);
-		certificateContext = TestObjectFactory.getCertificateContext();
-		encryptionContext = new TransientAESEncryptionContext();
-		encryptionContext.setKeySize(128);
 		controller = new AccountCreateControllerMock();
 		controller.setUserBusiness(userBusiness);
-		controller.setCertificateContext(certificateContext);
-		controller.setEncryptionContext(encryptionContext);
 		controller.setFormView("form");
 		controller.setSuccessView("success");
 	}
@@ -43,8 +34,6 @@ public class AccountCreateControllerTest extends TestCase
 	protected void tearDown() throws Exception
 	{
 		controller = null;
-		encryptionContext = null;
-		certificateContext = null;
 		userBusiness = null;
 		userDao = null;
 	}

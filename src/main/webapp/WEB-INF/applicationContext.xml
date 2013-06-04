@@ -57,10 +57,8 @@
 				<value>org.randomcoder.article.comment.CommentIp</value>
 				<value>org.randomcoder.article.comment.CommentUserAgent</value>
 				<value>org.randomcoder.user.User</value>
-				<value>org.randomcoder.user.CardSpaceToken</value>
 				<value>org.randomcoder.user.Role</value>
 				<value>org.randomcoder.tag.Tag</value>
-				<value>org.randomcoder.security.cardspace.CardSpaceSeenToken</value>
 			</list>
 		</property>
 		<property name="entityCacheStrategies">
@@ -68,7 +66,6 @@
 				<prop key="org.randomcoder.article.Article">read-write</prop>
 				<prop key="org.randomcoder.article.comment.Comment">read-write</prop>
 				<prop key="org.randomcoder.user.User">read-write</prop>
-				<prop key="org.randomcoder.user.CardSpaceToken">read-write</prop>
 				<prop key="org.randomcoder.user.Role">read-only</prop>
 				<prop key="org.randomcoder.tag.Tag">read-write</prop>
 			</props>
@@ -137,15 +134,6 @@
 		</property>
 	</bean>
 
-	<bean id="cardSpaceTokenDao" parent="abstractDao">
-		<property name="proxyInterfaces" value="org.randomcoder.user.CardSpaceTokenDao" />
-		<property name="target">
-			<bean parent="abstractDaoTarget">
-				<constructor-arg value="org.randomcoder.user.CardSpaceToken" />
-			</bean>
-		</property>
-	</bean>
-	
 	<bean id="roleDao" parent="abstractDao">
 		<property name="proxyInterfaces" value="org.randomcoder.user.RoleDao" />
 		<property name="target">
@@ -213,19 +201,6 @@
 		</property>
 	</bean>
 
-	<bean
-		id="abstractCardSpaceSeenTokenDaoTarget"
-		class="org.randomcoder.security.cardspace.CardSpaceSeenTokenDaoImpl"
-		parent="abstractDaoTarget"
-		abstract="true" />
-	<bean id="abstractCardSpaceSeenTokenDao" parent="abstractDao" abstract="true" />	
-	<bean id="cardSpaceSeenTokenDao" parent="abstractCardSpaceSeenTokenDao">
-		<property name="proxyInterfaces" value="org.randomcoder.security.cardspace.CardSpaceSeenTokenDao" />
-		<property name="target">
-			<bean parent="abstractCardSpaceSeenTokenDaoTarget" />
-		</property>
-	</bean>
-	
 	<!-- Business objects -->
 	<bean id="articleBusiness" class="org.randomcoder.article.ArticleBusinessImpl">
 		<property name="userDao" ref="userDao" />
@@ -241,7 +216,6 @@
 	
 	<bean id="userBusiness" class="org.randomcoder.user.UserBusinessImpl">
 		<property name="userDao" ref="userDao" />
-		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 
 	<bean id="tagBusiness" class="org.randomcoder.tag.TagBusinessImpl">

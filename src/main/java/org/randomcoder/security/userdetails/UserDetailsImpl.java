@@ -55,8 +55,7 @@ public final class UserDetailsImpl implements UserDetails
 	
 	/**
 	 * Creates a new UserDetailsImpl with an explicit password.
-	 * <p>This is most often used for specifying non-password
-	 * tokens such as those used with CardSpace, etc.</p>
+	 * <p>This is most often used for specifying non-password tokens.</p>
 	 * @param user User to read properties from.
 	 * @param password overriden password
 	 */

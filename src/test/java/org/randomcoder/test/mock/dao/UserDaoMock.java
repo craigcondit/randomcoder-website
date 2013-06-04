@@ -11,7 +11,7 @@ public class UserDaoMock implements UserDao
 {
 	private final List<User> users = new ArrayList<User>();
 	private long primaryKey = 0;
-	
+
 	@Override
 	public int countAll()
 	{

@@ -177,31 +177,6 @@
 	</env-entry>
 
 	<env-entry>
-		<env-entry-name>cardSpaceKeystoreLocation</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
-
-	<env-entry>
-		<env-entry-name>cardSpaceKeystoreType</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
-
-	<env-entry>
-		<env-entry-name>cardSpaceKeystorePassword</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
-
-	<env-entry>
-		<env-entry-name>cardSpaceCertificateAlias</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
-
-	<env-entry>
-		<env-entry-name>cardSpaceCertificatePassword</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
-
-	<env-entry>
 		<env-entry-name>akismetSiteKey</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>		
 	</env-entry>

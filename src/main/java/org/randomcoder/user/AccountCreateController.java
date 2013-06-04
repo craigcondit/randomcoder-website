@@ -2,7 +2,6 @@ package org.randomcoder.user;
 
 import javax.servlet.http.*;
 
-import org.randomcoder.crypto.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -42,8 +41,6 @@ public class AccountCreateController extends CancellableFormController
 	private static final long TOKEN_EXPIRATION_TIME = 30 * 60 * 1000; // 30 minutes
 	
 	private UserBusiness userBusiness;
-	private CertificateContext certificateContext;
-	private EncryptionContext encryptionContext;
 
 	/**
 	 * Sets the UserBusiness implementation to use.
@@ -53,26 +50,6 @@ public class AccountCreateController extends CancellableFormController
 	public void setUserBusiness(UserBusiness userBusiness)
 	{
 		this.userBusiness = userBusiness;
-	}
-	
-	/**
-	 * Sets the certificate context used to lookup private keys.
-	 * @param certificateContext certificate context
-	 */
-	@Required
-	public void setCertificateContext(CertificateContext certificateContext)
-	{
-		this.certificateContext = certificateContext;
-	}
-	
-	/**
-	 * Sets the encryption context to use.
-	 * @param encryptionContext encryption context
-	 */
-	@Required
-	public void setEncryptionContext(EncryptionContext encryptionContext)
-	{
-		this.encryptionContext = encryptionContext;
 	}
 	
 	/**
@@ -101,5 +78,4 @@ public class AccountCreateController extends CancellableFormController
 
 		return new ModelAndView(getSuccessView());
 	}
-	
 }

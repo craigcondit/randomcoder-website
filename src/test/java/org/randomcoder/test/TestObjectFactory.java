@@ -1,26 +1,15 @@
 package org.randomcoder.test;
 
 import java.io.*;
-import java.security.*;
-import java.security.cert.X509Certificate;
 import java.util.Properties;
 
-import org.springframework.core.io.*;
-import org.w3c.dom.*;
-import org.xml.sax.InputSource;
-
-import org.randomcoder.crypto.*;
-import org.randomcoder.saml.*;
 import org.randomcoder.xml.XmlUtils;
-import org.randomcoder.xml.security.XmlSecurityUtils;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 @SuppressWarnings("javadoc")
 public class TestObjectFactory
 {
-	public static final String RESOURCE_SAML_ASSERTION_TEST = "/saml-assertion-test.xml";
-	public static final String RESOURCE_SAML_ASSERTION_TEST_2 = "/saml-assertion-test-2.xml";
-	public static final String RESOURCE_SAML_ASSERTION_ALL_FIELDS = "/saml-assertion-all-fields.xml";
-	
 	private static final String RESOURCE_XMLSEC_PROPS = "/xml-security.properties";
 	
 	private static final String CERTIFICATE_PASSWORD = "certificate.password";
@@ -35,26 +24,6 @@ public class TestObjectFactory
 		Properties properties = new Properties();
 		properties.load(TestObjectFactory.class.getResourceAsStream(RESOURCE_XMLSEC_PROPS));
 		return properties.getProperty(CLIENT_PUBLICKEY_ENCODED);
-	}
-	
-	public static KeystoreCertificateFactoryBean getKeystoreCertificateFactoryBean()
-	throws Exception
-	{
-		Properties properties = new Properties();
-		properties.load(TestObjectFactory.class.getResourceAsStream(RESOURCE_XMLSEC_PROPS));
-
-		KeystoreCertificateFactoryBean factory = new KeystoreCertificateFactoryBean();
-		
-		Resource keystoreLocation = new ClassPathResource(properties.getProperty(KEYSTORE_RESOURCE));
-		
-		factory.setKeystoreLocation(keystoreLocation);
-		factory.setKeystoreType(properties.getProperty(KEYSTORE_TYPE));
-		factory.setKeystorePassword(properties.getProperty(KEYSTORE_PASSWORD));
-		factory.setCertificateAlias(properties.getProperty(CERTIFICATE_ALIAS));
-		factory.setCertificatePassword(properties.getProperty(CERTIFICATE_PASSWORD));
-		factory.afterPropertiesSet();
-		
-		return factory;
 	}
 	
 	public static String getResourceAsString(String resource) throws IOException
@@ -80,66 +49,8 @@ public class TestObjectFactory
 		}
 	}
 	
-	public static CertificateContext getCertificateContext() throws Exception
-	{
-		return getCertificateContext(getKeystoreCertificateFactoryBean());
-	}
-	
-	public static CertificateContext getCertificateContext(KeystoreCertificateFactoryBean factory) throws Exception
-	{
-		return (CertificateContext) factory.getObject();
-	}
-	
-	public static X509Certificate getCertificate() throws Exception
-	{
-		return getCertificate(getCertificateContext());
-	}
-
-	public static X509Certificate getCertificate(CertificateContext context) throws Exception
-	{
-		return context.getCertificate();
-	}
-	
-	public static PrivateKey getPrivateKey() throws Exception
-	{
-		return getPrivateKey(getCertificateContext());
-	}
-	
-	public static PrivateKey getPrivateKey(CertificateContext context) throws Exception
-	{
-		return context.getPrivateKey();
-	}
-	
 	public static Document getXmlDocument(String resource) throws Exception
 	{
 		return XmlUtils.parseXml(new InputSource(TestObjectFactory.class.getResourceAsStream(resource)));
-	}
-	
-	public static Document getDecryptedXmlDocument(String resource) throws Exception
-	{
-		Document doc = getXmlDocument(resource);		
-		Element el = XmlSecurityUtils.findFirstEncryptedData(doc);
-		XmlSecurityUtils.decrypt(doc, el, getPrivateKey());
-		return doc;
-	}
-	
-	public static SamlAssertion getSamlAssertion(String resource) throws Exception
-	{
-		Document assertion = getDecryptedXmlDocument(resource);
-		Element assertionEl = SamlUtils.findFirstSamlAssertion(assertion);		
-		return new SamlAssertion(assertionEl);
-	}
-
-	public static SamlAssertion getSamlAssertion(Document decryptedXml) throws Exception
-	{
-		Element assertionEl = SamlUtils.findFirstSamlAssertion(decryptedXml);		
-		return new SamlAssertion(assertionEl);
-	}
-	
-	public static PublicKey getPublicKey(Document decryptedXml) throws Exception
-	{
-		SamlUtils.findFirstSamlAssertion(decryptedXml).setIdAttribute("AssertionID", true);
-		Element signature = XmlSecurityUtils.findFirstSignature(decryptedXml);
-		return XmlSecurityUtils.verifySignature(signature);
 	}
 }

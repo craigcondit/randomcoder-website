@@ -1,18 +1,14 @@
 package org.randomcoder.security;
 
-import static org.randomcoder.test.TestObjectFactory.*;
-
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
 import org.acegisecurity.event.authentication.AuthenticationSuccessEvent;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
-import org.randomcoder.test.TestObjectFactory;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.user.*;
 import org.springframework.context.ApplicationEvent;
-import org.w3c.dom.Document;
 
 @SuppressWarnings("javadoc")
 public class AuthenticationAuditListenerTest extends TestCase
@@ -24,8 +20,6 @@ public class AuthenticationAuditListenerTest extends TestCase
 	@Override
 	protected void setUp() throws Exception
 	{
-		Document doc = TestObjectFactory.getDecryptedXmlDocument(RESOURCE_SAML_ASSERTION_ALL_FIELDS);
-		
 		userDao = new UserDaoMock();
 		userBusiness = new UserBusinessImpl();
 		userBusiness.setUserDao(userDao);

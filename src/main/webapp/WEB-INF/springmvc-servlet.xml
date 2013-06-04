@@ -57,10 +57,8 @@
 	
 	<bean id="userProfileController" class="org.randomcoder.user.UserProfileController">
 		<property name="userDao" ref="userDao" />
-		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 		<property name="userBusiness" ref="userBusiness" />
 		<property name="commandClass" value="org.randomcoder.user.UserProfileCommand" />
-		<property name="certificateContext" ref="certificateContext" />
 		<property name="formView" value="user-profile" />
 		<property name="successView" value="user-profile-redirect" />
 		<property name="cancelView" value="default" />
@@ -69,16 +67,8 @@
 		<property name="validator" ref="userProfileValidator" />
 	</bean>	
 	
-	<bean id="userProfileValidator" class="org.randomcoder.user.UserProfileValidator">
-		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
-	</bean>
+	<bean id="userProfileValidator" class="org.randomcoder.user.UserProfileValidator" />
 	
-	<bean id="userProfileCardSpaceDeleteController" class="org.randomcoder.user.UserProfileCardSpaceDeleteController">
-		<property name="viewName" value="user-profile-redirect" />
-		<property name="commandClass" value="org.randomcoder.springmvc.IdCommand" />
-		<property name="userBusiness" ref="userBusiness" />
-	</bean>
-		
 	<bean id="articleTagListController" class="org.randomcoder.article.ArticleTagListController" parent="abstractArticleListController">
 		<property name="commandClass" value="org.randomcoder.article.ArticleTagPageCommand" />
 		<property name="tagDao" ref="tagDao" />
@@ -182,8 +172,6 @@
 		<property name="cancelParamKey" value="cancel" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="userBusiness" ref="userBusiness" />
-		<property name="certificateContext" ref="certificateContext" />
-		<property name="encryptionContext" ref="encryptionContext" />
 		<property name="formView" value="account-create" />
 		<property name="commandClass" value="org.randomcoder.user.AccountCreateCommand" />
 		<property name="validator" ref="accountCreateValidator" />
@@ -191,7 +179,6 @@
 
 	<bean id="accountCreateValidator" class="org.randomcoder.user.AccountCreateValidator">
 		<property name="userDao" ref="userDao" />
-		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 	</bean>
 		
 	<bean id="abstractUserController" abstract="true">
@@ -316,7 +303,6 @@
 				<prop key="/user/delete">userDeleteController</prop>
 				<prop key="/user/profile">userProfileController</prop>
 				<prop key="/user/profile/change-password">changePasswordController</prop>
-				<prop key="/user/profile/delete-card">userProfileCardSpaceDeleteController</prop>
 			</props>
 		</property>
 	</bean>

@@ -1,7 +1,7 @@
 package org.randomcoder.test;
 
 import java.io.*;
-import java.sql.*;
+import java.sql.Connection;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -10,14 +10,13 @@ import junit.framework.TestCase;
 
 import org.dbunit.database.*;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.xml.*;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.SessionFactory;
 import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.dao.finder.FinderIntroductionInterceptor;
 import org.randomcoder.dao.hibernate.HibernateDao;
-import org.randomcoder.security.cardspace.CardSpaceSeenToken;
 import org.randomcoder.tag.Tag;
 import org.randomcoder.user.*;
 import org.springframework.aop.framework.ProxyFactory;
@@ -147,7 +146,6 @@ abstract public class AbstractDaoTestCase extends TestCase
 		ecProps.setProperty("org.randomcoder.article.comment.Comment", "read-write");
 		ecProps.setProperty("org.randomcoder.user.User", "read-write");
 		ecProps.setProperty("org.randomcoder.user.Role", "read-only");
-		ecProps.setProperty("org.randomcoder.user.CardSpaceToken", "read-write");
 		ecProps.setProperty("org.randomcoder.tag.Tag", "read-write");
 		
 		Properties ccProps = new Properties();
@@ -159,9 +157,8 @@ abstract public class AbstractDaoTestCase extends TestCase
 		factory.setDataSource(dataSource);
 		factory.setHibernateProperties(hibProps);		
 		factory.setAnnotatedClasses(new Class[] {
-    	Article.class, Comment.class, CommentReferrer.class, CommentIp.class,
-    	CommentUserAgent.class, User.class, Role.class,
-    	CardSpaceToken.class, Tag.class, CardSpaceSeenToken.class });
+	    	Article.class, Comment.class, CommentReferrer.class, CommentIp.class,
+	    	CommentUserAgent.class, User.class, Role.class, Tag.class });
 		factory.setEntityCacheStrategies(ecProps);
 		factory.setCollectionCacheStrategies(ccProps);
 		

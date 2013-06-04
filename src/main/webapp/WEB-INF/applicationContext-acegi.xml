@@ -11,20 +11,7 @@
 
 	<jee:jndi-lookup id="acegiRememberMeKey" jndi-name="java:comp/env/acegiRememberMeKey" />
 	<jee:jndi-lookup id="acegiAnonymousKey" jndi-name="java:comp/env/acegiAnonymousKey" />
-	<jee:jndi-lookup id="cardSpaceKeystoreLocation" jndi-name="java:comp/env/cardSpaceKeystoreLocation" />
-	<jee:jndi-lookup id="cardSpaceKeystoreType" jndi-name="java:comp/env/cardSpaceKeystoreType" />
-	<jee:jndi-lookup id="cardSpaceKeystorePassword" jndi-name="java:comp/env/cardSpaceKeystorePassword" />
-	<jee:jndi-lookup id="cardSpaceCertificateAlias" jndi-name="java:comp/env/cardSpaceCertificateAlias" />
-	<jee:jndi-lookup id="cardSpaceCertificatePassword" jndi-name="java:comp/env/cardSpaceCertificatePassword" />
 
-	<bean id="certificateContext" class="org.randomcoder.crypto.KeystoreCertificateFactoryBean">
-		<property name="keystoreLocation" ref="cardSpaceKeystoreLocation" />
-		<property name="keystoreType" ref="cardSpaceKeystoreType" />		
-		<property name="keystorePassword" ref="cardSpaceKeystorePassword" />
-		<property name="certificateAlias" ref="cardSpaceCertificateAlias" />
-		<property name="certificatePassword" ref="cardSpaceCertificatePassword" />	
-	</bean>
-			
 	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
 		<property name="filterInvocationDefinitionSource">
 			<value>
@@ -33,34 +20,12 @@
 				/css/**=#NONE#
 				/images/**=#NONE#
 				/js/**=#NONE#
-				/**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,cardSpaceProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
+				/**=httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,rememberMeProcessingFilter,anonymousProcessingFilter,exceptionTranslationFilter,filterInvocationInterceptor
 			</value>
 		</property>
 	</bean>
 	
 	<!-- START filter chain -->
-
-	<!-- Enforce http / https for various urls -->
-	<bean id="channelProcessingFilter" class="org.acegisecurity.securechannel.ChannelProcessingFilter">
-	  <property name="channelDecisionManager" ref="channelDecisionManager" />
-	  <property name="filterInvocationDefinitionSource">
-	    <value>
-	      CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-	      PATTERN_TYPE_APACHE_ANT
-	      /j_security_check=REQUIRES_ANY
-	      /j_cardspace_check=REQUIRES_ANY
-	      /login*=REQUIRES_ANY
-	      /user/profile=REQUIRES_ANY
-	      /user/profile/**=REQUIRES_ANY
-	      /account=REQUIRES_ANY
-	      /account/**=REQUIRES_ANY
-	      /images/**=REQUIRES_ANY
-	      /css/**=REQUIRES_ANY
-	      /js/**=REQUIRES_ANY
-	      /**=REQUIRES_ANY
-	    </value>
-  	</property>
-	</bean>
 	
 	<!-- populate the securitycontext from the http session -->
 	<bean id="httpSessionContextIntegrationFilter" class="org.acegisecurity.context.HttpSessionContextIntegrationFilter" />
@@ -87,16 +52,6 @@
 		<property name="filterProcessesUrl" value="/j_security_check" />
 	</bean>
 
-	<!-- handle requests for cardspace authentication -->
-	<bean id="cardSpaceProcessingFilter" class="org.randomcoder.security.cardspace.CardSpaceProcessingFilter">
-		<property name="authenticationManager" ref="authenticationManager" />
-		<property name="authenticationFailureUrl" value="/login-error" />
-		<property name="defaultTargetUrl" value="/" />
-		<property name="filterProcessesUrl" value="/j_cardspace_check" />
-		<property name="certificateContext" ref="certificateContext" />
-		<property name="debug" value="true" />
-	</bean>
-	
 	<!-- provide saved request handling / request.getRemoteUser() / isUserInRole() functionality -->
 	<bean id="securityContextHolderAwareRequestFilter" class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter" />
 
@@ -214,9 +169,6 @@
 				<!-- standard dao authentication -->
 				<ref local="daoAuthenticationProvider" />
 				
-				<!-- validate cardspace tokens -->
-				<ref local="cardSpaceAuthenticationProvider" />
-				
 				<!-- validate anonymous authentication tokens -->
 				<bean class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
 					<property name="key" ref="acegiAnonymousKey" />
@@ -245,29 +197,9 @@
 		</property>
 	</bean>
 
-	<!-- CardSpace authentication provider -->
-	<bean id="cardSpaceAuthenticationProvider" class="org.randomcoder.security.cardspace.CardSpaceAuthenticationProvider">
-		<property name="cardSpaceUserDetailsService" ref="userDetailsService" />
-		<property name="validators">
-			<list>
-				<bean class="org.randomcoder.security.cardspace.CardSpaceDateConstraintValidator">
-					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
-				</bean>
-				<bean class="org.randomcoder.security.cardspace.CardSpaceMaximumAgeValidator">
-					<property name="clockSkew" value="600" /> <!-- 10 minute clock skew -->
-					<property name="maximumTokenAge" value="3600" /> <!-- 1 hour -->
-				</bean>
-				<bean class="org.randomcoder.security.cardspace.CardSpaceOneTimeUseValidator">
-					<property name="cardSpaceSeenTokenDao" ref="cardSpaceSeenTokenDao" />
-				</bean>
-			</list>
-		</property>
-	</bean>
-	
 	<!-- Lookup user details from database -->
 	<bean id="userDetailsService" class="org.randomcoder.security.userdetails.UserDetailsServiceImpl">
 		<property name="userDao" ref="userDao" />
-		<property name="cardSpaceTokenDao" ref="cardSpaceTokenDao" />
 		<property name="debug" value="false" />
 	</bean>
 	

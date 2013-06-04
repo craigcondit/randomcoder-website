@@ -1,15 +1,11 @@
 package org.randomcoder.security.userdetails;
 
-import org.acegisecurity.*;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataAccessException;
-
-import org.randomcoder.cardspace.CardSpaceUtils;
-import org.randomcoder.security.cardspace.*;
 import org.randomcoder.user.*;
 import org.randomcoder.user.User;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Acegi UserDetailsService implementation.
@@ -39,12 +35,11 @@ import org.randomcoder.user.User;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService
 {
 	private static final Log logger = LogFactory.getLog(UserDetailsServiceImpl.class);
 	
 	private UserDao userDao;
-	private CardSpaceTokenDao cardSpaceTokenDao;
 	private boolean debug = false;
 	
 	/**
@@ -67,16 +62,6 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 	}
 	
 	/**
-	 * Sets the CardSpaceTokenDao implementation to use
-	 * @param cardSpaceTokenDao CardSpaceTokenDao implementation
-	 */
-	@Required
-	public void setCardSpaceTokenDao(CardSpaceTokenDao cardSpaceTokenDao)
-	{
-		this.cardSpaceTokenDao = cardSpaceTokenDao;
-	}
-	
-	/**
 	 * Retrieves the user with the given username.
 	 * @param username user name to lookup
 	 */
@@ -87,30 +72,4 @@ public class UserDetailsServiceImpl implements UserDetailsService, CardSpaceUser
 		if (user == null || user.getPassword() == null) throw new UsernameNotFoundException(username);
 		return new UserDetailsImpl(user);
 	}
-
-	/**
-	 * Retrieves the user with the given CardSpace credentials.
-	 * @param credentials CardSpace credentials to lookup
-	 */
-	@Override
-	public UserDetails loadUserByCardSpaceCredentials(CardSpaceCredentials credentials) throws AuthenticationException
-	{
-		String ppid = credentials.getPrivatePersonalIdentifier();
-		if (ppid == null)
-			throw new InvalidCredentialsException("No PPID found");
-		
-		if (debug) logger.debug("PPID: " + ppid);
-				
-		String issuerHash = CardSpaceUtils.calculateIssuerHash(credentials);		
-		
-		if (debug) logger.debug("Issuer hash: " + issuerHash);
-		
-		CardSpaceToken token = cardSpaceTokenDao.findByPrivatePersonalIdentifier(ppid, issuerHash);
-		if (token == null)
-			throw new BadCredentialsException("User not found");
-		
-		User user = token.getUser();
-		return new UserDetailsImpl(user, ppid);
-	}
-
 }

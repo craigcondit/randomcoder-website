@@ -1,6 +1,4 @@
 -- drop existing data
-DROP TABLE IF EXISTS cardspace_seen_tokens;
-DROP TABLE IF EXISTS cardspace_tokens;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS comment_useragents;
 DROP TABLE IF EXISTS comment_ips;
@@ -162,38 +160,6 @@ CREATE TABLE comments (
 );
 CREATE INDEX comments_visible_idx ON comments (visible);
 CREATE INDEX comments_moderation_status_idx ON comments (moderation_status);
-
--- cardspace_tokens
-CREATE TABLE cardspace_tokens (
-	cardspace_token_id BIGINT IDENTITY NOT NULL,
-	user_id BIGINT NOT NULL,
-	ppid VARCHAR(1024) NOT NULL,
-	issuer_hash VARCHAR(40) NOT NULL,
-	email_address VARCHAR(320) NOT NULL,
-	create_date TIMESTAMP NOT NULL,
-	login_date TIMESTAMP NULL,
-	CONSTRAINT cardspace_tokens_ppid_key UNIQUE (ppid),
-	CONSTRAINT cardspace_tokens_user_id_fk
-		FOREIGN KEY (user_id) REFERENCES users (user_id)
-		ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT cardspace_tokens_ppid_ck CHECK (ppid <> ''),
-	CONSTRAINT cardspace_tokens_email_address_ck CHECK (email_address <> ''),
-	CONSTRAINT cardspace_tokens_issuer_hash_ck CHECK (issuer_hash <> '')
-);
-
--- cardspace_seen_tokens
-CREATE TABLE cardspace_seen_tokens (
-	cardspace_seen_token_id BIGINT IDENTITY NOT NULL,	
-	assertion_id VARCHAR(1024) NOT NULL,
-	ppid VARCHAR(1024) NOT NULL,
-	issuer_hash VARCHAR(40) NOT NULL,
-	create_date TIMESTAMP NOT NULL,
-	CONSTRAINT cardspace_seen_tokens_key UNIQUE (assertion_id, ppid, issuer_hash),
-	CONSTRAINT cardspace_seen_tokens_assertion_id_ck CHECK (assertion_id <> ''),
-	CONSTRAINT cardspace_seen_tokens_ppid_ck CHECK (ppid <> ''),
-	CONSTRAINT cardspace_seen_tokens_issuer_hash_ck CHECK (issuer_hash <> '')
-);
-CREATE INDEX cardspace_seen_tokens_create_date_key ON cardspace_seen_tokens (create_date);
 
 -- Add security roles
 INSERT INTO roles (name, description) VALUES ('ROLE_MANAGE_USERS', 'Manage users');
