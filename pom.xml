@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>randomcoder-base</artifactId>
 		<groupId>org.randomcoder</groupId>
-		<version>20</version>
+		<version>21</version>
 	</parent>
 	<groupId>org.randomcoder</groupId>
 	<artifactId>randomcoder-website</artifactId>
@@ -12,7 +12,7 @@
 	<name>Randomcoder Website</name>
 	<version>2.6.3-SNAPSHOT</version>
 	<description>This project contains the RandomCoder.Org website.</description>
-	<url>https://nexus.randomcoder.org/content/repositories/releases/org/randomcoder/randomcoder-website</url>
+	<url>https://randomcoder.org/</url>
 	<inceptionYear>2006</inceptionYear>
 	<scm>
 		<connection>scm:git:https://scm.randomcoder.org/git/randomcoder-website</connection>
@@ -22,12 +22,12 @@
 	<distributionManagement>
 		<site>
 			<id>randomcoder-site</id>
-			<url>dav:https://nexus.randomcoder.org/content/sites/site/${project.groupId}/${project.artifactId}</url>
+			<url>dav:https://nexus.randomcoder.org/content/sites/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<randomcoder.taglibs.version>1.6.4</randomcoder.taglibs.version>
+		<randomcoder.taglibs.version>1.6.5</randomcoder.taglibs.version>
 		<spring.version>2.0.7</spring.version>
 		<junit.version>4.11</junit.version>
 		<dbunit.version>2.4.9</dbunit.version>
