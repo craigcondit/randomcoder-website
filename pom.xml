@@ -10,7 +10,7 @@
 	<artifactId>randomcoder-website</artifactId>
 	<packaging>war</packaging>
 	<name>Randomcoder Website</name>
-	<version>2.6.2</version>
+	<version>2.6.3-SNAPSHOT</version>
 	<description>This project contains the RandomCoder.Org website.</description>
 	<url>https://nexus.randomcoder.org/content/repositories/releases/org/randomcoder/randomcoder-website</url>
 	<inceptionYear>2006</inceptionYear>
