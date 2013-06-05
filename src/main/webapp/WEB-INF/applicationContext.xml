@@ -258,14 +258,14 @@
 	<!-- Feeds -->
 	<bean id="atomFeedGenerator" class="org.randomcoder.feed.AtomFeedGenerator">
 		<property name="applicationInformation" ref="applicationInformation" />
-		<property name="baseUrl" value="http://randomcoder.org/" />
+		<property name="baseUrl" value="https://randomcoder.org/" />
 		<property name="uriPrefix" value="tag:randomcoder.org,2007:" />
 		<property name="contentFilter" ref="contentFilter" />
 	</bean>
 	
 	<bean id="rss20FeedGenerator" class="org.randomcoder.feed.Rss20FeedGenerator">
 		<property name="applicationInformation" ref="applicationInformation" />
-		<property name="baseUrl" value="http://randomcoder.org/" />
+		<property name="baseUrl" value="https://randomcoder.org/" />
 		<property name="contentFilter" ref="contentFilter" />
 	</bean>
 	

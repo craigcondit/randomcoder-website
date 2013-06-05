@@ -1,6 +1,6 @@
 -- Add admin user, password 'admin'
 INSERT INTO users (username, password, email, website, enabled) VALUES (
-	'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@randomcoder.org', 'http://randomcoder.org/', true
+	'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin@randomcoder.org', 'https://randomcoder.org/', true
 );
 
 INSERT INTO user_role_link (user_id, role_id) VALUES (
