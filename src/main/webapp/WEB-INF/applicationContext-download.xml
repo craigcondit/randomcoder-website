@@ -7,7 +7,7 @@
 			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id="mavenRepository" class="org.randomcoder.download.maven.LocalMavenRepository">
-		<property name="url" value="https://randomcoder.org/nexus/content/repositories/releases/" />
+		<property name="url" value="https://nexus.randomcoder.org/content/repositories/releases/" />
 		<property name="dir" ref="mavenRepositoryDir" />
 		<property name="projects">
 			<list>
