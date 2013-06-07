@@ -9,8 +9,20 @@
 			http://www.springframework.org/schema/jee
 			http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
 
-	<jee:jndi-lookup id="acegiRememberMeKey" jndi-name="java:comp/env/acegiRememberMeKey" />
-	<jee:jndi-lookup id="acegiAnonymousKey" jndi-name="java:comp/env/acegiAnonymousKey" />
+<!-- 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> -->
+<!-- 		<property name="ignoreUnresolvablePlaceholders" value="false" /> -->
+<!-- 	</bean> -->
+
+	<!-- TODO transitional; replace with env-specific config -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<value>classpath:/profiles/default.properties</value>
+				<value>classpath:/profiles/dev.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
 		<property name="filterInvocationDefinitionSource">
@@ -63,7 +75,7 @@
 
 	<!-- provide an anonymous security context if none exists -->
 	<bean id="anonymousProcessingFilter" class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
-		<property name="key" ref="acegiAnonymousKey" />
+		<property name="key" value="${acegi.anonymous.key}" />
 		<property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS" />
 	</bean>
 	
@@ -159,7 +171,7 @@
 	<bean id="rememberMeServices" class="org.acegisecurity.ui.rememberme.TokenBasedRememberMeServices">
 		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="parameter" value="j_persist" />
-		<property name="key" ref="acegiRememberMeKey" />
+		<property name="key" value="${acegi.rememberme.key}" />
 	</bean>
 	
 	<!-- authentication providers -->
@@ -171,12 +183,12 @@
 				
 				<!-- validate anonymous authentication tokens -->
 				<bean class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
-					<property name="key" ref="acegiAnonymousKey" />
+					<property name="key" value="${acegi.anonymous.key}" />
 				</bean>
 				
 				<!-- validate remember-me authentication tokens -->
 				<bean class="org.acegisecurity.providers.rememberme.RememberMeAuthenticationProvider">
-					<property name="key" ref="acegiRememberMeKey" />
+					<property name="key" value="${acegi.rememberme.key}" />
 				</bean>
 			</list>
 		</property>

@@ -34,6 +34,7 @@
 		<hsqldb.version>2.2.9</hsqldb.version>
 		<log4j.version>1.2.17</log4j.version>
 		<bouncycastle.version>1.49</bouncycastle.version>
+		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -86,6 +87,11 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.randomcoder</groupId>
 			<artifactId>randomcoder-taglibs</artifactId>
 			<version>${randomcoder.taglibs.version}</version>
@@ -103,6 +109,11 @@
 					<groupId>javax.servlet</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

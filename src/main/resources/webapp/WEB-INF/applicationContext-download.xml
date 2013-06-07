@@ -6,9 +6,24 @@
 			http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
+<!-- 	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer"> -->
+<!-- 		<property name="ignoreUnresolvablePlaceholders" value="false" /> -->
+<!-- 	</bean> -->
+
+	<!-- TODO transitional; replace with env-specific config -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="false" />
+		<property name="locations">
+			<list>
+				<value>classpath:/profiles/default.properties</value>
+				<value>classpath:/profiles/dev.properties</value>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="mavenRepository" class="org.randomcoder.download.maven.LocalMavenRepository">
 		<property name="url" value="https://nexus.randomcoder.org/content/repositories/releases/" />
-		<property name="dir" ref="mavenRepositoryDir" />
+		<property name="dir" value="${maven.repository.dir}" />
 		<property name="projects">
 			<list>
 				<bean class="org.randomcoder.download.maven.MavenProject">
