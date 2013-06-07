@@ -160,36 +160,36 @@
 		</jsp-property-group>
 	</jsp-config>
 	
-	<resource-ref>
-		<res-ref-name>jdbc/randomcoder</res-ref-name>
-		<res-type>javax.sql.DataSource</res-type>
-		<res-auth>Container</res-auth>
-	</resource-ref>
+<!-- 	<resource-ref> -->
+<!-- 		<res-ref-name>jdbc/randomcoder</res-ref-name> -->
+<!-- 		<res-type>javax.sql.DataSource</res-type> -->
+<!-- 		<res-auth>Container</res-auth> -->
+<!-- 	</resource-ref> -->
 	
-	<env-entry>
-		<env-entry-name>acegiRememberMeKey</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
+<!-- 	<env-entry> -->
+<!-- 		<env-entry-name>acegiRememberMeKey</env-entry-name> -->
+<!-- 		<env-entry-type>java.lang.String</env-entry-type> -->
+<!-- 	</env-entry> -->
 
-	<env-entry>
-		<env-entry-name>acegiAnonymousKey</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
+<!-- 	<env-entry> -->
+<!-- 		<env-entry-name>acegiAnonymousKey</env-entry-name> -->
+<!-- 		<env-entry-type>java.lang.String</env-entry-type> -->
+<!-- 	</env-entry> -->
 
-	<env-entry>
-		<env-entry-name>akismetSiteKey</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>		
-	</env-entry>
+<!-- 	<env-entry> -->
+<!-- 		<env-entry-name>akismetSiteKey</env-entry-name> -->
+<!-- 		<env-entry-type>java.lang.String</env-entry-type>		 -->
+<!-- 	</env-entry> -->
 
-	<env-entry>
-		<env-entry-name>akismetSiteUrl</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>		
-	</env-entry>
+<!-- 	<env-entry> -->
+<!-- 		<env-entry-name>akismetSiteUrl</env-entry-name> -->
+<!-- 		<env-entry-type>java.lang.String</env-entry-type>		 -->
+<!-- 	</env-entry> -->
 	
-	<env-entry>
-		<env-entry-name>mavenRepositoryDir</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-	</env-entry>
+<!-- 	<env-entry> -->
+<!-- 		<env-entry-name>mavenRepositoryDir</env-entry-name> -->
+<!-- 		<env-entry-type>java.lang.String</env-entry-type> -->
+<!-- 	</env-entry> -->
 
 	<mime-mapping>
 		<extension>wsdl</extension>
