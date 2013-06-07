@@ -59,41 +59,41 @@ public class JettyContext
 		context.setContextPath("/");
 		context.setResourceBase(resourceBase);		
 
-		// define a root spring context
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.setEnvironment(env);
-		rootContext.register(RootContext.class);
-		context.addEventListener(new ContextLoaderListener(rootContext));
+//		// define a root spring context
+//		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+//		rootContext.setEnvironment(env);
+//		rootContext.register(RootContext.class);
+//		context.addEventListener(new ContextLoaderListener(rootContext));
+//		
+//		// define a dispatcher context
+//		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
+//		dispatcherContext.setEnvironment(env);
+//		dispatcherContext.register(DispatcherContext.class);
+//
+//		FilterHolder sec = new FilterHolder();
+//		sec.setFilter(new DelegatingFilterProxy());
+//		sec.setName("springSecurityFilterChain");
+//		
+//		context.addFilter(sec, "/*", EnumSet.allOf(DispatcherType.class));
 		
-		// define a dispatcher context
-		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-		dispatcherContext.setEnvironment(env);
-		dispatcherContext.register(DispatcherContext.class);
-
-		FilterHolder sec = new FilterHolder();
-		sec.setFilter(new DelegatingFilterProxy());
-		sec.setName("springSecurityFilterChain");
-		
-		context.addFilter(sec, "/*", EnumSet.allOf(DispatcherType.class));
-		
-		FilterHolder etag = new FilterHolder();
-		etag.setFilter(new ShallowEtagHeaderFilter());
-		etag.setName("etag");
-		
-		context.addFilter(etag, "*.js", EnumSet.of(DispatcherType.REQUEST));
-		context.addFilter(etag, "*.css", EnumSet.of(DispatcherType.REQUEST));
-		context.addFilter(etag, "*.jpg", EnumSet.of(DispatcherType.REQUEST));
-		context.addFilter(etag, "*.png", EnumSet.of(DispatcherType.REQUEST));
-		context.addFilter(etag, "*.gif", EnumSet.of(DispatcherType.REQUEST));
-		
-		ErrorPageErrorHandler eh = new ErrorPageErrorHandler();
-		eh.addErrorPage(400, 599, "/error/code");
-		eh.addErrorPage(Throwable.class, "/error/exception");		
-		context.setErrorHandler(eh);
-
-		context.addServlet(new ServletHolder("dispatcher", new DispatcherServlet(dispatcherContext)), "/*");
-		context.addServlet(new ServletHolder("jsp", new JspServlet()), "/WEB-INF/view/*");
-		context.addServlet(new ServletHolder("jsp", new JspServlet()), "/WEB-INF/tiles/*");
+//		FilterHolder etag = new FilterHolder();
+//		etag.setFilter(new ShallowEtagHeaderFilter());
+//		etag.setName("etag");
+//		
+//		context.addFilter(etag, "*.js", EnumSet.of(DispatcherType.REQUEST));
+//		context.addFilter(etag, "*.css", EnumSet.of(DispatcherType.REQUEST));
+//		context.addFilter(etag, "*.jpg", EnumSet.of(DispatcherType.REQUEST));
+//		context.addFilter(etag, "*.png", EnumSet.of(DispatcherType.REQUEST));
+//		context.addFilter(etag, "*.gif", EnumSet.of(DispatcherType.REQUEST));
+//		
+//		ErrorPageErrorHandler eh = new ErrorPageErrorHandler();
+//		eh.addErrorPage(400, 599, "/error/code");
+//		eh.addErrorPage(Throwable.class, "/error/exception");		
+//		context.setErrorHandler(eh);
+//
+//		context.addServlet(new ServletHolder("dispatcher", new DispatcherServlet(dispatcherContext)), "/*");
+//		context.addServlet(new ServletHolder("jsp", new JspServlet()), "/WEB-INF/view/*");
+//		context.addServlet(new ServletHolder("jsp", new JspServlet()), "/WEB-INF/tiles/*");
 
 		handlers.addHandler(context);
 		server.setHandler(handlers);
