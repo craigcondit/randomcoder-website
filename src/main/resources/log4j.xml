@@ -1,61 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
-	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{d-MMM HH:mm:ss} - %-5.5p - %c - %m%n" />
-		</layout>
-	</appender>
-	
+	<appender name="nullappender" class="org.apache.log4j.varia.NullAppender" />
 	<logger name="org.randomcoder">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
-
-	<logger name="org.randomcoder.dao.hibernate">
-		<level value="warn" />
-	</logger>
-
-	<logger name="org.randomcoder.springmvc">
-		<level value="warn" />
-	</logger>
-
-	<logger name="httpclient.wire">
-		<level value="warn" />
-	</logger>
-
-	<logger name="net.sf.ehcache">
-		<level value="warn" />
-	</logger>
-
-	<logger name="org.acegisecurity">
-		<level value="warn" />
-	</logger>
-
-	<logger name="org.apache">
-		<level value="warn" />
-	</logger>
-	
-	<logger name="org.hibernate">
-		<level value="warn" />
-	</logger>
-	
-	<logger name="org.hibernate.SQL">
-		<level value="warn" />
-	</logger>
-
-	<logger name="org.springframework">
-		<level value="warn" />
-	</logger>
-	
-	<logger name="uk.ltd.getahead.dwr">
-		<level value="warn" />
-	</logger>
-
 	<root>
 		<priority value="debug" />
-		<appender-ref ref="console" />
+		<appender-ref ref="nullappender" />
 	</root>
-	
 </log4j:configuration>
