@@ -24,19 +24,22 @@ import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.*;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.*;
 
 @SuppressWarnings("javadoc")
 abstract public class AbstractDaoTestCase extends TestCase
 {
 	private static DataSource dataSource;
 	private SessionFactory sessionFactory;
+	private HibernateTransactionManager txManager;
 	
 	private static final String DATA_XML = "/database-data.xml";
 	private static final String DATA_DTD = "/database-schema.dtd";
 	private static final String DB_PROPS = "/database.properties";
 	
 	private static final Properties dbProps;
+	private TransactionStatus tx;
 	
 	static
 	{
@@ -129,29 +132,16 @@ abstract public class AbstractDaoTestCase extends TestCase
 	}
 	
 	private final SessionFactory createSessionFactory() throws Exception
-	{
+	{		
 		Properties hibProps = new Properties();		
-		hibProps.setProperty("hibernate.current_session_context_class", "thread");
 		hibProps.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
 		hibProps.setProperty("hibernate.dialect", getProperty("test.database.dialect"));
 		hibProps.setProperty("hibernate.show_sql", "false");
 		hibProps.setProperty("hibernate.max_fetch_depth", "2");
 		hibProps.setProperty("hibernate.jdbc.fetch_size", "100");
 		hibProps.setProperty("hibernate.jdbc.batch_size", "10");
-		hibProps.setProperty("hibernate.cache.use_query_cache", "true");
-		hibProps.setProperty("hibernate.cache.provider_class", "net.sf.ehcache.hibernate.SingletonEhCacheProvider");
-		
-		Properties ecProps = new Properties();
-		ecProps.setProperty("org.randomcoder.article.Article", "read-write");
-		ecProps.setProperty("org.randomcoder.article.comment.Comment", "read-write");
-		ecProps.setProperty("org.randomcoder.user.User", "read-write");
-		ecProps.setProperty("org.randomcoder.user.Role", "read-only");
-		ecProps.setProperty("org.randomcoder.tag.Tag", "read-write");
-		
-		Properties ccProps = new Properties();
-		ccProps.setProperty("org.randomcoder.user.User.roles", "read-write");
-		ccProps.setProperty("org.randomcoder.article.Article.tags", "read-write");
-		ccProps.setProperty("org.randomcoder.article.Article.comments", "read-write");
+		hibProps.setProperty("hibernate.cache.use_query_cache", "false");
+		hibProps.setProperty("hibernate.cache.use_second_level_cache", "false");
 		
 		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
 		factory.setDataSource(dataSource);
@@ -159,17 +149,11 @@ abstract public class AbstractDaoTestCase extends TestCase
 		factory.setAnnotatedClasses(new Class[] {
 	    	Article.class, Comment.class, CommentReferrer.class, CommentIp.class,
 	    	CommentUserAgent.class, User.class, Role.class, Tag.class });
-		factory.setEntityCacheStrategies(ecProps);
-		factory.setCollectionCacheStrategies(ccProps);
-		
 		factory.afterPropertiesSet();
 		
-		HibernateTransactionManager txManager = new HibernateTransactionManager();
-
+		txManager = new HibernateTransactionManager();
 		SessionFactory sf = (SessionFactory) factory.getObject();
-		
 		txManager.setSessionFactory(sf);
-		
 		return sf;
 	}
 	
@@ -191,44 +175,31 @@ abstract public class AbstractDaoTestCase extends TestCase
 	
 	protected final void begin() throws Exception
 	{
-		getSessionFactory().getCurrentSession().getTransaction().begin();
+		assertNull("Transaction active", tx);
+		tx = txManager.getTransaction(new DefaultTransactionDefinition());
 	}
 	
 	protected final void commit() throws Exception
 	{
-		getSessionFactory().getCurrentSession().getTransaction().commit();
+		assertNotNull("No transaction active", tx);
+		txManager.commit(tx);
+		tx = null;
 	}
 	
 	protected final void rollback() throws Exception
 	{
-		getSessionFactory().getCurrentSession().getTransaction().rollback();
+		assertNotNull("No transaction active", tx);
+		txManager.rollback(tx);
+		tx = null;
 	}
 
 	protected final void clear() throws Exception
 	{
-		getSessionFactory().getCurrentSession().clear();
+		SessionFactoryUtils.getSession(sessionFactory, false).clear();
 	}
 
 	protected final void flush() throws Exception
 	{
-		getSessionFactory().getCurrentSession().flush();
+		SessionFactoryUtils.getSession(sessionFactory, false).flush();
 	}
-	
-	protected final void unbindSession() throws Exception
-	{
-		TransactionSynchronizationManager.unbindResource(getSessionFactory());
-	}
-	
-	protected final void bindSession() throws Exception
-	{
-		SessionFactory sf = getSessionFactory();
-		TransactionSynchronizationManager.bindResource(sf, new SessionHolder(sf.openSession()));
-	}
-	
-	protected final void rebindSession() throws Exception
-	{
-		unbindSession();
-		bindSession();
-	}
-	
 }

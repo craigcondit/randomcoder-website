@@ -17,22 +17,16 @@ public class UserDaoTest extends AbstractDaoTestCase
 		cleanDatabase();
 		userDao = (UserDao) createDao(User.class, UserDao.class);
 		roleDao = (RoleDao) createDao(Role.class, RoleDao.class);
-		bindSession();
 	}	
 	
 	public void testCountAll() throws Exception
 	{		
 		// database is initially empty, so record count should be 0
 		begin();
-		
 		assertEquals("User record count wrong", 0, userDao.countAll());
-		
 		commit();
 		
-		//----------------------------
-		rebindSession();
-		
-		// add a user		
+		// add a user
 		begin();
 		
 		User user = new User();
@@ -45,14 +39,9 @@ public class UserDaoTest extends AbstractDaoTestCase
 		
 		commit();
 		
-		//----------------------------
-		rebindSession();
-		
 		// database should now have 1 record
 		begin();
-		
 		assertEquals("User record count wrong", 1, userDao.countAll());
-		
 		commit();
 	}
 
@@ -63,9 +52,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 		
 		assertNotNull("ID null after commit", user.getId());
-		
-		//----------------------------
-		rebindSession();
 		
 		begin();
 		
@@ -91,8 +77,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		createTestUser("test-delete", "test-delete", "test-delete@example.com", true);
 		commit();
 		
-		rebindSession();
-		
 		// load the user		
 		begin();
 		
@@ -103,8 +87,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		userDao.delete(loadedUser);
 		
 		commit();
-		
-		rebindSession();
 		
 		// try to load again
 		
@@ -123,8 +105,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		createTestUser("test-findByUserName", "test-findByUserName", "findbyusername@example.com", true);
 		commit();
 		
-		rebindSession();
-		
 		// load user
 		begin();
 		User user = userDao.findByUserName("test-findByUserName");
@@ -141,8 +121,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		createTestUser("test-findByUserNameEnabled", "test-findByUserNameEnabled", "findbyusernameenabled@example.com", true);
 		createTestUser("test-findByUserNameDisabled", "test-findByUserNameDisabled", "findbyusernamedisabled@example.com", false);
 		commit();
-		
-		rebindSession();
 		
 		// load users
 		begin();
@@ -167,8 +145,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		}		
 		commit();
 		
-		rebindSession();
-		
 		// list users
 		begin();
 		List<User> users = userDao.listAll();
@@ -190,8 +166,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 			createTestUser("test-listAllInRange" + i, "test-listAllInRange", "testlistallinrange@example.com", true);
 		}		
 		commit();
-		
-		rebindSession();
 		
 		// list users
 		begin();
@@ -223,8 +197,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		}		
 		commit();
 		
-		rebindSession();
-		
 		// list users
 		begin();
 		
@@ -246,8 +218,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		
 		Long id = created.getId();
 		
-		rebindSession();
-		
 		begin();
 		User read = userDao.read(id);
 		assertNotNull("Null user", read);		
@@ -261,16 +231,12 @@ public class UserDaoTest extends AbstractDaoTestCase
 		createTestUser("test-update", "test-update", "testupdate@example.com", true);
 		commit();
 		
-		rebindSession();
-
 		begin();
 		User read = userDao.findByUserName("test-update");
 		assertNotNull("Null user", read);		
 		read.setEmailAddress("testupdate2@example.com");
 		userDao.update(read);
 		commit();
-		
-		rebindSession();
 		
 		begin();
 		User updated = userDao.findByUserName("test-update");
@@ -279,7 +245,7 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 		
-	private User createTestUser(String userName, String password, String email, boolean enabled)
+	private User createTestUser(String userName, String password, String email, boolean enabled) throws Exception
 	{
 		User user = new User();
 		user.setUserName(userName);
@@ -293,16 +259,16 @@ public class UserDaoTest extends AbstractDaoTestCase
 		
 		userDao.create(user);
 		
+		flush();
+		
 		return user;
 	}
 	
 	@Override
 	public void tearDown() throws Exception
 	{
-		unbindSession();
 		userDao = null;
 		roleDao = null;
 		super.tearDown();
-	}
-	
+	}	
 }

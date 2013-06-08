@@ -15,7 +15,6 @@ public class RoleDaoTest extends AbstractDaoTestCase
 		super.setUp();
 		cleanDatabase();
 		roleDao = (RoleDao) createDao(Role.class, RoleDao.class);
-		bindSession();
 	}
 	
 	public void testFindByName() throws Exception
@@ -50,7 +49,6 @@ public class RoleDaoTest extends AbstractDaoTestCase
 	@Override
 	public void tearDown() throws Exception
 	{
-		unbindSession();
 		roleDao = null;
 		super.tearDown();
 	}
