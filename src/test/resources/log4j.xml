@@ -15,6 +15,10 @@
 		<level value="debug" />
 	</logger>
 
+	<logger name="org.dbunit">
+		<level value="debug" />
+	</logger>
+
 	<logger name="org.randomcoder.dao.hibernate">
 		<level value="warn" />
 	</logger>
@@ -40,7 +44,7 @@
 	</logger>
 	
 	<logger name="org.hibernate.SQL">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.springframework">
