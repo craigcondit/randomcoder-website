@@ -16,7 +16,7 @@
 	</logger>
 
 	<logger name="org.dbunit">
-		<level value="debug" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="org.randomcoder.dao.hibernate">
