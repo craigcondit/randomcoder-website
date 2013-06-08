@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import org.apache.commons.logging.*;
 import org.hibernate.*;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
-
 import org.randomcoder.dao.CrudDao;
 import org.randomcoder.dao.finder.*;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
 
 /**
  * Hibernate implementation of CrudDao.
@@ -52,6 +52,8 @@ import org.randomcoder.dao.finder.*;
  */
 public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>, FinderExecutor
 {
+	private static final Log logger = LogFactory.getLog(HibernateDao.class);
+	
 	private SessionFactory sessionFactory;
 
 	private FinderNamingStrategy namingStrategy = new DefaultFinderNamingStrategy();
@@ -69,6 +71,17 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 		this.sessionFactory = sessionFactory;
 	}
 
+	/**
+	 * Determines if sessions are allowed to be auto-created (defaults to true).
+	 * 
+	 * @param allowCreate
+	 *            <code>true</code> to allow session creation
+	 */
+	public void setAllowCreate(boolean allowCreate)
+	{
+		this.allowCreate = allowCreate;
+	}
+	
 	/**
 	 * Creates a new Hibernate DAO for the specified type.
 	 * 
@@ -156,7 +169,12 @@ public class HibernateDao<T, PK extends Serializable> implements CrudDao<T, PK>,
 	 */
 	protected Session getSession()
 	{
-		return SessionFactoryUtils.getSession(sessionFactory, allowCreate);
+		Session session = SessionFactoryUtils.getSession(sessionFactory, allowCreate);
+		if (logger.isTraceEnabled())
+		{
+			logger.trace("Session: " + session.toString());
+		}		
+		return session;
 	}
 
 	private Query prepareQuery(Method method, Object[] args, int start, int limit)
