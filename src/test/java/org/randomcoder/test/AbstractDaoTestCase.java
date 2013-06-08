@@ -176,14 +176,11 @@ abstract public class AbstractDaoTestCase extends TestCase
 	@Override
 	public void setUp() throws Exception
 	{
-		String driver = getProperty("test.database.driver");
 		String url = getProperty("test.database.url");
 		String username = getProperty("test.database.username");
 		String password = getProperty("test.database.password");
 		
-		Class.forName(driver);
-		
-		dataSource = new DriverManagerDataSource(driver, url, username, password);
+		dataSource = new DriverManagerDataSource(url, username, password);
 	}
 	
 	@Override
