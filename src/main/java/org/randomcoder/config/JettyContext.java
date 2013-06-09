@@ -48,6 +48,8 @@ public class JettyContext
 		connector.setPort(env.getRequiredProperty(HTTP_PORT_PROP, Integer.class));
 		connector.setThreadPool(new QueuedThreadPool(env.getRequiredProperty(HTTP_THREADS_PROP, Integer.class)));
 		connector.setName("admin");
+		connector.setForwarded(true);
+		
 		server.addConnector(connector);
 
 		HandlerCollection handlers = new HandlerCollection();
