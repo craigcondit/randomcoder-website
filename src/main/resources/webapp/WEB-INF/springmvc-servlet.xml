@@ -286,7 +286,7 @@
 				<prop key="/comment/approve">commentApproveController</prop>
 				<prop key="/comment/disapprove">commentDisapproveController</prop>
 				<prop key="/download">downloadController</prop>
-				<prop key="/home">homeController</prop>
+				<prop key="">homeController</prop>
 				<prop key="/legal/about">aboutController</prop>
 				<prop key="/legal/license">licenseController</prop>
 				<prop key="/login">loginController</prop>
