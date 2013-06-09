@@ -15,11 +15,12 @@
 
 	<!-- TODO transitional; replace with env-specific config -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="ignoreResourceNotFound" value="false" />
+		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
 				<value>classpath:/profiles/default.properties</value>
 				<value>classpath:/profiles/dev.properties</value>
+				<value>file:///srv/randomcoder-website/etc/randomcoder-website.conf</value>
 			</list>
 		</property>
 	</bean>
