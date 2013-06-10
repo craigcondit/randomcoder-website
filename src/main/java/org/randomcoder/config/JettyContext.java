@@ -20,7 +20,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
-import org.springframework.web.context.support.*;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -112,13 +112,13 @@ public class JettyContext
 		context.addFilter(etag, "*.gif", EnumSet.of(DispatcherType.REQUEST));
 		
 		// define dispatcher servlet
-		XmlWebApplicationContext dispatcherContext = new XmlWebApplicationContext();
+		AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
 		dispatcherContext.setParent(rootContext);
 		dispatcherContext.setEnvironment(env);
-		dispatcherContext.setConfigLocation("classpath:/webapp/WEB-INF/springmvc-servlet.xml");
+		dispatcherContext.register(DispatcherContext.class);
+		dispatcherContext.setEnvironment(env);		
 		
-		ServletHolder dispatcher = new ServletHolder("springmvc", new DispatcherServlet(dispatcherContext));
-		
+		ServletHolder dispatcher = new ServletHolder("springmvc", new DispatcherServlet(dispatcherContext));		
 		context.addServlet(dispatcher, "");
 		context.addServlet(dispatcher, "/account/*");
 		context.addServlet(dispatcher, "/article/*");
@@ -133,26 +133,6 @@ public class JettyContext
 		context.addServlet(dispatcher, "/tag/*");
 		context.addServlet(dispatcher, "/tags/*");
 		context.addServlet(dispatcher, "/user/*");
-		
-		// context.addServlet(new ServletHolder("dispatcher", new
-		// DispatcherServlet(dispatcherContext)), "/*");
-		// context.addServlet(new ServletHolder("jsp", new JspServlet()),
-		// "/WEB-INF/view/*");
-		// context.addServlet(new ServletHolder("jsp", new JspServlet()),
-		// "/WEB-INF/tiles/*");
-
-		// TODO use JavaConfig instead of XML
-		
-		// // define a dispatcher context
-		// AnnotationConfigWebApplicationContext dispatcherContext = new
-		// AnnotationConfigWebApplicationContext();
-		// dispatcherContext.setEnvironment(env);
-		// dispatcherContext.register(DispatcherContext.class);
-		//
-		// ErrorPageErrorHandler eh = new ErrorPageErrorHandler();
-		// eh.addErrorPage(400, 599, "/error/code");
-		// eh.addErrorPage(Throwable.class, "/error/exception");
-		// context.setErrorHandler(eh);
 		
 		handlers.addHandler(context);
 		server.setHandler(handlers);
