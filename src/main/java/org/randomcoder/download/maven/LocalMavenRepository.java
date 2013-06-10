@@ -5,12 +5,11 @@ import java.net.*;
 import java.util.*;
 
 import org.apache.commons.logging.*;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
-
-import org.randomcoder.download.*;
-import org.randomcoder.download.Package;
 
 /**
  * Maven repository parser which reads local files. 
@@ -44,6 +43,7 @@ public class LocalMavenRepository implements PackageListProducer
 {
 	private static final Log logger = LogFactory.getLog(LocalMavenRepository.class);
 	private static final String METADATA_FILENAME = "maven-metadata.xml";
+	private static final String LOCAL_METADATA_FILENAME = "maven-metadata-local.xml";
 	
 	private URL url;
 	private File dir;
@@ -126,11 +126,14 @@ public class LocalMavenRepository implements PackageListProducer
 		File projectFile = getProjectFile(project);
 		File metadataFile = getMetadataFile(projectFile);
 		
+		if (metadataFile == null)
+		{
+			return null;
+		}
+		
 		InputStream is = null;
 		try
 		{
-			if (!metadataFile.exists() || !metadataFile.canRead())
-				return null;
 			
 			is = new FileInputStream(metadataFile);
 			
@@ -278,6 +281,19 @@ public class LocalMavenRepository implements PackageListProducer
 	
 	private File getMetadataFile(File projectFile)
 	{
-		return new File(projectFile, METADATA_FILENAME);
+		File meta = null;
+		meta = new File(projectFile, METADATA_FILENAME);
+		if (meta.exists() && meta.canRead())
+		{
+			return meta;
+		}
+		
+		meta = new File(projectFile, LOCAL_METADATA_FILENAME);
+		if (meta.exists() && meta.canRead())
+		{
+			return meta;
+		}
+		
+		return null;
 	}
 }
