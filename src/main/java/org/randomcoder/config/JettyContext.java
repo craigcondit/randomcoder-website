@@ -114,6 +114,7 @@ public class JettyContext
 		// define dispatcher servlet
 		XmlWebApplicationContext dispatcherContext = new XmlWebApplicationContext();
 		dispatcherContext.setParent(rootContext);
+		dispatcherContext.setEnvironment(env);
 		dispatcherContext.setConfigLocation("classpath:/webapp/WEB-INF/springmvc-servlet.xml");
 		
 		ServletHolder dispatcher = new ServletHolder("springmvc", new DispatcherServlet(dispatcherContext));
