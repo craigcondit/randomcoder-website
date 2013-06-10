@@ -9,6 +9,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement
+@ImportResource({
+	"classpath:/webapp/WEB-INF/applicationContext.xml",
+	"classpath:/webapp/WEB-INF/applicationContext-acegi.xml",
+	"classpath:/webapp/WEB-INF/applicationContext-download.xml"
+})
 //@ImportResource({"classpath:spring-security.xml"})
 //@Import({ DatabaseConfig.class, TwitterConfig.class })
 //@ComponentScan({"org.randomcoder.craigandanne.bo"})
