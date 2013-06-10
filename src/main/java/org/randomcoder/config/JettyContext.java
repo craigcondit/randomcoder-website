@@ -101,11 +101,10 @@ public class JettyContext
 		acegi.setInitParameter("targetBean", "filterChainProxy");
 		context.addFilter(acegi, "/*", EnumSet.of(DispatcherType.REQUEST));
 		
-		// define etag filter
+		// define etag filter to better cache static content
 		FilterHolder etag = new FilterHolder();
 		etag.setFilter(new ShallowEtagHeaderFilter());
 		etag.setName("etag");
-
 		context.addFilter(etag, "*.js", EnumSet.of(DispatcherType.REQUEST));
 		context.addFilter(etag, "*.css", EnumSet.of(DispatcherType.REQUEST));
 		context.addFilter(etag, "*.jpg", EnumSet.of(DispatcherType.REQUEST));
