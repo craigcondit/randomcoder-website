@@ -10,11 +10,10 @@ import net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.transaction.JDBCTransactionFactory;
-import org.randomcoder.about.*;
 import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
-import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.*;
 import org.randomcoder.content.*;
 import org.randomcoder.crypto.*;
 import org.randomcoder.dao.finder.*;
@@ -30,7 +29,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.*;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate3.HibernateTransactionManager;
 import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
@@ -72,14 +70,6 @@ public class RootContext
 		ResourceBundleMessageSource ms = new ResourceBundleMessageSource();
 		ms.setBasename("ApplicationResources");
 		return ms;
-	}
-
-	@Bean
-	public ApplicationInformationFactoryBean applicationInformation()
-	{
-		ApplicationInformationFactoryBean ai = new ApplicationInformationFactoryBean();
-		ai.setPropertyFile(new ClassPathResource("/version.properties"));
-		return ai;
 	}
 
 	@Bean
@@ -166,10 +156,10 @@ public class RootContext
 	}
 
 	@Bean
-	public FeedGenerator atomFeedGenerator(final ApplicationInformation appInfo) throws Exception
+	public FeedGenerator atomFeedGenerator(final AppInfoBusiness appInfo) throws Exception
 	{
 		AtomFeedGenerator gen = new AtomFeedGenerator();
-		gen.setApplicationInformation(appInfo);
+		gen.setAppInfoBusiness(appInfo);
 		gen.setBaseUrl("https://randomcoder.org/");
 		gen.setUriPrefix("tag:randomcoder.org,2007:");
 		gen.setContentFilter(contentFilter());
@@ -177,10 +167,10 @@ public class RootContext
 	}
 
 	@Bean
-	public FeedGenerator rss20FeedGenerator(final ApplicationInformation appInfo) throws Exception
+	public FeedGenerator rss20FeedGenerator(final AppInfoBusiness appInfo) throws Exception
 	{
 		Rss20FeedGenerator gen = new Rss20FeedGenerator();
-		gen.setApplicationInformation(appInfo);
+		gen.setAppInfoBusiness(appInfo);
 		gen.setBaseUrl("https://randomcoder.org/");
 		gen.setContentFilter(contentFilter());
 		return gen;
@@ -272,10 +262,10 @@ public class RootContext
 	}
 
 	@Bean
-	public Moderator moderator(final ApplicationInformation applicationInformation)
+	public Moderator moderator(final AppInfoBusiness applicationInformation)
 	{
 		AkismetModerator mod = new AkismetModerator();
-		mod.setApplicationInformation(applicationInformation);
+		mod.setAppInfoBusiness(applicationInformation);
 		mod.setApiKey(env.getRequiredProperty("akismet.site.key"));
 		mod.setSiteUrl(env.getRequiredProperty("akismet.site.url"));
 		return mod;

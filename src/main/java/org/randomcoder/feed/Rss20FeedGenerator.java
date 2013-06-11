@@ -9,8 +9,8 @@ import javax.xml.parsers.*;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 
-import org.randomcoder.about.ApplicationInformation;
 import org.randomcoder.article.Article;
+import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.tag.Tag;
 import org.randomcoder.xml.XmlUtils;
@@ -48,20 +48,20 @@ import org.xml.sax.SAXException;
  */
 public class Rss20FeedGenerator implements FeedGenerator
 {
-	private ApplicationInformation applicationInformation;
+	private AppInfoBusiness appInfoBusiness;
 	private URL baseUrl;
 	private ContentFilter contentFilter;
 	
 	/**
 	 * Sets the application information for this feed.
 	 * 
-	 * @param applicationInformation
+	 * @param appInfoBusiness
 	 *          application information
 	 */
 	@Required
-	public void setApplicationInformation(ApplicationInformation applicationInformation)
+	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness)
 	{
-		this.applicationInformation = applicationInformation;
+		this.appInfoBusiness = appInfoBusiness;
 	}
 	
 	/**
@@ -136,7 +136,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 		channelEl.appendChild(docsEl);
 		
 		Element generatorEl = doc.createElement("generator");
-		generatorEl.appendChild(doc.createTextNode(applicationInformation.getApplicationName() + " " + applicationInformation.getApplicationVersion()));
+		generatorEl.appendChild(doc.createTextNode(appInfoBusiness.getApplicationName() + " " + appInfoBusiness.getApplicationVersion()));
 		channelEl.appendChild(generatorEl);
 
 		Element languageEl = doc.createElement("language");

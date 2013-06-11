@@ -6,8 +6,8 @@ import java.util.Locale;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.*;
-import org.randomcoder.about.ApplicationInformation;
 import org.randomcoder.article.comment.*;
+import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.user.User;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Required;
@@ -72,13 +72,15 @@ public class AkismetModerator implements Moderator, InitializingBean, Disposable
 	
 	/**
 	 * Sets the application information for this client.
-	 * @param applicationInformation application information
+	 * 
+	 * @param appInfoBusiness
+	 *            application information
 	 */
 	@Required
-	public void setApplicationInformation(ApplicationInformation applicationInformation)
+	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness)
 	{
-		String appName = applicationInformation.getApplicationName();
-		String appVersion = applicationInformation.getApplicationVersion();
+		String appName = appInfoBusiness.getApplicationName();
+		String appVersion = appInfoBusiness.getApplicationVersion();
 		
 		appName = appName.replaceAll("\\s+", "-");
 		appVersion = appVersion.replaceAll("\\s+", "_");

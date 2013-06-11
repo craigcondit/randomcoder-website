@@ -12,8 +12,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 
-import org.randomcoder.about.ApplicationInformation;
 import org.randomcoder.article.Article;
+import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.tag.Tag;
 import org.randomcoder.user.User;
@@ -59,7 +59,7 @@ public class AtomFeedGenerator implements FeedGenerator
 	private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
 	private static final String XHTML_NS_PREFIX = "xhtml";
 	
-	private ApplicationInformation applicationInformation;
+	private AppInfoBusiness appInfoBusiness;
 	private URL baseUrl;
 	private String uriPrefix;
 	private ContentFilter contentFilter;
@@ -103,15 +103,15 @@ public class AtomFeedGenerator implements FeedGenerator
 	}
 	
 	/**
-	 * Sets the ApplicationInformation instance to use.
+	 * Sets the AppInfoBusiness instance to use.
 	 * 
-	 * @param applicationInformation
-	 *          ApplicationInformation instance
+	 * @param appInfoBusiness
+	 *          AppInfoBusiness instance
 	 */
 	@Required
-	public void setApplicationInformation(ApplicationInformation applicationInformation)
+	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness)
 	{
-		this.applicationInformation = applicationInformation;
+		this.appInfoBusiness = appInfoBusiness;
 	}
 	
 	@Override
@@ -163,8 +163,8 @@ public class AtomFeedGenerator implements FeedGenerator
 		// write feed generator
 		Element generatorEl = doc.createElementNS(ATOM_1_0_NS, "generator");
 		generatorEl.setAttribute("uri", "https://randomcoder.org/");
-		generatorEl.setAttribute("version", applicationInformation.getApplicationVersion());
-		generatorEl.appendChild(doc.createTextNode(applicationInformation.getApplicationName()));
+		generatorEl.setAttribute("version", appInfoBusiness.getApplicationVersion());
+		generatorEl.appendChild(doc.createTextNode(appInfoBusiness.getApplicationName()));
 		root.appendChild(generatorEl);
 		
 		// write feed URL
