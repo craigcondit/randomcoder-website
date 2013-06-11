@@ -1,6 +1,7 @@
-package org.randomcoder.user;
+package org.randomcoder.bo;
 
 import org.randomcoder.io.*;
+import org.randomcoder.user.User;
 
 /**
  * Business interface for user management.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.springframework.mock.web.*;

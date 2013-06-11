@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.bo.UserBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;

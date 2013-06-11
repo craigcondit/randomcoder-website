@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.acegisecurity.event.authentication.AuthenticationSuccessEvent;
 import org.acegisecurity.providers.UsernamePasswordAuthenticationToken;
+import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.user.*;
 import org.springframework.context.ApplicationEvent;

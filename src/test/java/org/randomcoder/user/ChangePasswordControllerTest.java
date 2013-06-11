@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 
+import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 import org.randomcoder.test.mock.user.ChangePasswordControllerMock;

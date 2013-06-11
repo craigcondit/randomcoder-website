@@ -1,10 +1,12 @@
-package org.randomcoder.user;
+package org.randomcoder.bo;
 
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.test.mock.dao.UserDaoMock;
+import org.randomcoder.user.*;
 
 @SuppressWarnings("javadoc")
 public class UserBusinessImplTest extends TestCase

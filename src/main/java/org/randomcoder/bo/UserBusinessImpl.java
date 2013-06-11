@@ -1,9 +1,10 @@
-package org.randomcoder.user;
+package org.randomcoder.bo;
 
 import java.util.*;
 
 import org.randomcoder.db.UserDao;
 import org.randomcoder.io.*;
+import org.randomcoder.user.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 

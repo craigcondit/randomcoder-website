@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
+import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.springmvc.IdCommand;
 
 /**

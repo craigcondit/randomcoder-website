@@ -8,6 +8,7 @@ import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.UserEditControllerMock;
 

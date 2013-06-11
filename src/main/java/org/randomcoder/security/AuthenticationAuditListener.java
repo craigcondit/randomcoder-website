@@ -2,7 +2,7 @@ package org.randomcoder.security;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.event.authentication.AuthenticationSuccessEvent;
-import org.randomcoder.user.UserBusiness;
+import org.randomcoder.bo.UserBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.*;
 
