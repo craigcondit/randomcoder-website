@@ -12,7 +12,6 @@ import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.*;
 import org.randomcoder.download.*;
 import org.randomcoder.feed.*;
-import org.randomcoder.security.*;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
@@ -110,7 +109,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("", "homeController");
 		p.setProperty("/login", "loginController");
 		p.setProperty("/login-error", "loginErrorController");
-		p.setProperty("/redirect", "redirectController");
 		p.setProperty("/tag", "tagListController");
 		p.setProperty("/tag/add", "tagAddController");
 		p.setProperty("/tag/edit", "tagEditController");
@@ -150,31 +148,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		return resolver;
 	}
 	
-//	@Bean
-//	public ParameterizableViewController aboutController()
-//	{
-//		ParameterizableViewController c = new ParameterizableViewController();
-//		c.setViewName("legal-about");
-//		return c;
-//	}
-//
-//	@Bean
-//	public ParameterizableViewController licenseController()
-//	{
-//		ParameterizableViewController c = new ParameterizableViewController();
-//		c.setViewName("legal-license");
-//		return c;
-//	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public RedirectController redirectController()
-	{
-		RedirectController c = new RedirectController();
-		c.setCommandClass(RedirectCommand.class);
-		return c;
-	}
-
 	@Bean
 	@SuppressWarnings("deprecation")
 	public DownloadController downloadController()

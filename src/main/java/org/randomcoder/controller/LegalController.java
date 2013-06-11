@@ -1,7 +1,7 @@
 package org.randomcoder.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * Legal documents controller.
@@ -14,7 +14,7 @@ public class LegalController
 	 * 
 	 * @return about view
 	 */
-	@RequestMapping(value = "/legal/about", method = RequestMethod.GET)
+	@RequestMapping("/legal/about")
 	public String about()
 	{
 		return "legal-about";
@@ -25,7 +25,7 @@ public class LegalController
 	 * 
 	 * @return license view
 	 */
-	@RequestMapping(value = "/legal/license", method = RequestMethod.GET)
+	@RequestMapping("/legal/license")
 	public String license()
 	{
 		return "legal-license";
