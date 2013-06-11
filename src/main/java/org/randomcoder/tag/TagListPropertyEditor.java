@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 
+import org.randomcoder.db.TagDao;
 import org.randomcoder.validation.DataValidationUtils;
 
 /**

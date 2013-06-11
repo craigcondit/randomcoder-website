@@ -1,5 +1,6 @@
 package org.randomcoder.tag;
 
+import org.randomcoder.db.TagDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 

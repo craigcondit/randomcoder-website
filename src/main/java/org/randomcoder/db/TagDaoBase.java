@@ -1,6 +1,8 @@
-package org.randomcoder.tag;
+package org.randomcoder.db;
 
 import java.util.List;
+
+import org.randomcoder.tag.TagStatistics;
 
 
 /**

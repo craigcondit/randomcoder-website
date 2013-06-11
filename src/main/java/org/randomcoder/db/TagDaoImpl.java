@@ -1,10 +1,11 @@
-package org.randomcoder.tag;
+package org.randomcoder.db;
 
 import java.util.*;
 
 import org.hibernate.Query;
 
 import org.randomcoder.dao.hibernate.HibernateDao;
+import org.randomcoder.tag.*;
 
 /**
  * Tag data access implementation.
