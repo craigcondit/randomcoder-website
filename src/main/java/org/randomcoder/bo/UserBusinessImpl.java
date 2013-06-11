@@ -1,11 +1,13 @@
 package org.randomcoder.bo;
 
-import java.util.*;
+import java.util.Date;
+
+import javax.inject.Inject;
 
 import org.randomcoder.db.UserDao;
 import org.randomcoder.io.*;
 import org.randomcoder.user.*;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -36,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@Component("userBusiness")
 public class UserBusinessImpl implements UserBusiness
 {
 	private UserDao userDao;
@@ -44,7 +47,7 @@ public class UserBusinessImpl implements UserBusiness
 	 * Sets the UserDao implementation to use.
 	 * @param userDao UserDao implementation
 	 */
-	@Required
+	@Inject
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;

@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.transaction.JDBCTransactionFactory;
 import org.randomcoder.about.*;
-import org.randomcoder.article.*;
+import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
 import org.randomcoder.bo.*;
@@ -21,7 +21,7 @@ import org.randomcoder.dao.finder.*;
 import org.randomcoder.dao.hibernate.HibernateDao;
 import org.randomcoder.db.*;
 import org.randomcoder.feed.*;
-import org.randomcoder.tag.*;
+import org.randomcoder.tag.Tag;
 import org.randomcoder.user.*;
 import org.randomcoder.user.Role;
 import org.springframework.aop.framework.ProxyFactory;
@@ -272,14 +272,6 @@ public class RootContext
 	}
 
 	// TODO convert business objects to classpath scanning
-
-	@Bean
-	public UserBusiness userBusiness(final UserDao userDao)
-	{
-		UserBusinessImpl ub = new UserBusinessImpl();
-		ub.setUserDao(userDao);
-		return ub;
-	}
 
 	@Bean
 	public TagBusiness tagBusiness(final TagDao tagDao, final ArticleDao articleDao)
