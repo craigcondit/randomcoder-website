@@ -4,18 +4,19 @@ import java.util.*;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.bo.*;
+import org.randomcoder.test.mock.dao.UserDaoMock;
+import org.randomcoder.test.mock.user.UserListControllerMock;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-
-import org.randomcoder.test.mock.dao.UserDaoMock;
-import org.randomcoder.test.mock.user.UserListControllerMock;
 
 @SuppressWarnings("javadoc")
 public class UserListControllerTest extends TestCase
 {
 	private UserListControllerMock controller;
 	private UserDaoMock userDao;
+	private UserBusinessImpl ub;
 	
 	@Override
 	public void setUp() throws Exception
@@ -38,11 +39,22 @@ public class UserListControllerTest extends TestCase
 			userDao.create(user);
 		}
 		
+		ub = new UserBusinessImpl();
+		ub.setUserDao(userDao);
+		
 		controller = new UserListControllerMock();
 		controller.setDefaultPageSize(25);
 		controller.setMaximumPageSize(100);
-		controller.setUserDao(userDao);
+		controller.setUserBusiness(ub);
 		controller.setViewName("success");
+	}
+	
+	@Override
+	public void tearDown() throws Exception
+	{
+		ub = null;
+		userDao = null;
+		controller = null;
 	}
 	
 	public void testHandle() throws Exception
@@ -115,12 +127,5 @@ public class UserListControllerTest extends TestCase
 		assertEquals("Wrong #76 username", "user-list-76", user76.getUserName());
 		user99 = (User) users.get(23);
 		assertEquals("Wrong #99 username", "user-list-99", user99.getUserName());
-	}
-
-	@Override
-	public void tearDown() throws Exception
-	{
-		userDao = null;
-		controller = null;
 	}
 }

@@ -4,9 +4,8 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentType;
-import org.randomcoder.db.TagDao;
 import org.randomcoder.springmvc.EnumPropertyEditor;
 import org.randomcoder.tag.*;
 import org.springframework.beans.factory.annotation.Required;
@@ -48,29 +47,32 @@ public class AbstractArticleController extends CancellableFormController
 	 * Article business object.
 	 */
 	protected ArticleBusiness articleBusiness;
+	protected TagBusiness tagBusiness;
 
-	private TagDao tagDao;
-	
 	/**
 	 * Sets the ArticleBusiness implementation to use.
-	 * @param articleBusiness ArticleBusiness implementation
+	 * 
+	 * @param articleBusiness
+	 *            ArticleBusiness implementation
 	 */
 	@Required
 	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
 		this.articleBusiness = articleBusiness;
 	}
-	
+
 	/**
-	 * Sets the TagDao implementation to use.
-	 * @param tagDao TagDao implementation
+	 * Sets the TagBusiness implementation to use.
+	 * 
+	 * @param tagBusiness
+	 *            TagBusiness implementation
 	 */
 	@Required
-	public void setTagDao(TagDao tagDao)
+	public void setTagBusiness(TagBusiness tagBusiness)
 	{
-		this.tagDao = tagDao;
+		this.tagBusiness = tagBusiness;
 	}
-	
+
 	/**
 	 * Associates custom property editors with form objects.
 	 */
@@ -79,7 +81,7 @@ public class AbstractArticleController extends CancellableFormController
 	{
 		super.initBinder(request, binder);
 		binder.registerCustomEditor(ContentType.class, new EnumPropertyEditor(ContentType.class));
-		binder.registerCustomEditor(TagList.class, new TagListPropertyEditor(tagDao));
+		binder.registerCustomEditor(TagList.class, new TagListPropertyEditor(tagBusiness));
 	}
 
 	/**

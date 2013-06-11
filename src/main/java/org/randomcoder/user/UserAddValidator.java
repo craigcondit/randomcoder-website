@@ -1,7 +1,7 @@
 package org.randomcoder.user;
 
 import org.apache.commons.lang.StringUtils;
-import org.randomcoder.db.UserDao;
+import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
@@ -38,7 +38,7 @@ public class UserAddValidator implements Validator
 {
 	private static final int DEFAULT_MINIMUM_USERNAME_LENGTH = 3;
 	private static final int DEFAULT_MINIMUM_PASSWORD_LENGTH = 6;
-	
+
 	private static final String ERROR_USER_NULL = "error.user.null";
 	private static final String ERROR_USERNAME_REQUIRED = "error.user.username.required";
 	private static final String ERROR_USERNAME_TOO_SHORT = "error.user.username.tooshort";
@@ -49,42 +49,50 @@ public class UserAddValidator implements Validator
 	private static final String ERROR_PASSWORD_REQUIRED = "error.user.password.required";
 	private static final String ERROR_PASSWORD_TOO_SHORT = "error.user.password.tooshort";
 	private static final String ERROR_PASSWORD_NO_MATCH = "error.user.password.nomatch";
-	
+
 	private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
-	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;	
-	private UserDao userDao;
-	
+	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;
+	private UserBusiness userBusiness;
+
 	/**
 	 * Sets the minimum password length.
-	 * @param minimumPasswordLength minimum password length
+	 * 
+	 * @param minimumPasswordLength
+	 *            minimum password length
 	 */
 	public void setMinimumPasswordLength(int minimumPasswordLength)
 	{
 		this.minimumPasswordLength = minimumPasswordLength;
 	}
-	
+
 	/**
 	 * Sets the minimum username length.
-	 * @param minimumUsernameLength minimum username length
+	 * 
+	 * @param minimumUsernameLength
+	 *            minimum username length
 	 */
 	public void setMinimumUsernameLength(int minimumUsernameLength)
 	{
 		this.minimumUsernameLength = minimumUsernameLength;
 	}
-	
+
 	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation
+	 * Sets the UserBusiness implementation to use.
+	 * 
+	 * @param userBusiness
+	 *            UserBusiness implementation
 	 */
 	@Required
-	public void setUserDao(UserDao userDao)
+	public void setUserBusiness(UserBusiness userBusiness)
 	{
-		this.userDao = userDao;
+		this.userBusiness = userBusiness;
 	}
-	
+
 	/**
 	 * Determines if this validator supports the given class.
-	 * @param targetClass class to check
+	 * 
+	 * @param targetClass
+	 *            class to check
 	 * @return true if targetClass is {@code UserAddCommand}, false otherwise
 	 */
 	@Override
@@ -95,16 +103,20 @@ public class UserAddValidator implements Validator
 
 	/**
 	 * Validates the given object.
-	 * @param target object to validate
-	 * @param errors error object to populate with validation errors
+	 * 
+	 * @param target
+	 *            object to validate
+	 * @param errors
+	 *            error object to populate with validation errors
 	 */
 	@Override
 	public void validate(Object target, Errors errors)
 	{
 		UserAddCommand command = (UserAddCommand) target;
-		
-		if (!validateCommon(command, errors)) return;
-		
+
+		if (!validateCommon(command, errors))
+			return;
+
 		// username
 		String userName = command.getUserName();
 		if (userName == null)
@@ -115,34 +127,37 @@ public class UserAddValidator implements Validator
 		{
 			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT, "Username too short.");
 		}
-		else if (userDao.findByUserName(userName) != null)
+		else if (userBusiness.findUserByName(userName) != null)
 		{
-			errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");			
+			errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");
 		}
-		
+
 		// password
 		String password = command.getPassword();
 		if (password == null || password.trim().length() == 0)
 		{
-			errors.rejectValue("password", ERROR_PASSWORD_REQUIRED, "Password required.");							
+			errors.rejectValue("password", ERROR_PASSWORD_REQUIRED, "Password required.");
 		}
-		
+
 		// password2, but only if no other errors
 		if (errors.getFieldErrorCount("password2") == 0)
 		{
 			String password2 = command.getPassword2();
 			if (password2 == null || password2.trim().length() == 0)
 			{
-				errors.rejectValue("password2", ERROR_PASSWORD_REQUIRED, "Password required.");											
+				errors.rejectValue("password2", ERROR_PASSWORD_REQUIRED, "Password required.");
 			}
 		}
-			
+
 	}
 
 	/**
 	 * Validate errors common to this class and subclasses.
-	 * @param command command to validate
-	 * @param errors errors
+	 * 
+	 * @param command
+	 *            command to validate
+	 * @param errors
+	 *            errors
 	 * @return true if validation should continue, false otherwise
 	 */
 	protected boolean validateCommon(UserAddCommand command, Errors errors)
@@ -153,7 +168,7 @@ public class UserAddValidator implements Validator
 			// do not continue processing, as this will lead to NPEs later
 			return false;
 		}
-		
+
 		// email address
 		String emailAddress = command.getEmailAddress();
 		if (emailAddress == null)
@@ -164,7 +179,7 @@ public class UserAddValidator implements Validator
 		{
 			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID, "Email address invalid.");
 		}
-		
+
 		// web site
 		String website = command.getWebsite();
 		if (website != null)
@@ -174,31 +189,31 @@ public class UserAddValidator implements Validator
 				errors.rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
 			}
 		}
-		
+
 		// password (if specified)
 		String password = StringUtils.defaultIfEmpty(command.getPassword(), "");
-		
+
 		if (password.length() > 0)
 		{
 			// password is specified, so validate it
 			if (password.trim().length() < minimumPasswordLength)
 			{
-				errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT, "Password too short.");				
+				errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT, "Password too short.");
 			}
-				
+
 		}
-		
+
 		// compare passwords if at least one is specified
 		String password2 = StringUtils.defaultIfEmpty(command.getPassword2(), "");
-		
+
 		if (password.length() > 0 || password2.length() > 0)
-		{			
+		{
 			if (!password.equals(password2))
 			{
-				errors.rejectValue("password2", ERROR_PASSWORD_NO_MATCH, "Passwords don't match.");								
+				errors.rejectValue("password2", ERROR_PASSWORD_NO_MATCH, "Passwords don't match.");
 			}
 		}
-		
+
 		return true;
 	}
 }

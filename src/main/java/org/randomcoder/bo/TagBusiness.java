@@ -67,4 +67,41 @@ public interface TagBusiness
 	 * @param tagId tag id
 	 */
 	public void deleteTag(Long tagId);
+
+	/**
+	 * Finds a given {@code Tag} by name.
+	 * 
+	 * @param name
+	 *            tag name
+	 * @return {@code Tag} instance, or null if not found
+	 */
+	public Tag findTagByName(String name);
+
+	/**
+	 * Lists all Tag statistics.
+	 * @return List of TagStatistics
+	 */
+	public List<TagStatistics> queryTagStatistics();
+
+	/**
+	 * Lists all Tag statistics in range.
+	 * @param start starting result
+	 * @param limit maximum number of results
+	 * @return List of TagStatistics
+	 */
+	public List<TagStatistics> queryTagStatisticsInRange(int start, int limit);
+	
+	/**
+	 * Calculates the maximum number of articles per tag.
+	 * 
+	 * @return article count
+	 */
+	public int queryTagMostArticles();
+
+	/**
+	 * Counts all tags.
+	 * 
+	 * @return count of tags
+	 */
+	public int countTags();	
 }

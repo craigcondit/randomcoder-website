@@ -18,7 +18,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.randomcoder.log.JettyLog4jLog;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.orm.hibernate3.support.OpenSessionInViewFilter;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
@@ -88,11 +87,11 @@ public class JettyContext
 
 		context.addEventListener(new ContextLoaderListener(rootContext));
 
-		// open a single Hibernate session per request
-		FilterHolder osiv = new FilterHolder();
-		osiv.setName("OpenSessionInViewFilter");
-		osiv.setFilter(new OpenSessionInViewFilter());		
-		context.addFilter(osiv, "/*", EnumSet.of(DispatcherType.REQUEST));
+//		// open a single Hibernate session per request
+//		FilterHolder osiv = new FilterHolder();
+//		osiv.setName("OpenSessionInViewFilter");
+//		osiv.setFilter(new OpenSessionInViewFilter());		
+//		context.addFilter(osiv, "/*", EnumSet.of(DispatcherType.REQUEST));
 		
 		// define acegi security filter
 		FilterHolder acegi = new FilterHolder();

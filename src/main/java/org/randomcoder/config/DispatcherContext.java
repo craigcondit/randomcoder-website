@@ -123,7 +123,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public ArticleAddValidator articleAddValidator()
 	{
 		ArticleAddValidator validator = new ArticleAddValidator();
-		validator.setArticleDao(articleDao);
+		validator.setArticleBusiness(articleBusiness);
 		validator.setContentFilter(contentFilter);
 		validator.setMaximumSummaryLength(1000);
 		return validator;
@@ -133,7 +133,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public ArticleEditValidator articleEditValidator()
 	{
 		ArticleEditValidator validator = new ArticleEditValidator();
-		validator.setArticleDao(articleDao);
+		validator.setArticleBusiness(articleBusiness);
 		validator.setContentFilter(contentFilter);
 		validator.setMaximumSummaryLength(1000);
 		return validator;
@@ -166,7 +166,6 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		configure(c);
 		c.setViewName("article-tag-list");
 		c.setCommandClass(ArticleTagPageCommand.class);
-		c.setTagDao(tagDao);
 		c.setUrlPrefix("/tags/");
 		return c;
 	}
@@ -177,7 +176,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setMaximumPageSize(50);
 		c.setContentFilter(contentFilter);
 		c.setTagBusiness(tagBusiness);
-		c.setArticleDao(articleDao);
+		c.setArticleBusiness(articleBusiness);
 	}
 
 	@Bean
@@ -185,7 +184,6 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public UserProfileController userProfileController()
 	{
 		UserProfileController c = new UserProfileController();
-		c.setUserDao(userDao);
 		c.setUserBusiness(userBusiness);
 		c.setCommandClass(UserProfileCommand.class);
 		c.setFormView("user-profile");
@@ -226,7 +224,6 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	{
 		c.setFormView("article-view");
 		c.setSuccessView("article-view");
-		c.setArticleDao(articleDao);
 		c.setArticleBusiness(articleBusiness);
 		c.setContentFilter(contentFilter);
 		c.setCommandClass(CommentCommand.class);
@@ -292,7 +289,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
 		c.setArticleBusiness(articleBusiness);
-		c.setTagDao(tagDao);
+		c.setTagBusiness(tagBusiness);
 	}
 
 	@Bean
@@ -329,7 +326,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public UserAddValidator userAddValidator()
 	{
 		UserAddValidator v = new UserAddValidator();
-		v.setUserDao(userDao);
+		v.setUserBusiness(userBusiness);
 		return v;
 	}
 
@@ -337,7 +334,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public UserEditValidator userEditValidator()
 	{
 		UserEditValidator v = new UserEditValidator();
-		v.setUserDao(userDao);
+		v.setUserBusiness(userBusiness);
 		return v;
 	}
 
@@ -353,7 +350,6 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setBindOnNewForm(true);
 		c.setCommandClass(ChangePasswordCommand.class);
 		c.setValidator(changePasswordValidator());
-		c.setUserDao(userDao);
 		c.setUserBusiness(userBusiness);
 		return c;
 	}
@@ -365,7 +361,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		UserListController c = new UserListController();
 		c.setCommandClass(UserListCommand.class);
 		c.setViewName("user-list");
-		c.setUserDao(userDao);
+		c.setUserBusiness(userBusiness);
 		return c;
 	}
 
@@ -397,7 +393,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public AccountCreateValidator accountCreateValidator()
 	{
 		AccountCreateValidator v = new AccountCreateValidator();
-		v.setUserDao(userDao);
+		v.setUserBusiness(userBusiness);
 		return v;
 	}
 
@@ -433,7 +429,6 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
 		c.setUserBusiness(userBusiness);
-		c.setRoleDao(roleDao);
 	}
 
 	@Bean
@@ -452,7 +447,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public TagAddValidator tagAddValidator()
 	{
 		TagAddValidator v = new TagAddValidator();
-		v.setTagDao(tagDao);
+		v.setTagBusiness(tagBusiness);
 		return v;
 	}
 
@@ -460,7 +455,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	public TagEditValidator tagEditValidator()
 	{
 		TagEditValidator v = new TagEditValidator();
-		v.setTagDao(tagDao);
+		v.setTagBusiness(tagBusiness);
 		return v;
 	}
 
@@ -471,7 +466,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		TagListController c = new TagListController();
 		c.setCommandClass(TagListCommand.class);
 		c.setViewName("tag-list");
-		c.setTagDao(tagDao);
+		c.setTagBusiness(tagBusiness);
 		return c;
 	}
 
@@ -532,7 +527,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setFeedUrl(new URL("https://randomcoder.org/feeds/atom/all"));
 		c.setAltUrl(new URL("https://randomcoder.org/"));
 		c.setLimit(20);
-		c.setArticleDao(articleDao);
+		c.setArticleBusiness(articleBusiness);
 		return c;
 	}
 
@@ -548,7 +543,7 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		c.setFeedUrl(new URL("https://randomcoder.org/feeds/rss20/all"));
 		c.setAltUrl(new URL("https://randomcoder.org/"));
 		c.setLimit(20);
-		c.setArticleDao(articleDao);
+		c.setArticleBusiness(articleBusiness);
 		return c;
 	}
 

@@ -58,7 +58,7 @@ public class ArticlePermalinkController extends AbstractSingleArticleController
 		Article article = null;
 		
 		if (permalink != null)
-			article = articleDao.findByPermalink(permalink);
+			article = articleBusiness.findArticleByPermalink(permalink);
 		
 		return article;
 	}

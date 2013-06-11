@@ -4,8 +4,8 @@ import java.io.*;
 import java.util.*;
 
 import org.apache.commons.logging.*;
+import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.*;
-import org.randomcoder.db.ArticleDao;
 import org.randomcoder.io.SequenceReader;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
@@ -60,9 +60,9 @@ public class ArticleAddValidator implements Validator
 	private ContentFilter contentFilter;
 	
 	/**
-	 * Article Dao.
+	 * Article Business.
 	 */
-	protected ArticleDao articleDao;
+	protected ArticleBusiness articleBusiness;
 
 	/**
 	 * Maximum summary length.
@@ -80,14 +80,15 @@ public class ArticleAddValidator implements Validator
 	}
 	
 	/**
-	 * Sets the ArticleDao implementation to use
+	 * Sets the ArticleBusiness implementation to use.
 	 * 
-	 * @param articleDao Article data access object
+	 * @param articleBusiness
+	 *            article business object
 	 */
 	@Required
-	public void setArticleDao(ArticleDao articleDao)
+	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
-		this.articleDao = articleDao;
+		this.articleBusiness = articleBusiness;
 	}
 
 	/**
@@ -132,7 +133,7 @@ public class ArticleAddValidator implements Validator
 			if (permalink != null)
 			{
 				// look for article with the same permalink
-				Article prev = articleDao.findByPermalink(permalink);
+				Article prev = articleBusiness.findArticleByPermalink(permalink);
 				if (prev != null)
 				{
 					errors.rejectValue("permalink", ERROR_ARTICLE_PERMALINK_EXISTS, "permalink exists");

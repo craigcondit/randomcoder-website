@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.TagDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
-
 
 /**
  * Controller for tag lists.
@@ -41,34 +41,40 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  */
 public class TagListController extends AbstractCommandController
 {
-	private TagDao tagDao;	
+	private TagBusiness tagBusiness;
 	private String viewName;
-	private int defaultPageSize = 25;	
+	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
 
 	/**
-	 * Sets the TagDao implementation to use.
-	 * @param tagDao TagDao implementation
+	 * Sets the TagBusiness implementation to use.
+	 * 
+	 * @param tagBusiness
+	 *            TagBusiness implementation
 	 */
 	@Required
-	public void setTagDao(TagDao tagDao)
+	public void setTagBusiness(TagBusiness tagBusiness)
 	{
-		this.tagDao = tagDao;
+		this.tagBusiness = tagBusiness;
 	}
-	
+
 	/**
 	 * Sets the name of the view to use for the tag list.
-	 * @param viewName view name
+	 * 
+	 * @param viewName
+	 *            view name
 	 */
 	@Required
 	public void setViewName(String viewName)
 	{
 		this.viewName = viewName;
 	}
-	
+
 	/**
 	 * Sets the default number of items to display per page (defaults to 25).
-	 * @param defaultPageSize default number of items per page
+	 * 
+	 * @param defaultPageSize
+	 *            default number of items per page
 	 */
 	public void setDefaultPageSize(int defaultPageSize)
 	{
@@ -77,49 +83,60 @@ public class TagListController extends AbstractCommandController
 
 	/**
 	 * Sets the maximum number of items to allow per page (defaults to 100).
-	 * @param maximumPageSize maximum number of items per page
+	 * 
+	 * @param maximumPageSize
+	 *            maximum number of items per page
 	 */
 	public void setMaximumPageSize(int maximumPageSize)
 	{
 		this.maximumPageSize = maximumPageSize;
 	}
-	
+
 	/**
 	 * Handles accesses to the tag list page.
-	 * @param request HTTP request
-	 * @param response HTTP response
-	 * @param command {@code TagListCommand} instance
-	 * @param errors errors object
-	 * @throws Exception if an error occurs
+	 * 
+	 * @param request
+	 *            HTTP request
+	 * @param response
+	 *            HTTP response
+	 * @param command
+	 *            {@code TagListCommand} instance
+	 * @param errors
+	 *            errors object
+	 * @throws Exception
+	 *             if an error occurs
 	 * @return ModelAndView populated with required data
 	 */
 	@Override
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{
 		TagListCommand cmd = (TagListCommand) command;
-		
+
 		// set range
 		int start = cmd.getStart();
-		if (start < 0) start = 0;
+		if (start < 0)
+			start = 0;
 		cmd.setStart(start);
-		
+
 		int limit = cmd.getLimit();
-		if (limit <= 0) limit = defaultPageSize;
-		if (limit > maximumPageSize) limit = maximumPageSize;		
+		if (limit <= 0)
+			limit = defaultPageSize;
+		if (limit > maximumPageSize)
+			limit = maximumPageSize;
 		cmd.setLimit(limit);
 
-		List<TagStatistics> tagStats = tagDao.queryAllTagStatisticsInRange(start, limit);
-		int count = tagDao.countAll();
-		
+		List<TagStatistics> tagStats = tagBusiness.queryTagStatisticsInRange(start, limit);
+		int count = tagBusiness.countTags();
+
 		// create model
 		ModelAndView mav = new ModelAndView(viewName);
-		
+
 		// populate model
 		mav.addObject("tagStats", tagStats);
 		mav.addObject("pageCount", count);
 		mav.addObject("pageStart", start);
 		mav.addObject("pageLimit", limit);
-		
+
 		return mav;
 	}
 

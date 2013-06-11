@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.*;
 
-import org.randomcoder.db.UserDao;
+import org.randomcoder.bo.UserBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -40,34 +40,40 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
  */
 public class UserListController extends AbstractCommandController
 {
-	private UserDao userDao;	
+	private UserBusiness userBusiness;
 	private String viewName;
-	private int defaultPageSize = 25;	
+	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
-	
+
 	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation
+	 * Sets the UserBusiness implementation to use.
+	 * 
+	 * @param userBusiness
+	 *            UserBusiness implementation
 	 */
 	@Required
-	public void setUserDao(UserDao userDao)
+	public void setUserBusiness(UserBusiness userBusiness)
 	{
-		this.userDao = userDao;
+		this.userBusiness = userBusiness;
 	}
-	
+
 	/**
 	 * Sets the name of the view to use for the user list.
-	 * @param viewName view name
+	 * 
+	 * @param viewName
+	 *            view name
 	 */
 	@Required
 	public void setViewName(String viewName)
 	{
 		this.viewName = viewName;
 	}
-	
+
 	/**
 	 * Sets the default number of items to display per page (defaults to 25).
-	 * @param defaultPageSize default number of items per page
+	 * 
+	 * @param defaultPageSize
+	 *            default number of items per page
 	 */
 	public void setDefaultPageSize(int defaultPageSize)
 	{
@@ -76,48 +82,58 @@ public class UserListController extends AbstractCommandController
 
 	/**
 	 * Sets the maximum number of items to allow per page (defaults to 100).
-	 * @param maximumPageSize maximum number of items per page
+	 * 
+	 * @param maximumPageSize
+	 *            maximum number of items per page
 	 */
 	public void setMaximumPageSize(int maximumPageSize)
 	{
 		this.maximumPageSize = maximumPageSize;
 	}
-	
+
 	/**
 	 * Handles user list requests.
-	 * @param request HTTP request
-	 * @param response HTTP response
-	 * @param command command object
-	 * @param errors error object
+	 * 
+	 * @param request
+	 *            HTTP request
+	 * @param response
+	 *            HTTP response
+	 * @param command
+	 *            command object
+	 * @param errors
+	 *            error object
 	 * @return ModelAndView configured with {@link #setViewName(String)}
-	 */	
+	 */
 	@Override
 	protected ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception
 	{
 		UserListCommand cmd = (UserListCommand) command;
-		
+
 		// set range
 		int start = cmd.getStart();
-		if (start < 0) start = 0;
+		if (start < 0)
+			start = 0;
 		cmd.setStart(start);
-		
+
 		int limit = cmd.getLimit();
-		if (limit <= 0) limit = defaultPageSize;
-		if (limit > maximumPageSize) limit = maximumPageSize;		
+		if (limit <= 0)
+			limit = defaultPageSize;
+		if (limit > maximumPageSize)
+			limit = maximumPageSize;
 		cmd.setLimit(limit);
 
-		List<User> users = userDao.listAllInRange(start, limit);
-		int count = userDao.countAll();
+		List<User> users = userBusiness.listUsersInRange(start, limit);
+		int count = userBusiness.countUsers();
 
 		// create model
 		ModelAndView mav = new ModelAndView(viewName);
-		
+
 		// populate model
 		mav.addObject("users", users);
 		mav.addObject("pageCount", count);
 		mav.addObject("pageStart", start);
 		mav.addObject("pageLimit", limit);
-		
+
 		return mav;
 	}
 

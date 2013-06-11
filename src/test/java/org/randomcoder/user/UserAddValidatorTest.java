@@ -1,29 +1,41 @@
 package org.randomcoder.user;
 
+import static org.easymock.EasyMock.*;
+
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.easymock.IMocksControl;
+import org.randomcoder.bo.UserBusiness;
 import org.springframework.validation.*;
-
-import org.randomcoder.test.mock.dao.UserDaoMock;
 
 @SuppressWarnings("javadoc")
 public class UserAddValidatorTest extends TestCase
 {
 	private UserAddValidator validator;
-	private UserDaoMock userDao;
+	private IMocksControl control;
+	private UserBusiness ub;
 	
 	@Override
 	public void setUp() throws Exception
 	{		
-		userDao = new UserDaoMock();
+		control = createControl();
+		ub = control.createMock(UserBusiness.class);
 		validator = new UserAddValidator();
 		validator.setMinimumPasswordLength(6);
 		validator.setMinimumUsernameLength(6);
-		validator.setUserDao(userDao);
+		validator.setUserBusiness(ub);
 	}
 
+	@Override
+	public void tearDown() throws Exception
+	{
+		validator = null;
+		control = null;
+		ub = null;
+	}
+	
 	public void testSupports()
 	{
 		assertTrue("Validator doesn't support command class", validator.supports(UserAddCommand.class));
@@ -42,8 +54,11 @@ public class UserAddValidatorTest extends TestCase
 		user.setEmailAddress("existing@example.com");
 		user.setPassword(User.hashPassword("Password1"));
 		user.setRoles(new ArrayList<Role>());
-		user.setEnabled(true);		
-		userDao.create(user);
+		user.setEnabled(true);
+		
+		expect(ub.findUserByName("existing-user")).andStubReturn(user);
+		expect(ub.findUserByName("new-user")).andStubReturn(null);
+		control.replay();
 		
 		// null command
 		errors = new BindException(command, "command");
@@ -133,13 +148,7 @@ public class UserAddValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Errors occurred", 0, errors.getErrorCount());
+		
+		control.verify();
 	}
-
-	@Override
-	public void tearDown() throws Exception
-	{
-		validator = null;
-		userDao = null;
-	}
-
 }

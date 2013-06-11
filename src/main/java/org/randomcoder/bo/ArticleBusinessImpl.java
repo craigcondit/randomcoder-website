@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
+import org.hibernate.Hibernate;
 import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
@@ -262,11 +263,39 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
+	public Article readArticle(long articleId)
+	{
+		Article article = articleDao.read(articleId);
+		if (article != null)
+		{
+			Hibernate.initialize(article.getTags());
+			Hibernate.initialize(article.getComments());			
+		}
+		return article;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Article findArticleByPermalink(String permalink)
+	{
+		Article article = articleDao.findByPermalink(permalink);
+		if (article != null)
+		{
+			Hibernate.initialize(article.getTags());
+			Hibernate.initialize(article.getComments());			
+		}
+		return article;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
 	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName)
 	{
 		User user = findUserByName(userName);		
 		Article article = loadArticle(articleId);
+		Hibernate.initialize(article.getTags());
+		Hibernate.initialize(article.getComments());
 
 		checkAuthorUpdate(user, article);
 		
@@ -361,6 +390,85 @@ public class ArticleBusinessImpl implements ArticleBusiness
 			commentDao.update(comment);
 		}
 		return true;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public int countArticlesBeforeDate(Date endDate)
+	{
+		return articleDao.countBeforeDate(endDate);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int countArticlesByTagBeforeDate(Tag tag, Date endDate)
+	{
+		return articleDao.countByTagBeforeDate(tag, endDate);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesInRange(int start, int limit)
+	{
+		List<Article> articles = articleDao.listAllInRange(start, limit);
+		Hibernate.initialize(articles);
+		for (Article article : articles)
+		{
+			Hibernate.initialize(article.getTags());
+			Hibernate.initialize(article.getComments());
+		}
+		return articles;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesBeforeDateInRange(Date endDate, int start, int limit)
+	{
+		List<Article> articles = articleDao.listBeforeDateInRange(endDate, start, limit);
+		Hibernate.initialize(articles);
+		for (Article article : articles)
+		{
+			Hibernate.initialize(article.getTags());
+			Hibernate.initialize(article.getComments());
+		}
+		return articles;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit)
+	{
+		List<Article> articles = articleDao.listByTagBeforeDateInRange(tag, endDate, start, limit);
+		Hibernate.initialize(articles);
+		for (Article article : articles)
+		{
+			Hibernate.initialize(article.getTags());
+			Hibernate.initialize(article.getComments());
+		}
+		return articles;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesByTag(Tag tag)
+	{
+		List<Article> articles = articleDao.listByTag(tag);
+		Hibernate.initialize(articles);
+		return articles;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesBetweenDates(Date startDate, Date endDate)
+	{
+		return articleDao.listBetweenDates(startDate, endDate);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate)
+	{
+		return articleDao.listByTagBetweenDates(tag, startDate, endDate);
 	}
 
 	private void checkAuthorUpdate(User user, Article article)

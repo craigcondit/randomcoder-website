@@ -2,8 +2,7 @@ package org.randomcoder.user;
 
 import java.beans.PropertyEditorSupport;
 
-import org.randomcoder.db.RoleDao;
-
+import org.randomcoder.bo.UserBusiness;
 
 /**
  * Property editor for roles.
@@ -35,19 +34,22 @@ import org.randomcoder.db.RoleDao;
  */
 public class RolePropertyEditor extends PropertyEditorSupport
 {
-	private final RoleDao roleDao;
-	
+	private final UserBusiness userBusiness;
+
 	/**
 	 * Creates a new property editor for Role objects.
-	 * @param roleDao RoleDao implementation to use
+	 * 
+	 * @param userBusiness
+	 *            UserBusiness implementation to use
 	 */
-	public RolePropertyEditor(RoleDao roleDao)
+	public RolePropertyEditor(UserBusiness userBusiness)
 	{
-		this.roleDao = roleDao;
+		this.userBusiness = userBusiness;
 	}
 
 	/**
 	 * Gets the value of the associated object as a text string.
+	 * 
 	 * @return text representation of object
 	 */
 	@Override
@@ -60,16 +62,19 @@ public class RolePropertyEditor extends PropertyEditorSupport
 
 	/**
 	 * Sets the value of the associated object as a text string.
-	 * @param string text value
-	 * @throws IllegalArgumentException if parsing fails
+	 * 
+	 * @param string
+	 *            text value
+	 * @throws IllegalArgumentException
+	 *             if parsing fails
 	 */
 	@Override
 	public void setAsText(String string) throws IllegalArgumentException
 	{
-		Role role = roleDao.findByName(string);
-		if (role == null) throw new IllegalArgumentException("No such role: " + string);
-		
+		Role role = userBusiness.findRoleByName(string);
+		if (role == null)
+			throw new IllegalArgumentException("No such role: " + string);
+
 		setValue(role);
 	}
-
 }

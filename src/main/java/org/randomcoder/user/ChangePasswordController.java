@@ -5,12 +5,10 @@ import java.security.Principal;
 import javax.servlet.http.*;
 
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.UserDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.CancellableFormController;
-
 
 /**
  * Controller used to change a user's password.
@@ -42,22 +40,13 @@ import org.springframework.web.servlet.mvc.CancellableFormController;
  */
 public class ChangePasswordController extends CancellableFormController
 {
-	private UserDao userDao;
 	private UserBusiness userBusiness;
-	
-	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao user dao
-	 */
-	@Required
-	public void setUserDao(UserDao userDao)
-	{
-		this.userDao = userDao;
-	}
-	
+
 	/**
 	 * Sets the UserBusiness implementation to use.
-	 * @param userBusiness UserBusiness implementation
+	 * 
+	 * @param userBusiness
+	 *            UserBusiness implementation
 	 */
 	@Required
 	public void setUserBusiness(UserBusiness userBusiness)
@@ -67,46 +56,57 @@ public class ChangePasswordController extends CancellableFormController
 
 	/**
 	 * Binds the current user to the given command.
-	 * @param request HTTP request
-	 * @param command command object
-	 * @throws Exception if an error occurs
+	 * 
+	 * @param request
+	 *            HTTP request
+	 * @param command
+	 *            command object
+	 * @throws Exception
+	 *             if an error occurs
 	 */
 	@Override
 	protected void onBind(HttpServletRequest request, Object command) throws Exception
 	{
 		super.onBind(request, command);
-		
+
 		ChangePasswordCommand form = (ChangePasswordCommand) command;
-		
+
 		// populate the form with the current user
-		
+
 		User user = null;
 		String username = null;
-		
+
 		Principal principal = request.getUserPrincipal();
-		if (principal != null) username = principal.getName();
-		if (username != null) user = userDao.findByUserNameEnabled(username);
-		
+		if (principal != null)
+			username = principal.getName();
+		if (username != null)
+			user = userBusiness.findUserByNameEnabled(username);
+
 		form.setUser(user);
 	}
 
 	/**
 	 * Handles form submissions.
-	 * @param request HTTP request
-	 * @param response HTTP response
-	 * @param command command object
-	 * @param errors error object
+	 * 
+	 * @param request
+	 *            HTTP request
+	 * @param response
+	 *            HTTP response
+	 * @param command
+	 *            command object
+	 * @param errors
+	 *            error object
 	 * @return ModelAndView configured using {@link #setSuccessView(String)}
 	 */
 	@Override
 	public ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
 	{
 		ChangePasswordCommand cmd = (ChangePasswordCommand) command;
-		
+
 		String userName = request.getUserPrincipal().getName();
-		
+
 		userBusiness.changePassword(userName, cmd.getPassword());
-		
+
 		return new ModelAndView(getSuccessView());
 	}
 

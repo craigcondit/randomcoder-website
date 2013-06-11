@@ -1,11 +1,15 @@
 package org.randomcoder.security.userdetails;
 
+import static org.easymock.EasyMock.*;
+
 import java.util.*;
 
 import junit.framework.TestCase;
 
 import org.acegisecurity.GrantedAuthority;
 import org.acegisecurity.userdetails.*;
+import org.easymock.IMocksControl;
+import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.user.*;
 import org.randomcoder.user.User;
@@ -17,13 +21,19 @@ public class UserDetailsServiceImplTest extends TestCase
 	private UserDaoMock userDao = null;
 	private RoleDaoMock roleDao = null;
 	
+	private IMocksControl control;
+	private UserBusiness ub;	
+	
 	@Override
 	public void setUp() throws Exception
 	{
+		control = createControl();
+		ub = control.createMock(UserBusiness.class);
+		
 		userDao = new UserDaoMock();
 		roleDao = new RoleDaoMock();
 		svc = new UserDetailsServiceImpl();
-		svc.setUserDao(userDao);
+		svc.setUserBusiness(ub);
 		svc.setDebug(false);
 		{
 			Role role = new Role();
@@ -56,6 +66,8 @@ public class UserDetailsServiceImplTest extends TestCase
 	@Override
 	public void tearDown() throws Exception
 	{
+		control = null;
+		ub = null;
 		svc = null;
 		userDao = null;
 		roleDao = null;
@@ -63,6 +75,9 @@ public class UserDetailsServiceImplTest extends TestCase
 
 	public void testLoadUserByUsername()
 	{
+		expect (ub.findUserByName("test")).andReturn(userDao.findByUserName("test"));
+		control.replay();
+		
 		UserDetails details = svc.loadUserByUsername("test");
 		assertNotNull(details);
 		assertEquals("test", details.getUsername());
@@ -77,7 +92,9 @@ public class UserDetailsServiceImplTest extends TestCase
 		assertTrue(details.isAccountNonExpired());
 		assertTrue(details.isAccountNonLocked());
 		assertTrue(details.isCredentialsNonExpired());
-		assertTrue(details.isEnabled());		
+		assertTrue(details.isEnabled());
+		
+		control.verify();
 	}
 
 	public void testLoadUserByUsernameDebug()

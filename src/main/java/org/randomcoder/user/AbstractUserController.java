@@ -5,7 +5,6 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.RoleDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;
@@ -47,8 +46,6 @@ public class AbstractUserController extends CancellableFormController
 	 */
 	protected UserBusiness userBusiness;
 
-	private RoleDao roleDao;
-	
 	/**
 	 * Sets the UserBusiness implementation to use.
 	 * @param userBusiness UserBusiness implementation
@@ -60,23 +57,13 @@ public class AbstractUserController extends CancellableFormController
 	}
 	
 	/**
-	 * Sets the RoleDao implementation to use.
-	 * @param roleDao RoleDao implementation
-	 */
-	@Required
-	public void setRoleDao(RoleDao roleDao)
-	{
-		this.roleDao = roleDao;
-	}
-	
-	/**
 	 * Associates custom property editors with form objects.
 	 */
 	@Override
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception
 	{
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(Role.class, new RolePropertyEditor(roleDao));
+		binder.registerCustomEditor(Role.class, new RolePropertyEditor(userBusiness));
 	}
 
 	/**
@@ -87,8 +74,7 @@ public class AbstractUserController extends CancellableFormController
 	{
 		// populate parameters
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("availableRoles", roleDao.listAll());
+		params.put("availableRoles", userBusiness.listRoles());
 		return params;
 	}
-
 }

@@ -2,7 +2,7 @@ package org.randomcoder.security.userdetails;
 
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.logging.*;
-import org.randomcoder.db.UserDao;
+import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.user.User;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;
@@ -38,38 +38,45 @@ import org.springframework.dao.DataAccessException;
 public class UserDetailsServiceImpl implements UserDetailsService
 {
 	private static final Log logger = LogFactory.getLog(UserDetailsServiceImpl.class);
-	
-	private UserDao userDao;
+
+	private UserBusiness userBusiness;
 	private boolean debug = false;
-	
+
 	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation.
+	 * Sets the UserBusiness implementation to use.
+	 * 
+	 * @param userBusiness
+	 *            UserBusiness implementation.
 	 */
 	@Required
-	public void setUserDao(UserDao userDao)
+	public void setUserBusiness(UserBusiness userBusiness)
 	{
-		this.userDao = userDao;
+		this.userBusiness = userBusiness;
 	}
-	
+
 	/**
 	 * Turns debug logging of ppid and issuerhash on / off.
-	 * @param debug true if debugging is to be enabled.
+	 * 
+	 * @param debug
+	 *            true if debugging is to be enabled.
 	 */
 	public void setDebug(boolean debug)
 	{
 		this.debug = debug;
 	}
-	
+
 	/**
 	 * Retrieves the user with the given username.
-	 * @param username user name to lookup
+	 * 
+	 * @param username
+	 *            user name to lookup
 	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
 	{
-		User user = userDao.findByUserName(username);
-		if (user == null || user.getPassword() == null) throw new UsernameNotFoundException(username);
+		User user = userBusiness.findUserByName(username);
+		if (user == null || user.getPassword() == null)
+			throw new UsernameNotFoundException(username);
 		return new UserDetailsImpl(user);
 	}
 }

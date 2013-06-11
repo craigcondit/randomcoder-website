@@ -5,7 +5,7 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
-import org.randomcoder.db.TagDao;
+import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.validation.DataValidationUtils;
 
 /**
@@ -39,16 +39,18 @@ import org.randomcoder.validation.DataValidationUtils;
 public class TagListPropertyEditor extends PropertyEditorSupport
 {
 	private static final Log logger = LogFactory.getLog(TagListPropertyEditor.class);
-	
-	private TagDao tagDao;
-	
+
+	private TagBusiness tagBusiness;
+
 	/**
 	 * Creates a new TagList property editor.
-	 * @param tagDao TagDao implementation to use
+	 * 
+	 * @param tagBusiness
+	 *            TagBusiness implementation to use
 	 */
-	public TagListPropertyEditor(TagDao tagDao)
+	public TagListPropertyEditor(TagBusiness tagBusiness)
 	{
-		this.tagDao = tagDao;
+		this.tagBusiness = tagBusiness;
 	}
 
 	/**
@@ -58,22 +60,24 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 	public String getAsText()
 	{
 		logger.debug("getAsText()");
-		
+
 		Object value = getValue();
-		if (value == null) return "";
-		
+		if (value == null)
+			return "";
+
 		TagList tagList = (TagList) value;
-		
+
 		List<Tag> tags = tagList.getTags();
-		
+
 		StringBuilder buf = new StringBuilder();
-		
+
 		for (Tag tag : tags)
 		{
-			if (buf.length() > 0) buf.append(", ");
+			if (buf.length() > 0)
+				buf.append(", ");
 			buf.append(tag.getName());
 		}
-		
+
 		return buf.toString();
 	}
 
@@ -86,24 +90,24 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 		logger.debug("setAsText(" + value + ")");
 
 		value = StringUtils.trimToEmpty(value);
-		
+
 		String[] tagNames = value.split(",");
-		
+
 		Set<String> names = new HashSet<String>();
-		
+
 		List<Tag> tags = new ArrayList<Tag>();
-		
+
 		for (String tagName : tagNames)
 		{
 			tagName = tagName.replaceAll("\\s+", " ").trim();
-			
+
 			String name = DataValidationUtils.canonicalizeTagName(tagName);
-			
+
 			if (name != null && !names.contains(name))
 			{
 				// find tag in db
-				Tag tag = tagDao.findByName(name);
-				
+				Tag tag = tagBusiness.findTagByName(name);
+
 				if (tag == null)
 				{
 					// create a new one
@@ -111,15 +115,15 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 					tag.setName(name);
 					tag.setDisplayName(tagName);
 				}
-				
+
 				tags.add(tag);
 				names.add(name);
-			}			
+			}
 		}
-		
+
 		// sort tags
 		Collections.sort(tags, Tag.DISPLAY_NAME_COMPARATOR);
-		
+
 		setValue(new TagList(tags));
 	}
 }

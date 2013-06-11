@@ -5,7 +5,7 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import org.acegisecurity.ui.AbstractProcessingFilter;
-import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.ArticleDao;
 import org.randomcoder.tag.TagCloudEntry;
@@ -47,9 +47,9 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 abstract public class AbstractArticleListController<PageCommand extends ArticlePageCommand> extends AbstractCommandController
 {
 	/**
-	 * Article DAO.
+	 * Article Business.
 	 */
-	protected ArticleDao articleDao;
+	protected ArticleBusiness articleBusiness;
 	
 	/**
 	 * Tag Business.
@@ -77,13 +77,15 @@ abstract public class AbstractArticleListController<PageCommand extends ArticleP
 	protected int maximumPageSize = 50;
 
 	/**
-	 * Sets the ArticleDao implementation to use.
-	 * @param articleDao ArticleDao implementation
+	 * Sets the ArticleBusiness implementation to use.
+	 * 
+	 * @param articleBusiness
+	 *            ArticleBusiness implementation
 	 */
 	@Required
-	public void setArticleDao(ArticleDao articleDao)
+	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
-		this.articleDao = articleDao;
+		this.articleBusiness = articleBusiness;
 	}
 
 	/**

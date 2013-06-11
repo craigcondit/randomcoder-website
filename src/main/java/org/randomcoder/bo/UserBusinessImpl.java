@@ -1,10 +1,11 @@
 package org.randomcoder.bo;
 
-import java.util.Date;
+import java.util.*;
 
 import javax.inject.Inject;
 
-import org.randomcoder.db.UserDao;
+import org.hibernate.Hibernate;
+import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.user.*;
 import org.springframework.stereotype.Component;
@@ -42,15 +43,30 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserBusinessImpl implements UserBusiness
 {
 	private UserDao userDao;
+	private RoleDao roleDao;
 	
 	/**
 	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation
+	 * 
+	 * @param userDao
+	 *            UserDao implementation
 	 */
 	@Inject
 	public void setUserDao(UserDao userDao)
 	{
 		this.userDao = userDao;
+	}
+	
+	/**
+	 * Sets the RoleDao implementation to use.
+	 * 
+	 * @param roleDao
+	 *            RoleDao implementation
+	 */
+	@Inject
+	public void setRoleDao(RoleDao roleDao)
+	{
+		this.roleDao = roleDao;
 	}
 	
 	@Override
@@ -115,8 +131,67 @@ public class UserBusinessImpl implements UserBusiness
 	{
 		User user = userDao.read(userId);
 		if (user == null)
+		{
 			throw new UserNotFoundException();
+		}
 		return user;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Role> listRoles()
+	{
+		return roleDao.listAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Role findRoleByName(String name)
+	{		
+		return roleDao.findByName(name);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public User findUserByName(String name)
+	{
+		User user = userDao.findByUserName(name);
+		if (user != null)
+		{
+			Hibernate.initialize(user.getRoles());
+		}
+		return user;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public User findUserByNameEnabled(String name)
+	{
+		User user = userDao.findByUserNameEnabled(name);
+		if (user != null)
+		{
+			Hibernate.initialize(user.getRoles());
+		}
+		return user;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> listUsersInRange(int start, int limit)
+	{
+		List<User> users = userDao.listAllInRange(start, limit);
+		for (User user : users)
+		{
+			Hibernate.initialize(user.getRoles());
+		}
+		return users;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int countUsers()
+	{
+		return userDao.countAll();
 	}
 
 	@Override

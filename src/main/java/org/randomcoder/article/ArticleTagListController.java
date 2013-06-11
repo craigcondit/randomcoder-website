@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
-import org.randomcoder.db.TagDao;
 import org.randomcoder.tag.Tag;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.util.UrlPathHelper;
@@ -46,7 +45,6 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 	private static final Log logger = LogFactory.getLog(ArticleTagListController.class);
 	
 	private String urlPrefix;
-	private TagDao tagDao;
 	
 	/**
 	 * Sets the URL prefix to remove from path.
@@ -55,29 +53,22 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 	@Required
 	public void setUrlPrefix(String urlPrefix) { this.urlPrefix = urlPrefix; }
 	
-	/**
-	 * Sets the TagDao implementation to use.
-	 * @param tagDao TagDao implementation
-	 */
-	@Required
-	public void setTagDao(TagDao tagDao) { this.tagDao = tagDao; }
-	
 	@Override
 	protected List<Article> listArticlesBetweenDates(ArticleTagPageCommand command, Date startDate, Date endDate)
 	{
-		return articleDao.listByTagBetweenDates(command.getTag(), startDate, endDate);
+		return articleBusiness.listArticlesByTagBetweenDates(command.getTag(), startDate, endDate);
 	}
 
 	@Override
 	protected List<Article> listArticlesBeforeDateInRange(ArticleTagPageCommand command, Date cutoffDate, int start, int limit)	
 	{
-		return articleDao.listByTagBeforeDateInRange(command.getTag(), cutoffDate, start, limit);
+		return articleBusiness.listArticlesByTagBeforeDateInRange(command.getTag(), cutoffDate, start, limit);
 	}
 
 	@Override
 	protected int countArticlesBeforeDate(ArticleTagPageCommand command, Date cutoffDate)
 	{
-		return articleDao.countByTagBeforeDate(command.getTag(), cutoffDate);
+		return articleBusiness.countArticlesByTagBeforeDate(command.getTag(), cutoffDate);
 	}
 	
 	@Override
@@ -120,9 +111,8 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 				
 				logger.debug("Tag name: " + tagName);
 				
-				pager.setTag(tagDao.findByName(tagName));
+				pager.setTag(tagBusiness.findTagByName(tagName));
 			}
-		}
-		
+		}		
 	}
 }

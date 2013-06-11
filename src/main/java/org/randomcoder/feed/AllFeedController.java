@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.*;
 
 import org.randomcoder.article.Article;
-import org.randomcoder.db.ArticleDao;
+import org.randomcoder.bo.ArticleBusiness;
 import org.springframework.beans.factory.annotation.Required;
 
 /**
@@ -43,15 +43,15 @@ public class AllFeedController extends AbstractFeedController
 	private URL altUrl;
 	private String title;
 	private String subtitle;
-	private ArticleDao articleDao;
+	private ArticleBusiness articleBusiness;
 	private String feedId;
 	private int limit;
-	
+
 	/**
 	 * Sets the URL for this feed.
 	 * 
 	 * @param feedUrl
-	 *          feed URL
+	 *            feed URL
 	 */
 	@Required
 	public void setFeedUrl(URL feedUrl)
@@ -63,7 +63,7 @@ public class AllFeedController extends AbstractFeedController
 	 * Sets the alternate URL for this feed.
 	 * 
 	 * @param altUrl
-	 *          alternate URL
+	 *            alternate URL
 	 */
 	public void setAltUrl(URL altUrl)
 	{
@@ -74,7 +74,7 @@ public class AllFeedController extends AbstractFeedController
 	 * Sets the title of this feed.
 	 * 
 	 * @param title
-	 *          feed title
+	 *            feed title
 	 */
 	@Required
 	public void setTitle(String title)
@@ -86,58 +86,58 @@ public class AllFeedController extends AbstractFeedController
 	 * Sets the subtitle of this feed.
 	 * 
 	 * @param subtitle
-	 *          feed subtitle
+	 *            feed subtitle
 	 */
 	public void setSubtitle(String subtitle)
 	{
 		this.subtitle = subtitle;
 	}
-	
+
 	/**
-	 * Sets the Article DAO to use.
+	 * Sets the Article business object to use.
 	 * 
-	 * @param articleDao
-	 *          Article DAO
+	 * @param articleBusiness
+	 *            Article business object
 	 */
 	@Required
-	public void setArticleDao(ArticleDao articleDao)
+	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
-		this.articleDao = articleDao;
+		this.articleBusiness = articleBusiness;
 	}
-	
+
 	/**
 	 * Sets the maximum number of articles to add to the feed.
 	 * 
 	 * @param limit
-	 *          article limit
+	 *            article limit
 	 */
 	@Required
 	public void setLimit(int limit)
 	{
 		this.limit = limit;
 	}
-	
+
 	/**
 	 * Sets the unique identifier for this feed.
 	 * 
 	 * @param feedId
-	 *          feed id
+	 *            feed id
 	 */
 	@Required
 	public void setFeedId(String feedId)
 	{
 		this.feedId = feedId;
 	}
-	
+
 	@Override
 	protected FeedInfo getFeed(
 			HttpServletRequest request, HttpServletResponse response,
 			String... params) throws Exception
 	{
-		List<Article> articles = articleDao.listAllInRange(0, limit);
-		
+		List<Article> articles = articleBusiness.listArticlesInRange(0, limit);
+
 		FeedInfo feedInfo = new FeedInfo();
-		
+
 		feedInfo.setFeedUrl(feedUrl);
 		feedInfo.setAltUrl(altUrl);
 		feedInfo.setFeedId(feedId);

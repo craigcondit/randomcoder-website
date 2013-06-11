@@ -5,11 +5,10 @@ import java.util.*;
 import javax.inject.*;
 import javax.sql.DataSource;
 
-import net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory;
-
 import org.hibernate.SessionFactory;
-import org.hibernate.dialect.PostgreSQLDialect;
-import org.hibernate.transaction.JDBCTransactionFactory;
+import org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory;
+import org.hibernate.dialect.PostgreSQL82Dialect;
+import org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory;
 import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
@@ -29,15 +28,14 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate3.HibernateTransactionManager;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.orm.hibernate4.*;
 import org.springframework.scheduling.timer.*;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @SuppressWarnings("javadoc")
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan("org.randomcoder.bo")
 @Import({ AcegiContext.class, DownloadContext.class })
 public class RootContext
@@ -72,43 +70,36 @@ public class RootContext
 	}
 
 	@Bean
-	public AnnotationSessionFactoryBean sessionFactory()
+	public SessionFactory sessionFactory()
 	{
-		AnnotationSessionFactoryBean sf = new AnnotationSessionFactoryBean();
-		sf.setDataSource(dataSource());
+		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
 
-		Properties hp = new Properties();
-		hp.setProperty("hibernate.current_session_context_class", "thread");
-		hp.setProperty("hibernate.transaction.factory_class", JDBCTransactionFactory.class.getName());
-		hp.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
-		hp.setProperty("hibernate.show_sql", "false");
-		hp.setProperty("hibernate.max_fetch_depth", "2");
-		hp.setProperty("hibernate.jdbc.fetch_size", "100");
-		hp.setProperty("hibernate.jdbc.batch_size", "10");
-		hp.setProperty("hibernate.cache.use_query_cache", "true");
-		hp.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
-		sf.setHibernateProperties(hp);
-
-		sf.setAnnotatedClasses(new Class[] {
+		//builder.setProperty("hibernate.current_session_context_class", "thread");
+		builder.setProperty("hibernate.transaction.factory_class", JdbcTransactionFactory.class.getName());
+		builder.setProperty("hibernate.dialect", PostgreSQL82Dialect.class.getName());
+		builder.setProperty("hibernate.show_sql", "false");
+		builder.setProperty("hibernate.max_fetch_depth", "2");
+		builder.setProperty("hibernate.jdbc.fetch_size", "100");
+		builder.setProperty("hibernate.jdbc.batch_size", "10");
+		builder.setProperty("hibernate.cache.use_query_cache", "true");
+		builder.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
+		
+		builder.addAnnotatedClasses(
 				Article.class, Comment.class, CommentReferrer.class,
 				CommentIp.class, CommentUserAgent.class, User.class,
-				Role.class, Tag.class });
+				Role.class, Tag.class);
 
-		Properties ecs = new Properties();
-		ecs.setProperty(Article.class.getName(), "read-write");
-		ecs.setProperty(Comment.class.getName(), "read-write");
-		ecs.setProperty(User.class.getName(), "read-write");
-		ecs.setProperty(Role.class.getName(), "read-only");
-		ecs.setProperty(Tag.class.getName(), "read-write");
-		sf.setEntityCacheStrategies(ecs);
+		builder.setCacheConcurrencyStrategy(Article.class.getName(), "read-write");
+		builder.setCacheConcurrencyStrategy(Comment.class.getName(), "read-write");
+		builder.setCacheConcurrencyStrategy(User.class.getName(), "read-write");
+		builder.setCacheConcurrencyStrategy(Role.class.getName(), "read-only");
+		builder.setCacheConcurrencyStrategy(Tag.class.getName(), "read-write");
 
-		Properties ccs = new Properties();
-		ccs.setProperty(User.class.getName() + ".roles", "read-write");
-		ccs.setProperty(Article.class.getName() + ".tags", "read-write");
-		ccs.setProperty(Article.class.getName() + ".comments", "read-write");
-		sf.setCollectionCacheStrategies(ccs);
+		builder.setCollectionCacheConcurrencyStrategy(User.class.getName() + ".roles", "read-write");
+		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".tags", "read-write");
+		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".comments", "read-write");
 
-		return sf;
+		return builder.buildSessionFactory();
 	}
 
 	@Bean

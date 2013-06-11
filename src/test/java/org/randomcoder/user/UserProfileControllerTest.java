@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 
 import org.easymock.IMocksControl;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.UserDao;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;
@@ -21,8 +20,7 @@ public class UserProfileControllerTest extends TestCase
 	private UserProfileController controller;
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
-	private UserDao userDao;
-	private UserBusiness userBusiness;
+	private UserBusiness ub;
 	private IMocksControl control;
 	
 	@Override
@@ -37,18 +35,15 @@ public class UserProfileControllerTest extends TestCase
 		
 		controller = new UserProfileController();
 
-		userDao = control.createMock(UserDao.class);
-		userBusiness = control.createMock(UserBusiness.class);
+		ub = control.createMock(UserBusiness.class);
 		
-		controller.setUserDao(userDao);
-		controller.setUserBusiness(userBusiness);
+		controller.setUserBusiness(ub);
 		controller.setSuccessView("success");
 	}
 
 	@Override
 	protected void tearDown() throws Exception
 	{		
-		userDao = null;
 		control = null;
 		controller = null;
 		response = null;
@@ -72,7 +67,7 @@ public class UserProfileControllerTest extends TestCase
 		user.setEnabled(true);
 		user.setUserName("test");
 		
-		expect(userDao.findByUserName("test")).andReturn(user);
+		expect(ub.findUserByName("test")).andReturn(user);
 		control.replay();
 		
 		Map<String, Object> data = controller.referenceData(request, command, errors);
@@ -87,7 +82,7 @@ public class UserProfileControllerTest extends TestCase
 		UserProfileCommand command = new UserProfileCommand();
 		BindException errors = new BindException(command, "test");
 
-		expect(userDao.findByUserName("test")).andReturn(null);
+		expect(ub.findUserByName("test")).andReturn(null);
 		control.replay();
 		
 		try
@@ -114,7 +109,7 @@ public class UserProfileControllerTest extends TestCase
 		user.setEmailAddress("test@example.com");
 		user.setWebsite("http://www.test.com/");
 		
-		expect(userDao.findByUserName("test")).andReturn(user);
+		expect(ub.findUserByName("test")).andReturn(user);
 		control.replay();
 		
 		controller.onBindOnNewForm(request, command, errors);
@@ -136,8 +131,8 @@ public class UserProfileControllerTest extends TestCase
 		user.setEmailAddress("test@example.com");
 		user.setWebsite("http://www.test.com/");
 		
-		expect(userDao.findByUserName("test")).andReturn(user);
-		userBusiness.updateUser(command, 1L);
+		expect(ub.findUserByName("test")).andReturn(user);
+		ub.updateUser(command, 1L);
 		control.replay();
 		
 		ModelAndView mav = controller.onSubmit(request, response, command, errors);

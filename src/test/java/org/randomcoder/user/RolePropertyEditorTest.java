@@ -1,22 +1,34 @@
 package org.randomcoder.user;
 
+import static org.easymock.EasyMock.*;
 import junit.framework.TestCase;
 
-import org.randomcoder.test.mock.dao.RoleDaoMock;
+import org.easymock.IMocksControl;
+import org.randomcoder.bo.UserBusiness;
 
 @SuppressWarnings("javadoc")
 public class RolePropertyEditorTest extends TestCase
 {
+	private IMocksControl control;
+	private UserBusiness ub;
 	private RolePropertyEditor editor;
-	private RoleDaoMock roleDao;
 	
 	@Override
 	public void setUp() throws Exception
 	{
-		roleDao = new RoleDaoMock();
-		editor = new RolePropertyEditor(roleDao);
+		control = createControl();
+		ub = control.createMock(UserBusiness.class);
+		editor = new RolePropertyEditor(ub);
 	}
 
+	@Override
+	public void tearDown() throws Exception
+	{
+		editor = null;
+		ub = null;
+		control = null;
+	}
+	
 	public void testGetAsText()
 	{
 		Role role = new Role();
@@ -38,12 +50,15 @@ public class RolePropertyEditorTest extends TestCase
 	{
 		Role role = new Role();
 		role.setName("set-as-text");
-		role.setDescription("Set as text");		
-		roleDao.mockCreate(role);
+		role.setDescription("Set as text");	
 		
-		editor.setAsText("set-as-text");
+		expect(ub.findRoleByName("set-as-text")).andReturn(role);
+		control.replay();
 		
-		Object value = editor.getValue();		
+		editor.setAsText("set-as-text");		
+		Object value = editor.getValue();
+		control.verify();
+		
 		assertNotNull("Null object", value);
 		assertTrue("Not a Role", value instanceof Role);
 		Role editorRole = (Role) value;
@@ -62,12 +77,4 @@ public class RolePropertyEditorTest extends TestCase
 			// pass
 		}
 	}
-	
-	@Override
-	public void tearDown() throws Exception
-	{
-		roleDao = null;
-		editor = null;
-	}
-
 }

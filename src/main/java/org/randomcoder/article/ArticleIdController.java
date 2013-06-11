@@ -62,7 +62,7 @@ public class ArticleIdController extends AbstractSingleArticleController
 		Article article = null;
 		
 		if (id != null)
-			article = articleDao.read(id);
+			article = articleBusiness.readArticle(id);
 		
 		return article;
 	}

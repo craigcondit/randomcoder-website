@@ -22,8 +22,7 @@ import org.randomcoder.user.*;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate3.*;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
+import org.springframework.orm.hibernate4.*;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.*;
 
@@ -133,26 +132,23 @@ abstract public class AbstractDaoTestCase extends TestCase
 	
 	private final SessionFactory createSessionFactory() throws Exception
 	{		
-		Properties hibProps = new Properties();		
-		hibProps.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
-		hibProps.setProperty("hibernate.dialect", getProperty("test.database.dialect"));
-		hibProps.setProperty("hibernate.show_sql", "false");
-		hibProps.setProperty("hibernate.max_fetch_depth", "2");
-		hibProps.setProperty("hibernate.jdbc.fetch_size", "100");
-		hibProps.setProperty("hibernate.jdbc.batch_size", "10");
-		hibProps.setProperty("hibernate.cache.use_query_cache", "false");
-		hibProps.setProperty("hibernate.cache.use_second_level_cache", "false");
+		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
+		builder.setProperty("hibernate.transaction.factory_class", "org.hibernate.transaction.JDBCTransactionFactory");
+		builder.setProperty("hibernate.dialect", getProperty("test.database.dialect"));
+		builder.setProperty("hibernate.show_sql", "false");
+		builder.setProperty("hibernate.max_fetch_depth", "2");
+		builder.setProperty("hibernate.jdbc.fetch_size", "100");
+		builder.setProperty("hibernate.jdbc.batch_size", "10");
+		builder.setProperty("hibernate.cache.use_query_cache", "false");
+		builder.setProperty("hibernate.cache.use_second_level_cache", "false");
+		builder.addAnnotatedClasses(
+				Article.class, Comment.class, CommentReferrer.class,
+				CommentIp.class, CommentUserAgent.class, User.class,
+				Role.class, Tag.class);
 		
-		AnnotationSessionFactoryBean factory = new AnnotationSessionFactoryBean();
-		factory.setDataSource(dataSource);
-		factory.setHibernateProperties(hibProps);		
-		factory.setAnnotatedClasses(new Class[] {
-	    	Article.class, Comment.class, CommentReferrer.class, CommentIp.class,
-	    	CommentUserAgent.class, User.class, Role.class, Tag.class });
-		factory.afterPropertiesSet();
+		SessionFactory sf = builder.buildSessionFactory();
 		
 		txManager = new HibernateTransactionManager();
-		SessionFactory sf = (SessionFactory) factory.getObject();
 		txManager.setSessionFactory(sf);
 		return sf;
 	}
@@ -194,12 +190,18 @@ abstract public class AbstractDaoTestCase extends TestCase
 	}
 
 	protected final void clear() throws Exception
-	{
-		SessionFactoryUtils.getSession(sessionFactory, false).clear();
+	{	
+		SessionHolder sh = (SessionHolder)
+				TransactionSynchronizationManager.getResource(sessionFactory);
+		
+		sh.getSession().clear();
 	}
 
 	protected final void flush() throws Exception
 	{
-		SessionFactoryUtils.getSession(sessionFactory, false).flush();
+		SessionHolder sh = (SessionHolder)
+				TransactionSynchronizationManager.getResource(sessionFactory);
+		
+		sh.getSession().flush();
 	}
 }

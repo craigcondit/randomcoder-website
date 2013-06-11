@@ -25,7 +25,6 @@ import org.acegisecurity.util.FilterChainProxy;
 import org.acegisecurity.vote.*;
 import org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.UserDao;
 import org.randomcoder.security.*;
 import org.randomcoder.security.userdetails.UserDetailsServiceImpl;
 import org.springframework.context.annotation.*;
@@ -264,10 +263,10 @@ public class AcegiContext
 	}
 
 	@Bean
-	public UserDetailsService userDetailsService(final UserDao userDao)
+	public UserDetailsService userDetailsService(final UserBusiness userBusiness)
 	{
 		UserDetailsServiceImpl uds = new UserDetailsServiceImpl();
-		uds.setUserDao(userDao);
+		uds.setUserBusiness(userBusiness);
 		uds.setDebug(false);
 		return uds;
 	}

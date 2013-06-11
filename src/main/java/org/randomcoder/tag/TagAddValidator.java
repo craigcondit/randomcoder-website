@@ -1,6 +1,6 @@
 package org.randomcoder.tag;
 
-import org.randomcoder.db.TagDao;
+import org.randomcoder.bo.TagBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
@@ -40,16 +40,18 @@ public class TagAddValidator implements Validator
 	private static final String ERROR_NAME_EXISTS = "error.tag.name.exists";
 	private static final String ERROR_DISPLAY_NAME_REQUIRED = "error.tag.displayname.required";
 	
-	private TagDao tagDao;
-	
+	private TagBusiness tagBusiness;
+
 	/**
-	 * Sets the TagDao implementation to use.
-	 * @param tagDao TagDao implementation
+	 * Sets the TagBusiness implementation to use.
+	 * 
+	 * @param tagBusiness
+	 *            TagBusiness implementation
 	 */
 	@Required
-	public void setTagDao(TagDao tagDao)
+	public void setTagBusiness(TagBusiness tagBusiness)
 	{
-		this.tagDao = tagDao;
+		this.tagBusiness = tagBusiness;
 	}
 	
 	/**
@@ -81,7 +83,7 @@ public class TagAddValidator implements Validator
 		{
 			errors.rejectValue("name", ERROR_NAME_REQUIRED, "Name required.");
 		}
-		else if (tagDao.findByName(name) != null)
+		else if (tagBusiness.findTagByName(name) != null)
 		{
 			errors.rejectValue("name", ERROR_NAME_EXISTS, "Name exists.");			
 		}

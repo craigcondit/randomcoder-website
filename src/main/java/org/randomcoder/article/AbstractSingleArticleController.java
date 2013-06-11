@@ -11,7 +11,6 @@ import org.apache.commons.logging.*;
 import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.db.ArticleDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,11 +56,6 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 	protected String urlPrefix;
 	
 	/**
-	 * Article DAO.
-	 */
-	protected ArticleDao articleDao;
-	
-	/**
 	 * Content filter.
 	 */
 	protected ContentFilter contentFilter;
@@ -78,14 +72,6 @@ abstract public class AbstractSingleArticleController extends SimpleFormControll
 	@Required
 	public void setUrlPrefix(String urlPrefix)
 	{ this.urlPrefix = urlPrefix; }
-
-	/**
-	 * Sets the ArticleDao implementation to use.
-	 * @param articleDao ArticleDao implementation
-	 */
-	@Required
-	public void setArticleDao(ArticleDao articleDao)
-	{ this.articleDao = articleDao; }
 
 	/**
 	 * Sets the content filter to use.

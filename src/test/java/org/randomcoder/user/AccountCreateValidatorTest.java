@@ -1,34 +1,39 @@
 package org.randomcoder.user;
 
+import static org.easymock.EasyMock.*;
+
 import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
-import org.randomcoder.test.mock.dao.*;
+import org.easymock.IMocksControl;
+import org.randomcoder.bo.UserBusiness;
 import org.springframework.validation.BindException;
 
 @SuppressWarnings("javadoc")
 public class AccountCreateValidatorTest extends TestCase
 {
-	private UserDaoMock userDao;
-	
+	private IMocksControl control;
+	private UserBusiness ub;
 	private AccountCreateValidator validator;
 
 	@Override
 	protected void setUp() throws Exception
 	{
-		userDao = new UserDaoMock();
+		control = createControl();
+		ub = control.createMock(UserBusiness.class);
 		validator = new AccountCreateValidator();
 		validator.setMinimumUsernameLength(6);
 		validator.setMinimumPasswordLength(6);
-		validator.setUserDao(userDao);
+		validator.setUserBusiness(ub);
 	}
 
 	@Override
 	protected void tearDown() throws Exception
 	{
 		validator = null;
-		userDao = null;
+		ub = null;
+		control = null;
 	}
 
 	public void testSupports()
@@ -48,8 +53,11 @@ public class AccountCreateValidatorTest extends TestCase
 		user.setEmailAddress("existing@example.com");
 		user.setPassword(User.hashPassword("Password1"));
 		user.setRoles(new ArrayList<Role>());
-		user.setEnabled(true);		
-		userDao.create(user);
+		user.setEnabled(true);
+		
+		expect(ub.findUserByName("existing-user")).andStubReturn(user);
+		expect(ub.findUserByName("new-user")).andStubReturn(null);
+		control.replay();
 		
 		// null command
 		errors = new BindException(command, "command");
@@ -122,6 +130,8 @@ public class AccountCreateValidatorTest extends TestCase
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for website", 0, errors.getFieldErrorCount("website"));
 		
-		assertEquals("Wrong number of errors occurred", 0, errors.getErrorCount());		
+		assertEquals("Wrong number of errors occurred", 0, errors.getErrorCount());
+		
+		control.verify();
 	}	
 }

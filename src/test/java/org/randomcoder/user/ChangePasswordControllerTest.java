@@ -30,7 +30,6 @@ public class ChangePasswordControllerTest extends TestCase
 		userBusiness.setUserDao(userDao);
 		controller = new ChangePasswordControllerMock();
 		controller.setUserBusiness(userBusiness);
-		controller.setUserDao(userDao);
 	}
 
 	public void testOnBind() throws Exception

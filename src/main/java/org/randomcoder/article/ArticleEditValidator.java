@@ -80,7 +80,7 @@ public class ArticleEditValidator extends ArticleAddValidator
 			if (permalink != null)
 			{
 				// look for article with the same permalink
-				Article prev = articleDao.findByPermalink(permalink);
+				Article prev = articleBusiness.findArticleByPermalink(permalink);
 				
 				if (prev != null && !prev.getId().equals(id))
 				{

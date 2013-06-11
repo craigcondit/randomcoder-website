@@ -37,19 +37,19 @@ public class HomeController extends AbstractArticleListController<ArticlePageCom
 	@Override
 	protected List<Article> listArticlesBetweenDates(ArticlePageCommand command, Date startDate, Date endDate)
 	{
-		return articleDao.listBetweenDates(startDate, endDate);
+		return articleBusiness.listArticlesBetweenDates(startDate, endDate);
 	}
 
 	@Override
 	protected List<Article> listArticlesBeforeDateInRange(ArticlePageCommand command, Date cutoffDate, int start, int limit)	
 	{
-		return articleDao.listBeforeDateInRange(cutoffDate, start, limit);
+		return articleBusiness.listArticlesBeforeDateInRange(cutoffDate, start, limit);
 	}
 
 	@Override
 	protected int countArticlesBeforeDate(ArticlePageCommand command, Date cutoffDate)
 	{
-		return articleDao.countBeforeDate(cutoffDate);
+		return articleBusiness.countArticlesBeforeDate(cutoffDate);
 	}
 
 	@Override
