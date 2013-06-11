@@ -1,5 +1,6 @@
 package org.randomcoder.tag;
 
+import org.randomcoder.bo.TagBusiness;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 

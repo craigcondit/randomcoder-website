@@ -1,4 +1,4 @@
-package org.randomcoder.tag;
+package org.randomcoder.bo;
 
 import java.util.*;
 
@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.randomcoder.article.*;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
+import org.randomcoder.tag.*;
 
 /**
  * Tag management implementation.
