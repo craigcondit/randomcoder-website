@@ -2,19 +2,20 @@ package org.randomcoder.bo;
 
 import java.util.*;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.security.UnauthorizedException;
-import org.randomcoder.tag.*;
+import org.randomcoder.tag.Tag;
 import org.randomcoder.user.*;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Business implementation which handles articles.
@@ -44,6 +45,7 @@ import org.randomcoder.user.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@Component("articleBusiness")
 public class ArticleBusinessImpl implements ArticleBusiness
 {
 	private static final Log logger = LogFactory.getLog(ArticleBusinessImpl.class);
@@ -65,42 +67,42 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the UserDao implementation to use.
 	 * @param userDao UserDao implementation
 	 */
-	@Required
+	@Inject
 	public void setUserDao(UserDao userDao) { this.userDao = userDao; }
 	
 	/**
 	 * Sets the RoleDao implementation to use.
 	 * @param roleDao RoleDao implementation
 	 */
-	@Required
+	@Inject
 	public void setRoleDao(RoleDao roleDao) { this.roleDao = roleDao; }
 	
 	/**
 	 * Sets the ArticleDao implementation to use.
 	 * @param articleDao ArticleDao implementation
 	 */
-	@Required
+	@Inject
 	public void setArticleDao(ArticleDao articleDao) { this.articleDao = articleDao; }
 	
 	/**
 	 * Sets the TagDao implementation to use.
 	 * @param tagDao TagDao implementation
 	 */
-	@Required
+	@Inject
 	public void setTagDao(TagDao tagDao) { this.tagDao = tagDao; }
 
 	/**
 	 * Sets the CommentDao implementation to use.
 	 * @param commentDao CommentDao implementation
 	 */
-	@Required
+	@Inject
 	public void setCommentDao(CommentDao commentDao) { this.commentDao = commentDao; }
 	
 	/**
 	 * Sets the CommentReferrerDao implementation to use.
 	 * @param commentReferrerDao CommentReferrerDao implementation
 	 */
-	@Required
+	@Inject
 	public void setCommentReferrerDao(CommentReferrerDao commentReferrerDao)
 	{
 		this.commentReferrerDao = commentReferrerDao;
@@ -110,7 +112,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the CommentIpDao implementation to use.
 	 * @param commentIpDao CommentIpDao implementation
 	 */
-	@Required
+	@Inject
 	public void setCommentIpDao(CommentIpDao commentIpDao)
 	{
 		this.commentIpDao = commentIpDao;
@@ -120,7 +122,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the CommentUserAgentDao implementation to use.
 	 * @param commentUserAgentDao CommentUserAgentDao implementation
 	 */
-	@Required
+	@Inject
 	public void setCommentUserAgentDao(CommentUserAgentDao commentUserAgentDao)
 	{
 		this.commentUserAgentDao = commentUserAgentDao;
@@ -130,7 +132,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the moderator to use for automatic comment moderation
 	 * @param moderator comment moderator
 	 */
-	@Required
+	@Inject
 	public void setModerator(Moderator moderator)
 	{
 		this.moderator = moderator;

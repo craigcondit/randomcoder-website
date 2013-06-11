@@ -41,6 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement
+@ComponentScan("org.randomcoder.bo")
 @Import({ AcegiContext.class, DownloadContext.class })
 public class RootContext
 {
@@ -271,29 +272,6 @@ public class RootContext
 	}
 
 	// TODO convert business objects to classpath scanning
-
-	@Bean
-	public ArticleBusiness articleBusiness(
-			final UserDao userDao, final RoleDao roleDao,
-			final ArticleDao articleDao, final TagDao tagDao,
-			final CommentDao commentDao,
-			final CommentReferrerDao commentReferrerDao,
-			final CommentIpDao commentIpDao,
-			final CommentUserAgentDao commentUserAgentDao,
-			final Moderator moderator)
-	{
-		ArticleBusinessImpl ab = new ArticleBusinessImpl();
-		ab.setUserDao(userDao);
-		ab.setRoleDao(roleDao);
-		ab.setArticleDao(articleDao);
-		ab.setTagDao(tagDao);
-		ab.setCommentDao(commentDao);
-		ab.setCommentReferrerDao(commentReferrerDao);
-		ab.setCommentIpDao(commentIpDao);
-		ab.setCommentUserAgentDao(commentUserAgentDao);
-		ab.setModerator(moderator);
-		return ab;
-	}
 
 	@Bean
 	public UserBusiness userBusiness(final UserDao userDao)
