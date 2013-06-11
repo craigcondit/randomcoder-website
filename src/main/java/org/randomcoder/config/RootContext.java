@@ -15,7 +15,6 @@ import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.*;
-import org.randomcoder.crypto.*;
 import org.randomcoder.dao.finder.*;
 import org.randomcoder.dao.hibernate.HibernateDao;
 import org.randomcoder.db.*;
@@ -174,14 +173,6 @@ public class RootContext
 		gen.setBaseUrl("https://randomcoder.org/");
 		gen.setContentFilter(contentFilter());
 		return gen;
-	}
-
-	@Bean
-	public EncryptionContext encryptionContext()
-	{
-		TransientAESEncryptionContext ctx = new TransientAESEncryptionContext();
-		ctx.setKeySize(256);
-		return ctx;
 	}
 
 	// TODO convert database objects to Spring data
