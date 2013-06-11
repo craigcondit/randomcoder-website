@@ -1,6 +1,7 @@
 package org.randomcoder.user;
 
 import org.apache.commons.lang.StringUtils;
+import org.randomcoder.db.UserDao;
 import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;

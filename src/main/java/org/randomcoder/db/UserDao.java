@@ -1,15 +1,12 @@
-package org.randomcoder.security.userdetails;
+package org.randomcoder.db;
 
-import org.acegisecurity.userdetails.*;
-import org.apache.commons.logging.*;
-import org.randomcoder.db.UserDao;
-import org.randomcoder.user.*;
+import java.util.List;
+
+import org.randomcoder.dao.CrudDao;
 import org.randomcoder.user.User;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.dao.DataAccessException;
 
 /**
- * Acegi UserDetailsService implementation.
+ * User data access interface.
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -36,41 +33,47 @@ import org.springframework.dao.DataAccessException;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class UserDetailsServiceImpl implements UserDetailsService
+public interface UserDao extends CrudDao<User, Long>
 {
-	private static final Log logger = LogFactory.getLog(UserDetailsServiceImpl.class);
-	
-	private UserDao userDao;
-	private boolean debug = false;
+
+	/**
+	 * Finds a {@code User} with the given user name.
+	 * @param name user name
+	 * @return {@code User} instance, or null if not found
+	 */
+	public User findByUserName(String name);
+
+	/**
+	 * Finds an enabled {@code User} with the given user name.
+	 * @param name user name
+	 * @return {@code User} instance, or null if not found or not enabled
+	 */
+	public User findByUserNameEnabled(String name);
+
+	/**
+	 * Lists all {@code User} objects, ordered by user name.
+	 * @return List of {@code User} objects
+	 */
+	public List<User> listAll();
 	
 	/**
-	 * Sets the UserDao implementation to use.
-	 * @param userDao UserDao implementation.
+	 * Lists all {@code User} objects in range, ordered by user name.
+	 * @param start starting result
+	 * @param limit maximum number of results
+	 * @return List of {@code User} objects
 	 */
-	@Required
-	public void setUserDao(UserDao userDao)
-	{
-		this.userDao = userDao;
-	}
+	public List<User> listAllInRange(int start, int limit);
+	
 	
 	/**
-	 * Turns debug logging of ppid and issuerhash on / off.
-	 * @param debug true if debugging is to be enabled.
+	 * Counts all {@code User} objects
+	 * @return count of user objects
 	 */
-	public void setDebug(boolean debug)
-	{
-		this.debug = debug;
-	}
-	
+	public int countAll();	
+
 	/**
-	 * Retrieves the user with the given username.
-	 * @param username user name to lookup
+	 * Lists all enabled {@code User} objects, ordered by user name.
+	 * @return List of {@code User} objects
 	 */
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException
-	{
-		User user = userDao.findByUserName(username);
-		if (user == null || user.getPassword() == null) throw new UsernameNotFoundException(username);
-		return new UserDetailsImpl(user);
-	}
+	public List<User> listEnabled();
 }

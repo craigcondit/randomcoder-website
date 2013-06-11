@@ -24,6 +24,7 @@ import org.acegisecurity.userdetails.memory.*;
 import org.acegisecurity.util.FilterChainProxy;
 import org.acegisecurity.vote.*;
 import org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter;
+import org.randomcoder.db.UserDao;
 import org.randomcoder.security.*;
 import org.randomcoder.security.userdetails.UserDetailsServiceImpl;
 import org.randomcoder.user.*;

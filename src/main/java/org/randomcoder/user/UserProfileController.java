@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.db.UserDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 import org.springframework.web.bind.ServletRequestDataBinder;

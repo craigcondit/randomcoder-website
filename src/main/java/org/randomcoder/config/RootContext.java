@@ -18,7 +18,7 @@ import org.randomcoder.content.*;
 import org.randomcoder.crypto.*;
 import org.randomcoder.dao.finder.*;
 import org.randomcoder.dao.hibernate.HibernateDao;
-import org.randomcoder.db.ArticleDao;
+import org.randomcoder.db.*;
 import org.randomcoder.feed.*;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;

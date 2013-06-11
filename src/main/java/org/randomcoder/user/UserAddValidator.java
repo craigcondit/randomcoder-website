@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
+import org.randomcoder.db.UserDao;
 import org.randomcoder.validation.DataValidationUtils;
 
 /**

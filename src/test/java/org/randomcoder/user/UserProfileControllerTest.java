@@ -7,6 +7,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.easymock.IMocksControl;
+import org.randomcoder.db.UserDao;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;

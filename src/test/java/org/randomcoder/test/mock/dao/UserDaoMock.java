@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.randomcoder.db.UserDao;
 import org.randomcoder.user.*;
 
 @SuppressWarnings("javadoc")

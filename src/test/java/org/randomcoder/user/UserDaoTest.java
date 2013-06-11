@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import java.util.*;
 
+import org.randomcoder.db.UserDao;
 import org.randomcoder.test.AbstractDaoTestCase;
 
 @SuppressWarnings("javadoc")

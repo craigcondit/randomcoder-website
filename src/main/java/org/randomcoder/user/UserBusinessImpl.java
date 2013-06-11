@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import java.util.*;
 
+import org.randomcoder.db.UserDao;
 import org.randomcoder.io.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;

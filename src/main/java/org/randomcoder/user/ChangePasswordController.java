@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.db.UserDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
