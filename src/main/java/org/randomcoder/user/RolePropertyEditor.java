@@ -2,6 +2,8 @@ package org.randomcoder.user;
 
 import java.beans.PropertyEditorSupport;
 
+import org.randomcoder.db.RoleDao;
+
 
 /**
  * Property editor for roles.

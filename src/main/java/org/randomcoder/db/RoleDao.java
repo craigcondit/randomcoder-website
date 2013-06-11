@@ -1,8 +1,9 @@
-package org.randomcoder.user;
+package org.randomcoder.db;
 
 import java.util.List;
 
 import org.randomcoder.dao.ReadableDao;
+import org.randomcoder.user.Role;
 
 /**
  * Role data access interface.
