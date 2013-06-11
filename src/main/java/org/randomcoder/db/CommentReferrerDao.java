@@ -1,14 +1,13 @@
-package org.randomcoder.article.comment;
+package org.randomcoder.db;
 
-import java.util.Iterator;
-
-import org.randomcoder.dao.CrudDao;
+import org.randomcoder.article.comment.CommentReferrer;
+import org.randomcoder.dao.*;
 
 /**
- * Comment data access interface.
+ * Comment referrer data access interface.
  * 
  * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
+ * Copyright (c) 2007, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,14 +31,13 @@ import org.randomcoder.dao.CrudDao;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CommentDao
-extends CrudDao<Comment, Long>
+public interface CommentReferrerDao
+extends CreatableDao<CommentReferrer, Long>, ReadableDao<CommentReferrer, Long>
 {
 	/**
-	 * Iterates through all comments which are available to be moderated.
-	 * @param start starting index
-	 * @param limit maximum number of results to return
-	 * @return Comment Iterator.
+	 * Finds a given {@code CommentReferrer} by uri.
+	 * @param uri referrer uri
+	 * @return {@code CommentReferrer} instance, or null if not found
 	 */
-	public Iterator<Comment> iterateForModerationInRange(int start, int limit);
+	public CommentReferrer findByUri(String uri);
 }

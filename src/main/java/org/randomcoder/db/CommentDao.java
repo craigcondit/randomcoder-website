@@ -1,12 +1,15 @@
-package org.randomcoder.article.comment;
+package org.randomcoder.db;
 
-import org.randomcoder.dao.*;
+import java.util.Iterator;
+
+import org.randomcoder.article.comment.Comment;
+import org.randomcoder.dao.CrudDao;
 
 /**
- * Comment user agent data access interface.
+ * Comment data access interface.
  * 
  * <pre>
- * Copyright (c) 2007, Craig Condit. All rights reserved.
+ * Copyright (c) 2006, Craig Condit. All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -30,14 +33,14 @@ import org.randomcoder.dao.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CommentUserAgentDao
-extends CreatableDao<CommentUserAgent, Long>, ReadableDao<CommentUserAgent, Long>
+public interface CommentDao
+extends CrudDao<Comment, Long>
 {
 	/**
-	 * Finds a given {@code CommentUserAgent} by name.
-	 * @param name user agent name
-	 * @return {@code CommentUserAgent} instance, or null if not found
+	 * Iterates through all comments which are available to be moderated.
+	 * @param start starting index
+	 * @param limit maximum number of results to return
+	 * @return Comment Iterator.
 	 */
-	public CommentUserAgent findByName(String name);
-
+	public Iterator<Comment> iterateForModerationInRange(int start, int limit);
 }

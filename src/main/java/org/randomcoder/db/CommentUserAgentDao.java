@@ -1,9 +1,10 @@
-package org.randomcoder.article.comment;
+package org.randomcoder.db;
 
+import org.randomcoder.article.comment.CommentUserAgent;
 import org.randomcoder.dao.*;
 
 /**
- * Comment referrer data access interface.
+ * Comment user agent data access interface.
  * 
  * <pre>
  * Copyright (c) 2007, Craig Condit. All rights reserved.
@@ -30,13 +31,14 @@ import org.randomcoder.dao.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface CommentReferrerDao
-extends CreatableDao<CommentReferrer, Long>, ReadableDao<CommentReferrer, Long>
+public interface CommentUserAgentDao
+extends CreatableDao<CommentUserAgent, Long>, ReadableDao<CommentUserAgent, Long>
 {
 	/**
-	 * Finds a given {@code CommentReferrer} by uri.
-	 * @param uri referrer uri
-	 * @return {@code CommentReferrer} instance, or null if not found
+	 * Finds a given {@code CommentUserAgent} by name.
+	 * @param name user agent name
+	 * @return {@code CommentUserAgent} instance, or null if not found
 	 */
-	public CommentReferrer findByUri(String uri);
+	public CommentUserAgent findByName(String name);
+
 }
