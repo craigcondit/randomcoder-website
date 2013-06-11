@@ -2,13 +2,12 @@ package org.randomcoder.tag;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.springmvc.IdCommand;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
-
-import org.randomcoder.bo.TagBusiness;
-import org.randomcoder.springmvc.IdCommand;
 
 /**
  * Controller class which handles tag deletion.

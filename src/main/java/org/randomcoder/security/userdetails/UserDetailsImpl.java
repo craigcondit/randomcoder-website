@@ -4,7 +4,6 @@ import java.util.*;
 
 import org.acegisecurity.*;
 import org.acegisecurity.userdetails.UserDetails;
-
 import org.randomcoder.user.*;
 
 /**

@@ -8,13 +8,12 @@ import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.*;
 import org.apache.commons.httpclient.util.*;
 import org.apache.commons.logging.*;
+import org.randomcoder.download.*;
+import org.randomcoder.download.Package;
 import org.springframework.beans.factory.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
-
-import org.randomcoder.download.*;
-import org.randomcoder.download.Package;
 
 /**
  * Maven repository parser. 

@@ -8,17 +8,16 @@ import java.util.*;
 import javax.servlet.http.*;
 
 import org.apache.commons.logging.*;
+import org.randomcoder.article.comment.CommentCommand;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.ArticleDao;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UrlPathHelper;
-
-import org.randomcoder.article.comment.CommentCommand;
-import org.randomcoder.bo.ArticleBusiness;
-import org.randomcoder.content.ContentFilter;
-import org.randomcoder.db.ArticleDao;
 
 /**
  * Abstract controller class which provides support for displaying a single article.

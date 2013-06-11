@@ -3,7 +3,6 @@ package org.randomcoder.article.comment;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.randomcoder.article.Article;
 import org.randomcoder.content.ContentType;
 import org.randomcoder.io.Producer;

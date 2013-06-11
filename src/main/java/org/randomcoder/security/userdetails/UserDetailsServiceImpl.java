@@ -3,7 +3,6 @@ package org.randomcoder.security.userdetails;
 import org.acegisecurity.userdetails.*;
 import org.apache.commons.logging.*;
 import org.randomcoder.db.UserDao;
-import org.randomcoder.user.*;
 import org.randomcoder.user.User;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.DataAccessException;

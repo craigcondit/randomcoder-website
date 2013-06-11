@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.*;
 
 import org.apache.commons.logging.*;
-
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 

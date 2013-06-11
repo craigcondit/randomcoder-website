@@ -3,10 +3,9 @@ package org.randomcoder.content;
 import java.io.*;
 import java.net.URL;
 
+import org.randomcoder.xml.AbstractXMLReader;
 import org.xml.sax.*;
 import org.xml.sax.helpers.AttributesImpl;
-
-import org.randomcoder.xml.AbstractXMLReader;
 
 /**
  * Plain text to XML reader.

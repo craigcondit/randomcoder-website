@@ -3,9 +3,8 @@ package org.randomcoder.article.moderation;
 import java.util.TimerTask;
 
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.annotation.Required;
-
 import org.randomcoder.bo.ArticleBusiness;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Timer task which handles periodic comment moderation.

@@ -3,7 +3,6 @@ package org.randomcoder.db;
 import java.util.*;
 
 import org.hibernate.Query;
-
 import org.randomcoder.dao.hibernate.HibernateDao;
 import org.randomcoder.tag.*;
 

@@ -6,12 +6,11 @@ import java.util.Locale;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.*;
-import org.springframework.beans.factory.annotation.Required;
-
 import org.randomcoder.about.ApplicationInformation;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.user.User;
+import org.springframework.beans.factory.*;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Moderator implementation which queries Akismet.

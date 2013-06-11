@@ -8,10 +8,9 @@ import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.HeadMethod;
 import org.apache.commons.httpclient.util.*;
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.*;
-
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
+import org.springframework.beans.factory.*;
 
 /**
  * HTTP repository parser. 

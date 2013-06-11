@@ -1,6 +1,6 @@
 package org.randomcoder.article;
 
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServletRequest;
 
 
 /**

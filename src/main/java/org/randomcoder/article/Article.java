@@ -9,7 +9,6 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.apache.commons.lang.builder.*;
-
 import org.randomcoder.article.comment.Comment;
 import org.randomcoder.content.ContentType;
 import org.randomcoder.tag.Tag;

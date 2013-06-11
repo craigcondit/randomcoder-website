@@ -2,15 +2,14 @@ package org.randomcoder.article.comment;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.article.Article;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.springmvc.IdCommand;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.*;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.springframework.web.servlet.view.RedirectView;
-
-import org.randomcoder.article.*;
-import org.randomcoder.bo.ArticleBusiness;
-import org.randomcoder.springmvc.IdCommand;
 
 /**
  * Abstract base class for controllers which modify a comment's status.

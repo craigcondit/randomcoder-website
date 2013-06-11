@@ -5,10 +5,9 @@ import java.util.*;
 
 import javax.xml.transform.TransformerException;
 
-import org.xml.sax.SAXException;
-
 import org.randomcoder.article.comment.*;
 import org.randomcoder.content.*;
+import org.xml.sax.SAXException;
 
 /**
  * Helper class which "decorates" an {@code Article} instance by providing XHTML

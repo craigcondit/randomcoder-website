@@ -5,10 +5,9 @@ import java.util.List;
 import net.sf.ehcache.*;
 
 import org.apache.commons.logging.*;
-import org.springframework.beans.factory.annotation.Required;
-
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Package list producer which caches lookups to an underlying target.

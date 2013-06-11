@@ -28,7 +28,6 @@ import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.UserDao;
 import org.randomcoder.security.*;
 import org.randomcoder.security.userdetails.UserDetailsServiceImpl;
-import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 

@@ -5,10 +5,9 @@ import java.util.List;
 
 import javax.servlet.http.*;
 
-import org.springframework.beans.factory.annotation.Required;
-
-import org.randomcoder.article.*;
+import org.randomcoder.article.Article;
 import org.randomcoder.db.ArticleDao;
+import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Feed controller which generates feeds for all articles.

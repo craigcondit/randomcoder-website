@@ -8,9 +8,8 @@ import javax.xml.transform.*;
 import javax.xml.transform.sax.*;
 import javax.xml.transform.stream.StreamResult;
 
-import org.xml.sax.*;
-
 import org.randomcoder.io.SequenceReader;
+import org.xml.sax.*;
 
 /**
  * Utility methods for content formatting.

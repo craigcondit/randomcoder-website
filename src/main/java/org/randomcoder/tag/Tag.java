@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
-
 import org.randomcoder.article.Article;
 
 /**
