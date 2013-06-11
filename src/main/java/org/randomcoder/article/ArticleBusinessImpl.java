@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.io.*;
 import org.randomcoder.security.UnauthorizedException;
 import org.randomcoder.tag.*;

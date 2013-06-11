@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.download.*;
 import org.randomcoder.feed.*;
 import org.randomcoder.security.*;

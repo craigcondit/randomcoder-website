@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.randomcoder.article.*;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.io.*;
 
 /**

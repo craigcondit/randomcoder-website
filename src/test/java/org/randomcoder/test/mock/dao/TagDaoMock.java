@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.randomcoder.article.ArticleDao;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.tag.*;
 
 @SuppressWarnings("javadoc")

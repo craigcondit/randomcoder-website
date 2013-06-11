@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 
 import org.randomcoder.content.*;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.io.SequenceReader;
 
 /**

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.ArticleDao;
 import org.randomcoder.tag.*;
 
 /**

@@ -1,7 +1,8 @@
-package org.randomcoder.article;
+package org.randomcoder.db;
 
 import java.util.*;
 
+import org.randomcoder.article.Article;
 import org.randomcoder.dao.CrudDao;
 import org.randomcoder.tag.Tag;
 

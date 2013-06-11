@@ -17,6 +17,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.ArticleDao;
 
 /**
  * Abstract controller class which provides support for displaying a single article.
