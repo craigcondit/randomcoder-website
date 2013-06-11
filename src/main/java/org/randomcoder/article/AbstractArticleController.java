@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;
 
+import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.ContentType;
 import org.randomcoder.db.TagDao;
 import org.randomcoder.springmvc.EnumPropertyEditor;

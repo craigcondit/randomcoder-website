@@ -1,5 +1,6 @@
-package org.randomcoder.article;
+package org.randomcoder.bo;
 
+import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.Comment;
 import org.randomcoder.article.moderation.ModerationException;
 import org.randomcoder.io.*;

@@ -14,6 +14,7 @@ import org.randomcoder.about.*;
 import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
+import org.randomcoder.bo.*;
 import org.randomcoder.content.*;
 import org.randomcoder.crypto.*;
 import org.randomcoder.dao.finder.*;

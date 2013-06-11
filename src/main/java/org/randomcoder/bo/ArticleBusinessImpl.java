@@ -1,4 +1,4 @@
-package org.randomcoder.article;
+package org.randomcoder.bo;
 
 import java.util.*;
 
@@ -7,6 +7,7 @@ import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
 import org.randomcoder.db.*;

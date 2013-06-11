@@ -5,7 +5,7 @@ import java.util.TimerTask;
 import org.apache.commons.logging.*;
 import org.springframework.beans.factory.annotation.Required;
 
-import org.randomcoder.article.ArticleBusiness;
+import org.randomcoder.bo.ArticleBusiness;
 
 /**
  * Timer task which handles periodic comment moderation.

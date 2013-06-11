@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import org.randomcoder.article.*;
+import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.springmvc.IdCommand;
 
 /**
