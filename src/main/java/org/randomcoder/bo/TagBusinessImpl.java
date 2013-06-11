@@ -2,13 +2,14 @@ package org.randomcoder.bo;
 
 import java.util.*;
 
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
+import javax.inject.Inject;
 
-import org.randomcoder.article.*;
+import org.randomcoder.article.Article;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.tag.*;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Tag management implementation.
@@ -38,6 +39,7 @@ import org.randomcoder.tag.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@Component("tagBusiness")
 public class TagBusinessImpl implements TagBusiness
 {
 	private TagDao tagDao;
@@ -47,7 +49,7 @@ public class TagBusinessImpl implements TagBusiness
 	 * Sets the TagDao implementation to use.
 	 * @param tagDao TagDao implementation
 	 */
-	@Required
+	@Inject
 	public void setTagDao(TagDao tagDao)
 	{
 		this.tagDao = tagDao;
@@ -57,7 +59,7 @@ public class TagBusinessImpl implements TagBusiness
 	 * Sets the ArticleDao implementation to use.
 	 * @param articleDao ArticleDao implementation
 	 */
-	@Required
+	@Inject
 	public void setArticleDao(ArticleDao articleDao)
 	{
 		this.articleDao = articleDao;

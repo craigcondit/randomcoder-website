@@ -14,7 +14,7 @@ import org.randomcoder.about.*;
 import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
-import org.randomcoder.bo.*;
+import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.crypto.*;
 import org.randomcoder.dao.finder.*;
@@ -269,17 +269,6 @@ public class RootContext
 		pf.addAdvisor(new DefaultIntroductionAdvisor(finderIntroductionInterceptor()));
 		pf.setTarget(target);
 		return (T) pf.getProxy();
-	}
-
-	// TODO convert business objects to classpath scanning
-
-	@Bean
-	public TagBusiness tagBusiness(final TagDao tagDao, final ArticleDao articleDao)
-	{
-		TagBusinessImpl tb = new TagBusinessImpl();
-		tb.setTagDao(tagDao);
-		tb.setArticleDao(articleDao);
-		return tb;
 	}
 
 	@Bean
