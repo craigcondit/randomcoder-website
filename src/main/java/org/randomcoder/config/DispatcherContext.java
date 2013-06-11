@@ -17,6 +17,7 @@ import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -24,12 +25,15 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.mvc.ParameterizableViewController;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.*;
 
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement
-public class DispatcherContext extends WebMvcConfigurationSupport
+@ComponentScan("org.randomcoder.controller")
+@EnableWebMvc
+public class DispatcherContext extends WebMvcConfigurerAdapter
 {
 	@Inject
 	Environment env;
@@ -67,36 +71,100 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 	@Inject
 	Rss20FeedGenerator rss20FeedGenerator;
 
-	@Bean
-	public boolean exposeExceptionDetails()
-	{
-		return env.getRequiredProperty("expose.exception.details", Boolean.class);
-	}
-
 	@Override
-	protected void addResourceHandlers(ResourceHandlerRegistry registry)
+	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{
 		// define some static content that will bypass the dispatcher
 		registry
 				.addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.jpg", "/**/*.png", "/**/*.gif")
 				.addResourceLocations("classpath:/webapp/");
 	}
-
+	
 	@Bean
-	public ParameterizableViewController aboutController()
+	@Order(0)
+	public RequestMappingHandlerMapping annotationMapping()
 	{
-		ParameterizableViewController c = new ParameterizableViewController();
-		c.setViewName("legal-about");
-		return c;
+		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
+		mapping.setAlwaysUseFullPath(true);
+		mapping.setOrder(0);
+		return mapping;
 	}
 
 	@Bean
-	public ParameterizableViewController licenseController()
+	@Order(1)
+	public SimpleUrlHandlerMapping legayMapping()
 	{
-		ParameterizableViewController c = new ParameterizableViewController();
-		c.setViewName("legal-license");
-		return c;
+		Properties p = new Properties();
+		p.setProperty("/account/create", "accountCreateController");
+		p.setProperty("/article/add", "articleAddController");
+		p.setProperty("/article/edit", "articleEditController");
+		p.setProperty("/article/delete", "articleDeleteController");
+		p.setProperty("/articles/id/*", "articleIdController");
+		p.setProperty("/articles/*", "articlePermalinkController");
+		p.setProperty("/feeds/atom/all", "allAtomFeedController");
+		p.setProperty("/feeds/rss20/all", "allRss20FeedController");
+		p.setProperty("/comment/delete", "commentDeleteController");
+		p.setProperty("/comment/approve", "commentApproveController");
+		p.setProperty("/comment/disapprove", "commentDisapproveController");
+		p.setProperty("/download", "downloadController");
+		p.setProperty("", "homeController");
+		p.setProperty("/login", "loginController");
+		p.setProperty("/login-error", "loginErrorController");
+		p.setProperty("/redirect", "redirectController");
+		p.setProperty("/tag", "tagListController");
+		p.setProperty("/tag/add", "tagAddController");
+		p.setProperty("/tag/edit", "tagEditController");
+		p.setProperty("/tag/delete", "tagDeleteController");
+		p.setProperty("/tags/*", "articleTagListController");
+		p.setProperty("/user", "userListController");
+		p.setProperty("/user/add", "userAddController");
+		p.setProperty("/user/edit", "userEditController");
+		p.setProperty("/user/delete", "userDeleteController");
+		p.setProperty("/user/profile", "userProfileController");
+		p.setProperty("/user/profile/change-password", "changePasswordController");
+
+		SimpleUrlHandlerMapping m = new SimpleUrlHandlerMapping();
+		m.setOrder(1);
+		m.setAlwaysUseFullPath(true);
+		m.setMappings(p);
+		return m;
 	}
+	
+	@Bean
+	public ViewResolver xmlViewResolver()
+	{
+		XmlViewResolver resolver = new XmlViewResolver();
+		resolver.setOrder(0);
+		resolver.setLocation(new ClassPathResource("/views.xml"));
+		return resolver;
+	}
+
+	@Bean
+	public ViewResolver jspViewResolver()
+	{
+		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+		resolver.setOrder(1);
+		resolver.setViewClass(JstlView.class);
+		resolver.setPrefix("/WEB-INF/jsp/");
+		resolver.setSuffix(".jsp");
+		return resolver;
+	}
+	
+//	@Bean
+//	public ParameterizableViewController aboutController()
+//	{
+//		ParameterizableViewController c = new ParameterizableViewController();
+//		c.setViewName("legal-about");
+//		return c;
+//	}
+//
+//	@Bean
+//	public ParameterizableViewController licenseController()
+//	{
+//		ParameterizableViewController c = new ParameterizableViewController();
+//		c.setViewName("legal-license");
+//		return c;
+//	}
 
 	@Bean
 	@SuppressWarnings("deprecation")
@@ -547,62 +615,4 @@ public class DispatcherContext extends WebMvcConfigurationSupport
 		return c;
 	}
 
-	@Bean
-	public SimpleUrlHandlerMapping handlerMapping()
-	{
-		Properties p = new Properties();
-		p.setProperty("/account/create", "accountCreateController");
-		p.setProperty("/article/add", "articleAddController");
-		p.setProperty("/article/edit", "articleEditController");
-		p.setProperty("/article/delete", "articleDeleteController");
-		p.setProperty("/articles/id/*", "articleIdController");
-		p.setProperty("/articles/*", "articlePermalinkController");
-		p.setProperty("/feeds/atom/all", "allAtomFeedController");
-		p.setProperty("/feeds/rss20/all", "allRss20FeedController");
-		p.setProperty("/comment/delete", "commentDeleteController");
-		p.setProperty("/comment/approve", "commentApproveController");
-		p.setProperty("/comment/disapprove", "commentDisapproveController");
-		p.setProperty("/download", "downloadController");
-		p.setProperty("", "homeController");
-		p.setProperty("/legal/about", "aboutController");
-		p.setProperty("/legal/license", "licenseController");
-		p.setProperty("/login", "loginController");
-		p.setProperty("/login-error", "loginErrorController");
-		p.setProperty("/redirect", "redirectController");
-		p.setProperty("/tag", "tagListController");
-		p.setProperty("/tag/add", "tagAddController");
-		p.setProperty("/tag/edit", "tagEditController");
-		p.setProperty("/tag/delete", "tagDeleteController");
-		p.setProperty("/tags/*", "articleTagListController");
-		p.setProperty("/user", "userListController");
-		p.setProperty("/user/add", "userAddController");
-		p.setProperty("/user/edit", "userEditController");
-		p.setProperty("/user/delete", "userDeleteController");
-		p.setProperty("/user/profile", "userProfileController");
-		p.setProperty("/user/profile/change-password", "changePasswordController");
-
-		SimpleUrlHandlerMapping m = new SimpleUrlHandlerMapping();
-		m.setAlwaysUseFullPath(true);
-		m.setMappings(p);
-		return m;
-	}
-
-	@Bean
-	public ViewResolver xmlViewResolver()
-	{
-		XmlViewResolver resolver = new XmlViewResolver();
-		resolver.setOrder(0);
-		resolver.setLocation(new ClassPathResource("/views.xml"));
-		return resolver;
-	}
-
-	@Bean
-	public ViewResolver jspViewResolver()
-	{
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setViewClass(JstlView.class);
-		resolver.setPrefix("/WEB-INF/jsp/");
-		resolver.setSuffix(".jsp");
-		return resolver;
-	}
 }
