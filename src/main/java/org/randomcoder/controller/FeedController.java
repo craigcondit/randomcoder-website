@@ -9,7 +9,6 @@ import javax.inject.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.*;
 import org.randomcoder.article.Article;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.feed.*;
@@ -42,8 +41,6 @@ public class FeedController
 			throw new ExceptionInInitializerError(e);
 		}
 	}
-
-	private static final Log logger = LogFactory.getLog(FeedController.class);
 
 	private FeedGenerator atomFeedGenerator;
 	private FeedGenerator rss20FeedGenerator;
