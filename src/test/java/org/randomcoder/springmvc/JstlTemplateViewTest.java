@@ -84,8 +84,8 @@ public class JstlTemplateViewTest extends TestCase
 		childMap.put("child", "child");
 		childMap.put("both", "child");
 		
-		parent.setAttributes(parentMap);
-		view.setAttributes(childMap);
+		parent.setTemplateAttributes(parentMap);
+		view.setTemplateAttributes(childMap);
 
 		Capture<Object> cm = new Capture<Object>();
 

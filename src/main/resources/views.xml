@@ -30,7 +30,7 @@
 	<bean id="main-layout" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="templateName" value="template" />
 		<property name="url" value="/WEB-INF/jsp/layout/main.jsp" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="header" value="/WEB-INF/jsp/header/default.jsp" />
 				<entry key="footer" value="/WEB-INF/jsp/footer/default.jsp" />
@@ -57,7 +57,7 @@
 	<!-- Login page -->
 	<bean id="login" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Login" />	
 				<entry key="javascript" value="login.js" />
@@ -85,7 +85,7 @@
 	<!-- Login error page -->
 	<bean id="login-error" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="login" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Login error" />	
 				<entry key="error">
@@ -98,7 +98,7 @@
 	<!-- Home page -->
 	<bean id="home" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Home" />
 				<entry key="summary" value="true" />
@@ -121,7 +121,7 @@
 
 	<bean id="account-create" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Create account" />
 				<entry key="formAction" value="/account/create" />
@@ -137,7 +137,7 @@
 
 	<bean id="account-create-done" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Account created" />
 				<entry key="content">
@@ -152,7 +152,7 @@
 	<!-- Download -->
 	<bean id="download" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Download" />
 				<entry key="javascript" value="download.js" />
@@ -168,7 +168,7 @@
 	<!-- User list -->
 	<bean id="user-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Users" />
 				<entry key="javascript" value="user-list.js" />
@@ -185,7 +185,7 @@
 	<!-- Tag list -->
 	<bean id="tag-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Tags" />
 				<entry key="javascript" value="tag-list.js" />
@@ -202,7 +202,7 @@
 	<!-- User Profile -->
 	<bean id="user-profile" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="My profile" />
 				<entry key="javascript" value="user-profile.js" />
@@ -217,7 +217,7 @@
 	
 	<bean id="article-tag-list" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="home" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Tags" />
 			</map>
@@ -226,7 +226,7 @@
 	
 	<bean id="article-view" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 			  <entry key="head" value="/WEB-INF/jsp/head/feeds.jsp" />
 				<entry key="title"><null /></entry>
@@ -243,7 +243,7 @@
 	
 	<bean id="change-password" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Change password" />
 				<entry key="formAction" value="/user/profile/change-password" />
@@ -259,7 +259,7 @@
 	
 	<bean id="article-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Add article" />
 				<entry key="formMode" value="add" />
@@ -276,7 +276,7 @@
 	
 	<bean id="article-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="article-add" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Edit article" />
 				<entry key="formMode" value="edit" />
@@ -287,7 +287,7 @@
 
 	<bean id="legal-about" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="About this site" />
 				<entry key="content">
@@ -301,7 +301,7 @@
 
 	<bean id="legal-license" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="License" />
 				<entry key="content">
@@ -315,7 +315,7 @@
 
 	<bean id="user-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Add user" />
 				<entry key="formMode" value="add" />
@@ -332,7 +332,7 @@
 	
 	<bean id="user-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="user-add" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Edit user" />
 				<entry key="formMode" value="edit" />
@@ -343,7 +343,7 @@
 
 	<bean id="tag-add" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Add tag" />
 				<entry key="formMode" value="add" />
@@ -360,7 +360,7 @@
 	
 	<bean id="tag-edit" class="org.randomcoder.springmvc.JstlTemplateView">
 		<property name="parent" ref="tag-add" />
-		<property name="attributes">
+		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Edit tag" />
 				<entry key="formMode" value="edit" />

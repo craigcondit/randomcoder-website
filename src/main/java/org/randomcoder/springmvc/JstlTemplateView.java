@@ -24,7 +24,7 @@ public class JstlTemplateView extends JstlView
 	 * @param attributes
 	 *          map of attribute key/value pairs.
 	 */
-	public void setAttributes(Map<String, Object> attributes)
+	public void setTemplateAttributes(Map<String, Object> attributes)
 	{
 		this.attributes = attributes;
 	}
@@ -33,10 +33,10 @@ public class JstlTemplateView extends JstlView
 	 * Gets the URL associated with this view.
 	 * 
 	 * <p>
-	 * Delegates to the parent view if no url was specified.
+	 * Delegates to the parent view if no URL was specified.
 	 * </p>
 	 * 
-	 * @return url
+	 * @return URL
 	 */
 	@Override
 	public String getUrl()
@@ -155,5 +155,4 @@ public class JstlTemplateView extends JstlView
 		}
 		return DEFAULT_TEMPLATE_NAME;
 	}
-
 }
