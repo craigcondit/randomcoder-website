@@ -61,5 +61,4 @@ public class PackageListExceptionTest
 			assertNotNull("Cause not present", e.getCause());
 		}
 	}
-
 }
