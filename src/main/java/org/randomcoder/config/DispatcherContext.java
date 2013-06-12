@@ -1,6 +1,5 @@
 package org.randomcoder.config;
 
-import java.net.URL;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -11,7 +10,6 @@ import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.*;
 import org.randomcoder.download.*;
-import org.randomcoder.feed.*;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
@@ -64,12 +62,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	@Inject
 	UserBusiness userBusiness;
 
-	@Inject
-	AtomFeedGenerator atomFeedGenerator;
-
-	@Inject
-	Rss20FeedGenerator rss20FeedGenerator;
-
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{
@@ -100,8 +92,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/article/delete", "articleDeleteController");
 		p.setProperty("/articles/id/*", "articleIdController");
 		p.setProperty("/articles/*", "articlePermalinkController");
-		p.setProperty("/feeds/atom/all", "allAtomFeedController");
-		p.setProperty("/feeds/rss20/all", "allRss20FeedController");
 		p.setProperty("/comment/delete", "commentDeleteController");
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
@@ -555,37 +545,4 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setTagBusiness(tagBusiness);
 		return c;
 	}
-
-	@Bean
-	public AllFeedController allAtomFeedController() throws Exception
-	{
-		AllFeedController c = new AllFeedController();
-		c.setTitle("randomCoder");
-		c.setSubtitle("// TODO build a better web");
-		c.setUrlPrefix("/feeds/atom");
-		c.setFeedGenerator(atomFeedGenerator);
-		c.setFeedId("atom-all");
-		c.setFeedUrl(new URL("https://randomcoder.org/feeds/atom/all"));
-		c.setAltUrl(new URL("https://randomcoder.org/"));
-		c.setLimit(20);
-		c.setArticleBusiness(articleBusiness);
-		return c;
-	}
-
-	@Bean
-	public AllFeedController allRss20FeedController() throws Exception
-	{
-		AllFeedController c = new AllFeedController();
-		c.setTitle("randomCoder");
-		c.setSubtitle("// TODO build a better web");
-		c.setUrlPrefix("/feeds/rss20");
-		c.setFeedGenerator(rss20FeedGenerator);
-		c.setFeedId("rss20-all");
-		c.setFeedUrl(new URL("https://randomcoder.org/feeds/rss20/all"));
-		c.setAltUrl(new URL("https://randomcoder.org/"));
-		c.setLimit(20);
-		c.setArticleBusiness(articleBusiness);
-		return c;
-	}
-
 }
