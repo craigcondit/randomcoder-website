@@ -9,11 +9,11 @@ import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.*;
-import org.randomcoder.download.*;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
@@ -34,9 +34,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 {
 	@Inject
 	Environment env;
-
-	@Inject
-	PackageListProducer packageListProducer;
 
 	@Inject
 	ArticleDao articleDao;
@@ -62,6 +59,14 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	@Inject
 	UserBusiness userBusiness;
 
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
+	{
+		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
+		pspc.setIgnoreUnresolvablePlaceholders(false);
+		return pspc;
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{
@@ -95,7 +100,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/comment/delete", "commentDeleteController");
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
-		p.setProperty("/download", "downloadController");
 		p.setProperty("", "homeController");
 		p.setProperty("/login", "loginController");
 		p.setProperty("/login-error", "loginErrorController");
@@ -138,18 +142,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		return resolver;
 	}
 	
-	@Bean
-	@SuppressWarnings("deprecation")
-	public DownloadController downloadController()
-	{
-		DownloadController c = new DownloadController();
-		c.setViewName("download");
-		c.setSupportedMethods(new String[] { "GET" });
-		c.setPackageListProducer(packageListProducer);
-		c.setCommandClass(DownloadCommand.class);
-		return c;
-	}
-
 	@Bean
 	public ArticleAddValidator articleAddValidator()
 	{
