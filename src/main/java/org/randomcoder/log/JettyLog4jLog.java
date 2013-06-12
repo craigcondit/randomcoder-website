@@ -21,7 +21,7 @@ public class JettyLog4jLog implements Logger
 	 * Constructor which creates a named logger.
 	 * 
 	 * @param name
-	 *            logger name
+	 *          logger name
 	 */
 	public JettyLog4jLog(String name)
 	{
@@ -78,8 +78,7 @@ public class JettyLog4jLog implements Logger
 
 	@Override
 	public void setDebugEnabled(boolean enabled)
-	{
-	}
+	{}
 
 	@Override
 	public void debug(String msg, Object... args)
@@ -107,6 +106,5 @@ public class JettyLog4jLog implements Logger
 
 	@Override
 	public void ignore(Throwable ignored)
-	{
-	}
+	{}
 }
