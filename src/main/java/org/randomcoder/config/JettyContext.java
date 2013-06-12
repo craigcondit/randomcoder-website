@@ -5,7 +5,6 @@ import java.util.EnumSet;
 import javax.inject.Inject;
 import javax.servlet.*;
 
-import org.acegisecurity.util.FilterToBeanProxy;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
@@ -20,7 +19,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.filter.ShallowEtagHeaderFilter;
+import org.springframework.web.filter.*;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
@@ -87,18 +86,11 @@ public class JettyContext
 
 		context.addEventListener(new ContextLoaderListener(rootContext));
 
-//		// open a single Hibernate session per request
-//		FilterHolder osiv = new FilterHolder();
-//		osiv.setName("OpenSessionInViewFilter");
-//		osiv.setFilter(new OpenSessionInViewFilter());		
-//		context.addFilter(osiv, "/*", EnumSet.of(DispatcherType.REQUEST));
-		
-		// define acegi security filter
-		FilterHolder acegi = new FilterHolder();
-		acegi.setName("AcegiFilterChain");		
-		acegi.setFilter(new FilterToBeanProxy());
-		acegi.setInitParameter("targetBean", "filterChainProxy");
-		context.addFilter(acegi, "/*", EnumSet.of(DispatcherType.REQUEST));
+		// define spring security filter
+		FilterHolder sec = new FilterHolder();
+		sec.setFilter(new DelegatingFilterProxy());
+		sec.setName("springSecurityFilterChain");
+		context.addFilter(sec, "/*", EnumSet.allOf(DispatcherType.class));
 		
 		// define etag filter to better cache static content
 		FilterHolder etag = new FilterHolder();

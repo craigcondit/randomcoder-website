@@ -1,6 +1,6 @@
 <%-- Login form --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:url var="loginUrl" value="/j_security_check" />
+<c:url var="loginUrl" value="/login-submit" />
 <c:url var="homeUrl" value="/" />
 <c:url var="createUrl" value="/account/create" />
 
@@ -26,7 +26,7 @@
 		<div class="fields">
 			<div class="checkbox">					
 				<label for="persist">Remember me</label>
-				<input type="checkbox" name="j_persist" class="checkbox" id="persist" value="true" />
+				<input type="checkbox" name="_spring_security_remember_me" class="checkbox" id="persist" value="true" />
 			</div>
 		</div>
 		<div class="fields">

@@ -77,11 +77,6 @@
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
 
-	<!-- acegi caches -->
-	<cache name="acegiUserCache"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
-
 	<!-- method caches -->
 	<cache name="org.randomcoder.MAVEN_REPOSITORY_CACHE"
 		timeToIdleSeconds="3600" timeToLiveSeconds="3600"

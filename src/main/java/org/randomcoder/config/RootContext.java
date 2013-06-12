@@ -36,8 +36,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement(proxyTargetClass = true)
-@ComponentScan("org.randomcoder.bo")
-@Import({ AcegiContext.class, DownloadContext.class })
+@ComponentScan({ "org.randomcoder.bo", "org.randomcoder.security.spring" })
+@ImportResource({"classpath:spring-security.xml"})
+@Import({ DownloadContext.class })
 public class RootContext
 {
 	@Inject

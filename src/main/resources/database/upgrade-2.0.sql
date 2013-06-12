@@ -1,4 +1,4 @@
--- Change role names to support Acegi naming conventions
+-- Change role names to support spring security naming conventions
 UPDATE roles SET name = 'ROLE_MANAGE_USERS' WHERE name = 'manage-users';
 UPDATE roles SET name = 'ROLE_POST_ARTICLES' WHERE name = 'article-post';
 UPDATE roles SET name = 'ROLE_MANAGE_ARTICLES' WHERE name = 'article-admin';

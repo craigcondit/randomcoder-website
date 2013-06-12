@@ -2,15 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://randomcoder.org/tags-escape" prefix="rcesc" %>
 <%@ taglib uri="http://randomcoder.org/tags-url" prefix="url" %>
 
 <c:set var="postArticles" value="${false}" />
-<authz:authorize ifAnyGranted="ROLE_ARTICLE_POST"><c:set var="postArticles" value="${true}" /></authz:authorize>
+<sec:authorize access="hasRole('ROLE_ARTICLE_POST') || hasRole('ROLE_MANAGE_ARTICLES')"><c:set var="postArticles" value="${true}" /></sec:authorize>
 
 <c:set var="manageArticles" value="${false}" />
-<authz:authorize ifAnyGranted="ROLE_MANAGE_ARTICLES"><c:set var="manageArticles" value="${true}" /></authz:authorize>
+<sec:authorize access="hasRole('ROLE_MANAGE_ARTICLES')"><c:set var="manageArticles" value="${true}" /></sec:authorize>
 
 <c:set var="userName" value="" />
 <c:if test="${pageContext.request.userPrincipal != null}">
@@ -126,9 +126,9 @@
 
   <c:if test="${template.summary == 'false'}">
   	<c:set var="manageComments" value="${false}" />
-		<authz:authorize ifAnyGranted="ROLE_MANAGE_COMMENTS">
+		<sec:authorize access="hasRole('ROLE_MANAGE_COMMENTS')">
 	  	<c:set var="manageComments" value="${true}" />
-		</authz:authorize>
+		</sec:authorize>
   	<a name="comments"></a>
   	<c:set var="hiddenCount" value="${0}" />
   	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">

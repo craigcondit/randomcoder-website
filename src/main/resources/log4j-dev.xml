@@ -29,10 +29,6 @@
 		<level value="warn" />
 	</logger>
 
-	<logger name="org.acegisecurity">
-		<level value="warn" />
-	</logger>
-
 	<logger name="org.apache">
 		<level value="warn" />
 	</logger>

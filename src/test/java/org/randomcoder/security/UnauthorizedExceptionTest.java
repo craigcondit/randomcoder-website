@@ -1,10 +1,13 @@
 package org.randomcoder.security;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class UnauthorizedExceptionTest extends TestCase
+public class UnauthorizedExceptionTest
 {
+	@Test
 	public void testUnauthorizedException()
 	{
 		try
@@ -17,6 +20,7 @@ public class UnauthorizedExceptionTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testUnauthorizedExceptionString()
 	{
 		try

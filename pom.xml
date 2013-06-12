@@ -28,6 +28,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<randomcoder.taglibs.version>1.6.6</randomcoder.taglibs.version>
 		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<jetty.version>8.1.2.v20120308</jetty.version>
 		<junit.version>4.11</junit.version>
 		<dbunit.version>2.4.9</dbunit.version>
@@ -37,6 +38,11 @@
 		<bouncycastle.version>1.49</bouncycastle.version>
 		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 		<hibernate.version>4.2.2.Final</hibernate.version>
+		<easymock.version>3.1</easymock.version>
+		<commons.codec.version>1.8</commons.codec.version>
+		<commons.httpclient.version>3.1</commons.httpclient.version>
+		<commons.logging.version>1.1</commons.logging.version>
+		<javax.inject.version>1</javax.inject.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -44,11 +50,6 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.dbunit</groupId>
@@ -62,11 +63,28 @@
 	 		<version>${hsqldb.version}</version>
 	 		<scope>test</scope>
 	 	</dependency>
-	 	<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk15on</artifactId>
-			<version>${bouncycastle.version}</version>	 	
-	 	</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>${easymock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+<!-- 	 	<dependency> -->
+<!-- 			<groupId>org.bouncycastle</groupId> -->
+<!-- 			<artifactId>bcprov-jdk15on</artifactId> -->
+<!-- 			<version>${bouncycastle.version}</version>	 	 -->
+<!-- 	 	</dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -76,12 +94,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -125,7 +137,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1</version>
+			<version>${commons.logging.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>
@@ -136,12 +148,12 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.8</version>
+			<version>${commons.codec.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-httpclient</groupId>
 			<artifactId>commons-httpclient</artifactId>
-			<version>3.1</version>
+			<version>${commons.httpclient.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -169,25 +181,24 @@
 			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.acegisecurity</groupId>
-			<artifactId>acegi-security</artifactId>
-			<version>1.0.3</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-support</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>spring-remoting</artifactId>
-					<groupId>org.springframework</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>3.1</version>
-			<scope>test</scope>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${spring.security.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jetty</groupId>
@@ -219,21 +230,21 @@
 			<artifactId>hibernate-ehcache</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>xml-security</groupId>
-			<artifactId>xmlsec</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-			<version>2.7.0</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>xml-security</groupId> -->
+<!-- 			<artifactId>xmlsec</artifactId> -->
+<!-- 			<version>1.3.0</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>xerces</groupId> -->
+<!-- 			<artifactId>xercesImpl</artifactId> -->
+<!-- 			<version>2.7.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>xalan</groupId> -->
+<!-- 			<artifactId>xalan</artifactId> -->
+<!-- 			<version>2.7.0</version> -->
+<!-- 		</dependency> -->
 	</dependencies>
 	<build>
 		<resources>
@@ -465,13 +476,13 @@
 					<docencoding>UTF-8</docencoding>
 					<links>
 						<link>http://download.oracle.com/javase/6/docs/api/</link>
-						<link>http://download.oracle.com/javaee/1.4/api/</link>
-						<link>http://static.springsource.org/spring/docs/2.5.x/api/</link>
-						<link>http://docs.jboss.org/hibernate/core/3.2/api/</link>
+						<link>http://docs.oracle.com/javaee/6/api/</link>
+						<link>http://static.springsource.org/spring/docs/3.2.x/javadoc-api/</link>
+						<link>http://static.springsource.org/spring-security/site/docs/3.1.x/apidocs/</link>
+						<link>http://docs.jboss.org/hibernate/orm/4.2/javadocs/</link>
 						<link>http://aopalliance.sourceforge.net/doc/</link>
 						<link>http://ehcache.org/apidocs/</link>
-						<link>http://www.acegisecurity.org/acegi-security/apidocs/</link>
-						<link>http://randomcoder.org/maven/site/randomcoder-taglibs/apidocs/</link>			
+						<link>https://nexus.randomcoder.org/content/sites/randomcoder-taglibs/apidocs/</link>			
 					</links>
 					<excludePackageNames>jsp</excludePackageNames>
 				</configuration>

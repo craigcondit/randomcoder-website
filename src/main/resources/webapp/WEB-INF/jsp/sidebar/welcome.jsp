@@ -1,6 +1,6 @@
 <%-- Welcome --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://acegisecurity.org/authz" prefix="authz" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:url var="logoutUrl" value="/logout" />
 <c:url var="postUrl" value="/article/add" />
 <c:url var="changePassUrl" value="/user/change-password" />
@@ -13,15 +13,15 @@
 	</div>
 	<div class="sectionContent" align="left">
 		<ul class="nav">
-			<authz:authorize ifAnyGranted="ROLE_POST_ARTICLES,ROLE_MANAGE_ARTICLES">
+			<sec:authorize url="${postUrl}">
 				<li><a href="${postUrl}">Add new article</a></li>
-			</authz:authorize>
-			<authz:authorize ifAnyGranted="ROLE_MANAGE_USERS">
+			</sec:authorize>
+			<sec:authorize url="${manageUsersUrl}">
 				<li><a href="${manageUsersUrl}">Manage users</a></li>
-			</authz:authorize>
-			<authz:authorize ifAnyGranted="ROLE_MANAGE_TAGS">
+			</sec:authorize>
+			<sec:authorize url="${manageTagsUrl}">
 				<li><a href="${manageTagsUrl}">Manage tags</a></li>
-			</authz:authorize>
+			</sec:authorize>
 			<li><a href="${userProfileUrl}">My profile</a></li>
 	  	<li class="navbreak"><a href="${logoutUrl}">Logout</a></li>		
 		</ul>

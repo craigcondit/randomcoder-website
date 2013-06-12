@@ -1,38 +1,38 @@
-package org.randomcoder.security.userdetails;
+package org.randomcoder.security.spring;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.util.*;
 
-import junit.framework.TestCase;
-
-import org.acegisecurity.GrantedAuthority;
-import org.acegisecurity.userdetails.*;
 import org.easymock.IMocksControl;
+import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.user.*;
 import org.randomcoder.user.User;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.*;
 
 @SuppressWarnings("javadoc")
-public class UserDetailsServiceImplTest extends TestCase
+public class RandomcoderUserDetailsServiceTest
 {
-	private UserDetailsServiceImpl svc = null;
+	private RandomcoderUserDetailsService svc = null;
 	private UserDaoMock userDao = null;
 	private RoleDaoMock roleDao = null;
 	
 	private IMocksControl control;
 	private UserBusiness ub;	
 	
-	@Override
-	public void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		
 		userDao = new UserDaoMock();
 		roleDao = new RoleDaoMock();
-		svc = new UserDetailsServiceImpl();
+		svc = new RandomcoderUserDetailsService();
 		svc.setUserBusiness(ub);
 		svc.setDebug(false);
 		{
@@ -63,8 +63,8 @@ public class UserDetailsServiceImplTest extends TestCase
 		}
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		control = null;
 		ub = null;
@@ -73,6 +73,7 @@ public class UserDetailsServiceImplTest extends TestCase
 		roleDao = null;
 	}
 
+	@Test
 	public void testLoadUserByUsername()
 	{
 		expect (ub.findUserByName("test")).andReturn(userDao.findByUserName("test"));
@@ -84,10 +85,10 @@ public class UserDetailsServiceImplTest extends TestCase
 		
 		assertEquals(User.hashPassword("Password1"), details.getPassword());
 		
-		GrantedAuthority[] authorities =  details.getAuthorities();
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(details.getAuthorities());
 		assertNotNull(authorities);
-		assertEquals(1, authorities.length);
-		assertEquals("ROLE_TEST", authorities[0].getAuthority());
+		assertEquals(1, authorities.size());
+		assertEquals("ROLE_TEST", authorities.get(0).getAuthority());
 		
 		assertTrue(details.isAccountNonExpired());
 		assertTrue(details.isAccountNonLocked());
@@ -97,35 +98,22 @@ public class UserDetailsServiceImplTest extends TestCase
 		control.verify();
 	}
 
+	@Test
 	public void testLoadUserByUsernameDebug()
 	{
 		svc.setDebug(true);
 		testLoadUserByUsername();
 	}
 	
+	@Test(expected = UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNotFound() throws Exception
 	{
-		try
-		{
-			svc.loadUserByUsername("bogus");
-			fail("UsernameNotFoundException expected");
-		}
-		catch (UsernameNotFoundException e)
-		{
-			// pass
-		}
+		svc.loadUserByUsername("bogus");
 	}
 
+	@Test(expected = UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNoPassword() throws Exception
 	{
-		try
-		{
-			svc.loadUserByUsername("test-no-password");
-			fail("UsernameNotFoundException expected");
-		}
-		catch (UsernameNotFoundException e)
-		{
-			// pass
-		}
+		svc.loadUserByUsername("test-no-password");
 	}	
 }
