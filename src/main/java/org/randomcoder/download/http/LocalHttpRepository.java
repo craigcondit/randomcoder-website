@@ -9,51 +9,30 @@ import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 
 /**
- * HTTP repository parser which reads from local files. 
- * 
- * <pre>
- * Copyright (c) 2007, Craig Condit. All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *     
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * HTTP repository parser which reads from local files.
  */
 public class LocalHttpRepository implements PackageListProducer
 {
 	private static final Log logger = LogFactory.getLog(LocalHttpRepository.class);
 
 	private List<LocalHttpProject> projects;
-	
+
 	/**
 	 * Sets the list of projects to process.
-	 * @param projects list of projects
+	 * 
+	 * @param projects
+	 *          list of projects
 	 */
 	public void setProjects(List<LocalHttpProject> projects)
 	{
 		this.projects = projects;
 	}
-	
+
 	/**
 	 * Generates a list of packages from a Maven repository.
-	 * @throws PackageListException if an error occurs
+	 * 
+	 * @throws PackageListException
+	 *           if an error occurs
 	 * @return List of Package objects
 	 */
 	@Override
@@ -61,11 +40,11 @@ public class LocalHttpRepository implements PackageListProducer
 	{
 		logger.debug("Loading package list");
 		long startTime = logger.isDebugEnabled() ? System.nanoTime() : 0;
-		
+
 		try
 		{
 			List<Package> packages = new ArrayList<Package>();
-			
+
 			for (LocalHttpProject project : projects)
 			{
 				// process project
@@ -73,7 +52,7 @@ public class LocalHttpRepository implements PackageListProducer
 				if (pkg != null)
 					packages.add(pkg);
 			}
-	
+
 			// sort by name
 			Collections.sort(packages);
 			return packages;
@@ -88,58 +67,58 @@ public class LocalHttpRepository implements PackageListProducer
 			}
 		}
 	}
-	
-	private Package processProject(LocalHttpProject project)
-	throws PackageListException
+
+	private Package processProject(LocalHttpProject project) throws PackageListException
 	{
 		// get versions
 		List<String> versions = project.getVersions();
-		
+
 		// sort in descending version order
 		Collections.sort(versions, Collections.reverseOrder(new VersionComparator()));
-					
+
 		Package pkg = new Package();
 		pkg.setName(project.getProjectName());
 		pkg.setDescription(project.getProjectDescription());
-		
+
 		for (String version : versions)
 		{
 			FileSet fs = processVersion(project, version);
-			if (fs != null) pkg.getFileSets().add(fs);
+			if (fs != null)
+				pkg.getFileSets().add(fs);
 		}
-		
+
 		if (pkg.getFileSets().isEmpty())
 			return null; // no files for this project
-		
+
 		return pkg;
 	}
-	
-	private FileSet processVersion(LocalHttpProject project, String version)
-	throws PackageListException
+
+	private FileSet processVersion(LocalHttpProject project, String version) throws PackageListException
 	{
 		// get filenames
 		Map<String, String> mappings = project.getExtensionMappings();
-		
+
 		FileSet fs = new FileSet();
 		fs.setVersion(version);
-		
+
 		String baseName = project.getBaseName() + "-" + version;
-		
+
 		for (String extension : mappings.keySet())
 		{
 			FileSpec spec = processFile(project.getBaseDir(), project.getBaseUrl(), baseName + extension, mappings.get(extension));
-			if (spec != null) fs.getFiles().add(spec);
+			if (spec != null)
+				fs.getFiles().add(spec);
 		}
-		
-		if (fs.getFiles().isEmpty()) return null;
-		
+
+		if (fs.getFiles().isEmpty())
+			return null;
+
 		Collections.sort(fs.getFiles());
 		return fs;
 	}
 
-	private FileSpec processFile(File baseDir, URL baseUrl, String fileName, String fileType)
-	throws PackageListException
-	{	
+	private FileSpec processFile(File baseDir, URL baseUrl, String fileName, String fileType) throws PackageListException
+	{
 		URL fileUrl = null;
 		try
 		{
@@ -151,15 +130,15 @@ public class LocalHttpRepository implements PackageListProducer
 		}
 
 		File file = new File(baseDir, fileName);
-		
+
 		FileSpec spec = new FileSpec();
 		if (!statFile(spec, file))
 			return null;
-		
+
 		spec.setFileName(fileName);
 		spec.setFileType(fileType);
 		spec.setDownloadLink(fileUrl.toExternalForm());
-		
+
 		URL md5Url = null;
 		try
 		{
@@ -172,7 +151,7 @@ public class LocalHttpRepository implements PackageListProducer
 		File md5File = new File(baseDir, fileName + ".md5");
 		if (statUrl(md5File))
 			spec.setMd5Link(md5Url.toExternalForm());
-		
+
 		URL sha1Url = null;
 		try
 		{
@@ -185,10 +164,10 @@ public class LocalHttpRepository implements PackageListProducer
 		File sha1File = new File(baseDir, fileName + ".sha1");
 		if (statUrl(sha1File))
 			spec.setSha1Link(sha1Url.toExternalForm());
-		
+
 		return spec;
 	}
-	
+
 	private boolean statUrl(File file)
 	{
 		return file.exists();
@@ -198,7 +177,7 @@ public class LocalHttpRepository implements PackageListProducer
 	{
 		if (!file.exists())
 			return false;
-		
+
 		spec.setFileSize(file.length());
 		spec.setLastModified(new Date(file.lastModified()));
 
