@@ -1,18 +1,19 @@
 package org.randomcoder.download.http;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import junit.framework.TestCase;
-
+import org.junit.*;
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 import org.randomcoder.test.TestHttpServer;
 
 @SuppressWarnings("javadoc")
-public class HttpRepositoryTest extends TestCase
+public class HttpRepositoryTest
 {
 	private HttpRepository repo;
 	private MockHttpServer server;
@@ -20,8 +21,8 @@ public class HttpRepositoryTest extends TestCase
 	protected Date lastModified;
 	private int port;
 	
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws Exception
 	{
 		lastModified = new Date();
 		server = new MockHttpServer();
@@ -56,8 +57,8 @@ public class HttpRepositoryTest extends TestCase
 		repo.afterPropertiesSet();
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown() throws Exception
 	{
 		server.destroy();
 		repo.destroy();
@@ -68,6 +69,7 @@ public class HttpRepositoryTest extends TestCase
 		repo = null;
 	}
 	
+	@Test
 	public void testGetPackages() throws Exception
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

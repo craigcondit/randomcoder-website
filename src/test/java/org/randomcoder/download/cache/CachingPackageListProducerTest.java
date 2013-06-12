@@ -1,22 +1,24 @@
 package org.randomcoder.download.cache;
 
+import static org.junit.Assert.*;
+
 import java.util.*;
 
-import junit.framework.TestCase;
 import net.sf.ehcache.*;
 
+import org.junit.*;
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
 
 @SuppressWarnings("javadoc")
-public class CachingPackageListProducerTest extends TestCase
+public class CachingPackageListProducerTest
 {
 	CachingPackageListProducer producer;
 	MockPackageListProducer target;
 	CacheManager cacheManager;
-	
-	@Override
-	protected void setUp() throws Exception
+
+	@Before
+	public void setUp()
 	{
 		cacheManager = new CacheManager(getClass().getResource("/ehcache-test.xml"));
 		Cache cache = cacheManager.getCache("test");
@@ -28,14 +30,15 @@ public class CachingPackageListProducerTest extends TestCase
 		producer.setTarget(target);
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		producer = null;
 		cacheManager.shutdown();
 		cacheManager = null;
 	}
 	
+	@Test
 	public void testGetPackages() throws Exception
 	{
 		List<Package> packages = producer.getPackages();
@@ -45,6 +48,7 @@ public class CachingPackageListProducerTest extends TestCase
 		assertSame("Second list not cached", packages, packages2);
 	}
 	
+	@Test
 	public void testReset() throws Exception
 	{
 		List<Package> packages = producer.getPackages();

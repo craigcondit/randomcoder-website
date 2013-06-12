@@ -1,16 +1,18 @@
 package org.randomcoder.download;
 
+import static org.junit.Assert.*;
+
 import java.util.*;
 
-import junit.framework.TestCase;
+import org.junit.*;
 
 @SuppressWarnings("javadoc")
-public class AggregatePackageListProducerTest extends TestCase
+public class AggregatePackageListProducerTest
 {
 	private AggregatePackageListProducer producer;
 	
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		producer = new AggregatePackageListProducer();
 		List<PackageListProducer> producers = new ArrayList<PackageListProducer>();
@@ -20,12 +22,13 @@ public class AggregatePackageListProducerTest extends TestCase
 		producer.setProducers(producers);
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		producer = null;
 	}
 
+	@Test
 	public void testGetPackages() throws Exception
 	{
 		List<Package> packages = producer.getPackages();

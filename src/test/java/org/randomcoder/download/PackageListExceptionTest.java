@@ -1,11 +1,13 @@
 package org.randomcoder.download;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class PackageListExceptionTest extends TestCase
+public class PackageListExceptionTest
 {
-
+	@Test
 	public void testPackageListException()
 	{
 		try 
@@ -19,6 +21,7 @@ public class PackageListExceptionTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testPackageListExceptionString()
 	{
 		try 
@@ -32,6 +35,7 @@ public class PackageListExceptionTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testPackageListExceptionThrowable()
 	{
 		try 
@@ -44,6 +48,7 @@ public class PackageListExceptionTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testPackageListExceptionStringThrowable()
 	{
 		try 
