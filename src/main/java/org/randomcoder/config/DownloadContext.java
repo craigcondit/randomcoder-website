@@ -18,7 +18,6 @@ import org.springframework.scheduling.timer.*;
 
 @Configuration
 @SuppressWarnings("javadoc")
-//@ImportResource("classpath:/webapp/WEB-INF/applicationContext-download.xml")
 public class DownloadContext
 {
 	@Inject
