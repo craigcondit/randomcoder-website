@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.servlet.mvc.ParameterizableViewController;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.*;
 
@@ -101,8 +100,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
 		p.setProperty("", "homeController");
-		p.setProperty("/login", "loginController");
-		p.setProperty("/login-error", "loginErrorController");
 		p.setProperty("/tag", "tagListController");
 		p.setProperty("/tag/add", "tagAddController");
 		p.setProperty("/tag/edit", "tagEditController");
@@ -251,22 +248,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setContentFilter(contentFilter);
 		c.setCommandClass(CommentCommand.class);
 		c.setValidator(commentValidator());
-	}
-
-	@Bean
-	public ParameterizableViewController loginController()
-	{
-		ParameterizableViewController c = new ParameterizableViewController();
-		c.setViewName("login");
-		return c;
-	}
-
-	@Bean
-	public ParameterizableViewController loginErrorController()
-	{
-		ParameterizableViewController c = new ParameterizableViewController();
-		c.setViewName("login-error");
-		return c;
 	}
 
 	@Bean
