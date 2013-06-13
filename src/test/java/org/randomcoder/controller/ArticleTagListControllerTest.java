@@ -142,7 +142,7 @@ public class ArticleTagListControllerTest
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
 		control.replay();
 
-		assertEquals("article-tag-list", c.tagList(cmd, "tag", m));
+		assertEquals("article-tag-list", c.tagList(cmd, m, "tag"));
 		assertSame(tag, cmd.getTag());
 		control.verify();
 	}

@@ -54,11 +54,11 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 	 *            MVC model
 	 * @return home view
 	 */
-	@RequestMapping("/tags/{tag}")
+	@RequestMapping("/tags/{tagName}")
 	public String tagList(
 			ArticleTagPageCommand command,
-			@PathVariable("tag") String tagName,
-			Model model)
+			Model model,
+			@PathVariable("tagName") String tagName)
 	{
 		tagName = StringUtils.trimToEmpty(tagName).toLowerCase(Locale.US);
 		logger.debug("Tag name: " + tagName);
