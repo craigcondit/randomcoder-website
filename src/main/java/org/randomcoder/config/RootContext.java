@@ -1,8 +1,9 @@
 package org.randomcoder.config;
 
 import java.util.*;
+import java.util.concurrent.*;
 
-import javax.inject.*;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
@@ -12,7 +13,7 @@ import org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory;
 import org.randomcoder.article.Article;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
-import org.randomcoder.bo.*;
+import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.dao.finder.*;
 import org.randomcoder.dao.hibernate.HibernateDao;
@@ -29,20 +30,28 @@ import org.springframework.context.support.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.*;
-import org.springframework.scheduling.timer.*;
+import org.springframework.scheduling.annotation.*;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement(proxyTargetClass = true)
+@EnableScheduling
 @ComponentScan({ "org.randomcoder.bo", "org.randomcoder.security.spring" })
-@ImportResource({"classpath:spring-security.xml"})
+@ImportResource({ "classpath:spring-security.xml" })
 @Import({ DownloadContext.class })
-public class RootContext
+public class RootContext implements SchedulingConfigurer
 {
 	@Inject
 	Environment env;
+
+	@Override
+	public void configureTasks(ScheduledTaskRegistrar registrar)
+	{
+		registrar.setScheduler(taskScheduler());
+	}
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
@@ -50,6 +59,12 @@ public class RootContext
 		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
 		pspc.setIgnoreUnresolvablePlaceholders(false);
 		return pspc;
+	}
+
+	@Bean(destroyMethod = "shutdown")
+	public Executor taskScheduler()
+	{
+		return Executors.newScheduledThreadPool(2);
 	}
 
 	@Bean
@@ -75,7 +90,7 @@ public class RootContext
 	{
 		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
 
-		//builder.setProperty("hibernate.current_session_context_class", "thread");
+		// builder.setProperty("hibernate.current_session_context_class", "thread");
 		builder.setProperty("hibernate.transaction.factory_class", JdbcTransactionFactory.class.getName());
 		builder.setProperty("hibernate.dialect", PostgreSQL82Dialect.class.getName());
 		builder.setProperty("hibernate.show_sql", "false");
@@ -84,11 +99,9 @@ public class RootContext
 		builder.setProperty("hibernate.jdbc.batch_size", "10");
 		builder.setProperty("hibernate.cache.use_query_cache", "true");
 		builder.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
-		
-		builder.addAnnotatedClasses(
-				Article.class, Comment.class, CommentReferrer.class,
-				CommentIp.class, CommentUserAgent.class, User.class,
-				Role.class, Tag.class);
+
+		builder
+				.addAnnotatedClasses(Article.class, Comment.class, CommentReferrer.class, CommentIp.class, CommentUserAgent.class, User.class, Role.class, Tag.class);
 
 		builder.setCacheConcurrencyStrategy(Article.class.getName(), "read-write");
 		builder.setCacheConcurrencyStrategy(Comment.class.getName(), "read-write");
@@ -226,7 +239,7 @@ public class RootContext
 		return createDaoProxy(TagDao.class, dao);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> T createDaoProxy(final SessionFactory sessionFactory, Class<T> iface, Class<?> entity) throws Exception
 	{
 		HibernateDao dao = new HibernateDao(entity);
@@ -235,7 +248,7 @@ public class RootContext
 		return createDaoProxy(iface, dao);
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private <T> T createDaoProxy(Class<T> iface, FinderExecutor target) throws Exception
 	{
 		ProxyFactory pf = new ProxyFactory(new Class[] { iface });
@@ -252,35 +265,5 @@ public class RootContext
 		mod.setApiKey(env.getRequiredProperty("akismet.site.key"));
 		mod.setSiteUrl(env.getRequiredProperty("akismet.site.url"));
 		return mod;
-	}
-
-	// TODO convert this to newer spring syntax
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TimerFactoryBean moderationTimer(
-			@Named("moderationUpdateTask") final ScheduledTimerTask moderationUpdateTask)
-	{
-		TimerFactoryBean tfb = new TimerFactoryBean();
-		tfb.setScheduledTimerTasks(new ScheduledTimerTask[] { moderationUpdateTask });
-		return tfb;
-	}
-
-	// TODO convert this to newer spring syntax
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ScheduledTimerTask moderationUpdateTask(final ArticleBusiness articleBusiness)
-	{
-		ScheduledTimerTask tt = new ScheduledTimerTask();
-		tt.setDelay(30000L); // 30 seconds
-		tt.setPeriod(60000L); // 60 seconds
-		tt.setFixedRate(false);
-
-		ModeratorTimerTask task = new ModeratorTimerTask();
-		task.setArticleBusiness(articleBusiness);
-		task.setBatchSize(5);
-
-		tt.setTimerTask(task);
-
-		return tt;
 	}
 }
