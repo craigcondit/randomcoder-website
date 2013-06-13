@@ -99,12 +99,10 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/comment/delete", "commentDeleteController");
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
-		p.setProperty("", "homeController");
 		p.setProperty("/tag", "tagListController");
 		p.setProperty("/tag/add", "tagAddController");
 		p.setProperty("/tag/edit", "tagEditController");
 		p.setProperty("/tag/delete", "tagDeleteController");
-		p.setProperty("/tags/*", "articleTagListController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
@@ -165,38 +163,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		CommentValidator validator = new CommentValidator();
 		validator.setContentFilter(contentFilter);
 		return validator;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public HomeController homeController()
-	{
-		HomeController c = new HomeController();
-		configure(c);
-		c.setViewName("home");
-		c.setCommandClass(ArticlePageCommand.class);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ArticleTagListController articleTagListController()
-	{
-		ArticleTagListController c = new ArticleTagListController();
-		configure(c);
-		c.setViewName("article-tag-list");
-		c.setCommandClass(ArticleTagPageCommand.class);
-		c.setUrlPrefix("/tags/");
-		return c;
-	}
-
-	private void configure(AbstractArticleListController c)
-	{
-		c.setDefaultPageSize(10);
-		c.setMaximumPageSize(50);
-		c.setContentFilter(contentFilter);
-		c.setTagBusiness(tagBusiness);
-		c.setArticleBusiness(articleBusiness);
 	}
 
 	@Bean
