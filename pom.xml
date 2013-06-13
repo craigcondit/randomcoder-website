@@ -43,7 +43,15 @@
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<commons.logging.version>1.1</commons.logging.version>
 		<javax.inject.version>1</javax.inject.version>
-		<jacoco.excludes>jsp.*</jacoco.excludes>
+		<maven.project.info.reports.plugin.version>2.7</maven.project.info.reports.plugin.version>
+		<jacoco.maven.plugin.version>0.6.3.201306030806</jacoco.maven.plugin.version>
+		<maven.surefire.plugin.version>2.14.1</maven.surefire.plugin.version>
+		<maven.surefire.report.plugin.version>2.14.1</maven.surefire.report.plugin.version>
+		<maven.javadoc.plugin.version>2.9</maven.javadoc.plugin.version>
+		<sql.maven.plugin.version>1.5</sql.maven.plugin.version>
+		<maven.release.plugin.version>2.4.1</maven.release.plugin.version>
+		<maven.shade.plugin.version>2.1</maven.shade.plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -249,7 +257,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${maven.compiler.plugin.version}</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -276,7 +284,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.1</version>
+				<version>${maven.shade.plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -321,12 +329,12 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.4.1</version>
+				<version>${maven.release.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>sql-maven-plugin</artifactId>
-				<version>1.5</version>
+				<version>${sql.maven.plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.hsqldb</groupId>
@@ -357,12 +365,19 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.14.1</version>
+				<version>${maven.surefire.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.3.201306030806</version>
+				<version>${jacoco.maven.plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>org/randomcoder/config/**/*.class</exclude>
+						<exclude>org/randomcoder/WebSite.class</exclude>
+						<exclude>jsp/**/*.class</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -400,7 +415,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.codehaus.mojo</groupId>
 										<artifactId>sql-maven-plugin</artifactId>
-										<versionRange>[1.5,)</versionRange>
+										<versionRange>[${sql.maven.plugin.version},)</versionRange>
 										<goals>
 											<goal>execute</goal>
 										</goals>
@@ -428,7 +443,7 @@
 									<pluginExecutionFilter>
 										<groupId>org.jacoco</groupId>
 										<artifactId>jacoco-maven-plugin</artifactId>
-										<versionRange>[0.6.3.201306030806,)</versionRange>
+										<versionRange>[${jacoco.maven.plugin.version},)</versionRange>
 										<goals>
 											<goal>prepare-agent</goal>
 										</goals>
@@ -448,7 +463,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9</version>
+				<version>${maven.javadoc.plugin.version}</version>
 				<configuration>
 					<charset>UTF-8</charset>
 					<docencoding>UTF-8</docencoding>
@@ -467,16 +482,23 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.14.1</version>
+				<version>${maven.surefire.report.plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.6.3.201306030806</version>
+				<version>${jacoco.maven.plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>org/randomcoder/config/**/*.class</exclude>
+						<exclude>org/randomcoder/WebSite.class</exclude>
+						<exclude>jsp/**/*.class</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.7</version>
+				<version>${maven.project.info.reports.plugin.version}</version>
 				<configuration>
 					<dependencyLocationsEnabled>false</dependencyLocationsEnabled> 
 				</configuration>
