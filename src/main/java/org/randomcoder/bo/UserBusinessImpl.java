@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.hibernate.Hibernate;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
-import org.randomcoder.user.*;
+import org.randomcoder.user.UserNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -5,7 +5,7 @@ import java.util.*;
 
 import javax.xml.transform.TransformerException;
 
-import org.randomcoder.article.comment.*;
+import org.randomcoder.article.comment.CommentDecorator;
 import org.randomcoder.content.*;
 import org.randomcoder.db.*;
 import org.xml.sax.SAXException;

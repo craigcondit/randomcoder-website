@@ -3,8 +3,6 @@ package org.randomcoder.test.mock.dao;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.db.*;
 

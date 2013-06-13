@@ -4,10 +4,9 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-
-import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 
 @SuppressWarnings("javadoc")
 public class AbsXMLReaderTest extends TestCase

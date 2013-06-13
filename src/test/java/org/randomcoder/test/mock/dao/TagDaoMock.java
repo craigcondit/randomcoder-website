@@ -3,9 +3,8 @@ package org.randomcoder.test.mock.dao;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.randomcoder.db.*;
-import org.randomcoder.tag.*;
+import org.randomcoder.tag.TagStatistics;
 
 @SuppressWarnings("javadoc")
 public class TagDaoMock implements TagDao

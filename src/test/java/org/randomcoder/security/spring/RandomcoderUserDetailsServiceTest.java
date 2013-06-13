@@ -11,7 +11,6 @@ import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.*;
 import org.randomcoder.db.User;
 import org.randomcoder.test.mock.dao.*;
-import org.randomcoder.user.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 

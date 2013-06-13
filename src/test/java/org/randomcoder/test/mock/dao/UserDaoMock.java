@@ -3,9 +3,7 @@ package org.randomcoder.test.mock.dao;
 import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.randomcoder.db.*;
-import org.randomcoder.user.*;
 
 @SuppressWarnings("javadoc")
 public class UserDaoMock implements UserDao

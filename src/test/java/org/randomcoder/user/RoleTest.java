@@ -1,8 +1,8 @@
 package org.randomcoder.user;
 
-import org.randomcoder.db.Role;
-
 import junit.framework.TestCase;
+
+import org.randomcoder.db.Role;
 
 @SuppressWarnings("javadoc")
 public class RoleTest extends TestCase

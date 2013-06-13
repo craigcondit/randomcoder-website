@@ -4,9 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.ServletRequestDataBinder;
-
 import org.randomcoder.user.AbstractUserController;
+import org.springframework.web.bind.ServletRequestDataBinder;
 
 @SuppressWarnings("javadoc")
 public class AbstractUserControllerMock extends AbstractUserController

@@ -2,9 +2,8 @@ package org.randomcoder.test.mock.xml;
 
 import java.io.IOException;
 
-import org.xml.sax.*;
-
 import org.randomcoder.xml.AbstractXMLReader;
+import org.xml.sax.*;
 
 @SuppressWarnings("javadoc")
 public class AbstractXMLReaderMock extends AbstractXMLReader

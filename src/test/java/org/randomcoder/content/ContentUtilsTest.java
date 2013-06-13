@@ -4,9 +4,8 @@ import java.io.StringReader;
 
 import junit.framework.TestCase;
 
-import org.xml.sax.InputSource;
-
 import org.randomcoder.test.mock.content.ContentFilterMock;
+import org.xml.sax.InputSource;
 
 @SuppressWarnings("javadoc")
 public class ContentUtilsTest extends TestCase

@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.*;
-import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.db.*;
 import org.springframework.beans.factory.*;

@@ -5,9 +5,8 @@ import java.net.URL;
 
 import javax.xml.transform.Templates;
 
-import org.xml.sax.*;
-
 import org.randomcoder.content.*;
+import org.xml.sax.*;
 
 @SuppressWarnings("javadoc")
 public class ContentFilterMock implements ContentFilter

@@ -2,9 +2,8 @@ package org.randomcoder.test.mock.user;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.validation.BindException;
-
 import org.randomcoder.user.UserEditController;
+import org.springframework.validation.BindException;
 
 @SuppressWarnings("javadoc")
 public class UserEditControllerMock extends UserEditController

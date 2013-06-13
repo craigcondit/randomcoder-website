@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.hibernate.Query;
 import org.randomcoder.dao.hibernate.HibernateDao;
-import org.randomcoder.tag.*;
+import org.randomcoder.tag.TagStatistics;
 
 /**
  * Tag data access implementation.

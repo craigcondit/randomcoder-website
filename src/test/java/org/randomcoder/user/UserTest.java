@@ -1,8 +1,8 @@
 package org.randomcoder.user;
 
-import org.randomcoder.db.User;
-
 import junit.framework.TestCase;
+
+import org.randomcoder.db.User;
 
 @SuppressWarnings("javadoc")
 public class UserTest extends TestCase
