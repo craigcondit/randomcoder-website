@@ -26,7 +26,7 @@ import org.springframework.web.servlet.view.*;
 
 @Configuration
 @SuppressWarnings("javadoc")
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan("org.randomcoder.controller")
 @EnableWebMvc
 public class DispatcherContext extends WebMvcConfigurerAdapter
