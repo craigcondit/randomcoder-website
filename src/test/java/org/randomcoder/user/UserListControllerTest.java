@@ -5,6 +5,7 @@ import java.util.*;
 import junit.framework.TestCase;
 
 import org.randomcoder.bo.*;
+import org.randomcoder.db.*;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.UserListControllerMock;
 import org.springframework.mock.web.*;

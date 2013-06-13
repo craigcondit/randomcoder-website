@@ -3,6 +3,7 @@ package org.randomcoder.user;
 import java.beans.PropertyEditorSupport;
 
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.db.Role;
 
 /**
  * Property editor for roles.

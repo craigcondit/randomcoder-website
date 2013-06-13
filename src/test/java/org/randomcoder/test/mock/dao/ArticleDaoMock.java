@@ -5,8 +5,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 
 import org.randomcoder.article.*;
-import org.randomcoder.db.ArticleDao;
-import org.randomcoder.tag.Tag;
+import org.randomcoder.db.*;
 
 @SuppressWarnings("javadoc")
 public class ArticleDaoMock implements ArticleDao

@@ -8,8 +8,8 @@ import java.util.*;
 
 import org.easymock.*;
 import org.junit.*;
-import org.randomcoder.article.Article;
 import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.db.Article;
 import org.randomcoder.feed.*;
 import org.springframework.mock.web.MockHttpServletResponse;
 

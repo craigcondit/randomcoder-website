@@ -1,5 +1,6 @@
 package org.randomcoder.tag;
 
+import org.randomcoder.db.Tag;
 import org.randomcoder.io.Consumer;
 
 /**

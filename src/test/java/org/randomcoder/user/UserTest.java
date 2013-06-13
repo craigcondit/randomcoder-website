@@ -1,5 +1,7 @@
 package org.randomcoder.user;
 
+import org.randomcoder.db.User;
+
 import junit.framework.TestCase;
 
 @SuppressWarnings("javadoc")

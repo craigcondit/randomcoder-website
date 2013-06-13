@@ -9,8 +9,8 @@ import javax.inject.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
-import org.randomcoder.article.Article;
 import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.db.Article;
 import org.randomcoder.feed.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

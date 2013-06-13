@@ -2,7 +2,6 @@ package org.randomcoder.db;
 
 import java.util.Iterator;
 
-import org.randomcoder.article.comment.Comment;
 import org.randomcoder.dao.CrudDao;
 
 /**

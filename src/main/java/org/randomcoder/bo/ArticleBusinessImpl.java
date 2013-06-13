@@ -13,7 +13,6 @@ import org.randomcoder.article.moderation.*;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.security.UnauthorizedException;
-import org.randomcoder.tag.Tag;
 import org.randomcoder.user.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

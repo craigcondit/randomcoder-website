@@ -2,6 +2,8 @@ package org.randomcoder.tag;
 
 import java.io.Serializable;
 
+import org.randomcoder.db.Tag;
+
 
 /**
  * Statisitics for Tag instances (article count, etc).

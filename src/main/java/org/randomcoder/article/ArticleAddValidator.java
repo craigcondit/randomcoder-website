@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.commons.logging.*;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.*;
+import org.randomcoder.db.Article;
 import org.randomcoder.io.SequenceReader;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;

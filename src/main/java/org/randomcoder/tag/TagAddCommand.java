@@ -3,6 +3,7 @@ package org.randomcoder.tag;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
+import org.randomcoder.db.Tag;
 import org.randomcoder.io.Producer;
 import org.randomcoder.validation.DataValidationUtils;
 

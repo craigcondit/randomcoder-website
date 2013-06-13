@@ -2,6 +2,8 @@ package org.randomcoder.article;
 
 import java.util.*;
 
+import org.randomcoder.db.Article;
+
 
 /**
  * Controller class which handles the front page of the site.

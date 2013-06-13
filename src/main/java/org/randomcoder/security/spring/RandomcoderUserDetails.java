@@ -2,6 +2,7 @@ package org.randomcoder.security.spring;
 
 import java.util.*;
 
+import org.randomcoder.db.*;
 import org.randomcoder.user.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

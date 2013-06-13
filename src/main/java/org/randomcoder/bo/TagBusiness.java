@@ -2,6 +2,7 @@ package org.randomcoder.bo;
 
 import java.util.List;
 
+import org.randomcoder.db.Tag;
 import org.randomcoder.io.*;
 import org.randomcoder.tag.*;
 

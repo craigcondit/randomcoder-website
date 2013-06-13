@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.*;
 
-import org.randomcoder.article.Article;
+import org.randomcoder.db.Article;
 
 /**
  * JavaBean which holds information about a syndicated feed.

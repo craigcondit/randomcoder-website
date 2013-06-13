@@ -1,4 +1,4 @@
-package org.randomcoder.article;
+package org.randomcoder.db;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -9,51 +9,21 @@ import java.util.*;
 import javax.persistence.*;
 
 import org.apache.commons.lang.builder.*;
-import org.randomcoder.article.comment.Comment;
 import org.randomcoder.content.ContentType;
-import org.randomcoder.tag.Tag;
-import org.randomcoder.user.User;
 
 /**
- * JavaBean representing an article.
- * 
- * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *     
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * JPA entity representing an article.
  */
-@NamedQueries
-({
-	@NamedQuery(name = "Article.All", query = "from Article a order by a.creationDate desc"),
-	@NamedQuery(name = "Article.ByTag", query = "from Article a where ? in elements(a.tags) order by a.creationDate desc"),
-	@NamedQuery(name = "Article.BeforeDate", query = "from Article a where a.creationDate < ? order by a.creationDate desc"),
-	@NamedQuery(name = "Article.ByTagBeforeDate", query = "from Article a where ? in elements(a.tags) and a.creationDate < ? order by a.creationDate desc"),
-	@NamedQuery(name = "Article.CountBeforeDate", query = "select count(a.id) from Article a where a.creationDate < ?"),
-	@NamedQuery(name = "Article.CountByTagBeforeDate", query = "select count(a.id) from Article a where ? in elements(a.tags) and a.creationDate < ?"),
-	@NamedQuery(name = "Article.BetweenDates", query = "from Article a where a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
-	@NamedQuery(name = "Article.ByTagBetweenDates", query = "from Article a where ? in elements(a.tags) and a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
-	@NamedQuery(name = "Article.ByPermalink", query = "from Article a where a.permalink = ?")
-})
+@NamedQueries({
+		@NamedQuery(name = "Article.All", query = "from Article a order by a.creationDate desc"),
+		@NamedQuery(name = "Article.ByTag", query = "from Article a where ? in elements(a.tags) order by a.creationDate desc"),
+		@NamedQuery(name = "Article.BeforeDate", query = "from Article a where a.creationDate < ? order by a.creationDate desc"),
+		@NamedQuery(name = "Article.ByTagBeforeDate", query = "from Article a where ? in elements(a.tags) and a.creationDate < ? order by a.creationDate desc"),
+		@NamedQuery(name = "Article.CountBeforeDate", query = "select count(a.id) from Article a where a.creationDate < ?"),
+		@NamedQuery(name = "Article.CountByTagBeforeDate", query = "select count(a.id) from Article a where ? in elements(a.tags) and a.creationDate < ?"),
+		@NamedQuery(name = "Article.BetweenDates", query = "from Article a where a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
+		@NamedQuery(name = "Article.ByTagBetweenDates", query = "from Article a where ? in elements(a.tags) and a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
+		@NamedQuery(name = "Article.ByPermalink", query = "from Article a where a.permalink = ?") })
 @Entity
 @Table(name = "articles")
 @SequenceGenerator(name = "articles", sequenceName = "articles_seq", allocationSize = 1)
@@ -77,6 +47,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the id of this article.
+	 * 
 	 * @return article id
 	 */
 	@Id
@@ -89,7 +60,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the id of this article
-	 * @param id article id
+	 * 
+	 * @param id
+	 *          article id
 	 */
 	public void setId(Long id)
 	{
@@ -98,6 +71,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the tags associated with this article.
+	 * 
 	 * @return List of {@code Tag} objects
 	 */
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -110,7 +84,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the tags associated with this article.
-	 * @param tags List of {@code Tag} objects
+	 * 
+	 * @param tags
+	 *          List of {@code Tag} objects
 	 */
 	public void setTags(List<Tag> tags)
 	{
@@ -119,26 +95,30 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the list of comments for this article.
+	 * 
 	 * @return list of comments
 	 */
-	@OneToMany(mappedBy="article", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-  @OrderBy()	
+	@OneToMany(mappedBy = "article", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
+	@OrderBy()
 	public List<Comment> getComments()
 	{
 		return comments;
 	}
-	
+
 	/**
 	 * Sets the list of comments for this article.
-	 * @param comments list of comments
+	 * 
+	 * @param comments
+	 *          list of comments
 	 */
 	public void setComments(List<Comment> comments)
 	{
 		this.comments = comments;
 	}
-	
+
 	/**
 	 * Gets the content type for this article.
+	 * 
 	 * @return content type
 	 */
 	@Enumerated(EnumType.STRING)
@@ -150,7 +130,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the content type of this article.
-	 * @param contentType content type
+	 * 
+	 * @param contentType
+	 *          content type
 	 */
 	public void setContentType(ContentType contentType)
 	{
@@ -159,6 +141,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the permalink for this article.
+	 * 
 	 * @return permalink
 	 */
 	@Column(name = "permalink", nullable = true, unique = true, length = 100)
@@ -169,7 +152,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the permalink for this article.
-	 * @param permalink permalink
+	 * 
+	 * @param permalink
+	 *          permalink
 	 */
 	public void setPermalink(String permalink)
 	{
@@ -178,6 +163,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the User this article was created by.
+	 * 
 	 * @return user
 	 */
 	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = true)
@@ -189,7 +175,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the user this article was created by.
-	 * @param createdByUser user, or null if user no longer exists.
+	 * 
+	 * @param createdByUser
+	 *          user, or null if user no longer exists.
 	 */
 	public void setCreatedByUser(User createdByUser)
 	{
@@ -198,6 +186,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the creation date of this article.
+	 * 
 	 * @return creation date
 	 */
 	@Column(name = "create_date", nullable = false)
@@ -208,7 +197,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the creation date of this article.
-	 * @param creationDate creation date
+	 * 
+	 * @param creationDate
+	 *          creation date
 	 */
 	public void setCreationDate(Date creationDate)
 	{
@@ -217,6 +208,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the user who last modified this article.
+	 * 
 	 * @return user, or null if not modified, or user doesn't exist.
 	 */
 	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = true)
@@ -228,7 +220,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the user who last modified this article.
-	 * @param modifiedByUser user
+	 * 
+	 * @param modifiedByUser
+	 *          user
 	 */
 	public void setModifiedByUser(User modifiedByUser)
 	{
@@ -237,6 +231,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the modification date of this article.
+	 * 
 	 * @return modification date, or null if article has not been modified
 	 */
 	@Column(name = "modify_date", nullable = true)
@@ -247,7 +242,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the modification date of this article.
-	 * @param modificationDate modification date
+	 * 
+	 * @param modificationDate
+	 *          modification date
 	 */
 	public void setModificationDate(Date modificationDate)
 	{
@@ -256,6 +253,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the title of this article.
+	 * 
 	 * @return article title
 	 */
 	@Column(name = "title", nullable = false, length = 255)
@@ -266,7 +264,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the title of this article.
-	 * @param title article title
+	 * 
+	 * @param title
+	 *          article title
 	 */
 	public void setTitle(String title)
 	{
@@ -275,6 +275,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the textual content of this article.
+	 * 
 	 * @return article content
 	 */
 	@Column(name = "content", nullable = false)
@@ -285,7 +286,9 @@ public class Article implements Serializable
 
 	/**
 	 * Sets the textual content of this article.
-	 * @param content article content
+	 * 
+	 * @param content
+	 *          article content
 	 */
 	public void setContent(String content)
 	{
@@ -294,6 +297,7 @@ public class Article implements Serializable
 
 	/**
 	 * Gets the summary text for this article.
+	 * 
 	 * @return article summyar
 	 */
 	@Column(name = "summary", nullable = true)
@@ -301,18 +305,21 @@ public class Article implements Serializable
 	{
 		return summary;
 	}
-	
+
 	/**
 	 * Sets the summary text for this article.
-	 * @param summary summary text
+	 * 
+	 * @param summary
+	 *          summary text
 	 */
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
 	}
-	
+
 	/**
 	 * Builds a context-relative permalink for the selected article.
+	 * 
 	 * @return permalink
 	 */
 	@Transient
@@ -321,19 +328,21 @@ public class Article implements Serializable
 		String perm = getPermalink();
 		try
 		{
-			if (perm != null) return "/articles/" + URLEncoder.encode(perm, "UTF-8");
+			if (perm != null)
+				return "/articles/" + URLEncoder.encode(perm, "UTF-8");
 		}
 		catch (UnsupportedEncodingException e)
 		{
 			throw new RuntimeException("Unsupported encoding", e);
 		}
-		
-		DecimalFormat df = new DecimalFormat("####################");			
+
+		DecimalFormat df = new DecimalFormat("####################");
 		return "/articles/id/" + df.format(id);
 	}
-	
+
 	/**
 	 * Gets a string representation of this object, suitable for debugging.
+	 * 
 	 * @return string representation of this object
 	 */
 	@Override

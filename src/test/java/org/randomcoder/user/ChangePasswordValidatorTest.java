@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.db.User;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")

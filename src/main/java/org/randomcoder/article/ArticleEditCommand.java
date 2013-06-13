@@ -1,5 +1,6 @@
 package org.randomcoder.article;
 
+import org.randomcoder.db.Article;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.tag.TagList;
 

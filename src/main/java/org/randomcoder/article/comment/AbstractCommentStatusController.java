@@ -2,8 +2,8 @@ package org.randomcoder.article.comment;
 
 import javax.servlet.http.*;
 
-import org.randomcoder.article.Article;
 import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.db.Article;
 import org.randomcoder.springmvc.IdCommand;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;

@@ -3,6 +3,8 @@ package org.randomcoder.tag;
 import java.io.Serializable;
 import java.util.List;
 
+import org.randomcoder.db.Tag;
+
 /**
  * Container for a list of tags.
  * 

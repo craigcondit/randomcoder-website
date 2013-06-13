@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.ModerationStatus;
-import org.randomcoder.db.CommentDao;
+import org.randomcoder.db.*;
 
 @SuppressWarnings("javadoc")
 public class CommentDaoMock implements CommentDao

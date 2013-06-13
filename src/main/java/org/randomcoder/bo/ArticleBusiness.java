@@ -2,11 +2,9 @@ package org.randomcoder.bo;
 
 import java.util.*;
 
-import org.randomcoder.article.Article;
-import org.randomcoder.article.comment.Comment;
 import org.randomcoder.article.moderation.ModerationException;
+import org.randomcoder.db.*;
 import org.randomcoder.io.*;
-import org.randomcoder.tag.Tag;
 
 /**
  * Business interface for managing articles.

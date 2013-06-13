@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.logging.*;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.user.User;
+import org.randomcoder.db.User;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Component;
 

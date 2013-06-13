@@ -1,6 +1,6 @@
 package org.randomcoder.article.comment;
 
-import org.randomcoder.article.Article;
+import org.randomcoder.db.Article;
 import org.randomcoder.springmvc.IdCommand;
 
 /**

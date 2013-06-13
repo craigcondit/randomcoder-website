@@ -2,6 +2,7 @@ package org.randomcoder.user;
 
 import java.util.List;
 
+import org.randomcoder.db.*;
 import org.randomcoder.io.Consumer;
 
 /**

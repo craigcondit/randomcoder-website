@@ -7,61 +7,61 @@
 	<!-- Read-only bean mappings -->
 
 	<!-- Role: 1 hour / 2 hours / 100 elements -->
-	<cache name="org.randomcoder.user.Role" timeToIdleSeconds="3600"
+	<cache name="org.randomcoder.db.Role" timeToIdleSeconds="3600"
 		timeToLiveSeconds="7200" maxElementsInMemory="100" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- Read/write bean mappings -->
 
 	<!-- Article: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.article.Article" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.Article" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="100" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- Comment: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.article.comment.Comment" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.Comment" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentReferrer: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.article.comment.CommentReferrer" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.CommentReferrer" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentIp: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.article.comment.CommentIp" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.CommentIp" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- CommentUserAgent: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.article.comment.CommentUserAgent" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.CommentUserAgent" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- User: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.user.User" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.User" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- Tag: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.tag.Tag" timeToIdleSeconds="1800"
+	<cache name="org.randomcoder.db.Tag" timeToIdleSeconds="1800"
 		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
 		overflowToDisk="false" />
 
 	<!-- Collection mappings -->
 
 	<!-- Article.tags: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.article.Article.tags"
+	<cache name="org.randomcoder.db.Article.tags"
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
 
 	<!-- Article.comments: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.article.Article.comments"
+	<cache name="org.randomcoder.db.Article.comments"
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
 
 	<!-- User.roles: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.user.User.roles"
+	<cache name="org.randomcoder.db.User.roles"
 		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
 		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
 

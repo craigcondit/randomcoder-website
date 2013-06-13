@@ -6,6 +6,7 @@ import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
 import org.randomcoder.content.ContentType;
+import org.randomcoder.db.*;
 import org.randomcoder.io.Producer;
 import org.randomcoder.tag.*;
 

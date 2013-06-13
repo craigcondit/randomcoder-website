@@ -9,10 +9,9 @@ import javax.xml.parsers.*;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 
-import org.randomcoder.article.Article;
 import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
-import org.randomcoder.tag.Tag;
+import org.randomcoder.db.*;
 import org.randomcoder.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.*;

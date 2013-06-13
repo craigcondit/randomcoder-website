@@ -11,6 +11,7 @@ import org.apache.commons.logging.*;
 import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.Article;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.*;
 import org.springframework.web.servlet.ModelAndView;

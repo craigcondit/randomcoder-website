@@ -1,6 +1,5 @@
 package org.randomcoder.db;
 
-import org.randomcoder.article.comment.CommentIp;
 import org.randomcoder.dao.*;
 
 /**

@@ -3,7 +3,6 @@ package org.randomcoder.db;
 import java.util.List;
 
 import org.randomcoder.dao.CrudDao;
-import org.randomcoder.tag.Tag;
 
 /**
  * Tag data access interface.

@@ -6,6 +6,7 @@ import javax.servlet.http.*;
 
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.db.Article;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;

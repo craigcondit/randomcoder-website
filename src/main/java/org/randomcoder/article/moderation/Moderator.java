@@ -1,6 +1,6 @@
 package org.randomcoder.article.moderation;
 
-import org.randomcoder.article.comment.Comment;
+import org.randomcoder.db.Comment;
 
 /**
  * Interface for generic moderator plugins.

@@ -12,11 +12,9 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 
-import org.randomcoder.article.Article;
 import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
-import org.randomcoder.tag.Tag;
-import org.randomcoder.user.User;
+import org.randomcoder.db.*;
 import org.randomcoder.validation.DataValidationUtils;
 import org.randomcoder.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Required;

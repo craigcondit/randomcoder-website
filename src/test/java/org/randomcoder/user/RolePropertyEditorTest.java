@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.easymock.IMocksControl;
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.db.Role;
 
 @SuppressWarnings("javadoc")
 public class RolePropertyEditorTest extends TestCase

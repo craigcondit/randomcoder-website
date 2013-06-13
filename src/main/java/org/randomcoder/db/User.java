@@ -1,4 +1,4 @@
-package org.randomcoder.user;
+package org.randomcoder.db;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -10,41 +10,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.*;
 
 /**
- * JavaBean representing a user.
- * 
- * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * 
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *     
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
+ * JPA entity representing a user.
  */
-@NamedQueries
-({
-	@NamedQuery(name = "User.All", query = "from User u order by u.userName"),
-	@NamedQuery(name = "User.CountAll", query = "select count(u.id) from User u"),
-	@NamedQuery(name = "User.Enabled", query = "from User u where u.enabled = true order by u.userName"),
-	@NamedQuery(name = "User.ByUserName", query = "from User u where u.userName = ?"),
-	@NamedQuery(name = "User.ByUserNameEnabled", query = "from User u where u.userName = ? and u.enabled = true")
-})
+@NamedQueries({ @NamedQuery(name = "User.All", query = "from User u order by u.userName"),
+		@NamedQuery(name = "User.CountAll", query = "select count(u.id) from User u"),
+		@NamedQuery(name = "User.Enabled", query = "from User u where u.enabled = true order by u.userName"),
+		@NamedQuery(name = "User.ByUserName", query = "from User u where u.userName = ?"),
+		@NamedQuery(name = "User.ByUserNameEnabled", query = "from User u where u.userName = ? and u.enabled = true") })
 @Entity
 @Table(name = "users")
 @SequenceGenerator(name = "users", sequenceName = "users_seq", allocationSize = 1)
@@ -64,6 +36,7 @@ public class User implements Serializable
 
 	/**
 	 * Gets the id of this user.
+	 * 
 	 * @return user id
 	 */
 	@Id
@@ -76,7 +49,9 @@ public class User implements Serializable
 
 	/**
 	 * Sets the id of this user.
-	 * @param id user id
+	 * 
+	 * @param id
+	 *          user id
 	 */
 	public void setId(Long id)
 	{
@@ -85,6 +60,7 @@ public class User implements Serializable
 
 	/**
 	 * Gets the roles which this user belongs to.
+	 * 
 	 * @return Set of roles
 	 */
 	@OneToMany
@@ -97,7 +73,9 @@ public class User implements Serializable
 
 	/**
 	 * Sets the roles which this user belongs to.
-	 * @param roles Set of roles
+	 * 
+	 * @param roles
+	 *          Set of roles
 	 */
 	public void setRoles(List<Role> roles)
 	{
@@ -106,6 +84,7 @@ public class User implements Serializable
 
 	/**
 	 * Gets the user name of this user.
+	 * 
 	 * @return user name
 	 */
 	@Column(name = "username", unique = true, nullable = false, length = 30)
@@ -116,7 +95,9 @@ public class User implements Serializable
 
 	/**
 	 * Sets the user name of this user.
-	 * @param userName user name
+	 * 
+	 * @param userName
+	 *          user name
 	 */
 	public void setUserName(String userName)
 	{
@@ -125,6 +106,7 @@ public class User implements Serializable
 
 	/**
 	 * Gets the password hash of this user.
+	 * 
 	 * @return password hash
 	 */
 	@Column(name = "password", nullable = true, length = 255)
@@ -135,7 +117,9 @@ public class User implements Serializable
 
 	/**
 	 * Sets the password hash of this user.
-	 * @param password password hash
+	 * 
+	 * @param password
+	 *          password hash
 	 */
 	public void setPassword(String password)
 	{
@@ -144,6 +128,7 @@ public class User implements Serializable
 
 	/**
 	 * Gets the email address of this user.
+	 * 
 	 * @return email address
 	 */
 	@Column(name = "email", nullable = false, length = 320)
@@ -154,34 +139,40 @@ public class User implements Serializable
 
 	/**
 	 * Sets the email address of this user.
-	 * @param emailAddress email address
+	 * 
+	 * @param emailAddress
+	 *          email address
 	 */
 	public void setEmailAddress(String emailAddress)
 	{
 		this.emailAddress = emailAddress;
 	}
-	
+
 	/**
 	 * Gets the web site of this user.
+	 * 
 	 * @return web site
 	 */
 	@Column(name = "website", nullable = true, length = 255)
 	public String getWebsite()
 	{
-		return website;		
+		return website;
 	}
-	
+
 	/**
 	 * Sets the web site of this user.
-	 * @param website web site
+	 * 
+	 * @param website
+	 *          web site
 	 */
 	public void setWebsite(String website)
 	{
 		this.website = website;
 	}
-	
+
 	/**
 	 * Determines if this user is enabled.
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	@Column(name = "enabled", nullable = false)
@@ -192,7 +183,9 @@ public class User implements Serializable
 
 	/**
 	 * Sets whether a user is enabled.
-	 * @param enabled true if enabled, false otherwise
+	 * 
+	 * @param enabled
+	 *          true if enabled, false otherwise
 	 */
 	public void setEnabled(boolean enabled)
 	{
@@ -201,25 +194,29 @@ public class User implements Serializable
 
 	/**
 	 * Gets the last time this user logged in.
+	 * 
 	 * @return last login date
 	 */
-	@Column(name="login_date", unique = false, nullable = true)
+	@Column(name = "login_date", unique = false, nullable = true)
 	public Date getLastLoginDate()
 	{
 		return lastLoginDate;
 	}
-	
+
 	/**
 	 * Sets the last date this user logged in.
-	 * @param lastLoginDate last login date
+	 * 
+	 * @param lastLoginDate
+	 *          last login date
 	 */
 	public void setLastLoginDate(Date lastLoginDate)
 	{
 		this.lastLoginDate = lastLoginDate;
 	}
-	
+
 	/**
 	 * Gets a string representation of this object, suitable for debugging.
+	 * 
 	 * @return string representation of this object
 	 */
 	@Override
@@ -230,22 +227,26 @@ public class User implements Serializable
 			@Override
 			protected boolean accept(Field f)
 			{
-				if (f.getName().equals("password")) return false;
-				if (f.getName().equals("emailAddress")) return false;
-				if (f.getName().equals("website")) return false;
+				if (f.getName().equals("password"))
+					return false;
+				if (f.getName().equals("emailAddress"))
+					return false;
+				if (f.getName().equals("website"))
+					return false;
 				return super.accept(f);
 			}
 		}).toString();
 	}
-	
+
 	/**
 	 * Hashes a password.
-	 * @param password password to hash
+	 * 
+	 * @param password
+	 *          password to hash
 	 * @return hashed password
 	 */
 	public static String hashPassword(String password)
 	{
-		return DigestUtils.shaHex(password).toLowerCase(Locale.US);
+		return DigestUtils.sha1Hex(password).toLowerCase(Locale.US);
 	}
-	
 }

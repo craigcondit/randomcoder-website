@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
-import org.randomcoder.tag.Tag;
+import org.randomcoder.db.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.util.UrlPathHelper;
 

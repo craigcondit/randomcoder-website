@@ -3,6 +3,7 @@ package org.randomcoder.user;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
+import org.randomcoder.db.User;
 import org.randomcoder.io.Producer;
 
 /**

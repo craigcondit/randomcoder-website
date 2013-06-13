@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import junit.framework.TestCase;
 
+import org.randomcoder.db.*;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")

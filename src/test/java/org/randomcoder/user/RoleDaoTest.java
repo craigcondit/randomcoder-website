@@ -2,7 +2,7 @@ package org.randomcoder.user;
 
 import java.util.List;
 
-import org.randomcoder.db.RoleDao;
+import org.randomcoder.db.*;
 import org.randomcoder.test.AbstractDaoTestCase;
 
 @SuppressWarnings("javadoc")

@@ -10,18 +10,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory;
 import org.hibernate.dialect.PostgreSQL82Dialect;
 import org.hibernate.engine.transaction.internal.jdbc.JdbcTransactionFactory;
-import org.randomcoder.article.Article;
-import org.randomcoder.article.comment.*;
 import org.randomcoder.article.moderation.*;
 import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.dao.finder.*;
 import org.randomcoder.dao.hibernate.HibernateDao;
 import org.randomcoder.db.*;
+import org.randomcoder.db.Role;
 import org.randomcoder.feed.*;
-import org.randomcoder.tag.Tag;
-import org.randomcoder.user.*;
-import org.randomcoder.user.Role;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.context.MessageSource;
@@ -99,9 +95,7 @@ public class RootContext implements SchedulingConfigurer
 		builder.setProperty("hibernate.jdbc.batch_size", "10");
 		builder.setProperty("hibernate.cache.use_query_cache", "true");
 		builder.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
-
-		builder
-				.addAnnotatedClasses(Article.class, Comment.class, CommentReferrer.class, CommentIp.class, CommentUserAgent.class, User.class, Role.class, Tag.class);
+		builder.scanPackages("org.randomcoder.db");
 
 		builder.setCacheConcurrencyStrategy(Article.class.getName(), "read-write");
 		builder.setCacheConcurrencyStrategy(Comment.class.getName(), "read-write");

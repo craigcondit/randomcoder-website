@@ -8,9 +8,10 @@ import java.util.*;
 import org.easymock.IMocksControl;
 import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.db.*;
+import org.randomcoder.db.User;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.user.*;
-import org.randomcoder.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 

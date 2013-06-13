@@ -1,6 +1,6 @@
 package org.randomcoder.article;
 
-import org.randomcoder.tag.Tag;
+import org.randomcoder.db.Tag;
 
 /**
  * Command object used for paged tag queries.

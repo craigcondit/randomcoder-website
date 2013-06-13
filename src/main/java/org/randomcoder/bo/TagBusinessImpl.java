@@ -4,7 +4,6 @@ import java.util.*;
 
 import javax.inject.Inject;
 
-import org.randomcoder.article.Article;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.tag.*;
