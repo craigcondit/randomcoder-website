@@ -1,18 +1,20 @@
 package org.randomcoder.mvc.controller;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
 
 import javax.inject.Inject;
 
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.*;
-import org.randomcoder.mvc.validator.ChangePasswordValidator;
+import org.randomcoder.mvc.validator.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,6 +25,7 @@ public class UserController
 {
 	private UserBusiness userBusiness;
 	private ChangePasswordValidator changePasswordValidator;
+	private UserProfileValidator userProfileValidator;
 
 	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
@@ -76,6 +79,34 @@ public class UserController
 	}
 
 	/**
+	 * Sets the user profile validator to use.
+	 * 
+	 * @param userProfileValidator
+	 *            user profile validator
+	 */
+	@Inject
+	public void setUserProfileValidator(UserProfileValidator userProfileValidator)
+	{
+		this.userProfileValidator = userProfileValidator;
+	}
+
+	/**
+	 * Sets up data binding.
+	 * 
+	 * @param binder
+	 *            data binder
+	 */
+	@InitBinder
+	public void initBinder(WebDataBinder binder)
+	{
+		Object target = binder.getTarget();
+		if (target instanceof UserProfileCommand)
+		{
+			binder.setValidator(userProfileValidator);
+		}
+	}
+
+	/**
 	 * Lists users.
 	 * 
 	 * @param command
@@ -112,6 +143,76 @@ public class UserController
 		model.addAttribute("pageLimit", limit);
 
 		return "user-list";
+	}
+
+	/**
+	 * Begins editing a user's profile.
+	 * 
+	 * @param command
+	 *            user profile command
+	 * @param model
+	 *            MVC model
+	 * @param principal
+	 *            current user
+	 * @return user profile view
+	 */
+	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	public String userProfile(
+			@ModelAttribute("command") UserProfileCommand command,
+			Model model, Principal principal)
+	{
+		Map<String, Object> data = new HashMap<String, Object>();
+
+		User user = userBusiness.findUserByName(principal.getName());
+		command.setEmailAddress(user.getEmailAddress());
+		command.setWebsite(user.getWebsite());
+		model.addAttribute("user", user);
+
+		return "user-profile";
+	}
+
+	/**
+	 * Cancels editing of a user's profile.
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/user/profile", method = RequestMethod.POST, params = "cancel")
+	public String userProfileCancel()
+	{
+		return "default";
+	}
+
+	/**
+	 * Finishes editing a user's profile.
+	 * 
+	 * @param command
+	 *            user profile command
+	 * @param result
+	 *            validation result
+	 * @param model
+	 *            MVC model
+	 * @param principal
+	 *            current user
+	 * @return default view
+	 */
+	@RequestMapping(value = "/user/profile", method = RequestMethod.POST, params = "!cancel")
+	public String userProfileSubmit(
+			@ModelAttribute("command") @Validated UserProfileCommand command,
+			BindingResult result,
+			Model model,
+			Principal principal)
+	{
+		User user = userBusiness.findUserByName(principal.getName());
+		
+		if (result.hasErrors())
+		{
+			model.addAttribute("user", user);
+			return "user-profile";
+		}
+		
+		userBusiness.updateUser(command, user.getId());
+		
+		return "default";
 	}
 
 	/**
@@ -162,7 +263,7 @@ public class UserController
 			Principal principal)
 	{
 		String userName = principal.getName();
-		
+
 		User user = userBusiness.findUserByNameEnabled(userName);
 		command.setUser(user);
 		changePasswordValidator.validate(command, result);

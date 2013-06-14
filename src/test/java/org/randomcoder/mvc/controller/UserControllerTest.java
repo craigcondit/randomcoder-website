@@ -209,7 +209,7 @@ public class UserControllerTest
 		control.verify();
 		assertSame(user, command.getUser());
 	}
-	
+
 	@Test
 	public void testChangePasswordSubmitErrors()
 	{
@@ -227,4 +227,60 @@ public class UserControllerTest
 		control.verify();
 		assertSame(user, command.getUser());
 	}
+
+	@Test
+	public void testUserProfile()
+	{
+		UserProfileCommand command = new UserProfileCommand();
+
+		User user = new User();
+
+		expect(p.getName()).andReturn("test");
+		expect(ub.findUserByName("test")).andReturn(user);
+		expect(m.addAttribute("user", user)).andReturn(m);
+		control.replay();
+
+		assertEquals("user-profile", c.userProfile(command, m, p));
+		control.verify();
+	}
+
+	@Test
+	public void testUserProfileCancel()
+	{
+		assertEquals("default", c.userProfileCancel());
+	}
+
+	@Test
+	public void testUserProfileSubmit()
+	{
+		UserProfileCommand command = new UserProfileCommand();
+		User user = new User();
+		user.setId(1L);
+		
+		expect(p.getName()).andReturn("test");
+		expect(ub.findUserByName("test")).andReturn(user);
+		expect(br.hasErrors()).andReturn(false);
+		ub.updateUser(command, 1L);
+		control.replay();
+
+		assertEquals("default", c.userProfileSubmit(command, br, m, p));
+		control.verify();
+	}
+	
+	@Test
+	public void testUserProfileError()
+	{
+		UserProfileCommand command = new UserProfileCommand();
+		User user = new User();
+		user.setId(1L);
+		
+		expect(p.getName()).andReturn("test");
+		expect(ub.findUserByName("test")).andReturn(user);
+		expect(br.hasErrors()).andReturn(true);
+		expect(m.addAttribute("user", user)).andReturn(m);
+		control.replay();
+
+		assertEquals("user-profile", c.userProfileSubmit(command, br, m, p));
+		control.verify();
+	}	
 }

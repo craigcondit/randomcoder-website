@@ -68,7 +68,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
-		p.setProperty("/user/profile", "userProfileController");
 
 		SimpleUrlHandlerMapping m = new SimpleUrlHandlerMapping();
 		m.setOrder(1);
@@ -95,23 +94,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
 		return resolver;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public UserProfileController userProfileController(
-			@Named("userProfileValidator") final Validator userProfileValidator)
-	{
-		UserProfileController c = new UserProfileController();
-		c.setUserBusiness(userBusiness);
-		c.setCommandClass(UserProfileCommand.class);
-		c.setFormView("user-profile");
-		c.setSuccessView("user-profile-redirect");
-		c.setCancelView("default");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setValidator(userProfileValidator);
-		return c;
 	}
 
 	@Bean
