@@ -1,7 +1,5 @@
 package org.randomcoder.user;
 
-import java.beans.PropertyEditor;
-
 import junit.framework.TestCase;
 
 import org.randomcoder.bo.UserBusinessImpl;
@@ -42,8 +40,6 @@ public class AccountCreateControllerTest extends TestCase
 
 	public void testInitBinder() throws Exception
 	{
-		PropertyEditor editor;
-		
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		ServletRequestDataBinder binder = new ServletRequestDataBinder(new Object(), "test");
 		controller.initBinder(request, binder);
