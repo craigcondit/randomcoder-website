@@ -3,7 +3,7 @@ package org.randomcoder.user;
 import junit.framework.TestCase;
 
 import org.randomcoder.db.User;
-import org.randomcoder.validator.ChangePasswordValidator;
+import org.randomcoder.mvc.validator.ChangePasswordValidator;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")

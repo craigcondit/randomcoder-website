@@ -3,7 +3,7 @@ package org.randomcoder.user;
 import javax.servlet.http.*;
 
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.springmvc.IdCommand;
+import org.randomcoder.mvc.IdCommand;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;

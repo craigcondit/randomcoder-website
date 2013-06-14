@@ -2,7 +2,7 @@ package org.randomcoder.test.mock.springmvc;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.randomcoder.springmvc.JstlTemplateView;
+import org.randomcoder.mvc.JstlTemplateView;
 
 @SuppressWarnings("javadoc")
 public class JstlTemplateViewMock extends JstlTemplateView

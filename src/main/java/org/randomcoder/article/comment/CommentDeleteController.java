@@ -1,7 +1,7 @@
 package org.randomcoder.article.comment;
 
 import org.randomcoder.db.Article;
-import org.randomcoder.springmvc.IdCommand;
+import org.randomcoder.mvc.IdCommand;
 
 /**
  * Controller class which handles comment deletion.

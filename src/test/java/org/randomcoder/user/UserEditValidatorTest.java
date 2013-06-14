@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.randomcoder.db.*;
-import org.randomcoder.validator.UserEditValidator;
+import org.randomcoder.mvc.validator.UserEditValidator;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")

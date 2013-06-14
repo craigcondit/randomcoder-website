@@ -8,7 +8,7 @@ import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.springmvc.IdCommand;
+import org.randomcoder.mvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.view.*;
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement(proxyTargetClass = true)
-@ComponentScan({ "org.randomcoder.controller", "org.randomcoder.validator" })
+@ComponentScan({ "org.randomcoder.mvc" })
 @EnableWebMvc
 public class DispatcherContext extends WebMvcConfigurerAdapter
 {

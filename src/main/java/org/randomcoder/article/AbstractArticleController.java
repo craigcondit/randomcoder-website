@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentType;
-import org.randomcoder.springmvc.EnumPropertyEditor;
+import org.randomcoder.mvc.EnumPropertyEditor;
 import org.randomcoder.tag.*;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;

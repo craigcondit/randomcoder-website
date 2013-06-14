@@ -18,7 +18,7 @@
 		<level value="warn" />
 	</logger>
 
-	<logger name="org.randomcoder.springmvc">
+	<logger name="org.randomcoder.mvc">
 		<level value="warn" />
 	</logger>
 

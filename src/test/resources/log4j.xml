@@ -23,10 +23,6 @@
 		<level value="warn" />
 	</logger>
 
-	<logger name="org.randomcoder.citadel">
-		<level value="warn" />
-	</logger>
-
 	<logger name="httpclient.wire">
 		<level value="warn" />
 	</logger>
