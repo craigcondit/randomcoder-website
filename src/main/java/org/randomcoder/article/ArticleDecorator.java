@@ -24,9 +24,9 @@ public class ArticleDecorator
 	 * Creates a new decorator using the given article and content filter.
 	 * 
 	 * @param article
-	 *          article to decorate
+	 *            article to decorate
 	 * @param filter
-	 *          content filter to parse content with
+	 *            content filter to parse content with
 	 */
 	public ArticleDecorator(Article article, ContentFilter filter)
 	{
@@ -74,11 +74,11 @@ public class ArticleDecorator
 	 * 
 	 * @return {@code String} containing the article content in XHTML.
 	 * @throws TransformerException
-	 *           if filtering fails
+	 *             if filtering fails
 	 * @throws IOException
-	 *           if an I/O error occurs
+	 *             if an I/O error occurs
 	 * @throws SAXException
-	 *           if parsing fails
+	 *             if parsing fails
 	 */
 	public String getFormattedText() throws TransformerException, IOException, SAXException
 	{
@@ -90,11 +90,11 @@ public class ArticleDecorator
 	 * 
 	 * @return {@code String} containing the article summary in XHTML.
 	 * @throws TransformerException
-	 *           if filtering fails
+	 *             if filtering fails
 	 * @throws IOException
-	 *           if an I/O error occurs
+	 *             if an I/O error occurs
 	 * @throws SAXException
-	 *           if parsing fails
+	 *             if parsing fails
 	 */
 	public String getFormattedSummary() throws TransformerException, IOException, SAXException
 	{

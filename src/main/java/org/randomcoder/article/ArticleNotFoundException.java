@@ -5,7 +5,6 @@ package org.randomcoder.article;
  */
 public class ArticleNotFoundException extends RuntimeException
 {
-
 	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
@@ -20,7 +19,7 @@ public class ArticleNotFoundException extends RuntimeException
 	 * Constructor taking an optional message to display.
 	 * 
 	 * @param message
-	 *          message to assoicate with this exception.
+	 *            message to assoicate with this exception.
 	 */
 	public ArticleNotFoundException(String message)
 	{

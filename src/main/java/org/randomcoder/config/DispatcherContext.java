@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.inject.*;
 
-import org.randomcoder.article.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.mvc.command.*;
@@ -76,10 +75,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	public SimpleUrlHandlerMapping legayMapping()
 	{
 		Properties p = new Properties();
-
-		p.setProperty("/article/add", "articleAddController");
-		p.setProperty("/article/edit", "articleEditController");
-
 		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
@@ -130,43 +125,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setBindOnNewForm(true);
 		c.setValidator(userProfileValidator);
 		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ArticleAddController articleAddController(
-			@Named("articleAddValidator") final Validator articleAddValidator)
-	{
-		ArticleAddController c = new ArticleAddController();
-		configure(c);
-		c.setFormView("article-add");
-		c.setCommandClass(ArticleAddCommand.class);
-		c.setValidator(articleAddValidator);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ArticleEditController articleEditController(
-			@Named("articleEditValidator") final Validator articleEditValidator)
-	{
-		ArticleEditController c = new ArticleEditController();
-		configure(c);
-		c.setFormView("article-edit");
-		c.setCommandClass(ArticleEditCommand.class);
-		c.setValidator(articleEditValidator);
-		return c;
-	}
-
-	@SuppressWarnings("deprecation")
-	private void configure(AbstractArticleController c)
-	{
-		c.setSuccessView("default");
-		c.setCancelView("default");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setArticleBusiness(articleBusiness);
-		c.setTagBusiness(tagBusiness);
 	}
 
 	@Bean

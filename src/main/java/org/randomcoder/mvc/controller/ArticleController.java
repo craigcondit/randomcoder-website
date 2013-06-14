@@ -13,13 +13,14 @@ import org.randomcoder.article.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.*;
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.command.CommentCommand;
+import org.randomcoder.mvc.command.*;
 import org.randomcoder.mvc.editor.*;
-import org.randomcoder.mvc.validator.CommentValidator;
+import org.randomcoder.mvc.validator.*;
 import org.randomcoder.tag.TagList;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UrlPathHelper;
@@ -36,6 +37,8 @@ public class ArticleController
 	private TagBusiness tagBusiness;
 	private CommentValidator commentValidator;
 	private ContentFilter contentFilter;
+	private ArticleAddValidator articleAddValidator;
+	private ArticleEditValidator articleEditValidator;
 
 	/**
 	 * Sets the ArticleBusiness implementation to use.
@@ -74,6 +77,30 @@ public class ArticleController
 	}
 
 	/**
+	 * Sets the article add validator to use.
+	 * 
+	 * @param articleAddValidator
+	 *            article add validator
+	 */
+	@Inject
+	public void setArticleAddValidator(ArticleAddValidator articleAddValidator)
+	{
+		this.articleAddValidator = articleAddValidator;
+	}
+
+	/**
+	 * Sets the article edit validator to use.
+	 * 
+	 * @param articleEditValidator
+	 *            article edit validator
+	 */
+	@Inject
+	public void setArticleEditValidator(ArticleEditValidator articleEditValidator)
+	{
+		this.articleEditValidator = articleEditValidator;
+	}
+
+	/**
 	 * Sets the content filter to use.
 	 * 
 	 * @param contentFilter
@@ -102,6 +129,14 @@ public class ArticleController
 		if (target instanceof CommentCommand)
 		{
 			binder.setValidator(commentValidator);
+		}
+		else if (target instanceof ArticleEditCommand)
+		{
+			binder.setValidator(articleEditValidator);
+		}
+		else if (target instanceof ArticleAddCommand)
+		{
+			binder.setValidator(articleAddValidator);
 		}
 	}
 
@@ -159,7 +194,7 @@ public class ArticleController
 
 		return "article-view";
 	}
-	
+
 	private void populateArticleModel(Model model, Article article, CommentCommand command)
 	{
 		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(1);
@@ -181,7 +216,7 @@ public class ArticleController
 	 *            MVC model
 	 * @param request
 	 *            HTTP request
-	 * @param cmd
+	 * @param command
 	 *            comment command
 	 * @param result
 	 *            validation result
@@ -191,12 +226,12 @@ public class ArticleController
 	public String articleByIdSubmit(
 			@PathVariable("id") long id,
 			Principal user, Model model, HttpServletRequest request,
-			@ModelAttribute("command") CommentCommand cmd, BindingResult result)
+			@ModelAttribute("command") CommentCommand command, BindingResult result)
 	{
 		logger.debug("articleByIdSubmit()");
 
 		Article article = articleBusiness.readArticle(id);
-		return commentOnArticle(article, user, model, request, cmd, result);
+		return commentOnArticle(article, user, model, request, command, result);
 	}
 
 	/**
@@ -210,7 +245,7 @@ public class ArticleController
 	 *            MVC model
 	 * @param request
 	 *            HTTP request
-	 * @param cmd
+	 * @param command
 	 *            comment command
 	 * @param result
 	 *            validation result
@@ -220,28 +255,28 @@ public class ArticleController
 	public String articleByPermalinkSubmit(
 			@PathVariable("permalink") String permalink,
 			Principal user, Model model, HttpServletRequest request,
-			@ModelAttribute("command") CommentCommand cmd, BindingResult result)
+			@ModelAttribute("command") CommentCommand command, BindingResult result)
 	{
 		logger.debug("articleByPermalinkSubmit()");
 
 		Article article = articleBusiness.findArticleByPermalink(permalink);
-		return commentOnArticle(article, user, model, request, cmd, result);
+		return commentOnArticle(article, user, model, request, command, result);
 	}
 
 	private String commentOnArticle(
 			Article article, Principal user,
 			Model model, HttpServletRequest request,
-			CommentCommand cmd, BindingResult result)
+			CommentCommand command, BindingResult result)
 	{
 		if (article == null)
 		{
 			throw new ArticleNotFoundException();
 		}
 
-		populateArticleModel(model, article, cmd);
+		populateArticleModel(model, article, command);
 
-		cmd.bind(user == null);
-		commentValidator.validate(cmd, result);
+		command.bind(user == null);
+		commentValidator.validate(command, result);
 		if (result.hasErrors())
 		{
 			return "article-view";
@@ -253,11 +288,149 @@ public class ArticleController
 		String ipAddress = request.getRemoteAddr();
 		String userAgent = request.getHeader("User-Agent");
 
-		articleBusiness.createComment(cmd, article.getId(), userName, referrer, ipAddress, userAgent);
+		articleBusiness.createComment(command, article.getId(), userName, referrer, ipAddress, userAgent);
 
 		return "redirect:" + getAppPath(request);
 	}
+
+	/**
+	 * Adds a new article.
+	 * 
+	 * @param model
+	 *            MVC model
+	 * @param command
+	 *            article add command
+	 * @param result
+	 *            validation result
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/add", method = RequestMethod.GET)
+	public String addArticle(
+			Model model,
+			@ModelAttribute("command") ArticleAddCommand command,
+			BindingResult result)
+	{
+		populateArticleEditModel(model);
+		return "article-add";
+	}
+
+	/**
+	 * Cancels adding a new article.
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/add", method = RequestMethod.POST, params = "cancel")
+	public String addArticleCancel()
+	{
+		return "default";
+	}
+
+	/**
+	 * Submits a new article.
+	 * 
+	 * @param command
+	 *            article add command
+	 * @param result
+	 *            validation result
+	 * @param model
+	 *            MVC model
+	 * @param user
+	 *            current user
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/add", method = RequestMethod.POST, params = "!cancel")
+	public String addArticleSubmit(
+			@ModelAttribute("command") @Validated ArticleAddCommand command,
+			BindingResult result,
+			Model model,
+			Principal user)
+	{
+		if (result.hasErrors())
+		{
+			populateArticleEditModel(model);
+			return "article-add";
+		}
+
+		articleBusiness.createArticle(command, user.getName());
+
+		return "default";
+	}
+
+	/**
+	 * Edits an article.
+	 * 
+	 * @param model
+	 *            MVC model
+	 * @param command
+	 *            article edit command
+	 * @param result
+	 *            validation result
+	 * @param user
+	 *            current user
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/edit", method = RequestMethod.GET)
+	public String editArticle(
+			Model model,
+			@ModelAttribute("command") ArticleEditCommand command,
+			BindingResult result,
+			Principal user)
+	{
+		articleBusiness.loadArticleForEditing(command, command.getId(), user.getName());
+		
+		populateArticleEditModel(model);		
+		return "article-edit";
+	}
+
+	/**
+	 * Cancels editing an article.
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/edit", method = RequestMethod.POST, params = "cancel")
+	public String editArticleCancel()
+	{
+		return "default";
+	}
 	
+	/**
+	 * Submits a modified article.
+	 * 
+	 * @param command
+	 *            article edit command
+	 * @param result
+	 *            validation result
+	 * @param model
+	 *            MVC model
+	 * @param user
+	 *            current user
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/article/edit", method = RequestMethod.POST, params = "!cancel")
+	public String editArticleSubmit(
+			@ModelAttribute("command") @Validated ArticleEditCommand command,
+			BindingResult result,
+			Model model,
+			Principal user)
+	{
+		if (result.hasErrors())
+		{
+			populateArticleEditModel(model);
+			return "article-edit";
+		}
+
+		articleBusiness.updateArticle(command, command.getId(), user.getName());
+
+		return "default";
+	}
+	
+	private void populateArticleEditModel(Model model)
+	{
+		model.addAttribute("contentTypes", ContentType.values());
+	}
+
 	/**
 	 * Deletes the selected article.
 	 * 
