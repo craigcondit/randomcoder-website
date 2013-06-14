@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import javax.inject.Inject;
 import javax.servlet.*;
 
+import org.apache.jasper.servlet.JspServlet;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.nio.SelectChannelConnector;
@@ -109,21 +110,8 @@ public class JettyContext
 		dispatcherContext.register(DispatcherContext.class);
 		dispatcherContext.setEnvironment(env);		
 		
-		ServletHolder dispatcher = new ServletHolder("springmvc", new DispatcherServlet(dispatcherContext));		
-		context.addServlet(dispatcher, "");
-		context.addServlet(dispatcher, "/account/*");
-		context.addServlet(dispatcher, "/article/*");
-		context.addServlet(dispatcher, "/articles/*");
-		context.addServlet(dispatcher, "/comment/*");
-		context.addServlet(dispatcher, "/download/*");
-		context.addServlet(dispatcher, "/feeds/*");
-		context.addServlet(dispatcher, "/legal/*");
-		context.addServlet(dispatcher, "/login");
-		context.addServlet(dispatcher, "/login-error");
-		context.addServlet(dispatcher, "/redirect");
-		context.addServlet(dispatcher, "/tag/*");
-		context.addServlet(dispatcher, "/tags/*");
-		context.addServlet(dispatcher, "/user/*");
+		context.addServlet(new ServletHolder("dispatcher", new DispatcherServlet(dispatcherContext)), "/*");
+		context.addServlet(new ServletHolder("jsp", new JspServlet()), "/WEB-INF/jsp/*");
 		
 		handlers.addHandler(context);
 		server.setHandler(handlers);
