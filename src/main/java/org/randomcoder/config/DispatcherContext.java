@@ -77,12 +77,13 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	public SimpleUrlHandlerMapping legayMapping()
 	{
 		Properties p = new Properties();
-		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/article/add", "articleAddController");
 		p.setProperty("/article/edit", "articleEditController");
 		p.setProperty("/article/delete", "articleDeleteController");
 		p.setProperty("/articles/id/*", "articleIdController");
 		p.setProperty("/articles/*", "articlePermalinkController");
+		
+		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
