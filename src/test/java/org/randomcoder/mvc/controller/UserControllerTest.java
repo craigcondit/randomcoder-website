@@ -9,8 +9,9 @@ import java.util.*;
 import org.easymock.IMocksControl;
 import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.User;
+import org.randomcoder.db.*;
 import org.randomcoder.mvc.command.*;
+import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.randomcoder.mvc.validator.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.*;
@@ -25,6 +26,8 @@ public class UserControllerTest
 	private ChangePasswordValidator cpv;
 	private AccountCreateValidator acv;
 	private UserProfileValidator upv;
+	private UserAddValidator uav;
+	private UserEditValidator uev;
 	private Principal p;
 	private BindingResult br;
 	private WebDataBinder wdb;
@@ -42,6 +45,8 @@ public class UserControllerTest
 		wdb = control.createMock(WebDataBinder.class);
 		acv = control.createMock(AccountCreateValidator.class);
 		upv = control.createMock(UserProfileValidator.class);
+		uav = control.createMock(UserAddValidator.class);
+		uev = control.createMock(UserEditValidator.class);
 		c = new UserController();
 		c.setUserBusiness(ub);
 		c.setChangePasswordValidator(cpv);
@@ -49,11 +54,15 @@ public class UserControllerTest
 		c.setMaximumPageSize(25);
 		c.setAccountCreateValidator(acv);
 		c.setUserProfileValidator(upv);
+		c.setUserAddValidator(uav);
+		c.setUserEditValidator(uev);
 	}
 
 	@After
 	public void tearDown()
 	{
+		uav = null;
+		uev = null;
 		acv = null;
 		upv = null;
 		br = null;
@@ -91,6 +100,30 @@ public class UserControllerTest
 	{
 		expect(wdb.getTarget()).andReturn(new AccountCreateCommand());
 		wdb.setValidator(acv);
+		control.replay();
+
+		c.initBinder(wdb);
+		control.verify();
+	}
+
+	@Test
+	public void testInitBinderUserAdd() throws Exception
+	{
+		expect(wdb.getTarget()).andReturn(new UserAddCommand());
+		wdb.registerCustomEditor(same(Role.class), isA(RolePropertyEditor.class));
+		wdb.setValidator(uav);
+		control.replay();
+
+		c.initBinder(wdb);
+		control.verify();
+	}
+
+	@Test
+	public void testInitBinderUserEdit() throws Exception
+	{
+		expect(wdb.getTarget()).andReturn(new UserEditCommand());
+		wdb.registerCustomEditor(same(Role.class), isA(RolePropertyEditor.class));
+		wdb.setValidator(uev);
 		control.replay();
 
 		c.initBinder(wdb);
@@ -351,7 +384,7 @@ public class UserControllerTest
 		assertEquals("account-create-done", c.accountCreateSubmit(command, br));
 		control.verify();
 	}
-	
+
 	@Test
 	public void testAccountCreateSubmitError()
 	{
@@ -361,6 +394,107 @@ public class UserControllerTest
 		control.replay();
 
 		assertEquals("account-create", c.accountCreateSubmit(command, br));
+		control.verify();
+	}
+
+	@Test
+	public void testAddUser()
+	{
+		UserAddCommand command = new UserAddCommand();
+		List<Role> roles = new ArrayList<>();
+
+		expect(ub.listRoles()).andReturn(roles);
+		expect(m.addAttribute(eq("availableRoles"), same(roles))).andReturn(m);
+		control.replay();
+
+		assertEquals("user-add", c.addUser(command, m));
+		control.verify();
+		assertTrue(command.isEnabled());
+	}
+
+	@Test
+	public void testAddUserCancel()
+	{
+		assertEquals("user-list-redirect", c.addUserCancel());
+	}
+
+	@Test
+	public void testAddUserSubmit()
+	{
+		UserAddCommand command = new UserAddCommand();
+
+		expect(br.hasErrors()).andReturn(false);
+		ub.createUser(command);
+		control.replay();
+
+		assertEquals("user-list-redirect", c.addUserSubmit(command, br, m));
+		control.verify();
+	}
+
+	@Test
+	public void testAddUserSubmitError()
+	{
+		UserAddCommand command = new UserAddCommand();
+		List<Role> roles = new ArrayList<>();
+
+		expect(br.hasErrors()).andReturn(true);
+		expect(ub.listRoles()).andReturn(roles);
+		expect(m.addAttribute(eq("availableRoles"), same(roles))).andReturn(m);
+		control.replay();
+
+		assertEquals("user-add", c.addUserSubmit(command, br, m));
+		control.verify();
+	}
+
+	@Test
+	public void testEditUser()
+	{
+		UserEditCommand command = new UserEditCommand();
+		command.setId(1L);
+		List<Role> roles = new ArrayList<>();
+
+		expect(ub.listRoles()).andReturn(roles);
+		expect(m.addAttribute(eq("availableRoles"), same(roles))).andReturn(m);
+		ub.loadUserForEditing(command, 1L);
+		control.replay();
+
+		assertEquals("user-edit", c.editUser(command, m));
+		control.verify();
+	}
+
+	@Test
+	public void testEditUserCancel()
+	{
+		assertEquals("user-list-redirect", c.editUserCancel());
+	}
+
+	@Test
+	public void testEditUserSubmit()
+	{
+		UserEditCommand command = new UserEditCommand();
+		command.setId(1L);
+
+		expect(br.hasErrors()).andReturn(false);
+		ub.updateUser(command, 1L);
+		control.replay();
+
+		assertEquals("user-list-redirect", c.editUserSubmit(command, br, m));
+		control.verify();
+	}
+
+	@Test
+	public void testEditUserSubmitError()
+	{
+		UserEditCommand command = new UserEditCommand();
+		command.setId(1L);
+		List<Role> roles = new ArrayList<>();
+
+		expect(br.hasErrors()).andReturn(true);
+		expect(ub.listRoles()).andReturn(roles);
+		expect(m.addAttribute(eq("availableRoles"), same(roles))).andReturn(m);
+		control.replay();
+
+		assertEquals("user-edit", c.editUserSubmit(command, br, m));
 		control.verify();
 	}
 }

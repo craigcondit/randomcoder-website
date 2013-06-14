@@ -3,11 +3,12 @@ package org.randomcoder.mvc.controller;
 import java.security.Principal;
 import java.util.*;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.User;
+import org.randomcoder.db.*;
 import org.randomcoder.mvc.command.*;
+import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.randomcoder.mvc.validator.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,8 @@ public class UserController
 	private ChangePasswordValidator changePasswordValidator;
 	private UserProfileValidator userProfileValidator;
 	private AccountCreateValidator accountCreateValidator;
+	private UserAddValidator userAddValidator;
+	private UserEditValidator userEditValidator;
 
 	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
@@ -104,6 +107,32 @@ public class UserController
 	}
 
 	/**
+	 * Sets the user add validator to use.
+	 * 
+	 * @param userAddValidator
+	 *            user add validator
+	 */
+	@Inject
+	@Named("userAddValidator")
+	public void setUserAddValidator(UserAddValidator userAddValidator)
+	{
+		this.userAddValidator = userAddValidator;
+	}
+
+	/**
+	 * Sets the user edit validator to use.
+	 * 
+	 * @param userEditValidator
+	 *            user edit validator
+	 */
+	@Inject
+	@Named("userEditValidator")
+	public void setUserEditValidator(UserEditValidator userEditValidator)
+	{
+		this.userEditValidator = userEditValidator;
+	}
+
+	/**
 	 * Sets up data binding.
 	 * 
 	 * @param binder
@@ -120,6 +149,16 @@ public class UserController
 		else if (target instanceof AccountCreateCommand)
 		{
 			binder.setValidator(accountCreateValidator);
+		}
+		else if (target instanceof UserEditCommand)
+		{
+			binder.registerCustomEditor(Role.class, new RolePropertyEditor(userBusiness));
+			binder.setValidator(userEditValidator);
+		}
+		else if (target instanceof UserAddCommand)
+		{
+			binder.registerCustomEditor(Role.class, new RolePropertyEditor(userBusiness));
+			binder.setValidator(userAddValidator);
 		}
 	}
 
@@ -208,6 +247,118 @@ public class UserController
 		userBusiness.createAccount(command);
 
 		return "account-create-done";
+	}
+
+	/**
+	 * Begins adding a new user.
+	 * 
+	 * @param command
+	 *            user add command
+	 * @param model
+	 *            MVC model
+	 * @return user add view
+	 */
+	@RequestMapping(value = "/user/add", method = RequestMethod.GET)
+	public String addUser(
+			@ModelAttribute("command") UserAddCommand command, Model model)
+	{
+		model.addAttribute("availableRoles", userBusiness.listRoles());
+		command.setEnabled(true);
+		return "user-add";
+	}
+
+	/**
+	 * Cancels adding a new user.
+	 * 
+	 * @return redirect to user list view
+	 */
+	@RequestMapping(value = "/user/add", method = RequestMethod.POST, params = "cancel")
+	public String addUserCancel()
+	{
+		return "user-list-redirect";
+	}
+
+	/**
+	 * Completes adding a new user.
+	 * 
+	 * @param command
+	 *            user add command
+	 * @param result
+	 *            validation result
+	 * @param model
+	 *            MVC model
+	 * @return redirect to user list view
+	 */
+	@RequestMapping(value = "/user/add", method = RequestMethod.POST, params = "!cancel")
+	public String addUserSubmit(
+			@ModelAttribute("command") @Validated UserAddCommand command,
+			BindingResult result, Model model)
+	{
+		if (result.hasErrors())
+		{
+			model.addAttribute("availableRoles", userBusiness.listRoles());
+			return "user-add";
+		}
+
+		userBusiness.createUser(command);
+
+		return "user-list-redirect";
+	}
+
+	/**
+	 * Begins editing a new user.
+	 * 
+	 * @param command
+	 *            user edit command
+	 * @param model
+	 *            MVC model
+	 * @return account create view
+	 */
+	@RequestMapping(value = "/user/edit", method = RequestMethod.GET)
+	public String editUser(
+			@ModelAttribute("command") UserEditCommand command, Model model)
+	{
+		model.addAttribute("availableRoles", userBusiness.listRoles());
+		userBusiness.loadUserForEditing(command, command.getId());
+		return "user-edit";
+	}
+
+	/**
+	 * Cancels editing a user.
+	 * 
+	 * @return redirect to user list view
+	 */
+	@RequestMapping(value = "/user/edit", method = RequestMethod.POST, params = "cancel")
+	public String editUserCancel()
+	{
+		return "user-list-redirect";
+	}
+
+	/**
+	 * Completes editing of a user.
+	 * 
+	 * @param command
+	 *            user edit command
+	 * @param result
+	 *            validation result
+	 * @param model
+	 *            MVC model
+	 * @return redirect to user list view
+	 */
+	@RequestMapping(value = "/user/edit", method = RequestMethod.POST, params = "!cancel")
+	public String editUserSubmit(
+			@ModelAttribute("command") @Validated UserEditCommand command,
+			BindingResult result, Model model)
+	{
+		if (result.hasErrors())
+		{
+			model.addAttribute("availableRoles", userBusiness.listRoles());
+			return "user-edit";
+		}
+
+		userBusiness.updateUser(command, command.getId());
+
+		return "user-list-redirect";
 	}
 
 	/**

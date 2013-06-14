@@ -1,22 +1,11 @@
 package org.randomcoder.config;
 
-import java.util.Properties;
-
-import javax.inject.*;
-
-import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.mvc.command.*;
-import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.annotation.Order;
-import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.Validator;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.*;
 
@@ -27,12 +16,6 @@ import org.springframework.web.servlet.view.*;
 @EnableWebMvc
 public class DispatcherContext extends WebMvcConfigurerAdapter
 {
-	@Inject
-	Environment env;
-
-	@Inject
-	UserBusiness userBusiness;
-
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer()
 	{
@@ -51,28 +34,11 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	}
 
 	@Bean
-	@Order(0)
-	public RequestMappingHandlerMapping annotationMapping()
+	public RequestMappingHandlerMapping handlerMapping()
 	{
 		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
 		mapping.setAlwaysUseFullPath(true);
-		mapping.setOrder(0);
 		return mapping;
-	}
-
-	@Bean
-	@Order(1)
-	public SimpleUrlHandlerMapping legayMapping()
-	{
-		Properties p = new Properties();
-		p.setProperty("/user/add", "userAddController");
-		p.setProperty("/user/edit", "userEditController");
-
-		SimpleUrlHandlerMapping m = new SimpleUrlHandlerMapping();
-		m.setOrder(1);
-		m.setAlwaysUseFullPath(true);
-		m.setMappings(p);
-		return m;
 	}
 
 	@Bean
@@ -93,41 +59,5 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
 		return resolver;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public UserAddController userAddController(
-			@Named("userAddValidator") final Validator userAddValidator)
-	{
-		UserAddController c = new UserAddController();
-		configure(c);
-		c.setFormView("user-add");
-		c.setCommandClass(UserAddCommand.class);
-		c.setValidator(userAddValidator);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public UserEditController userEditController(
-			@Named("userEditValidator") final Validator userEditValidator)
-	{
-		UserEditController c = new UserEditController();
-		configure(c);
-		c.setFormView("user-edit");
-		c.setCommandClass(UserEditCommand.class);
-		c.setValidator(userEditValidator);
-		return c;
-	}
-
-	@SuppressWarnings("deprecation")
-	private void configure(AbstractUserController c)
-	{
-		c.setSuccessView("user-list-redirect");
-		c.setCancelView("user-list-redirect");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setUserBusiness(userBusiness);
 	}
 }
