@@ -4,10 +4,11 @@ import java.util.*;
 
 import javax.inject.Inject;
 
-import org.randomcoder.article.*;
+import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
+import org.randomcoder.mvc.command.ArticlePageCommand;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.ui.Model;
 

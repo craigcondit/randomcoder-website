@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.ChangePasswordCommand;
 import org.randomcoder.test.mock.dao.*;
 import org.randomcoder.test.mock.jse.PrincipalMock;
 import org.randomcoder.test.mock.user.ChangePasswordControllerMock;

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.UserEditCommand;
 import org.randomcoder.mvc.validator.UserEditValidator;
 import org.springframework.validation.*;
 

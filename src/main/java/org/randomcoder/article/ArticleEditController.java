@@ -2,6 +2,7 @@ package org.randomcoder.article;
 
 import javax.servlet.http.*;
 
+import org.randomcoder.mvc.command.ArticleEditCommand;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 

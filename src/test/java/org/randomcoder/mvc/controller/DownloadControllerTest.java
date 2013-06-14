@@ -9,7 +9,6 @@ import org.easymock.*;
 import org.junit.*;
 import org.randomcoder.download.*;
 import org.randomcoder.download.Package;
-import org.randomcoder.mvc.controller.DownloadController;
 import org.springframework.ui.Model;
 
 @SuppressWarnings("javadoc")

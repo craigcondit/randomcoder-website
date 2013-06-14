@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.UserEditCommand;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.UserEditControllerMock;
 import org.springframework.mock.web.*;

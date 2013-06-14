@@ -6,6 +6,7 @@ import javax.servlet.http.*;
 
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.User;
+import org.randomcoder.mvc.command.UserProfileCommand;
 import org.springframework.validation.*;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;

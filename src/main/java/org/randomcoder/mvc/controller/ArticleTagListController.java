@@ -4,8 +4,8 @@ import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
-import org.randomcoder.article.ArticleTagPageCommand;
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.ArticleTagPageCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

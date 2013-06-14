@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.validator;
 
-import org.randomcoder.user.UserProfileCommand;
+import org.randomcoder.mvc.command.UserProfileCommand;
 import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.*;
 import org.randomcoder.test.mock.dao.UserDaoMock;
-import org.randomcoder.user.*;
+import org.randomcoder.user.UserNotFoundException;
 
 @SuppressWarnings("javadoc")
 public class UserBusinessImplTest extends TestCase

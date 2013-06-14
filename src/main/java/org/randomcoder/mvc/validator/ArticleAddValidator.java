@@ -6,11 +6,11 @@ import java.util.*;
 import javax.inject.*;
 
 import org.apache.commons.logging.*;
-import org.randomcoder.article.ArticleAddCommand;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.db.Article;
 import org.randomcoder.io.SequenceReader;
+import org.randomcoder.mvc.command.ArticleAddCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;

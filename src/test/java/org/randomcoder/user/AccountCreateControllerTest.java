@@ -5,6 +5,7 @@ import java.beans.PropertyEditor;
 import junit.framework.TestCase;
 
 import org.randomcoder.bo.UserBusinessImpl;
+import org.randomcoder.mvc.command.AccountCreateCommand;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.test.mock.user.AccountCreateControllerMock;
 import org.springframework.mock.web.*;

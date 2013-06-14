@@ -5,10 +5,9 @@ import java.util.Properties;
 import javax.inject.*;
 
 import org.randomcoder.article.*;
-import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.mvc.command.IdCommand;
+import org.randomcoder.mvc.command.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;

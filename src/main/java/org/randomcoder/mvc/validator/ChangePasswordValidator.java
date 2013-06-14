@@ -1,7 +1,7 @@
 package org.randomcoder.mvc.validator;
 
 import org.randomcoder.db.User;
-import org.randomcoder.user.ChangePasswordCommand;
+import org.randomcoder.mvc.command.ChangePasswordCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;

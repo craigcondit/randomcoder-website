@@ -1,7 +1,5 @@
 package org.randomcoder.mvc;
 
-import org.randomcoder.mvc.EnumPropertyEditor;
-
 import junit.framework.TestCase;
 
 @SuppressWarnings("javadoc")

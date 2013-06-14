@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.easymock.*;
 import org.junit.*;
-import org.randomcoder.mvc.controller.RedirectController;
 
 @SuppressWarnings("javadoc")
 public class RedirectControllerTest

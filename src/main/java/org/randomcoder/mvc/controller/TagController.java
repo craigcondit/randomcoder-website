@@ -4,8 +4,8 @@ import javax.inject.Inject;
 
 import org.apache.commons.logging.*;
 import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.mvc.command.*;
 import org.randomcoder.mvc.validator.*;
-import org.randomcoder.tag.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

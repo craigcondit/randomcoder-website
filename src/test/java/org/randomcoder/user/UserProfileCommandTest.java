@@ -3,6 +3,7 @@ package org.randomcoder.user;
 import junit.framework.TestCase;
 
 import org.randomcoder.db.User;
+import org.randomcoder.mvc.command.UserProfileCommand;
 
 @SuppressWarnings("javadoc")
 public class UserProfileCommandTest extends TestCase

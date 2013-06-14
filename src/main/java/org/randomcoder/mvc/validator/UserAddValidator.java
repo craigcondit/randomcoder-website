@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.user.UserAddCommand;
+import org.randomcoder.mvc.command.UserAddCommand;
 import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

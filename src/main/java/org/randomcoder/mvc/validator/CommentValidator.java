@@ -6,9 +6,9 @@ import java.util.*;
 import javax.inject.*;
 
 import org.apache.commons.logging.*;
-import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.content.*;
 import org.randomcoder.io.SequenceReader;
+import org.randomcoder.mvc.command.CommentCommand;
 import org.randomcoder.validation.DataValidationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;

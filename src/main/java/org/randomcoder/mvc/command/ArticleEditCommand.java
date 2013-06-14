@@ -1,4 +1,4 @@
-package org.randomcoder.article;
+package org.randomcoder.mvc.command;
 
 import org.randomcoder.db.Article;
 import org.randomcoder.io.Consumer;

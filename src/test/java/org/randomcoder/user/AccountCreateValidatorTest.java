@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.easymock.IMocksControl;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.*;
+import org.randomcoder.mvc.command.AccountCreateCommand;
 import org.randomcoder.mvc.validator.AccountCreateValidator;
 import org.springframework.validation.BindException;
 

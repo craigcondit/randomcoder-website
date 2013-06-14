@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.validator;
 
-import org.randomcoder.tag.TagEditCommand;
+import org.randomcoder.mvc.command.TagEditCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

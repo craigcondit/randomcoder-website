@@ -2,8 +2,8 @@ package org.randomcoder.mvc.controller;
 
 import java.util.*;
 
-import org.randomcoder.article.ArticlePageCommand;
 import org.randomcoder.db.Article;
+import org.randomcoder.mvc.command.ArticlePageCommand;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

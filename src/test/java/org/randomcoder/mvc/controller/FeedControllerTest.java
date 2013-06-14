@@ -11,7 +11,6 @@ import org.junit.*;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.db.Article;
 import org.randomcoder.feed.*;
-import org.randomcoder.mvc.controller.FeedController;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 @SuppressWarnings("javadoc")

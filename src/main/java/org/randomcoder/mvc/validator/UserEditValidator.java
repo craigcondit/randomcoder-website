@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.validator;
 
-import org.randomcoder.user.UserEditCommand;
+import org.randomcoder.mvc.command.UserEditCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

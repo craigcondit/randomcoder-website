@@ -3,7 +3,6 @@ package org.randomcoder.mvc.controller;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-import org.randomcoder.mvc.controller.LoginController;
 
 @SuppressWarnings("javadoc")
 public class LoginControllerTest

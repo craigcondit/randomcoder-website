@@ -1,7 +1,7 @@
 package org.randomcoder.mvc.validator;
 
-import org.randomcoder.article.*;
 import org.randomcoder.db.Article;
+import org.randomcoder.mvc.command.*;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

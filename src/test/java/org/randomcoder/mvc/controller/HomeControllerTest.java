@@ -7,11 +7,10 @@ import java.util.*;
 
 import org.easymock.IMocksControl;
 import org.junit.*;
-import org.randomcoder.article.ArticlePageCommand;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.controller.HomeController;
+import org.randomcoder.mvc.command.ArticlePageCommand;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.ui.Model;
 

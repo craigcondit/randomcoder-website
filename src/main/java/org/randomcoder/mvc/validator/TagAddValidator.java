@@ -3,7 +3,7 @@ package org.randomcoder.mvc.validator;
 import javax.inject.Inject;
 
 import org.randomcoder.bo.TagBusiness;
-import org.randomcoder.tag.TagAddCommand;
+import org.randomcoder.mvc.command.TagAddCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.*;
 

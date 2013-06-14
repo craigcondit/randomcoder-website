@@ -7,10 +7,10 @@ import java.util.*;
 
 import org.easymock.*;
 import org.junit.*;
-import org.randomcoder.article.*;
+import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.*;
-import org.randomcoder.mvc.controller.AbstractArticleListController;
+import org.randomcoder.mvc.command.ArticlePageCommand;
 import org.randomcoder.tag.*;
 import org.springframework.ui.Model;
 
