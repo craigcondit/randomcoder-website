@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.easymock.IMocksControl;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.*;
+import org.randomcoder.validator.UserAddValidator;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")

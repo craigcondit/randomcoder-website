@@ -265,22 +265,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	}
 
 	@Bean
-	public UserAddValidator userAddValidator()
-	{
-		UserAddValidator v = new UserAddValidator();
-		v.setUserBusiness(userBusiness);
-		return v;
-	}
-
-	@Bean
-	public UserEditValidator userEditValidator()
-	{
-		UserEditValidator v = new UserEditValidator();
-		v.setUserBusiness(userBusiness);
-		return v;
-	}
-
-	@Bean
 	@SuppressWarnings("deprecation")
 	public ChangePasswordController changePasswordController()
 	{
@@ -341,25 +325,27 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public UserAddController userAddController()
+	public UserAddController userAddController(
+			@Named("userAddValidator") final Validator userAddValidator)
 	{
 		UserAddController c = new UserAddController();
 		configure(c);
 		c.setFormView("user-add");
 		c.setCommandClass(UserAddCommand.class);
-		c.setValidator(userAddValidator());
+		c.setValidator(userAddValidator);
 		return c;
 	}
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public UserEditController userEditController()
+	public UserEditController userEditController(
+			@Named("userEditValidator") final Validator userEditValidator)
 	{
 		UserEditController c = new UserEditController();
 		configure(c);
 		c.setFormView("user-edit");
 		c.setCommandClass(UserEditCommand.class);
-		c.setValidator(userEditValidator());
+		c.setValidator(userEditValidator);
 		return c;
 	}
 
