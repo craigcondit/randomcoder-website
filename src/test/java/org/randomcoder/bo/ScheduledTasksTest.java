@@ -4,12 +4,14 @@ import static org.easymock.EasyMock.*;
 
 import org.easymock.IMocksControl;
 import org.junit.*;
+import org.randomcoder.download.cache.CachingPackageListProducer;
 
 @SuppressWarnings("javadoc")
 public class ScheduledTasksTest
 {
 	private IMocksControl control;
 	private ArticleBusiness ab;
+	private CachingPackageListProducer cmr;
 	private ScheduledTasks st;
 
 	@Before
@@ -17,10 +19,11 @@ public class ScheduledTasksTest
 	{
 		control = createControl();
 		ab = control.createMock(ArticleBusiness.class);
-
+		cmr = control.createMock(CachingPackageListProducer.class);
 		st = new ScheduledTasks();
 		st.setModerationBatchSize(3);
 		st.setArticleBusiness(ab);
+		st.setCachingMavenRepository(cmr);
 	}
 
 	@After
@@ -50,6 +53,27 @@ public class ScheduledTasksTest
 		control.replay();
 		
 		st.moderateComments();
+		control.verify();
+	}
+	
+	@Test
+	public void testRefreshMavenRepository() throws Exception
+	{
+		cmr.refresh();
+		control.replay();
+		
+		st.refreshMavenRepository();
+		control.verify();
+	}
+	
+	@Test
+	public void testRefreshMavenRepositoryError() throws Exception
+	{
+		cmr.refresh();
+		expectLastCall().andThrow(new RuntimeException("test"));
+		control.replay();
+		
+		st.refreshMavenRepository();
 		control.verify();
 	}
 }

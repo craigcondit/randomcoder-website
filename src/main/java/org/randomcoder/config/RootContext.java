@@ -35,7 +35,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.*;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
-import org.springframework.scheduling.timer.*;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -320,7 +319,7 @@ public class RootContext implements SchedulingConfigurer
 	}
 
 	@Bean
-	public PackageListProducer cachingMavenRepository(
+	public CachingPackageListProducer cachingMavenRepository(
 			@Named("mavenRepository") final LocalMavenRepository mavenRepository)
 	{
 		CachingPackageListProducer prod = new CachingPackageListProducer();
@@ -328,38 +327,5 @@ public class RootContext implements SchedulingConfigurer
 		prod.setCache(CacheManager.getInstance().getCache("org.randomcoder.MAVEN_REPOSITORY_CACHE"));
 		prod.setCacheKey("mavenRepository");
 		return prod;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TimerFactoryBean repositoryRefreshTimer(
-			@Named("mavenRepositoryRefreshTask") final ScheduledTimerTask mavenRepositoryRefreshTask)
-	{
-		TimerFactoryBean fb = new TimerFactoryBean();
-		fb.setScheduledTimerTasks(new ScheduledTimerTask[] { mavenRepositoryRefreshTask });
-		return fb;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ScheduledTimerTask mavenRepositoryRefreshTask(final TimerTask mavenRepositoryTimerTask)
-	{
-		ScheduledTimerTask task = new ScheduledTimerTask();
-		task.setDelay(30000L); // 30 seconds
-		task.setPeriod(1800000L); // 30 minutes
-		task.setFixedRate(false);
-		task.setTimerTask(mavenRepositoryTimerTask);
-		return task;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public MethodInvokingTimerTaskFactoryBean mavenRepositoryTimerTask(
-			@Named("cachingMavenRepository") final PackageListProducer cachingMavenRepository)
-	{
-		MethodInvokingTimerTaskFactoryBean fb = new MethodInvokingTimerTaskFactoryBean();
-		fb.setTargetObject(cachingMavenRepository);
-		fb.setTargetMethod("refresh");
-		return fb;
 	}
 }

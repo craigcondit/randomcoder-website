@@ -1,8 +1,9 @@
 package org.randomcoder.bo;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import org.apache.commons.logging.*;
+import org.randomcoder.download.cache.CachingPackageListProducer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,13 +22,15 @@ public class ScheduledTasks
 	public static final int DEFAULT_MODERATION_BATCH_SIZE = 5;
 
 	private ArticleBusiness articleBusiness;
+	private CachingPackageListProducer cachingMavenRepository;
+
 	private int moderationBatchSize = DEFAULT_MODERATION_BATCH_SIZE;
 
 	/**
 	 * Sets the ArticleBusiness implementation to use.
 	 * 
 	 * @param articleBusiness
-	 *          ArticleBusiness implementation
+	 *            ArticleBusiness implementation
 	 */
 	@Inject
 	public void setArticleBusiness(ArticleBusiness articleBusiness)
@@ -36,10 +39,23 @@ public class ScheduledTasks
 	}
 
 	/**
+	 * Sets the caching maven repository.
+	 * 
+	 * @param cachingMavenRepository
+	 *            caching maven repository
+	 */
+	@Inject
+	@Named("cachingMavenRepository")
+	public void setCachingMavenRepository(CachingPackageListProducer cachingMavenRepository)
+	{
+		this.cachingMavenRepository = cachingMavenRepository;
+	}
+
+	/**
 	 * Sets the number of comments to moderate in each batch.
 	 * 
 	 * @param moderationBatchSize
-	 *          number of comments to moderate
+	 *            number of comments to moderate
 	 */
 	@Value("${moderation.batch.size}")
 	public void setModerationBatchSize(int moderationBatchSize)
@@ -65,6 +81,22 @@ public class ScheduledTasks
 		catch (Exception e)
 		{
 			logger.error("Error while moderating comments", e);
+		}
+	}
+
+	/**
+	 * Refreshes the maven repository.
+	 */
+	@Scheduled(cron = "0 */30 * * * *")
+	public void refreshMavenRepository()
+	{
+		try
+		{
+			cachingMavenRepository.refresh();
+		}
+		catch (Exception e)
+		{
+			logger.error("Error while refreshing maven repository", e);
 		}
 	}
 }
