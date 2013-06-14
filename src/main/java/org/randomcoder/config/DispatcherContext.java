@@ -5,7 +5,7 @@ import java.util.Properties;
 import javax.inject.*;
 
 import org.randomcoder.article.*;
-import org.randomcoder.article.comment.*;
+import org.randomcoder.article.comment.CommentCommand;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.mvc.command.IdCommand;
@@ -83,9 +83,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/article/delete", "articleDeleteController");
 		p.setProperty("/articles/id/*", "articleIdController");
 		p.setProperty("/articles/*", "articlePermalinkController");
-		p.setProperty("/comment/delete", "commentDeleteController");
-		p.setProperty("/comment/approve", "commentApproveController");
-		p.setProperty("/comment/disapprove", "commentDisapproveController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
@@ -214,36 +211,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setBindOnNewForm(true);
 		c.setArticleBusiness(articleBusiness);
 		c.setTagBusiness(tagBusiness);
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public CommentDeleteController commentDeleteController()
-	{
-		CommentDeleteController c = new CommentDeleteController();
-		c.setCommandClass(IdCommand.class);
-		c.setArticleBusiness(articleBusiness);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public CommentApproveController commentApproveController()
-	{
-		CommentApproveController c = new CommentApproveController();
-		c.setCommandClass(IdCommand.class);
-		c.setArticleBusiness(articleBusiness);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public CommentDisapproveController commentDisapproveController()
-	{
-		CommentDisapproveController c = new CommentDisapproveController();
-		c.setCommandClass(IdCommand.class);
-		c.setArticleBusiness(articleBusiness);
-		return c;
 	}
 
 	@Bean
