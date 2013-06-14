@@ -138,37 +138,10 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		return resolver;
 	}
 
-	// @Bean
-	// public ArticleAddValidator articleAddValidator()
-	// {
-	// ArticleAddValidator validator = new ArticleAddValidator();
-	// validator.setArticleBusiness(articleBusiness);
-	// validator.setContentFilter(contentFilter);
-	// validator.setMaximumSummaryLength(1000);
-	// return validator;
-	// }
-	//
-	// @Bean
-	// public ArticleEditValidator articleEditValidator()
-	// {
-	// ArticleEditValidator validator = new ArticleEditValidator();
-	// validator.setArticleBusiness(articleBusiness);
-	// validator.setContentFilter(contentFilter);
-	// validator.setMaximumSummaryLength(1000);
-	// return validator;
-	// }
-
-	@Bean
-	public CommentValidator commentValidator()
-	{
-		CommentValidator validator = new CommentValidator();
-		validator.setContentFilter(contentFilter);
-		return validator;
-	}
-
 	@Bean
 	@SuppressWarnings("deprecation")
-	public UserProfileController userProfileController()
+	public UserProfileController userProfileController(
+			@Named("userProfileValidator") final Validator userProfileValidator)
 	{
 		UserProfileController c = new UserProfileController();
 		c.setUserBusiness(userBusiness);
@@ -178,43 +151,39 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setCancelView("default");
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
-		c.setValidator(userProfileValidator());
+		c.setValidator(userProfileValidator);
 		return c;
 	}
 
 	@Bean
-	public UserProfileValidator userProfileValidator()
-	{
-		return new UserProfileValidator();
-	}
-
-	@Bean
-	public ArticleIdController articleIdController()
+	public ArticleIdController articleIdController(
+			@Named("commentValidator") final Validator commentValidator)
 	{
 		ArticleIdController c = new ArticleIdController();
-		configure(c);
+		configure(c, commentValidator);
 		c.setUrlPrefix("/articles/id/");
 		return c;
 	}
 
 	@Bean
-	public ArticlePermalinkController articlePermalinkController()
+	public ArticlePermalinkController articlePermalinkController(
+			@Named("commentValidator") final Validator commentValidator)
 	{
 		ArticlePermalinkController c = new ArticlePermalinkController();
-		configure(c);
+		configure(c, commentValidator);
 		c.setUrlPrefix("/articles/");
 		return c;
 	}
 
 	@SuppressWarnings("deprecation")
-	private void configure(AbstractSingleArticleController c)
+	private void configure(AbstractSingleArticleController c, Validator commentValidator)
 	{
 		c.setFormView("article-view");
 		c.setSuccessView("article-view");
 		c.setArticleBusiness(articleBusiness);
 		c.setContentFilter(contentFilter);
 		c.setCommandClass(CommentCommand.class);
-		c.setValidator(commentValidator());
+		c.setValidator(commentValidator);
 	}
 
 	@Bean
