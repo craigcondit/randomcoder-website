@@ -10,6 +10,7 @@ import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticlePageCommand;
 import org.randomcoder.tag.TagCloudEntry;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
 
 /**
@@ -75,6 +76,7 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	 * @param defaultPageSize
 	 *            default number of items per page
 	 */
+	@Value("${article.pagesize.default}")
 	public void setDefaultPageSize(int defaultPageSize)
 	{
 		this.defaultPageSize = defaultPageSize;
@@ -86,6 +88,7 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	 * @param maximumPageSize
 	 *            maximum number of items per page
 	 */
+	@Value("${article.pagesize.max}")
 	public void setMaximumPageSize(int maximumPageSize)
 	{
 		this.maximumPageSize = maximumPageSize;
