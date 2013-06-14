@@ -100,7 +100,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/comment/delete", "commentDeleteController");
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
-		p.setProperty("/tag", "tagListController");
 		p.setProperty("/tag/add", "tagAddController");
 		p.setProperty("/tag/edit", "tagEditController");
 		p.setProperty("/tag/delete", "tagDeleteController");
@@ -354,17 +353,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setUserBusiness(userBusiness);
 		c.setCommandClass(IdCommand.class);
 		c.setUserBusiness(userBusiness);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TagListController tagListController()
-	{
-		TagListController c = new TagListController();
-		c.setCommandClass(TagListCommand.class);
-		c.setViewName("tag-list");
-		c.setTagBusiness(tagBusiness);
 		return c;
 	}
 
