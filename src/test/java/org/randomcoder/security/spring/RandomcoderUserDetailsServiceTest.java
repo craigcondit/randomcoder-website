@@ -34,7 +34,6 @@ public class RandomcoderUserDetailsServiceTest
 		roleDao = new RoleDaoMock();
 		svc = new RandomcoderUserDetailsService();
 		svc.setUserBusiness(ub);
-		svc.setDebug(false);
 		{
 			Role role = new Role();
 			role.setName("ROLE_TEST");
@@ -98,13 +97,6 @@ public class RandomcoderUserDetailsServiceTest
 		control.verify();
 	}
 
-	@Test
-	public void testLoadUserByUsernameDebug()
-	{
-		svc.setDebug(true);
-		testLoadUserByUsername();
-	}
-	
 	@Test(expected = UsernameNotFoundException.class)
 	public void testLoadUserByUsernameNotFound() throws Exception
 	{
