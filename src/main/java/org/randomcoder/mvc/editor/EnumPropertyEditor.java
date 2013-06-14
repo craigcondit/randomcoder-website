@@ -1,4 +1,4 @@
-package org.randomcoder.mvc;
+package org.randomcoder.mvc.editor;
 
 import java.beans.PropertyEditorSupport;
 
@@ -18,7 +18,7 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 	 * Creates a new property editor.
 	 * 
 	 * @param enumType
-	 *          enum type
+	 *            enum type
 	 */
 	public EnumPropertyEditor(Class<? extends Enum> enumType)
 	{
@@ -40,7 +40,7 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 		{
 			return "";
 		}
-		
+
 		return ((Enum) value).name();
 	}
 
@@ -48,9 +48,9 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 	 * Populates the editor with the Enum object with the given name.
 	 * 
 	 * @param string
-	 *          string value of name property
+	 *            string value of name property
 	 * @throws IllegalArgumentException
-	 *           if object could not be loaded
+	 *             if object could not be loaded
 	 */
 	@Override
 	@SuppressWarnings("unchecked")

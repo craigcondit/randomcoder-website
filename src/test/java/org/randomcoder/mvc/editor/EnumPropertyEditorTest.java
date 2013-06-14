@@ -1,39 +1,43 @@
-package org.randomcoder.mvc;
+package org.randomcoder.mvc.editor;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.*;
 
 @SuppressWarnings("javadoc")
-public class EnumPropertyEditorTest extends TestCase
+public class EnumPropertyEditorTest
 {
 	private EnumPropertyEditor editor;
 
-	@Override
-	public void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		editor = new EnumPropertyEditor(TestEnum.class);
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		editor = null;
 	}
 
+	@Test
 	public void testGetAsText()
 	{
 		editor.setValue(TestEnum.ONE);
 		assertEquals("Wrong enum value", "ONE", editor.getAsText());
-		
+
 		editor.setValue(TestEnum.TWO);
 		assertEquals("Wrong enum value", "TWO", editor.getAsText());
-		
+
 		editor.setValue(TestEnum.THREE);
 		assertEquals("Wrong enum value", "THREE", editor.getAsText());
-		
+
 		editor.setValue(null);
 		assertEquals("Expected empty enum value", "", editor.getAsText());
 	}
 
+	@Test
 	public void testSetAsText()
 	{
 		editor.setAsText("ONE");
@@ -47,14 +51,14 @@ public class EnumPropertyEditorTest extends TestCase
 
 		editor.setAsText("");
 		assertNull("Got enum value", editor.getValue());
-
-		try
-		{
-			editor.setAsText("BOGUS");
-			fail("No exception thrown on bogus value");
-		} catch (IllegalArgumentException e) {}		
 	}
-	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetAsTextInvalid()
+	{
+		editor.setAsText("BOGUS");
+	}
+
 	protected static enum TestEnum
 	{
 		ONE, TWO, THREE;

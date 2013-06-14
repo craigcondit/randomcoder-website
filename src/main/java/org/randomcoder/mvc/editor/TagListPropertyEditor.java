@@ -1,4 +1,4 @@
-package org.randomcoder.tag;
+package org.randomcoder.mvc.editor;
 
 import java.beans.PropertyEditorSupport;
 import java.util.*;
@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.*;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.Tag;
+import org.randomcoder.tag.TagList;
 import org.randomcoder.validation.DataValidationUtils;
 
 /**

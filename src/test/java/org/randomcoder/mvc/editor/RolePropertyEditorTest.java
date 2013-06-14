@@ -1,81 +1,78 @@
-package org.randomcoder.user;
+package org.randomcoder.mvc.editor;
 
 import static org.easymock.EasyMock.*;
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import org.easymock.IMocksControl;
+import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.Role;
 
 @SuppressWarnings("javadoc")
-public class RolePropertyEditorTest extends TestCase
+public class RolePropertyEditorTest
 {
 	private IMocksControl control;
 	private UserBusiness ub;
 	private RolePropertyEditor editor;
-	
-	@Override
-	public void setUp() throws Exception
+
+	@Before
+	public void setUp()
 	{
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		editor = new RolePropertyEditor(ub);
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		editor = null;
 		ub = null;
 		control = null;
 	}
-	
+
+	@Test
 	public void testGetAsText()
 	{
 		Role role = new Role();
 		role.setName("get-as-text");
-		role.setDescription("Get as text");		
-		
+		role.setDescription("Get as text");
+
 		editor.setValue(role);
-		
+
 		assertEquals("Wrong value", "get-as-text", editor.getAsText());
 	}
-	
+
+	@Test
 	public void testGetAsTextNull()
 	{
 		editor.setValue(null);
 		assertEquals("", editor.getAsText());
 	}
 
+	@Test
 	public void testSetAsText()
 	{
 		Role role = new Role();
 		role.setName("set-as-text");
-		role.setDescription("Set as text");	
-		
+		role.setDescription("Set as text");
+
 		expect(ub.findRoleByName("set-as-text")).andReturn(role);
 		control.replay();
-		
-		editor.setAsText("set-as-text");		
+
+		editor.setAsText("set-as-text");
 		Object value = editor.getValue();
 		control.verify();
-		
+
 		assertNotNull("Null object", value);
 		assertTrue("Not a Role", value instanceof Role);
 		Role editorRole = (Role) value;
 		assertEquals("Wrong role name", "set-as-text", editorRole.getName());
 	}
 
+	@Test(expected = IllegalArgumentException.class)
 	public void testSetAsTextInvalidRole()
 	{
-		try
-		{
-			editor.setAsText("bogus-role");		
-			fail("IllegalArgumentException expected");
-		}
-		catch (IllegalArgumentException e)
-		{
-			// pass
-		}
+		editor.setAsText("bogus-role");
 	}
 }

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.Role;
+import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.CancellableFormController;

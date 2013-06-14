@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.easymock.IMocksControl;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.Role;
+import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.randomcoder.test.mock.user.AbstractUserControllerMock;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.ServletRequestDataBinder;
