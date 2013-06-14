@@ -76,10 +76,9 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	public SimpleUrlHandlerMapping legayMapping()
 	{
 		Properties p = new Properties();
+
 		p.setProperty("/article/add", "articleAddController");
 		p.setProperty("/article/edit", "articleEditController");
-		p.setProperty("/articles/id/*", "articleIdController");
-		p.setProperty("/articles/*", "articlePermalinkController");
 
 		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user", "userListController");
@@ -131,37 +130,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setBindOnNewForm(true);
 		c.setValidator(userProfileValidator);
 		return c;
-	}
-
-	@Bean
-	public ArticleIdController articleIdController(
-			@Named("commentValidator") final Validator commentValidator)
-	{
-		ArticleIdController c = new ArticleIdController();
-		configure(c, commentValidator);
-		c.setUrlPrefix("/articles/id/");
-		return c;
-	}
-
-	@Bean
-	public ArticlePermalinkController articlePermalinkController(
-			@Named("commentValidator") final Validator commentValidator)
-	{
-		ArticlePermalinkController c = new ArticlePermalinkController();
-		configure(c, commentValidator);
-		c.setUrlPrefix("/articles/");
-		return c;
-	}
-
-	@SuppressWarnings("deprecation")
-	private void configure(AbstractSingleArticleController c, Validator commentValidator)
-	{
-		c.setFormView("article-view");
-		c.setSuccessView("article-view");
-		c.setArticleBusiness(articleBusiness);
-		c.setContentFilter(contentFilter);
-		c.setCommandClass(CommentCommand.class);
-		c.setValidator(commentValidator);
 	}
 
 	@Bean

@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 import org.randomcoder.content.ContentType;
-import org.randomcoder.db.*;
+import org.randomcoder.db.Comment;
 import org.randomcoder.io.Producer;
 
 /**
@@ -14,7 +14,6 @@ public class CommentCommand implements Serializable, Producer<Comment>
 {
 	private static final long serialVersionUID = -1245687879900306444L;
 
-	private Article article;
 	private boolean anonymous;
 
 	private String anonymousUserName;
@@ -23,16 +22,6 @@ public class CommentCommand implements Serializable, Producer<Comment>
 
 	private String title;
 	private String content;
-
-	/**
-	 * Gets the article associated with this comment command
-	 * 
-	 * @return article
-	 */
-	public Article getArticle()
-	{
-		return article;
-	}
 
 	/**
 	 * Determines if this comment is anonymous or not.
@@ -47,14 +36,11 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	/**
 	 * Binds non-request parameters to form.
 	 * 
-	 * @param parent
-	 *          parent article
 	 * @param isAnonymous
 	 *          true if anonymous, false otherwise
 	 */
-	public void bind(Article parent, boolean isAnonymous)
+	public void bind(boolean isAnonymous)
 	{
-		this.article = parent;
 		this.anonymous = isAnonymous;
 	}
 
