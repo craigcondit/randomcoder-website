@@ -73,7 +73,7 @@ public class CachingPackageListProducer implements PackageListProducer
 		if (element != null)
 		{
 			logger.debug("Using cached value");
-			return (List) element.getValue();
+			return (List<Package>) element.getValue();
 		}
 
 		logger.debug("Calling target");
