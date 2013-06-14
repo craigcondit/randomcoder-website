@@ -107,7 +107,7 @@ public class UserAddValidator implements Validator
 		}
 		else if (userName.length() < minimumUsernameLength)
 		{
-			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT, "Username too short.");
+			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT, new Object[] { Integer.valueOf(minimumUsernameLength) }, "Username too short.");
 		}
 		else if (userBusiness.findUserByName(userName) != null)
 		{
@@ -180,7 +180,7 @@ public class UserAddValidator implements Validator
 			// password is specified, so validate it
 			if (password.trim().length() < minimumPasswordLength)
 			{
-				errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT, "Password too short.");
+				errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT, new Object[] { Integer.valueOf(minimumPasswordLength) }, "Password too short.");
 			}
 
 		}

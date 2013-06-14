@@ -266,7 +266,8 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public ChangePasswordController changePasswordController()
+	public ChangePasswordController changePasswordController(
+			@Named("changePasswordValidator") Validator changePasswordValidator)
 	{
 		ChangePasswordController c = new ChangePasswordController();
 		c.setFormView("change-password");
@@ -275,7 +276,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
 		c.setCommandClass(ChangePasswordCommand.class);
-		c.setValidator(changePasswordValidator());
+		c.setValidator(changePasswordValidator);
 		c.setUserBusiness(userBusiness);
 		return c;
 	}
@@ -292,16 +293,9 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	}
 
 	@Bean
-	public ChangePasswordValidator changePasswordValidator()
-	{
-		ChangePasswordValidator v = new ChangePasswordValidator();
-		v.setMinimumPasswordLength(6);
-		return v;
-	}
-
-	@Bean
 	@SuppressWarnings("deprecation")
-	public AccountCreateController accountCreateController()
+	public AccountCreateController accountCreateController(
+			@Named("accountCreateValidator") final Validator accountCreateValidator)
 	{
 		AccountCreateController c = new AccountCreateController();
 		c.setSuccessView("account-create-done");
@@ -311,16 +305,8 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setUserBusiness(userBusiness);
 		c.setFormView("account-create");
 		c.setCommandClass(AccountCreateCommand.class);
-		c.setValidator(accountCreateValidator());
+		c.setValidator(accountCreateValidator);
 		return c;
-	}
-
-	@Bean
-	public AccountCreateValidator accountCreateValidator()
-	{
-		AccountCreateValidator v = new AccountCreateValidator();
-		v.setUserBusiness(userBusiness);
-		return v;
 	}
 
 	@Bean
