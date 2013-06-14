@@ -358,22 +358,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	}
 
 	@Bean
-	public TagAddValidator tagAddValidator()
-	{
-		TagAddValidator v = new TagAddValidator();
-		v.setTagBusiness(tagBusiness);
-		return v;
-	}
-
-	@Bean
-	public TagEditValidator tagEditValidator()
-	{
-		TagEditValidator v = new TagEditValidator();
-		v.setTagBusiness(tagBusiness);
-		return v;
-	}
-
-	@Bean
 	@SuppressWarnings("deprecation")
 	public TagListController tagListController()
 	{
@@ -386,25 +370,27 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public TagAddController tagAddController()
+	public TagAddController tagAddController(
+			@Named("tagAddValidator") final Validator tagAddValidator)
 	{
 		TagAddController c = new TagAddController();
 		configure(c);
 		c.setFormView("tag-add");
 		c.setCommandClass(TagAddCommand.class);
-		c.setValidator(tagAddValidator());
+		c.setValidator(tagAddValidator);
 		return c;
 	}
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public TagEditController tagEditController()
+	public TagEditController tagEditController(
+			@Named("tagEditValidator") final Validator tagEditValidator)
 	{
 		TagEditController c = new TagEditController();
 		configure(c);
 		c.setFormView("tag-edit");
 		c.setCommandClass(TagEditCommand.class);
-		c.setValidator(tagEditValidator());
+		c.setValidator(tagEditValidator);
 		return c;
 	}
 
