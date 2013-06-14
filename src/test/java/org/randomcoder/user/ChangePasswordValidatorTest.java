@@ -57,7 +57,7 @@ public class ChangePasswordValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for oldPassword", 1, errors.getFieldErrorCount("oldPassword"));
-		error = (FieldError) errors.getFieldErrors("oldPassword").get(0);
+		error = errors.getFieldErrors("oldPassword").get(0);
 		assertEquals("Wrong error code", "error.changepassword.oldpassword.nomatch", error.getCode());
 				
 		// correct old password
@@ -71,7 +71,7 @@ public class ChangePasswordValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for password", 1, errors.getFieldErrorCount("password"));
-		error = (FieldError) errors.getFieldErrors("password").get(0);
+		error = errors.getFieldErrors("password").get(0);
 		assertEquals("Wrong error code", "error.changepassword.password.tooshort", error.getCode());
 		
 		// password2 doesn't match
@@ -80,7 +80,7 @@ public class ChangePasswordValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for password2", 1, errors.getFieldErrorCount("password2"));
-		error = (FieldError) errors.getFieldErrors("password2").get(0);
+		error = errors.getFieldErrors("password2").get(0);
 		assertEquals("Wrong error code", "error.changepassword.password.nomatch", error.getCode());
 		
 		// ok

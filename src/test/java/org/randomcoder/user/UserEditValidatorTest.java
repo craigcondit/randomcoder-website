@@ -78,7 +78,7 @@ public class UserEditValidatorTest extends TestCase
 		
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for emailAddress", 1, errors.getFieldErrorCount("emailAddress"));
-		error = (FieldError) errors.getFieldErrors("emailAddress").get(0);
+		error = errors.getFieldErrors("emailAddress").get(0);
 		assertEquals("Wrong error code", "error.user.emailaddress.invalid", error.getCode());
 
 		// email address valid
@@ -92,7 +92,7 @@ public class UserEditValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for password", 1, errors.getFieldErrorCount("password"));
-		error = (FieldError) errors.getFieldErrors("password").get(0);
+		error = errors.getFieldErrors("password").get(0);
 		assertEquals("Wrong error code", "error.user.password.tooshort", error.getCode());
 
 		// password valid
@@ -106,7 +106,7 @@ public class UserEditValidatorTest extends TestCase
 		errors = new BindException(command, "command");
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for password2", 1, errors.getFieldErrorCount("password2"));
-		error = (FieldError) errors.getFieldErrors("password2").get(0);
+		error = errors.getFieldErrors("password2").get(0);
 		assertEquals("Wrong error code", "error.user.password.nomatch", error.getCode());
 
 		// all data valid
