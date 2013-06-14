@@ -66,7 +66,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	{
 		Properties p = new Properties();
 		p.setProperty("/account/create", "accountCreateController");
-		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
 		p.setProperty("/user/profile", "userProfileController");
@@ -129,17 +128,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setBindOnNewForm(true);
 		c.setCommandClass(ChangePasswordCommand.class);
 		c.setValidator(changePasswordValidator);
-		c.setUserBusiness(userBusiness);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public UserListController userListController()
-	{
-		UserListController c = new UserListController();
-		c.setCommandClass(UserListCommand.class);
-		c.setViewName("user-list");
 		c.setUserBusiness(userBusiness);
 		return c;
 	}
