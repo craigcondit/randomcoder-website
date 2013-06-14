@@ -26,6 +26,7 @@ public class UserController
 	private UserBusiness userBusiness;
 	private ChangePasswordValidator changePasswordValidator;
 	private UserProfileValidator userProfileValidator;
+	private AccountCreateValidator accountCreateValidator;
 
 	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
@@ -91,6 +92,18 @@ public class UserController
 	}
 
 	/**
+	 * Sets the account create validator to use.
+	 * 
+	 * @param accountCreateValidator
+	 *            account create validator
+	 */
+	@Inject
+	public void setAccountCreateValidator(AccountCreateValidator accountCreateValidator)
+	{
+		this.accountCreateValidator = accountCreateValidator;
+	}
+
+	/**
 	 * Sets up data binding.
 	 * 
 	 * @param binder
@@ -103,6 +116,10 @@ public class UserController
 		if (target instanceof UserProfileCommand)
 		{
 			binder.setValidator(userProfileValidator);
+		}
+		else if (target instanceof AccountCreateCommand)
+		{
+			binder.setValidator(accountCreateValidator);
 		}
 	}
 
@@ -143,6 +160,54 @@ public class UserController
 		model.addAttribute("pageLimit", limit);
 
 		return "user-list";
+	}
+
+	/**
+	 * Begins creating a new account.
+	 * 
+	 * @param command
+	 *            account create command
+	 * @return account create view
+	 */
+	@RequestMapping(value = "/account/create", method = RequestMethod.GET)
+	public String accountCreate(@ModelAttribute("command") AccountCreateCommand command)
+	{
+		return "account-create";
+	}
+
+	/**
+	 * Cancels creation of a new account.
+	 * 
+	 * @return default view
+	 */
+	@RequestMapping(value = "/account/create", method = RequestMethod.POST, params = "cancel")
+	public String accountCreateCancel()
+	{
+		return "default";
+	}
+
+	/**
+	 * Completes creation of a new account.
+	 * 
+	 * @param command
+	 *            account create command
+	 * @param result
+	 *            validation result
+	 * @return account create done view
+	 */
+	@RequestMapping(value = "/account/create", method = RequestMethod.POST, params = "!cancel")
+	public String accountCreateSubmit(
+			@ModelAttribute("command") @Validated AccountCreateCommand command,
+			BindingResult result)
+	{
+		if (result.hasErrors())
+		{
+			return "account-create";
+		}
+
+		userBusiness.createAccount(command);
+
+		return "account-create-done";
 	}
 
 	/**
@@ -203,15 +268,15 @@ public class UserController
 			Principal principal)
 	{
 		User user = userBusiness.findUserByName(principal.getName());
-		
+
 		if (result.hasErrors())
 		{
 			model.addAttribute("user", user);
 			return "user-profile";
 		}
-		
+
 		userBusiness.updateUser(command, user.getId());
-		
+
 		return "default";
 	}
 

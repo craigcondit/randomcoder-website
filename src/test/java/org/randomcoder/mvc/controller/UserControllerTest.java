@@ -11,9 +11,10 @@ import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.*;
-import org.randomcoder.mvc.validator.ChangePasswordValidator;
+import org.randomcoder.mvc.validator.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.*;
+import org.springframework.web.bind.WebDataBinder;
 
 @SuppressWarnings("javadoc")
 public class UserControllerTest
@@ -22,8 +23,11 @@ public class UserControllerTest
 	private UserBusiness ub;
 	private UserController c;
 	private ChangePasswordValidator cpv;
+	private AccountCreateValidator acv;
+	private UserProfileValidator upv;
 	private Principal p;
 	private BindingResult br;
+	private WebDataBinder wdb;
 	private Model m;
 
 	@Before
@@ -35,16 +39,23 @@ public class UserControllerTest
 		cpv = control.createMock(ChangePasswordValidator.class);
 		p = control.createMock(Principal.class);
 		br = control.createMock(BindingResult.class);
+		wdb = control.createMock(WebDataBinder.class);
+		acv = control.createMock(AccountCreateValidator.class);
+		upv = control.createMock(UserProfileValidator.class);
 		c = new UserController();
 		c.setUserBusiness(ub);
 		c.setChangePasswordValidator(cpv);
 		c.setDefaultPageSize(10);
 		c.setMaximumPageSize(25);
+		c.setAccountCreateValidator(acv);
+		c.setUserProfileValidator(upv);
 	}
 
 	@After
 	public void tearDown()
 	{
+		acv = null;
+		upv = null;
 		br = null;
 		p = null;
 		c = null;
@@ -52,6 +63,38 @@ public class UserControllerTest
 		m = null;
 		ub = null;
 		control = null;
+	}
+
+	@Test
+	public void testInitBinder() throws Exception
+	{
+		expect(wdb.getTarget()).andReturn(new Object());
+		control.replay();
+
+		c.initBinder(wdb);
+		control.verify();
+	}
+
+	@Test
+	public void testInitBinderUserProfile() throws Exception
+	{
+		expect(wdb.getTarget()).andReturn(new UserProfileCommand());
+		wdb.setValidator(upv);
+		control.replay();
+
+		c.initBinder(wdb);
+		control.verify();
+	}
+
+	@Test
+	public void testInitBinderAccountCreate() throws Exception
+	{
+		expect(wdb.getTarget()).andReturn(new AccountCreateCommand());
+		wdb.setValidator(acv);
+		control.replay();
+
+		c.initBinder(wdb);
+		control.verify();
 	}
 
 	@Test
@@ -256,7 +299,7 @@ public class UserControllerTest
 		UserProfileCommand command = new UserProfileCommand();
 		User user = new User();
 		user.setId(1L);
-		
+
 		expect(p.getName()).andReturn("test");
 		expect(ub.findUserByName("test")).andReturn(user);
 		expect(br.hasErrors()).andReturn(false);
@@ -266,14 +309,14 @@ public class UserControllerTest
 		assertEquals("default", c.userProfileSubmit(command, br, m, p));
 		control.verify();
 	}
-	
+
 	@Test
 	public void testUserProfileError()
 	{
 		UserProfileCommand command = new UserProfileCommand();
 		User user = new User();
 		user.setId(1L);
-		
+
 		expect(p.getName()).andReturn("test");
 		expect(ub.findUserByName("test")).andReturn(user);
 		expect(br.hasErrors()).andReturn(true);
@@ -282,5 +325,42 @@ public class UserControllerTest
 
 		assertEquals("user-profile", c.userProfileSubmit(command, br, m, p));
 		control.verify();
-	}	
+	}
+
+	@Test
+	public void testAccountCreate()
+	{
+		assertEquals("account-create", c.accountCreate(null));
+	}
+
+	@Test
+	public void testAccountCreateCancel()
+	{
+		assertEquals("default", c.accountCreateCancel());
+	}
+
+	@Test
+	public void testAccountCreateSubmit()
+	{
+		AccountCreateCommand command = new AccountCreateCommand();
+
+		expect(br.hasErrors()).andReturn(false);
+		ub.createAccount(command);
+		control.replay();
+
+		assertEquals("account-create-done", c.accountCreateSubmit(command, br));
+		control.verify();
+	}
+	
+	@Test
+	public void testAccountCreateSubmitError()
+	{
+		AccountCreateCommand command = new AccountCreateCommand();
+
+		expect(br.hasErrors()).andReturn(true);
+		control.replay();
+
+		assertEquals("account-create", c.accountCreateSubmit(command, br));
+		control.verify();
+	}
 }

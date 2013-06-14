@@ -65,7 +65,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	public SimpleUrlHandlerMapping legayMapping()
 	{
 		Properties p = new Properties();
-		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
 
@@ -94,23 +93,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
 		return resolver;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public AccountCreateController accountCreateController(
-			@Named("accountCreateValidator") final Validator accountCreateValidator)
-	{
-		AccountCreateController c = new AccountCreateController();
-		c.setSuccessView("account-create-done");
-		c.setCancelView("default");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setUserBusiness(userBusiness);
-		c.setFormView("account-create");
-		c.setCommandClass(AccountCreateCommand.class);
-		c.setValidator(accountCreateValidator);
-		return c;
 	}
 
 	@Bean
