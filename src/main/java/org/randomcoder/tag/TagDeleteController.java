@@ -3,7 +3,7 @@ package org.randomcoder.tag;
 import javax.servlet.http.*;
 
 import org.randomcoder.bo.TagBusiness;
-import org.randomcoder.mvc.IdCommand;
+import org.randomcoder.mvc.command.IdCommand;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;

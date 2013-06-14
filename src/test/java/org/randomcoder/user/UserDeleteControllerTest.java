@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.randomcoder.bo.UserBusinessImpl;
 import org.randomcoder.db.*;
-import org.randomcoder.mvc.IdCommand;
+import org.randomcoder.mvc.command.IdCommand;
 import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.springframework.mock.web.*;
 import org.springframework.validation.BindException;

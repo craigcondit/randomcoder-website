@@ -1,7 +1,7 @@
 package org.randomcoder.article.comment;
 
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.IdCommand;
+import org.randomcoder.mvc.command.IdCommand;
 
 /**
  * Controller class which handles comment disapproval.

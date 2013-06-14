@@ -1,4 +1,4 @@
-package org.randomcoder.mvc;
+package org.randomcoder.mvc.command;
 
 import java.io.Serializable;
 

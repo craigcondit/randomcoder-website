@@ -8,7 +8,7 @@ import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.mvc.IdCommand;
+import org.randomcoder.mvc.command.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
