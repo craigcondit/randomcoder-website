@@ -1,65 +1,45 @@
-package org.randomcoder.article;
+package org.randomcoder.validator;
 
 import java.io.*;
 import java.util.*;
 
+import javax.inject.*;
+
 import org.apache.commons.logging.*;
+import org.randomcoder.article.ArticleAddCommand;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.*;
 import org.randomcoder.db.Article;
 import org.randomcoder.io.SequenceReader;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.*;
 
 /**
  * Validator for adding articles.
- * 
- * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
- *         
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *         
- * * Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *             
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
  */
+@Component("articleAddValidator")
 public class ArticleAddValidator implements Validator
 {
 	private static final String ERROR_ARTICLE_CONTENT_INVALID = "error.article.content.invalid";
 	private static final String ERROR_ARTICLE_CONTENT_REQUIRED = "error.article.content.required";
 	private static final String ERROR_ARTICLE_SUMMARY_INVALID = "error.article.summary.invalid";
-	private static final String ERROR_ARTICLE_SUMMARY_TOO_LONG = "error.article.summary.toolong";	
+	private static final String ERROR_ARTICLE_SUMMARY_TOO_LONG = "error.article.summary.toolong";
 	private static final String ERROR_ARTICLE_CONTENT_TYPE_REQUIRED = "error.article.contentType.required";
 	private static final String ERROR_ARTICLE_TITLE_REQUIRED = "error.article.title.required";
 	private static final String ERROR_ARTICLE_NULL = "error.article.null";
 	private static final String ERROR_ARTICLE_PERMALINK_INVALID = "error.article.permalink.invalid";
 	private static final int DEFAULT_MAX_SUMMARY_LENGTH = 1000;
-	
+
 	private static final Log logger = LogFactory.getLog(ArticleAddValidator.class);
-	
+
 	/**
 	 * Message resource for permalink exists message.
 	 */
 	protected static final String ERROR_ARTICLE_PERMALINK_EXISTS = "error.article.permalink.exists";
 
 	private ContentFilter contentFilter;
-	
+
 	/**
 	 * Article Business.
 	 */
@@ -69,24 +49,27 @@ public class ArticleAddValidator implements Validator
 	 * Maximum summary length.
 	 */
 	protected int maximumSummaryLength = DEFAULT_MAX_SUMMARY_LENGTH;
-	
+
 	/**
 	 * Sets the ContentFilter implementation to use.
-	 * @param contentFilter content filter
+	 * 
+	 * @param contentFilter
+	 *            content filter
 	 */
-	@Required
+	@Inject
+	@Named("contentFilter")
 	public void setContentFilter(ContentFilter contentFilter)
 	{
 		this.contentFilter = contentFilter;
 	}
-	
+
 	/**
 	 * Sets the ArticleBusiness implementation to use.
 	 * 
 	 * @param articleBusiness
 	 *            article business object
 	 */
-	@Required
+	@Inject
 	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
 		this.articleBusiness = articleBusiness;
@@ -94,19 +77,25 @@ public class ArticleAddValidator implements Validator
 
 	/**
 	 * Sets the maximum length of the summary field.
-	 * @param maximumSummaryLength max summary length
+	 * 
+	 * @param maximumSummaryLength
+	 *            max summary length
 	 */
+	@Value("${article.max.summary.length}")
 	public void setMaximumSummaryLength(int maximumSummaryLength)
 	{
 		this.maximumSummaryLength = maximumSummaryLength;
 	}
-	
+
 	/**
 	 * Determines if this validator supports the given class.
 	 * 
-	 * <p> This validator supports {@code ArticleAddCommand} only. </p>
+	 * <p>
+	 * This validator supports {@code ArticleAddCommand} only.
+	 * </p>
 	 * 
-	 * @param givenClass class to check
+	 * @param givenClass
+	 *            class to check
 	 */
 	@Override
 	public boolean supports(Class givenClass)
@@ -117,8 +106,10 @@ public class ArticleAddValidator implements Validator
 	/**
 	 * Validates the given command.
 	 * 
-	 * @param obj {@code ArticleAddCommand} to validate
-	 * @param errors Spring Errors object to populate
+	 * @param obj
+	 *            {@code ArticleAddCommand} to validate
+	 * @param errors
+	 *            Spring Errors object to populate
 	 */
 	@Override
 	public void validate(Object obj, Errors errors)
@@ -146,8 +137,10 @@ public class ArticleAddValidator implements Validator
 	/**
 	 * Validate fields common to this class and subclasses.
 	 * 
-	 * @param command article add command (or subclass)
-	 * @param errors spring errors object to populate
+	 * @param command
+	 *            article add command (or subclass)
+	 * @param errors
+	 *            spring errors object to populate
 	 * @return true if validation completed, false if processing should stop
 	 */
 	protected final boolean validateCommon(ArticleAddCommand command, Errors errors)
@@ -186,7 +179,7 @@ public class ArticleAddValidator implements Validator
 		else if (contentType != null)
 		{
 			// validate the content
-			validateContent(errors, content, contentType.getMimeType(), "content", ERROR_ARTICLE_CONTENT_INVALID, "content invalid"); 
+			validateContent(errors, content, contentType.getMimeType(), "content", ERROR_ARTICLE_CONTENT_INVALID, "content invalid");
 		}
 
 		String summary = command.getSummary();
@@ -198,26 +191,28 @@ public class ArticleAddValidator implements Validator
 				errors.rejectValue("summary", ERROR_ARTICLE_SUMMARY_TOO_LONG, new Object[] { new Integer(maximumSummaryLength) }, "summary too long");
 			}
 			else
-			{				
-				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID, "summary invalid"); 
+			{
+				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID, "summary invalid");
 			}
 		}
-		
+
 		return true;
 	}
 
-	private void validateContent(Errors errors, String content, String mimeType, String fieldName, String errorMessage, String fallbackMessage)	
+	private void validateContent(Errors errors, String content, String mimeType, String fieldName, String errorMessage, String fallbackMessage)
 	{
 		String prefix = contentFilter.getPrefix(mimeType);
 		String suffix = contentFilter.getSuffix(mimeType);
-		
+
 		List<Reader> readers = new ArrayList<Reader>();
-		if (prefix != null) readers.add(new StringReader(prefix));
+		if (prefix != null)
+			readers.add(new StringReader(prefix));
 		readers.add(new StringReader(content));
-		if (suffix != null) readers.add(new StringReader(suffix));
-		
+		if (suffix != null)
+			readers.add(new StringReader(suffix));
+
 		SequenceReader reader = new SequenceReader(readers);
-		
+
 		try
 		{
 			contentFilter.validate(mimeType, reader);
@@ -226,7 +221,7 @@ public class ArticleAddValidator implements Validator
 		{
 			int line = e.getLineNumber();
 			int col = e.getColumnNumber();
-			
+
 			errors.rejectValue(fieldName, errorMessage, new Object[] { new Integer(line), new Integer(col), e.getMessage() }, fallbackMessage);
 		}
 		catch (InvalidContentTypeException e)

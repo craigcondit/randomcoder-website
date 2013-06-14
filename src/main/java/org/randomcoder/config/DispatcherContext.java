@@ -2,7 +2,7 @@ package org.randomcoder.config;
 
 import java.util.Properties;
 
-import javax.inject.Inject;
+import javax.inject.*;
 
 import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
@@ -18,6 +18,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
@@ -27,7 +28,7 @@ import org.springframework.web.servlet.view.*;
 @Configuration
 @SuppressWarnings("javadoc")
 @EnableTransactionManagement(proxyTargetClass = true)
-@ComponentScan("org.randomcoder.controller")
+@ComponentScan({ "org.randomcoder.controller", "org.randomcoder.validator" })
 @EnableWebMvc
 public class DispatcherContext extends WebMvcConfigurerAdapter
 {
@@ -65,7 +66,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		pspc.setIgnoreUnresolvablePlaceholders(false);
 		return pspc;
 	}
-	
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{
@@ -74,7 +75,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 				.addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.jpg", "/**/*.png", "/**/*.gif")
 				.addResourceLocations("classpath:/webapp/");
 	}
-	
+
 	@Bean
 	@Order(0)
 	public RequestMappingHandlerMapping annotationMapping()
@@ -116,7 +117,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		m.setMappings(p);
 		return m;
 	}
-	
+
 	@Bean
 	public ViewResolver xmlViewResolver()
 	{
@@ -136,26 +137,26 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		resolver.setSuffix(".jsp");
 		return resolver;
 	}
-	
-	@Bean
-	public ArticleAddValidator articleAddValidator()
-	{
-		ArticleAddValidator validator = new ArticleAddValidator();
-		validator.setArticleBusiness(articleBusiness);
-		validator.setContentFilter(contentFilter);
-		validator.setMaximumSummaryLength(1000);
-		return validator;
-	}
 
-	@Bean
-	public ArticleEditValidator articleEditValidator()
-	{
-		ArticleEditValidator validator = new ArticleEditValidator();
-		validator.setArticleBusiness(articleBusiness);
-		validator.setContentFilter(contentFilter);
-		validator.setMaximumSummaryLength(1000);
-		return validator;
-	}
+	// @Bean
+	// public ArticleAddValidator articleAddValidator()
+	// {
+	// ArticleAddValidator validator = new ArticleAddValidator();
+	// validator.setArticleBusiness(articleBusiness);
+	// validator.setContentFilter(contentFilter);
+	// validator.setMaximumSummaryLength(1000);
+	// return validator;
+	// }
+	//
+	// @Bean
+	// public ArticleEditValidator articleEditValidator()
+	// {
+	// ArticleEditValidator validator = new ArticleEditValidator();
+	// validator.setArticleBusiness(articleBusiness);
+	// validator.setContentFilter(contentFilter);
+	// validator.setMaximumSummaryLength(1000);
+	// return validator;
+	// }
 
 	@Bean
 	public CommentValidator commentValidator()
@@ -218,25 +219,27 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public ArticleAddController articleAddController()
+	public ArticleAddController articleAddController(
+			@Named("articleAddValidator") final Validator articleAddValidator)
 	{
 		ArticleAddController c = new ArticleAddController();
 		configure(c);
 		c.setFormView("article-add");
 		c.setCommandClass(ArticleAddCommand.class);
-		c.setValidator(articleAddValidator());
+		c.setValidator(articleAddValidator);
 		return c;
 	}
 
 	@Bean
 	@SuppressWarnings("deprecation")
-	public ArticleEditController articleEditController()
+	public ArticleEditController articleEditController(
+			@Named("articleEditValidator") final Validator articleEditValidator)
 	{
 		ArticleEditController c = new ArticleEditController();
 		configure(c);
 		c.setFormView("article-edit");
 		c.setCommandClass(ArticleEditCommand.class);
-		c.setValidator(articleEditValidator());
+		c.setValidator(articleEditValidator);
 		return c;
 	}
 
