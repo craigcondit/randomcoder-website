@@ -4,8 +4,7 @@ import java.util.Properties;
 
 import javax.inject.*;
 
-import org.randomcoder.bo.*;
-import org.randomcoder.content.ContentFilter;
+import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.mvc.command.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
@@ -30,15 +29,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 {
 	@Inject
 	Environment env;
-
-	@Inject
-	ContentFilter contentFilter;
-
-	@Inject
-	ArticleBusiness articleBusiness;
-
-	@Inject
-	TagBusiness tagBusiness;
 
 	@Inject
 	UserBusiness userBusiness;
