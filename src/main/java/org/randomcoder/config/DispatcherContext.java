@@ -69,7 +69,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
 		p.setProperty("/user/profile", "userProfileController");
-		p.setProperty("/user/profile/change-password", "changePasswordController");
 
 		SimpleUrlHandlerMapping m = new SimpleUrlHandlerMapping();
 		m.setOrder(1);
@@ -112,23 +111,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
 		c.setValidator(userProfileValidator);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ChangePasswordController changePasswordController(
-			@Named("changePasswordValidator") Validator changePasswordValidator)
-	{
-		ChangePasswordController c = new ChangePasswordController();
-		c.setFormView("change-password");
-		c.setSuccessView("user-profile-redirect");
-		c.setCancelView("user-profile-redirect");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setCommandClass(ChangePasswordCommand.class);
-		c.setValidator(changePasswordValidator);
-		c.setUserBusiness(userBusiness);
 		return c;
 	}
 

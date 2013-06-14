@@ -1,15 +1,18 @@
 package org.randomcoder.mvc.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.User;
-import org.randomcoder.mvc.command.UserListCommand;
+import org.randomcoder.mvc.command.*;
+import org.randomcoder.mvc.validator.ChangePasswordValidator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController
 {
 	private UserBusiness userBusiness;
+	private ChangePasswordValidator changePasswordValidator;
+
 	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
 
@@ -56,6 +61,18 @@ public class UserController
 	public void setMaximumPageSize(int maximumPageSize)
 	{
 		this.maximumPageSize = maximumPageSize;
+	}
+
+	/**
+	 * Sets the change password validator to use.
+	 * 
+	 * @param changePasswordValidator
+	 *            change password validator
+	 */
+	@Inject
+	public void setChangePasswordValidator(ChangePasswordValidator changePasswordValidator)
+	{
+		this.changePasswordValidator = changePasswordValidator;
 	}
 
 	/**
@@ -98,7 +115,69 @@ public class UserController
 	}
 
 	/**
-	 * Deletees the selected user.
+	 * Begins changing a user's password.
+	 * 
+	 * @param command
+	 *            change password command
+	 * @param principal
+	 *            current user
+	 * @return change password view
+	 */
+	@RequestMapping(value = "/user/profile/change-password", method = RequestMethod.GET)
+	public String changePassword(
+			@ModelAttribute("command") ChangePasswordCommand command,
+			Principal principal)
+	{
+		User user = userBusiness.findUserByNameEnabled(principal.getName());
+		command.setUser(user);
+		return "change-password";
+	}
+
+	/**
+	 * Cancels editing a user's password.
+	 * 
+	 * @return redirect to user profile view
+	 */
+	@RequestMapping(value = "/user/profile/change-password", method = RequestMethod.POST, params = "cancel")
+	public String changePasswordCancel()
+	{
+		return "user-profile-redirect";
+	}
+
+	/**
+	 * Finishes changing a user's password.
+	 * 
+	 * @param command
+	 *            change password command
+	 * @param result
+	 *            validation result
+	 * @param principal
+	 *            current user
+	 * @return redirect to user view
+	 */
+	@RequestMapping(value = "/user/profile/change-password", method = RequestMethod.POST, params = "!cancel")
+	public String changePasswordSubmit(
+			@ModelAttribute("command") ChangePasswordCommand command,
+			BindingResult result,
+			Principal principal)
+	{
+		String userName = principal.getName();
+		
+		User user = userBusiness.findUserByNameEnabled(userName);
+		command.setUser(user);
+		changePasswordValidator.validate(command, result);
+		if (result.hasErrors())
+		{
+			return "change-password";
+		}
+
+		userBusiness.changePassword(userName, command.getPassword());
+
+		return "user-profile-redirect";
+	}
+
+	/**
+	 * Deletes the selected user.
 	 * 
 	 * @param id
 	 *            user ID

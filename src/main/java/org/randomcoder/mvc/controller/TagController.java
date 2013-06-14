@@ -244,7 +244,8 @@ public class TagController
 	 * @return redirect to tag list view
 	 */
 	@RequestMapping(value = "/tag/edit", method = RequestMethod.POST, params = "!cancel")
-	public String editTagSubmit(@ModelAttribute("command") @Validated TagEditCommand cmd, BindingResult result)
+	public String editTagSubmit(
+			@ModelAttribute("command") @Validated TagEditCommand cmd, BindingResult result)
 	{
 		if (result.hasErrors())
 		{
