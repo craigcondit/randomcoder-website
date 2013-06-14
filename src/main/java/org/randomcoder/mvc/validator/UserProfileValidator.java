@@ -23,7 +23,7 @@ public class UserProfileValidator implements Validator
 	 * @return true if target class is UserProfileCommand, false otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return UserProfileCommand.class.equals(targetClass);
 	}

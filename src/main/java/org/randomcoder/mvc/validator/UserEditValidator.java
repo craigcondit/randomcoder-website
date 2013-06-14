@@ -20,7 +20,7 @@ public class UserEditValidator extends UserAddValidator
 	 * @return true if targetClass is {@code UserEditCommand}, false otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return UserEditCommand.class.equals(targetClass);
 	}

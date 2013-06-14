@@ -21,7 +21,7 @@ public class ArticleEditValidator extends ArticleAddValidator
 	 * @param givenClass class to check
 	 */
 	@Override
-	public boolean supports(Class givenClass)
+	public boolean supports(Class<?> givenClass)
 	{
 		return ArticleEditCommand.class.equals(givenClass);
 	}

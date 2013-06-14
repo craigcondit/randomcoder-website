@@ -62,7 +62,7 @@ public class CommentValidator implements Validator
 	 * @return true if supported, false otherwise
 	 */
 	@Override
-	public boolean supports(Class givenClass)
+	public boolean supports(Class<?> givenClass)
 	{
 		return CommentCommand.class.equals(givenClass);
 	}

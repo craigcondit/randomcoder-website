@@ -30,12 +30,6 @@ public class AccountCreateValidator implements Validator
 	private static final String ERROR_PASSWORD_TOO_SHORT = "error.user.password.tooshort";
 	private static final String ERROR_PASSWORD_NO_MATCH = "error.user.password.nomatch";
 
-	private static final String ERROR_INFOCARD_REQUIRED = "error.profile.infocard.required";
-	private static final String ERROR_INFOCARD_EXPIRED = "error.profile.infocard.expired";
-	private static final String ERROR_INFOCARD_EXISTS = "error.profile.infocard.exists";
-	private static final String ERROR_INFOCARD_PPID_REQUIRED = "error.profile.infocard.ppid.required";
-	private static final String ERROR_INFOCARD_EMAIL_REQUIRED = "error.profile.infocard.email.required";
-
 	private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
 	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;
 	private UserBusiness userBusiness;
@@ -85,7 +79,7 @@ public class AccountCreateValidator implements Validator
 	 *         otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return AccountCreateCommand.class.equals(targetClass);
 	}

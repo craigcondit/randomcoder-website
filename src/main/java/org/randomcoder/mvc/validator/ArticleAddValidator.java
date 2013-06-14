@@ -98,7 +98,7 @@ public class ArticleAddValidator implements Validator
 	 *            class to check
 	 */
 	@Override
-	public boolean supports(Class givenClass)
+	public boolean supports(Class<?> givenClass)
 	{
 		return ArticleAddCommand.class.equals(givenClass);
 	}

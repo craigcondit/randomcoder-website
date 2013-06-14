@@ -44,7 +44,7 @@ public class ChangePasswordValidator implements Validator
 	 *         otherwise
 	 */
 	@Override
-	public boolean supports(Class givenClass)
+	public boolean supports(Class<?> givenClass)
 	{
 		return ChangePasswordCommand.class.equals(givenClass);
 	}

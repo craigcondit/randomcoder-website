@@ -78,7 +78,7 @@ public class UserAddValidator implements Validator
 	 * @return true if targetClass is {@code UserAddCommand}, false otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return UserAddCommand.class.equals(targetClass);
 	}
