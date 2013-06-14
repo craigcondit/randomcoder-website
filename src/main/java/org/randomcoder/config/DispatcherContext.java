@@ -69,7 +69,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
-		p.setProperty("/user/delete", "userDeleteController");
 		p.setProperty("/user/profile", "userProfileController");
 		p.setProperty("/user/profile/change-password", "changePasswordController");
 
@@ -196,17 +195,5 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setCancelParamKey("cancel");
 		c.setBindOnNewForm(true);
 		c.setUserBusiness(userBusiness);
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public UserDeleteController userDeleteController()
-	{
-		UserDeleteController c = new UserDeleteController();
-		c.setViewName("user-list-redirect");
-		c.setUserBusiness(userBusiness);
-		c.setCommandClass(IdCommand.class);
-		c.setUserBusiness(userBusiness);
-		return c;
 	}
 }
