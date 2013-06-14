@@ -40,7 +40,7 @@ public class TagAddValidator implements Validator
 	 * @return true if class is {@code TagAddCommand}, false otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return TagAddCommand.class.equals(targetClass);
 	}

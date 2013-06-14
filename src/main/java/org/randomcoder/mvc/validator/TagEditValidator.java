@@ -20,7 +20,7 @@ public class TagEditValidator extends TagAddValidator
 	 * @return true if targetClass is {@code TagEditCommand}, false otherwise
 	 */
 	@Override
-	public boolean supports(Class targetClass)
+	public boolean supports(Class<?> targetClass)
 	{
 		return TagEditCommand.class.equals(targetClass);
 	}

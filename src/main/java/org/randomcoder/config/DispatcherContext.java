@@ -9,7 +9,6 @@ import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.mvc.command.IdCommand;
-import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
@@ -87,9 +86,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		p.setProperty("/comment/delete", "commentDeleteController");
 		p.setProperty("/comment/approve", "commentApproveController");
 		p.setProperty("/comment/disapprove", "commentDisapproveController");
-		p.setProperty("/tag/add", "tagAddController");
-		p.setProperty("/tag/edit", "tagEditController");
-		p.setProperty("/tag/delete", "tagDeleteController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
 		p.setProperty("/user/edit", "userEditController");
@@ -340,53 +336,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setUserBusiness(userBusiness);
 		c.setCommandClass(IdCommand.class);
 		c.setUserBusiness(userBusiness);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TagAddController tagAddController(
-			@Named("tagAddValidator") final Validator tagAddValidator)
-	{
-		TagAddController c = new TagAddController();
-		configure(c);
-		c.setFormView("tag-add");
-		c.setCommandClass(TagAddCommand.class);
-		c.setValidator(tagAddValidator);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TagEditController tagEditController(
-			@Named("tagEditValidator") final Validator tagEditValidator)
-	{
-		TagEditController c = new TagEditController();
-		configure(c);
-		c.setFormView("tag-edit");
-		c.setCommandClass(TagEditCommand.class);
-		c.setValidator(tagEditValidator);
-		return c;
-	}
-
-	@SuppressWarnings("deprecation")
-	private void configure(AbstractTagController c)
-	{
-		c.setSuccessView("tag-list-redirect");
-		c.setCancelView("tag-list-redirect");
-		c.setCancelParamKey("cancel");
-		c.setBindOnNewForm(true);
-		c.setTagBusiness(tagBusiness);
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public TagDeleteController tagDeleteController()
-	{
-		TagDeleteController c = new TagDeleteController();
-		c.setViewName("tag-list-redirect");
-		c.setCommandClass(IdCommand.class);
-		c.setTagBusiness(tagBusiness);
 		return c;
 	}
 }

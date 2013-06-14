@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://randomcoder.org/tags-input" prefix="input" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<c:url var="homeUrl" value="/user" />
+<c:url var="homeUrl" value="/tag" />
 <c:url var="formAction" value="${template.formAction}" />
 <div class="sectionHeading">
   <c:choose>
@@ -23,7 +23,7 @@
   
 		<c:choose>
 			<c:when test="${template.formMode == 'add'}">
-		  	<spring:bind path="command.name">
+				<spring:bind path="command.name">
 		  		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
 					<div class="${fieldClasses}">
 						<div>
@@ -38,10 +38,10 @@
 							<input:text name="name" styleClass="text" styleId="tagName" maxlength="255" value="${status.value}" />
 						</div>
 						<div class="description">
-							Enter a uniqe name for the new tag.
+							Enter a unique name for the new tag.
 						</div>
 					</div>
-		  	</spring:bind>
+				</spring:bind>
 		  </c:when>
 		  <c:otherwise>
 				<div class="fields">
