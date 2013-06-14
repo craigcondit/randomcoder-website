@@ -8,7 +8,6 @@ import org.randomcoder.article.*;
 import org.randomcoder.article.comment.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.db.*;
 import org.randomcoder.springmvc.IdCommand;
 import org.randomcoder.tag.*;
 import org.randomcoder.user.*;
@@ -34,18 +33,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 {
 	@Inject
 	Environment env;
-
-	@Inject
-	ArticleDao articleDao;
-
-	@Inject
-	TagDao tagDao;
-
-	@Inject
-	UserDao userDao;
-
-	@Inject
-	RoleDao roleDao;
 
 	@Inject
 	ContentFilter contentFilter;
