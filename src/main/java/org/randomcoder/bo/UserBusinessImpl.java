@@ -45,7 +45,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void changePassword(String userName, String password)
 	{
 		User user = userDao.findByUserName(userName);
@@ -59,7 +59,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void createUser(Producer<User> producer)
 	{
 		User user = new User();
@@ -68,7 +68,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void createAccount(Producer<User> producer)
 	{
 		User user = new User();
@@ -77,7 +77,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void updateUser(Producer<User> producer, Long userId)
 	{
 		User user = loadUser(userId);
@@ -86,7 +86,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void deleteUser(Long userId)
 	{
 		User user = loadUser(userId);
@@ -95,7 +95,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public void loadUserForEditing(Consumer<User> consumer, Long userId)
 	{
 		User user = loadUser(userId);
@@ -113,21 +113,21 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Role> listRoles()
 	{
 		return roleDao.listAll();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public Role findRoleByName(String name)
 	{
 		return roleDao.findByName(name);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public User findUserByName(String name)
 	{
 		User user = userDao.findByUserName(name);
@@ -139,7 +139,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public User findUserByNameEnabled(String name)
 	{
 		User user = userDao.findByUserNameEnabled(name);
@@ -151,7 +151,7 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<User> listUsersInRange(int start, int limit)
 	{
 		List<User> users = userDao.listAllInRange(start, limit);
@@ -163,14 +163,14 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public int countUsers()
 	{
 		return userDao.countAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void auditUsernamePasswordLogin(String userName)
 	{
 		User user = userDao.findByUserName(userName);

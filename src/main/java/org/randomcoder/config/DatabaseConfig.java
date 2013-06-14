@@ -12,12 +12,14 @@ import org.hibernate.dialect.PostgreSQL82Dialect;
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.*;
 
 @Configuration
 @SuppressWarnings("javadoc")
-public class JpaDatabaseConfig
+@EnableJpaRepositories("org.randomcoder.db")
+public class DatabaseConfig
 {
 	@Inject
 	Environment env;
@@ -63,5 +65,4 @@ public class JpaDatabaseConfig
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;
 	}
-
 }

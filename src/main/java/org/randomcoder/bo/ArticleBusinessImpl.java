@@ -147,7 +147,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void createArticle(Producer<Article> producer, String userName)
 	{
 		User user = findUserByName(userName);
@@ -170,7 +170,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent)
 	{
 		User user = userName == null ? null : findUserByName(userName);
@@ -247,7 +247,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void updateArticle(Producer<Article> producer, Long articleId, String userName)
 	{
 		User user = findUserByName(userName);
@@ -272,7 +272,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public Article readArticle(long articleId)
 	{
 		Article article = articleDao.read(articleId);
@@ -285,7 +285,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public Article findArticleByPermalink(String permalink)
 	{
 		Article article = articleDao.findByPermalink(permalink);
@@ -298,7 +298,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName)
 	{
 		User user = findUserByName(userName);
@@ -312,7 +312,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void deleteArticle(String userName, Long articleId)
 	{
 		User user = findUserByName(userName);
@@ -324,7 +324,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(rollbackFor = ModerationException.class)
+	@Transactional(value = "hibernateTransactionManager", rollbackFor = ModerationException.class)
 	public Article approveComment(Long commentId) throws ModerationException
 	{
 		Comment comment = loadComment(commentId);
@@ -342,7 +342,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(rollbackFor = ModerationException.class)
+	@Transactional(value = "hibernateTransactionManager", rollbackFor = ModerationException.class)
 	public Article disapproveComment(Long commentId) throws ModerationException
 	{
 		Comment comment = loadComment(commentId);
@@ -360,7 +360,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public Article deleteComment(Long commentId)
 	{
 		Comment comment = loadComment(commentId);
@@ -378,7 +378,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public boolean moderateComments(int count) throws ModerationException
 	{
 		Iterator<Comment> comments = commentDao.iterateForModerationInRange(0, count);
@@ -403,21 +403,21 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public int countArticlesBeforeDate(Date endDate)
 	{
 		return articleDao.countBeforeDate(endDate);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public int countArticlesByTagBeforeDate(Tag tag, Date endDate)
 	{
 		return articleDao.countByTagBeforeDate(tag, endDate);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesInRange(int start, int limit)
 	{
 		List<Article> articles = articleDao.listAllInRange(start, limit);
@@ -431,7 +431,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesBeforeDateInRange(Date endDate, int start, int limit)
 	{
 		List<Article> articles = articleDao.listBeforeDateInRange(endDate, start, limit);
@@ -445,7 +445,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit)
 	{
 		List<Article> articles = articleDao.listByTagBeforeDateInRange(tag, endDate, start, limit);
@@ -459,7 +459,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesByTag(Tag tag)
 	{
 		List<Article> articles = articleDao.listByTag(tag);
@@ -468,14 +468,14 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesBetweenDates(Date startDate, Date endDate)
 	{
 		return articleDao.listBetweenDates(startDate, endDate);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate)
 	{
 		return articleDao.listByTagBetweenDates(tag, startDate, endDate);

@@ -15,7 +15,6 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.aop.support.DefaultIntroductionAdvisor;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.*;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -26,20 +25,13 @@ public class LegacyDatabaseConfig
 	@Inject
 	Environment env;
 
-	@Bean
-	public DataSource dataSource()
-	{
-		DriverManagerDataSource ds = new DriverManagerDataSource();
-		ds.setUrl(env.getRequiredProperty("database.url"));
-		ds.setUsername(env.getRequiredProperty("database.username"));
-		ds.setPassword(env.getRequiredProperty("database.password"));
-		return ds;
-	}
+	@Inject
+	DataSource dataSource;
 
 	@Bean
 	public SessionFactory sessionFactory()
 	{
-		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource());
+		LocalSessionFactoryBuilder builder = new LocalSessionFactoryBuilder(dataSource);
 
 		builder.setProperty("hibernate.transaction.factory_class", JdbcTransactionFactory.class.getName());
 		builder.setProperty("hibernate.dialect", PostgreSQL82Dialect.class.getName());
@@ -65,7 +57,7 @@ public class LegacyDatabaseConfig
 	}
 
 	@Bean
-	public PlatformTransactionManager transactionManager(final SessionFactory sessionFactory)
+	public PlatformTransactionManager hibernateTransactionManager(final SessionFactory sessionFactory)
 	{
 		HibernateTransactionManager tx = new HibernateTransactionManager();
 		tx.setSessionFactory(sessionFactory);

@@ -23,8 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 @ComponentScan({ "org.randomcoder.bo", "org.randomcoder.security.spring" })
 @ImportResource({ "classpath:spring-security.xml" })
-@Import({ DownloadConfig.class, LegacyDatabaseConfig.class })
-// @Import({ DownloadConfig.class, JpaDatabaseConfig.class })
+@Import({ DownloadConfig.class, DatabaseConfig.class, LegacyDatabaseConfig.class })
 public class RootContext implements SchedulingConfigurer
 {
 	@Inject

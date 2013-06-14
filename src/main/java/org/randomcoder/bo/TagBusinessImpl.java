@@ -44,7 +44,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<TagCloudEntry> getTagCloud()
 	{
 		List<TagStatistics> tagStats = tagDao.queryAllTagStatistics();
@@ -62,7 +62,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId)
 	{
 		Tag tag = loadTag(tagId);
@@ -70,7 +70,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void createTag(Producer<Tag> producer)
 	{
 		Tag tag = new Tag();
@@ -79,7 +79,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void updateTag(Producer<Tag> producer, Long tagId)
 	{
 		Tag tag = loadTag(tagId);
@@ -88,7 +88,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional
+	@Transactional("hibernateTransactionManager")
 	public void deleteTag(Long tagId)
 	{
 		Tag tag = loadTag(tagId);
@@ -107,7 +107,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public Tag findTagByName(String name)
 	{
 		return tagDao.findByName(name);
@@ -122,28 +122,28 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<TagStatistics> queryTagStatistics()
 	{
 		return tagDao.queryAllTagStatistics();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public List<TagStatistics> queryTagStatisticsInRange(int start, int limit)
 	{
 		return tagDao.queryAllTagStatisticsInRange(start, limit);
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public int queryTagMostArticles()
 	{
 		return tagDao.queryMostArticles();
 	}
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(value = "hibernateTransactionManager", readOnly = true)
 	public int countTags()
 	{
 		return tagDao.countAll();
