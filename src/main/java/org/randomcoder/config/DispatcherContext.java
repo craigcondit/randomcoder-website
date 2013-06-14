@@ -78,10 +78,9 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		Properties p = new Properties();
 		p.setProperty("/article/add", "articleAddController");
 		p.setProperty("/article/edit", "articleEditController");
-		p.setProperty("/article/delete", "articleDeleteController");
 		p.setProperty("/articles/id/*", "articleIdController");
 		p.setProperty("/articles/*", "articlePermalinkController");
-		
+
 		p.setProperty("/account/create", "accountCreateController");
 		p.setProperty("/user", "userListController");
 		p.setProperty("/user/add", "userAddController");
@@ -188,17 +187,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		c.setFormView("article-edit");
 		c.setCommandClass(ArticleEditCommand.class);
 		c.setValidator(articleEditValidator);
-		return c;
-	}
-
-	@Bean
-	@SuppressWarnings("deprecation")
-	public ArticleDeleteController articleDeleteController()
-	{
-		ArticleDeleteController c = new ArticleDeleteController();
-		c.setViewName("default");
-		c.setCommandClass(IdCommand.class);
-		c.setArticleBusiness(articleBusiness);
 		return c;
 	}
 
