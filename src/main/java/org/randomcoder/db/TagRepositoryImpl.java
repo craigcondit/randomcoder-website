@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 public class TagRepositoryImpl implements TagRepositoryCustom
 {
 	private static final String QUERY_ALL_TAG_STATISTICS = "select t, t.articles.size from Tag t order by t.displayName";
+	private static final String QUERY_MOST_ARTICLES = "select max(t.articles.size) from Tag t";
 	
 	private EntityManager entityManager;
 
@@ -29,6 +30,13 @@ public class TagRepositoryImpl implements TagRepositoryCustom
 		this.entityManager = entityManager;
 	}
 	
+	@Override
+	public List<TagStatistics> findAllTagStatistics()
+	{
+		Query query = entityManager.createQuery(QUERY_ALL_TAG_STATISTICS);
+		return buildTagStatistics(query);
+	}
+
 	@Override
 	public Page<TagStatistics> findAllTagStatistics(Pageable pageable)
 	{		
@@ -56,8 +64,24 @@ public class TagRepositoryImpl implements TagRepositoryCustom
 		{
 			query.setMaxResults(limit);
 		}
-		List<?> results = query.getResultList();
+		
+		List<TagStatistics> tagStats = buildTagStatistics(query);
+		PageImpl<TagStatistics> page = new PageImpl<>(tagStats, pageable, rowCount);
+		
+		return page;
+	}
 
+	@Override
+	public int maxArticleCount()
+	{
+		Number result = (Number) entityManager.createQuery(QUERY_MOST_ARTICLES).getSingleResult();
+		return result == null ? 0 : result.intValue();
+	}
+	
+	private List<TagStatistics> buildTagStatistics(Query query)
+	{
+		List<?> results = query.getResultList();
+		
 		List<TagStatistics> tagStats = new ArrayList<TagStatistics>(results.size());
 
 		for (Object result : results)
@@ -69,9 +93,6 @@ public class TagRepositoryImpl implements TagRepositoryCustom
 
 			tagStats.add(new TagStatistics(tag, articleCount));
 		}
-
-		PageImpl<TagStatistics> page = new PageImpl<>(tagStats, pageable, rowCount);
-		
-		return page;
-	}
+		return tagStats;
+	}	
 }

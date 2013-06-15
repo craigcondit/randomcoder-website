@@ -1,5 +1,7 @@
 package org.randomcoder.db;
 
+import java.util.List;
+
 import org.randomcoder.tag.TagStatistics;
 import org.springframework.data.domain.*;
 
@@ -9,6 +11,13 @@ import org.springframework.data.domain.*;
 public interface TagRepositoryCustom
 {
 	/**
+	 * Retrieves all Tag statistics.
+	 * 
+	 * @return Page of TagStatistics
+	 */
+	public List<TagStatistics> findAllTagStatistics();
+
+	/**
 	 * Retrieves a page of Tag statistics.
 	 * 
 	 * @param pageable
@@ -16,4 +25,11 @@ public interface TagRepositoryCustom
 	 * @return Page of TagStatistics
 	 */
 	public Page<TagStatistics> findAllTagStatistics(Pageable pageable);
+	
+	/**
+	 * Returns the maximum number of articles a given tag has.
+	 * 
+	 * @return max article count
+	 */
+	public int maxArticleCount();
 }

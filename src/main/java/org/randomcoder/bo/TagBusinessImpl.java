@@ -17,21 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("tagBusiness")
 public class TagBusinessImpl implements TagBusiness
 {
-	private TagDao tagDao;
 	private TagRepository tagRepository;
-	private ArticleDao articleDao;
-
-	/**
-	 * Sets the TagDao implementation to use.
-	 * 
-	 * @param tagDao
-	 *          TagDao implementation
-	 */
-	@Inject
-	public void setTagDao(TagDao tagDao)
-	{
-		this.tagDao = tagDao;
-	}
+	private ArticleRepository articleRepository;
 
 	/**
 	 * Sets the tag repository to use.
@@ -46,23 +33,23 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	/**
-	 * Sets the ArticleDao implementation to use.
+	 * Sets the article repository to use.
 	 * 
-	 * @param articleDao
-	 *          ArticleDao implementation
+	 * @param articleRepository
+	 *          article repository
 	 */
 	@Inject
-	public void setArticleDao(ArticleDao articleDao)
+	public void setArticleRepository(ArticleRepository articleRepository)
 	{
-		this.articleDao = articleDao;
+		this.articleRepository = articleRepository;
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public List<TagCloudEntry> getTagCloud()
 	{
-		List<TagStatistics> tagStats = tagDao.queryAllTagStatistics();
-		int mostArticles = tagDao.queryMostArticles();
+		List<TagStatistics> tagStats = tagRepository.findAllTagStatistics();
+		int mostArticles = tagRepository.maxArticleCount();
 
 		List<TagCloudEntry> cloud = new ArrayList<TagCloudEntry>(tagStats.size());
 
@@ -76,7 +63,7 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId)
 	{
 		Tag tag = loadTag(tagId);
@@ -84,40 +71,43 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void createTag(Producer<Tag> producer)
 	{
 		Tag tag = new Tag();
 		producer.produce(tag);
-		tagDao.create(tag);
+		tagRepository.save(tag);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void updateTag(Producer<Tag> producer, Long tagId)
 	{
 		Tag tag = loadTag(tagId);
 		producer.produce(tag);
-		tagDao.update(tag);
+		tagRepository.save(tag);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void deleteTag(Long tagId)
 	{
-		Tag tag = loadTag(tagId);
+		Tag tag = tagRepository.findOne(tagId);
+		if (tag == null)
+		{
+			return;
+		}
 
+		// TODO bug here; articles continue to show old tags
+		
 		// remove tag from all articles which it applies to
 		// failing to do this will result in ObjectNotFoundExceptions
 		// we use an iterator here because the list of articles could be large
-		Iterator<Article> articles = articleDao.iterateByTag(tag);
-		while (articles.hasNext())
+		for (Article article : articleRepository.iterateByTag(tag))
 		{
-			Article article = articles.next();
 			article.getTags().remove(tag);
 		}
-
-		tagDao.delete(tag);
+		tagRepository.delete(tag);
 	}
 
 	@Override
@@ -129,7 +119,7 @@ public class TagBusinessImpl implements TagBusiness
 
 	private Tag loadTag(Long tagId)
 	{
-		Tag tag = tagDao.read(tagId);
+		Tag tag = tagRepository.findOne(tagId);
 		if (tag == null)
 		{
 			throw new TagNotFoundException();
