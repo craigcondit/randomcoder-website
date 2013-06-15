@@ -26,7 +26,7 @@ public class UserBusinessImpl implements UserBusiness
 	 * Sets the user repository to use.
 	 * 
 	 * @param userRepository
-	 *            user repository
+	 *          user repository
 	 */
 	@Inject
 	public void setUserRepository(UserRepository userRepository)
@@ -38,7 +38,7 @@ public class UserBusinessImpl implements UserBusiness
 	 * Sets the role repository to use.
 	 * 
 	 * @param roleRepository
-	 *            role repository
+	 *          role repository
 	 */
 	@Inject
 	public void setRoleRepository(RoleRepository roleRepository)
@@ -93,8 +93,6 @@ public class UserBusinessImpl implements UserBusiness
 	@Transactional("transactionManager")
 	public void deleteUser(Long userId)
 	{
-		User user = loadUser(userId);
-
 		userRepository.delete(userId);
 	}
 

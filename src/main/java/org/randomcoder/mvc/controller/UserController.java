@@ -377,8 +377,6 @@ public class UserController
 			@ModelAttribute("command") UserProfileCommand command,
 			Model model, Principal principal)
 	{
-		Map<String, Object> data = new HashMap<String, Object>();
-
 		User user = userBusiness.findUserByName(principal.getName());
 		command.setEmailAddress(user.getEmailAddress());
 		command.setWebsite(user.getWebsite());
