@@ -8,6 +8,8 @@ import org.hibernate.Hibernate;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.user.UserNotFoundException;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,85 +19,87 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("userBusiness")
 public class UserBusinessImpl implements UserBusiness
 {
-	private UserDao userDao;
-	private RoleDao roleDao;
+	private RoleRepository roleRepository;
+	private UserRepository userRepository;
 
 	/**
-	 * Sets the UserDao implementation to use.
+	 * Sets the user repository to use.
 	 * 
-	 * @param userDao
-	 *          UserDao implementation
+	 * @param userRepository
+	 *            user repository
 	 */
 	@Inject
-	public void setUserDao(UserDao userDao)
+	public void setUserRepository(UserRepository userRepository)
 	{
-		this.userDao = userDao;
+		this.userRepository = userRepository;
 	}
 
 	/**
-	 * Sets the RoleDao implementation to use.
+	 * Sets the role repository to use.
 	 * 
-	 * @param roleDao
-	 *          RoleDao implementation
+	 * @param roleRepository
+	 *            role repository
 	 */
 	@Inject
-	public void setRoleDao(RoleDao roleDao)
+	public void setRoleRepository(RoleRepository roleRepository)
 	{
-		this.roleDao = roleDao;
+		this.roleRepository = roleRepository;
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void changePassword(String userName, String password)
 	{
-		User user = userDao.findByUserName(userName);
+		User user = userRepository.findByUserName(userName);
 
 		if (user == null)
+		{
 			throw new UserNotFoundException("Unknown user: " + userName);
+		}
 
 		user.setPassword(User.hashPassword(password));
 
-		userDao.update(user);
+		userRepository.save(user);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void createUser(Producer<User> producer)
 	{
 		User user = new User();
 		producer.produce(user);
-		userDao.create(user);
+		userRepository.save(user);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void createAccount(Producer<User> producer)
 	{
 		User user = new User();
 		producer.produce(user);
-		userDao.create(user);
+		userRepository.save(user);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void updateUser(Producer<User> producer, Long userId)
 	{
 		User user = loadUser(userId);
 		producer.produce(user);
-		userDao.update(user);
+		userRepository.save(user);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void deleteUser(Long userId)
 	{
 		User user = loadUser(userId);
 
-		userDao.delete(user);
+		userRepository.delete(userId);
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public void loadUserForEditing(Consumer<User> consumer, Long userId)
 	{
 		User user = loadUser(userId);
@@ -104,7 +108,7 @@ public class UserBusinessImpl implements UserBusiness
 
 	private User loadUser(Long userId)
 	{
-		User user = userDao.read(userId);
+		User user = userRepository.findOne(userId);
 		if (user == null)
 		{
 			throw new UserNotFoundException();
@@ -113,24 +117,24 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Role> listRoles()
 	{
-		return roleDao.listAll();
+		return roleRepository.findAll(new Sort(Direction.ASC, "description"));
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public Role findRoleByName(String name)
 	{
-		return roleDao.findByName(name);
+		return roleRepository.findByName(name);
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public User findUserByName(String name)
 	{
-		User user = userDao.findByUserName(name);
+		User user = userRepository.findByUserName(name);
 		if (user != null)
 		{
 			Hibernate.initialize(user.getRoles());
@@ -139,10 +143,10 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public User findUserByNameEnabled(String name)
 	{
-		User user = userDao.findByUserNameEnabled(name);
+		User user = userRepository.findByUserNameEnabled(name);
 		if (user != null)
 		{
 			Hibernate.initialize(user.getRoles());
@@ -151,10 +155,11 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public List<User> listUsersInRange(int start, int limit)
 	{
-		List<User> users = userDao.listAllInRange(start, limit);
+		// TODO handle paging properly
+		List<User> users = userRepository.findAll(new PageRequest(start / limit, limit)).getContent();
 		for (User user : users)
 		{
 			Hibernate.initialize(user.getRoles());
@@ -163,23 +168,25 @@ public class UserBusinessImpl implements UserBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public int countUsers()
+	@Transactional(value = "transactionManager", readOnly = true)
+	public long countUsers()
 	{
-		return userDao.countAll();
+		return userRepository.count();
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void auditUsernamePasswordLogin(String userName)
 	{
-		User user = userDao.findByUserName(userName);
+		User user = userRepository.findByUserName(userName);
 
 		if (user == null)
+		{
 			throw new UserNotFoundException("Unknown user: " + userName);
+		}
 
 		user.setLastLoginDate(new Date());
 
-		userDao.update(user);
+		userRepository.save(user);
 	}
 }

@@ -51,11 +51,4 @@ public interface UserDao extends CrudDao<User, Long>
 	 * @return count of user objects
 	 */
 	public int countAll();
-
-	/**
-	 * Lists all enabled {@code User} objects, ordered by user name.
-	 * 
-	 * @return List of {@code User} objects
-	 */
-	public List<User> listEnabled();
 }

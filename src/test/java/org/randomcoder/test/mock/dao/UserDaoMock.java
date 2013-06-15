@@ -62,19 +62,6 @@ public class UserDaoMock implements UserDao
 	}
 
 	@Override
-	public List<User> listEnabled()
-	{
-		List<User> enabled = new LinkedList<User>(listAll());
-		
-		for (Iterator<User> it = enabled.iterator(); it.hasNext();)
-		{
-			if (!it.next().isEnabled()) it.remove();
-		}
-		
-		return enabled;
-	}
-
-	@Override
 	public Long create(User newInstance)
 	{
 		validateRequiredFields(newInstance);

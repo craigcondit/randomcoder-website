@@ -190,7 +190,7 @@ public class UserController
 		command.setLimit(limit);
 
 		List<User> users = userBusiness.listUsersInRange(start, limit);
-		int count = userBusiness.countUsers();
+		long count = userBusiness.countUsers();
 
 		// populate model
 		model.addAttribute("users", users);

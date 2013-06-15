@@ -122,5 +122,5 @@ public interface UserBusiness
 	 * 
 	 * @return count of user objects
 	 */
-	public int countUsers();
+	public long countUsers();
 }

@@ -150,7 +150,7 @@ public class UserControllerTest
 		command.setLimit(-1);
 
 		expect(ub.listUsersInRange(0, 10)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0);
+		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
 		expect(m.addAttribute("pageCount", 0)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
@@ -171,7 +171,7 @@ public class UserControllerTest
 		command.setLimit(100);
 
 		expect(ub.listUsersInRange(0, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0);
+		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
 		expect(m.addAttribute("pageCount", 0)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
@@ -192,7 +192,7 @@ public class UserControllerTest
 		command.setLimit(25);
 
 		expect(ub.listUsersInRange(0, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0);
+		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
 		expect(m.addAttribute("pageCount", 0)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
@@ -213,7 +213,7 @@ public class UserControllerTest
 		command.setLimit(25);
 
 		expect(ub.listUsersInRange(75, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(100);
+		expect(ub.countUsers()).andReturn(100L);
 		expect(m.addAttribute("users", users)).andReturn(m);
 		expect(m.addAttribute("pageCount", 100)).andReturn(m);
 		expect(m.addAttribute("pageStart", 75)).andReturn(m);
@@ -234,7 +234,7 @@ public class UserControllerTest
 		command.setLimit(25);
 
 		expect(ub.listUsersInRange(76, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(100);
+		expect(ub.countUsers()).andReturn(100L);
 		expect(m.addAttribute("users", users)).andReturn(m);
 		expect(m.addAttribute("pageCount", 100)).andReturn(m);
 		expect(m.addAttribute("pageStart", 76)).andReturn(m);

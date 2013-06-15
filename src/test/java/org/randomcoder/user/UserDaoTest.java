@@ -188,29 +188,6 @@ public class UserDaoTest extends AbstractDaoTestCase
 		commit();
 	}
 
-	public void testListEnabled() throws Exception
-	{
-		// create test users
-		begin();
-		for (int i = 0; i < 10; i++)
-		{
-			createTestUser("test-listEnabled" + i, "test-listEnabled", "testlistenabled@example.com", (i % 2 == 0));
-		}		
-		commit();
-		
-		// list users
-		begin();
-		
-		List<User> users = userDao.listEnabled();
-		assertNotNull("Null user list", users);
-		assertEquals("Wrong length", 5, users.size());
-		for (int i = 0; i < 5; i++)			
-		{
-			assertEquals("Wrong username", "test-listEnabled" + (i * 2), users.get(i).getUserName());
-		}
-		commit();
-	}
-
 	public void testRead() throws Exception
 	{
 		begin();

@@ -1,28 +1,46 @@
 package org.randomcoder.bo;
 
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
+import org.easymock.*;
+import org.junit.*;
 import org.randomcoder.db.*;
 import org.randomcoder.mvc.command.*;
-import org.randomcoder.test.mock.dao.UserDaoMock;
 import org.randomcoder.user.UserNotFoundException;
 
 @SuppressWarnings("javadoc")
-public class UserBusinessImplTest extends TestCase
+public class UserBusinessImplTest
 {
-	private UserBusinessImpl userBusiness;
-	private UserDaoMock userDao;
-	
-	@Override
+	private IMocksControl control;
+	private UserBusinessImpl ub;
+	private UserRepository ur;
+	private RoleRepository rr;
+
+	@Before
 	public void setUp()
 	{
-		userBusiness = new UserBusinessImpl();
-		userDao = new UserDaoMock();
-		userBusiness.setUserDao(userDao);
+		control = createControl();
+		ur = control.createMock(UserRepository.class);
+		rr = control.createMock(RoleRepository.class);
+
+		ub = new UserBusinessImpl();
+		ub.setUserRepository(ur);
+		ub.setRoleRepository(rr);
 	}
 
+	@After
+	public void tearDown()
+	{
+		control = null;
+		ur = null;
+		rr = null;
+		ub = null;
+	}
+
+	@Test
 	public void testChangePassword()
 	{
 		User user = new User();
@@ -30,60 +48,56 @@ public class UserBusinessImplTest extends TestCase
 		user.setEnabled(true);
 		user.setEmailAddress("test@example.com");
 		user.setPassword(User.hashPassword("test-password"));
-		
-		userDao.create(user);
-		
-		userBusiness.changePassword("test-change-password", "test-new-password");
-		
-		User changed = userDao.findByUserName("test-change-password");
-		assertNotNull("Null user", changed);
-		assertEquals("Wrong password", User.hashPassword("test-new-password"), changed.getPassword());
+
+		expect(ur.findByUserName("test-change-password")).andReturn(user);
+		expect(ur.save(user)).andReturn(user);
+		control.replay();
+
+		ub.changePassword("test-change-password", "test-new-password");
+		control.verify();
+		assertEquals("Wrong password", User.hashPassword("test-new-password"), user.getPassword());
 	}
 
+	@Test(expected = UserNotFoundException.class)
 	public void testChangePasswordUserNotFound()
 	{
-		try
-		{
-			userBusiness.changePassword("bogus-user", "bogus-password");
-			fail("UserNotFoundException expected");
-		}
-		catch (UserNotFoundException e)
-		{
-			// pass
-		}
+		expect(ur.findByUserName("bogus-user")).andReturn(null);
+		control.replay();
+
+		ub.changePassword("bogus-user", "bogus-password");
+		control.verify();
 	}
-	
+
+	@Test
 	public void testCreateUser()
 	{
 		UserAddCommand cmd = new UserAddCommand();
-		
+
 		cmd.setUserName("test-create");
 		cmd.setEmailAddress("test-create@example.com");
 		cmd.setPassword("testCreate1");
 		cmd.setPassword2("testCreate1");
 		cmd.setEnabled(true);
-		
+
 		Role testRole = new Role();
 		testRole.setId(1L);
 		testRole.setName("test-role");
 		testRole.setDescription("Test role");
-		
+
 		cmd.setRoles(new Role[] { testRole });
-		
-		userBusiness.createUser(cmd);
-		
-		User added = userDao.findByUserName("test-create");
-		
-		assertNotNull("Null user", added);
-		assertEquals("Wrong username", "test-create", added.getUserName());
-		assertEquals("Wrong email address", "test-create@example.com", added.getEmailAddress());
-		assertEquals("Wrong password", User.hashPassword("testCreate1"), added.getPassword());
-		assertEquals("Not enabled", true, added.isEnabled());
-		assertNotNull("Null role list", added.getRoles());
-		assertEquals("Wrong role count", 1, added.getRoles().size());
-		assertEquals("Wrong role name", "test-role", added.getRoles().get(0).getName());
+
+		Capture<User> created = new Capture<>();
+
+		expect(ur.save(capture(created))).andReturn(null);
+		control.replay();
+
+		ub.createUser(cmd);
+		control.verify();
+
+		assertEquals("test-create", created.getValue().getUserName());
 	}
 
+	@Test
 	public void testCreateAccountByPassword()
 	{
 		AccountCreateCommand cmd = new AccountCreateCommand();
@@ -92,136 +106,125 @@ public class UserBusinessImplTest extends TestCase
 		cmd.setPassword("testCreate1");
 		cmd.setPassword2("testCreate1");
 		cmd.setWebsite("http://www.example.com/");
-		
-		userBusiness.createAccount(cmd);
-		
-		User added = userDao.findByUserName("test-create");
-		
-		assertNotNull("Null user", added);
-		assertEquals("Wrong username", "test-create", added.getUserName());
-		assertEquals("Wrong email address", "test-create@example.com", added.getEmailAddress());
-		assertEquals("Wrong password", User.hashPassword("testCreate1"), added.getPassword());
-		assertEquals("Not enabled", true, added.isEnabled());
-		assertNotNull("Null role list", added.getRoles());
-		assertEquals("Wrong role count", 0, added.getRoles().size());
+
+		Capture<User> created = new Capture<>();
+
+		expect(ur.save(capture(created))).andReturn(null);
+		control.replay();
+
+		ub.createAccount(cmd);
+		control.verify();
+
+		assertEquals("test-create", created.getValue().getUserName());
 	}
-	
+
+	@Test
 	public void testUpdateUser()
 	{
 		User user = new User();
 		user.setUserName("test-update-user");
 		user.setEnabled(true);
 		user.setEmailAddress("test-update@example.com");
-		user.setPassword(User.hashPassword("testPassword1"));		
-		user.setRoles(new ArrayList<Role> ());
-		Long id = userDao.create(user);
-		
+		user.setPassword(User.hashPassword("testPassword1"));
+		user.setRoles(new ArrayList<Role>());
+		user.setId(1L);
+
 		UserEditCommand cmd = new UserEditCommand();
 		cmd.consume(user);
 		cmd.setEmailAddress("test-update2@example.com");
 		cmd.setPassword("testPassword2");
 		cmd.setPassword2("testPassword2");
-		userBusiness.updateUser(cmd, id);
-		
-		User updated = userDao.read(id);
-		
-		assertNotNull("Null user", updated);
-		assertEquals("Wrong username", "test-update-user", updated.getUserName());
-		assertEquals("Wrong email address", "test-update2@example.com", updated.getEmailAddress());
-		assertEquals("Wrong password", User.hashPassword("testPassword2"), updated.getPassword());
-		assertNotNull("Null role list", updated.getRoles());
-		assertTrue("Not enabled", updated.isEnabled());				
-		assertEquals("Wrong role count", 0, updated.getRoles().size());
+
+		Capture<User> saved = new Capture<>();
+
+		expect(ur.findOne(1L)).andReturn(user);
+		expect(ur.save(capture(saved))).andReturn(null);
+		control.replay();
+
+		ub.updateUser(cmd, 1L);
+		control.verify();
+
+		assertEquals("test-update2@example.com", saved.getValue().getEmailAddress());
 	}
 
+	@Test
 	public void testDeleteUser()
 	{
 		User user = new User();
-		user.setUserName("test-delete-user");
-		user.setEnabled(true);
-		user.setEmailAddress("test-delete@example.com");
-		user.setPassword(User.hashPassword("testPassword1"));		
-		user.setRoles(new ArrayList<Role> ());
-		Long id = userDao.create(user);
-		
-		User read = userDao.read(id);
-		assertNotNull("Found pending deleted user", read);
-				
-		userBusiness.deleteUser(id);
-		
-		read = userDao.read(id);
-		assertNull("Found deleted user", read);
-	}	
+		user.setId(1L);
 
+		expect(ur.findOne(1L)).andReturn(user);
+		ur.delete(1L);
+		control.replay();
+
+		ub.deleteUser(1L);
+		control.verify();
+	}
+
+	@Test
 	public void testLoadUserForEditing()
 	{
 		User user = new User();
 		user.setUserName("test-load-user");
 		user.setEnabled(true);
 		user.setEmailAddress("test-load@example.com");
-		user.setPassword(User.hashPassword("testPassword1"));		
-		user.setRoles(new ArrayList<Role> ());
-		Long id = userDao.create(user);
-		
+		user.setPassword(User.hashPassword("testPassword1"));
+		user.setRoles(new ArrayList<Role>());
+		user.setId(1L);
+
 		UserEditCommand cmd = new UserEditCommand();
-		
-		userBusiness.loadUserForEditing(cmd, id);
-		
+
+		expect(ur.findOne(1L)).andReturn(user);
+		control.replay();
+
+		ub.loadUserForEditing(cmd, 1L);
+		control.verify();
+
 		assertEquals("Wrong username", "test-load-user", cmd.getUserName());
-		assertEquals("Wrong email address", "test-load@example.com", cmd.getEmailAddress());
-		assertTrue("Not enabled", cmd.isEnabled());
-		assertNotNull("Null role list", cmd.getRoles());
-		assertTrue("Not enabled", cmd.isEnabled());				
-		assertEquals("Wrong role count", 0, cmd.getRoles().length);
 	}
 
+	@Test
 	public void testLoadUserForEditingUserNotFound()
 	{
 		try
 		{
-			UserEditCommand cmd = new UserEditCommand();		
-			userBusiness.loadUserForEditing(cmd, (long) -1);		
+			UserEditCommand cmd = new UserEditCommand();
+			ub.loadUserForEditing(cmd, (long) -1);
 			fail("UserNotFoundException expected");
 		}
 		catch (UserNotFoundException e)
 		{
 			// pass
 		}
-	}	
-	
+	}
+
+	@Test
 	public void testAuditUsernamePasswordLogin()
 	{
 		User user = new User();
 		user.setUserName("test-audit-user");
 		user.setEnabled(true);
 		user.setEmailAddress("test-audit@example.com");
-		user.setPassword(User.hashPassword("testPassword1"));		
-		user.setRoles(new ArrayList<Role> ());
-		Long id = userDao.create(user);
-				
-		userBusiness.auditUsernamePasswordLogin("test-audit-user");
+		user.setPassword(User.hashPassword("testPassword1"));
+		user.setRoles(new ArrayList<Role>());
+		user.setId(1L);
+
+		expect(ur.findByUserName("test-audit-user")).andReturn(user);
+		expect(ur.save(user)).andReturn(user);
+		control.replay();
 		
-		User loaded = userDao.read(id);
-		assertNotNull("Missing last login date", loaded.getLastLoginDate());
+		ub.auditUsernamePasswordLogin("test-audit-user");
+		control.verify();
+		assertNotNull("Missing last login date", user.getLastLoginDate());
 	}
-	
+
+	@Test(expected = UserNotFoundException.class)
 	public void testAuditUsernamePasswordLoginNullUser()
 	{
-		try
-		{
-			userBusiness.auditUsernamePasswordLogin(null);
-			fail("Exception not thrown");
-		}
-		catch (UserNotFoundException e)
-		{
-			// pass
-		}
-	}
-	
-	@Override
-	public void tearDown()
-	{
-		userDao = null;
-		userBusiness = null;
+		expect(ur.findByUserName(null)).andReturn(null);
+		control.replay();
+
+		ub.auditUsernamePasswordLogin(null);
+		control.verify();
 	}
 }
