@@ -5,6 +5,7 @@ import java.util.List;
 import org.randomcoder.db.Tag;
 import org.randomcoder.io.*;
 import org.randomcoder.tag.*;
+import org.springframework.data.domain.*;
 
 /**
  * Tag management interface.
@@ -64,34 +65,11 @@ public interface TagBusiness
 	public Tag findTagByName(String name);
 
 	/**
-	 * Lists all Tag statistics.
+	 * Retrieves a page of Tag statistics.
 	 * 
-	 * @return List of TagStatistics
+	 * @param pageable
+	 *          page to query
+	 * @return Page of TagStatistics
 	 */
-	public List<TagStatistics> queryTagStatistics();
-
-	/**
-	 * Lists all Tag statistics in range.
-	 * 
-	 * @param start
-	 *          starting result
-	 * @param limit
-	 *          maximum number of results
-	 * @return List of TagStatistics
-	 */
-	public List<TagStatistics> queryTagStatisticsInRange(int start, int limit);
-
-	/**
-	 * Calculates the maximum number of articles per tag.
-	 * 
-	 * @return article count
-	 */
-	public int queryTagMostArticles();
-
-	/**
-	 * Counts all tags.
-	 * 
-	 * @return count of tags
-	 */
-	public int countTags();
+	public Page<TagStatistics> findTagStatistics(Pageable pageable);
 }

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.tag.*;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagBusinessImpl implements TagBusiness
 {
 	private TagDao tagDao;
+	private TagRepository tagRepository;
 	private ArticleDao articleDao;
 
 	/**
@@ -29,6 +31,18 @@ public class TagBusinessImpl implements TagBusiness
 	public void setTagDao(TagDao tagDao)
 	{
 		this.tagDao = tagDao;
+	}
+
+	/**
+	 * Sets the tag repository to use.
+	 * 
+	 * @param tagRepository
+	 *          tag repository
+	 */
+	@Inject
+	public void setTagRepository(TagRepository tagRepository)
+	{
+		this.tagRepository = tagRepository;
 	}
 
 	/**
@@ -107,45 +121,26 @@ public class TagBusinessImpl implements TagBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public Tag findTagByName(String name)
 	{
-		return tagDao.findByName(name);
+		return tagRepository.findByName(name);
 	}
 
 	private Tag loadTag(Long tagId)
 	{
 		Tag tag = tagDao.read(tagId);
 		if (tag == null)
+		{
 			throw new TagNotFoundException();
+		}
 		return tag;
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<TagStatistics> queryTagStatistics()
+	@Transactional(value = "transactionManager", readOnly = true)
+	public Page<TagStatistics> findTagStatistics(Pageable pageable)
 	{
-		return tagDao.queryAllTagStatistics();
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<TagStatistics> queryTagStatisticsInRange(int start, int limit)
-	{
-		return tagDao.queryAllTagStatisticsInRange(start, limit);
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public int queryTagMostArticles()
-	{
-		return tagDao.queryMostArticles();
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public int countTags()
-	{
-		return tagDao.countAll();
+		return tagRepository.findAllTagStatistics(pageable);
 	}
 }

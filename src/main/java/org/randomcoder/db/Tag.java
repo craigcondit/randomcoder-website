@@ -12,7 +12,8 @@ import org.apache.commons.lang.builder.*;
  * JPA entity representing an article tag or category.
  */
 @NamedQueries({ @NamedQuery(name = "Tag.All", query = "from Tag t order by t.displayName"),
-		@NamedQuery(name = "Tag.CountAll", query = "select count(t.id) from Tag t"), @NamedQuery(name = "Tag.ByName", query = "from Tag t where t.name = ?"),
+		@NamedQuery(name = "Tag.CountAll", query = "select count(t.id) from Tag t"),
+		@NamedQuery(name = "Tag.ByName", query = "from Tag t where t.name = ?"),
 		@NamedQuery(name = "Tag.AllTagStatistics", query = "select t, t.articles.size from Tag t order by t.displayName"),
 		@NamedQuery(name = "Tag.MostArticles", query = "select max(t.articles.size) from Tag t") })
 @Entity

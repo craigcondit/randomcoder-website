@@ -1,7 +1,5 @@
 package org.randomcoder.mvc.controller;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import org.apache.commons.logging.*;
@@ -10,6 +8,8 @@ import org.randomcoder.mvc.command.*;
 import org.randomcoder.mvc.validator.*;
 import org.randomcoder.tag.TagStatistics;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +28,6 @@ public class TagController
 	private TagBusiness tagBusiness;
 	private TagAddValidator tagAddValidator;
 	private TagEditValidator tagEditValidator;
-	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
 
 	/**
@@ -68,18 +67,6 @@ public class TagController
 	}
 
 	/**
-	 * Sets the default number of items to display per page (defaults to 25).
-	 * 
-	 * @param defaultPageSize
-	 *            default number of items per page
-	 */
-	@Value("${tag.pagesize.default}")
-	public void setDefaultPageSize(int defaultPageSize)
-	{
-		this.defaultPageSize = defaultPageSize;
-	}
-
-	/**
 	 * Sets the maximum number of items to allow per page (defaults to 100).
 	 * 
 	 * @param maximumPageSize
@@ -114,36 +101,24 @@ public class TagController
 	/**
 	 * Generates the tag list.
 	 * 
-	 * @param cmd
-	 *            form command
 	 * @param model
-	 *            MVC model
+	 *          MVC model
+	 * @param pageable
+	 *          page to retrieve
 	 * @return tag list view
 	 */
 	@RequestMapping("/tag")
-	public String tagList(TagListCommand cmd, Model model)
+	public String tagList(Model model, @PageableDefaults(25) Pageable pageable)
 	{
-		// set range
-		int start = Math.max(cmd.getStart(), 0);
-		cmd.setStart(start);
-
-		int limit = cmd.getLimit();
-		if (limit <= 0)
+		if (pageable.getPageSize() > maximumPageSize)
 		{
-			limit = defaultPageSize;
+			pageable = new PageRequest(0, maximumPageSize, pageable.getSort());
 		}
-		limit = Math.min(limit,  maximumPageSize);
-		
-		cmd.setLimit(limit);
 
-		List<TagStatistics> tagStats = tagBusiness.queryTagStatisticsInRange(start, limit);
-		int count = tagBusiness.countTags();
+		Page<TagStatistics> tagStats = tagBusiness.findTagStatistics(pageable);
 
 		// populate model
-		model.addAttribute("tagStats", tagStats);
-		model.addAttribute("pageCount", count);
-		model.addAttribute("pageStart", start);
-		model.addAttribute("pageLimit", limit);
+		model.addAttribute("pager", tagStats);
 
 		return "tag-list";
 	}

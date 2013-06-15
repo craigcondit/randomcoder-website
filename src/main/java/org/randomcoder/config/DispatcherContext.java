@@ -1,12 +1,16 @@
 package org.randomcoder.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.web.PageableArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.mvc.method.annotation.*;
 import org.springframework.web.servlet.view.*;
 
 @Configuration
@@ -24,6 +28,13 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 		return pspc;
 	}
 
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers)
+	{
+		PageableArgumentResolver resolver = new PageableArgumentResolver();
+		argumentResolvers.add(new ServletWebArgumentResolverAdapter(resolver));
+	}
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry)
 	{

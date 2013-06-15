@@ -5,14 +5,13 @@
 <%@ taglib uri="http://randomcoder.org/tags-escape" prefix="rcesc" %>
 <c:url var="homeUrl" value="/" />
 <c:url var="addUrl" value="/tag/add" />
-
 <div class="sectionHeading">Tags</div>
 <div class="sectionSubHeading">
 	<a class="add" href="${addUrl}">Add new tag</a> :: <a href="${homeUrl}">Done</a>
 </div>
 <div class="sectionContentFull">
 	<c:set var="class" value="even" />
-	<c:forEach var="tagStat" items="${tagStats}" varStatus="status">	
+	<c:forEach var="tagStat" items="${pager.content}" varStatus="status">	
 	  <c:url var="editLink" value="/tag/edit">
 	  	<c:param name="id" value="${tagStat.tag.id}" />
 	  </c:url>
