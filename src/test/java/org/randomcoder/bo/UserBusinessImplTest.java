@@ -152,8 +152,6 @@ public class UserBusinessImplTest
 	{
 		User user = new User();
 		user.setId(1L);
-
-		expect(ur.findOne(1L)).andReturn(user);
 		ur.delete(1L);
 		control.replay();
 

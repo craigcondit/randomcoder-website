@@ -152,7 +152,7 @@ public class UserControllerTest
 		expect(ub.listUsersInRange(0, 10)).andReturn(users);
 		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0)).andReturn(m);
+		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
 		expect(m.addAttribute("pageLimit", 10)).andReturn(m);
 		control.replay();
@@ -173,7 +173,7 @@ public class UserControllerTest
 		expect(ub.listUsersInRange(0, 25)).andReturn(users);
 		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0)).andReturn(m);
+		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
 		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
 		control.replay();
@@ -194,7 +194,7 @@ public class UserControllerTest
 		expect(ub.listUsersInRange(0, 25)).andReturn(users);
 		expect(ub.countUsers()).andReturn(0L);
 		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0)).andReturn(m);
+		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
 		expect(m.addAttribute("pageStart", 0)).andReturn(m);
 		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
 		control.replay();
@@ -215,7 +215,7 @@ public class UserControllerTest
 		expect(ub.listUsersInRange(75, 25)).andReturn(users);
 		expect(ub.countUsers()).andReturn(100L);
 		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 100)).andReturn(m);
+		expect(m.addAttribute("pageCount", 100L)).andReturn(m);
 		expect(m.addAttribute("pageStart", 75)).andReturn(m);
 		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
 		control.replay();
@@ -236,7 +236,7 @@ public class UserControllerTest
 		expect(ub.listUsersInRange(76, 25)).andReturn(users);
 		expect(ub.countUsers()).andReturn(100L);
 		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 100)).andReturn(m);
+		expect(m.addAttribute("pageCount", 100L)).andReturn(m);
 		expect(m.addAttribute("pageStart", 76)).andReturn(m);
 		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
 		control.replay();
