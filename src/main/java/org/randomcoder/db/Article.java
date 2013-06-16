@@ -7,8 +7,16 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.*;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.randomcoder.content.ContentType;
 
 /**
@@ -26,6 +34,7 @@ import org.randomcoder.content.ContentType;
 		@NamedQuery(name = "Article.ByPermalink", query = "from Article a where a.permalink = ?") })
 @Entity
 @Table(name = "articles")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "articles", sequenceName = "articles_seq", allocationSize = 1)
 public class Article implements Serializable
 {
