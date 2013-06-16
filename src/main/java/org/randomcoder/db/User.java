@@ -5,9 +5,16 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.*;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 /**
  * JPA entity representing a user.
@@ -19,6 +26,7 @@ import org.apache.commons.lang.builder.*;
 		@NamedQuery(name = "User.ByUserNameEnabled", query = "from User u where u.userName = ? and u.enabled = true") })
 @Entity
 @Table(name = "users")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "users", sequenceName = "users_seq", allocationSize = 1)
 public class User implements Serializable
 {
