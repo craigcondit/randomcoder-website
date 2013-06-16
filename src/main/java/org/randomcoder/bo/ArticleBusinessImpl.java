@@ -479,26 +479,17 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<Article> listArticlesByTag(Tag tag)
-	{
-		List<Article> articles = articleDao.listByTag(tag);
-		Hibernate.initialize(articles);
-		return articles;
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Article> listArticlesBetweenDates(Date startDate, Date endDate)
 	{
-		return articleDao.listBetweenDates(startDate, endDate);
+		return articleRepository.findBetweenDates(startDate, endDate);
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate)
 	{
-		return articleDao.listByTagBetweenDates(tag, startDate, endDate);
+		return articleRepository.findByTagBetweenDates(tag, startDate, endDate);
 	}
 
 	private void checkAuthorUpdate(User user, Article article)

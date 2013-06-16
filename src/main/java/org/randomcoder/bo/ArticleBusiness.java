@@ -195,15 +195,6 @@ public interface ArticleBusiness
 	public List<Article> listArticlesByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit);
 
 	/**
-	 * Lists {@code Article} objects with the given tag.
-	 * 
-	 * @param tag
-	 *            tag
-	 * @return list of {@code Article} objects
-	 */
-	public List<Article> listArticlesByTag(Tag tag);
-	
-	/**
 	 * Lists {@code Article} objects created within the specified date range.
 	 * 
 	 * @param startDate
