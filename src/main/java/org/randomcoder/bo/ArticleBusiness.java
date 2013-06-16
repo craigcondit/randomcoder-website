@@ -155,14 +155,12 @@ public interface ArticleBusiness
 
 	/**
 	 * Lists {@code Article} objects within the range specified.
-	 * 
-	 * @param start
-	 *            starting result to return, from 0
 	 * @param limit
 	 *            maximum number of results to return
+	 * 
 	 * @return list of {@code Article} objects
 	 */
-	public List<Article> listArticlesInRange(int start, int limit);
+	public List<Article> listRecentArticles(int limit);
 
 	/**
 	 * Lists {@code Article} objects created before the specified date and

@@ -15,6 +15,7 @@ import org.randomcoder.io.*;
 import org.randomcoder.security.UnauthorizedException;
 import org.randomcoder.user.*;
 import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -437,10 +438,11 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<Article> listArticlesInRange(int start, int limit)
+	@Transactional(value = "transactionManager", readOnly = true)
+	public List<Article> listRecentArticles(int limit)
 	{
-		List<Article> articles = articleDao.listAllInRange(start, limit);
+		PageRequest req = new PageRequest(0, limit, new Sort(Direction.DESC, "creationDate"));
+		List<Article> articles = articleRepository.findAll(req).getContent();
 		Hibernate.initialize(articles);
 		for (Article article : articles)
 		{

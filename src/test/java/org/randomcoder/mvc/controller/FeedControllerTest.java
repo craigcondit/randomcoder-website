@@ -55,7 +55,7 @@ public class FeedControllerTest
 		Capture<FeedInfo> fi = new Capture<FeedInfo>();
 		List<Article> articles = Collections.singletonList(new Article());
 		
-		expect(ab.listArticlesInRange(0,  20)).andReturn(articles);
+		expect(ab.listRecentArticles(20)).andReturn(articles);
 		expect(atom.generateFeed(capture(fi))).andReturn("TEST");
 		expect(atom.getContentType()).andReturn("text/plain");
 		control.replay();
@@ -81,7 +81,7 @@ public class FeedControllerTest
 		Capture<FeedInfo> fi = new Capture<FeedInfo>();
 		List<Article> articles = Collections.singletonList(new Article());
 		
-		expect(ab.listArticlesInRange(0,  20)).andReturn(articles);
+		expect(ab.listRecentArticles(20)).andReturn(articles);
 		expect(rss.generateFeed(capture(fi))).andReturn("TEST");
 		expect(rss.getContentType()).andReturn("text/plain");
 		control.replay();

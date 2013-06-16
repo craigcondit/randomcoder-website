@@ -114,7 +114,7 @@ public class FeedController
 
 	private FeedInfo getFeed(String feedId, URL feedUrl)
 	{
-		List<Article> articles = articleBusiness.listArticlesInRange(0, ARTICLE_LIMIT);
+		List<Article> articles = articleBusiness.listRecentArticles(ARTICLE_LIMIT);
 
 		FeedInfo feedInfo = new FeedInfo();
 
