@@ -4,7 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.content.ContentType;
 
@@ -15,6 +22,7 @@ import org.randomcoder.content.ContentType;
 @Entity
 @Table(name = "comments")
 @SequenceGenerator(name = "comments", sequenceName = "comments_seq", allocationSize = 1)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Comment implements Serializable
 {
 	private static final long serialVersionUID = 7444605318685376170L;
