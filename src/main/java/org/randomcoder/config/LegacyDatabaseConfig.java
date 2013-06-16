@@ -43,15 +43,16 @@ public class LegacyDatabaseConfig
 		builder.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
 		builder.scanPackages("org.randomcoder.db");
 
-		builder.setCacheConcurrencyStrategy(Article.class.getName(), "read-write");
-		builder.setCacheConcurrencyStrategy(Comment.class.getName(), "read-write");
-		builder.setCacheConcurrencyStrategy(User.class.getName(), "read-write");
-		builder.setCacheConcurrencyStrategy(Role.class.getName(), "read-only");
-		builder.setCacheConcurrencyStrategy(Tag.class.getName(), "read-write");
+//		builder.setCacheConcurrencyStrategy(Article.class.getName(), "read-write");
+//		builder.setCacheConcurrencyStrategy(Comment.class.getName(), "read-write");
+//		builder.setCacheConcurrencyStrategy(User.class.getName(), "read-write");
+//		builder.setCacheConcurrencyStrategy(Role.class.getName(), "read-only");
+//		builder.setCacheConcurrencyStrategy(Tag.class.getName(), "read-write");
 
-		builder.setCollectionCacheConcurrencyStrategy(User.class.getName() + ".roles", "read-write");
-		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".tags", "read-write");
-		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".comments", "read-write");
+		// TODO figure out how to map this to JPA; for now we disable so that JPA and hibernate caches don't conflict
+//		builder.setCollectionCacheConcurrencyStrategy(User.class.getName() + ".roles", "read-write");
+//		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".tags", "read-write");
+//		builder.setCollectionCacheConcurrencyStrategy(Article.class.getName() + ".comments", "read-write");
 
 		return builder.buildSessionFactory();
 	}
