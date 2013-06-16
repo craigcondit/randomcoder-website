@@ -98,7 +98,7 @@ public class TagBusinessImpl implements TagBusiness
 			return;
 		}
 
-		// TODO bug here; articles continue to show old tags
+		// TODO figure out if this is even necessary once we finish migrating to JPA
 		
 		// remove tag from all articles which it applies to
 		// failing to do this will result in ObjectNotFoundExceptions

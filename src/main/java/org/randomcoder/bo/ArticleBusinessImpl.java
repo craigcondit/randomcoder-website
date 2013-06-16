@@ -14,6 +14,7 @@ import org.randomcoder.db.*;
 import org.randomcoder.io.*;
 import org.randomcoder.security.UnauthorizedException;
 import org.randomcoder.user.*;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,39 +29,18 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
 	private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
-	private UserDao userDao;
-	private RoleDao roleDao;
 	private ArticleDao articleDao;
-	private TagDao tagDao;
-	private CommentDao commentDao;
-	private CommentReferrerDao commentReferrerDao;
-	private CommentIpDao commentIpDao;
-	private CommentUserAgentDao commentUserAgentDao;
+
+	private UserRepository userRepository;
+	private RoleRepository roleRepository;
+	private ArticleRepository articleRepository;
+	private TagRepository tagRepository;
+	private CommentRepository commentRepository;
+	private CommentReferrerRepository commentReferrerRepository;
+	private CommentIpRepository commentIpRepository;
+	private CommentUserAgentRepository commentUserAgentRepository;
+
 	private Moderator moderator;
-
-	/**
-	 * Sets the UserDao implementation to use.
-	 * 
-	 * @param userDao
-	 *          UserDao implementation
-	 */
-	@Inject
-	public void setUserDao(UserDao userDao)
-	{
-		this.userDao = userDao;
-	}
-
-	/**
-	 * Sets the RoleDao implementation to use.
-	 * 
-	 * @param roleDao
-	 *          RoleDao implementation
-	 */
-	@Inject
-	public void setRoleDao(RoleDao roleDao)
-	{
-		this.roleDao = roleDao;
-	}
 
 	/**
 	 * Sets the ArticleDao implementation to use.
@@ -75,63 +55,99 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	/**
-	 * Sets the TagDao implementation to use.
+	 * Sets the user repository to use.
 	 * 
-	 * @param tagDao
-	 *          TagDao implementation
+	 * @param userRepository
+	 *          user repository
 	 */
 	@Inject
-	public void setTagDao(TagDao tagDao)
+	public void setUserRepository(UserRepository userRepository)
 	{
-		this.tagDao = tagDao;
+		this.userRepository = userRepository;
 	}
 
 	/**
-	 * Sets the CommentDao implementation to use.
+	 * Sets the role repository to use.
 	 * 
-	 * @param commentDao
-	 *          CommentDao implementation
+	 * @param roleRepository
+	 *          role repository
 	 */
 	@Inject
-	public void setCommentDao(CommentDao commentDao)
+	public void setRoleRepository(RoleRepository roleRepository)
 	{
-		this.commentDao = commentDao;
+		this.roleRepository = roleRepository;
 	}
 
 	/**
-	 * Sets the CommentReferrerDao implementation to use.
+	 * Sets the article repository to use.
 	 * 
-	 * @param commentReferrerDao
-	 *          CommentReferrerDao implementation
+	 * @param articleRepository
+	 *          article repository
 	 */
 	@Inject
-	public void setCommentReferrerDao(CommentReferrerDao commentReferrerDao)
+	public void setArticleRepository(ArticleRepository articleRepository)
 	{
-		this.commentReferrerDao = commentReferrerDao;
+		this.articleRepository = articleRepository;
 	}
 
 	/**
-	 * Sets the CommentIpDao implementation to use.
+	 * Sets the tag repository to use.
 	 * 
-	 * @param commentIpDao
-	 *          CommentIpDao implementation
+	 * @param tagRepository
+	 *          tag repository
 	 */
 	@Inject
-	public void setCommentIpDao(CommentIpDao commentIpDao)
+	public void setTagRepository(TagRepository tagRepository)
 	{
-		this.commentIpDao = commentIpDao;
+		this.tagRepository = tagRepository;
 	}
 
 	/**
-	 * Sets the CommentUserAgentDao implementation to use.
+	 * Sets the comment repository to use.
 	 * 
-	 * @param commentUserAgentDao
-	 *          CommentUserAgentDao implementation
+	 * @param commentRepository
+	 *          comment repository
 	 */
 	@Inject
-	public void setCommentUserAgentDao(CommentUserAgentDao commentUserAgentDao)
+	public void setCommentRepository(CommentRepository commentRepository)
 	{
-		this.commentUserAgentDao = commentUserAgentDao;
+		this.commentRepository = commentRepository;
+	}
+
+	/**
+	 * Sets the comment IP repository to use.
+	 * 
+	 * @param commentIpRepository
+	 *          comment IP repository
+	 */
+	@Inject
+	public void setCommentIpRepository(CommentIpRepository commentIpRepository)
+	{
+		this.commentIpRepository = commentIpRepository;
+	}
+
+	/**
+	 * Sets the comment referrer repository to use.
+	 * 
+	 * @param commentReferrerRepository
+	 *          comment referrer repository
+	 */
+	@Inject
+	public void setCommentReferrerRepository(CommentReferrerRepository commentReferrerRepository)
+	{
+		this.commentReferrerRepository = commentReferrerRepository;
+	}
+
+	/**
+	 * Sets the comment user agent repository to use.
+	 * 
+	 * @param commentUserAgentRepository
+	 *          comment user agent repository
+	 */
+	@Inject
+	public void setCommentUserAgentRepository(CommentUserAgentRepository commentUserAgentRepository)
+	{
+		this.commentUserAgentRepository = commentUserAgentRepository;
 	}
 
 	/**
@@ -147,7 +163,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void createArticle(Producer<Article> producer, String userName)
 	{
 		User user = findUserByName(userName);
@@ -163,14 +179,16 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		for (Tag tag : article.getTags())
 		{
 			if (tag.getId() == null)
-				tagDao.create(tag);
+			{
+				tagRepository.save(tag);
+			}
 		}
 
-		articleDao.create(article);
+		articleRepository.save(article);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent)
 	{
 		User user = userName == null ? null : findUserByName(userName);
@@ -200,13 +218,13 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		referrer = StringUtils.trimToNull(referrer);
 		if (referrer != null)
 		{
-			CommentReferrer ref = commentReferrerDao.findByUri(referrer);
+			CommentReferrer ref = commentReferrerRepository.findByUri(referrer);
 			if (ref == null)
 			{
 				ref = new CommentReferrer();
 				ref.setCreationDate(new Date());
 				ref.setReferrerUri(referrer);
-				commentReferrerDao.create(ref);
+				commentReferrerRepository.save(ref);
 			}
 			comment.setReferrer(ref);
 		}
@@ -214,13 +232,13 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		ipAddress = StringUtils.trimToNull(ipAddress);
 		if (ipAddress != null)
 		{
-			CommentIp ip = commentIpDao.findByIpAddress(ipAddress);
+			CommentIp ip = commentIpRepository.findByIpAddress(ipAddress);
 			if (ip == null)
 			{
 				ip = new CommentIp();
 				ip.setCreationDate(new Date());
 				ip.setIpAddress(ipAddress);
-				commentIpDao.create(ip);
+				commentIpRepository.save(ip);
 			}
 			comment.setIpAddress(ip);
 		}
@@ -228,26 +246,26 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		userAgent = StringUtils.trimToNull(userAgent);
 		if (userAgent != null)
 		{
-			CommentUserAgent ua = commentUserAgentDao.findByName(userAgent);
+			CommentUserAgent ua = commentUserAgentRepository.findByName(userAgent);
 			if (ua == null)
 			{
 				ua = new CommentUserAgent();
 				ua.setCreationDate(new Date());
 				ua.setUserAgentName(userAgent);
-				commentUserAgentDao.create(ua);
+				commentUserAgentRepository.save(ua);
 			}
 			comment.setUserAgent(ua);
 		}
 
-		commentDao.create(comment);
+		commentRepository.save(comment);
 
 		article.getComments().add(comment);
 
-		articleDao.update(article);
+		articleRepository.save(article);
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void updateArticle(Producer<Article> producer, Long articleId, String userName)
 	{
 		User user = findUserByName(userName);
@@ -265,17 +283,17 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		for (Tag tag : article.getTags())
 		{
 			if (tag.getId() == null)
-				tagDao.create(tag);
+				tagRepository.save(tag);
 		}
 
-		articleDao.update(article);
+		articleRepository.save(article);
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public Article readArticle(long articleId)
 	{
-		Article article = articleDao.read(articleId);
+		Article article = articleRepository.findOne(articleId);
 		if (article != null)
 		{
 			Hibernate.initialize(article.getTags());
@@ -285,10 +303,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public Article findArticleByPermalink(String permalink)
 	{
-		Article article = articleDao.findByPermalink(permalink);
+		Article article = articleRepository.findByPermalink(permalink);
 		if (article != null)
 		{
 			Hibernate.initialize(article.getTags());
@@ -298,7 +316,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
+	@Transactional(value = "transactionManager", readOnly = true)
 	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName)
 	{
 		User user = findUserByName(userName);
@@ -312,7 +330,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public void deleteArticle(String userName, Long articleId)
 	{
 		User user = findUserByName(userName);
@@ -320,11 +338,11 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 		checkAuthorDelete(user, article);
 
-		articleDao.delete(article);
+		articleRepository.delete(article);
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", rollbackFor = ModerationException.class)
+	@Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
 	public Article approveComment(Long commentId) throws ModerationException
 	{
 		Comment comment = loadComment(commentId);
@@ -334,7 +352,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		Article article = comment.getArticle();
 		comment.setModerationStatus(ModerationStatus.HAM);
 		comment.setVisible(true);
-		commentDao.update(comment);
+		commentRepository.save(comment);
 
 		moderator.markAsHam(comment);
 
@@ -342,7 +360,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", rollbackFor = ModerationException.class)
+	@Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
 	public Article disapproveComment(Long commentId) throws ModerationException
 	{
 		Comment comment = loadComment(commentId);
@@ -352,7 +370,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		Article article = comment.getArticle();
 		comment.setModerationStatus(ModerationStatus.SPAM);
 		comment.setVisible(false);
-		commentDao.update(comment);
+		commentRepository.save(comment);
 
 		moderator.markAsSpam(comment);
 
@@ -360,7 +378,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public Article deleteComment(Long commentId)
 	{
 		Comment comment = loadComment(commentId);
@@ -371,23 +389,24 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 		article.getComments().remove(comment);
 
-		commentDao.delete(comment);
-		articleDao.update(article);
+		commentRepository.delete(comment);
+		articleRepository.save(article);
 
 		return article;
 	}
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+	@Transactional("transactionManager")
 	public boolean moderateComments(int count) throws ModerationException
 	{
-		Iterator<Comment> comments = commentDao.iterateForModerationInRange(0, count);
-		if (!comments.hasNext())
-			return false;
-
-		while (comments.hasNext())
+		Page<Comment> page = commentRepository.findForModeration(new PageRequest(0, count, new Sort("creationDate")));
+		if (page.getNumberOfElements() < 1)
 		{
-			Comment comment = comments.next();
+			return false;
+		}
+
+		for (Comment comment : page.getContent())
+		{
 
 			logger.info("Moderating comment #" + comment.getId());
 
@@ -397,8 +416,9 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 			comment.setVisible(valid);
 			comment.setModerationStatus(valid ? ModerationStatus.HAM : ModerationStatus.SPAM);
-			commentDao.update(comment);
+			commentRepository.save(comment);
 		}
+		
 		return true;
 	}
 
@@ -501,68 +521,87 @@ public class ArticleBusinessImpl implements ArticleBusiness
 			User createdBy = article.getCreatedByUser();
 
 			if (createdBy == null || !user.getId().equals(createdBy.getId()))
+			{
 				throw new UnauthorizedException(errorMessage);
+			}
 		}
 	}
 
 	private boolean isUserTrustedForComments(User user)
 	{
 		if (user == null)
+		{
 			return false; // anonymous users are not trusted
+		}
 
 		List<Role> roles = user.getRoles();
 
 		// trust users who can post / modify articles
 		if (roles.contains(findRoleByName(ROLE_MANAGE_ARTICLES)))
+		{
 			return true;
+		}
 
 		// trust users who can modify comments
 		if (roles.contains(findRoleByName(ROLE_MANAGE_COMMENTS)))
+		{
 			return true;
+		}
 
 		return false;
 	}
 
 	private User findUserByName(String userName) throws UserNotFoundException
 	{
-		User user = userDao.findByUserName(userName);
-
+		User user = userRepository.findByUserName(userName);
 		if (user == null)
+		{
 			throw new UserNotFoundException("Unknown user: " + userName);
+		}
+
 		return user;
 	}
 
 	private Article loadArticle(Long articleId) throws ArticleNotFoundException
 	{
 		if (articleId == null)
+		{
 			throw new ArticleNotFoundException("Invalid id specified.");
+		}
 
-		Article article = articleDao.read(articleId);
-
+		Article article = articleRepository.findOne(articleId);
 		if (article == null)
+		{
 			throw new ArticleNotFoundException("No article exists with id: " + articleId);
+		}
+
 		return article;
 	}
 
 	private Comment loadComment(Long commentId) throws CommentNotFoundException
 	{
 		if (commentId == null)
+		{
 			throw new CommentNotFoundException("Invalid id specified.");
+		}
 
-		Comment comment = commentDao.read(commentId);
-
+		Comment comment = commentRepository.findOne(commentId);
 		if (comment == null)
+		{
 			throw new CommentNotFoundException("No comment exists with id: " + commentId);
+		}
 
 		return comment;
 	}
 
 	private Role findRoleByName(String roleName) throws RoleNotFoundException
 	{
-		Role role = roleDao.findByName(roleName);
+		Role role = roleRepository.findByName(roleName);
 
 		if (role == null)
+		{
 			throw new RoleNotFoundException("Unknown role: " + roleName);
+		}
 
 		return role;
 	}
