@@ -4,9 +4,17 @@ import java.io.Serializable;
 import java.util.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 /**
  * JPA entity representing an article tag or category.
@@ -18,6 +26,7 @@ import org.apache.commons.lang.builder.*;
 		@NamedQuery(name = "Tag.MostArticles", query = "select max(t.articles.size) from Tag t") })
 @Entity
 @Table(name = "tags")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "tags", sequenceName = "tags_seq", allocationSize = 1)
 public class Tag implements Serializable, Comparable<Tag>
 {

@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.*;
-import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 /**
  * JPA entity representing a security role.
@@ -17,6 +22,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Immutable
 @Table(name = "roles")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @SequenceGenerator(name = "roles", sequenceName = "roles_seq", allocationSize = 1)
 public class Role implements Serializable, Comparable<Role>
 {
