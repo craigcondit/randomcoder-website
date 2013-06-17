@@ -38,7 +38,7 @@ public class Article implements Serializable
 	private String title;
 	private String content;
 	private String summary;
-	private boolean commentsEnabled;
+	private boolean commentsEnabled = true;
 
 	private List<Tag> tags;
 	private List<Comment> comments;

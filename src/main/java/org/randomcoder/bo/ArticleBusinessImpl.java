@@ -186,6 +186,11 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 		Article article = loadArticle(articleId);
 
+		if (!article.isCommentsEnabled())
+		{
+			throw new IllegalArgumentException("Comments are not enabled for this article");
+		}
+		
 		Comment comment = new Comment();
 
 		producer.produce(comment);

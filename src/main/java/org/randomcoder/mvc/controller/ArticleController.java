@@ -201,6 +201,7 @@ public class ArticleController
 		wrappedArticles.add(new ArticleDecorator(article, contentFilter));
 		model.addAttribute("articles", wrappedArticles);
 		model.addAttribute("pageSubTitle", article.getTitle());
+		model.addAttribute("commentsEnabled", article.isCommentsEnabled());
 		model.addAttribute("command", command);
 		model.addAttribute("contentTypes", ContentType.values());
 	}

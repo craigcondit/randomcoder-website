@@ -33,11 +33,6 @@ public class CommentValidator implements Validator
 
 	private static final Log logger = LogFactory.getLog(CommentValidator.class);
 
-	/**
-	 * Message resource for permalink exists message.
-	 */
-	protected static final String ERROR_ARTICLE_PERMALINK_EXISTS = "error.article.permalink.exists";
-
 	private ContentFilter contentFilter;
 
 	/**
