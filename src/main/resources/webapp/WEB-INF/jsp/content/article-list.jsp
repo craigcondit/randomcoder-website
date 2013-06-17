@@ -84,7 +84,7 @@
 		<c:if test="${pageContext.request.userPrincipal != null}">
 		  <c:if test="${manageArticles || (postArticles && userName == articleAuthor)}">
 				:: <a class="edit" href="${editLink}">Edit</a>
-			  :: <a class="delete" href="${deleteLink}">Delete</a>
+			  :: <a class="deleteArticle delete" href="${deleteLink}">Delete</a>
 			</c:if>
 		</c:if>
 	</div>
@@ -145,9 +145,6 @@
   		<c:if test="${not commentDecorator.comment.visible}"><c:set var="hiddenCount" value="${hiddenCount+1}" /></c:if>
   		<c:if test="${manageComments or commentDecorator.comment.visible}">
 	  		<a name="comment-${commentDecorator.comment.id}"></a>
-			  <c:url var="deleteCommentLink" value="/comment/delete">
-			  	<c:param name="id" value="${commentDecorator.comment.id}" />
-			  </c:url>
 			  <c:url var="approveCommentLink" value="/comment/approve">
 			  	<c:param name="id" value="${commentDecorator.comment.id}" />
 			  </c:url>
@@ -205,13 +202,23 @@
 					<div class="sectionSubHeading">
 						<c:choose>
 							<c:when test="${commentDecorator.comment.visible}">
-								<a ref="disapprove" class="disapprove" href="${disapproveCommentLink}">Disapprove</a>
+					  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/disapprove' />">
+					  			<button class="disapproveComment disapprove">Disapprove</button>
+					  		</form>						
+<%-- 								<a ref="disapprove" class="disapprove" href="${disapproveCommentLink}">Disapprove</a> --%>
 							</c:when>
 							<c:otherwise>
-								<a ref="approve" class="approve" href="${approveCommentLink}">Approve</a>
+					  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
+					  			<button class="approveComment approve">Approve</button>
+					  		</form>						
+<%-- 								<a ref="approve" class="approve" href="${approveCommentLink}">Approve</a> --%>
 							</c:otherwise>
 						</c:choose>
-						:: <a rel="delete" class="deleteComment delete" href="${deleteCommentLink}">Delete</a>
+						:: 
+			  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}' />">
+			  			<input type="hidden" name="_method" value="DELETE" />
+			  			<button class="deleteComment delete">Delete</button>
+			  		</form>						
 					</div>
 				</c:if>
 	  		<div class="sectionContent">

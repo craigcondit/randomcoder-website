@@ -26,6 +26,7 @@
 		<!--[if lt IE 6]>
 			<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/site-ie5.css" />
 		<![endif]-->
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/behaviour.js"></script>
 		<script type="text/javascript" src="${pageContext.request.contextPath}/js/ui.js"></script>
 		<c:if test="${template.javascript != null}">

@@ -22,7 +22,7 @@ public class CommentController
 	 * Sets the ArticleBusiness implementation to use.
 	 * 
 	 * @param articleBusiness
-	 *          ArticleBusiness implementation
+	 *            ArticleBusiness implementation
 	 */
 	@Inject
 	public void setArticleBusiness(ArticleBusiness articleBusiness)
@@ -34,13 +34,13 @@ public class CommentController
 	 * Approves the selected comment.
 	 * 
 	 * @param id
-	 *          comment ID
+	 *            comment ID
 	 * @return view to redirect to
 	 * @throws ModerationException
-	 *           if an error occurs
+	 *             if an error occurs
 	 */
-	@RequestMapping("/comment/approve")
-	public View approveComment(@RequestParam("id") long id) throws ModerationException
+	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST)
+	public View approveComment(@PathVariable("id") long id) throws ModerationException
 	{
 		Article article = articleBusiness.approveComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);
@@ -50,13 +50,13 @@ public class CommentController
 	 * Approves the selected comment.
 	 * 
 	 * @param id
-	 *          comment ID
+	 *            comment ID
 	 * @return view to redirect to
 	 * @throws ModerationException
-	 *           if an error occurs
+	 *             if an error occurs
 	 */
-	@RequestMapping("/comment/disapprove")
-	public View disapproveComment(@RequestParam("id") long id) throws ModerationException
+	@RequestMapping(value = "/comment/{id}/disapprove", method = RequestMethod.POST)
+	public View disapproveComment(@PathVariable("id") long id) throws ModerationException
 	{
 		Article article = articleBusiness.disapproveComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);
@@ -66,11 +66,11 @@ public class CommentController
 	 * Deletes the selected comment.
 	 * 
 	 * @param id
-	 *          comment ID
+	 *            comment ID
 	 * @return view to redirect to
 	 */
-	@RequestMapping("/comment/delete")
-	public View deleteComment(@RequestParam("id") long id)
+	@RequestMapping(value = "/comment/{id}", method = RequestMethod.DELETE)
+	public View deleteComment(@PathVariable("id") long id)
 	{
 		Article article = articleBusiness.deleteComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);

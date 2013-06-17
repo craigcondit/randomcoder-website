@@ -93,6 +93,12 @@ public class JettyContext
 		sec.setName("springSecurityFilterChain");
 		context.addFilter(sec, "/*", EnumSet.allOf(DispatcherType.class));
 		
+		// define hidden method filter
+		FilterHolder hiddenMethod = new FilterHolder();
+		hiddenMethod.setFilter(new HiddenHttpMethodFilter());
+		hiddenMethod.setName("hiddenMethod");
+		context.addFilter(hiddenMethod, "/*", EnumSet.of(DispatcherType.REQUEST));
+		
 		// define etag filter to better cache static content
 		FilterHolder etag = new FilterHolder();
 		etag.setFilter(new ShallowEtagHeaderFilter());

@@ -99,19 +99,31 @@ A.edit {
 	background: url(../images/silk/bullet_wrench.png) left no-repeat;
 }
 
-A.delete {
-	padding-left: 12px;
-	background: url(../images/silk/bullet_delete.png) -3px no-repeat;
+A.delete,
+FORM.link BUTTON.delete,
+FORM.link BUTTON.delete:focus,
+FORM.link BUTTON.delete:active
+{
+	padding-left: 12px !important;
+	background: url(../images/silk/bullet_delete.png) -3px -1px no-repeat !important;
 }
 
-A.approve {
-	padding-left: 12px;	
-	background: url(../images/silk/bullet_toggle_plus.png) -3px no-repeat;
+A.approve,
+FORM.link BUTTON.approve,
+FORM.link BUTTON.approve:focus,
+FORM.link BUTTON.approve:active
+{
+	padding-left: 12px !important;
+	background: url(../images/silk/bullet_toggle_plus.png) -3px 0 no-repeat !important;
 }
 
-A.disapprove {
-	padding-left: 12px;	
-	background: url(../images/silk/bullet_toggle_minus.png) -3px no-repeat;
+A.disapprove,
+FORM.link BUTTON.disapprove,
+FORM.link BUTTON.disapprove:focus,
+FORM.link BUTTON.disapprove:active
+{	
+	padding-left: 12px !important;	
+	background: url(../images/silk/bullet_toggle_minus.png) -3px 0 no-repeat !important;
 }
 
 A.comment {
@@ -723,3 +735,36 @@ DIV.even, DIV.odd
 .cloud7 { font-size: 1.70em; }
 .cloud8 { font-size: 1.80em; }
 .cloud9 { font-size: 1.90em; }
+
+FORM.link
+{
+	display: inline;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+}
+
+FORM.link BUTTON,
+FORM.link BUTTON:focus,
+FORM.link BUTTON:active
+{
+	display: inline;
+	font: inherit;
+	background: none !important;
+	border: none;
+	padding: 0 !important;
+	text-decoration: none;
+	color: #228833;
+	cursor: pointer;
+}
+
+FORM.link BUTTON:hover
+{
+	color: #22cc33;	
+}
+
+FORM.link BUTTON::-moz-focus-inner
+{
+	border: none;
+	padding: 0em;
+}
