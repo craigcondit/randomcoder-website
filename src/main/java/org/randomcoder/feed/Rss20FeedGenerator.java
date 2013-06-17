@@ -150,7 +150,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 			// write guid
 			Element articleGuidEl = doc.createElement("guid");
 			if (article.getPermalink() != null)
+			{
 				articleGuidEl.setAttribute("isPermaLink", "true");
+			}
 
 			articleGuidEl.appendChild(doc.createTextNode(articleUrl.toExternalForm()));
 			itemEl.appendChild(articleGuidEl);
@@ -162,7 +164,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 			itemEl.appendChild(articlePubDateEl);
 
 			if (feedUpdated == null || feedUpdated.before(published))
+			{
 				feedUpdated = published;
+			}
 
 			// write categories
 			for (Tag tag : article.getTags())
@@ -177,7 +181,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 
 			String content = article.getSummary();
 			if (content == null)
+			{
 				content = article.getContent();
+			}
 
 			try
 			{
@@ -194,7 +200,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 		}
 
 		if (feedUpdated == null)
+		{
 			feedUpdated = new Date();
+		}
 
 		pubDateEl.appendChild(doc.createTextNode(formatDate(feedUpdated)));
 

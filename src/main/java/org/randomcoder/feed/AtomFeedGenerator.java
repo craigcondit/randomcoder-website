@@ -225,7 +225,9 @@ public class AtomFeedGenerator implements FeedGenerator
 			entryEl.appendChild(articlePublishedEl);
 
 			if (feedUpdated == null || feedUpdated.before(published))
+			{
 				feedUpdated = published;
+			}
 
 			// write modified
 			Date updated = article.getModificationDate();
@@ -236,7 +238,9 @@ public class AtomFeedGenerator implements FeedGenerator
 				entryEl.appendChild(articleUpdatedEl);
 
 				if (feedUpdated == null || feedUpdated.before(updated))
+				{
 					feedUpdated = updated;
+				}
 			}
 
 			// write author
@@ -321,7 +325,9 @@ public class AtomFeedGenerator implements FeedGenerator
 		}
 
 		if (feedUpdated == null)
+		{
 			feedUpdated = new Date();
+		}
 
 		updatedEl.appendChild(doc.createTextNode(formatDate(feedUpdated)));
 
