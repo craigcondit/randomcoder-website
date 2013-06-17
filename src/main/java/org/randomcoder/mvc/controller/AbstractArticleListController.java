@@ -211,7 +211,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 		Page<Article> articles = listArticlesBeforeDate(command, cutoff.getTime(), pageable);
 
 		// wrap article list
-		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(articles.getContent().size());
+		List<ArticleDecorator> wrappedArticles = new ArrayList<>(articles.getContent().size());
 		for (Article article : articles.getContent())
 		{
 			wrappedArticles.add(new ArticleDecorator(article, contentFilter));
