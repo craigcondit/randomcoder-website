@@ -51,12 +51,14 @@ public class TagBusinessImpl implements TagBusiness
 		List<TagStatistics> tagStats = tagRepository.findAllTagStatistics();
 		int mostArticles = tagRepository.maxArticleCount();
 
-		List<TagCloudEntry> cloud = new ArrayList<TagCloudEntry>(tagStats.size());
+		List<TagCloudEntry> cloud = new ArrayList<>(tagStats.size());
 
 		for (TagStatistics tag : tagStats)
 		{
 			if (tag.getArticleCount() > 0)
+			{
 				cloud.add(new TagCloudEntry(tag, mostArticles));
+			}
 		}
 
 		return cloud;
@@ -98,15 +100,6 @@ public class TagBusinessImpl implements TagBusiness
 			return;
 		}
 
-		// TODO figure out if this is even necessary once we finish migrating to JPA
-		
-		// remove tag from all articles which it applies to
-		// failing to do this will result in ObjectNotFoundExceptions
-		// we use an iterator here because the list of articles could be large
-		for (Article article : articleRepository.iterateByTag(tag))
-		{
-			article.getTags().remove(tag);
-		}
 		tagRepository.delete(tag);
 	}
 
