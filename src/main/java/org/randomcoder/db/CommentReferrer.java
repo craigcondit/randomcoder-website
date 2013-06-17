@@ -11,7 +11,6 @@ import org.apache.commons.lang.builder.*;
 /**
  * JPA entity representing a comment referrer.
  */
-@NamedQueries({ @NamedQuery(name = "CommentReferrer.ByUri", query = "from CommentReferrer cr where cr.referrerUri = ?") })
 @Entity
 @Table(name = "comment_referrers")
 @SequenceGenerator(name = "comment_referrers", sequenceName = "comment_referrers_seq", allocationSize = 1)

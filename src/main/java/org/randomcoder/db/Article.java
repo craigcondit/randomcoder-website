@@ -9,8 +9,6 @@ import java.util.*;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -22,16 +20,6 @@ import org.randomcoder.content.ContentType;
 /**
  * JPA entity representing an article.
  */
-@NamedQueries({
-		@NamedQuery(name = "Article.All", query = "from Article a order by a.creationDate desc"),
-		@NamedQuery(name = "Article.ByTag", query = "from Article a where ? in elements(a.tags) order by a.creationDate desc"),
-		@NamedQuery(name = "Article.BeforeDate", query = "from Article a where a.creationDate < ? order by a.creationDate desc"),
-		@NamedQuery(name = "Article.ByTagBeforeDate", query = "from Article a where ? in elements(a.tags) and a.creationDate < ? order by a.creationDate desc"),
-		@NamedQuery(name = "Article.CountBeforeDate", query = "select count(a.id) from Article a where a.creationDate < ?"),
-		@NamedQuery(name = "Article.CountByTagBeforeDate", query = "select count(a.id) from Article a where ? in elements(a.tags) and a.creationDate < ?"),
-		@NamedQuery(name = "Article.BetweenDates", query = "from Article a where a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
-		@NamedQuery(name = "Article.ByTagBetweenDates", query = "from Article a where ? in elements(a.tags) and a.creationDate >= ? and a.creationDate < ? order by a.creationDate desc"),
-		@NamedQuery(name = "Article.ByPermalink", query = "from Article a where a.permalink = ?") })
 @Entity
 @Table(name = "articles")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

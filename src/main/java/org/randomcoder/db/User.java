@@ -6,8 +6,6 @@ import java.util.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -19,11 +17,6 @@ import org.hibernate.annotations.Cache;
 /**
  * JPA entity representing a user.
  */
-@NamedQueries({ @NamedQuery(name = "User.All", query = "from User u order by u.userName"),
-		@NamedQuery(name = "User.CountAll", query = "select count(u.id) from User u"),
-		@NamedQuery(name = "User.Enabled", query = "from User u where u.enabled = true order by u.userName"),
-		@NamedQuery(name = "User.ByUserName", query = "from User u where u.userName = ?"),
-		@NamedQuery(name = "User.ByUserNameEnabled", query = "from User u where u.userName = ? and u.enabled = true") })
 @Entity
 @Table(name = "users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

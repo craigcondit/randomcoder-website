@@ -11,7 +11,6 @@ import org.apache.commons.lang.builder.*;
 /**
  * JPA entity representing a comment user agent.
  */
-@NamedQueries({ @NamedQuery(name = "CommentUserAgent.ByName", query = "from CommentUserAgent cu where cu.userAgentName = ?") })
 @Entity
 @Table(name = "comment_useragents")
 @SequenceGenerator(name = "comment_useragents", sequenceName = "comment_useragents_seq", allocationSize = 1)

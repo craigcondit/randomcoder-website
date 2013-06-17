@@ -6,8 +6,6 @@ import java.util.Date;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.*;
@@ -18,7 +16,6 @@ import org.randomcoder.content.ContentType;
 /**
  * JPA entity representing an article comment.
  */
-@NamedQueries({ @NamedQuery(name = "Comment.ForModeration", query = "from Comment c where c.moderationStatus = 'PENDING' order by c.creationDate") })
 @Entity
 @Table(name = "comments")
 @SequenceGenerator(name = "comments", sequenceName = "comments_seq", allocationSize = 1)

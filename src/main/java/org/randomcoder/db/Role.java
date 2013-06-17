@@ -5,8 +5,6 @@ import java.util.Comparator;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
@@ -17,8 +15,6 @@ import org.hibernate.annotations.Cache;
 /**
  * JPA entity representing a security role.
  */
-@NamedQueries({ @NamedQuery(name = "Role.All", query = "from Role r order by r.description"),
-		@NamedQuery(name = "Role.ByName", query = "from Role r where r.name = ?", hints = { @QueryHint(name = "org.hibernate.cacheable", value = "true") }) })
 @Entity
 @Immutable
 @Table(name = "roles")

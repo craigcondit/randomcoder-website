@@ -11,7 +11,6 @@ import org.apache.commons.lang.builder.*;
 /**
  * JPA entity representing a comment IP address.
  */
-@NamedQueries({ @NamedQuery(name = "CommentIp.ByIpAddress", query = "from CommentIp ci where ci.ipAddress = ?") })
 @Entity
 @Table(name = "comment_ips")
 @SequenceGenerator(name = "comment_ips", sequenceName = "comment_ips_seq", allocationSize = 1)
