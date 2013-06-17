@@ -105,7 +105,7 @@ public class JstlTemplateView extends JstlView
 	{
 		super.exposeHelpers(request);
 
-		Map<String, Object> templateMap = new HashMap<String, Object>();
+		Map<String, Object> templateMap = new HashMap<>();
 		populateTemplateMap(templateMap);
 
 		request.setAttribute(getTemplateName(), templateMap);
