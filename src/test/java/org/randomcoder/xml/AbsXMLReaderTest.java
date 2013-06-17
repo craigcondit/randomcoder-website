@@ -1,36 +1,39 @@
 package org.randomcoder.xml;
 
+import static org.junit.Assert.*;
+
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
+import org.junit.*;
 import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 @SuppressWarnings("javadoc")
-public class AbsXMLReaderTest extends TestCase
+public class AbsXMLReaderTest
 {
 	private AbstractXMLReaderMock reader;
-	
-	@Override
-	public void setUp() throws Exception
+
+	@Before
+	public void setUp()
 	{
 		reader = new AbstractXMLReaderMock();
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		reader = null;
 	}
 
+	@Test
 	public void testParse() throws SAXException, IOException
 	{
 		reader.parse("test.xml");
-		assertEquals("test.xml", reader.getInputSource().getSystemId());		
+		assertEquals("test.xml", reader.getInputSource().getSystemId());
 	}
 
+	@Test
 	public void testGetContentHandler()
 	{
 		DefaultHandler handler = new DefaultHandler();
@@ -38,6 +41,7 @@ public class AbsXMLReaderTest extends TestCase
 		assertEquals(handler, reader.getContentHandler());
 	}
 
+	@Test
 	public void testGetDTDHandler()
 	{
 		DefaultHandler handler = new DefaultHandler();
@@ -45,6 +49,7 @@ public class AbsXMLReaderTest extends TestCase
 		assertEquals(handler, reader.getDTDHandler());
 	}
 
+	@Test
 	public void testGetEntityResolver()
 	{
 		DefaultHandler handler = new DefaultHandler();
@@ -52,6 +57,7 @@ public class AbsXMLReaderTest extends TestCase
 		assertEquals(handler, reader.getEntityResolver());
 	}
 
+	@Test
 	public void testGetErrorHandler()
 	{
 		DefaultHandler handler = new DefaultHandler();
@@ -59,6 +65,7 @@ public class AbsXMLReaderTest extends TestCase
 		assertEquals(handler, reader.getErrorHandler());
 	}
 
+	@Test
 	public void testGetFeature() throws SAXException
 	{
 		reader.setFeature("test-feature", true);
@@ -66,6 +73,7 @@ public class AbsXMLReaderTest extends TestCase
 		assertFalse(reader.getFeature("bogus-feature"));
 	}
 
+	@Test
 	public void testGetProperty() throws SAXException
 	{
 		reader.setProperty("test-property", "test-value");
