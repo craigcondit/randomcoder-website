@@ -26,8 +26,8 @@ import org.randomcoder.content.ContentType;
 @SequenceGenerator(name = "articles", sequenceName = "articles_seq", allocationSize = 1)
 public class Article implements Serializable
 {
-	private static final long serialVersionUID = -2673436829347272277L;
-
+	private static final long serialVersionUID = 4017235474814138625L;
+	
 	private Long id;
 	private ContentType contentType;
 	private String permalink;
@@ -38,6 +38,7 @@ public class Article implements Serializable
 	private String title;
 	private String content;
 	private String summary;
+	private boolean commentsEnabled;
 
 	private List<Tag> tags;
 	private List<Comment> comments;
@@ -59,7 +60,7 @@ public class Article implements Serializable
 	 * Sets the id of this article
 	 * 
 	 * @param id
-	 *          article id
+	 *            article id
 	 */
 	public void setId(Long id)
 	{
@@ -83,7 +84,7 @@ public class Article implements Serializable
 	 * Sets the tags associated with this article.
 	 * 
 	 * @param tags
-	 *          List of {@code Tag} objects
+	 *            List of {@code Tag} objects
 	 */
 	public void setTags(List<Tag> tags)
 	{
@@ -106,7 +107,7 @@ public class Article implements Serializable
 	 * Sets the list of comments for this article.
 	 * 
 	 * @param comments
-	 *          list of comments
+	 *            list of comments
 	 */
 	public void setComments(List<Comment> comments)
 	{
@@ -129,7 +130,7 @@ public class Article implements Serializable
 	 * Sets the content type of this article.
 	 * 
 	 * @param contentType
-	 *          content type
+	 *            content type
 	 */
 	public void setContentType(ContentType contentType)
 	{
@@ -151,7 +152,7 @@ public class Article implements Serializable
 	 * Sets the permalink for this article.
 	 * 
 	 * @param permalink
-	 *          permalink
+	 *            permalink
 	 */
 	public void setPermalink(String permalink)
 	{
@@ -174,7 +175,7 @@ public class Article implements Serializable
 	 * Sets the user this article was created by.
 	 * 
 	 * @param createdByUser
-	 *          user, or null if user no longer exists.
+	 *            user, or null if user no longer exists.
 	 */
 	public void setCreatedByUser(User createdByUser)
 	{
@@ -196,7 +197,7 @@ public class Article implements Serializable
 	 * Sets the creation date of this article.
 	 * 
 	 * @param creationDate
-	 *          creation date
+	 *            creation date
 	 */
 	public void setCreationDate(Date creationDate)
 	{
@@ -219,7 +220,7 @@ public class Article implements Serializable
 	 * Sets the user who last modified this article.
 	 * 
 	 * @param modifiedByUser
-	 *          user
+	 *            user
 	 */
 	public void setModifiedByUser(User modifiedByUser)
 	{
@@ -241,7 +242,7 @@ public class Article implements Serializable
 	 * Sets the modification date of this article.
 	 * 
 	 * @param modificationDate
-	 *          modification date
+	 *            modification date
 	 */
 	public void setModificationDate(Date modificationDate)
 	{
@@ -263,7 +264,7 @@ public class Article implements Serializable
 	 * Sets the title of this article.
 	 * 
 	 * @param title
-	 *          article title
+	 *            article title
 	 */
 	public void setTitle(String title)
 	{
@@ -285,7 +286,7 @@ public class Article implements Serializable
 	 * Sets the textual content of this article.
 	 * 
 	 * @param content
-	 *          article content
+	 *            article content
 	 */
 	public void setContent(String content)
 	{
@@ -307,11 +308,33 @@ public class Article implements Serializable
 	 * Sets the summary text for this article.
 	 * 
 	 * @param summary
-	 *          summary text
+	 *            summary text
 	 */
 	public void setSummary(String summary)
 	{
 		this.summary = summary;
+	}
+
+	/**
+	 * Determines if comments are enabled for this article.
+	 * 
+	 * @return <code>true</code> if comments are enabled
+	 */
+	@Column(name = "comments_enabled", nullable = false)
+	public boolean isCommentsEnabled()
+	{
+		return commentsEnabled;
+	}
+
+	/**
+	 * Sets whether comments should be enabled for this article.
+	 * 
+	 * @param commentsEnabled
+	 *            <code>true</code> if comments should be enabled
+	 */
+	public void setCommentsEnabled(boolean commentsEnabled)
+	{
+		this.commentsEnabled = commentsEnabled;
 	}
 
 	/**

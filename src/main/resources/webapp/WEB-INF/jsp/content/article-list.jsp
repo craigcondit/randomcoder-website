@@ -108,14 +108,24 @@
 						<c:when test="${commentCount > 1}">
 							<c:set var="commentText">${commentCount} comments</c:set>
 						</c:when>
-						<c:otherwise>
+						<c:when test="${articleDecorator.article.commentsEnabled}">
 							<c:set var="commentText">Comment on this article</c:set>
+						</c:when>
+						<c:otherwise>
+							<c:set var="commentText">0 comments</c:set>
 						</c:otherwise>
 					</c:choose>
 					<c:if test="${articleDecorator.summaryPresent}">
 						<a class="read-more" href="${permUrl}">Read more</a> :: 
 					</c:if>
-					<a rel="comment" class="comment" href="${permUrl}#comments">${commentText}</a>
+					<c:choose>
+						<c:when test="${commentCount > 0 || articleDecorator.article.commentsEnabled}">
+							<a rel="comment" class="comment" href="${permUrl}#comments">${commentText}</a>
+						</c:when>
+						<c:otherwise>
+							${commentText}
+						</c:otherwise>
+					</c:choose>
 				</div>
 	  	</c:when>
 	  	<c:otherwise>	  	
