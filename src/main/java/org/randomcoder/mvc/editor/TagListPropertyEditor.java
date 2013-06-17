@@ -74,9 +74,9 @@ public class TagListPropertyEditor extends PropertyEditorSupport
 
 		String[] tagNames = value.split(",");
 
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 
-		List<Tag> tags = new ArrayList<Tag>();
+		List<Tag> tags = new ArrayList<>();
 
 		for (String tagName : tagNames)
 		{
