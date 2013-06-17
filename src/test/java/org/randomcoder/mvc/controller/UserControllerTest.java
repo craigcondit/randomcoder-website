@@ -6,13 +6,14 @@ import static org.junit.Assert.*;
 import java.security.Principal;
 import java.util.*;
 
-import org.easymock.IMocksControl;
+import org.easymock.*;
 import org.junit.*;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.*;
 import org.randomcoder.mvc.command.*;
 import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.randomcoder.mvc.validator.*;
+import org.springframework.data.domain.*;
 import org.springframework.ui.Model;
 import org.springframework.validation.*;
 import org.springframework.web.bind.WebDataBinder;
@@ -50,7 +51,6 @@ public class UserControllerTest
 		c = new UserController();
 		c.setUserBusiness(ub);
 		c.setChangePasswordValidator(cpv);
-		c.setDefaultPageSize(10);
 		c.setMaximumPageSize(25);
 		c.setAccountCreateValidator(acv);
 		c.setUserProfileValidator(upv);
@@ -141,108 +141,45 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testListUsersValueOutOfRange() throws Exception
+	public void testListUsers() throws Exception
 	{
 		List<User> users = new ArrayList<>();
+		Page<User> page = new PageImpl<>(users);
 
-		UserListCommand command = new UserListCommand();
-		command.setStart(-1);
-		command.setLimit(-1);
+		Pageable pr = new PageRequest(0, 20);
+		Capture<Pageable> pc = new Capture<>();
 
-		expect(ub.listUsersInRange(0, 10)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0L);
-		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
-		expect(m.addAttribute("pageStart", 0)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 10)).andReturn(m);
+		expect(ub.findAll(capture(pc))).andReturn(page);
+		expect(m.addAttribute("users", page)).andReturn(m);
 		control.replay();
 
-		c.listUsers(command, m);
+		c.listUsers(m, pr);
 		control.verify();
+		
+		assertEquals(new Sort("userName"), pc.getValue().getSort());
+		assertEquals(0, pc.getValue().getOffset());
+		assertEquals(20, pc.getValue().getPageSize());
 	}
 
 	@Test
-	public void testListUsersLimitTooHigh() throws Exception
+	public void testListUsersPageTooBig() throws Exception
 	{
 		List<User> users = new ArrayList<>();
+		Page<User> page = new PageImpl<>(users);
 
-		UserListCommand command = new UserListCommand();
-		command.setStart(-1);
-		command.setLimit(100);
+		Pageable pr = new PageRequest(0, 100);
+		Capture<Pageable> pc = new Capture<>();
 
-		expect(ub.listUsersInRange(0, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0L);
-		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
-		expect(m.addAttribute("pageStart", 0)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
+		expect(ub.findAll(capture(pc))).andReturn(page);
+		expect(m.addAttribute("users", page)).andReturn(m);
 		control.replay();
 
-		c.listUsers(command, m);
+		c.listUsers(m, pr);
 		control.verify();
-	}
-
-	@Test
-	public void testListUsersFirstPage() throws Exception
-	{
-		List<User> users = new ArrayList<>();
-
-		UserListCommand command = new UserListCommand();
-		command.setStart(0);
-		command.setLimit(25);
-
-		expect(ub.listUsersInRange(0, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(0L);
-		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 0L)).andReturn(m);
-		expect(m.addAttribute("pageStart", 0)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
-		control.replay();
-
-		c.listUsers(command, m);
-		control.verify();
-	}
-
-	@Test
-	public void testListUsersLastPage() throws Exception
-	{
-		List<User> users = new ArrayList<>();
-
-		UserListCommand command = new UserListCommand();
-		command.setStart(75);
-		command.setLimit(25);
-
-		expect(ub.listUsersInRange(75, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(100L);
-		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 100L)).andReturn(m);
-		expect(m.addAttribute("pageStart", 75)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
-		control.replay();
-
-		c.listUsers(command, m);
-		control.verify();
-	}
-
-	@Test
-	public void testListUsersRollOffEnd() throws Exception
-	{
-		List<User> users = new ArrayList<>();
-
-		UserListCommand command = new UserListCommand();
-		command.setStart(76);
-		command.setLimit(25);
-
-		expect(ub.listUsersInRange(76, 25)).andReturn(users);
-		expect(ub.countUsers()).andReturn(100L);
-		expect(m.addAttribute("users", users)).andReturn(m);
-		expect(m.addAttribute("pageCount", 100L)).andReturn(m);
-		expect(m.addAttribute("pageStart", 76)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 25)).andReturn(m);
-		control.replay();
-
-		c.listUsers(command, m);
-		control.verify();
+		
+		assertEquals(new Sort("userName"), pc.getValue().getSort());
+		assertEquals(0, pc.getValue().getOffset());
+		assertEquals(25, pc.getValue().getPageSize());
 	}
 
 	@Test

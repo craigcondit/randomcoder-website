@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.randomcoder.db.*;
 import org.randomcoder.io.*;
+import org.springframework.data.domain.*;
 
 /**
  * Business interface for user management.
@@ -109,18 +110,9 @@ public interface UserBusiness
 	/**
 	 * Lists all {@code User} objects in range, ordered by user name.
 	 * 
-	 * @param start
-	 *          starting result
-	 * @param limit
-	 *          maximum number of results
+	 * @param pageable
+	 *          paging parameters
 	 * @return List of {@code User} objects
 	 */
-	public List<User> listUsersInRange(int start, int limit);
-
-	/**
-	 * Counts all {@code User} objects
-	 * 
-	 * @return count of user objects
-	 */
-	public long countUsers();
+	public Page<User> findAll(Pageable pageable);
 }

@@ -1,7 +1,6 @@
 package org.randomcoder.mvc.controller;
 
 import java.security.Principal;
-import java.util.*;
 
 import javax.inject.*;
 
@@ -11,6 +10,8 @@ import org.randomcoder.mvc.command.*;
 import org.randomcoder.mvc.editor.RolePropertyEditor;
 import org.randomcoder.mvc.validator.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,6 @@ public class UserController
 	private UserAddValidator userAddValidator;
 	private UserEditValidator userEditValidator;
 
-	private int defaultPageSize = 25;
 	private int maximumPageSize = 100;
 
 	/**
@@ -44,18 +44,6 @@ public class UserController
 	public void setUserBusiness(UserBusiness userBusiness)
 	{
 		this.userBusiness = userBusiness;
-	}
-
-	/**
-	 * Sets the default number of items to display per page (defaults to 25).
-	 * 
-	 * @param defaultPageSize
-	 *            default number of items per page
-	 */
-	@Value("${user.pagesize.default}")
-	public void setDefaultPageSize(int defaultPageSize)
-	{
-		this.defaultPageSize = defaultPageSize;
 	}
 
 	/**
@@ -165,38 +153,27 @@ public class UserController
 	/**
 	 * Lists users.
 	 * 
-	 * @param command
-	 *            user list command
 	 * @param model
-	 *            MVC model
+	 *          MVC model
+	 * @param pageable
+	 *          paging parameters
 	 * @return user list view
 	 */
 	@RequestMapping("/user")
-	public String listUsers(UserListCommand command, Model model)
+	public String listUsers(Model model, @PageableDefaults(25) Pageable pageable)
 	{
-		// set range
-		int start = Math.max(0, command.getStart());
-		command.setStart(start);
-
-		int limit = command.getLimit();
-		if (limit <= 0)
+		int size = pageable.getPageSize();
+		int page = pageable.getPageNumber();
+		if (size > maximumPageSize)
 		{
-			limit = defaultPageSize;
+			size = maximumPageSize;
+			page = 0;	
 		}
-		if (limit > maximumPageSize)
-		{
-			limit = maximumPageSize;
-		}
-		command.setLimit(limit);
-
-		List<User> users = userBusiness.listUsersInRange(start, limit);
-		long count = userBusiness.countUsers();
-
-		// populate model
+		
+		pageable = new PageRequest(page, size, new Sort("userName"));
+		
+		Page<User> users = userBusiness.findAll(pageable);
 		model.addAttribute("users", users);
-		model.addAttribute("pageCount", count);
-		model.addAttribute("pageStart", start);
-		model.addAttribute("pageLimit", limit);
 
 		return "user-list";
 	}

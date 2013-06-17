@@ -72,7 +72,7 @@ public class JstlTemplateViewTest extends TestCase
 		assertEquals("parent", view.getTemplateName());
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public void testExposeHelpers() throws Exception
 	{
 		Map<String, Object> parentMap = new HashMap<String, Object>();

@@ -5,14 +5,14 @@
 <%@ taglib uri="http://randomcoder.org/tags-escape" prefix="rcesc" %>
 <c:url var="homeUrl" value="/" />
 <c:url var="addUrl" value="/user/add" />
-
+<c:set var="pager" value="${users}" scope="request" />
 <div class="sectionHeading">Users</div>
 <div class="sectionSubHeading">
 	<a class="add" href="${addUrl}">Add new user</a> :: <a href="${homeUrl}">Done</a>
 </div>
 <div class="sectionContentFull">
 	<c:set var="class" value="even" />
-	<c:forEach var="user" items="${users}" varStatus="status">	
+	<c:forEach var="user" items="${users.content}" varStatus="status">	
 	  <c:url var="editLink" value="/user/edit">
 	  	<c:param name="id" value="${user.id}" />
 	  </c:url>

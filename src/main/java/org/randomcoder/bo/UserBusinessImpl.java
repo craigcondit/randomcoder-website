@@ -154,22 +154,14 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<User> listUsersInRange(int start, int limit)
+	public Page<User> findAll(Pageable pageable)
 	{
-		// TODO handle paging properly
-		List<User> users = userRepository.findAll(new PageRequest(start / limit, limit)).getContent();
-		for (User user : users)
+		Page<User> users = userRepository.findAll(pageable);
+		for (User user : users.getContent())
 		{
 			Hibernate.initialize(user.getRoles());
 		}
 		return users;
-	}
-
-	@Override
-	@Transactional(value = "transactionManager", readOnly = true)
-	public long countUsers()
-	{
-		return userRepository.count();
 	}
 
 	@Override

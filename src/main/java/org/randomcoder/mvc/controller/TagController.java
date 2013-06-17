@@ -110,6 +110,16 @@ public class TagController
 	@RequestMapping("/tag")
 	public String tagList(Model model, @PageableDefaults(25) Pageable pageable)
 	{
+		int size = pageable.getPageSize();
+		int page = pageable.getPageNumber();
+		if (size > maximumPageSize)
+		{
+			size = maximumPageSize;
+			page = 0;	
+		}
+		
+		pageable = new PageRequest(page, size, new Sort("displayName"));
+		
 		if (pageable.getPageSize() > maximumPageSize)
 		{
 			pageable = new PageRequest(0, maximumPageSize, pageable.getSort());
