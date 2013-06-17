@@ -1,5 +1,7 @@
 package org.randomcoder.mvc.controller;
 
+import static org.springframework.http.HttpStatus.*;
+
 import javax.inject.Inject;
 
 import org.randomcoder.article.moderation.ModerationException;
@@ -69,11 +71,24 @@ public class CommentController
 	 *            comment ID
 	 * @return view to redirect to
 	 */
-	@RequestMapping(value = "/comment/{id}", method = RequestMethod.DELETE)
-	public View deleteComment(@PathVariable("id") long id)
+	@RequestMapping(value = "/comment/{id}", method = RequestMethod.POST, params = "_verb=DELETE")
+	public View deleteCommentBrowser(@PathVariable("id") long id)
 	{
 		Article article = articleBusiness.deleteComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);
 	}
 
+	/**
+	 * Deletes the selected comment.
+	 * 
+	 * @param id
+	 *            comment ID
+	 */
+	@RequestMapping(value = "/comment/{id}", method = RequestMethod.DELETE, params = "!_verb")
+	@ResponseStatus(value = NO_CONTENT)
+	@ResponseBody
+	public void deleteComment(@PathVariable("id") long id)
+	{
+		articleBusiness.deleteComment(id);
+	}
 }

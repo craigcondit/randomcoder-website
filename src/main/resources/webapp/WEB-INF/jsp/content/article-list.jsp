@@ -145,12 +145,6 @@
   		<c:if test="${not commentDecorator.comment.visible}"><c:set var="hiddenCount" value="${hiddenCount+1}" /></c:if>
   		<c:if test="${manageComments or commentDecorator.comment.visible}">
 	  		<a name="comment-${commentDecorator.comment.id}"></a>
-			  <c:url var="approveCommentLink" value="/comment/approve">
-			  	<c:param name="id" value="${commentDecorator.comment.id}" />
-			  </c:url>
-			  <c:url var="disapproveCommentLink" value="/comment/disapprove">
-			  	<c:param name="id" value="${commentDecorator.comment.id}" />
-			  </c:url>
 			  <c:choose>
 				  <c:when test="${commentDecorator.comment.createdByUser != null}">
 				  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
@@ -168,62 +162,62 @@
 				  	<c:set var="commentExternal" value="${false}" />
 				  </c:otherwise>
 				</c:choose>
-	  		<div class="sectionHeading">
-	  			<c:choose>
-	  				<c:when test="${commentDecorator.comment.visible}">
-			  			<c:out value="${commentDecorator.comment.title}" />
-	  				</c:when>
-	  				<c:otherwise>
-	  					<span class="moderated"><c:out value="${commentDecorator.comment.title}" /></span>
-	  				</c:otherwise>
-	  			</c:choose>
-	  		</div>
-				<div class="sectionSubHeading">
-					Posted
-					<c:if test="${commentAuthor != null}">
-						by
-						<c:choose>
-							<c:when test="${commentLink != null && commentExternal}">
-								<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
-							</c:when>
-							<c:when test="${commentLink != null && !commentExternal}">
-								<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
-							</c:when>
-							<c:otherwise>
-								<strong><c:out value="${commentAuthor}" /></strong>	
-							</c:otherwise>
-						</c:choose>
-					</c:if>
-					on <fmt:formatDate type="date" dateStyle="short" value="${commentDecorator.comment.creationDate}" />
-					@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
-					:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
-				</div>
-				<c:if test="${manageComments}">
+				<div class="commentGroup">
+		  		<div class="sectionHeading">
+		  			<c:choose>
+		  				<c:when test="${commentDecorator.comment.visible}">
+				  			<c:out value="${commentDecorator.comment.title}" />
+		  				</c:when>
+		  				<c:otherwise>
+		  					<span class="moderated"><c:out value="${commentDecorator.comment.title}" /></span>
+		  				</c:otherwise>
+		  			</c:choose>
+		  		</div>
 					<div class="sectionSubHeading">
-						<c:choose>
-							<c:when test="${commentDecorator.comment.visible}">
-					  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/disapprove' />">
-					  			<button class="disapproveComment disapprove">Disapprove</button>
-					  		</form>						
-<%-- 								<a ref="disapprove" class="disapprove" href="${disapproveCommentLink}">Disapprove</a> --%>
-							</c:when>
-							<c:otherwise>
-					  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
-					  			<button class="approveComment approve">Approve</button>
-					  		</form>						
-<%-- 								<a ref="approve" class="approve" href="${approveCommentLink}">Approve</a> --%>
-							</c:otherwise>
-						</c:choose>
-						:: 
-			  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}' />">
-			  			<input type="hidden" name="_method" value="DELETE" />
-			  			<button class="deleteComment delete">Delete</button>
-			  		</form>						
+						Posted
+						<c:if test="${commentAuthor != null}">
+							by
+							<c:choose>
+								<c:when test="${commentLink != null && commentExternal}">
+									<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
+								</c:when>
+								<c:when test="${commentLink != null && !commentExternal}">
+									<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
+								</c:when>
+								<c:otherwise>
+									<strong><c:out value="${commentAuthor}" /></strong>	
+								</c:otherwise>
+							</c:choose>
+						</c:if>
+						on <fmt:formatDate type="date" dateStyle="short" value="${commentDecorator.comment.creationDate}" />
+						@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
+						:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
 					</div>
-				</c:if>
-	  		<div class="sectionContent">
-	  			${commentDecorator.formattedText}
-	  		</div>
+					<c:if test="${manageComments}">
+						<div class="sectionSubHeading">
+							<c:choose>
+								<c:when test="${commentDecorator.comment.visible}">
+						  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/disapprove' />">
+						  			<button class="disapproveComment disapprove">Disapprove</button>
+						  		</form>						
+								</c:when>
+								<c:otherwise>
+						  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
+						  			<button class="approveComment approve">Approve</button>
+						  		</form>						
+								</c:otherwise>
+							</c:choose>
+							:: 
+				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}' />">
+				  			<input type="hidden" name="_verb" value="DELETE" />
+				  			<button class="deleteComment delete">Delete</button>
+				  		</form>						
+						</div>
+					</c:if>
+		  		<div class="sectionContent">
+		  			${commentDecorator.formattedText}
+		  		</div>
+		  	</div>
 	  	</c:if>
   	</c:forEach>
   	<c:choose>
