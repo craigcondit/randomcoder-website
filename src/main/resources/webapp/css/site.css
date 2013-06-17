@@ -768,3 +768,8 @@ FORM.link BUTTON::-moz-focus-inner
 	border: none;
 	padding: 0em;
 }
+
+.hidden
+{
+	display: none !important;
+}

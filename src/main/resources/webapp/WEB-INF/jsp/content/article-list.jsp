@@ -166,7 +166,7 @@
 		  		<div class="sectionHeading">
 		  			<c:choose>
 		  				<c:when test="${commentDecorator.comment.visible}">
-				  			<c:out value="${commentDecorator.comment.title}" />
+				  			<span class="active"><c:out value="${commentDecorator.comment.title}" /></span>
 		  				</c:when>
 		  				<c:otherwise>
 		  					<span class="moderated"><c:out value="${commentDecorator.comment.title}" /></span>
@@ -197,16 +197,22 @@
 						<div class="sectionSubHeading">
 							<c:choose>
 								<c:when test="${commentDecorator.comment.visible}">
-						  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/disapprove' />">
-						  			<button class="disapproveComment disapprove">Disapprove</button>
-						  		</form>						
+									<c:set var="approveClass" value="hidden" />
+									<c:set var="disapproveClass" value="" />
 								</c:when>
 								<c:otherwise>
-						  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
-						  			<button class="approveComment approve">Approve</button>
-						  		</form>						
+									<c:set var="approveClass" value="" />
+									<c:set var="disapproveClass" value="hidden" />
 								</c:otherwise>
 							</c:choose>
+				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
+				  			<input type="hidden" name="_verb" value="DELETE" />
+				  			<button class="${disapproveClass} disapproveComment disapprove">Disapprove</button>
+				  		</form>						
+				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
+				  			<input type="hidden" name="_verb" value="PUT" />
+				  			<button class="${approveClass} approveComment approve">Approve</button>
+				  		</form>						
 							:: 
 				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}' />">
 				  			<input type="hidden" name="_verb" value="DELETE" />

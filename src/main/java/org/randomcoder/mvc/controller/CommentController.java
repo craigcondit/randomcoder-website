@@ -41,8 +41,8 @@ public class CommentController
 	 * @throws ModerationException
 	 *             if an error occurs
 	 */
-	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST)
-	public View approveComment(@PathVariable("id") long id) throws ModerationException
+	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST, params = "_verb=PUT")
+	public View approveCommentBrowser(@PathVariable("id") long id) throws ModerationException
 	{
 		Article article = articleBusiness.approveComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);
@@ -53,15 +53,47 @@ public class CommentController
 	 * 
 	 * @param id
 	 *            comment ID
+	 * @throws ModerationException
+	 *             if an error occurs
+	 */
+	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.PUT, params = "!_verb")
+	@ResponseStatus(value = NO_CONTENT)
+	@ResponseBody
+	public void approveComment(@PathVariable("id") long id) throws ModerationException
+	{
+		articleBusiness.approveComment(id);
+	}
+
+	/**
+	 * Disapproves the selected comment.
+	 * 
+	 * @param id
+	 *            comment ID
 	 * @return view to redirect to
 	 * @throws ModerationException
 	 *             if an error occurs
 	 */
-	@RequestMapping(value = "/comment/{id}/disapprove", method = RequestMethod.POST)
-	public View disapproveComment(@PathVariable("id") long id) throws ModerationException
+	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST, params = "_verb=DELETE")
+	public View disapproveCommentBrowser(@PathVariable("id") long id) throws ModerationException
 	{
 		Article article = articleBusiness.disapproveComment(id);
 		return new RedirectView(article.getPermalinkUrl(), true);
+	}
+
+	/**
+	 * Disapproves the selected comment.
+	 * 
+	 * @param id
+	 *            comment ID
+	 * @throws ModerationException
+	 *             if an error occurs
+	 */
+	@RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.DELETE, params = "!_verb")
+	@ResponseStatus(value = NO_CONTENT)
+	@ResponseBody
+	public void disapproveComment(@PathVariable("id") long id) throws ModerationException
+	{
+		articleBusiness.disapproveComment(id);
 	}
 
 	/**

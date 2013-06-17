@@ -9,16 +9,46 @@ $(document).ready(function() {
 		{
 			return false;
 		}
-		var button = $(this);
+		var group = $(this).closest(".commentGroup").first();
 		$.ajax({
 			type: "DELETE",
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
-			button.closest(".commentGroup").first().animate({ height: 0, opacity: 0}, "slow", function()
+			group.animate({ height: 0, opacity: 0}, "slow", function()
 			{
 				$(this).remove();
 			});
+		});
+		return false;
+	});
+	$('BUTTON.approveComment').click(function()
+	{
+		var group = $(this).closest(".commentGroup").first();
+		var heading = $(this).closest(".sectionSubHeading").first();
+		$.ajax({
+			type: "PUT",
+			url: $(this).closest("form").get(0).action
+		}).done(function(msg)
+		{
+			group.find("SPAN.moderated").removeClass('moderated').addClass('active');
+			heading.find('BUTTON.approveComment').addClass('hidden');
+			heading.find('BUTTON.disapproveComment').removeClass('hidden');
+		});
+		return false;
+	});
+	$('BUTTON.disapproveComment').click(function()
+	{
+		var group = $(this).closest(".commentGroup").first();
+		var heading = $(this).closest(".sectionSubHeading").first();
+		$.ajax({
+			type: "DELETE",
+			url: $(this).closest("form").get(0).action
+		}).done(function(msg)
+		{
+			group.find("SPAN.active").removeClass('active').addClass('moderated');
+			heading.find('BUTTON.disapproveComment').addClass('hidden');
+			heading.find('BUTTON.approveComment').removeClass('hidden');
 		});
 		return false;
 	});
