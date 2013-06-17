@@ -226,14 +226,6 @@
 		  	</div>
 	  	</c:if>
   	</c:forEach>
-  	<c:choose>
-	  	<c:when test="${hiddenCount == 1}">
-				<div class="footerMessage">${hiddenCount} moderated comment<c:if test="${not manageComments}"> not displayed</c:if>.</div>
-  		</c:when>
-	  	<c:when test="${hiddenCount > 1}">
-				<div class="footerMessage">${hiddenCount} moderated comments<c:if test="${not manageComments}"> not displayed</c:if>.</div>
-  		</c:when>
-  	</c:choose>
   </c:if>
 	
 </c:forEach>
