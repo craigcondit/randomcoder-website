@@ -48,7 +48,7 @@ public final class RandomcoderUserDetails implements UserDetails
 		this.password = password;
 		enabled = user.isEnabled();
 
-		List<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+		List<GrantedAuthority> auth = new ArrayList<>();
 		for (Role role : user.getRoles())
 		{
 			auth.add(new SimpleGrantedAuthority(role.getName()));
@@ -63,7 +63,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return the authorities, sorted by natural key (never <code>null</code>)
 	 */
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities()
+	public List<? extends GrantedAuthority> getAuthorities()
 	{
 		return authorities;
 	}
