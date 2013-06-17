@@ -39,7 +39,9 @@ public class TagEditValidator extends TagAddValidator
 		TagEditCommand command = (TagEditCommand) target;
 
 		if (!validateCommon(command, errors))
+		{
 			return;
+		}
 
 		Long id = command.getId();
 

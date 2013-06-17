@@ -151,10 +151,14 @@ public class CommentValidator implements Validator
 
 			List<Reader> readers = new ArrayList<Reader>();
 			if (prefix != null)
+			{
 				readers.add(new StringReader(prefix));
+			}
 			readers.add(new StringReader(content));
 			if (suffix != null)
+			{
 				readers.add(new StringReader(suffix));
+			}
 
 			SequenceReader reader = new SequenceReader(readers);
 

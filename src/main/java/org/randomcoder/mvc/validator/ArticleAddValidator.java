@@ -117,7 +117,9 @@ public class ArticleAddValidator implements Validator
 		ArticleAddCommand command = (ArticleAddCommand) obj;
 
 		if (!validateCommon(command, errors))
+		{
 			return;
+		}
 
 		if (errors.getFieldErrorCount("permalink") == 0)
 		{
@@ -206,10 +208,14 @@ public class ArticleAddValidator implements Validator
 
 		List<Reader> readers = new ArrayList<Reader>();
 		if (prefix != null)
+		{
 			readers.add(new StringReader(prefix));
+		}
 		readers.add(new StringReader(content));
 		if (suffix != null)
+		{
 			readers.add(new StringReader(suffix));
+		}
 
 		SequenceReader reader = new SequenceReader(readers);
 

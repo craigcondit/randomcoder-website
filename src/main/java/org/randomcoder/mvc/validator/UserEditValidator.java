@@ -38,7 +38,7 @@ public class UserEditValidator extends UserAddValidator
 	{
 		UserEditCommand command = (UserEditCommand) target;
 
-		if (!validateCommon(command, errors))
+		if (!validateCommon(command, errors))			
 		{
 			return;
 		}
@@ -49,7 +49,5 @@ public class UserEditValidator extends UserAddValidator
 		{
 			errors.rejectValue("id", ERROR_USER_ID_REQUIRED, "id required");
 		}
-
 	}
-
 }

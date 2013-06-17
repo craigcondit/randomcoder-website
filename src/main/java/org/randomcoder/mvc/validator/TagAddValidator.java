@@ -59,7 +59,9 @@ public class TagAddValidator implements Validator
 		TagAddCommand command = (TagAddCommand) target;
 
 		if (!validateCommon(command, errors))
+		{
 			return;
+		}
 
 		// tag name
 		String name = command.getName();

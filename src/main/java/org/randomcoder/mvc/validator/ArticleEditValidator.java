@@ -43,7 +43,9 @@ public class ArticleEditValidator extends ArticleAddValidator
 		ArticleEditCommand command = (ArticleEditCommand) obj;
 
 		if (!validateCommon(command, errors))
+		{
 			return;
+		}
 
 		Long id = command.getId();
 

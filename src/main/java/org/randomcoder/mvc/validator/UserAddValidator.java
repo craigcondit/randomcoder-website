@@ -97,7 +97,9 @@ public class UserAddValidator implements Validator
 		UserAddCommand command = (UserAddCommand) target;
 
 		if (!validateCommon(command, errors))
+		{
 			return;
+		}
 
 		// username
 		String userName = command.getUserName();
