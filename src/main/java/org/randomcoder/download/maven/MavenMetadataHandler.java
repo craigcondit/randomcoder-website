@@ -70,7 +70,7 @@ public class MavenMetadataHandler extends DefaultHandler
 	{
 		groupId = null;
 		artifactId = null;
-		versions = new ArrayList<String>();
+		versions = new ArrayList<>();
 		lastUpdated = null;
 		versionsSeen = false;
 	}
@@ -86,7 +86,9 @@ public class MavenMetadataHandler extends DefaultHandler
 	{
 		buf.setLength(0);
 		if ("versions".equals(localName))
+		{
 			versionsSeen = true;
+		}
 	}
 
 	/**
@@ -134,7 +136,9 @@ public class MavenMetadataHandler extends DefaultHandler
 		else if ("version".equals(localName))
 		{
 			if (versionsSeen)
+			{
 				versions.add(buf.toString().trim());
+			}
 		}
 	}
 }

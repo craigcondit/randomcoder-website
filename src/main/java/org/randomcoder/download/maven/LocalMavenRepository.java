@@ -75,14 +75,16 @@ public class LocalMavenRepository implements PackageListProducer
 
 		try
 		{
-			List<Package> packages = new ArrayList<Package>();
+			List<Package> packages = new ArrayList<>();
 
 			for (MavenProject project : projects)
 			{
 				// process project
 				Package pkg = processProject(project);
 				if (pkg != null)
+				{
 					packages.add(pkg);
+				}
 			}
 
 			// sort by name
@@ -113,12 +115,8 @@ public class LocalMavenRepository implements PackageListProducer
 			return null;
 		}
 
-		InputStream is = null;
-		try
+		try (InputStream is = new FileInputStream(metadataFile))
 		{
-
-			is = new FileInputStream(metadataFile);
-
 			// parse XML
 			XMLReader reader = XMLReaderFactory.createXMLReader();
 			MavenMetadataHandler handler = new MavenMetadataHandler();
@@ -140,11 +138,15 @@ public class LocalMavenRepository implements PackageListProducer
 			{
 				FileSet fs = processVersion(project, projectUrl, projectFile, handler.getArtifactId(), version);
 				if (fs != null)
+				{
 					pkg.getFileSets().add(fs);
+				}
 			}
 
 			if (pkg.getFileSets().isEmpty())
+			{
 				return null; // no files for this project
+			}
 
 			return pkg;
 		}
@@ -155,16 +157,6 @@ public class LocalMavenRepository implements PackageListProducer
 		catch (SAXException e)
 		{
 			throw new PackageListException("Unable to parse repository metadata", e);
-		}
-		finally
-		{
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (Exception ignored)
-				{}
 		}
 	}
 
@@ -192,11 +184,15 @@ public class LocalMavenRepository implements PackageListProducer
 		{
 			FileSpec spec = processFile(versionUrl, versionFile, baseName + extension, mappings.get(extension));
 			if (spec != null)
+			{
 				fs.getFiles().add(spec);
+			}
 		}
 
 		if (fs.getFiles().isEmpty())
+		{
 			return null;
+		}
 
 		Collections.sort(fs.getFiles());
 		return fs;
@@ -210,7 +206,9 @@ public class LocalMavenRepository implements PackageListProducer
 			File file = new File(baseFile, fileName);
 			FileSpec spec = new FileSpec();
 			if (!statFile(spec, file))
+			{
 				return null;
+			}
 
 			spec.setFileName(fileName);
 			spec.setFileType(fileType);
@@ -219,12 +217,16 @@ public class LocalMavenRepository implements PackageListProducer
 			URL md5Url = new URL(baseUrl, fileName + ".md5");
 			File md5File = new File(baseFile, fileName + ".md5");
 			if (statUrl(md5File))
+			{
 				spec.setMd5Link(md5Url.toExternalForm());
+			}
 
 			URL sha1Url = new URL(baseUrl, fileName + ".sha1");
 			File sha1File = new File(baseFile, fileName + ".sha1");
 			if (statUrl(sha1File))
+			{
 				spec.setSha1Link(sha1Url.toExternalForm());
+			}
 
 			return spec;
 		}

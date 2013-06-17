@@ -102,7 +102,9 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 				// process project
 				Package pkg = processProject(client, project);
 				if (pkg != null)
+				{
 					packages.add(pkg);
+				}
 			}
 
 			// sort by name
@@ -127,7 +129,6 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		URL metadataUrl = getMetadataUrl(projectUrl);
 
 		GetMethod get = null;
-		InputStream is = null;
 		try
 		{
 			get = new GetMethod(metadataUrl.toExternalForm());
@@ -135,16 +136,20 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 
 			int status = client.executeMethod(get);
 			if (status != HttpStatus.SC_OK)
+			{
 				return null;
-
-			is = get.getResponseBodyAsStream();
+			}
 
 			// parse XML
 			XMLReader reader = XMLReaderFactory.createXMLReader();
 			MavenMetadataHandler handler = new MavenMetadataHandler();
 			reader.setContentHandler(handler);
 			reader.setErrorHandler(handler);
-			reader.parse(new InputSource(is));
+			
+			try (InputStream is = get.getResponseBodyAsStream())
+			{	
+				reader.parse(new InputSource(is));
+			}
 
 			// get versions
 			List<String> versions = handler.getVersions();
@@ -160,11 +165,15 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 			{
 				FileSet fs = processVersion(client, project, projectUrl, handler.getArtifactId(), version);
 				if (fs != null)
+				{
 					pkg.getFileSets().add(fs);
+				}
 			}
 
 			if (pkg.getFileSets().isEmpty())
+			{
 				return null; // no files for this project
+			}
 
 			return pkg;
 		}
@@ -178,20 +187,15 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		}
 		finally
 		{
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (Exception ignored)
-				{}
 			if (get != null)
+			{
 				try
 				{
 					get.releaseConnection();
 				}
 				catch (Exception ignored)
 				{}
+			}
 		}
 	}
 
@@ -218,11 +222,15 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		{
 			FileSpec spec = processFile(client, versionUrl, baseName + extension, mappings.get(extension));
 			if (spec != null)
+			{
 				fs.getFiles().add(spec);
+			}
 		}
 
 		if (fs.getFiles().isEmpty())
+		{
 			return null;
+		}
 
 		Collections.sort(fs.getFiles());
 		return fs;
@@ -236,7 +244,9 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 
 			FileSpec spec = new FileSpec();
 			if (!statFile(client, spec, fileUrl))
+			{
 				return null;
+			}
 
 			spec.setFileName(fileName);
 			spec.setFileType(fileType);
@@ -244,11 +254,15 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 
 			URL md5Url = new URL(baseUrl, fileName + ".md5");
 			if (statUrl(client, md5Url))
+			{
 				spec.setMd5Link(md5Url.toExternalForm());
+			}
 
 			URL sha1Url = new URL(baseUrl, fileName + ".sha1");
 			if (statUrl(client, sha1Url))
+			{
 				spec.setSha1Link(sha1Url.toExternalForm());
+			}
 			return spec;
 		}
 		catch (MalformedURLException e)
@@ -273,12 +287,14 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		finally
 		{
 			if (head != null)
+			{
 				try
 				{
 					head.releaseConnection();
 				}
 				catch (Exception ignored)
 				{}
+			}
 		}
 	}
 
@@ -290,7 +306,9 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 			// check for existence of file
 			head = new HeadMethod(fileUrl.toExternalForm());
 			if (client.executeMethod(head) != HttpStatus.SC_OK)
+			{
 				return false;
+			}
 
 			// get metadata
 			Header contentLength = head.getResponseHeader("Content-Length");
@@ -298,10 +316,14 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 
 			spec.setFileSize(-1);
 			if (contentLength != null)
+			{
 				spec.setFileSize(Long.valueOf(contentLength.getValue()));
+			}
 
 			if (lastModified != null)
+			{
 				spec.setLastModified(DateUtil.parseDate(lastModified.getValue()));
+			}
 
 			return true;
 		}
@@ -320,12 +342,14 @@ public class MavenRepository implements PackageListProducer, InitializingBean, D
 		finally
 		{
 			if (head != null)
+			{
 				try
 				{
 					head.releaseConnection();
 				}
 				catch (Exception ignored)
 				{}
+			}
 		}
 	}
 

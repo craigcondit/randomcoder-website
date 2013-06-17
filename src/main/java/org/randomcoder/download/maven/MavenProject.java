@@ -71,7 +71,9 @@ public class MavenProject implements Serializable
 	public void setDirectory(String directory)
 	{
 		if (!directory.endsWith("/"))
+		{
 			directory += "/";
+		}
 		this.directory = directory;
 	}
 

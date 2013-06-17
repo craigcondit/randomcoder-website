@@ -50,7 +50,9 @@ public class LocalHttpRepository implements PackageListProducer
 				// process project
 				Package pkg = processProject(project);
 				if (pkg != null)
+				{
 					packages.add(pkg);
+				}
 			}
 
 			// sort by name
@@ -84,11 +86,15 @@ public class LocalHttpRepository implements PackageListProducer
 		{
 			FileSet fs = processVersion(project, version);
 			if (fs != null)
+			{
 				pkg.getFileSets().add(fs);
+			}
 		}
 
 		if (pkg.getFileSets().isEmpty())
+		{
 			return null; // no files for this project
+		}
 
 		return pkg;
 	}
@@ -107,7 +113,9 @@ public class LocalHttpRepository implements PackageListProducer
 		{
 			FileSpec spec = processFile(project.getBaseDir(), project.getBaseUrl(), baseName + extension, mappings.get(extension));
 			if (spec != null)
+			{
 				fs.getFiles().add(spec);
+			}
 		}
 
 		if (fs.getFiles().isEmpty())
@@ -133,7 +141,9 @@ public class LocalHttpRepository implements PackageListProducer
 
 		FileSpec spec = new FileSpec();
 		if (!statFile(spec, file))
+		{
 			return null;
+		}
 
 		spec.setFileName(fileName);
 		spec.setFileType(fileType);
@@ -150,7 +160,9 @@ public class LocalHttpRepository implements PackageListProducer
 		}
 		File md5File = new File(baseDir, fileName + ".md5");
 		if (statUrl(md5File))
+		{
 			spec.setMd5Link(md5Url.toExternalForm());
+		}
 
 		URL sha1Url = null;
 		try
@@ -163,7 +175,9 @@ public class LocalHttpRepository implements PackageListProducer
 		}
 		File sha1File = new File(baseDir, fileName + ".sha1");
 		if (statUrl(sha1File))
+		{
 			spec.setSha1Link(sha1Url.toExternalForm());
+		}
 
 		return spec;
 	}
@@ -176,7 +190,9 @@ public class LocalHttpRepository implements PackageListProducer
 	private boolean statFile(FileSpec spec, File file)
 	{
 		if (!file.exists())
+		{
 			return false;
+		}
 
 		spec.setFileSize(file.length());
 		spec.setLastModified(new Date(file.lastModified()));

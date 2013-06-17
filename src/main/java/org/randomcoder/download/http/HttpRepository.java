@@ -73,7 +73,7 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 
 		try
 		{
-			List<Package> packages = new ArrayList<Package>();
+			List<Package> packages = new ArrayList<>();
 
 			// create http client
 			HttpClient client = new HttpClient(connectionManager);
@@ -117,7 +117,9 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 		{
 			FileSet fs = processVersion(client, project, version);
 			if (fs != null)
+			{
 				pkg.getFileSets().add(fs);
+			}
 		}
 
 		if (pkg.getFileSets().isEmpty())
@@ -139,11 +141,15 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 		{
 			FileSpec spec = processFile(client, project.getBaseUrl(), baseName + extension, mappings.get(extension));
 			if (spec != null)
+			{
 				fs.getFiles().add(spec);
+			}
 		}
 
 		if (fs.getFiles().isEmpty())
+		{
 			return null;
+		}
 
 		Collections.sort(fs.getFiles());
 		return fs;
@@ -163,7 +169,9 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 
 		FileSpec spec = new FileSpec();
 		if (!statFile(client, spec, fileUrl))
+		{
 			return null;
+		}
 
 		spec.setFileName(fileName);
 		spec.setFileType(fileType);
@@ -179,7 +187,9 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 			throw new PackageListException("Invalid MD5 URL", e);
 		}
 		if (statUrl(client, md5Url))
+		{
 			spec.setMd5Link(md5Url.toExternalForm());
+		}
 
 		URL sha1Url = null;
 		try
@@ -191,7 +201,9 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 			throw new PackageListException("Invalid SHA-1 URL", e);
 		}
 		if (statUrl(client, sha1Url))
+		{
 			spec.setSha1Link(sha1Url.toExternalForm());
+		}
 
 		return spec;
 	}
@@ -243,8 +255,10 @@ public class HttpRepository implements PackageListProducer, InitializingBean, Di
 				throw new PackageListException("Error while reading file information", e);
 			}
 			if (status != HttpStatus.SC_OK)
+			{
 				return false;
-
+			}
+			
 			// get metadata
 			Header contentLength = head.getResponseHeader("Content-Length");
 			Header lastModified = head.getResponseHeader("Last-modified");
