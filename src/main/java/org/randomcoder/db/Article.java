@@ -349,7 +349,9 @@ public class Article implements Serializable
 		try
 		{
 			if (perm != null)
+			{
 				return "/articles/" + URLEncoder.encode(perm, "UTF-8");
+			}
 		}
 		catch (UnsupportedEncodingException e)
 		{
@@ -375,7 +377,9 @@ public class Article implements Serializable
 			{
 				String fName = f.getName();
 				if (fName.equals("content"))
+				{
 					return false;
+				}
 				return super.accept(f);
 			}
 		}).toString();
