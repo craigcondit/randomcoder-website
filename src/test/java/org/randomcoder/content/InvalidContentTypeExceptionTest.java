@@ -1,10 +1,13 @@
 package org.randomcoder.content;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class InvalidContentTypeExceptionTest extends TestCase
+public class InvalidContentTypeExceptionTest
 {
+	@Test
 	public void testInvalidContentTypeException()
 	{
 		try

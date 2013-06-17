@@ -1,23 +1,24 @@
 package org.randomcoder.content;
 
+import static org.junit.Assert.*;
+
 import java.io.InputStreamReader;
 
-import junit.framework.TestCase;
-
+import org.junit.*;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 @SuppressWarnings("javadoc")
-public class TextReaderTest extends TestCase
+public class TextReaderTest
 {
 	private static final String TEST_RESOURCE = "/text-reader.txt";
 	private static final String EXPECTED_DATA = "<text><line>First paragraph.</line><line></line><line>Second paragraph.</line></text>";
-	
+
 	private TextReader reader;
 	private TextContentHandler handler;
-	
-	@Override
-	protected void setUp() throws Exception
+
+	@Before
+	public void setUp()
 	{
 		handler = new TextContentHandler();
 		reader = new TextReader();
@@ -25,27 +26,21 @@ public class TextReaderTest extends TestCase
 		reader.setErrorHandler(handler);
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		reader = null;
 		handler = null;
 	}
 
+	@Test(expected = SAXException.class)
 	public void testParseNoSource() throws Exception
 	{
-		try
-		{
-			InputSource source = new InputSource();
-			reader.parse(source);
-			fail("No exception thrown");
-		}
-		catch (SAXException e)
-		{
-			// pass
-		}
+		InputSource source = new InputSource();
+		reader.parse(source);
 	}
-	
+
+	@Test
 	public void testParseInputStream() throws Exception
 	{
 		InputSource source = new InputSource();
@@ -54,6 +49,7 @@ public class TextReaderTest extends TestCase
 		assertEquals("Wrong data", EXPECTED_DATA, handler.getData());
 	}
 
+	@Test
 	public void testParseReader() throws Exception
 	{
 		InputSource source = new InputSource();
@@ -62,6 +58,7 @@ public class TextReaderTest extends TestCase
 		assertEquals("Wrong data", EXPECTED_DATA, handler.getData());
 	}
 
+	@Test
 	public void testParseSystemId() throws Exception
 	{
 		InputSource source = new InputSource();
@@ -69,7 +66,7 @@ public class TextReaderTest extends TestCase
 		reader.parse(source);
 		assertEquals("Wrong data", EXPECTED_DATA, handler.getData());
 	}
-	
+
 	/**
 	 * Super-simple psuedo-XML handler (doesn't do attributes, etc.)
 	 */
@@ -77,8 +74,11 @@ public class TextReaderTest extends TestCase
 	{
 		private final StringBuilder buf = new StringBuilder();
 
-		public String getData() { return buf.toString(); }
-		
+		public String getData()
+		{
+			return buf.toString();
+		}
+
 		@Override
 		public void characters(char[] ch, int start, int length) throws SAXException
 		{
@@ -106,6 +106,6 @@ public class TextReaderTest extends TestCase
 			buf.append(localName);
 			buf.append(">");
 		}
-		
+
 	}
 }

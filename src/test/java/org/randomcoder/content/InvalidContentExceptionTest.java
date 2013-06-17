@@ -1,10 +1,13 @@
 package org.randomcoder.content;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class InvalidContentExceptionTest extends TestCase
-{	
+public class InvalidContentExceptionTest
+{
+	@Test
 	public void testInvalidContentException()
 	{
 		try
@@ -19,7 +22,8 @@ public class InvalidContentExceptionTest extends TestCase
 			assertEquals("Line 10, column 45: Error", e.toString());
 		}
 	}
-	
+
+	@Test
 	public void testInvalidContentExceptionNullMessage()
 	{
 		try

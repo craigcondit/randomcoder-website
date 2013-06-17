@@ -1,26 +1,28 @@
 package org.randomcoder.content;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
+import org.junit.*;
 import org.xml.sax.*;
 
 @SuppressWarnings("javadoc")
-public class XHTMLErrorHandlerTest extends TestCase
+public class XHTMLErrorHandlerTest
 {
 	private XHTMLErrorHandler handler;
-	
-	@Override
-	protected void setUp() throws Exception
+
+	@Before
+	public void setUp()
 	{
 		handler = new XHTMLErrorHandler();
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		handler = null;
 	}
 
+	@Test
 	public void testWarning() throws Exception
 	{
 		SAXParseException ex = null;
@@ -36,13 +38,16 @@ public class XHTMLErrorHandlerTest extends TestCase
 		{
 			handler.warning(ex);
 		}
-		catch (SAXException e) {}
-		
+		catch (SAXException e)
+		{
+		}
+
 		assertEquals("Wrong message", "warning", handler.getMessage());
 		assertEquals("Wrong line number", 2, handler.getLineNumber());
 		assertEquals("Wrong column number", 1, handler.getColumnNumber());
 	}
 
+	@Test
 	public void testWarningLine1() throws Exception
 	{
 		SAXParseException ex = null;
@@ -58,13 +63,16 @@ public class XHTMLErrorHandlerTest extends TestCase
 		{
 			handler.warning(ex);
 		}
-		catch (SAXException e) {}
-		
+		catch (SAXException e)
+		{
+		}
+
 		assertEquals("Wrong message", "warning", handler.getMessage());
 		assertEquals("Wrong line number", 1, handler.getLineNumber());
 		assertEquals("Wrong column number", 100 - XHTMLFilter.PREFIX.length(), handler.getColumnNumber());
 	}
-	
+
+	@Test
 	public void testError() throws Exception
 	{
 		SAXParseException ex = null;
@@ -76,18 +84,21 @@ public class XHTMLErrorHandlerTest extends TestCase
 		{
 			ex = e;
 		}
-		
+
 		try
 		{
 			handler.error(ex);
 		}
-		catch (SAXException e) {}
-		
+		catch (SAXException e)
+		{
+		}
+
 		assertEquals("Wrong message", "error", handler.getMessage());
 		assertEquals("Wrong line number", 2, handler.getLineNumber());
 		assertEquals("Wrong column number", 1, handler.getColumnNumber());
 	}
 
+	@Test
 	public void testFatalError() throws Exception
 	{
 		SAXParseException ex = null;
@@ -103,11 +114,12 @@ public class XHTMLErrorHandlerTest extends TestCase
 		{
 			handler.fatalError(ex);
 		}
-		catch (SAXException e) {}
-		
+		catch (SAXException e)
+		{
+		}
+
 		assertEquals("Wrong message", "fatalerror", handler.getMessage());
 		assertEquals("Wrong line number", 2, handler.getLineNumber());
 		assertEquals("Wrong column number", 1, handler.getColumnNumber());
 	}
-
 }

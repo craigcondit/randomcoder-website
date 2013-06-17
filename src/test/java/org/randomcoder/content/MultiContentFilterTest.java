@@ -1,20 +1,21 @@
 package org.randomcoder.content;
 
+import static org.junit.Assert.*;
+
 import java.io.*;
 import java.util.*;
 
-import junit.framework.TestCase;
-
+import org.junit.*;
 import org.randomcoder.io.SequenceReader;
 import org.randomcoder.test.mock.content.ContentFilterMock;
 import org.xml.sax.*;
 
 @SuppressWarnings("javadoc")
-public class MultiContentFilterTest extends TestCase
+public class MultiContentFilterTest
 {
 	private MultiContentFilter filter;
 
-	@Override
+	@Before
 	public void setUp() throws Exception
 	{		
 		Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
@@ -26,17 +27,19 @@ public class MultiContentFilterTest extends TestCase
 		filter.setFilters(filters);
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		filter = null;
 	}
 
+	@Test
 	public void testValidate() throws Exception
 	{
 		filter.validate("text/plain", new StringReader("Testing"));
 	}
 
+	@Test(expected = InvalidContentException.class)
 	public void testValidateFailure() throws Exception
 	{		
 		String prefix = filter.getPrefix("application/xhtml+xml");
@@ -50,23 +53,13 @@ public class MultiContentFilterTest extends TestCase
 		readers.add(new StringReader("<br>"));
 		if (suffix != null) readers.add(new StringReader(suffix));
 		
-		Reader reader = null;
-		try
+		try (Reader reader = new SequenceReader(readers))
 		{
-			reader = new SequenceReader(readers);		
 			filter.validate("application/xhtml+xml", reader);
-			fail("InvalidContentException expected");
-		}
-		catch (InvalidContentException e)
-		{
-			// pass
-		}
-		finally
-		{
-			if (reader != null) reader.close();
 		}
 	}
 
+	@Test
 	public void testGetXSLTemplates()
 	{
 		assertNotNull(filter.getXSLTemplates("text/plain"));
@@ -74,23 +67,17 @@ public class MultiContentFilterTest extends TestCase
 		assertNull(filter.getXSLTemplates("bogus"));
 	}
 	
+	@Test
 	public void testGetXMLReader() throws Exception
 	{
 		XMLReader reader = filter.getXMLReader(null, "text/plain");		
 		reader.parse(new InputSource(new StringReader("testing")));
 	}
 	
+	@Test(expected = InvalidContentTypeException.class)
 	public void testNoDefaultHandler() throws Exception
 	{
-		try
-		{
-			filter.setDefaultHandler(null);		
-			filter.getPrefix("bogus");
-			fail("InvalidContentTypeException expected");
-		}
-		catch (InvalidContentTypeException e)
-		{
-			// pass
-		}
+		filter.setDefaultHandler(null);		
+		filter.getPrefix("bogus");
 	}
 }
