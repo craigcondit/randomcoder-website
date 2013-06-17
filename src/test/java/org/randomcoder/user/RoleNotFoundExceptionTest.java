@@ -1,10 +1,13 @@
 package org.randomcoder.user;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class RoleNotFoundExceptionTest extends TestCase
+public class RoleNotFoundExceptionTest
 {
+	@Test
 	public void testRoleNotFoundException()
 	{
 		try
@@ -17,6 +20,7 @@ public class RoleNotFoundExceptionTest extends TestCase
 		}
 	}
 
+	@Test
 	public void testRoleNotFoundExceptionString()
 	{
 		try

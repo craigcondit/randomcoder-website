@@ -1,38 +1,40 @@
-package org.randomcoder.user;
+package org.randomcoder.mvc.validator;
+
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
+import org.junit.*;
 import org.randomcoder.db.*;
 import org.randomcoder.mvc.command.UserEditCommand;
-import org.randomcoder.mvc.validator.UserEditValidator;
 import org.springframework.validation.*;
 
 @SuppressWarnings("javadoc")
-public class UserEditValidatorTest extends TestCase
+public class UserEditValidatorTest
 {
 	private UserEditValidator validator;
 
-	@Override
-	public void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		validator = new UserEditValidator();
 		validator.setMinimumPasswordLength(6);
 		validator.setMinimumUsernameLength(6);
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		validator = null;
 	}
 
+	@Test
 	public void testSupports()
 	{
 		assertTrue("Validator doesn't support command class", validator.supports(UserEditCommand.class));
 	}
 
+	@Test
 	public void testValidate()
 	{
 		FieldError error;
@@ -51,7 +53,7 @@ public class UserEditValidatorTest extends TestCase
 
 		command.setId(1L);
 		command.consume(user);
-		
+
 		// no command
 		errors = new BindException(command, "command");
 		validator.validate(null, errors);
@@ -64,9 +66,9 @@ public class UserEditValidatorTest extends TestCase
 		command.setPassword2(null);
 		command.setRoles(new Role[] {});
 		errors = new BindException(command, "command");
-		
+
 		validator.validate(command, errors);
-		
+
 		assertEquals("Wrong number of errors occurred", 2, errors.getErrorCount());
 		assertEquals("Wrong error count for emailAddress", 1, errors.getFieldErrorCount("emailAddress"));
 
@@ -75,7 +77,7 @@ public class UserEditValidatorTest extends TestCase
 		// email address invalid
 		command.setEmailAddress("bogus email address");
 		errors = new BindException(command, "command");
-		
+
 		validator.validate(command, errors);
 		assertEquals("Wrong error count for emailAddress", 1, errors.getFieldErrorCount("emailAddress"));
 		error = errors.getFieldErrors("emailAddress").get(0);

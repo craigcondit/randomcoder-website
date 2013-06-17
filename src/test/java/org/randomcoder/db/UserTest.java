@@ -1,16 +1,16 @@
-package org.randomcoder.user;
+package org.randomcoder.db;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-import org.randomcoder.db.User;
+import org.junit.*;
 
 @SuppressWarnings("javadoc")
-public class UserTest extends TestCase
+public class UserTest
 {
 	private User user;
 	
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		user = new User();
 		user.setPassword(User.hashPassword("Password1"));
@@ -19,12 +19,13 @@ public class UserTest extends TestCase
 		user.setUserName("test");
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		user = null;
 	}
 
+	@Test
 	public void testToString()
 	{
 		String value = user.toString();
