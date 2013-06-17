@@ -30,8 +30,6 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
 	private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
-	private ArticleDao articleDao;
-
 	private UserRepository userRepository;
 	private RoleRepository roleRepository;
 	private ArticleRepository articleRepository;
@@ -40,20 +38,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	private CommentReferrerRepository commentReferrerRepository;
 	private CommentIpRepository commentIpRepository;
 	private CommentUserAgentRepository commentUserAgentRepository;
-
 	private Moderator moderator;
-
-	/**
-	 * Sets the ArticleDao implementation to use.
-	 * 
-	 * @param articleDao
-	 *          ArticleDao implementation
-	 */
-	@Inject
-	public void setArticleDao(ArticleDao articleDao)
-	{
-		this.articleDao = articleDao;
-	}
 
 	/**
 	 * Sets the user repository to use.
@@ -419,22 +404,8 @@ public class ArticleBusinessImpl implements ArticleBusiness
 			comment.setModerationStatus(valid ? ModerationStatus.HAM : ModerationStatus.SPAM);
 			commentRepository.save(comment);
 		}
-		
+
 		return true;
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public int countArticlesBeforeDate(Date endDate)
-	{
-		return articleDao.countBeforeDate(endDate);
-	}
-
-	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public int countArticlesByTagBeforeDate(Tag tag, Date endDate)
-	{
-		return articleDao.countByTagBeforeDate(tag, endDate);
 	}
 
 	@Override
@@ -453,30 +424,32 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<Article> listArticlesBeforeDateInRange(Date endDate, int start, int limit)
+	@Transactional(value = "transactionManager", readOnly = true)
+	public Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable)
 	{
-		List<Article> articles = articleDao.listBeforeDateInRange(endDate, start, limit);
-		Hibernate.initialize(articles);
-		for (Article article : articles)
+		Page<Article> articles = articleRepository.findBeforeDate(endDate, pageable);
+
+		for (Article article : articles.getContent())
 		{
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
+
 		return articles;
 	}
 
 	@Override
-	@Transactional(value = "hibernateTransactionManager", readOnly = true)
-	public List<Article> listArticlesByTagBeforeDateInRange(Tag tag, Date endDate, int start, int limit)
+	@Transactional(value = "transactionManager", readOnly = true)
+	public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable)
 	{
-		List<Article> articles = articleDao.listByTagBeforeDateInRange(tag, endDate, start, limit);
-		Hibernate.initialize(articles);
-		for (Article article : articles)
+		Page<Article> articles = articleRepository.findByTagBeforeDate(tag, endDate, pageable);
+
+		for (Article article : articles.getContent())
 		{
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
+
 		return articles;
 	}
 

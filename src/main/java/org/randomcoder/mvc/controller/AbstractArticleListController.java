@@ -8,9 +8,12 @@ import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.command.ArticlePageCommand;
+import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefaults;
 import org.springframework.ui.Model;
 
 /**
@@ -19,7 +22,7 @@ import org.springframework.ui.Model;
  * @param <T>
  *            command type
  */
-abstract public class AbstractArticleListController<T extends ArticlePageCommand>
+abstract public class AbstractArticleListController<T extends ArticleListCommand>
 {
 	/**
 	 * Article Business.
@@ -35,11 +38,6 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	 * Content Filter.
 	 */
 	protected ContentFilter contentFilter;
-
-	/**
-	 * Default page size.
-	 */
-	protected int defaultPageSize = 10;
 
 	/**
 	 * Maximum page size.
@@ -68,18 +66,6 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	public void setTagBusiness(TagBusiness tagBusiness)
 	{
 		this.tagBusiness = tagBusiness;
-	}
-
-	/**
-	 * Sets the default number of items to display per page (defaults to 10).
-	 * 
-	 * @param defaultPageSize
-	 *            default number of items per page
-	 */
-	@Value("${article.pagesize.default}")
-	public void setDefaultPageSize(int defaultPageSize)
-	{
-		this.defaultPageSize = defaultPageSize;
 	}
 
 	/**
@@ -120,30 +106,17 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	abstract protected List<Article> listArticlesBetweenDates(T command, Date startDate, Date endDate);
 
 	/**
-	 * Lists articles before a given cutoff date.
+	 * Gets a page of articles before a given cutoff date.
 	 * 
 	 * @param command
 	 *            page command
 	 * @param cutoffDate
 	 *            cutoff date
-	 * @param start
-	 *            starting result
-	 * @param limit
-	 *            limit on number of results
-	 * @return list of Articles
+	 * @param pageable
+	 *            paging parameters
+	 * @return page of Articles
 	 */
-	abstract protected List<Article> listArticlesBeforeDateInRange(T command, Date cutoffDate, int start, int limit);
-
-	/**
-	 * Counts articles before a given cutoff date.
-	 * 
-	 * @param command
-	 *            page command
-	 * @param cutoffDate
-	 *            cutoff date
-	 * @return number of articles which match
-	 */
-	abstract protected int countArticlesBeforeDate(T command, Date cutoffDate);
+	abstract protected Page<Article> listArticlesBeforeDate(T command, Date cutoffDate, Pageable pageable);
 
 	/**
 	 * Gets the subtitle to add to the page.
@@ -158,12 +131,25 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 	 * Populates the model.
 	 * 
 	 * @param command
-	 *            page command
+	 *          page command
 	 * @param model
-	 *            model
+	 *          model
+	 * @param pageable
+	 *          paging variables
 	 */
-	protected final void populateModel(T command, Model model)
+	protected final void populateModel(T command, Model model, @PageableDefaults(10) Pageable pageable)
 	{
+		// set range and sort order
+		int size = pageable.getPageSize();
+		int page = pageable.getPageNumber();
+		if (size > maximumPageSize)
+		{
+			size = maximumPageSize;
+			page = 0;	
+		}
+		
+		pageable = new PageRequest(page, size, new Sort(Direction.DESC, "creationDate"));
+		
 		// get current month
 		Calendar currentMonth = Calendar.getInstance();
 		currentMonth.setTime(new Date());
@@ -221,23 +207,12 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 		cutoff.set(Calendar.SECOND, 0);
 		cutoff.set(Calendar.MILLISECOND, 0);
 
-		// set range
-		int start = Math.max(0, command.getStart());
-		int limit = Math.min(Math.max(0, command.getLimit()), maximumPageSize);
-		if (limit < 1)
-		{
-			limit = defaultPageSize;
-		}
-
 		// load articles
-		List<Article> articles = listArticlesBeforeDateInRange(command, cutoff.getTime(), start, limit);
-
-		// count articles for pager
-		int pageCount = countArticlesBeforeDate(command, cutoff.getTime());
+		Page<Article> articles = listArticlesBeforeDate(command, cutoff.getTime(), pageable);
 
 		// wrap article list
-		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(articles.size());
-		for (Article article : articles)
+		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(articles.getContent().size());
+		for (Article article : articles.getContent())
 		{
 			wrappedArticles.add(new ArticleDecorator(article, contentFilter));
 		}
@@ -247,10 +222,8 @@ abstract public class AbstractArticleListController<T extends ArticlePageCommand
 
 		// populate model
 		model.addAttribute("articles", wrappedArticles);
+		model.addAttribute("pager", articles);
 		model.addAttribute("days", days);
-		model.addAttribute("pageCount", pageCount);
-		model.addAttribute("pageStart", start);
-		model.addAttribute("pageLimit", limit);
 		model.addAttribute("tagCloud", tagCloud);
 
 		String subTitle = getSubTitle(command);

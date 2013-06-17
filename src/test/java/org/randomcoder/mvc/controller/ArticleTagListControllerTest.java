@@ -5,13 +5,14 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
-import org.easymock.IMocksControl;
+import org.easymock.*;
 import org.junit.*;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.*;
-import org.randomcoder.mvc.command.ArticleTagPageCommand;
+import org.randomcoder.mvc.command.ArticleTagListCommand;
 import org.randomcoder.tag.TagCloudEntry;
+import org.springframework.data.domain.*;
 import org.springframework.ui.Model;
 
 @SuppressWarnings("javadoc")
@@ -55,7 +56,7 @@ public class ArticleTagListControllerTest
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
 		
-		ArticleTagPageCommand cmd = new ArticleTagPageCommand();
+		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
 		
 		Date startDate = new Date();
@@ -70,44 +71,29 @@ public class ArticleTagListControllerTest
 	}
 
 	@Test
-	public void testListArticlesBeforeDateInRange()
+	public void testListArticlesBeforeDate()
 	{
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
 		
-		ArticleTagPageCommand cmd = new ArticleTagPageCommand();
+		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
 		
 		Date endDate = new Date();
 		List<Article> articles = new ArrayList<>();
-
-		expect(ab.listArticlesByTagBeforeDateInRange(tag, endDate, 0, 50)).andReturn(articles);
+		Page<Article> page = new PageImpl<>(articles);
+		
+		Capture<Pageable> pageCap = new Capture<>();
+		
+		expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
 
-		assertSame(articles, c.listArticlesBeforeDateInRange(cmd, endDate, 0, 50));
+		assertSame(page, c.listArticlesBeforeDate(cmd, endDate, new PageRequest(0, 50)));
 		control.verify();
-	}
-
-	@Test
-	public void testCountArticlesBeforeDate()
-	{
-		Tag tag = new Tag();
-		tag.setName("tag");
-		tag.setDisplayName("Tag");
-		tag.setId(1L);
-		
-		ArticleTagPageCommand cmd = new ArticleTagPageCommand();
-		cmd.setTag(tag);
-		
-		Date endDate = new Date();
-
-		expect(ab.countArticlesByTagBeforeDate(tag, endDate)).andReturn(10);
-		control.replay();
-
-		assertEquals(10, c.countArticlesBeforeDate(cmd, endDate));
-		control.verify();
+		assertEquals(0, pageCap.getValue().getOffset());
+		assertEquals(50, pageCap.getValue().getPageSize());
 	}
 
 	@Test
@@ -118,31 +104,32 @@ public class ArticleTagListControllerTest
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
 		
-		ArticleTagPageCommand cmd = new ArticleTagPageCommand();
+		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
 		
 		assertEquals("Tag", c.getSubTitle(cmd));
 	}
 
 	@Test
-	public void testHome()
+	public void testTagList()
 	{
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
 		
-		ArticleTagPageCommand cmd = new ArticleTagPageCommand();
+		ArticleTagListCommand cmd = new ArticleTagListCommand();
+		
+		Capture<Pageable> pageCap = new Capture<>();
 		
 		expect(tb.findTagByName("tag")).andReturn(tag);
 		expect(ab.listArticlesByTagBetweenDates(same(tag), isA(Date.class), isA(Date.class))).andReturn(Collections.<Article>emptyList());
-		expect(ab.listArticlesByTagBeforeDateInRange(same(tag), isA(Date.class), eq(0), eq(10))).andReturn(Collections.<Article>emptyList());
-		expect(ab.countArticlesByTagBeforeDate(same(tag), isA(Date.class))).andReturn(0);
+		expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article>emptyList()));
 		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry>emptyList());
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
 		control.replay();
 
-		assertEquals("article-tag-list", c.tagList(cmd, m, "tag"));
+		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", new PageRequest(0, 10)));
 		assertSame(tag, cmd.getTag());
 		control.verify();
 	}

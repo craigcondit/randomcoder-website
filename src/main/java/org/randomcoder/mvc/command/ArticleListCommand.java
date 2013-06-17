@@ -7,57 +7,13 @@ import org.apache.commons.lang.builder.*;
 /**
  * Command class used for article paging.
  */
-public class ArticlePageCommand implements Serializable
+public class ArticleListCommand implements Serializable
 {
-	private static final long serialVersionUID = 6439493419331923137L;
-
-	private int start;
-	private int limit;
+	private static final long serialVersionUID = -366354426204104148L;
+	
 	private int month = -1;
 	private int day = -1;
 	private int year = -1;
-
-	/**
-	 * Sets the starting item number to display (0-based).
-	 * 
-	 * @param start
-	 *          item number
-	 */
-	public void setStart(int start)
-	{
-		this.start = start;
-	}
-
-	/**
-	 * Gets the starting item number to display.
-	 * 
-	 * @return item number
-	 */
-	public int getStart()
-	{
-		return start;
-	}
-
-	/**
-	 * Sets the number of items to display per page.
-	 * 
-	 * @param limit
-	 *          item count
-	 */
-	public void setLimit(int limit)
-	{
-		this.limit = limit;
-	}
-
-	/**
-	 * Gets the number of items to display per page.
-	 * 
-	 * @return item count
-	 */
-	public int getLimit()
-	{
-		return limit;
-	}
 
 	/**
 	 * Sets the month to display results for.

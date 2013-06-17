@@ -3,7 +3,9 @@ package org.randomcoder.mvc.controller;
 import java.util.*;
 
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.command.ArticlePageCommand;
+import org.randomcoder.mvc.command.ArticleListCommand;
+import org.springframework.data.domain.*;
+import org.springframework.data.web.PageableDefaults;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,28 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Controller class which handles the front page of the site.
  */
 @Controller("homeController")
-public class HomeController extends AbstractArticleListController<ArticlePageCommand>
+public class HomeController extends AbstractArticleListController<ArticleListCommand>
 {
+
 	@Override
-	protected List<Article> listArticlesBetweenDates(ArticlePageCommand command, Date startDate, Date endDate)
+	protected Page<Article> listArticlesBeforeDate(ArticleListCommand command, Date cutoffDate, Pageable pageable)
+	{
+		return articleBusiness.listArticlesBeforeDate(cutoffDate, pageable);
+	}
+
+	@Override
+	protected List<Article> listArticlesBetweenDates(ArticleListCommand command, Date startDate, Date endDate)
 	{
 		return articleBusiness.listArticlesBetweenDates(startDate, endDate);
 	}
 
 	@Override
-	protected List<Article> listArticlesBeforeDateInRange(ArticlePageCommand command, Date cutoffDate, int start, int limit)
-	{
-		return articleBusiness.listArticlesBeforeDateInRange(cutoffDate, start, limit);
-	}
-
-	@Override
-	protected int countArticlesBeforeDate(ArticlePageCommand command, Date cutoffDate)
-	{
-		return articleBusiness.countArticlesBeforeDate(cutoffDate);
-	}
-
-	@Override
-	protected String getSubTitle(ArticlePageCommand command)
+	protected String getSubTitle(ArticleListCommand command)
 	{
 		return null;
 	}
@@ -42,15 +39,17 @@ public class HomeController extends AbstractArticleListController<ArticlePageCom
 	 * Renders the home view.
 	 * 
 	 * @param command
-	 *            page command
+	 *          page command
 	 * @param model
-	 *            MVC model
+	 *          MVC model
+	 * @param pageable
+	 *          paging parameters
 	 * @return home view
 	 */
 	@RequestMapping("")
-	public String home(ArticlePageCommand command, Model model)
+	public String home(ArticleListCommand command, Model model, @PageableDefaults(10) Pageable pageable)
 	{
-		populateModel(command, model);
+		populateModel(command, model, pageable);
 		return "home";
 	}
 }

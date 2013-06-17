@@ -10,8 +10,10 @@ import org.junit.*;
 import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.*;
-import org.randomcoder.mvc.command.ArticlePageCommand;
+import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.tag.*;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.ui.Model;
 
 @SuppressWarnings("javadoc")
@@ -44,7 +46,7 @@ public class AbsArticleListControllerTest
 	@Test
 	public void testPopulateModel()
 	{
-		ArticlePageCommand cmd = new ArticlePageCommand();
+		ArticleListCommand cmd = new ArticleListCommand();
 		
 		Tag tag = new Tag();
 		tag.setId(1L);
@@ -57,24 +59,24 @@ public class AbsArticleListControllerTest
 		Capture<List<ArticleDecorator>> ad = new Capture<>();
 		Capture<boolean[]> days = new Capture<>();
 		
+		Pageable pr = new PageRequest(0, 10);
+		
 		expect(tb.getTagCloud()).andReturn(tc);
 		expect(m.addAttribute(eq("articles"), capture(ad))).andReturn(m);
+		expect(m.addAttribute(eq("pager"), isA(Page.class))).andReturn(m);
 		expect(m.addAttribute(eq("days"), capture(days))).andReturn(m);
-		expect(m.addAttribute("pageCount", 1)).andReturn(m);
-		expect(m.addAttribute("pageStart", 0)).andReturn(m);
-		expect(m.addAttribute("pageLimit", 10)).andReturn(m);
 		expect(m.addAttribute(eq("tagCloud"), same(tc))).andReturn(m);
 		expect(m.addAttribute("pageSubTitle", "Subtitle")).andReturn(m);
 		control.replay();
 		
-		c.populateModel(cmd, m);
+		c.populateModel(cmd, m, pr);
 		control.verify();
 		
 		assertEquals("test article", ad.getValue().get(0).getArticle().getTitle());		
 		assertTrue(days.getValue()[0]);
 	}
 
-	static class MockArticleListController extends AbstractArticleListController<ArticlePageCommand>
+	static class MockArticleListController extends AbstractArticleListController<ArticleListCommand>
 	{
 		private Article createArticle()
 		{
@@ -90,27 +92,22 @@ public class AbsArticleListControllerTest
 		}
 		
 		@Override
-		protected List<Article> listArticlesBetweenDates(ArticlePageCommand command, Date startDate, Date endDate)
+		protected List<Article> listArticlesBetweenDates(ArticleListCommand command, Date startDate, Date endDate)
 		{			
 			return Collections.singletonList(createArticle());
 		}
 
 		@Override
-		protected List<Article> listArticlesBeforeDateInRange(ArticlePageCommand command, Date cutoffDate, int start, int limit)
+		protected Page<Article> listArticlesBeforeDate(ArticleListCommand command, Date cutoffDate, Pageable pageable)
 		{
-			assertEquals(0, start);
-			assertEquals(10, limit);
-			return Collections.singletonList(createArticle());
+			assertEquals(0, pageable.getOffset());
+			assertEquals(10, pageable.getPageSize());
+			assertEquals(new Sort(Direction.DESC, "creationDate"), pageable.getSort());
+			return new PageImpl<>(Collections.singletonList(createArticle()));
 		}
 
 		@Override
-		protected int countArticlesBeforeDate(ArticlePageCommand command, Date cutoffDate)
-		{
-			return 1;
-		}
-
-		@Override
-		protected String getSubTitle(ArticlePageCommand command)
+		protected String getSubTitle(ArticleListCommand command)
 		{
 			return "Subtitle";
 		}

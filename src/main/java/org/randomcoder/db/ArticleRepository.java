@@ -32,7 +32,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>
 	 *          paging parameters
 	 * @return page of {@code Article} objects
 	 */
-	@Query("from Article a where a.creationDate < ?1 order by a.creationDate desc")
+	@Query("from Article a where a.creationDate < ?1")
 	public Page<Article> findBeforeDate(Date endDate, Pageable pageable);
 
 	/**
@@ -47,7 +47,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long>
 	 *          paging parameters
 	 * @return page of {@code Article} objects
 	 */
-	@Query("from Article a where ?1 in elements(a.tags) and a.creationDate < ?1 order by a.creationDate desc")
+	@Query("from Article a where ?1 in elements(a.tags) and a.creationDate < ?2")
 	public Page<Article> findByTagBeforeDate(Tag tag, Date endDate, Pageable pageable);
 
 	/**

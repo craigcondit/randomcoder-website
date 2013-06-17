@@ -5,10 +5,10 @@ import org.randomcoder.db.Tag;
 /**
  * Command object used for paged tag queries.
  */
-public class ArticleTagPageCommand extends ArticlePageCommand
+public class ArticleTagListCommand extends ArticleListCommand
 {
-	private static final long serialVersionUID = -1018974908517660133L;
-
+	private static final long serialVersionUID = 3214610458593305928L;
+	
 	private Tag tag;
 
 	/**
