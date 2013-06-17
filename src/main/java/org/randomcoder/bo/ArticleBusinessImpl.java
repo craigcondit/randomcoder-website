@@ -276,12 +276,20 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		article.setModificationDate(new Date());
 
 		// save tags
+		List<Tag> tags = new ArrayList<>();
 		for (Tag tag : article.getTags())
 		{
 			if (tag.getId() == null)
-				tagRepository.save(tag);
+			{
+				tags.add(tagRepository.save(tag));
+			}
+			else
+			{
+				tags.add(tagRepository.findOne(tag.getId()));
+			}
 		}
-
+		article.setTags(tags);
+		
 		articleRepository.save(article);
 	}
 

@@ -39,28 +39,23 @@ public class AppInfoBusinessImpl implements AppInfoBusiness
 	public void setPropertyFile(Resource propertyFile) throws IOException
 	{
 		Properties p = new Properties();
-		InputStream is = null;
 
-		try
+		try (InputStream is = propertyFile.getInputStream())
 		{
-			is = propertyFile.getInputStream();
 			p.load(is);
-		}
-		finally
-		{
-			if (is != null)
-			{
-				is.close();
-			}
 		}
 
 		String appName = p.getProperty(APP_NAME_PROPERTY);
 		if (appName == null || appName.contains("${"))
+		{
 			appName = DEFAULT_APP_NAME;
+		}
 
 		String appVersion = p.getProperty(APP_VERSION_PROPERTY);
 		if (appVersion == null || appVersion.contains("${"))
+		{
 			appVersion = DEFAULT_APP_VERSION;
+		}
 
 		logger.info("Starting application: " + appName + "/" + appVersion);
 

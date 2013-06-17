@@ -32,7 +32,7 @@ public class ArticleDecorator
 	{
 		this.article = article;
 		this.filter = filter;
-		comments = new ArrayList<CommentDecorator>(article.getComments().size());
+		comments = new ArrayList<>(article.getComments().size());
 		for (Comment comment : article.getComments())
 		{
 			comments.add(new CommentDecorator(comment, filter));
