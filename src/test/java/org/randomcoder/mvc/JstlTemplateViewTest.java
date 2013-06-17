@@ -1,20 +1,20 @@
 package org.randomcoder.mvc;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import java.util.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import junit.framework.TestCase;
-
 import org.easymock.*;
+import org.junit.*;
 import org.randomcoder.test.mock.springmvc.JstlTemplateViewMock;
 import org.springframework.web.context.WebApplicationContext;
 
 @SuppressWarnings("javadoc")
-public class JstlTemplateViewTest extends TestCase
+public class JstlTemplateViewTest
 {
 	private JstlTemplateViewMock view;
 	private JstlTemplateViewMock parent;
@@ -23,8 +23,8 @@ public class JstlTemplateViewTest extends TestCase
 	private WebApplicationContext wac;
 	private ServletContext sc;
 	
-	@Override
-	public void setUp() throws Exception
+	@Before
+	public void setUp()
 	{
 		control = createControl();
 		req = control.createMock(HttpServletRequest.class);
@@ -39,8 +39,8 @@ public class JstlTemplateViewTest extends TestCase
 		view.setApplicationContext(wac);
 	}
 
-	@Override
-	public void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		view = null;
 		parent = null;
@@ -50,6 +50,7 @@ public class JstlTemplateViewTest extends TestCase
 		control = null;
 	}
 
+	@Test
 	public void testGetUrl()
 	{
 		assertEquals(null, view.getUrl());
@@ -61,6 +62,7 @@ public class JstlTemplateViewTest extends TestCase
 		assertEquals("/parent", view.getUrl());
 	}
 	
+	@Test
 	public void testGetTemplateName()
 	{
 		assertEquals("template", view.getTemplateName());
@@ -73,10 +75,11 @@ public class JstlTemplateViewTest extends TestCase
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
+	@Test
 	public void testExposeHelpers() throws Exception
 	{
-		Map<String, Object> parentMap = new HashMap<String, Object>();
-		Map<String, Object> childMap = new HashMap<String, Object>();
+		Map<String, Object> parentMap = new HashMap<>();
+		Map<String, Object> childMap = new HashMap<>();
 		
 		parentMap.put("parent", "parent");
 		parentMap.put("both", "parent");
@@ -87,7 +90,7 @@ public class JstlTemplateViewTest extends TestCase
 		parent.setTemplateAttributes(parentMap);
 		view.setTemplateAttributes(childMap);
 
-		Capture<Object> cm = new Capture<Object>();
+		Capture<Object> cm = new Capture<>();
 
 		control.reset();
 		

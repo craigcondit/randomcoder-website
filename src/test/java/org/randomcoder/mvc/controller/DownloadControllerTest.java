@@ -47,7 +47,7 @@ public class DownloadControllerTest
 	@Test
 	public void testHandleDefault() throws Exception
 	{
-		Capture<List<Package>> pcap = new Capture<List<Package>>();
+		Capture<List<Package>> pcap = new Capture<>();
 		
 		List<Package> pkgs = createPackageList();
 		expect(p.getPackages()).andReturn(pkgs);
@@ -69,7 +69,7 @@ public class DownloadControllerTest
 	@Test
 	public void testHandlePackage() throws Exception
 	{
-		Capture<List<Package>> pcap = new Capture<List<Package>>();
+		Capture<List<Package>> pcap = new Capture<>();
 		
 		List<Package> pkgs = createPackageList();
 		expect(p.getPackages()).andReturn(pkgs);
@@ -88,7 +88,7 @@ public class DownloadControllerTest
 
 	private List<Package> createPackageList()
 	{
-		List<Package> packages = new ArrayList<Package>();
+		List<Package> packages = new ArrayList<>();
 		
 		for (String name : PACKAGE_NAMES)
 		{
