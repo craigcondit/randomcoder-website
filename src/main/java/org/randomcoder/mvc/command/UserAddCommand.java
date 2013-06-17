@@ -178,7 +178,9 @@ public class UserAddCommand implements Serializable, Producer<User>
 	public void produce(User user)
 	{
 		if (user.getId() == null)
+		{
 			user.setUserName(userName); // only for new users
+		}
 
 		user.setEmailAddress(emailAddress);
 		user.setWebsite(website);
@@ -190,19 +192,23 @@ public class UserAddCommand implements Serializable, Producer<User>
 		}
 
 		if (user.getRoles() == null)
+		{
 			user.setRoles(new ArrayList<Role>());
+		}
 
-		Set<Role> currentRoles = new HashSet<Role>(user.getRoles());
-		Set<Role> selectedRoles = new HashSet<Role>();
+		Set<Role> currentRoles = new HashSet<>(user.getRoles());
+		Set<Role> selectedRoles = new HashSet<>();
 		if (roles != null)
+		{
 			selectedRoles.addAll(Arrays.asList(roles));
-
+		}
+		
 		// get list of deleted roles (current - selected)
-		Set<Role> deletedRoles = new HashSet<Role>(currentRoles);
+		Set<Role> deletedRoles = new HashSet<>(currentRoles);
 		deletedRoles.removeAll(selectedRoles);
 
 		// get list of added roles (selected - current)
-		Set<Role> addedRoles = new HashSet<Role>(selectedRoles);
+		Set<Role> addedRoles = new HashSet<>(selectedRoles);
 		addedRoles.removeAll(currentRoles);
 
 		// remove deleted roles

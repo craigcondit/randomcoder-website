@@ -186,17 +186,19 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 		article.setSummary(summary);
 
 		if (article.getTags() == null)
+		{
 			article.setTags(new ArrayList<Tag>());
+		}
 
-		Set<Tag> currentTags = new HashSet<Tag>(article.getTags());
-		Set<Tag> selectedTags = new HashSet<Tag>(tags.getTags());
+		Set<Tag> currentTags = new HashSet<>(article.getTags());
+		Set<Tag> selectedTags = new HashSet<>(tags.getTags());
 
 		// get list of deleted tags (current - selected)
-		Set<Tag> deletedTags = new HashSet<Tag>(currentTags);
+		Set<Tag> deletedTags = new HashSet<>(currentTags);
 		deletedTags.removeAll(selectedTags);
 
 		// get list of added tags (selected - current)
-		Set<Tag> addedTags = new HashSet<Tag>(selectedTags);
+		Set<Tag> addedTags = new HashSet<>(selectedTags);
 		addedTags.removeAll(currentTags);
 
 		// remove deleted tags
