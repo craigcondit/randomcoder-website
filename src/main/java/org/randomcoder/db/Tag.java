@@ -76,7 +76,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * Sets the id for this tag.
 	 * 
 	 * @param id
-	 *          tag id
+	 *            tag id
 	 */
 	public void setId(Long id)
 	{
@@ -98,7 +98,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * Sets the name of this tag.
 	 * 
 	 * @param name
-	 *          tag name
+	 *            tag name
 	 */
 	public void setName(String name)
 	{
@@ -120,7 +120,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * Sets the display name of this tag.
 	 * 
 	 * @param displayName
-	 *          display name
+	 *            display name
 	 */
 	public void setDisplayName(String displayName)
 	{
@@ -143,7 +143,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * Sets the articles which belong to this tag.
 	 * 
 	 * @param articles
-	 *          article list
+	 *            article list
 	 */
 	public void setArticles(List<Article> articles)
 	{
@@ -159,7 +159,9 @@ public class Tag implements Serializable, Comparable<Tag>
 	public boolean equals(Object obj)
 	{
 		if (!(obj instanceof Tag))
+		{
 			return false;
+		}
 
 		Tag tag = (Tag) obj;
 

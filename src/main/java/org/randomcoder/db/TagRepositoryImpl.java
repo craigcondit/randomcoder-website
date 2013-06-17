@@ -82,7 +82,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom
 	{
 		List<?> results = query.getResultList();
 		
-		List<TagStatistics> tagStats = new ArrayList<TagStatistics>(results.size());
+		List<TagStatistics> tagStats = new ArrayList<>(results.size());
 
 		for (Object result : results)
 		{
