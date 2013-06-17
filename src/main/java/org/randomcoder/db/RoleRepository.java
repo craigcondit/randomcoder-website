@@ -18,7 +18,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>
 	 *            role name
 	 * @return {@code Role} instance, or null if not found
 	 */
-	@Query("from Role r where r.name = ?")
+	@Query("from Role r where r.name = ?1")
 	@QueryHints(@QueryHint(name = "org.hibernate.cacheable", value = "true"))
 	public Role findByName(String name);
 }
