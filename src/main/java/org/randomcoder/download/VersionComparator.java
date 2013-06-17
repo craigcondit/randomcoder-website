@@ -46,11 +46,15 @@ public class VersionComparator implements Comparator<String>
 			String r1 = rev1.length > i ? rev1[i] : "";
 			String r2 = rev2.length > i ? rev2[i] : "";
 			if (r1.length() == 0 && r2.length() == 0)
+			{
 				continue; // blank
+			}
 
 			int result = toNumber(r1).compareTo(toNumber(r2));
 			if (result != 0)
+			{
 				return result;
+			}
 		}
 
 		// versions are equal, parse out qualifiers
@@ -66,13 +70,17 @@ public class VersionComparator implements Comparator<String>
 			{
 				int result = toNumber(q1).compareTo(toNumber(q2));
 				if (result != 0)
+				{
 					return result;
+				}
 			}
 			else
 			{
 				int result = q1.compareTo(q2);
 				if (result != 0)
+				{
 					return result;
+				}
 			}
 		}
 
@@ -83,16 +91,22 @@ public class VersionComparator implements Comparator<String>
 	private Integer toNumber(String value)
 	{
 		if (value == null || value.length() == 0)
+		{
 			return 0;
+		}
 		if (value.matches("[0-9]*"))
+		{
 			return Integer.parseInt(value);
+		}
 		return 0;
 	}
 
 	private boolean isNumeric(String value)
 	{
 		if (value == null || value.length() == 0)
+		{
 			return false;
+		}
 		return value.matches("[0-9]*");
 	}
 }

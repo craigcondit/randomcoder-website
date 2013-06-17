@@ -181,7 +181,9 @@ public class FileSpec implements Serializable, Cloneable, Comparable<FileSpec>
 	public int compareTo(FileSpec obj)
 	{
 		if (obj == null)
+		{
 			return 1;
+		}
 
 		// we employ a hack here to make periods sort earlier than hyphens
 		// this tends to bubble the important stuff (.jar, etc.) to the top
@@ -203,7 +205,9 @@ public class FileSpec implements Serializable, Cloneable, Comparable<FileSpec>
 		target.fileSize = fileSize;
 		target.fileType = fileType;
 		if (lastModified != null)
+		{
 			target.lastModified = new Date(lastModified.getTime());
+		}
 		target.md5Link = md5Link;
 		target.sha1Link = sha1Link;
 		return target;

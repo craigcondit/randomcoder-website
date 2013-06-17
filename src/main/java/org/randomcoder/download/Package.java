@@ -12,7 +12,7 @@ public class Package implements Serializable, Comparable<Package>
 
 	private String name;
 	private String description;
-	private final List<FileSet> fileSets = new ArrayList<FileSet>();
+	private final List<FileSet> fileSets = new ArrayList<>();
 
 	/**
 	 * Gets the name of this package.
@@ -78,7 +78,9 @@ public class Package implements Serializable, Comparable<Package>
 	public int compareTo(Package obj)
 	{
 		if (obj == null)
+		{
 			return 1;
+		}
 		return name.compareTo(obj.name);
 	}
 }

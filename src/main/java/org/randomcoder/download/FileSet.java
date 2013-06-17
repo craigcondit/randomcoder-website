@@ -10,7 +10,7 @@ public class FileSet implements Serializable, Cloneable
 {
 	private static final long serialVersionUID = 4901522219870010077L;
 	private String version;
-	private final List<FileSpec> files = new ArrayList<FileSpec>();
+	private final List<FileSpec> files = new ArrayList<>();
 
 	/**
 	 * Gets the version for this group of files.

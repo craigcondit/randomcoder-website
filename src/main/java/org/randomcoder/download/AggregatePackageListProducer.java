@@ -38,8 +38,8 @@ public class AggregatePackageListProducer implements PackageListProducer
 	@Override
 	public List<Package> getPackages() throws PackageListException
 	{
-		List<Package> packageList = new ArrayList<Package>();
-		Map<String, Package> packageMap = new HashMap<String, Package>();
+		List<Package> packageList = new ArrayList<>();
+		Map<String, Package> packageMap = new HashMap<>();
 
 		for (PackageListProducer producer : producers)
 		{
