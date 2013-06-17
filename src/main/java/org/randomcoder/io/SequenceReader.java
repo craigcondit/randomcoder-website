@@ -41,7 +41,7 @@ public class SequenceReader extends Reader
 	 */
 	public SequenceReader(Reader... readers)
 	{
-		List<Reader> readerList = new ArrayList<Reader>(readers.length);
+		List<Reader> readerList = new ArrayList<>(readers.length);
 		for (Reader reader : readers)
 		{
 			readerList.add(reader);
