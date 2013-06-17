@@ -1,27 +1,31 @@
 package org.randomcoder.bo;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
+import java.io.IOException;
+
+import org.junit.*;
 import org.springframework.core.io.ClassPathResource;
 
 @SuppressWarnings("javadoc")
-public class AppInfoBusinessImplTest extends TestCase
+public class AppInfoBusinessImplTest
 {
 	private AppInfoBusinessImpl info;
 
-	@Override
-	protected void setUp() throws Exception
+	@Before
+	public void setUp() throws IOException
 	{
 		info = new AppInfoBusinessImpl();
 		info.setPropertyFile(new ClassPathResource("/version-test.properties"));
 	}
 
-	@Override
-	protected void tearDown() throws Exception
+	@After
+	public void tearDown()
 	{
 		info = null;
 	}
 
+	@Test
 	public void testGetObject() throws Exception
 	{
 		assertEquals("Test-Application", info.getApplicationName());
