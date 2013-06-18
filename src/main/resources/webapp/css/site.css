@@ -67,8 +67,9 @@ A.permalink, A.hash {
 	background: url(../images/silk/bullet_key.png) left no-repeat;				
 }
 
-.moderated {
-	text-decoration: line-through;	
+.sectionHeading.moderated {
+	background-color: #a62929;
+	text-decoration: line-through;
 }
 
 A.hash {

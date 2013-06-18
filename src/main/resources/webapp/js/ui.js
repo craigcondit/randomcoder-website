@@ -31,7 +31,7 @@ $(document).ready(function() {
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
-			group.find("SPAN.moderated").removeClass('moderated').addClass('active');
+			group.find(".sectionHeading").removeClass('moderated');
 			heading.find('BUTTON.approveComment').addClass('hidden');
 			heading.find('BUTTON.disapproveComment').removeClass('hidden');
 		});
@@ -46,7 +46,7 @@ $(document).ready(function() {
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
-			group.find("SPAN.active").removeClass('active').addClass('moderated');
+			group.find(".sectionHeading").addClass('moderated');
 			heading.find('BUTTON.disapproveComment').addClass('hidden');
 			heading.find('BUTTON.approveComment').removeClass('hidden');
 		});
