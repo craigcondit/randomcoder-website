@@ -40,7 +40,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	{
 		// define some static content that will bypass the dispatcher
 		registry
-				.addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.jpg", "/**/*.png", "/**/*.gif")
+				.addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.jpg", "/**/*.png", "/**/*.gif", "/**/*.txt")
 				.addResourceLocations("classpath:/webapp/");
 	}
 
