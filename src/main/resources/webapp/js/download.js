@@ -44,51 +44,46 @@ function addExpandoTarget(key, el)
 	arr[arr.length] = el;	
 }
 
-Behaviour.register({
-	'A.package-expando' : function(el)
+$(document).ready(function() {
+	$('A.package-expando').click(function()
 	{
+		var el = $(this).get(0);
 		var idParts = el.id.split("-");
 		var packageKey = "pkg" + idParts[1];
-		
-		el.onclick = function()
+		if (isExpandoOpen(el))
 		{
-			if (isExpandoOpen(el))
-			{
-				el.className = "package-expando expando-hidden";			
-				hideExpandoElements(packageKey);
-			}
-			else
-			{
-				el.className = "package-expando expando-shown";
-				showExpandoElements(packageKey);
-			}
-			el.blur();
-			return false;
+			el.className = "package-expando expando-hidden";			
+			hideExpandoElements(packageKey);
 		}
-	},
-	'A.fileset-expando' : function(el)
-	{		
+		else
+		{
+			el.className = "package-expando expando-shown";
+			showExpandoElements(packageKey);
+		}
+		el.blur();
+		return false;		
+	});
+	$('A.fileset-expando').click(function()
+	{
+		var el = $(this).get(0);
 		var idParts = el.id.split("-");
 		var filesetKey = "fs" + idParts[1] + "_" + idParts[2];
-		
-		el.onclick = function()
+		if (isExpandoOpen(el))
 		{
-			if (isExpandoOpen(el))
-			{
-				el.className = "fileset-expando expando-hidden";			
-				hideExpandoElements(filesetKey);
-			}
-			else
-			{
-				el.className = "fileset-expando expando-shown";
-				showExpandoElements(filesetKey);
-			}
-			el.blur();
-			return false;
+			el.className = "fileset-expando expando-hidden";			
+			hideExpandoElements(filesetKey);
 		}
-	},
-	'.fileset-target' : function(el)
+		else
+		{
+			el.className = "fileset-expando expando-shown";
+			showExpandoElements(filesetKey);
+		}
+		el.blur();
+		return false;		
+	});
+	$('.fileset-target').each(function()
 	{
+		var el = $(this).get(0);
 		var idParts = el.id.split("-");		
 		var packageKey = "pkg" + idParts[1];
 
@@ -97,11 +92,11 @@ Behaviour.register({
 		if (!isExpandoOpen(ex)) el.style.display = "none";		
 		
 		// add to target array
-		addExpandoTarget(packageKey, el);
-		
-	},
-	'.file-target' : function(el)
-	{
+		addExpandoTarget(packageKey, el);		
+	});
+	$('.file-target').each(function()
+	{		
+		var el = $(this).get(0);
 		var idParts = el.id.split("-");		
 		var filesetKey = "fs" + idParts[1] + "_" + idParts[2];
 		var packageKey = "pkg" + idParts[1];
@@ -119,7 +114,5 @@ Behaviour.register({
 		// add to target arrays
 		addExpandoTarget(filesetKey, el);
 		addExpandoTarget(packageKey, el);
-		
-				
-	}
+	});
 });
