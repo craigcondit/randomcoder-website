@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	$('.focusFirst').each(function()
+	{
+		$(this).select().focus();
+	});
 	$('A.deleteArticle').click(function()
 	{
 		return confirm("Are you sure you want to delete this article?\nAll comments will be deleted as well.");
