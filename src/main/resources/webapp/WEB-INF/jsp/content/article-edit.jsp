@@ -33,7 +33,7 @@
 				</div>
 				<div>					
 					<label for="title">Title:</label>
-					<input:text name="title" styleClass="text" styleId="title" maxlength="255" value="${status.value}" />
+					<input:text name="title" styleClass="text focusFirst" styleId="title" maxlength="255" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter a descriptive title for this article.

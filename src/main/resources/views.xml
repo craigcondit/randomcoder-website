@@ -263,7 +263,6 @@
 				<entry key="title" value="Add article" />
 				<entry key="formMode" value="add" />
 				<entry key="formAction" value="/article/add" />
-				<entry key="javascript" value="article-edit.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/article-edit.jsp</value>
