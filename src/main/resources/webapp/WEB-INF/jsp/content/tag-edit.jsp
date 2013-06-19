@@ -4,11 +4,18 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/tag" />
 <c:url var="formAction" value="${template.formAction}" />
+<c:choose>
+	<c:when test="${template.formMode == 'edit'}">
+		<c:set var="headingText" value="Edit tag" />
+		<c:set var="displayNameClass" value="focusFirst " />
+	</c:when>
+	<c:otherwise>
+		<c:set var="headingText" value="Add tag" />
+		<c:set var="displayNameClass" value="" />
+	</c:otherwise>
+</c:choose>  
 <div class="sectionHeading">
-  <c:choose>
-  	<c:when test="${template.formMode == 'edit'}">Edit tag</c:when>
-  	<c:otherwise>Add tag</c:otherwise>
-  </c:choose>  
+	${headingText}
 </div>
 <div class="sectionContent">
   <form method="post" action="${formAction}">
@@ -35,7 +42,7 @@
 						</div>
 						<div>					
 							<label for="tagName">Tag name:</label>
-							<input:text name="name" styleClass="text" styleId="tagName" maxlength="255" value="${status.value}" />
+							<input:text name="name" styleClass="text focusFirst" styleId="tagName" maxlength="255" value="${status.value}" />
 						</div>
 						<div class="description">
 							Enter a unique name for the new tag.
@@ -65,7 +72,7 @@
 				</div>
 				<div>					
 					<label for="displayName">Display name:</label>
-					<input:text name="displayName" styleClass="text" styleId="displayName" maxlength="255" value="${status.value}" />
+					<input:text name="displayName" styleClass="${displayNameClass}text" styleId="displayName" maxlength="255" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter a friendly name for this tag.

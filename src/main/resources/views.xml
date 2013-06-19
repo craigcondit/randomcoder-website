@@ -344,7 +344,6 @@
 				<entry key="title" value="Add tag" />
 				<entry key="formMode" value="add" />
 				<entry key="formAction" value="/tag/add" />
-				<entry key="javascript" value="tag-edit.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/tag-edit.jsp</value>
