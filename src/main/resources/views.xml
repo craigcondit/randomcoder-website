@@ -316,7 +316,6 @@
 				<entry key="title" value="Add user" />
 				<entry key="formMode" value="add" />
 				<entry key="formAction" value="/user/add" />
-				<entry key="javascript" value="user-edit.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/user-edit.jsp</value>

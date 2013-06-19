@@ -4,11 +4,18 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:url var="homeUrl" value="/user" />
 <c:url var="formAction" value="${template.formAction}" />
+<c:choose>
+	<c:when test="${template.formMode == 'edit'}">
+		<c:set var="headingText" value="Edit user" />
+		<c:set var="emailAddressClass" value="focusFirst " />
+	</c:when>
+	<c:otherwise>
+		<c:set var="headingText" value="Add user" />
+		<c:set var="emailAddressClass" value="" />
+	</c:otherwise>
+</c:choose>
 <div class="sectionHeading">
-  <c:choose>
-  	<c:when test="${template.formMode == 'edit'}">Edit user</c:when>
-  	<c:otherwise>Add user</c:otherwise>
-  </c:choose>  
+	${headingText}
 </div>
 <div class="sectionContent">
   <form method="post" action="${formAction}">
@@ -35,7 +42,7 @@
 						</div>
 						<div>					
 							<label for="userName">User name:</label>
-							<input:text name="userName" styleClass="text" styleId="userNameText" maxlength="30" value="${status.value}" />
+							<input:text name="userName" styleClass="text focusFirst" styleId="userNameText" maxlength="30" value="${status.value}" />
 						</div>
 						<div class="description">
 							Enter a login name for the new user.
@@ -90,7 +97,7 @@
 				</div>
 				<div>					
 					<label for="emailAddress">Email address:</label>
-					<input:text name="emailAddress" styleClass="text" styleId="emailAddress" maxlength="320" value="${status.value}" />
+					<input:text name="emailAddress" styleClass="${emailAddressClass}text" styleId="emailAddress" maxlength="320" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter the user's email address.
