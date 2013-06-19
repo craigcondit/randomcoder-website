@@ -125,7 +125,6 @@
 			<map>
 				<entry key="title" value="Create account" />
 				<entry key="formAction" value="/account/create" />
-				<entry key="javascript" value="account-create.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/account-create.jsp</value>

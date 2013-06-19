@@ -28,7 +28,7 @@
 				</div>
 				<div>					
 					<label for="userName">User name:</label>
-					<input:text name="userName" styleClass="text" styleId="userNameText" maxlength="30" value="${status.value}" />
+					<input:text name="userName" styleClass="text focusFirst" styleId="userNameText" maxlength="30" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter a user name for your new account.<br />
