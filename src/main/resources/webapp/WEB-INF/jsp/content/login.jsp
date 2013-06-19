@@ -14,7 +14,7 @@
 		<div class="fields required">
 			<div>					
 				<label for="username">User name:</label>
-				<input type="text" name="j_username" class="text" id="username" value="" />
+				<input type="text" name="j_username" class="text focusFirst" id="username" value="" />
 			</div>
 		</div>
 		<div class="fields required">
