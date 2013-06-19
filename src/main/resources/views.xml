@@ -203,7 +203,6 @@
 		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="My profile" />
-				<entry key="javascript" value="user-profile.js" />
 				<entry key="content">
 					<list>
 						<value>/WEB-INF/jsp/content/user-profile.jsp</value>

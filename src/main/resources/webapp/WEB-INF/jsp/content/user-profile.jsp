@@ -62,7 +62,7 @@
 				</div>
 				<div>					
 					<label for="emailAddress">Email address:</label>
-					<input:text name="emailAddress" styleClass="text" styleId="emailAddress" maxlength="320" value="${status.value}" />
+					<input:text name="emailAddress" styleClass="text focusFirst" styleId="emailAddress" maxlength="320" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter your email address. This will not be shown publicly.
