@@ -56,12 +56,4 @@ $(document).ready(function() {
 		});
 		return false;
 	});
-	$('#j_username').each(function()
-	{
-		if (document.forms && document.forms.length == 1)
-		{
-			$(this).focus();
-			$(this).select();
-		}		
-	});
 });
