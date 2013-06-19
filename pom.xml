@@ -15,7 +15,7 @@
 	<scm>
 		<connection>scm:git:https://scm.randomcoder.org/git/randomcoder-website</connection>
 		<developerConnection>scm:git:https://scm.randomcoder.org/git/randomcoder-website</developerConnection>
-		<url>https://gitlist.randomcoder.org/randomcoder-website</url>
+		<url>https://randomcoder.org/cgit/public/randomcoder-website</url>
 	  <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
