@@ -1,9 +1,6 @@
-Behaviour.register({
-	'A.delete' : function(el)
+$(document).ready(function() {
+	$('A.delete').click(function()
 	{
-		el.onclick = function()
-		{
-			return confirm("Are you sure you want to delete this tag?\nThis action cannot be undone.");
-		};
-	}
+		return confirm("Are you sure you want to delete this tag?\nThis action cannot be undone.");
+	});
 });
