@@ -28,7 +28,7 @@
 				</div>
 				<div>					
 					<label for="oldPassword">Current password:</label>
-					<input:password name="oldPassword" styleClass="text" styleId="oldPassword" maxlength="255" value="${status.value}" />
+					<input:password name="oldPassword" styleClass="text focusFirst" styleId="oldPassword" maxlength="255" value="${status.value}" />
 				</div>
 				<div class="description">
 					Enter your current password.<br />
