@@ -16,6 +16,7 @@ import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.randomcoder.log.JettyLog4jLog;
+import org.randomcoder.security.DisableUrlSessionFilter;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.web.context.ContextLoaderListener;
@@ -87,6 +88,12 @@ public class JettyContext
 
 		context.addEventListener(new ContextLoaderListener(rootContext));
 
+		// define disable url session filter
+		FilterHolder disableUrlSession = new FilterHolder();
+		disableUrlSession.setFilter(new DisableUrlSessionFilter());
+		disableUrlSession.setName("disableUrlSessionFilter");
+		context.addFilter(disableUrlSession, "/*", EnumSet.of(DispatcherType.REQUEST));
+		
 		// define spring security filter
 		FilterHolder sec = new FilterHolder();
 		sec.setFilter(new DelegatingFilterProxy());
