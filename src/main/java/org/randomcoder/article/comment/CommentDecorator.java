@@ -1,11 +1,13 @@
 package org.randomcoder.article.comment;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.randomcoder.content.*;
-import org.randomcoder.db.Comment;
+import org.randomcoder.db.*;
 import org.xml.sax.SAXException;
 
 /**
@@ -41,6 +43,34 @@ public class CommentDecorator
 		return comment;
 	}
 
+	/**
+	 * Gets the avatar image URL for the comment author.
+	 * 
+	 * @return image URL or <code>null</code> if not present
+	 */
+	public String getAuthorAvatarImageUrl()
+	{
+		String emailAddress = null;
+		User createdBy = comment.getCreatedByUser();
+		if (createdBy == null)
+		{
+			emailAddress = comment.getAnonymousEmailAddress(); 
+		}
+		else
+		{
+			emailAddress = createdBy.getEmailAddress();
+		}
+		if (emailAddress == null)
+		{
+			return null;
+		}
+		emailAddress = emailAddress.trim().toLowerCase(Locale.US);
+
+		String hash = DigestUtils.md5Hex(emailAddress);
+
+		return "https://secure.gravatar.com/avatar/" + hash + "?s=40&d=mm";
+	}
+	
 	/**
 	 * Gets article content after applying filters and HTML escaping.
 	 * 

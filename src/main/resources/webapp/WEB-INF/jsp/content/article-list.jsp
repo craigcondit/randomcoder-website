@@ -149,6 +149,7 @@
   	<a name="comments"></a>
   	<c:set var="hiddenCount" value="${0}" />
   	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
+  		<c:set var="commentAvatar" value="${commentDecorator.authorAvatarImageUrl}" />
   		<c:if test="${not commentDecorator.comment.visible}"><c:set var="hiddenCount" value="${hiddenCount+1}" /></c:if>
   		<c:if test="${manageComments or commentDecorator.comment.visible}">
 	  		<a name="comment-${commentDecorator.comment.id}"></a>
@@ -229,7 +230,13 @@
 						</div>
 					</c:if>
 		  		<div class="sectionContent">
+		  			<c:if test="${commentAvatar != null}">
+		  				<img class="commentAvatar" src="${commentAvatar}" />
+		  			</c:if>
 		  			${commentDecorator.formattedText}
+		  			<c:if test="${commentAvatar != null}">
+		  				<div class="clear"></div>
+		  			</c:if>
 		  		</div>
 		  	</div>
 	  	</c:if>

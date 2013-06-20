@@ -233,7 +233,7 @@ DIV.footerMessage {
 	position: relative;
 }
 
-IMG.authorAvatar {
+IMG.authorAvatar, IMG.commentAvatar {
 	float: right;
 	margin: 0;
 	width: 40px;
