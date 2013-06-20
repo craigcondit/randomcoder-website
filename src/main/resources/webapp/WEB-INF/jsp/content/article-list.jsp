@@ -90,7 +90,7 @@
 		</c:if>
 	</div>
 	<div class="sectionContent">
-		<c:if test="${authorAvatar != null}">
+		<c:if test="${authorAvatar != null && template.summary == 'false'}">
 			<img class="authorAvatar" src="${authorAvatar}" />
 		</c:if>
 	  <c:choose>
@@ -136,7 +136,7 @@
 			  ${articleDecorator.formattedText}
 	  	</c:otherwise>
 	  </c:choose>
-		<c:if test="${authorAvatar != null}">
+		<c:if test="${authorAvatar != null && template.summary == 'false'}">
 			<div class="clear"></div>
 		</c:if>
 	</div>
