@@ -22,7 +22,8 @@
   <c:set var="articleAuthor" value="${null}" />
   <c:if test="${articleDecorator.article.createdByUser != null}">
   	<c:set var="articleAuthor" value="${articleDecorator.article.createdByUser.userName}" />
-  </c:if>  
+  </c:if>
+  <c:set var="authorAvatar" value="${articleDecorator.authorAvatarImageUrl}" />  
   <c:url var="editLink" value="/article/edit">
   	<c:param name="id" value="${articleDecorator.article.id}" />
   </c:url>
@@ -89,6 +90,9 @@
 		</c:if>
 	</div>
 	<div class="sectionContent">
+		<c:if test="${authorAvatar != null}">
+			<img class="authorAvatar" src="${authorAvatar}" />
+		</c:if>
 	  <c:choose>
 		  <c:when test="${template.summary == 'true'}">
 		  	<c:choose>

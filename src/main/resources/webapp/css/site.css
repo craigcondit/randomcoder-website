@@ -230,9 +230,18 @@ DIV.footerMessage {
 	border-color: #2c6356;
 	border-width: 0 1px;
 	padding: 0.2em 0.5em 0.3em 0.5em;
+	position: relative;
+}
+
+IMG.authorAvatar {
+	float: right;
+	margin: 0;
+	width: 40px;
+	height: 40px;
 }
 
 .sectionContent, .sectionContentFull {
+	clear: both;
 	background-color: #ffffff;
 	color: #000000;
 	border-style: solid;
@@ -248,6 +257,7 @@ DIV.footerMessage {
 }
 
 .sectionFooter {
+	clear: both;
 	margin-top: 2em;
 	text-align: left;	
 	font-size: 0.9em;

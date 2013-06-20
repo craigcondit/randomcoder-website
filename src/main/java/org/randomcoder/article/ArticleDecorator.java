@@ -5,6 +5,7 @@ import java.util.*;
 
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.randomcoder.article.comment.CommentDecorator;
 import org.randomcoder.content.*;
 import org.randomcoder.db.*;
@@ -37,6 +38,30 @@ public class ArticleDecorator
 		{
 			comments.add(new CommentDecorator(comment, filter));
 		}
+	}
+
+	/**
+	 * Gets the avatar image URL for the article author.
+	 * 
+	 * @return image URL or <code>null</code> if not present
+	 */
+	public String getAuthorAvatarImageUrl()
+	{
+		User createdBy = article.getCreatedByUser();
+		if (createdBy == null)
+		{
+			return null;
+		}
+		String emailAddress = createdBy.getEmailAddress();
+		if (emailAddress == null)
+		{
+			return null;
+		}
+		emailAddress = emailAddress.trim().toLowerCase(Locale.US);
+
+		String hash = DigestUtils.md5Hex(emailAddress);
+
+		return "https://secure.gravatar.com/avatar/" + hash + "?s=40&d=mm";
 	}
 
 	/**
