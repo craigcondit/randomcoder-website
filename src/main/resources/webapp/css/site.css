@@ -240,6 +240,12 @@ IMG.authorAvatar {
 	height: 40px;
 }
 
+.clear {
+	clear: both;
+	height: 0;
+	width: 0;
+}
+
 .sectionContent, .sectionContentFull {
 	clear: both;
 	background-color: #ffffff;

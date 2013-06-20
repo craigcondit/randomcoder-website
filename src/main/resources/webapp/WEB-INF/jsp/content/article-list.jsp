@@ -136,6 +136,9 @@
 			  ${articleDecorator.formattedText}
 	  	</c:otherwise>
 	  </c:choose>
+		<c:if test="${authorAvatar != null}">
+			<div class="clear"></div>
+		</c:if>
 	</div>
 
   <c:if test="${template.summary == 'false'}">
