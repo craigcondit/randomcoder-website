@@ -18,7 +18,7 @@ public class GenericProxy implements InvocationHandler
 		return method.invoke(_target, args);
 	}
 	
-	public static Object proxy(Object target, Class... interfaces)
+	public static Object proxy(Object target, Class<?>... interfaces)
 	{
 		return Proxy.newProxyInstance(GenericProxy.class.getClassLoader(), interfaces, new GenericProxy(target));
 	}
