@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>randomcoder-base</artifactId>
 		<groupId>org.randomcoder</groupId>
-		<version>21</version>
+		<version>23</version>
 	</parent>
 	<groupId>org.randomcoder</groupId>
 	<artifactId>randomcoder-website</artifactId>
