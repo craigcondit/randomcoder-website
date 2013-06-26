@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TagBusinessImpl implements TagBusiness
 {
 	private TagRepository tagRepository;
-	private ArticleRepository articleRepository;
 
 	/**
 	 * Sets the tag repository to use.
@@ -30,18 +29,6 @@ public class TagBusinessImpl implements TagBusiness
 	public void setTagRepository(TagRepository tagRepository)
 	{
 		this.tagRepository = tagRepository;
-	}
-
-	/**
-	 * Sets the article repository to use.
-	 * 
-	 * @param articleRepository
-	 *          article repository
-	 */
-	@Inject
-	public void setArticleRepository(ArticleRepository articleRepository)
-	{
-		this.articleRepository = articleRepository;
 	}
 
 	@Override
