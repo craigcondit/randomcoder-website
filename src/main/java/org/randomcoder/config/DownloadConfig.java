@@ -33,7 +33,7 @@ public class DownloadConfig
 		projects.add(project("randomcoder-citadel", "Java security framework (deprecated)", "com/randomcoder/randomcoder-citadel"));
 
 		LocalMavenRepository repo = new LocalMavenRepository();
-		repo.setUrl(new URL("https://nexus.randomcoder.org/content/repositories/releases/"));
+		repo.setUrl(new URL("https://randomcoder.org/nexus/content/repositories/releases/"));
 		repo.setDir(new File(env.getRequiredProperty("maven.repository.dir")));
 		repo.setProjects(projects);
 
