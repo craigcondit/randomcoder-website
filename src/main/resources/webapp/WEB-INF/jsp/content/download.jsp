@@ -12,6 +12,7 @@
 				<tr>
 					<th>Package</th>
 					<th>Description</th>
+					<th style="text-align: center"></th>
 					<th style="text-align: center">Release</th>
 					<th style="text-align: center">Date</th>
 				</tr>
@@ -25,7 +26,16 @@
 						<url:addParam name="showAll" value="true" />
 					</url:modify>
 					<tr class="${class}">
-						<td><a href="${downloadUrl}"><c:out value="${package.name}" /></a></td>
+						<td>
+							<c:choose>
+								<c:when test="${fn:length(package.fileSets) < 2}">
+									<a href="#download${packageStat.index}"><c:out value="${package.name}" /></a>
+								</c:when>
+								<c:otherwise>
+									<a href="${downloadUrl}"><c:out value="${package.name}" /></a>
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td>
 							<c:choose>
 								<c:when test="${empty package.description}">
@@ -35,6 +45,11 @@
 									<c:out value="${package.description}" />
 								</c:otherwise>
 							</c:choose>
+						</td>
+						<td style="text-align: center">
+							<c:if test="${package.baseUrl != null}">
+								<a href="${package.baseUrl}" class="external">Browse all releases</a>
+							</c:if>
 						</td>
 						<td style="text-align: center"><c:out value="${package.fileSets[0].version}" /></td>						
 						<td style="text-align: center"><fmt:formatDate pattern="MMMM d, yyyy" value="${package.fileSets[0].files[0].lastModified}" /></td>

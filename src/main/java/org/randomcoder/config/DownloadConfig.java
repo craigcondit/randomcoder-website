@@ -1,6 +1,5 @@
 package org.randomcoder.config;
 
-import java.io.File;
 import java.net.URL;
 import java.util.*;
 
@@ -22,25 +21,20 @@ public class DownloadConfig
 	Environment env;
 
 	@Bean
-	public LocalMavenRepository mavenRepository() throws Exception
+	public PackageListProducer mavenRepository() throws Exception
 	{
 		List<MavenProject> projects = new ArrayList<MavenProject>();
-		projects.add(project("randomcoder-website", "Randomcoder.org web site", "org/randomcoder/randomcoder-website"));
-		projects.add(project("randomcoder-website-old", "Randomcoder.com web site (old version)", "com/randomcoder/randomcoder-website"));
-		projects.add(project("randomcoder-taglibs", "JSP tag libraries for common website functionality", "org/randomcoder/randomcoder-taglibs"));
-		projects.add(project("randomcoder-taglibs-old", "JSP tag libraries for common website functionality (old version)",
-				"com/randomcoder/randomcoder-taglibs"));
-		projects.add(project("randomcoder-citadel", "Java security framework (deprecated)", "com/randomcoder/randomcoder-citadel"));
+		projects.add(project("randomcoder-website", "Randomcoder.org web site", "org/randomcoder/randomcoder-website", ".jar", "-javadoc.jar", "-sources.jar"));
+		projects.add(project("randomcoder-taglibs", "JSP tag libraries for common website functionality", "org/randomcoder/randomcoder-taglibs", ".jar", "-javadoc.jar", "-sources.jar", "-tlddoc.jar"));
 
-		LocalMavenRepository repo = new LocalMavenRepository();
+		RemoteMavenRepository repo = new RemoteMavenRepository();
 		repo.setUrl(new URL("https://randomcoder.org/nexus/content/repositories/releases/"));
-		repo.setDir(new File(env.getRequiredProperty("maven.repository.dir")));
 		repo.setProjects(projects);
 
 		return repo;
 	}
 
-	private MavenProject project(String name, String desc, String dir)
+	private MavenProject project(String name, String desc, String dir, String... extensions)
 	{
 		Map<String, String> extMap = new HashMap<String, String>();
 		extMap.put(".jar", "jar");
@@ -51,6 +45,8 @@ public class DownloadConfig
 		extMap.put("-javadoc.jar", "javadoc");
 		extMap.put("-tlddoc.jar", "tlddoc");
 
+		extMap.keySet().retainAll(Arrays.asList(extensions));
+		
 		MavenProject project = new MavenProject();
 		project.setProjectName(name);
 		project.setProjectDescription(desc);
@@ -71,7 +67,7 @@ public class DownloadConfig
 
 	@Bean
 	public CachingPackageListProducer cachingMavenRepository(
-			@Named("mavenRepository") final LocalMavenRepository mavenRepository)
+			@Named("mavenRepository") final PackageListProducer mavenRepository)
 	{
 		CachingPackageListProducer prod = new CachingPackageListProducer();
 		prod.setTarget(mavenRepository);

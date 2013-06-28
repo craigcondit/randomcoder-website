@@ -55,6 +55,7 @@ public class AggregatePackageListProducer implements PackageListProducer
 					current = new Package();
 					current.setName(pkg.getName());
 					current.setDescription(pkg.getDescription());
+					current.setBaseUrl(pkg.getBaseUrl());
 					packageList.add(current);
 					packageMap.put(pkgName, current);
 				}

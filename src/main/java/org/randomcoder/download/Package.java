@@ -1,6 +1,7 @@
 package org.randomcoder.download;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -12,7 +13,29 @@ public class Package implements Serializable, Comparable<Package>
 
 	private String name;
 	private String description;
+	private URL baseUrl;
 	private final List<FileSet> fileSets = new ArrayList<>();
+
+	/**
+	 * Sets the base URL of this package.
+	 * 
+	 * @param baseUrl
+	 *          base URL
+	 */
+	public void setBaseUrl(URL baseUrl)
+	{
+		this.baseUrl = baseUrl;
+	}
+
+	/**
+	 * Gets the base URL of this package.
+	 * 
+	 * @return base URL
+	 */
+	public URL getBaseUrl()
+	{
+		return baseUrl;
+	}
 
 	/**
 	 * Gets the name of this package.
