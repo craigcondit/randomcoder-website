@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>randomcoder-base</artifactId>
 		<groupId>org.randomcoder</groupId>
-		<version>24</version>
+		<version>25</version>
 	</parent>
 	<groupId>org.randomcoder</groupId>
 	<artifactId>randomcoder-website</artifactId>
@@ -13,20 +13,20 @@
 	<url>https://randomcoder.org/</url>
 	<inceptionYear>2006</inceptionYear>
 	<scm>
-		<connection>scm:git:https://scm.randomcoder.org/git/randomcoder-website</connection>
-		<developerConnection>scm:git:https://scm.randomcoder.org/git/randomcoder-website</developerConnection>
+		<connection>scm:git:https://randomcoder.org/scm/git/randomcoder-website</connection>
+		<developerConnection>scm:git:https://randomcoder.org/scm/git/randomcoder-website</developerConnection>
 		<url>https://randomcoder.org/cgit/public/randomcoder-website</url>
 	  <tag>HEAD</tag>
   </scm>
 	<distributionManagement>
 		<site>
 			<id>randomcoder-site</id>
-			<url>dav:https://randomcoder.org/nexus/content/sites/${project.artifactId}</url>
+			<url>dav:https://${repository.host}/nexus/content/sites/${project.artifactId}</url>
 		</site>
 	</distributionManagement>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<randomcoder.taglibs.version>1.6.9</randomcoder.taglibs.version>
+		<randomcoder.taglibs.version>1.6.10</randomcoder.taglibs.version>
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<spring.data.jpa.version>1.3.2.RELEASE</spring.data.jpa.version>
