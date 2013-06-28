@@ -5,6 +5,7 @@ import javax.servlet.http.*;
 /**
  * HTTP servlet response wrapper which does no encoding of URLs.
  */
+@SuppressWarnings("deprecation")
 public class NullEncodingHttpServletResponse extends HttpServletResponseWrapper
 {
 	/**
