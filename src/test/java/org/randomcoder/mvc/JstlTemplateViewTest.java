@@ -96,6 +96,7 @@ public class JstlTemplateViewTest
 		
 		expect(wac.getServletContext()).andStubReturn(null);
 		expect(wac.getBean(isA(String.class), isA(Class.class))).andStubReturn(null);
+		expect(wac.containsBean("requestDataValueProcessor")).andStubReturn(false);
 		
 		req.setAttribute(eq("template"), capture(cm));
 		
