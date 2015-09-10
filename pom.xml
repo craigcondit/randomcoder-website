@@ -8,7 +8,7 @@
 	<groupId>org.randomcoder</groupId>
 	<artifactId>randomcoder-website</artifactId>
 	<name>Randomcoder Website</name>
-	<version>3.1.8-SNAPSHOT</version>
+	<version>3.1.9-SNAPSHOT</version>
 	<description>This project contains the RandomCoder.Org website.</description>
 	<url>https://randomcoder.org/</url>
 	<inceptionYear>2006</inceptionYear>
@@ -352,6 +352,13 @@
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>${maven.release.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe<artifactId>
+						<version>1.8.1</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
