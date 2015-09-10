@@ -51,7 +51,7 @@
 		<maven.surefire.report.plugin.version>2.14.1</maven.surefire.report.plugin.version>
 		<maven.javadoc.plugin.version>2.9</maven.javadoc.plugin.version>
 		<sql.maven.plugin.version>1.5</sql.maven.plugin.version>
-		<maven.release.plugin.version>2.4.1</maven.release.plugin.version>
+		<maven.release.plugin.version>2.5.2</maven.release.plugin.version>
 		<maven.shade.plugin.version>2.1</maven.shade.plugin.version>
 		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>    
 	</properties>
@@ -352,13 +352,6 @@
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<version>${maven.release.plugin.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.scm</groupId>
-						<artifactId>maven-scm-providers-git</artifactId>
-						<version>1.9.4</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
