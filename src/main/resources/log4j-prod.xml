@@ -1,14 +1,7 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-	<appender name="file" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/srv/randomcoder-website/logs/randomcoder-website.log" />
-		<param name="MaxBackupIndex" value="10" />
-		<param name="MaximumFileSize" value="10000000" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{d-MMM HH:mm:ss} - %-5.5p - %c - %m%n" />
-		</layout>
-	</appender>
+  <appender name="journal" class="de.bwaldvogel.SystemdJournalAppender" />
 	
 	<logger name="org.randomcoder">
 		<level value="info" />
@@ -56,7 +49,7 @@
 
 	<root>
 		<priority value="debug" />
-		<appender-ref ref="file" />
+		<appender-ref ref="journal" />
 	</root>
 
 </log4j:configuration>

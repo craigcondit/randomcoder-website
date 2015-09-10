@@ -44,6 +44,7 @@
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<commons.logging.version>1.1</commons.logging.version>
 		<javax.inject.version>1</javax.inject.version>
+    <log4j.systemd.journal.appender.version>1.1.1</log4j.systemd.journal.appender.version>
 		<maven.project.info.reports.plugin.version>2.7</maven.project.info.reports.plugin.version>
 		<jacoco.maven.plugin.version>0.6.3.201306030806</jacoco.maven.plugin.version>
 		<maven.surefire.plugin.version>2.14.1</maven.surefire.plugin.version>
@@ -52,7 +53,7 @@
 		<sql.maven.plugin.version>1.5</sql.maven.plugin.version>
 		<maven.release.plugin.version>2.4.1</maven.release.plugin.version>
 		<maven.shade.plugin.version>2.1</maven.shade.plugin.version>
-		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>    
 	</properties>
 	<dependencies>
 		<dependency>
@@ -236,6 +237,11 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
 		</dependency>
+    <dependency>
+      <groupId>de.bwaldvogel</groupId>
+      <artifactId>log4j-systemd-journal-appender</artifactId>
+      <version>${log4j.systemd.journal.appender.version}</version>
+    </dependency>
 	</dependencies>
 	<build>
 		<resources>
