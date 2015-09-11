@@ -44,7 +44,7 @@
 		<commons.httpclient.version>3.1</commons.httpclient.version>
 		<commons.logging.version>1.1</commons.logging.version>
 		<javax.inject.version>1</javax.inject.version>
-		<log4j.systemd.journal.appender.version>1.1.1</log4j.systemd.journal.appender.version>
+		<randomcoder.log4j.systemd.journal.version>1.0.2</randomcoder.log4j.systemd.journal.version>
 		<maven.project.info.reports.plugin.version>2.7</maven.project.info.reports.plugin.version>
 		<jacoco.maven.plugin.version>0.7.5.201505241946</jacoco.maven.plugin.version>
 		<maven.surefire.plugin.version>2.14.1</maven.surefire.plugin.version>
@@ -238,9 +238,9 @@
 			<version>${hibernate.validator.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>de.bwaldvogel</groupId>
-			<artifactId>log4j-systemd-journal-appender</artifactId>
-			<version>${log4j.systemd.journal.appender.version}</version>
+			<groupId>com.randomcoder</groupId>
+			<artifactId>randomcoder-log4j-systemd-journal</artifactId>
+			<version>${randomcoder.log4j.systemd.journal.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
