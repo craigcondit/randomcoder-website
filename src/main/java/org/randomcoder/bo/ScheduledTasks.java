@@ -3,7 +3,6 @@ package org.randomcoder.bo;
 import javax.inject.*;
 
 import org.apache.commons.logging.*;
-import org.randomcoder.download.cache.CachingPackageListProducer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,6 @@ public class ScheduledTasks
 	public static final int DEFAULT_MODERATION_BATCH_SIZE = 5;
 
 	private ArticleBusiness articleBusiness;
-	private CachingPackageListProducer cachingMavenRepository;
 
 	private int moderationBatchSize = DEFAULT_MODERATION_BATCH_SIZE;
 
@@ -36,19 +34,6 @@ public class ScheduledTasks
 	public void setArticleBusiness(ArticleBusiness articleBusiness)
 	{
 		this.articleBusiness = articleBusiness;
-	}
-
-	/**
-	 * Sets the caching maven repository.
-	 * 
-	 * @param cachingMavenRepository
-	 *            caching maven repository
-	 */
-	@Inject
-	@Named("cachingMavenRepository")
-	public void setCachingMavenRepository(CachingPackageListProducer cachingMavenRepository)
-	{
-		this.cachingMavenRepository = cachingMavenRepository;
 	}
 
 	/**
@@ -84,19 +69,4 @@ public class ScheduledTasks
 		}
 	}
 
-	/**
-	 * Refreshes the maven repository.
-	 */
-	@Scheduled(cron = "0 */30 * * * *")
-	public void refreshMavenRepository()
-	{
-		try
-		{
-			cachingMavenRepository.refresh();
-		}
-		catch (Exception e)
-		{
-			logger.error("Error while refreshing maven repository", e);
-		}
-	}
 }
