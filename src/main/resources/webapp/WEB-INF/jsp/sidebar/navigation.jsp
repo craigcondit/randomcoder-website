@@ -6,7 +6,7 @@
 	<ul class="nav">
 	  <li><a href="${homeUrl}">Home</a></li>
 	  <li class="navbreak"><a href="https://bintray.com/insideo/randomcoder-release" class="external">Download</a></li>
-	  <li><a href="https://github.com/search?q=user%3Ainsideo+randomcoder-" class="external">Git repositories</a></li>
+	  <li><a href="https://github.com/search?q=user%3Ainsideo+randomcoder-" class="external">Source code</a></li>
 		<li class="navbreak"><a href="${aboutUrl}">About this site</a></li>
 	</ul>
 </div>
