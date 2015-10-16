@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>randomcoder-base</artifactId>
+    <artifactId>randomcoder-parent</artifactId>
     <groupId>org.randomcoder</groupId>
-    <version>27</version>
+    <version>1</version>
   </parent>
   <groupId>org.randomcoder</groupId>
   <artifactId>randomcoder-website</artifactId>
@@ -18,6 +18,25 @@
     <url>https://github.com/insideo/randomcoder-website</url>
     <tag>HEAD</tag>
   </scm>
+  <developers>
+    <developer>
+      <id>ccondit</id>
+      <name>Craig Condit</name>
+      <email>ccondit@randomcoder.org</email>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>New BSD License</name>
+      <url>http://www.opensource.org/licenses/bsd-license.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
   <repositories>
     <repository>
       <id>bintray-randomcoder-release</id>
@@ -32,7 +51,8 @@
   </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <randomcoder.taglibs.version>1.6.11</randomcoder.taglibs.version>
+    <randomcoder.taglibs.version>1.6.12</randomcoder.taglibs.version>
+    <randomcoder.log4j.systemd.journal.version>1.0.7</randomcoder.log4j.systemd.journal.version>
     <spring.version>4.0.2.RELEASE</spring.version>
     <spring.security.version>3.2.2.RELEASE</spring.security.version>
     <spring.data.jpa.version>1.5.1.RELEASE</spring.data.jpa.version>
@@ -50,7 +70,6 @@
     <commons.httpclient.version>3.1</commons.httpclient.version>
     <commons.logging.version>1.1</commons.logging.version>
     <javax.inject.version>1</javax.inject.version>
-    <randomcoder.log4j.systemd.journal.version>1.0.6</randomcoder.log4j.systemd.journal.version>
     <maven.project.info.reports.plugin.version>2.7</maven.project.info.reports.plugin.version>
     <jacoco.maven.plugin.version>0.7.5.201505241946</jacoco.maven.plugin.version>
     <maven.surefire.plugin.version>2.14.1</maven.surefire.plugin.version>
