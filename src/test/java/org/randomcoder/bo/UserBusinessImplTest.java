@@ -86,7 +86,7 @@ public class UserBusinessImplTest
 
 		cmd.setRoles(new Role[] { testRole });
 
-		Capture<User> created = new Capture<>();
+		Capture<User> created = newCapture();
 
 		expect(ur.save(capture(created))).andReturn(null);
 		control.replay();
@@ -107,7 +107,7 @@ public class UserBusinessImplTest
 		cmd.setPassword2("testCreate1");
 		cmd.setWebsite("http://www.example.com/");
 
-		Capture<User> created = new Capture<>();
+		Capture<User> created = newCapture();
 
 		expect(ur.save(capture(created))).andReturn(null);
 		control.replay();
@@ -135,7 +135,7 @@ public class UserBusinessImplTest
 		cmd.setPassword("testPassword2");
 		cmd.setPassword2("testPassword2");
 
-		Capture<User> saved = new Capture<>();
+		Capture<User> saved = newCapture();
 
 		expect(ur.findOne(1L)).andReturn(user);
 		expect(ur.save(capture(saved))).andReturn(null);

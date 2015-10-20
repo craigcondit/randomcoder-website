@@ -56,8 +56,8 @@ public class AbsArticleListControllerTest
 		List<TagCloudEntry> tc = new ArrayList<>();
 		tc.add(new TagCloudEntry(new TagStatistics(tag, 1), 1));
 		
-		Capture<List<ArticleDecorator>> ad = new Capture<>();
-		Capture<boolean[]> days = new Capture<>();
+		Capture<List<ArticleDecorator>> ad = newCapture();
+		Capture<boolean[]> days = newCapture();
 		
 		Pageable pr = new PageRequest(0, 10);
 		

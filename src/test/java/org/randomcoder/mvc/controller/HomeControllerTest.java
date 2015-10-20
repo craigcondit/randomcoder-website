@@ -69,7 +69,7 @@ public class HomeControllerTest
 		List<Article> articles = new ArrayList<>();
 		Page<Article> page = new PageImpl<>(articles);
 
-		Capture<Pageable> pageCap = new Capture<>();
+		Capture<Pageable> pageCap = newCapture();
 
 		expect(ab.listArticlesBeforeDate(eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
@@ -89,7 +89,7 @@ public class HomeControllerTest
 	@Test
 	public void testHome()
 	{
-		Capture<Pageable> pageCap = new Capture<>();
+		Capture<Pageable> pageCap = newCapture();
 
 		expect(ab.listArticlesBetweenDates(isA(Date.class), isA(Date.class))).andReturn(Collections.<Article> emptyList());
 		expect(ab.listArticlesBeforeDate(isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article> emptyList()));

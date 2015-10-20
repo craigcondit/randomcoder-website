@@ -52,7 +52,7 @@ public class FeedControllerTest
 	@Test
 	public void testAtomAllFeed() throws Exception
 	{
-		Capture<FeedInfo> fi = new Capture<>();
+		Capture<FeedInfo> fi = newCapture();
 		List<Article> articles = Collections.singletonList(new Article());
 		
 		expect(ab.listRecentArticles(20)).andReturn(articles);
@@ -78,7 +78,7 @@ public class FeedControllerTest
 	@Test
 	public void testRss20AllFeed() throws Exception
 	{
-		Capture<FeedInfo> fi = new Capture<>();
+		Capture<FeedInfo> fi = newCapture();
 		List<Article> articles = Collections.singletonList(new Article());
 		
 		expect(ab.listRecentArticles(20)).andReturn(articles);

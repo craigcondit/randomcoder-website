@@ -90,7 +90,7 @@ public class JstlTemplateViewTest
 		parent.setTemplateAttributes(parentMap);
 		view.setTemplateAttributes(childMap);
 
-		Capture<Object> cm = new Capture<>();
+		Capture<Object> cm = newCapture();
 
 		control.reset();
 		

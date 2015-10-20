@@ -147,7 +147,7 @@ public class UserControllerTest
 		Page<User> page = new PageImpl<>(users);
 
 		Pageable pr = new PageRequest(0, 20);
-		Capture<Pageable> pc = new Capture<>();
+		Capture<Pageable> pc = newCapture();
 
 		expect(ub.findAll(capture(pc))).andReturn(page);
 		expect(m.addAttribute("users", page)).andReturn(m);
@@ -168,7 +168,7 @@ public class UserControllerTest
 		Page<User> page = new PageImpl<>(users);
 
 		Pageable pr = new PageRequest(0, 100);
-		Capture<Pageable> pc = new Capture<>();
+		Capture<Pageable> pc = newCapture();
 
 		expect(ub.findAll(capture(pc))).andReturn(page);
 		expect(m.addAttribute("users", page)).andReturn(m);

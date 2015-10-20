@@ -85,7 +85,7 @@ public class ArticleTagListControllerTest
 		List<Article> articles = new ArrayList<>();
 		Page<Article> page = new PageImpl<>(articles);
 		
-		Capture<Pageable> pageCap = new Capture<>();
+		Capture<Pageable> pageCap = newCapture();
 		
 		expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
@@ -120,7 +120,7 @@ public class ArticleTagListControllerTest
 		
 		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		
-		Capture<Pageable> pageCap = new Capture<>();
+		Capture<Pageable> pageCap = newCapture();
 		
 		expect(tb.findTagByName("tag")).andReturn(tag);
 		expect(ab.listArticlesByTagBetweenDates(same(tag), isA(Date.class), isA(Date.class))).andReturn(Collections.<Article>emptyList());
