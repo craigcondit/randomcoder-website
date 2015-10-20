@@ -1,12 +1,24 @@
 package org.randomcoder.content;
 
-import java.io.IOException;
-import java.net.*;
-import java.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLFilter;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.XMLFilterImpl;
 
-import org.apache.commons.logging.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * {@link XMLFilter} implementation which filters out dangerous and/or
@@ -44,7 +56,7 @@ import org.xml.sax.helpers.*;
  */
 public class XHTMLReader extends XMLFilterImpl
 {
-	private static final Log logger = LogFactory.getLog(XHTMLReader.class);
+	private static final Logger logger = LoggerFactory.getLogger(XHTMLReader.class);
 	
 	private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
 	private static final String HTML = "html".toLowerCase(Locale.US);

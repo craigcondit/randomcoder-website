@@ -1,21 +1,26 @@
 package org.randomcoder.mvc.editor;
 
-import java.beans.PropertyEditorSupport;
-import java.util.*;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.*;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.Tag;
 import org.randomcoder.tag.TagList;
 import org.randomcoder.validation.DataValidationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.beans.PropertyEditorSupport;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Tag list property editor.
  */
 public class TagListPropertyEditor extends PropertyEditorSupport
 {
-	private static final Log logger = LogFactory.getLog(TagListPropertyEditor.class);
+	private static final Logger logger = LoggerFactory.getLogger(TagListPropertyEditor.class);
 
 	private TagBusiness tagBusiness;
 

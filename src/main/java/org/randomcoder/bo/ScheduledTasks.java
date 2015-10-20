@@ -1,11 +1,12 @@
 package org.randomcoder.bo;
 
-import javax.inject.*;
-
-import org.apache.commons.logging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.inject.Inject;
 
 /**
  * Various scheduled tasks.
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component("scheduledTasks")
 public class ScheduledTasks
 {
-	private static final Log logger = LogFactory.getLog(ScheduledTasks.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
 	/**
 	 * Default moderation batch size.

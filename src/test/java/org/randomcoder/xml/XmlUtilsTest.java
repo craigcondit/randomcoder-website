@@ -1,16 +1,26 @@
 package org.randomcoder.xml;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.*;
+import java.io.StringReader;
+import java.io.StringWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.commons.logging.*;
-import org.junit.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
 
 @SuppressWarnings("javadoc")
 public class XmlUtilsTest
@@ -26,12 +36,12 @@ public class XmlUtilsTest
 	private static final String PUBLIC_ID = "Public ID";
 	private static final String SYSTEM_ID = "system.dtd";
 
-	private Log log;
+	private Logger log;
 
 	@Before
 	public void setUp()
 	{
-		log = LogFactory.getLog("test");
+		log = LoggerFactory.getLogger("test");
 	}
 
 	@After

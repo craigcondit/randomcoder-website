@@ -1,14 +1,16 @@
 package org.randomcoder.bo;
 
-import java.io.*;
-import java.util.Properties;
-
-import javax.inject.Inject;
-
-import org.apache.commons.logging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+import javax.inject.Inject;
 
 /**
  * JavaBean which holds application information.
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component("appInfoBusiness")
 public class AppInfoBusinessImpl implements AppInfoBusiness
 {
-	private static final Log logger = LogFactory.getLog(AppInfoBusinessImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppInfoBusinessImpl.class);
 
 	private static final String APP_NAME_PROPERTY = "application.name";
 	private static final String APP_VERSION_PROPERTY = "application.version";

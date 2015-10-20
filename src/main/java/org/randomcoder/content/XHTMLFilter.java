@@ -1,19 +1,29 @@
 package org.randomcoder.content;
 
-import java.io.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
-import javax.xml.transform.*;
+import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.*;
-
-import org.apache.commons.logging.*;
-import org.springframework.beans.factory.annotation.Required;
-import org.xml.sax.*;
-import org.xml.sax.helpers.XMLReaderFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 /**
  * Simple XHTML content filter.
@@ -53,7 +63,7 @@ public class XHTMLFilter implements ContentFilter
 	/**
 	 * Apache logger.
 	 */
-	protected static final Log logger = LogFactory.getLog(XHTMLFilter.class);
+	protected static final Logger logger = LoggerFactory.getLogger(XHTMLFilter.class);
 	
 	private static final String XSL_RESOURCE = "xhtml-to-xhtml.xsl";
 	private static final String XSD_RESOURCE = "xhtml1-transitional.xsd";

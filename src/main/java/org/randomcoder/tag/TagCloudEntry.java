@@ -1,6 +1,7 @@
 package org.randomcoder.tag;
 
-import org.apache.commons.logging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Statisitics for Tag instances with extensions for creating tag clouds.
@@ -9,7 +10,7 @@ public class TagCloudEntry extends TagStatistics
 {
 	private static final long serialVersionUID = 7928407251644710555L;
 
-	private static final Log logger = LogFactory.getLog(TagCloudEntry.class);
+	private static final Logger logger = LoggerFactory.getLogger(TagCloudEntry.class);
 
 	private int scale;
 

@@ -1,17 +1,19 @@
 package org.randomcoder.validation;
 
-import java.net.*;
-import java.util.Locale;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Locale;
 
 /**
  * Convenience methods to validate common data types.
  */
 public final class DataValidationUtils
 {
-	private static final Log logger = LogFactory.getLog(DataValidationUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(DataValidationUtils.class);
 
 	private DataValidationUtils()
 	{}

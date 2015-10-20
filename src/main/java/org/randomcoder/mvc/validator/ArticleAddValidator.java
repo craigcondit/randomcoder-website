@@ -1,19 +1,28 @@
 package org.randomcoder.mvc.validator;
 
-import java.io.*;
-import java.util.*;
-
-import javax.inject.*;
-
-import org.apache.commons.logging.*;
 import org.randomcoder.bo.ArticleBusiness;
-import org.randomcoder.content.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.content.InvalidContentException;
+import org.randomcoder.content.InvalidContentTypeException;
 import org.randomcoder.db.Article;
 import org.randomcoder.io.SequenceReader;
 import org.randomcoder.mvc.command.ArticleAddCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.*;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Validator for adding articles.
@@ -31,7 +40,7 @@ public class ArticleAddValidator implements Validator
 	private static final String ERROR_ARTICLE_PERMALINK_INVALID = "error.article.permalink.invalid";
 	private static final int DEFAULT_MAX_SUMMARY_LENGTH = 1000;
 
-	private static final Log logger = LogFactory.getLog(ArticleAddValidator.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleAddValidator.class);
 
 	/**
 	 * Message resource for permalink exists message.

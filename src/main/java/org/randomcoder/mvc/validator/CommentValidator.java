@@ -1,17 +1,26 @@
 package org.randomcoder.mvc.validator;
 
-import java.io.*;
-import java.util.*;
-
-import javax.inject.*;
-
-import org.apache.commons.logging.*;
-import org.randomcoder.content.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.content.InvalidContentException;
+import org.randomcoder.content.InvalidContentTypeException;
 import org.randomcoder.io.SequenceReader;
 import org.randomcoder.mvc.command.CommentCommand;
 import org.randomcoder.validation.DataValidationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.*;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  * Validator for posting comments.
@@ -31,7 +40,7 @@ public class CommentValidator implements Validator
 	private static final String ERROR_COMMENT_CONTENT_REQUIRED = "error.comment.content.required";
 	private static final String ERROR_COMMENT_CONTENT_INVALID = "error.comment.content.invalid";
 
-	private static final Log logger = LogFactory.getLog(CommentValidator.class);
+	private static final Logger logger = LoggerFactory.getLogger(CommentValidator.class);
 
 	private ContentFilter contentFilter;
 

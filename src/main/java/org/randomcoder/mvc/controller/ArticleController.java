@@ -1,29 +1,45 @@
 package org.randomcoder.mvc.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.security.Principal;
-import java.util.*;
-
-import javax.inject.*;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.logging.*;
-import org.randomcoder.article.*;
-import org.randomcoder.bo.*;
-import org.randomcoder.content.*;
+import org.randomcoder.article.ArticleDecorator;
+import org.randomcoder.article.ArticleNotFoundException;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentType;
 import org.randomcoder.db.Article;
-import org.randomcoder.mvc.command.*;
-import org.randomcoder.mvc.editor.*;
-import org.randomcoder.mvc.validator.*;
+import org.randomcoder.mvc.command.ArticleAddCommand;
+import org.randomcoder.mvc.command.ArticleEditCommand;
+import org.randomcoder.mvc.command.CommentCommand;
+import org.randomcoder.mvc.editor.EnumPropertyEditor;
+import org.randomcoder.mvc.editor.TagListPropertyEditor;
+import org.randomcoder.mvc.validator.ArticleAddValidator;
+import org.randomcoder.mvc.validator.ArticleEditValidator;
+import org.randomcoder.mvc.validator.CommentValidator;
 import org.randomcoder.tag.TagList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UrlPathHelper;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class for managing articles.
@@ -31,7 +47,7 @@ import org.springframework.web.util.UrlPathHelper;
 @Controller("articleController")
 public class ArticleController
 {
-	private static final Log logger = LogFactory.getLog(ArticleController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
 	private ArticleBusiness articleBusiness;
 	private TagBusiness tagBusiness;

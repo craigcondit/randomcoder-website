@@ -1,11 +1,11 @@
 package org.randomcoder.mvc.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleTagListCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,7 +24,7 @@ import java.util.Locale;
 @Controller("articleTagListController")
 public class ArticleTagListController extends AbstractArticleListController<ArticleTagListCommand>
 {
-	private static final Log logger = LogFactory.getLog(ArticleTagListController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleTagListController.class);
 
 	@Override
 	protected Page<Article> listArticlesBeforeDate(ArticleTagListCommand command, Date cutoffDate, Pageable pageable)

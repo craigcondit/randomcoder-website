@@ -1,22 +1,30 @@
 package org.randomcoder.article.moderation;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.randomcoder.bo.AppInfoBusiness;
+import org.randomcoder.db.Comment;
+import org.randomcoder.db.CommentIp;
+import org.randomcoder.db.CommentReferrer;
+import org.randomcoder.db.CommentUserAgent;
+import org.randomcoder.db.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Required;
+
 import java.io.IOException;
 import java.util.Locale;
-
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.logging.*;
-import org.randomcoder.bo.AppInfoBusiness;
-import org.randomcoder.db.*;
-import org.springframework.beans.factory.*;
-import org.springframework.beans.factory.annotation.Required;
 
 /**
  * Moderator implementation which queries Akismet.
  */
 public class AkismetModerator implements Moderator, InitializingBean, DisposableBean
 {
-	private static final Log logger = LogFactory.getLog(AkismetModerator.class);
+	private static final Logger logger = LoggerFactory.getLogger(AkismetModerator.class);
 
 	private MultiThreadedHttpConnectionManager connectionManager;
 

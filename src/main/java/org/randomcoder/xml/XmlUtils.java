@@ -1,22 +1,35 @@
 package org.randomcoder.xml;
 
-import java.io.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.*;
-
-import org.apache.commons.logging.*;
-import org.w3c.dom.*;
-import org.xml.sax.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * Various convenience methods to get data in and out of DOM, pretty print, etc.
  */
 public final class XmlUtils
 {
-	private static final Log logger = LogFactory.getLog(XmlUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(XmlUtils.class);
 
 	private XmlUtils()
 	{}
@@ -146,7 +159,7 @@ public final class XmlUtils
 	 * @param doc
 	 *          document to write
 	 */
-	public static void logXml(Log log, Document doc)
+	public static void logXml(Logger log, Document doc)
 	{
 		logXml(log, null, doc, null, null);
 	}
@@ -163,7 +176,7 @@ public final class XmlUtils
 	 * @param systemId
 	 *          system id for dtd or null for none
 	 */
-	public static void logXml(Log log, Document doc, String publicId, String systemId)
+	public static void logXml(Logger log, Document doc, String publicId, String systemId)
 	{
 		logXml(log, null, doc, publicId, systemId);
 	}
@@ -178,7 +191,7 @@ public final class XmlUtils
 	 * @param doc
 	 *          document to write
 	 */
-	public static void logXml(Log log, String message, Document doc)
+	public static void logXml(Logger log, String message, Document doc)
 	{
 		logXml(log, message, doc, null, null);
 	}
@@ -197,7 +210,7 @@ public final class XmlUtils
 	 * @param systemId
 	 *          system id for dtd or null for none
 	 */
-	public static void logXml(Log log, String message, Document doc, String publicId, String systemId)
+	public static void logXml(Logger log, String message, Document doc, String publicId, String systemId)
 	{
 		if (!log.isDebugEnabled())
 		{

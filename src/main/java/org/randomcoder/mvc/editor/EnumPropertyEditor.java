@@ -1,8 +1,9 @@
 package org.randomcoder.mvc.editor;
 
-import java.beans.PropertyEditorSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.commons.logging.*;
+import java.beans.PropertyEditorSupport;
 
 /**
  * Enum property editor support.
@@ -10,7 +11,7 @@ import org.apache.commons.logging.*;
 @SuppressWarnings("rawtypes")
 public class EnumPropertyEditor extends PropertyEditorSupport
 {
-	private static final Log logger = LogFactory.getLog(EnumPropertyEditor.class);
+	private static final Logger logger = LoggerFactory.getLogger(EnumPropertyEditor.class);
 
 	private Class<? extends Enum> enumType;
 

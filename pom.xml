@@ -71,7 +71,6 @@
     <easymock.version>3.4</easymock.version>
     <commons.codec.version>1.10</commons.codec.version>
     <commons.httpclient.version>3.1</commons.httpclient.version>
-    <commons.logging.api.version>1.1</commons.logging.api.version>
     <javax.inject.version>1</javax.inject.version>
     <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
     <maven.project.info.reports.plugin.version>2.8.1</maven.project.info.reports.plugin.version>
@@ -103,11 +102,6 @@
        <version>${hsqldb.version}</version>
        <scope>test</scope>
      </dependency>
-    <dependency>
-      <groupId>commons-logging</groupId>
-      <artifactId>commons-logging-api</artifactId>
-      <version>${commons.logging.api.version}</version>
-    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>

@@ -1,13 +1,13 @@
 package org.randomcoder.mvc.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.mvc.command.TagAddCommand;
 import org.randomcoder.mvc.command.TagEditCommand;
 import org.randomcoder.mvc.validator.TagAddValidator;
 import org.randomcoder.mvc.validator.TagEditValidator;
 import org.randomcoder.tag.TagStatistics;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +33,7 @@ import javax.inject.Inject;
 @Controller("tagController")
 public class TagController
 {
-	private static final Log logger = LogFactory.getLog(TagController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TagController.class);
 
 	private TagBusiness tagBusiness;
 	private TagAddValidator tagAddValidator;

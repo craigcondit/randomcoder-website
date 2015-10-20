@@ -1,23 +1,48 @@
 package org.randomcoder.bo;
 
-import java.util.*;
-
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.*;
 import org.hibernate.Hibernate;
 import org.randomcoder.article.ArticleNotFoundException;
 import org.randomcoder.article.comment.CommentNotFoundException;
-import org.randomcoder.article.moderation.*;
-import org.randomcoder.db.*;
-import org.randomcoder.io.*;
+import org.randomcoder.article.moderation.ModerationException;
+import org.randomcoder.article.moderation.ModerationStatus;
+import org.randomcoder.article.moderation.Moderator;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.ArticleRepository;
+import org.randomcoder.db.Comment;
+import org.randomcoder.db.CommentIp;
+import org.randomcoder.db.CommentIpRepository;
+import org.randomcoder.db.CommentReferrer;
+import org.randomcoder.db.CommentReferrerRepository;
+import org.randomcoder.db.CommentRepository;
+import org.randomcoder.db.CommentUserAgent;
+import org.randomcoder.db.CommentUserAgentRepository;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.RoleRepository;
+import org.randomcoder.db.Tag;
+import org.randomcoder.db.TagRepository;
+import org.randomcoder.db.User;
+import org.randomcoder.db.UserRepository;
+import org.randomcoder.io.Consumer;
+import org.randomcoder.io.Producer;
 import org.randomcoder.security.UnauthorizedException;
-import org.randomcoder.user.*;
-import org.springframework.data.domain.*;
+import org.randomcoder.user.RoleNotFoundException;
+import org.randomcoder.user.UserNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Business implementation which handles articles.
@@ -25,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component("articleBusiness")
 public class ArticleBusinessImpl implements ArticleBusiness
 {
-	private static final Log logger = LogFactory.getLog(ArticleBusinessImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(ArticleBusinessImpl.class);
 
 	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
 	private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
