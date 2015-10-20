@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="main(pageTitle)">
+	<head>
+		<title tr:include="randomCoder : ${pageTitle}"></title>
+		<link rel="favorite icon" th:href="@{/favicon.ico}" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/site.css}" />
+		<!--[if IE]>
+			<link rel="stylesheet" type="text/css" th:href="@{/css/site-ie.css}" />
+		<![endif]-->
+		<!--[if lt IE 7.]>
+			<link rel="stylesheet" type="text/css" th:href="@{/css/site-iepre7.css}" />
+		<![endif]-->
+		<!--[if lt IE 6]>
+			<link rel="stylesheet" type="text/css" th:href="@{/css/site-ie5.css}" />
+		<![endif]-->
+    <script type="text/javascript">
+      __csrf="${_csrf.token}";
+    </script>
+		<script type="text/javascript" th:src="@{/js/lib/jquery-1.10.1.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/ui.js}"></script>
+		<c:if test="${template.javascript != null}">
+			<script type="text/javascript" th:src="@{/js/${template.javascript}}"></script>
+		</c:if>
+		<c:if test="${template.javascripts != null}">
+			<c:forEach var="javascript" items="${template.javascripts}">
+				<script type="text/javascript" src="${pageContext.request.contextPath}/js/${javascript}"></script>
+			</c:forEach>
+		</c:if>
+		<c:if test="${template.head != null}">
+			<jsp:include page="${template.head}" flush="true" />  
+		</c:if>
+	</head>
+	<body>
+		<c:if test="${template.header != null}">
+			<div id="header"><jsp:include page="${template.header}" flush="true" /></div>
+		</c:if>
+	  
+		<div id="left">
+			<c:if test="${template.left != null}">
+				<c:forEach var="leftPage" items="${template.left}">
+					<div class="left"><jsp:include page="${leftPage}" flush="true" /></div>
+				</c:forEach>
+			</c:if>
+		</div>
+	  
+		<div id="content">
+			<c:if test="${template.content != null}">
+				<c:forEach var="contentPage" items="${template.content}">
+					<div class="content"><jsp:include page="${contentPage}" flush="true" /></div>
+				</c:forEach>
+			</c:if>
+			
+			<c:if test="${template.footer != null}">
+				<div id="footer"><jsp:include page="${template.footer}" flush="true" /></div>
+			</c:if>			
+		</div>
+	  
+		<div id="right">
+			<c:if test="${template.right != null}">
+				<c:forEach var="rightPage" items="${template.right}">
+					<div class="right"><jsp:include page="${rightPage}" flush="true" /></div>
+				</c:forEach>
+			</c:if>
+		</div>
+	</body>
+</html>
