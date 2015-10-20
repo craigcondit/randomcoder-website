@@ -12,7 +12,7 @@
 </div>
 <div class="sectionContent">
   <form method="post" action="${formAction}">
-  
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<spring:bind path="command">
 			<c:if test="${fn:length(status.errorMessages) > 0}">
 				<c:forEach items="${status.errorMessages}" var="error">

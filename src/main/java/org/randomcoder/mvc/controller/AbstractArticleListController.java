@@ -13,7 +13,7 @@ import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefaults;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 
 /**
@@ -137,7 +137,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 * @param pageable
 	 *          paging variables
 	 */
-	protected final void populateModel(T command, Model model, @PageableDefaults(10) Pageable pageable)
+	protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable)
 	{
 		// set range and sort order
 		int size = pageable.getPageSize();

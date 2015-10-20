@@ -1,16 +1,22 @@
 package org.randomcoder.mvc.controller;
 
-import java.util.*;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.*;
-import org.randomcoder.db.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleTagListCommand;
-import org.springframework.data.domain.*;
-import org.springframework.data.web.PageableDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Controller class which handles displaying articles by tag.
@@ -56,7 +62,7 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 	public String tagList(
 			ArticleTagListCommand command, Model model,
 			@PathVariable("tagName") String tagName,
-			@PageableDefaults(10) Pageable pageable)
+			@PageableDefault(10) Pageable pageable)
 	{
 		tagName = StringUtils.trimToEmpty(tagName).toLowerCase(Locale.US);
 		logger.debug("Tag name: " + tagName);

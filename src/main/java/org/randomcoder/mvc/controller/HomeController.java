@@ -1,14 +1,16 @@
 package org.randomcoder.mvc.controller;
 
-import java.util.*;
-
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticleListCommand;
-import org.springframework.data.domain.*;
-import org.springframework.data.web.PageableDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Controller class which handles the front page of the site.
@@ -47,7 +49,7 @@ public class HomeController extends AbstractArticleListController<ArticleListCom
 	 * @return home view
 	 */
 	@RequestMapping("")
-	public String home(ArticleListCommand command, Model model, @PageableDefaults(10) Pageable pageable)
+	public String home(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable)
 	{
 		populateModel(command, model, pageable);
 		return "home";

@@ -1,21 +1,31 @@
 package org.randomcoder.mvc.controller;
 
-import javax.inject.Inject;
-
-import org.apache.commons.logging.*;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.randomcoder.bo.TagBusiness;
-import org.randomcoder.mvc.command.*;
-import org.randomcoder.mvc.validator.*;
+import org.randomcoder.mvc.command.TagAddCommand;
+import org.randomcoder.mvc.command.TagEditCommand;
+import org.randomcoder.mvc.validator.TagAddValidator;
+import org.randomcoder.mvc.validator.TagEditValidator;
 import org.randomcoder.tag.TagStatistics;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
-import org.springframework.data.web.PageableDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.inject.Inject;
 
 /**
  * Controller class which handles tag management.
@@ -108,7 +118,7 @@ public class TagController
 	 * @return tag list view
 	 */
 	@RequestMapping("/tag")
-	public String tagList(Model model, @PageableDefaults(25) Pageable pageable)
+	public String tagList(Model model, @PageableDefault(25) Pageable pageable)
 	{
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();

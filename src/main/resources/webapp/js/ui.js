@@ -16,6 +16,7 @@ $(document).ready(function() {
 		var group = $(this).closest(".commentGroup").first();
 		$.ajax({
 			type: "DELETE",
+			headers: { "X-CSRF-TOKEN": __csrf },
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
@@ -32,6 +33,7 @@ $(document).ready(function() {
 		var heading = $(this).closest(".sectionSubHeading").first();
 		$.ajax({
 			type: "PUT",
+			headers: { "X-CSRF-TOKEN": __csrf },
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
@@ -47,6 +49,7 @@ $(document).ready(function() {
 		var heading = $(this).closest(".sectionSubHeading").first();
 		$.ajax({
 			type: "DELETE",
+			headers: { "X-CSRF-TOKEN": __csrf },
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{

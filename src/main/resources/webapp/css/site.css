@@ -109,6 +109,16 @@ FORM.link BUTTON.delete:active
 	background: url(../images/silk/bullet_delete.png) -3px -1px no-repeat !important;
 }
 
+A.logout,
+FORM.link BUTTON.logout,
+FORM.link BUTTON.logout:focus,
+FORM.link BUTTON.logout:active
+{
+	font-size: 1.1em;
+  padding-left: 12px !important;
+  background: url(../images/silk/bullet_key.png) -3px -1px no-repeat !important;
+}
+
 A.approve,
 FORM.link BUTTON.approve,
 FORM.link BUTTON.approve:focus,

@@ -216,15 +216,18 @@
 							</c:choose>
 				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
 				  			<input type="hidden" name="_verb" value="DELETE" />
+				  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				  			<button class="${disapproveClass}disapproveComment disapprove">Disapprove</button>
 				  		</form>						
 				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}/approve' />">
 				  			<input type="hidden" name="_verb" value="PUT" />
+				  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				  			<button class="${approveClass}approveComment approve">Approve</button>
 				  		</form>						
 							:: 
 				  		<form class="link" method="POST" action="<c:url value='/comment/${commentDecorator.comment.id}' />">
 				  			<input type="hidden" name="_verb" value="DELETE" />
+				  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 				  			<button class="deleteComment delete">Delete</button>
 				  		</form>						
 						</div>

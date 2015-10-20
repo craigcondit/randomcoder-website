@@ -16,6 +16,7 @@
 <div class="sectionHeading">Enter account details</div>		
 <div class="sectionContent">
   <form method="post" action="${formAction}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   	<spring:bind path="command.userName">
   		<c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if></c:set>
 			<div class="${fieldClasses}">

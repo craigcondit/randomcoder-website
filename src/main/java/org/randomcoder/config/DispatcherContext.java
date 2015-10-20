@@ -1,17 +1,23 @@
 package org.randomcoder.config;
 
-import java.util.List;
-
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.web.PageableArgumentResolver;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.*;
-import org.springframework.web.servlet.view.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.XmlViewResolver;
+
+import java.util.List;
 
 @Configuration
 @SuppressWarnings("javadoc")
@@ -31,8 +37,8 @@ public class DispatcherContext extends WebMvcConfigurerAdapter
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers)
 	{
-		PageableArgumentResolver resolver = new PageableArgumentResolver();
-		argumentResolvers.add(new ServletWebArgumentResolverAdapter(resolver));
+	  PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+		argumentResolvers.add(resolver);
 	}
 	
 	@Override

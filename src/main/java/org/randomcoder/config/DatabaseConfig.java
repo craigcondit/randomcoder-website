@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 import org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.PostgreSQL82Dialect;
-import org.hibernate.ejb.HibernatePersistence;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -41,7 +41,7 @@ public class DatabaseConfig
 
 		emfb.setDataSource(dataSource());
 		emfb.setPackagesToScan(new String[] { "org.randomcoder.db" });
-		emfb.setPersistenceProviderClass(HibernatePersistence.class);
+		emfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 
 		Properties props = new Properties();
 		props.setProperty("hibernate.dialect", PostgreSQL82Dialect.class.getName());

@@ -11,6 +11,7 @@
 <div class="sectionHeading">Login</div>
 <div class="sectionContent">
 	<form action="${loginUrl}" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<div class="fields required">
 			<div>					
 				<label for="username">User name:</label>

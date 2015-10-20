@@ -33,6 +33,7 @@
 </div>
 <div class="sectionContent">
   <form method="post" name="prefs" id="prefs" action="${prefsUrl}">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 		<div class="fields">
 			<div>					
 				<label>User name:</label>
