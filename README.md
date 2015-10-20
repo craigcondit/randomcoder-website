@@ -1,5 +1,5 @@
-INTRODUCTION
-============
+randomcoder-website
+===================
 Welcome to the Random Coder project. The goal of this project is to provide
 solutions to common software develpment problems. Predominantly, this includes
 Java and related web technologies, because that is where I spend most of my
