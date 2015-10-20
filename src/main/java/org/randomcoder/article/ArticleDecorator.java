@@ -1,15 +1,21 @@
 package org.randomcoder.article;
 
-import java.io.IOException;
-import java.util.*;
-
-import javax.xml.transform.TransformerException;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.randomcoder.article.comment.CommentDecorator;
-import org.randomcoder.content.*;
-import org.randomcoder.db.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentUtils;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Comment;
+import org.randomcoder.db.User;
 import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.xml.transform.TransformerException;
 
 /**
  * Helper class which "decorates" an {@code Article} instance by providing XHTML
@@ -110,6 +116,23 @@ public class ArticleDecorator
 		return ContentUtils.formatText(article.getContent(), null, article.getContentType(), filter);
 	}
 
+	public String getCommentCountText()
+	{
+	  if (comments.size() == 1) {
+	    return "1 comment";
+	  }
+	  
+	  if (comments.size() > 1) {
+	    return new DecimalFormat("##########").format(comments.size()) + " comments";
+	  }
+	  
+	  if (article.isCommentsEnabled()) {
+	    return "Comment on this article";
+	  }
+	  
+	  return "0 comments";
+	}
+	
 	/**
 	 * Gets article summary after applying filters and HTML escaping.
 	 * 
