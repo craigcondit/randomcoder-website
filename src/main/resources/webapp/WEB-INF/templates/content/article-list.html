@@ -71,18 +71,18 @@
 				<div class="sectionFooter">
 					<th:block th:if="${articleDecorator.summaryPresent}">
 					 <th:block th:if="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
-            <a class="read-more" th:href="@{/articles/{id}(id=${articleDecorator.article.permalink})}">Read more</a> ::
+            <a class="read-more" th:href="@{/articles/id/{id}(id=${articleDecorator.article.id})}">Read more</a> ::
            </th:block>
            <th:block th:unless="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
-            <a class="read-more" th:href="@{/articles/id/{id}(id=${articleDecorator.article.id})}">Read more</a> ::
+            <a class="read-more" th:href="@{/articles/{id}(id=${articleDecorator.article.permalink})}">Read more</a> ::
            </th:block>
 					</th:block>
 					<th:block th:if="${#lists.size(articleDecorator.comments) &gt; 0 or articleDecorator.article.commentsEnabled}">
             <th:block th:if="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
-              <a rel="comment" class="comment" th:href="@{/articles/{id}#comments(id=${articleDecorator.article.permalink})}" th:text="${articleDecorator.commentCountText}">comment text</a>
+              <a rel="comment" class="comment" th:href="@{/articles/id/{id}#comments(id=${articleDecorator.article.id})}" th:text="${articleDecorator.commentCountText}">comment text</a>
             </th:block>
             <th:block th:unless="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
-              <a rel="comment" class="comment" th:href="@{/articles/id/{id}#comments(id=${articleDecorator.article.id})}" th:text="${articleDecorator.commentCountText}">comment text</a>
+              <a rel="comment" class="comment" th:href="@{/articles/{id}#comments(id=${articleDecorator.article.permalink})}" th:text="${articleDecorator.commentCountText}">comment text</a>
             </th:block>
 					</th:block>
           <th:block th:unless="${#lists.size(articleDecorator.comments) &gt; 0 or articleDecorator.article.commentsEnabled}">
@@ -96,18 +96,18 @@
 			</th:block>
 		</div>
 	
-	  <c:if test="${template.summary == 'false'}">
+	  <!-- working this far -->
+	  
+	  <th:block th:unless="${summaryVisible and false}"><!-- remove the 'and false' bit once we've tested -->
 	  	<c:set var="manageComments" value="${false}" />
 			<sec:authorize access="hasRole('ROLE_MANAGE_COMMENTS')">
 		  	<c:set var="manageComments" value="${true}" />
 			</sec:authorize>
 	  	<a name="comments"></a>
-	  	<c:set var="hiddenCount" value="${0}" />
-	  	<c:forEach var="commentDecorator" items="${articleDecorator.comments}">
+	  	<th:block th:each="commentDecorator : ${articleDecorator.comments}">
 	  		<c:set var="commentAvatar" value="${commentDecorator.authorAvatarImageUrl}" />
-	  		<c:if test="${not commentDecorator.comment.visible}"><c:set var="hiddenCount" value="${hiddenCount+1}" /></c:if>
-	  		<c:if test="${manageComments or commentDecorator.comment.visible}">
-		  		<a name="comment-${commentDecorator.comment.id}"></a>
+	  		<th:block th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')') or commentDecorator.comment.visible}">
+		  		<a th:name="${'comment' + commentDecorator.comment.id}"></a>
 				  <c:choose>
 					  <c:when test="${commentDecorator.comment.createdByUser != null}">
 					  	<c:set var="commentAuthor" value="${commentDecorator.comment.createdByUser.userName}" />
@@ -134,18 +134,18 @@
 		  					<c:set var="moderationClass" value=" moderated" />
 		  				</c:otherwise>
 		  			</c:choose>
-			  		<div class="sectionHeading${moderationClass}">
-			  			<c:out value="${commentDecorator.comment.title}" />
+			  		<div th:class="${'sectionHeading' + moderationClass}">
+			  			<th:block th:text="${commentDecorator.comment.title}" />
 			  		</div>
 						<div class="sectionSubHeading">
 							Posted
 							<c:if test="${commentAuthor != null}">
 								by
 								<c:choose>
-									<c:when test="${commentLink != null &amp;&amp; commentExternal}">
+									<c:when test="${commentLink != null and commentExternal}">
 										<a rel="nofollow" class="external" href="${commentLink}"><c:out value="${commentAuthor}" /></a>
 									</c:when>
-									<c:when test="${commentLink != null &amp;&amp; !commentExternal}">
+									<c:when test="${commentLink != null and !commentExternal}">
 										<a href="${commentLink}"><c:out value="${commentAuthor}" /></a>
 									</c:when>
 									<c:otherwise>
@@ -157,7 +157,7 @@
 							@ <fmt:formatDate type="time" timeStyle="short" value="${commentDecorator.comment.creationDate}" />
 							:: <a href="#comment-${commentDecorator.comment.id}">#<c:out value="${commentDecorator.comment.id}" /></a>
 						</div>
-						<c:if test="${manageComments}">
+						<th:block th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
 							<div class="sectionSubHeading">
 								<c:choose>
 									<c:when test="${commentDecorator.comment.visible}">
@@ -169,37 +169,37 @@
 										<c:set var="disapproveClass" value="hidden " />
 									</c:otherwise>
 								</c:choose>
-					  		<form class="link" method="POST" th:action="@{/comment/${commentDecorator.comment.id}/approve}">
+					  		<form class="link" method="POST" th:action="@{/comment/{id}/approve(id=${commentDecorator.comment.id})}">
 					  			<input type="hidden" name="_verb" value="DELETE" />
 					  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					  			<button class="${disapproveClass}disapproveComment disapprove">Disapprove</button>
 					  		</form>						
-					  		<form class="link" method="POST" th:action="@{/comment/${commentDecorator.comment.id}/approve}">
+					  		<form class="link" method="POST" th:action="@{/comment/{id}/approve(id=${commentDecorator.comment.id})}">
 					  			<input type="hidden" name="_verb" value="PUT" />
 					  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					  			<button class="${approveClass}approveComment approve">Approve</button>
 					  		</form>						
 								:: 
-					  		<form class="link" method="POST" th:action="@{/comment/#{commentDecorator.comment.id}}">
+					  		<form class="link" method="POST" th:action="@{/comment/{id}(id=${commentDecorator.comment.id})}">
 					  			<input type="hidden" name="_verb" value="DELETE" />
 					  			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					  			<button class="deleteComment delete">Delete</button>
 					  		</form>						
 							</div>
-						</c:if>
+						</th:block>
 			  		<div class="sectionContent">
-			  			<c:if test="${commentAvatar != null}">
-			  				<img class="commentAvatar" src="${commentAvatar}" />
-			  			</c:if>
-			  			${commentDecorator.formattedText}
-			  			<c:if test="${commentAvatar != null}">
+			  			<th:block th:if="${commentDecorator.authorAvatarImageUrl != null}">
+			  				<img class="commentAvatar" th:src="${commentDecorator.authorAvatarImageUrl}" />
+			  			</th:block>
+			  			<th:block th:utext="${commentDecorator.formattedText}"></th:block>
+			  			<th:block th:if="${commentDecorator.authorAvatarImageUrl != null}">
 			  				<div class="clear"></div>
-			  			</c:if>
+			  			</th:block>
 			  		</div>
 			  	</div>
-		  	</c:if>
-	  	</c:forEach>
-	  </c:if>
+		  	</th:block>
+	  	</th:block>
+	  </th:block>
 	  
 	</th:block>
 </th:block>
