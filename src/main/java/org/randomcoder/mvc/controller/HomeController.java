@@ -59,23 +59,4 @@ public class HomeController extends AbstractArticleListController<ArticleListCom
 		return "home";
 	}
 
-  /**
-   * Renders the home view using ThymeLeaf.
-   * 
-   * @param command
-   *          page command
-   * @param model
-   *          MVC model
-   * @param pageable
-   *          paging parameters
-   * @param request
-   *          HTTP servlet request
-   * @return home view
-   */
-  @RequestMapping("/test")
-  public String homeThymeleaf(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request)
-  {
-    populateModel(command, model, pageable, request);
-    return "home-th";
-  }
 }

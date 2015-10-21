@@ -89,12 +89,20 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
   }
 
   @Bean
+  public ViewResolver xmlViewResolver() {
+    XmlViewResolver resolver = new XmlViewResolver();
+    resolver.setOrder(0);
+    resolver.setLocation(new ClassPathResource("/views.xml"));
+    return resolver;
+  }
+
+  @Bean
   public ViewResolver thymeleafViewResolver() {
     ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-    resolver.setOrder(0);
+    resolver.setOrder(1);
     resolver.setTemplateEngine(templateEngine());
     resolver.setViewNames(new String[] { 
-        "home-th",
+        "home",
         "layout/main",
         "head/main",
         "head/feeds",
@@ -110,14 +118,6 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "sidebar/feeds"
     });
     
-    return resolver;
-  }
-
-  @Bean
-  public ViewResolver xmlViewResolver() {
-    XmlViewResolver resolver = new XmlViewResolver();
-    resolver.setOrder(1);
-    resolver.setLocation(new ClassPathResource("/views.xml"));
     return resolver;
   }
 

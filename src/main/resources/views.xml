@@ -93,7 +93,7 @@
 	</bean>
 	
 	<!-- Home page -->
-	<bean id="home" class="org.randomcoder.mvc.JstlTemplateView">
+	<bean id="home-old" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="main-layout" />
 		<property name="templateAttributes">
 			<map>
@@ -211,7 +211,7 @@
 	</bean>
 	
 	<bean id="article-tag-list" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="home" />
+		<property name="parent" ref="home-old" />
 		<property name="templateAttributes">
 			<map>
 				<entry key="title" value="Tags" />
