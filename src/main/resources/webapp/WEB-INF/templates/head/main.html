@@ -10,7 +10,7 @@
       <link rel="stylesheet" type="text/css" th:href="@{/css/site-ie5.css}" />
     <![endif]-->
 <script type="text/javascript">
-	__csrf = "${_csrf.token}";
+	__csrf = "<th:block th:text="${_csrf.token}">token</th:block>";
 </script>
 <script type="text/javascript" th:src="@{/js/lib/jquery-1.10.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/ui.js}"></script>

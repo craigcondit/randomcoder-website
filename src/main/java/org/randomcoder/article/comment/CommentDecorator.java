@@ -86,4 +86,44 @@ public class CommentDecorator
 	{
 		return ContentUtils.formatText(comment.getContent(), null, comment.getContentType(), filter);
 	}
+	
+	public String getAuthor()
+	{
+	  if (comment.getCreatedByUser() != null)
+	  {
+	    return comment.getCreatedByUser().getUserName();
+	  }
+	  if (comment.getAnonymousUserName() != null)
+	  {
+	    return comment.getAnonymousUserName();
+	  }
+	  return null;
+	}
+	
+	public String getCommentLink()
+	{
+    if (comment.getCreatedByUser() != null)
+    {
+      return comment.getCreatedByUser().getWebsite();
+    }
+    if (comment.getAnonymousUserName() != null)
+    {
+      return comment.getAnonymousWebsite();
+    }
+    return null;
+	}
+	
+	public boolean isCommentExternal()
+	{
+    if (comment.getCreatedByUser() != null)
+    {
+      return true;
+    }
+    if (comment.getAnonymousUserName() != null)
+    {
+      return true;
+    }
+    return false;
+	}
+	
 }
