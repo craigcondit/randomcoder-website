@@ -5,6 +5,7 @@ import org.randomcoder.mvc.command.TagAddCommand;
 import org.randomcoder.mvc.command.TagEditCommand;
 import org.randomcoder.mvc.validator.TagAddValidator;
 import org.randomcoder.mvc.validator.TagEditValidator;
+import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class which handles tag management.
@@ -118,7 +120,7 @@ public class TagController
 	 * @return tag list view
 	 */
 	@RequestMapping("/tag")
-	public String tagList(Model model, @PageableDefault(25) Pageable pageable)
+	public String tagList(Model model, @PageableDefault(25) Pageable pageable, HttpServletRequest request)
 	{
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
@@ -139,6 +141,7 @@ public class TagController
 
 		// populate model
 		model.addAttribute("pager", tagStats);
+    model.addAttribute("pagerInfo", new PagerInfo<>(tagStats, request));
 
 		return "tag-list";
 	}

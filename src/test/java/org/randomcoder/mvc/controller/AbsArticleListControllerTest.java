@@ -22,6 +22,7 @@ import org.randomcoder.db.Article;
 import org.randomcoder.db.Comment;
 import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleListCommand;
+import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagCloudEntry;
 import org.randomcoder.tag.TagStatistics;
 import org.springframework.data.domain.Page;
@@ -94,6 +95,7 @@ public class AbsArticleListControllerTest
 		expect(m.addAttribute(eq("pager"), isA(Page.class))).andReturn(m);
 		expect(m.addAttribute(eq("days"), capture(days))).andReturn(m);
 		expect(m.addAttribute(eq("tagCloud"), same(tc))).andReturn(m);
+    expect(m.addAttribute(eq("pagerInfo"), isA(PagerInfo.class))).andReturn(m);
 		expect(m.addAttribute("pageSubTitle", "Subtitle")).andReturn(m);
 		expect(m.addAttribute(eq("calendar"), capture(cal))).andReturn(m);
     expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));

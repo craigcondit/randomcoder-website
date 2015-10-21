@@ -14,6 +14,7 @@ import org.randomcoder.mvc.validator.ChangePasswordValidator;
 import org.randomcoder.mvc.validator.UserAddValidator;
 import org.randomcoder.mvc.validator.UserEditValidator;
 import org.randomcoder.mvc.validator.UserProfileValidator;
+import org.randomcoder.pagination.PagerInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ import java.security.Principal;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Controller class for user management.
@@ -177,7 +179,7 @@ public class UserController
 	 * @return user list view
 	 */
 	@RequestMapping("/user")
-	public String listUsers(Model model, @PageableDefault(25) Pageable pageable)
+	public String listUsers(Model model, @PageableDefault(25) Pageable pageable, HttpServletRequest request)
 	{
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
@@ -191,6 +193,7 @@ public class UserController
 		
 		Page<User> users = userBusiness.findAll(pageable);
 		model.addAttribute("users", users);
+    model.addAttribute("pagerInfo", new PagerInfo<>(users, request));
 
 		return "user-list";
 	}

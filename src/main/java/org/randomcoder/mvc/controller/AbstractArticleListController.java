@@ -11,6 +11,7 @@ import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticleListCommand;
+import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.*;
@@ -227,6 +228,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 		// populate model
 		model.addAttribute("articles", wrappedArticles);
 		model.addAttribute("pager", articles);
+		model.addAttribute("pagerInfo", new PagerInfo<>(articles, request));
 		model.addAttribute("days", days);
 		model.addAttribute("tagCloud", tagCloud);
 		model.addAttribute("calendar", new CalendarInfo(request, days));

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CalendarInfo {
 
   private static final Set<String> REMOVED_PARAMS =
-          Collections.unmodifiableSet(new HashSet<>(Arrays.asList("month", "day", "year", "page")));
+          Collections.unmodifiableSet(new HashSet<>(Arrays.asList("month", "day", "year", "page.page", "page.size", "page.sort")));
 
   private final String selfLink;
   private final String prevMonthLink;

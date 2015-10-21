@@ -48,6 +48,9 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+    resolver.setPageParameterName("page");
+    resolver.setSizeParameterName("size");
+    resolver.setPrefix("page.");
     argumentResolvers.add(resolver);
   }
 
@@ -101,7 +104,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     ThymeleafViewResolver resolver = new ThymeleafViewResolver();
     resolver.setOrder(1);
     resolver.setTemplateEngine(templateEngine());
-    resolver.setViewNames(new String[] { 
+    resolver.setViewNames(new String[] {
         "home",
         "legal-about",
         "legal-license",
@@ -124,7 +127,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "sidebar/welcome",
         "sidebar/feeds"
     });
-    
+
     return resolver;
   }
 
