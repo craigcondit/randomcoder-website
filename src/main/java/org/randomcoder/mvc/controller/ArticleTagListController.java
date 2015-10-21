@@ -18,6 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Controller class which handles displaying articles by tag.
  */
@@ -46,29 +48,31 @@ public class ArticleTagListController extends AbstractArticleListController<Arti
 	}
 
 	/**
-	 * Renders articles for a given tag.
-	 * 
-	 * @param command
-	 *          tag page command
-	 * @param tagName
-	 *          tag name to display
-	 * @param model
-	 *          MVC model
-	 * @param pageable
-	 *          paging variables
-	 * @return home view
-	 */
+   * Renders articles for a given tag.
+   * 
+   * @param command
+   *          tag page command
+   * @param tagName
+   *          tag name to display
+   * @param model
+   *          MVC model
+   * @param pageable
+   *          paging variables
+   * @param request
+   *          HTTP servlet request
+   * @return home view
+   */
 	@RequestMapping("/tags/{tagName}")
 	public String tagList(
 			ArticleTagListCommand command, Model model,
 			@PathVariable("tagName") String tagName,
-			@PageableDefault(10) Pageable pageable)
+			@PageableDefault(10) Pageable pageable, HttpServletRequest request)
 	{
 		tagName = StringUtils.trimToEmpty(tagName).toLowerCase(Locale.US);
 		logger.debug("Tag name: " + tagName);
 		command.setTag(tagBusiness.findTagByName(tagName));
 
-		populateModel(command, model, pageable);
+		populateModel(command, model, pageable, request);
 
 		return "article-tag-list";
 	}

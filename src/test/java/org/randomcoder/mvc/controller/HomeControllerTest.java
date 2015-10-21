@@ -1,19 +1,39 @@
 package org.randomcoder.mvc.controller;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.newCapture;
+import static org.easymock.EasyMock.notNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
-import java.util.*;
-
-import org.easymock.*;
-import org.junit.*;
-import org.randomcoder.bo.*;
+import org.easymock.Capture;
+import org.easymock.IMocksControl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.tag.TagCloudEntry;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("javadoc")
 public class HomeControllerTest
@@ -24,6 +44,7 @@ public class HomeControllerTest
 	private TagBusiness tb;
 	private Model m;
 	private HomeController c;
+	private HttpServletRequest r;
 
 	@Before
 	public void setUp()
@@ -33,6 +54,7 @@ public class HomeControllerTest
 		cf = control.createMock(ContentFilter.class);
 		tb = control.createMock(TagBusiness.class);
 		m = control.createMock(Model.class);
+		r = control.createMock(HttpServletRequest.class);
 		c = new HomeController();
 		c.setArticleBusiness(ab);
 		c.setContentFilter(cf);
@@ -95,9 +117,13 @@ public class HomeControllerTest
 		expect(ab.listArticlesBeforeDate(isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article> emptyList()));
 		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry> emptyList());
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
+    expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
+    expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
+    expect(r.getParameter("year")).andStubReturn(null);
+    expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
-		assertEquals("home", c.home(new ArticleListCommand(), m, new PageRequest(0, 10)));
+		assertEquals("home", c.home(new ArticleListCommand(), m, new PageRequest(0, 10), r));
 		control.verify();
 	}
 }

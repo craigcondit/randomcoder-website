@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Controller class which handles the front page of the site.
  */
@@ -46,12 +48,14 @@ public class HomeController extends AbstractArticleListController<ArticleListCom
 	 *          MVC model
 	 * @param pageable
 	 *          paging parameters
+   * @param request
+   *          HTTP servlet request
 	 * @return home view
 	 */
 	@RequestMapping("")
-	public String home(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable)
+	public String home(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request)
 	{
-		populateModel(command, model, pageable);
+		populateModel(command, model, pageable, request);
 		return "home";
 	}
 
@@ -64,12 +68,14 @@ public class HomeController extends AbstractArticleListController<ArticleListCom
    *          MVC model
    * @param pageable
    *          paging parameters
+   * @param request
+   *          HTTP servlet request
    * @return home view
    */
   @RequestMapping("/test")
-  public String homeThymeleaf(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable)
+  public String homeThymeleaf(ArticleListCommand command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request)
   {
-    populateModel(command, model, pageable);
+    populateModel(command, model, pageable, request);
     return "home-th";
   }
 }

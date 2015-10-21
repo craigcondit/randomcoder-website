@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.easymock.*;
 import org.junit.*;
 import org.randomcoder.bo.*;
@@ -24,6 +26,7 @@ public class ArticleTagListControllerTest
 	private TagBusiness tb;
 	private Model m;
 	private ArticleTagListController c;
+	private HttpServletRequest r;
 
 	@Before
 	public void setUp()
@@ -37,6 +40,7 @@ public class ArticleTagListControllerTest
 		c.setArticleBusiness(ab);
 		c.setContentFilter(cf);
 		c.setTagBusiness(tb);
+		r = control.createMock(HttpServletRequest.class);
 	}
 
 	@After
@@ -127,9 +131,13 @@ public class ArticleTagListControllerTest
 		expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article>emptyList()));
 		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry>emptyList());
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
+		expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
+		expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
+		expect(r.getParameter("year")).andStubReturn(null);
+    expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
-		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", new PageRequest(0, 10)));
+		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", new PageRequest(0, 10), r));
 		assertSame(tag, cmd.getTag());
 		control.verify();
 	}

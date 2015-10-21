@@ -3,8 +3,10 @@ package org.randomcoder.mvc.controller;
 import java.util.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.article.ArticleDecorator;
+import org.randomcoder.article.CalendarInfo;
 import org.randomcoder.bo.*;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
@@ -136,8 +138,10 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 *          model
 	 * @param pageable
 	 *          paging variables
+   * @param request
+   *          HTTP servlet request
 	 */
-	protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable)
+	protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request)
 	{
 		// set range and sort order
 		int size = pageable.getPageSize();
@@ -225,6 +229,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 		model.addAttribute("pager", articles);
 		model.addAttribute("days", days);
 		model.addAttribute("tagCloud", tagCloud);
+		model.addAttribute("calendar", new CalendarInfo(request, days));
 
 		String subTitle = getSubTitle(command);
 		if (subTitle != null)
