@@ -98,10 +98,17 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "layout/main",
         "head/main",
         "head/feeds",
+        "header/default",
+        "footer/default",
         "content/article-list",
         "content/pager",
         "sidebar/calendar",
-        "sidebar/tagcloud"
+        "sidebar/tagcloud",
+        "sidebar/navigation",
+        "sidebar/login",
+        "sidebar/welcome",
+        "sidebar/feeds",
+        "sidebar/validation"
     });
     
     return resolver;
