@@ -68,20 +68,6 @@
 		</property>
 	</bean>
 
-	<bean id="account-create-done" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Account created" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/account-create-done.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<!-- User list -->
 	<bean id="user-list" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
