@@ -107,8 +107,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "sidebar/navigation",
         "sidebar/login",
         "sidebar/welcome",
-        "sidebar/feeds",
-        "sidebar/validation"
+        "sidebar/feeds"
     });
     
     return resolver;

@@ -703,25 +703,6 @@ BLOCKQUOTE
 	background-color: #e8e8e8;
 }
 
-.validation
-{
-	margin-bottom: 0.5em;
-}
-
-.validation A,
-.validation A:hover,
-.validation A:active, 
-.validation A:link,
-.validation A:visited
-{
-	text-decoration: none;	
-}
-
-.validation IMG
-{
-	border: 0;
-}
-
 .even
 {
 	background-color: #ffffff;

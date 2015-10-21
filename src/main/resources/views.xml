@@ -40,7 +40,6 @@
 						<value>/WEB-INF/jsp/sidebar/login.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/feeds.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>
 				<entry key="right"><null /></entry>
@@ -68,7 +67,6 @@
 						<value>/WEB-INF/jsp/sidebar/navigation.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/welcome.jsp</value>
 						<value>/WEB-INF/jsp/sidebar/feeds.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/validation.jsp</value>
 					</list>
 				</entry>
 				<entry key="right"><null /></entry>
