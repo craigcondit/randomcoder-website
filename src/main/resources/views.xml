@@ -131,23 +131,6 @@
 		</property>
 	</bean>
 	
-	<bean id="article-view-old" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-			  <entry key="head" value="/WEB-INF/jsp/head/feeds.jsp" />
-				<entry key="title"><null /></entry>
-				<entry key="summary" value="false" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/article-list.jsp</value>
-						<value>/WEB-INF/jsp/content/article-comment.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="change-password" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
