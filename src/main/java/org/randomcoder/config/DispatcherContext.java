@@ -104,6 +104,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     resolver.setViewNames(new String[] { 
         "home",
         "legal-about",
+        "legal-license",
         "layout/main",
         "head/main",
         "head/feeds",
@@ -112,6 +113,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "content/article-list",
         "content/pager",
         "content/legal-about",
+        "content/legal-license",
         "sidebar/calendar",
         "sidebar/tagcloud",
         "sidebar/navigation",
