@@ -53,21 +53,6 @@
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
-	<bean id="account-create" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Create account" />
-				<entry key="formAction" value="/account/create" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/account-create.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<!-- User list -->
 	<bean id="user-list" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
