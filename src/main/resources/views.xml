@@ -53,30 +53,6 @@
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
-	<!-- Home page -->
-	<bean id="home-old" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Home" />
-				<entry key="summary" value="true" />
-			  <entry key="head" value="/WEB-INF/jsp/head/feeds.jsp" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/article-list.jsp</value>
-						<value>/WEB-INF/jsp/content/pager.jsp</value>
-					</list>
-				</entry>
-				<entry key="right">
-					<list>
-						<value>/WEB-INF/jsp/sidebar/calendar.jsp</value>
-						<value>/WEB-INF/jsp/sidebar/tagcloud.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<bean id="account-create" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
@@ -155,16 +131,7 @@
 		</property>
 	</bean>
 	
-	<bean id="article-tag-list" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="home-old" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Tags" />
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="article-view" class="org.randomcoder.mvc.JstlTemplateView">
+	<bean id="article-view-old" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
 			<map>

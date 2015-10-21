@@ -106,6 +106,8 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     resolver.setTemplateEngine(templateEngine());
     resolver.setViewNames(new String[] {
         "home",
+        "article-tag-list",
+        "article-view",
         "legal-about",
         "legal-license",
         "login",
@@ -116,6 +118,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "header/default",
         "footer/default",
         "content/article-list",
+        "content/article-comment",
         "content/pager",
         "content/legal-about",
         "content/legal-license",

@@ -1,7 +1,10 @@
 $(document).ready(function() {
-	$('.focusFirst').each(function()
+	$('.focusFirst').first().each(function()
 	{
-		$(this).select().focus();
+		var tgt = $(this);
+		setTimeout(function() {
+            tgt.select().focus();
+        }, 1);
 	});
 	$('A.deleteArticle').click(function()
 	{
