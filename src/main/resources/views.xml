@@ -278,20 +278,6 @@
 		</property>
 	</bean>
 
-	<bean id="legal-about" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="About this site" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/legal-about.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<bean id="legal-license" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>randomCoder : Home</title>
+<title>randomCoder : About this site</title>
 <th:block th:replace="head/main"></th:block>
 <th:block th:replace="head/feeds"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/entry.css}" />
 </head>
 <body>
   <div id="header" th:include="header/default">header/default</div>
@@ -16,15 +17,10 @@
 	</div>
 
 	<div id="content">
-		<div class="content" th:include="content/article-list :: articles(summaryVisible=true)">sidebar/articles</div>
-		<div class="content" th:include="content/pager">content/pager</div>
+		<div class="content" th:include="content/legal-about">content/legal-about</div>
 	</div>
 
   <div id="footer" th:include="footer/default">footer/default</div>
   
-	<div id="right">
-		<div class="right" th:include="sidebar/calendar">sidebar/calendar</div>
-	  <div class="right" th:include="sidebar/tagcloud">sidebar/tagcloud</div>
-	</div>
 </body>
 </html>
