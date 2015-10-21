@@ -1,4 +1,4 @@
-<th:block th:if="${#authentication.getPrincipal() == null}">
+<th:block sec:authorize="!isAuthenticated()">
   <div class="sectionHeading">Welcome</div>
   <div class="sectionContent" align="left">
     <ul class="nav">

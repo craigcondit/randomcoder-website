@@ -45,7 +45,7 @@
 	    <th:block th:unless="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
         <a rel="permalink" class="permalink" th:href="@{/articles/{id}(id=${articleDecorator.article.permalink})}">Permalink</a>
 	    </th:block>
-			<th:block th:if="${#authentication.getPrincipal() != null}">
+			<th:block sec:authorize="isAuthenticated()">
 			  <th:block th:if="${
 			    #authorization.expression('hasRole(''ROLE_MANAGE_ARTICLES'')')
 			    or (
