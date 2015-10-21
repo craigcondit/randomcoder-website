@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>randomCoder : Login</title>
+<th:block th:replace="head/main"></th:block>
+<th:block th:replace="head/feeds"></th:block>
+</head>
+<body>
+  <div id="header" th:include="header/default">header/default</div>
+
+	<div id="left">
+	  <div class="left" th:include="sidebar/navigation">sidebar/navigation</div>
+    <div class="left" th:include="sidebar/welcome">sidebar/welcome</div>
+    <div class="left" th:include="sidebar/feeds">sidebar/feeds</div>
+	</div>
+
+	<div id="content">
+		<div class="content" th:include="content/login :: login(error=false)">content/login</div>
+	</div>
+
+  <div id="footer" th:include="footer/default">footer/default</div>
+  
+</body>
+</html>
