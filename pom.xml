@@ -54,12 +54,12 @@
   </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <randomcoder.taglibs.version>1.6.12</randomcoder.taglibs.version>
     <randomcoder.log4j.systemd.journal.version>1.0.7</randomcoder.log4j.systemd.journal.version>
     <spring.version>4.0.2.RELEASE</spring.version>
     <spring.security.version>4.0.2.RELEASE</spring.security.version>
     <spring.data.jpa.version>1.9.0.RELEASE</spring.data.jpa.version>
     <jetty.version>9.3.5.v20151012</jetty.version>
+    <commons.lang.version>2.6</commons.lang.version>
     <junit.version>4.12</junit.version>
     <dbunit.version>2.5.1</dbunit.version>
     <slf4j.version>1.7.12</slf4j.version>
@@ -118,6 +118,11 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons.lang.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>${easymock.version}</version>
@@ -172,11 +177,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-context-support</artifactId>
       <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.randomcoder</groupId>
-      <artifactId>randomcoder-taglibs</artifactId>
-      <version>${randomcoder.taglibs.version}</version>
     </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>
