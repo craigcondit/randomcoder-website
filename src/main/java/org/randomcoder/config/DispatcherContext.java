@@ -1,22 +1,21 @@
 package org.randomcoder.config;
 
+import org.randomcoder.mvc.SuffixedBeanNameViewResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.XmlViewResolver;
+import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.extras.conditionalcomments.dialect.ConditionalCommentsDialect;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -92,10 +91,9 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
   }
 
   @Bean
-  public ViewResolver xmlViewResolver() {
-    XmlViewResolver resolver = new XmlViewResolver();
+  public ViewResolver beanNameViewResolver() {
+    SuffixedBeanNameViewResolver resolver = new SuffixedBeanNameViewResolver("-view");
     resolver.setOrder(0);
-    resolver.setLocation(new ClassPathResource("/views.xml"));
     return resolver;
   }
 
@@ -107,4 +105,23 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     return resolver;
   }
 
+  @Bean(name = "default-view")
+  public View defaultView() {
+    return new RedirectView("/", true);
+  }
+
+  @Bean(name = "user-list-redirect-view")
+  public View userListRedirectView() {
+    return new RedirectView("/user", true);
+  }
+
+  @Bean(name = "user-profile-redirect-view")
+  public View userProfileRedirectView() {
+    return new RedirectView("/user/profile", true);
+  }
+
+  @Bean(name = "tag-list-redirect-view")
+  public View tagListRedirectView() {
+    return new RedirectView("/tag", true);
+  }
 }
