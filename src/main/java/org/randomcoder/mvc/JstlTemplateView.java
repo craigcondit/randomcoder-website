@@ -1,15 +1,16 @@
 package org.randomcoder.mvc;
 
-import java.util.*;
+import org.springframework.web.servlet.view.InternalResourceView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.web.servlet.view.JstlView;
 
 /**
  * Custom JSTL-based template view.
  */
-public class JstlTemplateView extends JstlView
+public class JstlTemplateView extends InternalResourceView
 {
 	private static final String DEFAULT_TEMPLATE_NAME = "template";
 

@@ -67,7 +67,7 @@ public class JettyContext {
 
     // figure out where our content lives at runtime
     String resourceBase =
-            getClass().getResource("/webapp/WEB-INF/web.xml").toURI().toString().replaceAll("WEB-INF/web.xml$", "");
+            getClass().getResource("/webapp/WEB-INF/templates/home.html").toURI().toString().replaceAll("WEB-INF/templates/home.html$", "");
     context.setResourceBase(resourceBase);
 
     // define a root spring context

@@ -72,6 +72,7 @@
     <commons.codec.version>1.10</commons.codec.version>
     <commons.httpclient.version>3.1</commons.httpclient.version>
     <javax.inject.version>1</javax.inject.version>
+    <javax.el.version>2.2.4</javax.el.version>
     <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
     <thymeleaf.extras.conditionalcomments.version>2.1.1.RELEASE</thymeleaf.extras.conditionalcomments.version>
     <thymeleaf.extras.springsecurity4.version>2.1.2.RELEASE</thymeleaf.extras.springsecurity4.version>
@@ -126,6 +127,16 @@
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
       <version>${javax.inject.version}</version>
+    </dependency>
+    <dependency>
+     <groupId>javax.el</groupId>
+     <artifactId>javax.el-api</artifactId>
+     <version>${javax.el.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.web</groupId>
+      <artifactId>javax.el</artifactId>
+      <version>${javax.el.version}</version>
     </dependency>
     <dependency>
       <groupId>org.thymeleaf</groupId>
