@@ -1,0 +1,14 @@
+<div class="sectionHeading">Tags</div>
+<div class="sectionSubHeading">
+	<a class="add" th:href="@{/tag/add}">Add new tag</a> :: <a th:href="@{/}">Done</a>
+</div>
+<div class="sectionContentFull">
+	<div th:each="tagStat,status : ${pager.content}" th:class="${status.even ? 'even' : 'odd'}">
+		<div class="actions">
+			<a class="edit" th:href="@{/tag/edit(id=${tagStat.tag.id})}">Edit</a> :: <a class="delete"
+				th:href="@{/tag/delete(id=${tagStat.tag.id})}">Delete</a>
+		</div>
+		<a th:href="@{/tag/edit(id=${tagStat.tag.id})}"><strong th:text="${tagStat.tag.displayName}" /></a>
+		<th:block th:text="${'(' + tagStat.articleCount + ')'}" />
+	</div>
+</div>

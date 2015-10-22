@@ -53,23 +53,6 @@
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
-	<!-- Tag list -->
-	<bean id="tag-list" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Tags" />
-				<entry key="javascript" value="tag-list.js" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/tag-list.jsp</value>
-						<value>/WEB-INF/jsp/content/pager.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<bean id="change-password" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
