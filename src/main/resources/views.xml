@@ -106,32 +106,5 @@
 			</map>
 		</property>
 	</bean>
-
-	<bean id="tag-add" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Add tag" />
-				<entry key="formMode" value="add" />
-				<entry key="formAction" value="/tag/add" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/tag-edit.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="tag-edit" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="tag-add" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Edit tag" />
-				<entry key="formMode" value="edit" />
-				<entry key="formAction" value="/tag/edit" />
-			</map>
-		</property>
-	</bean>
 	
 </beans>
