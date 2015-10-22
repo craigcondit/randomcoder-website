@@ -1,14 +1,19 @@
 package org.randomcoder.config;
 
+import org.eclipse.jetty.http2.server.HTTP2CServerConnectionFactory;
+import org.eclipse.jetty.server.ConnectionFactory;
+import org.eclipse.jetty.server.ForwardedRequestCustomizer;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.ProxyConnectionFactory;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.nio.SelectChannelConnector;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.ScheduledExecutorScheduler;
 import org.eclipse.jetty.webapp.WebAppContext;
-import org.randomcoder.log.JettyLog4jLog;
 import org.randomcoder.security.DisableUrlSessionFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +25,9 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.DispatcherType;
@@ -32,28 +39,15 @@ public class JettyContext {
   public static final String HTTP_PORT_PROP = "http.port";
   public static final String HTTP_ADDRESS_PROP = "http.address";
   public static final String HTTP_THREADS_PROP = "http.threads";
-
-  static {
-    // make sure jetty doesn't try to use slf4j
-    Log.setLog(new JettyLog4jLog());
-  }
+  public static final String HTTP_THREADS_MIN_PROP = "http.threads.min";
+  public static final String HTTP_FORWARDED_PROP = "http.forwarded";
+  public static final String HTTP_PROXIED_PROP = "http.proxied";
 
   @Inject
   ConfigurableEnvironment env;
 
   @Bean(initMethod = "start", destroyMethod = "destroy")
   public Server jettyServer() throws Exception {
-    Server server = new Server();
-
-    SelectChannelConnector connector = new SelectChannelConnector();
-    connector.setHost(env.getRequiredProperty(HTTP_ADDRESS_PROP, String.class));
-    connector.setPort(env.getRequiredProperty(HTTP_PORT_PROP, Integer.class));
-    connector.setThreadPool(new QueuedThreadPool(env.getRequiredProperty(HTTP_THREADS_PROP, Integer.class)));
-    connector.setName("admin");
-    connector.setForwarded(true);
-
-    server.addConnector(connector);
-
     HandlerCollection handlers = new HandlerCollection();
 
     WebAppContext context = new WebAppContext();
@@ -67,7 +61,8 @@ public class JettyContext {
 
     // figure out where our content lives at runtime
     String resourceBase =
-            getClass().getResource("/webapp/WEB-INF/templates/home.html").toURI().toString().replaceAll("WEB-INF/templates/home.html$", "");
+            getClass().getResource("/webapp/WEB-INF/templates/home.html").toURI().toString()
+                    .replaceAll("WEB-INF/templates/home.html$", "");
     context.setResourceBase(resourceBase);
 
     // define a root spring context
@@ -115,6 +110,42 @@ public class JettyContext {
     context.addServlet(new ServletHolder("dispatcher", new DispatcherServlet(dispatcherContext)), "/*");
 
     handlers.addHandler(context);
+
+    QueuedThreadPool threadPool = new QueuedThreadPool(
+            env.getRequiredProperty(HTTP_THREADS_PROP, Integer.class),
+            env.getRequiredProperty(HTTP_THREADS_MIN_PROP, Integer.class), 60000);
+
+    Server server = new Server(threadPool);
+    server.addBean(new ScheduledExecutorScheduler());
+
+    HttpConfiguration httpConfig = new HttpConfiguration();
+    httpConfig.setSecurePort(443);
+
+    if (env.getRequiredProperty(HTTP_FORWARDED_PROP, Boolean.class)) {
+      httpConfig.addCustomizer(new ForwardedRequestCustomizer());
+    }
+
+    List<ConnectionFactory> connectionFactories = new ArrayList<>();
+
+    // proxy connector
+    if (env.getRequiredProperty(HTTP_PROXIED_PROP, Boolean.class)) {
+      connectionFactories.add(new ProxyConnectionFactory());
+    }
+
+    // http/1.1 connector
+    connectionFactories.add(new HttpConnectionFactory(httpConfig));
+
+    // h2c connector
+    HTTP2CServerConnectionFactory http2cFactory = new HTTP2CServerConnectionFactory(httpConfig);
+    http2cFactory.setMaxConcurrentStreams(100);
+    http2cFactory.setInitialStreamSendWindow(65535);
+    connectionFactories.add(http2cFactory);
+
+    ServerConnector httpConnector = new ServerConnector(server, 1, -1, connectionFactories.toArray(new ConnectionFactory[] {}));
+    httpConnector.setHost(env.getRequiredProperty(HTTP_ADDRESS_PROP, String.class));
+    httpConnector.setPort(env.getRequiredProperty(HTTP_PORT_PROP, Integer.class));
+    server.addConnector(httpConnector);
+
     server.setHandler(handlers);
 
     return server;
