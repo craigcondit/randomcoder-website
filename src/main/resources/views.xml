@@ -53,23 +53,6 @@
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
-	<!-- User list -->
-	<bean id="user-list" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Users" />
-				<entry key="javascript" value="user-list.js" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/user-list.jsp</value>
-						<value>/WEB-INF/jsp/content/pager.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
 	<!-- Tag list -->
 	<bean id="tag-list" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
