@@ -21,8 +21,8 @@ public class RedirectController {
    * 
    * @param url
    *          url to redirect to
-   * @param HTTP
-   *          servlet request
+   * @param request
+   *          HTTP servlet request
    * @param response
    *          HTTP servlet response (used for redirection)
    * 
