@@ -87,21 +87,6 @@
 		</property>
 	</bean>
 
-	<!-- User Profile -->
-	<bean id="user-profile" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="main-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="My profile" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/user-profile.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="change-password" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
