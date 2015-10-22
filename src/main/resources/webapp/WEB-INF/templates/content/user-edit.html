@@ -1,0 +1,140 @@
+<th:block th:fragment="edit(mode)">
+	<c:url var="formAction" value="${template.formAction}" />
+	<c:choose>
+		<c:when test="${template.formMode == 'edit'}">
+			<c:set var="headingText" value="Edit user" />
+			<c:set var="emailAddressClass" value="focusFirst " />
+		</c:when>
+		<c:otherwise>
+			<c:set var="headingText" value="Add user" />
+			<c:set var="emailAddressClass" value="" />
+		</c:otherwise>
+	</c:choose>
+	<div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit user' : 'Add user'}" />
+	<div class="sectionContent">
+		<form method="post" th:action="@{/user/{mode}(mode=${mode})}" th:object="${command}">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<th:block th:if="${#fields.hasErrors('global')}">
+				<div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
+			</th:block>
+
+			<th:block th:if="${mode == 'add'}">
+				<div th:class="${'fields required' + (#fields.hasErrors('userName') ? ' error' : '')}">
+					<div>
+						<th:block th:if="${#fields.hasErrors('userName')}">
+							<span class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}">error</span>
+						</th:block>
+					</div>
+					<div>
+						<label for="userName">User name:</label> <input type="text" name="userName" class="text focusFirst" id="userNameText"
+							maxlength="30" th:field="${command.userName}" />
+					</div>
+					<div class="description">Enter a login name for the new user.</div>
+				</div>
+			</th:block>
+			<th:block th:unless="${mode == 'add'}">
+				<div class="fields">
+					<div>
+						<label>User name:</label> <span class="constant" th:text="${command.userName}" />
+					</div>
+				</div>
+			</th:block>
+
+			<div th:class="${'fields' + (#fields.hasErrors('enabled') ? ' error' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('enabled')}">
+						<span class="error" th:each="err : ${#fields.errors('enabled')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<fieldset class="checkbox">
+						<legend>Login status</legend>
+						<div class="description">Change this option to enable / disable user logins.</div>
+						<div>
+							<label for="enabled">Enabled</label> <input type="checkbox" class="checkbox" name="enabled" id="enabled"
+								th:checked="${command.enabled}" value="true" />
+						</div>
+					</fieldset>
+				</div>
+			</div>
+
+			<div th:class="${'fields required' + (#fields.hasErrors('emailAddress') ? ' error' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('emailAddress')}">
+						<span class="error" th:each="err : ${#fields.errors('emailAddress')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<label for="emailAddress">Email address:</label> <input type="text" name="emailAddress" class="text focusFirst"
+						ud="emailAddress" maxlength="320" th:field="${command.emailAddress}" />
+				</div>
+				<div class="description">Enter the user's email address.</div>
+			</div>
+
+			<div th:class="${'fields' + (#fields.hasErrors('website') ? ' error' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('website')}">
+						<span class="error" th:each="err : ${#fields.errors('website')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<label for="website">Web site:</label> <input type="text" name="website" class="text" styleId="website" maxlength="255"
+						th:field="${command.website}" />
+				</div>
+				<div class="description">Enter the user's web site.</div>
+			</div>
+
+			<div th:class="${'fields' + (#fields.hasErrors('password') ? ' error' : '') + (mode == 'add' ? ' required' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('password')}">
+						<span class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<label for="password">Password:</label> <input type="password" name="password" class="text" id="password"
+						th:field="${command.password}" />
+				</div>
+				<div class="description" th:if="${mode == 'add'}">Enter a password for the new user.</div>
+				<div class="description" th:unless="${mode == 'add'}">Enter a new password for this user, or leave blank to keep it
+					unchanged.</div>
+			</div>
+
+			<div th:class="${'fields' + (#fields.hasErrors('password2') ? ' error' : '') + (mode == 'add' ? ' required' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('password2')}">
+						<span class="error" th:each="err : ${#fields.errors('password2')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<label for="password2">Password (again):</label> <input type="password" name="password2" class="text" id="password2"
+						th:field="${command.password2}" />
+				</div>
+				<div class="description">Enter the password again for verification.</div>
+			</div>
+
+			<div th:class="${'fields' + (#fields.hasErrors('roles') ? ' error' : '')}">
+				<div>
+					<th:block th:if="${#fields.hasErrors('roles')}">
+						<span class="error" th:each="err : ${#fields.errors('roles')}" th:text="${err}">error</span>
+					</th:block>
+				</div>
+				<div>
+					<label for="roles">Roles:</label> <select multiple="true" size="5" name="roles" id="roles" th:field="${command.roles}">
+						<option th:each="availableRole : ${availableRoles}" th:text="${availableRole.description}" th:value="${availableRole.name}" />
+					</select>
+				</div>
+				<div class="description">Select security roles to apply to this user. Use 'Ctrl' to select multiple roles.</div>
+			</div>
+
+			<div class="fields">
+				<th:block th:if="${mode == 'edit'}">
+					<input type="hidden" name="id" th:field="${command.id}" />
+					<input type="hidden" name="userName" id="userNameHidden" th:field="${command.userName}" />
+				</th:block>
+				<div class="buttons">
+					<input type="submit" class="submit" value="Save &#187;" /> <input type="submit" class="button" name="cancel" value="Cancel" />
+				</div>
+			</div>
+		</form>
+	</div>
+</th:block>

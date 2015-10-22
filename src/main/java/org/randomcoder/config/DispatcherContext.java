@@ -107,6 +107,8 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     resolver.setViewNames(new String[] {
         "home",
         "article-tag-list",
+        "user-add",
+        "user-edit",
         "article-view",
         "legal-about",
         "legal-license",
@@ -135,6 +137,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
         "content/login",
         "content/user-profile",
         "content/user-list",
+        "content/user-edit",
         "content/tag-list",
         "content/tag-edit",
         "content/change-password",

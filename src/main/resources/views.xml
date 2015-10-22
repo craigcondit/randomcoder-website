@@ -79,32 +79,5 @@
 			</map>
 		</property>
 	</bean>
-
-	<bean id="user-add" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Add user" />
-				<entry key="formMode" value="add" />
-				<entry key="formAction" value="/user/add" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/user-edit.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
-	<bean id="user-edit" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="user-add" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Edit user" />
-				<entry key="formMode" value="edit" />
-				<entry key="formAction" value="/user/edit" />
-			</map>
-		</property>
-	</bean>
 	
 </beans>

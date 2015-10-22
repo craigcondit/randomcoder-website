@@ -1,9 +1,6 @@
-<c:url var="homeUrl" value="/" />
-<c:url var="addUrl" value="/user/add" />
-<c:set var="pager" value="${users}" scope="request" />
 <div class="sectionHeading">Users</div>
 <div class="sectionSubHeading">
-	<a class="add" href="${addUrl}">Add new user</a> :: <a href="${homeUrl}">Done</a>
+	<a class="add" th:href="@{/user/add}">Add new user</a> :: <a href="${homeUrl}">Done</a>
 </div>
 <div class="sectionContentFull">
 	<th:block th:each="user,status : ${users.content}">
@@ -18,10 +15,12 @@
         </th:block>
 			</th:block>
 			<th:block th:unless="${user.enabled}">
-				<a th:href="@{/user/edit(id=${user.id})}"><strong th:text="${user.userName}">username</strong></a>
-				<th:block th:if="${user.emailAddress != null and user.emailAddress != ''}">
+				<del>
+					<a th:href="@{/user/edit(id=${user.id})}"><strong th:text="${user.userName}">username</strong></a>
+					<th:block th:if="${user.emailAddress != null and user.emailAddress != ''}">
           (<th:block th:text="${user.emailAddress}" />)
         </th:block>
+				</del>
 			</th:block>
 			<div class="details" th:if="${not #lists.isEmpty(user.roles)}">
 				<strong>Roles:</strong>
