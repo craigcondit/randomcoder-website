@@ -53,21 +53,6 @@
 		<property name="url" value="/WEB-INF/jsp/layout/wide.jsp" />
 	</bean>
 	
-	<bean id="change-password" class="org.randomcoder.mvc.JstlTemplateView">
-		<property name="parent" ref="wide-layout" />
-		<property name="templateAttributes">
-			<map>
-				<entry key="title" value="Change password" />
-				<entry key="formAction" value="/user/profile/change-password" />
-				<entry key="content">
-					<list>
-						<value>/WEB-INF/jsp/content/change-password.jsp</value>
-					</list>
-				</entry>
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="article-add" class="org.randomcoder.mvc.JstlTemplateView">
 		<property name="parent" ref="wide-layout" />
 		<property name="templateAttributes">
