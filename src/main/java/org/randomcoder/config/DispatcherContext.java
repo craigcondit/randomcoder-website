@@ -104,64 +104,7 @@ public class DispatcherContext extends WebMvcConfigurerAdapter {
     ThymeleafViewResolver resolver = new ThymeleafViewResolver();
     resolver.setOrder(1);
     resolver.setTemplateEngine(templateEngine());
-    resolver.setViewNames(new String[] {
-        "home",
-        "article-tag-list",
-        "article-add",
-        "article-edit",
-        "user-add",
-        "user-edit",
-        "article-view",
-        "legal-about",
-        "legal-license",
-        "login",
-        "login-error",
-        "account-create",
-        "account-create-done",
-        "user-profile",
-        "user-list",
-        "tag-list",
-        "tag-add",
-        "tag-edit",
-        "change-password",
-        "layout/main",
-        "head/main",
-        "head/feeds",
-        "header/default",
-        "footer/default",
-        "content/article-list",
-        "content/article-edit",
-        "content/article-comment",
-        "content/pager",
-        "content/legal-about",
-        "content/legal-license",
-        "content/account-create",
-        "content/account-create-done",
-        "content/login",
-        "content/user-profile",
-        "content/user-list",
-        "content/user-edit",
-        "content/tag-list",
-        "content/tag-edit",
-        "content/change-password",
-        "sidebar/calendar",
-        "sidebar/tagcloud",
-        "sidebar/navigation",
-        "sidebar/login",
-        "sidebar/welcome",
-        "sidebar/feeds"
-    });
-
     return resolver;
   }
 
-  @Bean
-  public ViewResolver jspViewResolver() {
-    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-    resolver.setOrder(2);
-    resolver.setViewClass(JstlView.class);
-    resolver.setPrefix("/WEB-INF/jsp/");
-    resolver.setSuffix(".jsp");
-    return resolver;
-  }
 }
