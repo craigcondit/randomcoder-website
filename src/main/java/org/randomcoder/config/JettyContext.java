@@ -138,7 +138,7 @@ public class JettyContext {
     // h2c connector
     HTTP2CServerConnectionFactory http2cFactory = new HTTP2CServerConnectionFactory(httpConfig);
     http2cFactory.setMaxConcurrentStreams(-1);
-    http2cFactory.setInitialStreamSendWindow(65535);
+    http2cFactory.setInitialStreamRecvWindow(65535);
     connectionFactories.add(http2cFactory);
 
     ServerConnector httpConnector = new ServerConnector(server, 1, -1, connectionFactories.toArray(new ConnectionFactory[] {}));
