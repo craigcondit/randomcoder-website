@@ -1,18 +1,5 @@
 <config xmlns="http://www.ehcache.org/v3" xmlns:jcache="http://www.ehcache.org/v3/jsr107">
 
-	<service>
-		<jcache:defaults>
-			<jcache:cache name="default" template="defaultTemplate" />
-		</jcache:defaults>
-	</service>
-
-	<cache-template name="defaultTemplate">
-		<expiry>
-			<ttl unit="seconds">120</ttl>
-		</expiry>
-		<heap unit="entries">1000</heap>
-	</cache-template>
-
 	<!-- Read-only bean mappings -->
 
 	<cache alias="org.randomcoder.db.Role">
@@ -110,22 +97,6 @@
 			<ttl unit="seconds">3600</ttl>
 		</expiry>
 		<heap unit="entries">1000</heap>
-	</cache>
-
-	<!-- method caches -->
-
-	<cache alias="org.randomcoder.MAVEN_REPOSITORY_CACHE">
-		<expiry>
-			<ttl unit="seconds">3600</ttl>
-		</expiry>
-		<heap unit="entries">1</heap>
-	</cache>
-
-	<cache alias="org.randomcoder.LEGACY_REPOSITORY_CACHE">
-		<expiry>
-			<ttl unit="seconds">86400</ttl>
-		</expiry>
-		<heap unit="entries">1</heap>
 	</cache>
 
 </config>
