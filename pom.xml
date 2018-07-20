@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>randomcoder-parent</artifactId>
@@ -10,7 +8,7 @@
 	<groupId>org.randomcoder</groupId>
 	<artifactId>randomcoder-website</artifactId>
 	<name>Randomcoder Website</name>
-	<version>3.2.5-SNAPSHOT</version>
+	<version>3.2.5</version>
 	<description>This project contains the RandomCoder.Org website.</description>
 	<url>https://github.com/insideo/randomcoder-website</url>
 	<inceptionYear>2006</inceptionYear>
@@ -18,7 +16,7 @@
 		<connection>scm:git:https://github.com/insideo/randomcoder-website.git</connection>
 		<developerConnection>scm:git:git@github.com:insideo/randomcoder-website.git</developerConnection>
 		<url>https://github.com/insideo/randomcoder-website</url>
-		<tag>HEAD</tag>
+		<tag>randomcoder-website-3.2.5</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -376,20 +374,16 @@
 								</filter>
 							</filters>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.randomcoder.WebSite</mainClass>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.handlers</resource>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.schemas</resource>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>executable</shadedClassifierName>
