@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>randomcoder-parent</artifactId>
@@ -63,15 +65,15 @@
 		<easymock.version>3.6</easymock.version>
 		<commons.codec.version>1.11</commons.codec.version>
 		<commons.httpclient.version>3.1</commons.httpclient.version>
+		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
+		<thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
 		<javax.inject.version>1</javax.inject.version>
 		<javax.el.version>2.2.5</javax.el.version>
 		<spring.version>4.0.2.RELEASE</spring.version>
 		<spring.security.version>4.0.2.RELEASE</spring.security.version>
 		<spring.data.jpa.version>1.9.0.RELEASE</spring.data.jpa.version>
-		<hibernate.version>5.0.2.Final</hibernate.version>
-		<hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
-		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-		<thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
+		<hibernate.version>5.3.2.Final</hibernate.version>
+		<hibernate.validator.version>6.0.11.Final</hibernate.validator.version>
 		<jacoco.maven.plugin.version>0.8.1</jacoco.maven.plugin.version>
 		<maven.site.plugin.version>3.7.1</maven.site.plugin.version>
 		<maven.project.info.reports.plugin.version>3.0.0</maven.project.info.reports.plugin.version>
@@ -368,16 +370,20 @@
 								</filter>
 							</filters>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.randomcoder.WebSite</mainClass>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.handlers</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.schemas</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
 							</transformers>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>executable</shadedClassifierName>

@@ -6,15 +6,18 @@ import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.PostgreSQL82Dialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.jpa.*;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory;
 
 @Configuration
 @SuppressWarnings("javadoc")
