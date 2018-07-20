@@ -62,8 +62,8 @@ public class JettyContext {
 		context.getMimeTypes().addMimeMapping("wsdl", "text/xml");
 
 		// configure session handling
-		context.getSessionHandler().getSessionManager().setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
-		context.getSessionHandler().getSessionManager().setMaxInactiveInterval(1800);
+		context.getSessionHandler().setSessionTrackingModes(EnumSet.of(SessionTrackingMode.COOKIE));
+		context.getSessionHandler().setMaxInactiveInterval(1800);
 
 		// figure out where our content lives at runtime
 		String resourceBase = getClass().getResource("/webapp/WEB-INF/templates/home.html").toURI().toString()
