@@ -1,89 +1,131 @@
-<ehcache>
+<config xmlns="http://www.ehcache.org/v3" xmlns:jcache="http://www.ehcache.org/v3/jsr107">
 
-	<!-- default settings -->
-	<defaultCache timeToIdleSeconds="120" timeToLiveSeconds="120"
-		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+	<service>
+		<jcache:defaults>
+			<jcache:cache name="default" template="defaultTemplate" />
+		</jcache:defaults>
+	</service>
+
+	<cache-template name="defaultTemplate">
+		<expiry>
+			<ttl unit="seconds">120</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache-template>
 
 	<!-- Read-only bean mappings -->
 
-	<!-- Role: 1 hour / 2 hours / 100 elements -->
-	<cache name="org.randomcoder.db.Role" timeToIdleSeconds="3600"
-		timeToLiveSeconds="7200" maxElementsInMemory="100" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Role">
+		<expiry>
+			<ttl unit="seconds">7200</ttl>
+		</expiry>
+		<heap unit="entries">100</heap>
+	</cache>
 
 	<!-- Read/write bean mappings -->
 
-	<!-- Article: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.db.Article" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="100" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Article">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">100</heap>
+	</cache>
 
-	<!-- Comment: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.Comment" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Comment">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- CommentReferrer: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.CommentReferrer" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.CommentReferrer">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- CommentIp: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.CommentIp" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.CommentIp">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- CommentUserAgent: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.CommentUserAgent" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.CommentUserAgent">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- User: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.User" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.User">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- Tag: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.Tag" timeToIdleSeconds="1800"
-		timeToLiveSeconds="3600" maxElementsInMemory="1000" eternal="false"
-		overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Tag">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
 	<!-- Collection mappings -->
 
-	<!-- Article.tags: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.db.Article.tags"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Article.tags">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">100</heap>
+	</cache>
 
-	<!-- Article.comments: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.randomcoder.db.Article.comments"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.Article.comments">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!-- User.roles: 0.5 hours / 1 hour / 100 elements -->
-	<cache name="org.randomcoder.db.User.roles"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="100" eternal="false" overflowToDisk="false" />
+	<cache alias="org.randomcoder.db.User.roles">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">100</heap>
+	</cache>
 
 	<!-- Query mappings -->
 
-	<!--  query cache: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.hibernate.cache.internal.StandardQueryCache"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+	<cache alias="default-query-results-region">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
-	<!--  update timestamp cache: 0.5 hours / 1 hour / 1000 elements -->
-	<cache name="org.hibernate.cache.spi.UpdateTimestampsCache"
-		timeToIdleSeconds="1800" timeToLiveSeconds="3600"
-		maxElementsInMemory="1000" eternal="false" overflowToDisk="false" />
+	<cache alias="default-update-timestamps-region">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1000</heap>
+	</cache>
 
 	<!-- method caches -->
-	<cache name="org.randomcoder.MAVEN_REPOSITORY_CACHE"
-		timeToIdleSeconds="3600" timeToLiveSeconds="3600"
-		maxElementsInMemory="1" eternal="false" overflowToDisk="false" />	
 
-	<cache name="org.randomcoder.LEGACY_REPOSITORY_CACHE"
-		timeToIdleSeconds="86400" timeToLiveSeconds="86400"
-		maxElementsInMemory="1" eternal="false" overflowToDisk="false" />	
-	
-</ehcache>
+	<cache alias="org.randomcoder.MAVEN_REPOSITORY_CACHE">
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<heap unit="entries">1</heap>
+	</cache>
+
+	<cache alias="org.randomcoder.LEGACY_REPOSITORY_CACHE">
+		<expiry>
+			<ttl unit="seconds">86400</ttl>
+		</expiry>
+		<heap unit="entries">1</heap>
+	</cache>
+
+</config>

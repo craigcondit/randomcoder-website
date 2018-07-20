@@ -6,8 +6,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.hibernate.cfg.ImprovedNamingStrategy;
-import org.hibernate.dialect.PostgreSQL82Dialect;
+import org.hibernate.dialect.PostgreSQL95Dialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,19 +18,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory;
-
 @Configuration
-@SuppressWarnings("javadoc")
 @EnableJpaRepositories("org.randomcoder.db")
-public class DatabaseConfig
-{
+public class DatabaseConfig {
 	@Inject
 	Environment env;
 
 	@Bean
-	public DataSource dataSource()
-	{
+	public DataSource dataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setUrl(env.getRequiredProperty("database.url"));
 		ds.setUsername(env.getRequiredProperty("database.username"));
@@ -38,8 +34,7 @@ public class DatabaseConfig
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory()
-	{
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
 
 		emfb.setDataSource(dataSource());
@@ -47,7 +42,7 @@ public class DatabaseConfig
 		emfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 
 		Properties props = new Properties();
-		props.setProperty("hibernate.dialect", PostgreSQL82Dialect.class.getName());
+		props.setProperty("hibernate.dialect", PostgreSQL95Dialect.class.getName());
 		props.setProperty("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
 		props.setProperty("hibernate.format_sql", "false");
 		props.setProperty("hibernate.show_sql", "false");
@@ -55,15 +50,16 @@ public class DatabaseConfig
 		props.setProperty("hibernate.jdbc.fetch_size", "100");
 		props.setProperty("hibernate.jdbc.batch_size", "10");
 		props.setProperty("hibernate.cache.use_query_cache", "true");
-		props.setProperty("hibernate.cache.region.factory_class", SingletonEhCacheRegionFactory.class.getName());
+		props.setProperty("hibernate.cache.region.factory_class", "jcache");
+		props.setProperty("hibernate.javax.cache.provider", EhcacheCachingProvider.class.getName());
+		props.setProperty("hibernate.javax.cache.uri", getClass().getResource("/ehcache.xml").toExternalForm());
+		props.setProperty("hibernate.javax.cache.missing_cache_strategy", "fail");
 		emfb.setJpaProperties(props);
-
 		return emfb;
 	}
 
 	@Bean
-	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory)
-	{
+	public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
 		return transactionManager;

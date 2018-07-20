@@ -66,12 +66,14 @@
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
 		<javax.inject.version>1</javax.inject.version>
-		<javax.el.version>2.2.5</javax.el.version>
+		<javax.el.version>3.0.0</javax.el.version>
 		<spring.version>4.0.2.RELEASE</spring.version>
 		<spring.security.version>4.0.2.RELEASE</spring.security.version>
 		<spring.data.jpa.version>1.9.0.RELEASE</spring.data.jpa.version>
-		<hibernate.version>5.3.2.Final</hibernate.version>
+		<hibernate.version>5.3.3.Final</hibernate.version>
+		<hibernate.jcache.version>5.3.3.Final</hibernate.jcache.version>
 		<hibernate.validator.version>6.0.11.Final</hibernate.validator.version>
+		<ehcache.version>3.5.2</ehcache.version>
 		<jacoco.maven.plugin.version>0.8.1</jacoco.maven.plugin.version>
 		<maven.site.plugin.version>3.7.1</maven.site.plugin.version>
 		<maven.project.info.reports.plugin.version>3.0.0</maven.project.info.reports.plugin.version>
@@ -136,7 +138,7 @@
 			<version>${javax.el.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish.web</groupId>
+			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
 			<version>${javax.el.version}</version>
 		</dependency>
@@ -278,13 +280,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-ehcache</artifactId>
-			<version>${hibernate.version}</version>
+			<artifactId>hibernate-jcache</artifactId>
+			<version>${hibernate.jcache.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${hibernate.validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>${ehcache.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.randomcoder</groupId>
