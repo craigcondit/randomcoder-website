@@ -91,7 +91,7 @@ public class UserBusinessImpl implements UserBusiness {
 	@Override
 	@Transactional("transactionManager")
 	public void deleteUser(Long userId) {
-		userRepository.delete(userId);
+		userRepository.deleteById(userId);
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	private User loadUser(Long userId) {
-		User user = userRepository.findOne(userId);
+		User user = userRepository.getOne(userId);
 		if (user == null) {
 			throw new UserNotFoundException();
 		}

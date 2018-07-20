@@ -142,7 +142,7 @@ public class UserBusinessImplTest {
 
 		Capture<User> saved = newCapture();
 
-		expect(ur.findOne(1L)).andReturn(user);
+		expect(ur.getOne(1L)).andReturn(user);
 		expect(ur.save(capture(saved))).andReturn(null);
 		control.replay();
 
@@ -156,7 +156,7 @@ public class UserBusinessImplTest {
 	public void testDeleteUser() {
 		User user = new User();
 		user.setId(1L);
-		ur.delete(1L);
+		ur.deleteById(1L);
 		control.replay();
 
 		ub.deleteUser(1L);
@@ -175,7 +175,7 @@ public class UserBusinessImplTest {
 
 		UserEditCommand cmd = new UserEditCommand();
 
-		expect(ur.findOne(1L)).andReturn(user);
+		expect(ur.getOne(1L)).andReturn(user);
 		control.replay();
 
 		ub.loadUserForEditing(cmd, 1L);

@@ -42,7 +42,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
 
 	@Override
 	public Page<TagStatistics> findAllTagStatistics(Pageable pageable) {
-		int start = pageable.getOffset();
+		int start = (int) pageable.getOffset();
 		int limit = pageable.getPageSize();
 
 		// retrieve a count first

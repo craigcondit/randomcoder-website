@@ -163,7 +163,7 @@ public class UserControllerTest {
 		List<User> users = new ArrayList<>();
 		Page<User> page = new PageImpl<>(users);
 
-		Pageable pr = new PageRequest(0, 20);
+		Pageable pr = PageRequest.of(0, 20);
 		Capture<Pageable> pc = newCapture();
 
 		expect(ub.findAll(capture(pc))).andReturn(page);
@@ -174,7 +174,7 @@ public class UserControllerTest {
 		c.listUsers(m, pr, null);
 		control.verify();
 
-		assertEquals(new Sort("userName"), pc.getValue().getSort());
+		assertEquals(Sort.by("userName"), pc.getValue().getSort());
 		assertEquals(0, pc.getValue().getOffset());
 		assertEquals(20, pc.getValue().getPageSize());
 	}
@@ -184,7 +184,7 @@ public class UserControllerTest {
 		List<User> users = new ArrayList<>();
 		Page<User> page = new PageImpl<>(users);
 
-		Pageable pr = new PageRequest(0, 100);
+		Pageable pr = PageRequest.of(0, 100);
 		Capture<Pageable> pc = newCapture();
 
 		expect(ub.findAll(capture(pc))).andReturn(page);
@@ -195,7 +195,7 @@ public class UserControllerTest {
 		c.listUsers(m, pr, null);
 		control.verify();
 
-		assertEquals(new Sort("userName"), pc.getValue().getSort());
+		assertEquals(Sort.by("userName"), pc.getValue().getSort());
 		assertEquals(0, pc.getValue().getOffset());
 		assertEquals(25, pc.getValue().getPageSize());
 	}

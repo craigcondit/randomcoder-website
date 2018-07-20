@@ -85,7 +85,7 @@ public class AbsArticleListControllerTest {
 
 		Capture<CalendarInfo> cal = newCapture();
 
-		Pageable pr = new PageRequest(0, 10);
+		Pageable pr = PageRequest.of(0, 10);
 		expect(tb.getTagCloud()).andReturn(tc);
 		expect(m.addAttribute(eq("articles"), capture(ad))).andReturn(m);
 		expect(m.addAttribute(eq("pager"), isA(Page.class))).andReturn(m);

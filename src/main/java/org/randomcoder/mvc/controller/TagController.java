@@ -121,10 +121,10 @@ public class TagController {
 			page = 0;
 		}
 
-		pageable = new PageRequest(page, size, new Sort("displayName"));
+		pageable = PageRequest.of(page, size, Sort.by("displayName"));
 
 		if (pageable.getPageSize() > maximumPageSize) {
-			pageable = new PageRequest(0, maximumPageSize, pageable.getSort());
+			pageable = PageRequest.of(0, maximumPageSize, pageable.getSort());
 		}
 
 		Page<TagStatistics> tagStats = tagBusiness.findTagStatistics(pageable);

@@ -154,7 +154,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 			page = 0;
 		}
 
-		pageable = new PageRequest(page, size, new Sort(Direction.DESC, "creationDate"));
+		pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "creationDate"));
 
 		// get current month
 		Calendar currentMonth = Calendar.getInstance();

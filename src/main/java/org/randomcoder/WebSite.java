@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.randomcoder.config.JettyContext;
+import org.randomcoder.logging.Log4jConfigurer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
@@ -11,7 +12,6 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.ResourcePropertySource;
-import org.springframework.util.Log4jConfigurer;
 
 /**
  * Startup class for the randomcoder website.

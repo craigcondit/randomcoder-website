@@ -20,7 +20,7 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.RedirectView;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
@@ -34,7 +34,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan({ "org.randomcoder.mvc" })
 @EnableWebMvc
-public class DispatcherContext extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class DispatcherContext implements WebMvcConfigurer, ApplicationContextAware {
 
 	@Inject
 	Environment env;

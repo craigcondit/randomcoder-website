@@ -173,7 +173,7 @@ public class UserController {
 			page = 0;
 		}
 
-		pageable = new PageRequest(page, size, new Sort("userName"));
+		pageable = PageRequest.of(page, size, Sort.by("userName"));
 
 		Page<User> users = userBusiness.findAll(pageable);
 		model.addAttribute("users", users);

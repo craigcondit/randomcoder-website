@@ -91,7 +91,7 @@ public class HomeControllerTest {
 		expect(ab.listArticlesBeforeDate(eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
 
-		assertSame(page, c.listArticlesBeforeDate(null, endDate, new PageRequest(0, 50)));
+		assertSame(page, c.listArticlesBeforeDate(null, endDate, PageRequest.of(0, 50)));
 		control.verify();
 		assertEquals(0, pageCap.getValue().getOffset());
 		assertEquals(50, pageCap.getValue().getPageSize());
@@ -118,7 +118,7 @@ public class HomeControllerTest {
 		expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
-		assertEquals("home", c.home(new ArticleListCommand(), m, new PageRequest(0, 10), r));
+		assertEquals("home", c.home(new ArticleListCommand(), m, PageRequest.of(0, 10), r));
 		control.verify();
 	}
 }

@@ -78,7 +78,7 @@ public class TagBusinessImpl implements TagBusiness {
 	@Override
 	@Transactional("transactionManager")
 	public void deleteTag(Long tagId) {
-		Tag tag = tagRepository.findOne(tagId);
+		Tag tag = tagRepository.getOne(tagId);
 		if (tag == null) {
 			return;
 		}
@@ -93,7 +93,7 @@ public class TagBusinessImpl implements TagBusiness {
 	}
 
 	private Tag loadTag(Long tagId) {
-		Tag tag = tagRepository.findOne(tagId);
+		Tag tag = tagRepository.getOne(tagId);
 		if (tag == null) {
 			throw new TagNotFoundException();
 		}

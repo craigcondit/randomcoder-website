@@ -108,7 +108,7 @@ public class ArticleTagListControllerTest {
 		expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
 
-		assertSame(page, c.listArticlesBeforeDate(cmd, endDate, new PageRequest(0, 50)));
+		assertSame(page, c.listArticlesBeforeDate(cmd, endDate, PageRequest.of(0, 50)));
 		control.verify();
 		assertEquals(0, pageCap.getValue().getOffset());
 		assertEquals(50, pageCap.getValue().getPageSize());
@@ -151,7 +151,7 @@ public class ArticleTagListControllerTest {
 		expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
-		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", new PageRequest(0, 10), r));
+		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", PageRequest.of(0, 10), r));
 		assertSame(tag, cmd.getTag());
 		control.verify();
 	}

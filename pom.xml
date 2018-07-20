@@ -69,13 +69,13 @@
 		<thymeleaf.extras.springsecurity4.version>3.0.2.RELEASE</thymeleaf.extras.springsecurity4.version>
 		<javax.inject.version>1</javax.inject.version>
 		<javax.el.version>3.0.0</javax.el.version>
-		<spring.version>4.0.2.RELEASE</spring.version>
-		<spring.security.version>4.0.2.RELEASE</spring.security.version>
-		<spring.data.jpa.version>1.9.0.RELEASE</spring.data.jpa.version>
 		<hibernate.version>5.3.3.Final</hibernate.version>
 		<hibernate.jcache.version>5.3.3.Final</hibernate.jcache.version>
 		<hibernate.validator.version>6.0.11.Final</hibernate.validator.version>
 		<ehcache.version>3.5.2</ehcache.version>
+		<spring.version>5.0.7.RELEASE</spring.version>
+		<spring.security.version>5.0.6.RELEASE</spring.security.version>
+		<spring.data.jpa.version>2.0.8.RELEASE</spring.data.jpa.version>
 		<jacoco.maven.plugin.version>0.8.1</jacoco.maven.plugin.version>
 		<maven.site.plugin.version>3.7.1</maven.site.plugin.version>
 		<maven.project.info.reports.plugin.version>3.0.0</maven.project.info.reports.plugin.version>

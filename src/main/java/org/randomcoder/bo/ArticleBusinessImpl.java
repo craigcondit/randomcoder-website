@@ -180,7 +180,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 			if (tag.getId() == null) {
 				tags.add(tagRepository.save(tag));
 			} else {
-				tags.add(tagRepository.findOne(tag.getId()));
+				tags.add(tagRepository.getOne(tag.getId()));
 			}
 		}
 		article.setTags(tags);
@@ -281,7 +281,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 			if (tag.getId() == null) {
 				tags.add(tagRepository.save(tag));
 			} else {
-				tags.add(tagRepository.findOne(tag.getId()));
+				tags.add(tagRepository.getOne(tag.getId()));
 			}
 		}
 		article.setTags(tags);
@@ -292,7 +292,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
 	public Article readArticle(long articleId) {
-		Article article = articleRepository.findOne(articleId);
+		Article article = articleRepository.getOne(articleId);
 		if (article != null) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
@@ -389,7 +389,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 	@Override
 	@Transactional("transactionManager")
 	public boolean moderateComments(int count) throws ModerationException {
-		Page<Comment> page = commentRepository.findForModeration(new PageRequest(0, count, new Sort("creationDate")));
+		Page<Comment> page = commentRepository.findForModeration(PageRequest.of(0, count, Sort.by("creationDate")));
 		if (page.getNumberOfElements() < 1) {
 			return false;
 		}
@@ -413,7 +413,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
 	public List<Article> listRecentArticles(int limit) {
-		PageRequest req = new PageRequest(0, limit, new Sort(Direction.DESC, "creationDate"));
+		PageRequest req = PageRequest.of(0, limit, Sort.by(Direction.DESC, "creationDate"));
 		List<Article> articles = articleRepository.findAll(req).getContent();
 		Hibernate.initialize(articles);
 		for (Article article : articles) {
@@ -516,7 +516,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 			throw new ArticleNotFoundException("Invalid id specified.");
 		}
 
-		Article article = articleRepository.findOne(articleId);
+		Article article = articleRepository.getOne(articleId);
 		if (article == null) {
 			throw new ArticleNotFoundException("No article exists with id: " + articleId);
 		}
@@ -529,7 +529,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 			throw new CommentNotFoundException("Invalid id specified.");
 		}
 
-		Comment comment = commentRepository.findOne(commentId);
+		Comment comment = commentRepository.getOne(commentId);
 		if (comment == null) {
 			throw new CommentNotFoundException("No comment exists with id: " + commentId);
 		}
