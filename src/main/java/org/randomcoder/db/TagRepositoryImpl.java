@@ -14,7 +14,7 @@ import org.springframework.data.domain.*;
 public class TagRepositoryImpl implements TagRepositoryCustom
 {
 	private static final String QUERY_ALL_TAG_STATISTICS = "select t, size(t.articles) from Tag t group by t order by t.displayName";
-	private static final String QUERY_MOST_ARTICLES = "select max(size(t.articles)) from Tag t";
+	private static final String QUERY_MOST_ARTICLES = "select max(select size(t.articles) from Tag t)";
 	
 	private EntityManager entityManager;
 
