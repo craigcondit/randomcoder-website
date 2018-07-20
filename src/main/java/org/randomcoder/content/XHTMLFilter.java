@@ -60,6 +60,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
+@SuppressWarnings("deprecation")
 public class XHTMLFilter implements ContentFilter {
 	/**
 	 * Apache logger.

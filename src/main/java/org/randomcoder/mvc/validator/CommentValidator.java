@@ -158,7 +158,7 @@ public class CommentValidator implements Validator {
 				int col = e.getColumnNumber();
 
 				errors.rejectValue("content", ERROR_COMMENT_CONTENT_INVALID,
-						new Object[] { new Integer(line), new Integer(col), e.getMessage() },
+						new Object[] { Integer.valueOf(line), Integer.valueOf(col), e.getMessage() },
 						"content invalid");
 			} catch (InvalidContentTypeException e) {
 				logger.error("Caught exception", e);

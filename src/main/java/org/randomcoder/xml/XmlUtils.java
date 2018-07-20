@@ -97,7 +97,7 @@ public final class XmlUtils {
 			// try to set indent amount using JDK 1.5+ property
 			try {
 				if (indent) {
-					factory.setAttribute("indent-number", new Integer(2));
+					factory.setAttribute("indent-number", Integer.valueOf(2));
 				}
 			} catch (Exception ignored) {
 			}

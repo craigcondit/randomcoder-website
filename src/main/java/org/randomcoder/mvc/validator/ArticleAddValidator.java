@@ -181,7 +181,7 @@ public class ArticleAddValidator implements Validator {
 			// validate summary
 			if (summary.length() > maximumSummaryLength) {
 				errors.rejectValue("summary", ERROR_ARTICLE_SUMMARY_TOO_LONG,
-						new Object[] { new Integer(maximumSummaryLength) }, "summary too long");
+						new Object[] { Integer.valueOf(maximumSummaryLength) }, "summary too long");
 			} else {
 				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID,
 						"summary invalid");
@@ -214,7 +214,7 @@ public class ArticleAddValidator implements Validator {
 			int col = e.getColumnNumber();
 
 			errors.rejectValue(fieldName, errorMessage,
-					new Object[] { new Integer(line), new Integer(col), e.getMessage() }, fallbackMessage);
+					new Object[] { Integer.valueOf(line), Integer.valueOf(col), e.getMessage() }, fallbackMessage);
 		} catch (InvalidContentTypeException e) {
 			logger.error("Caught exception", e);
 			throw new RuntimeException("Invalid content type", e);
