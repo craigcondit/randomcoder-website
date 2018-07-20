@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.randomcoder.test.mock.content.ContentFilterMock;
 import org.xml.sax.InputSource;
 
-@SuppressWarnings("javadoc")
 public class ContentUtilsTest {
 	private static final String SOURCE = "Line 1\r\nLine 2";
 	private static final String RESULT = "<div class=\"text-plain\">Line 1<br/>Line 2</div>";

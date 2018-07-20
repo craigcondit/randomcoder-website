@@ -12,7 +12,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-@SuppressWarnings("javadoc")
 public class TextReaderTest {
 	private static final String TEST_RESOURCE = "/text-reader.txt";
 	private static final String EXPECTED_DATA = "<text><line>First paragraph.</line><line></line><line>Second paragraph.</line></text>";
