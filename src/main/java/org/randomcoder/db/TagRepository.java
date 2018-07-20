@@ -1,19 +1,19 @@
 package org.randomcoder.db;
 
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
  * Tag repository.
  */
 @Repository
-public interface TagRepository extends JpaRepository<Tag, Long>, TagRepositoryCustom
-{
+public interface TagRepository extends JpaRepository<Tag, Long>, TagRepositoryCustom {
 	/**
 	 * Finds a given {@code Tag} by name.
 	 * 
 	 * @param name
-	 *          tag name
+	 *            tag name
 	 * @return {@code Tag} instance, or null if not found
 	 */
 	@Query("from Tag t where t.name = ?1")

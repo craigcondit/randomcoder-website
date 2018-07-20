@@ -1,12 +1,5 @@
 package org.randomcoder.xml;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentType;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -24,39 +17,41 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 /**
  * Various convenience methods to get data in and out of DOM, pretty print, etc.
  */
-public final class XmlUtils
-{
+public final class XmlUtils {
 	private static final Logger logger = LoggerFactory.getLogger(XmlUtils.class);
 
-	private XmlUtils()
-	{}
+	private XmlUtils() {
+	}
 
 	/**
 	 * Parse the given input source into a DOM object.
 	 * 
 	 * @param source
-	 *          input source
+	 *            input source
 	 * @return dom representation
 	 * @throws SAXException
-	 *           if parsing fails
+	 *             if parsing fails
 	 * @throws IOException
-	 *           if an I/O error occurs
+	 *             if an I/O error occurs
 	 */
-	public static Document parseXml(InputSource source) throws SAXException, IOException
-	{
-		try
-		{
+	public static Document parseXml(InputSource source) throws SAXException, IOException {
+		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			dbf.setNamespaceAware(true);
 
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			return db.parse(source);
-		}
-		catch (ParserConfigurationException e)
-		{
+		} catch (ParserConfigurationException e) {
 			logger.error("Caught exception", e);
 			throw new RuntimeException("XML parser configuration problem", e);
 		}
@@ -66,18 +61,18 @@ public final class XmlUtils
 	 * Writes a DOM object to the given Result.
 	 * 
 	 * @param doc
-	 *          Document to convert
+	 *            Document to convert
 	 * @param result
-	 *          destination
+	 *            destination
 	 * @param publicId
-	 *          public id of dtd or null if not specified
+	 *            public id of dtd or null if not specified
 	 * @param systemId
-	 *          system id of dtd or null if not specified
+	 *            system id of dtd or null if not specified
 	 * @throws TransformerException
-	 *           if transformation fails
+	 *             if transformation fails
 	 */
-	public static void writeXml(Document doc, Result result, String publicId, String systemId) throws TransformerException
-	{
+	public static void writeXml(Document doc, Result result, String publicId, String systemId)
+			throws TransformerException {
 		Transformer trans = getTransformer(true, publicId, systemId, null);
 		trans.transform(new DOMSource(doc), result);
 	}
@@ -86,42 +81,35 @@ public final class XmlUtils
 	 * Gets a Transformer object suitable for writing DOM objects.
 	 * 
 	 * @param indent
-	 *          whether to indent output
+	 *            whether to indent output
 	 * @param publicId
-	 *          public id of dtd or null if not specified
+	 *            public id of dtd or null if not specified
 	 * @param systemId
-	 *          system id of dtd or null if not specified
+	 *            system id of dtd or null if not specified
 	 * @param xsl
-	 *          XSL source or null if not needed
+	 *            XSL source or null if not needed
 	 * @return Transformer configured to output using the given parameters
 	 */
-	public static Transformer getTransformer(boolean indent, String publicId, String systemId, Source xsl)
-	{
-		try
-		{
+	public static Transformer getTransformer(boolean indent, String publicId, String systemId, Source xsl) {
+		try {
 			TransformerFactory factory = TransformerFactory.newInstance();
 
 			// try to set indent amount using JDK 1.5+ property
-			try
-			{
-				if (indent)
-				{
+			try {
+				if (indent) {
 					factory.setAttribute("indent-number", new Integer(2));
 				}
+			} catch (Exception ignored) {
 			}
-			catch (Exception ignored)
-			{}
 
 			Transformer trans = (xsl == null) ? factory.newTransformer() : factory.newTransformer(xsl);
 
 			trans.setOutputProperty(OutputKeys.METHOD, "xml");
 
-			if (publicId != null)
-			{
+			if (publicId != null) {
 				trans.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, publicId);
 			}
-			if (systemId != null)
-			{
+			if (systemId != null) {
 				trans.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, systemId);
 			}
 
@@ -130,21 +118,17 @@ public final class XmlUtils
 			trans.setOutputProperty(OutputKeys.INDENT, "yes");
 
 			// try to set indent amount using Xalan property
-			try
-			{
-				if (indent)
-				{
+			try {
+				if (indent) {
 					trans.setOutputProperty("{http://xml.apache.org/xalan}indent-amount", "2");
 				}
+			} catch (Exception ignored) {
 			}
-			catch (Exception ignored)
-			{}
 
 			return trans;
-		}
-		catch (TransformerConfigurationException e)
-		{
-			// make this unchecked since there's nothing other than environment that
+		} catch (TransformerConfigurationException e) {
+			// make this unchecked since there's nothing other than environment
+			// that
 			// should cause this
 			logger.error("Caught exception", e);
 			throw new RuntimeException("Transformer configuration problem", e);
@@ -155,12 +139,11 @@ public final class XmlUtils
 	 * Log XML to the given log object.
 	 * 
 	 * @param log
-	 *          log to output to
+	 *            log to output to
 	 * @param doc
-	 *          document to write
+	 *            document to write
 	 */
-	public static void logXml(Logger log, Document doc)
-	{
+	public static void logXml(Logger log, Document doc) {
 		logXml(log, null, doc, null, null);
 	}
 
@@ -168,16 +151,15 @@ public final class XmlUtils
 	 * Log XML to the given log object.
 	 * 
 	 * @param log
-	 *          log to output to
+	 *            log to output to
 	 * @param doc
-	 *          document to write
+	 *            document to write
 	 * @param publicId
-	 *          public id for dtd or null for none
+	 *            public id for dtd or null for none
 	 * @param systemId
-	 *          system id for dtd or null for none
+	 *            system id for dtd or null for none
 	 */
-	public static void logXml(Logger log, Document doc, String publicId, String systemId)
-	{
+	public static void logXml(Logger log, Document doc, String publicId, String systemId) {
 		logXml(log, null, doc, publicId, systemId);
 	}
 
@@ -185,14 +167,13 @@ public final class XmlUtils
 	 * Log XML to the given log object.
 	 * 
 	 * @param log
-	 *          log to output to
+	 *            log to output to
 	 * @param message
-	 *          message to add
+	 *            message to add
 	 * @param doc
-	 *          document to write
+	 *            document to write
 	 */
-	public static void logXml(Logger log, String message, Document doc)
-	{
+	public static void logXml(Logger log, String message, Document doc) {
 		logXml(log, message, doc, null, null);
 	}
 
@@ -200,51 +181,45 @@ public final class XmlUtils
 	 * Log XML to the given log object.
 	 * 
 	 * @param log
-	 *          log to output to
+	 *            log to output to
 	 * @param message
-	 *          message to add
+	 *            message to add
 	 * @param doc
-	 *          document to write
+	 *            document to write
 	 * @param publicId
-	 *          public id for dtd or null for none
+	 *            public id for dtd or null for none
 	 * @param systemId
-	 *          system id for dtd or null for none
+	 *            system id for dtd or null for none
 	 */
-	public static void logXml(Logger log, String message, Document doc, String publicId, String systemId)
-	{
-		if (!log.isDebugEnabled())
-		{
+	public static void logXml(Logger log, String message, Document doc, String publicId, String systemId) {
+		if (!log.isDebugEnabled()) {
 			return;
 		}
 
-		try
-		{
+		try {
 			StringWriter writer = new StringWriter();
-			if (message != null)
-			{
+			if (message != null) {
 				writer.write(message);
 			}
 			writer.write("\n");
 			writeXml(doc, new StreamResult(writer), publicId, systemId);
 			writer.close();
 			log.debug(writer.toString());
+		} catch (Exception ignored) {
 		}
-		catch (Exception ignored)
-		{}
 	}
 
 	/**
 	 * Pretty-print (indent) a DOM document.
 	 * 
 	 * @param input
-	 *          DOM input
+	 *            DOM input
 	 * @param output
-	 *          stream result
+	 *            stream result
 	 * @throws TransformerException
-	 *           if transformation fails
+	 *             if transformation fails
 	 */
-	public static void prettyPrint(Document input, StreamResult output) throws TransformerException
-	{
+	public static void prettyPrint(Document input, StreamResult output) throws TransformerException {
 		prettyPrint(input, output, null);
 	}
 
@@ -252,20 +227,19 @@ public final class XmlUtils
 	 * Pretty-print (indent) a DOM document.
 	 * 
 	 * @param input
-	 *          DOM input
+	 *            DOM input
 	 * @param output
-	 *          stream result
+	 *            stream result
 	 * @param docType
-	 *          DTD to output
+	 *            DTD to output
 	 * @throws TransformerException
-	 *           if transformation fails
+	 *             if transformation fails
 	 */
-	public static void prettyPrint(Document input, StreamResult output, DocumentType docType) throws TransformerException
-	{
+	public static void prettyPrint(Document input, StreamResult output, DocumentType docType)
+			throws TransformerException {
 		String publicId = null;
 		String systemId = null;
-		if (docType != null)
-		{
+		if (docType != null) {
 			publicId = docType.getPublicId();
 			systemId = docType.getSystemId();
 		}

@@ -1,34 +1,26 @@
 package org.randomcoder.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class RoleNotFoundExceptionTest
-{
+public class RoleNotFoundExceptionTest {
 	@Test
-	public void testRoleNotFoundException()
-	{
-		try
-		{
+	public void testRoleNotFoundException() {
+		try {
 			throw new RoleNotFoundException();
-		}
-		catch (RoleNotFoundException e)
-		{
+		} catch (RoleNotFoundException e) {
 			assertNull(e.getMessage());
 		}
 	}
 
 	@Test
-	public void testRoleNotFoundExceptionString()
-	{
-		try
-		{
+	public void testRoleNotFoundExceptionString() {
+		try {
 			throw new RoleNotFoundException("test-message");
-		}
-		catch (RoleNotFoundException e)
-		{
+		} catch (RoleNotFoundException e) {
 			assertEquals("test-message", e.getMessage());
 		}
 	}

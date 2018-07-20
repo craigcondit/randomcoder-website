@@ -1,45 +1,41 @@
 package org.randomcoder.user;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.UserProfileCommand;
 
 @SuppressWarnings("javadoc")
-public class UserProfileCommandTest
-{
+public class UserProfileCommandTest {
 	private UserProfileCommand command;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		command = new UserProfileCommand();
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		command = null;
 	}
 
 	@Test
-	public void testGetEmailAddress()
-	{
+	public void testGetEmailAddress() {
 		command.setEmailAddress("test@example.com");
 		assertEquals("test@example.com", command.getEmailAddress());
 	}
 
 	@Test
-	public void testGetWebsite()
-	{
+	public void testGetWebsite() {
 		command.setWebsite("http://test.com/");
 		assertEquals("http://test.com/", command.getWebsite());
 	}
 
 	@Test
-	public void testProduce()
-	{
+	public void testProduce() {
 		command.setEmailAddress("test@example.com");
 		command.setWebsite("http://test.com/");
 

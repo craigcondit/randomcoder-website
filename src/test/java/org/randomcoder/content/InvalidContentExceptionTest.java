@@ -1,21 +1,17 @@
 package org.randomcoder.content;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class InvalidContentExceptionTest
-{
+public class InvalidContentExceptionTest {
 	@Test
-	public void testInvalidContentException()
-	{
-		try
-		{
+	public void testInvalidContentException() {
+		try {
 			throw new InvalidContentException("Error", 10, 45);
-		}
-		catch (InvalidContentException e)
-		{
+		} catch (InvalidContentException e) {
 			assertEquals("Error", e.getMessage());
 			assertEquals(10, e.getLineNumber());
 			assertEquals(45, e.getColumnNumber());
@@ -24,14 +20,10 @@ public class InvalidContentExceptionTest
 	}
 
 	@Test
-	public void testInvalidContentExceptionNullMessage()
-	{
-		try
-		{
+	public void testInvalidContentExceptionNullMessage() {
+		try {
 			throw new InvalidContentException(null, 10, 45);
-		}
-		catch (InvalidContentException e)
-		{
+		} catch (InvalidContentException e) {
 			assertNull(e.getMessage());
 		}
 	}

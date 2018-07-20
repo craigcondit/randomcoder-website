@@ -1,8 +1,11 @@
 package org.randomcoder.security.spring;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.randomcoder.db.*;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 /**
  * Randomcoder UserDetails implementation.
  */
-public final class RandomcoderUserDetails implements UserDetails
-{
+public final class RandomcoderUserDetails implements UserDetails {
 	private static final long serialVersionUID = 8725581950129430004L;
 
 	private final String username;
@@ -25,8 +27,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @param user
 	 *            User to read properties from.
 	 */
-	public RandomcoderUserDetails(User user)
-	{
+	public RandomcoderUserDetails(User user) {
 		this(user, user.getPassword());
 	}
 
@@ -42,15 +43,13 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @param password
 	 *            overriden password
 	 */
-	public RandomcoderUserDetails(User user, String password)
-	{
+	public RandomcoderUserDetails(User user, String password) {
 		username = user.getUserName();
 		this.password = password;
 		enabled = user.isEnabled();
 
 		List<GrantedAuthority> auth = new ArrayList<>();
-		for (Role role : user.getRoles())
-		{
+		for (Role role : user.getRoles()) {
 			auth.add(new SimpleGrantedAuthority(role.getName()));
 		}
 		authorities = Collections.unmodifiableList(auth);
@@ -63,8 +62,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return the authorities, sorted by natural key (never <code>null</code>)
 	 */
 	@Override
-	public List<? extends GrantedAuthority> getAuthorities()
-	{
+	public List<? extends GrantedAuthority> getAuthorities() {
 		return authorities;
 	}
 
@@ -74,8 +72,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return password (never null)
 	 */
 	@Override
-	public String getPassword()
-	{
+	public String getPassword() {
 		return password;
 	}
 
@@ -85,8 +82,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return user name (never null)
 	 */
 	@Override
-	public String getUsername()
-	{
+	public String getUsername() {
 		return username;
 	}
 
@@ -96,8 +92,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return always true
 	 */
 	@Override
-	public boolean isAccountNonExpired()
-	{
+	public boolean isAccountNonExpired() {
 		return true;
 	}
 
@@ -107,8 +102,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return always true
 	 */
 	@Override
-	public boolean isAccountNonLocked()
-	{
+	public boolean isAccountNonLocked() {
 		return true;
 	}
 
@@ -118,8 +112,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return always true
 	 */
 	@Override
-	public boolean isCredentialsNonExpired()
-	{
+	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 
@@ -129,8 +122,7 @@ public final class RandomcoderUserDetails implements UserDetails
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return enabled;
 	}
 

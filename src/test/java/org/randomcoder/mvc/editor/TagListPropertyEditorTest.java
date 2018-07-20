@@ -1,42 +1,43 @@
 package org.randomcoder.mvc.editor;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.easymock.IMocksControl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.Tag;
 import org.randomcoder.tag.TagList;
 
 @SuppressWarnings("javadoc")
-public class TagListPropertyEditorTest
-{
+public class TagListPropertyEditorTest {
 	private IMocksControl control;
 	private TagBusiness tb;
 	private TagListPropertyEditor editor;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		tb = control.createMock(TagBusiness.class);
 		editor = new TagListPropertyEditor(tb);
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		editor = null;
 		tb = null;
 		control = null;
 	}
 
 	@Test
-	public void testGetAsText()
-	{
+	public void testGetAsText() {
 		List<Tag> tags = new ArrayList<>();
 
 		Tag tag = new Tag();
@@ -58,26 +59,24 @@ public class TagListPropertyEditorTest
 	}
 
 	@Test
-	public void testGetAsTextNull()
-	{
+	public void testGetAsTextNull() {
 		editor.setValue(null);
 		assertEquals("", editor.getAsText());
 	}
-	
+
 	@Test
-	public void testSetAsText()
-	{
+	public void testSetAsText() {
 		Tag tag = new Tag();
 		tag.setId(1L);
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
-		
+
 		expect(tb.findTagByName("tag")).andReturn(tag);
 		control.replay();
-		
+
 		editor.setAsText("tag");
 		control.verify();
-		
+
 		TagList tl = (TagList) editor.getValue();
 		assertEquals(1, tl.getTags().size());
 		assertEquals("tag", tl.getTags().get(0).getName());
@@ -86,18 +85,17 @@ public class TagListPropertyEditorTest
 	}
 
 	@Test
-	public void testSetAsTextNotFound()
-	{
+	public void testSetAsTextNotFound() {
 		expect(tb.findTagByName("bogus-tag")).andReturn(null);
 		control.replay();
-		
+
 		editor.setAsText("bogus-tag");
 		control.verify();
-		
+
 		TagList tl = (TagList) editor.getValue();
 		assertEquals(1, tl.getTags().size());
 		assertEquals("bogus-tag", tl.getTags().get(0).getName());
 		assertEquals("bogus-tag", tl.getTags().get(0).getDisplayName());
 		assertNull(tl.getTags().get(0).getId());
-	}	
+	}
 }

@@ -5,16 +5,18 @@ import java.util.Arrays;
 
 import org.randomcoder.config.JettyContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.core.env.*;
-import org.springframework.core.io.*;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.ResourcePropertySource;
 import org.springframework.util.Log4jConfigurer;
 
 /**
  * Startup class for the randomcoder website.
  */
-public class WebSite
-{
+public class WebSite {
 	/**
 	 * Configuration directory.
 	 */
@@ -33,8 +35,7 @@ public class WebSite
 	 * @throws Exception
 	 *             if an error occurs
 	 */
-	public WebSite() throws Exception
-	{
+	public WebSite() throws Exception {
 		this("log4j-", JettyContext.class);
 	}
 
@@ -49,16 +50,14 @@ public class WebSite
 	 * @throws Exception
 	 *             if an error occurs
 	 */
-	public WebSite(String log4jPrefix, Class<?> configClass) throws Exception
-	{
+	public WebSite(String log4jPrefix, Class<?> configClass) throws Exception {
 		context = new AnnotationConfigApplicationContext();
 
 		ConfigurableEnvironment env = new StandardEnvironment();
 		MutablePropertySources propertySources = env.getPropertySources();
 
 		// make sure at least the dev profile is active
-		if (env.getActiveProfiles().length == 0)
-		{
+		if (env.getActiveProfiles().length == 0) {
 			env.addActiveProfile("dev");
 		}
 
@@ -68,25 +67,21 @@ public class WebSite
 		File configDir = new File(CONFIG_DIR);
 
 		// add profile-specific config files
-		for (String profile : env.getActiveProfiles())
-		{
+		for (String profile : env.getActiveProfiles()) {
 			File profileConfigFile = new File(configDir, CONFIG_FILE + "." + profile);
-			if (profileConfigFile.exists())
-			{
+			if (profileConfigFile.exists()) {
 				propertySources.addLast(new ResourcePropertySource(new FileSystemResource(profileConfigFile)));
 			}
 
 			ClassPathResource res = new ClassPathResource("/profiles/" + profile + ".properties");
-			if (res.exists())
-			{
+			if (res.exists()) {
 				propertySources.addLast(new ResourcePropertySource(res));
 			}
 		}
 
 		// add default config file (if it exists)
 		File configFile = new File(configDir, CONFIG_FILE);
-		if (configFile.exists())
-		{
+		if (configFile.exists()) {
 			propertySources.addLast(new ResourcePropertySource(new FileSystemResource(configFile)));
 		}
 
@@ -107,8 +102,7 @@ public class WebSite
 	 * @throws Exception
 	 *             if an error occurs
 	 */
-	public static void main(String[] args) throws Exception
-	{
+	public static void main(String[] args) throws Exception {
 		new WebSite();
 	}
 }

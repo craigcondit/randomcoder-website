@@ -1,13 +1,5 @@
 package org.randomcoder.content;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
@@ -25,13 +17,23 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Required;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
 /**
  * Simple XHTML content filter.
  * 
- * <p>This class implements a large subset of XHTML (minus dangerous,
+ * <p>
+ * This class implements a large subset of XHTML (minus dangerous,
  * deprecated, or otherwise undesirable stuff). Tag and attribute names are
  * canonicalized, non-semantic markup is converted to semantic, and disallowed
- * elements, their children, and attributes are removed.</p>
+ * elements, their children, and attributes are removed.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -58,22 +60,21 @@ import javax.xml.validation.Validator;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class XHTMLFilter implements ContentFilter
-{
+public class XHTMLFilter implements ContentFilter {
 	/**
 	 * Apache logger.
 	 */
 	protected static final Logger logger = LoggerFactory.getLogger(XHTMLFilter.class);
-	
+
 	private static final String XSL_RESOURCE = "xhtml-to-xhtml.xsl";
 	private static final String XSD_RESOURCE = "xhtml1-transitional.xsd";
 	private static final String NS_RESOURCE = "namespace.xsd";
 
 	/**
-	 * Prefix to add to content before parsing. 
+	 * Prefix to add to content before parsing.
 	 */
 	public static final String PREFIX = "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Untitled</title></head><body>";
-	
+
 	/**
 	 * Suffix to add to content before parsing.
 	 */
@@ -86,21 +87,24 @@ public class XHTMLFilter implements ContentFilter
 
 	/**
 	 * Sets a list of allowed CSS class names in the markup.
-	 * @param allowedClasses Set of CSS class names
+	 * 
+	 * @param allowedClasses
+	 *            Set of CSS class names
 	 */
 	@Required
-	public void setAllowedClasses(Set<String> allowedClasses)
-	{
+	public void setAllowedClasses(Set<String> allowedClasses) {
 		this.allowedClasses = allowedClasses;
 	}
 
 	/**
 	 * Constructs a new XHTML filter
-	 * @throws TransformerConfigurationException if transformer factory fails
-	 * @throws SAXException if schema validation fails
+	 * 
+	 * @throws TransformerConfigurationException
+	 *             if transformer factory fails
+	 * @throws SAXException
+	 *             if schema validation fails
 	 */
-	public XHTMLFilter() throws TransformerConfigurationException, SAXException
-	{
+	public XHTMLFilter() throws TransformerConfigurationException, SAXException {
 		// cache templates for later use
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		templates = tFactory.newTemplates(new SAXSource(new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
@@ -113,47 +117,39 @@ public class XHTMLFilter implements ContentFilter
 	}
 
 	@Override
-	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException
-	{
+	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException {
 		return new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, baseUrl);
 	}
 
 	@Override
-	public Templates getXSLTemplates(String contentType)
-	{
+	public Templates getXSLTemplates(String contentType) {
 		return templates;
 	}
 
 	@Override
-	public String getPrefix(String contentType)
-	{
+	public String getPrefix(String contentType) {
 		return PREFIX;
 	}
 
 	@Override
-	public String getSuffix(String contentType)
-	{
+	public String getSuffix(String contentType) {
 		return SUFFIX;
 	}
 
 	@Override
-	public void validate(String contentType, Reader content) 
-	throws InvalidContentException, InvalidContentTypeException, IOException
-	{
+	public void validate(String contentType, Reader content)
+			throws InvalidContentException, InvalidContentTypeException, IOException {
 		Validator validator = schema.newValidator();
 		XHTMLErrorHandler handler = new XHTMLErrorHandler();
 		validator.setErrorHandler(handler);
 
-		try
-		{
+		try {
 			validator.validate(new StreamSource(content));
-		}
-		catch (SAXException e)
-		{
-			if (handler.getMessage() != null)
-			{
+		} catch (SAXException e) {
+			if (handler.getMessage() != null) {
 				// we caught it
-				throw new InvalidContentException(handler.getMessage(), handler.getLineNumber(), handler.getColumnNumber());
+				throw new InvalidContentException(handler.getMessage(), handler.getLineNumber(),
+						handler.getColumnNumber());
 			}
 			// something else bad happened
 			throw new InvalidContentException(e.getMessage(), 1, 1);

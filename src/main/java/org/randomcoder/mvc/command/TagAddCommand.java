@@ -10,8 +10,7 @@ import org.randomcoder.validation.DataValidationUtils;
 /**
  * Command class for adding tags.
  */
-public class TagAddCommand implements Serializable, Producer<Tag>
-{
+public class TagAddCommand implements Serializable, Producer<Tag> {
 	private static final long serialVersionUID = 7436171478771499999L;
 
 	private String name;
@@ -22,8 +21,7 @@ public class TagAddCommand implements Serializable, Producer<Tag>
 	 * 
 	 * @return tag name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -31,12 +29,10 @@ public class TagAddCommand implements Serializable, Producer<Tag>
 	 * Sets the name for this tag.
 	 * 
 	 * @param name
-	 *          tag name
+	 *            tag name
 	 */
-	public void setName(String name)
-	{
-		if (name != null)
-		{
+	public void setName(String name) {
+		if (name != null) {
 			name = name.replaceAll("\\s+", " ").trim();
 			name = DataValidationUtils.canonicalizeTagName(name);
 			name = StringUtils.trimToNull(name);
@@ -50,8 +46,7 @@ public class TagAddCommand implements Serializable, Producer<Tag>
 	 * 
 	 * @return display name
 	 */
-	public String getDisplayName()
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
@@ -59,18 +54,15 @@ public class TagAddCommand implements Serializable, Producer<Tag>
 	 * Sets the display name for this tag.
 	 * 
 	 * @param displayName
-	 *          display name
+	 *            display name
 	 */
-	public void setDisplayName(String displayName)
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = StringUtils.trimToNull(displayName);
 	}
 
 	@Override
-	public void produce(Tag tag)
-	{
-		if (tag.getId() == null)
-		{
+	public void produce(Tag tag) {
+		if (tag.getId() == null) {
 			tag.setName(getName());
 		}
 

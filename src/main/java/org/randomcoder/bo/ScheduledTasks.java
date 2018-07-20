@@ -1,19 +1,18 @@
 package org.randomcoder.bo;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
-
 /**
  * Various scheduled tasks.
  */
 @Component("scheduledTasks")
-public class ScheduledTasks
-{
+public class ScheduledTasks {
 	private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
 	/**
@@ -32,8 +31,7 @@ public class ScheduledTasks
 	 *            ArticleBusiness implementation
 	 */
 	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness)
-	{
+	public void setArticleBusiness(ArticleBusiness articleBusiness) {
 		this.articleBusiness = articleBusiness;
 	}
 
@@ -44,8 +42,7 @@ public class ScheduledTasks
 	 *            number of comments to moderate
 	 */
 	@Value("${moderation.batch.size}")
-	public void setModerationBatchSize(int moderationBatchSize)
-	{
+	public void setModerationBatchSize(int moderationBatchSize) {
 		this.moderationBatchSize = moderationBatchSize;
 	}
 
@@ -53,19 +50,13 @@ public class ScheduledTasks
 	 * Moderates comments.
 	 */
 	@Scheduled(cron = "*/60 * * * * *")
-	public void moderateComments()
-	{
-		try
-		{
+	public void moderateComments() {
+		try {
 			boolean processed = false;
-			do
-			{
+			do {
 				processed = articleBusiness.moderateComments(moderationBatchSize);
-			}
-			while (processed);
-		}
-		catch (Exception e)
-		{
+			} while (processed);
+		} catch (Exception e) {
 			logger.error("Error while moderating comments", e);
 		}
 	}

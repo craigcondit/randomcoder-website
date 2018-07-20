@@ -7,16 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Login controller.
  */
 @Controller("loginController")
-public class LoginController
-{
+public class LoginController {
 	/**
 	 * Handle login.
 	 * 
 	 * @return login view
 	 */
 	@RequestMapping(value = "/login")
-	public String login()
-	{
+	public String login() {
 		return "login";
 	}
 
@@ -26,8 +24,7 @@ public class LoginController
 	 * @return login error view
 	 */
 	@RequestMapping(value = "/login-error")
-	public String loginError()
-	{
+	public String loginError() {
 		return "login-error";
 	}
 }

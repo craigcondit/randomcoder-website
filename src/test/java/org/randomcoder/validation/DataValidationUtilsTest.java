@@ -1,27 +1,35 @@
 package org.randomcoder.validation;
 
-import static org.junit.Assert.*;
-import static org.randomcoder.validation.DataValidationUtils.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.randomcoder.validation.DataValidationUtils.canonicalizeDomainName;
+import static org.randomcoder.validation.DataValidationUtils.canonicalizeTagName;
+import static org.randomcoder.validation.DataValidationUtils.isValidDomainName;
+import static org.randomcoder.validation.DataValidationUtils.isValidDomainWildcard;
+import static org.randomcoder.validation.DataValidationUtils.isValidEmailAddress;
+import static org.randomcoder.validation.DataValidationUtils.isValidIpAddress;
+import static org.randomcoder.validation.DataValidationUtils.isValidLocalEmailAccount;
+import static org.randomcoder.validation.DataValidationUtils.isValidUrl;
+import static org.randomcoder.validation.DataValidationUtils.splitEmailAddress;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class DataValidationUtilsTest
-{
+public class DataValidationUtilsTest {
 	private static final String MAX_DOMAIN_SEGMENT = "1234567890123456789012345678901234567890123456789012345678901234567";
 	private static final String MAX_DOMAIN_LENGTH = "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.1.com";
 
 	@Test
-	public void testCanonicalizeDomainName()
-	{
+	public void testCanonicalizeDomainName() {
 		assertEquals("test.com", canonicalizeDomainName("TEST.COM"));
 		assertEquals("test.com", canonicalizeDomainName("TeSt.CoM"));
 		assertNull(canonicalizeDomainName(null));
 	}
 
 	@Test
-	public void testIsValidDomainName()
-	{
+	public void testIsValidDomainName() {
 		assertTrue("test.com", isValidDomainName("test.com"));
 		assertTrue("test.co.uk", isValidDomainName("test.co.uk"));
 		assertFalse("-test.com", isValidDomainName("-test.com"));
@@ -35,8 +43,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testIsValidDomainWildcard()
-	{
+	public void testIsValidDomainWildcard() {
 		assertFalse("null", isValidDomainWildcard(null));
 		assertFalse("too long", isValidDomainWildcard("x" + MAX_DOMAIN_LENGTH));
 		assertTrue("*.test.com", isValidDomainWildcard("*.test.com"));
@@ -45,8 +52,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testIsValidLocalEmailAccount()
-	{
+	public void testIsValidLocalEmailAccount() {
 		assertTrue("test", isValidLocalEmailAccount("test"));
 		assertTrue("test-123", isValidLocalEmailAccount("test-123"));
 		assertTrue("test_123", isValidLocalEmailAccount("test_123"));
@@ -64,10 +70,8 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testIsValidIpAddress()
-	{
-		for (int i = 0; i < 256; i++)
-		{
+	public void testIsValidIpAddress() {
+		for (int i = 0; i < 256; i++) {
 			String ip = i + "." + i + "." + i + "." + i;
 			assertTrue(ip, isValidIpAddress(ip));
 		}
@@ -85,8 +89,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testIsValidUrl()
-	{
+	public void testIsValidUrl() {
 		assertTrue("http:/www.example.com/", isValidUrl("http://www.example.com/"));
 		assertTrue("https://www.example.com/", isValidUrl("https://www.example.com/"));
 		assertFalse("//www.example.com", isValidUrl("//www.example.com"));
@@ -96,8 +99,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testSplitEmailAddress()
-	{
+	public void testSplitEmailAddress() {
 		String[] nullResults = splitEmailAddress(null);
 		assertEquals("null length", 2, nullResults.length);
 		assertNull("null local", nullResults[0]);
@@ -114,8 +116,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testIsValidEmailAddress()
-	{
+	public void testIsValidEmailAddress() {
 		// valid
 		assertTrue("test@example.com", isValidEmailAddress("test@example.com"));
 
@@ -170,8 +171,7 @@ public class DataValidationUtilsTest
 	}
 
 	@Test
-	public void testCanonicalizeTagName()
-	{
+	public void testCanonicalizeTagName() {
 		assertNull(canonicalizeTagName(null));
 		assertEquals("testing-1", canonicalizeTagName("Testing 1"));
 		assertEquals("testing-2", canonicalizeTagName("Testing_2"));

@@ -5,14 +5,14 @@ import javax.inject.Inject;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.mvc.command.TagAddCommand;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.*;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 /**
  * Validator used for adding tags.
  */
 @Component("tagAddValidator")
-public class TagAddValidator implements Validator
-{
+public class TagAddValidator implements Validator {
 	private static final String ERROR_TAG_NULL = "error.tag.null";
 	private static final String ERROR_NAME_REQUIRED = "error.tag.name.required";
 	private static final String ERROR_NAME_EXISTS = "error.tag.name.exists";
@@ -27,8 +27,7 @@ public class TagAddValidator implements Validator
 	 *            TagBusiness implementation
 	 */
 	@Inject
-	public void setTagBusiness(TagBusiness tagBusiness)
-	{
+	public void setTagBusiness(TagBusiness tagBusiness) {
 		this.tagBusiness = tagBusiness;
 	}
 
@@ -40,8 +39,7 @@ public class TagAddValidator implements Validator
 	 * @return true if class is {@code TagAddCommand}, false otherwise
 	 */
 	@Override
-	public boolean supports(Class<?> targetClass)
-	{
+	public boolean supports(Class<?> targetClass) {
 		return TagAddCommand.class.equals(targetClass);
 	}
 
@@ -54,23 +52,18 @@ public class TagAddValidator implements Validator
 	 *            errors object to hold resulting validation errors
 	 */
 	@Override
-	public void validate(Object target, Errors errors)
-	{
+	public void validate(Object target, Errors errors) {
 		TagAddCommand command = (TagAddCommand) target;
 
-		if (!validateCommon(command, errors))
-		{
+		if (!validateCommon(command, errors)) {
 			return;
 		}
 
 		// tag name
 		String name = command.getName();
-		if (name == null)
-		{
+		if (name == null) {
 			errors.rejectValue("name", ERROR_NAME_REQUIRED, "Name required.");
-		}
-		else if (tagBusiness.findTagByName(name) != null)
-		{
+		} else if (tagBusiness.findTagByName(name) != null) {
 			errors.rejectValue("name", ERROR_NAME_EXISTS, "Name exists.");
 		}
 	}
@@ -84,10 +77,8 @@ public class TagAddValidator implements Validator
 	 *            errors
 	 * @return true if validation should continue, false otherwise
 	 */
-	protected boolean validateCommon(TagAddCommand command, Errors errors)
-	{
-		if (command == null)
-		{
+	protected boolean validateCommon(TagAddCommand command, Errors errors) {
+		if (command == null) {
 			errors.reject(ERROR_TAG_NULL, "Null data received");
 			// do not continue processing, as this will lead to NPEs later
 			return false;
@@ -95,8 +86,7 @@ public class TagAddValidator implements Validator
 
 		// display name
 		String displayName = command.getDisplayName();
-		if (displayName == null)
-		{
+		if (displayName == null) {
 			errors.rejectValue("displayName", ERROR_DISPLAY_NAME_REQUIRED, "Display name required.");
 		}
 

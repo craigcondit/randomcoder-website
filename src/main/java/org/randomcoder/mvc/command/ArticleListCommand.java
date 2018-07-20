@@ -2,15 +2,15 @@ package org.randomcoder.mvc.command;
 
 import java.io.Serializable;
 
-import org.apache.commons.lang.builder.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * Command class used for article paging.
  */
-public class ArticleListCommand implements Serializable
-{
+public class ArticleListCommand implements Serializable {
 	private static final long serialVersionUID = -366354426204104148L;
-	
+
 	private int month = -1;
 	private int day = -1;
 	private int year = -1;
@@ -19,10 +19,9 @@ public class ArticleListCommand implements Serializable
 	 * Sets the month to display results for.
 	 * 
 	 * @param month
-	 *          month number
+	 *            month number
 	 */
-	public void setMonth(int month)
-	{
+	public void setMonth(int month) {
 		this.month = month;
 	}
 
@@ -31,8 +30,7 @@ public class ArticleListCommand implements Serializable
 	 * 
 	 * @return month number
 	 */
-	public int getMonth()
-	{
+	public int getMonth() {
 		return month;
 	}
 
@@ -40,10 +38,9 @@ public class ArticleListCommand implements Serializable
 	 * Sets the day of month to display results for.
 	 * 
 	 * @param day
-	 *          day of month
+	 *            day of month
 	 */
-	public void setDay(int day)
-	{
+	public void setDay(int day) {
 		this.day = day;
 	}
 
@@ -52,8 +49,7 @@ public class ArticleListCommand implements Serializable
 	 * 
 	 * @return day of month
 	 */
-	public int getDay()
-	{
+	public int getDay() {
 		return day;
 	}
 
@@ -61,10 +57,9 @@ public class ArticleListCommand implements Serializable
 	 * Sets the year to display results for.
 	 * 
 	 * @param year
-	 *          year
+	 *            year
 	 */
-	public void setYear(int year)
-	{
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -73,8 +68,7 @@ public class ArticleListCommand implements Serializable
 	 * 
 	 * @return year
 	 */
-	public int getYear()
-	{
+	public int getYear() {
 		return year;
 	}
 
@@ -84,8 +78,7 @@ public class ArticleListCommand implements Serializable
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

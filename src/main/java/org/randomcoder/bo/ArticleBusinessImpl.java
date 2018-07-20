@@ -1,5 +1,11 @@
 package org.randomcoder.bo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Hibernate;
 import org.randomcoder.article.ArticleNotFoundException;
@@ -38,18 +44,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
 /**
  * Business implementation which handles articles.
  */
 @Component("articleBusiness")
-public class ArticleBusinessImpl implements ArticleBusiness
-{
+public class ArticleBusinessImpl implements ArticleBusiness {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleBusinessImpl.class);
 
 	private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
@@ -69,11 +68,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the user repository to use.
 	 * 
 	 * @param userRepository
-	 *          user repository
+	 *            user repository
 	 */
 	@Inject
-	public void setUserRepository(UserRepository userRepository)
-	{
+	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -81,11 +79,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the role repository to use.
 	 * 
 	 * @param roleRepository
-	 *          role repository
+	 *            role repository
 	 */
 	@Inject
-	public void setRoleRepository(RoleRepository roleRepository)
-	{
+	public void setRoleRepository(RoleRepository roleRepository) {
 		this.roleRepository = roleRepository;
 	}
 
@@ -93,11 +90,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the article repository to use.
 	 * 
 	 * @param articleRepository
-	 *          article repository
+	 *            article repository
 	 */
 	@Inject
-	public void setArticleRepository(ArticleRepository articleRepository)
-	{
+	public void setArticleRepository(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
 	}
 
@@ -105,11 +101,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the tag repository to use.
 	 * 
 	 * @param tagRepository
-	 *          tag repository
+	 *            tag repository
 	 */
 	@Inject
-	public void setTagRepository(TagRepository tagRepository)
-	{
+	public void setTagRepository(TagRepository tagRepository) {
 		this.tagRepository = tagRepository;
 	}
 
@@ -117,11 +112,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the comment repository to use.
 	 * 
 	 * @param commentRepository
-	 *          comment repository
+	 *            comment repository
 	 */
 	@Inject
-	public void setCommentRepository(CommentRepository commentRepository)
-	{
+	public void setCommentRepository(CommentRepository commentRepository) {
 		this.commentRepository = commentRepository;
 	}
 
@@ -129,11 +123,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the comment IP repository to use.
 	 * 
 	 * @param commentIpRepository
-	 *          comment IP repository
+	 *            comment IP repository
 	 */
 	@Inject
-	public void setCommentIpRepository(CommentIpRepository commentIpRepository)
-	{
+	public void setCommentIpRepository(CommentIpRepository commentIpRepository) {
 		this.commentIpRepository = commentIpRepository;
 	}
 
@@ -141,11 +134,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the comment referrer repository to use.
 	 * 
 	 * @param commentReferrerRepository
-	 *          comment referrer repository
+	 *            comment referrer repository
 	 */
 	@Inject
-	public void setCommentReferrerRepository(CommentReferrerRepository commentReferrerRepository)
-	{
+	public void setCommentReferrerRepository(CommentReferrerRepository commentReferrerRepository) {
 		this.commentReferrerRepository = commentReferrerRepository;
 	}
 
@@ -153,11 +145,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the comment user agent repository to use.
 	 * 
 	 * @param commentUserAgentRepository
-	 *          comment user agent repository
+	 *            comment user agent repository
 	 */
 	@Inject
-	public void setCommentUserAgentRepository(CommentUserAgentRepository commentUserAgentRepository)
-	{
+	public void setCommentUserAgentRepository(CommentUserAgentRepository commentUserAgentRepository) {
 		this.commentUserAgentRepository = commentUserAgentRepository;
 	}
 
@@ -165,18 +156,16 @@ public class ArticleBusinessImpl implements ArticleBusiness
 	 * Sets the moderator to use for automatic comment moderation
 	 * 
 	 * @param moderator
-	 *          comment moderator
+	 *            comment moderator
 	 */
 	@Inject
-	public void setModerator(Moderator moderator)
-	{
+	public void setModerator(Moderator moderator) {
 		this.moderator = moderator;
 	}
 
 	@Override
 	@Transactional("transactionManager")
-	public void createArticle(Producer<Article> producer, String userName)
-	{
+	public void createArticle(Producer<Article> producer, String userName) {
 		User user = findUserByName(userName);
 
 		Article article = new Article();
@@ -187,14 +176,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		article.setCreationDate(new Date());
 
 		List<Tag> tags = new ArrayList<>();
-		for (Tag tag : article.getTags())
-		{
-			if (tag.getId() == null)
-			{
+		for (Tag tag : article.getTags()) {
+			if (tag.getId() == null) {
 				tags.add(tagRepository.save(tag));
-			}
-			else
-			{
+			} else {
 				tags.add(tagRepository.findOne(tag.getId()));
 			}
 		}
@@ -205,17 +190,16 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent)
-	{
+	public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer,
+			String ipAddress, String userAgent) {
 		User user = userName == null ? null : findUserByName(userName);
 
 		Article article = loadArticle(articleId);
 
-		if (!article.isCommentsEnabled())
-		{
+		if (!article.isCommentsEnabled()) {
 			throw new IllegalArgumentException("Comments are not enabled for this article");
 		}
-		
+
 		Comment comment = new Comment();
 
 		producer.produce(comment);
@@ -224,24 +208,20 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		comment.setCreationDate(new Date());
 		comment.setArticle(article);
 
-		if (user == null)
-		{
-			comment.setVisible(false); // anonymous users have to pass the checks
+		if (user == null) {
+			comment.setVisible(false); // anonymous users have to pass the
+										// checks
 			comment.setModerationStatus(ModerationStatus.PENDING);
-		}
-		else
-		{
+		} else {
 			comment.setVisible(true); // allow comment to display initially
 			boolean trusted = isUserTrustedForComments(user);
 			comment.setModerationStatus(trusted ? ModerationStatus.HAM : ModerationStatus.PENDING);
 		}
 
 		referrer = StringUtils.trimToNull(referrer);
-		if (referrer != null)
-		{
+		if (referrer != null) {
 			CommentReferrer ref = commentReferrerRepository.findByUri(referrer);
-			if (ref == null)
-			{
+			if (ref == null) {
 				ref = new CommentReferrer();
 				ref.setCreationDate(new Date());
 				ref.setReferrerUri(referrer);
@@ -251,11 +231,9 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		}
 
 		ipAddress = StringUtils.trimToNull(ipAddress);
-		if (ipAddress != null)
-		{
+		if (ipAddress != null) {
 			CommentIp ip = commentIpRepository.findByIpAddress(ipAddress);
-			if (ip == null)
-			{
+			if (ip == null) {
 				ip = new CommentIp();
 				ip.setCreationDate(new Date());
 				ip.setIpAddress(ipAddress);
@@ -265,11 +243,9 @@ public class ArticleBusinessImpl implements ArticleBusiness
 		}
 
 		userAgent = StringUtils.trimToNull(userAgent);
-		if (userAgent != null)
-		{
+		if (userAgent != null) {
 			CommentUserAgent ua = commentUserAgentRepository.findByName(userAgent);
-			if (ua == null)
-			{
+			if (ua == null) {
 				ua = new CommentUserAgent();
 				ua.setCreationDate(new Date());
 				ua.setUserAgentName(userAgent);
@@ -287,8 +263,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void updateArticle(Producer<Article> producer, Long articleId, String userName)
-	{
+	public void updateArticle(Producer<Article> producer, Long articleId, String userName) {
 		User user = findUserByName(userName);
 
 		Article article = loadArticle(articleId);
@@ -302,29 +277,23 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 		// save tags
 		List<Tag> tags = new ArrayList<>();
-		for (Tag tag : article.getTags())
-		{
-			if (tag.getId() == null)
-			{
+		for (Tag tag : article.getTags()) {
+			if (tag.getId() == null) {
 				tags.add(tagRepository.save(tag));
-			}
-			else
-			{
+			} else {
 				tags.add(tagRepository.findOne(tag.getId()));
 			}
 		}
 		article.setTags(tags);
-		
+
 		articleRepository.save(article);
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Article readArticle(long articleId)
-	{
+	public Article readArticle(long articleId) {
 		Article article = articleRepository.findOne(articleId);
-		if (article != null)
-		{
+		if (article != null) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
@@ -333,11 +302,9 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Article findArticleByPermalink(String permalink)
-	{
+	public Article findArticleByPermalink(String permalink) {
 		Article article = articleRepository.findByPermalink(permalink);
-		if (article != null)
-		{
+		if (article != null) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
@@ -346,8 +313,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName)
-	{
+	public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName) {
 		User user = findUserByName(userName);
 		Article article = loadArticle(articleId);
 		Hibernate.initialize(article.getTags());
@@ -360,8 +326,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void deleteArticle(String userName, Long articleId)
-	{
+	public void deleteArticle(String userName, Long articleId) {
 		User user = findUserByName(userName);
 		Article article = loadArticle(articleId);
 
@@ -372,8 +337,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
-	public Article approveComment(Long commentId) throws ModerationException
-	{
+	public Article approveComment(Long commentId) throws ModerationException {
 		Comment comment = loadComment(commentId);
 
 		logger.info("Approving comment #" + comment.getId());
@@ -390,8 +354,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
-	public Article disapproveComment(Long commentId) throws ModerationException
-	{
+	public Article disapproveComment(Long commentId) throws ModerationException {
 		Comment comment = loadComment(commentId);
 
 		logger.info("Disapproving comment #" + comment.getId());
@@ -408,8 +371,7 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public Article deleteComment(Long commentId)
-	{
+	public Article deleteComment(Long commentId) {
 		Comment comment = loadComment(commentId);
 
 		logger.info("Deleting comment #" + comment.getId());
@@ -426,16 +388,13 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public boolean moderateComments(int count) throws ModerationException
-	{
+	public boolean moderateComments(int count) throws ModerationException {
 		Page<Comment> page = commentRepository.findForModeration(new PageRequest(0, count, new Sort("creationDate")));
-		if (page.getNumberOfElements() < 1)
-		{
+		if (page.getNumberOfElements() < 1) {
 			return false;
 		}
 
-		for (Comment comment : page.getContent())
-		{
+		for (Comment comment : page.getContent()) {
 
 			logger.info("Moderating comment #" + comment.getId());
 
@@ -453,13 +412,11 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Article> listRecentArticles(int limit)
-	{
+	public List<Article> listRecentArticles(int limit) {
 		PageRequest req = new PageRequest(0, limit, new Sort(Direction.DESC, "creationDate"));
 		List<Article> articles = articleRepository.findAll(req).getContent();
 		Hibernate.initialize(articles);
-		for (Article article : articles)
-		{
+		for (Article article : articles) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
@@ -468,12 +425,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable)
-	{
+	public Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable) {
 		Page<Article> articles = articleRepository.findBeforeDate(endDate, pageable);
 
-		for (Article article : articles.getContent())
-		{
+		for (Article article : articles.getContent()) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
@@ -483,12 +438,10 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable)
-	{
+	public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable) {
 		Page<Article> articles = articleRepository.findByTagBeforeDate(tag, endDate, pageable);
 
-		for (Article article : articles.getContent())
-		{
+		for (Article article : articles.getContent()) {
 			Hibernate.initialize(article.getTags());
 			Hibernate.initialize(article.getComments());
 		}
@@ -498,117 +451,96 @@ public class ArticleBusinessImpl implements ArticleBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Article> listArticlesBetweenDates(Date startDate, Date endDate)
-	{
+	public List<Article> listArticlesBetweenDates(Date startDate, Date endDate) {
 		return articleRepository.findBetweenDates(startDate, endDate);
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate)
-	{
+	public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
 		return articleRepository.findByTagBetweenDates(tag, startDate, endDate);
 	}
 
-	private void checkAuthorUpdate(User user, Article article)
-	{
+	private void checkAuthorUpdate(User user, Article article) {
 		checkAuthor(user, article, "You are not allowed to edit articles you did not create.");
 	}
 
-	private void checkAuthorDelete(User user, Article article)
-	{
+	private void checkAuthorDelete(User user, Article article) {
 		checkAuthor(user, article, "You are not allowed to delete articles you did not create.");
 	}
 
-	private void checkAuthor(User user, Article article, String errorMessage)
-	{
+	private void checkAuthor(User user, Article article, String errorMessage) {
 		Role articleAdmin = findRoleByName(ROLE_MANAGE_ARTICLES);
 
-		if (!user.getRoles().contains(articleAdmin))
-		{
+		if (!user.getRoles().contains(articleAdmin)) {
 			// make sure user created this article
 			User createdBy = article.getCreatedByUser();
 
-			if (createdBy == null || !user.getId().equals(createdBy.getId()))
-			{
+			if (createdBy == null || !user.getId().equals(createdBy.getId())) {
 				throw new UnauthorizedException(errorMessage);
 			}
 		}
 	}
 
-	private boolean isUserTrustedForComments(User user)
-	{
-		if (user == null)
-		{
+	private boolean isUserTrustedForComments(User user) {
+		if (user == null) {
 			return false; // anonymous users are not trusted
 		}
 
 		List<Role> roles = user.getRoles();
 
 		// trust users who can post / modify articles
-		if (roles.contains(findRoleByName(ROLE_MANAGE_ARTICLES)))
-		{
+		if (roles.contains(findRoleByName(ROLE_MANAGE_ARTICLES))) {
 			return true;
 		}
 
 		// trust users who can modify comments
-		if (roles.contains(findRoleByName(ROLE_MANAGE_COMMENTS)))
-		{
+		if (roles.contains(findRoleByName(ROLE_MANAGE_COMMENTS))) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private User findUserByName(String userName) throws UserNotFoundException
-	{
+	private User findUserByName(String userName) throws UserNotFoundException {
 		User user = userRepository.findByUserName(userName);
-		if (user == null)
-		{
+		if (user == null) {
 			throw new UserNotFoundException("Unknown user: " + userName);
 		}
 
 		return user;
 	}
 
-	private Article loadArticle(Long articleId) throws ArticleNotFoundException
-	{
-		if (articleId == null)
-		{
+	private Article loadArticle(Long articleId) throws ArticleNotFoundException {
+		if (articleId == null) {
 			throw new ArticleNotFoundException("Invalid id specified.");
 		}
 
 		Article article = articleRepository.findOne(articleId);
-		if (article == null)
-		{
+		if (article == null) {
 			throw new ArticleNotFoundException("No article exists with id: " + articleId);
 		}
 
 		return article;
 	}
 
-	private Comment loadComment(Long commentId) throws CommentNotFoundException
-	{
-		if (commentId == null)
-		{
+	private Comment loadComment(Long commentId) throws CommentNotFoundException {
+		if (commentId == null) {
 			throw new CommentNotFoundException("Invalid id specified.");
 		}
 
 		Comment comment = commentRepository.findOne(commentId);
-		if (comment == null)
-		{
+		if (comment == null) {
 			throw new CommentNotFoundException("No comment exists with id: " + commentId);
 		}
 
 		return comment;
 	}
 
-	private Role findRoleByName(String roleName) throws RoleNotFoundException
-	{
+	private Role findRoleByName(String roleName) throws RoleNotFoundException {
 		Role role = roleRepository.findByName(roleName);
 
-		if (role == null)
-		{
+		if (role == null) {
 			throw new RoleNotFoundException("Unknown role: " + roleName);
 		}
 

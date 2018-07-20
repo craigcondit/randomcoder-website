@@ -1,17 +1,17 @@
 package org.randomcoder.db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class UserTest
-{
+public class UserTest {
 	private User user;
-	
+
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		user = new User();
 		user.setPassword(User.hashPassword("Password1"));
 		user.setWebsite("http://localhost/");
@@ -20,14 +20,12 @@ public class UserTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		user = null;
 	}
 
 	@Test
-	public void testToString()
-	{
+	public void testToString() {
 		String value = user.toString();
 		assertFalse("User has password", value.contains("password"));
 		assertFalse("User has email address", value.contains("emailAddress"));

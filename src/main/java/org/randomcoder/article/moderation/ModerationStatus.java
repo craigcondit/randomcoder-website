@@ -3,8 +3,7 @@ package org.randomcoder.article.moderation;
 /**
  * Moderation status enumeration.
  */
-public enum ModerationStatus
-{
+public enum ModerationStatus {
 	/**
 	 * Pending.
 	 */
@@ -25,8 +24,7 @@ public enum ModerationStatus
 	 * 
 	 * @return name
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name();
 	}
 
@@ -35,8 +33,7 @@ public enum ModerationStatus
 	 * 
 	 * @return ordinal
 	 */
-	public int getOrdinal()
-	{
+	public int getOrdinal() {
 		return ordinal();
 	}
 }

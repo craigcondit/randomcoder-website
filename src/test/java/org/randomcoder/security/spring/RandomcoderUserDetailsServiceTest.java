@@ -1,29 +1,34 @@
 package org.randomcoder.security.spring;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.easymock.IMocksControl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.*;
+import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SuppressWarnings("javadoc")
-public class RandomcoderUserDetailsServiceTest
-{
+public class RandomcoderUserDetailsServiceTest {
 	private RandomcoderUserDetailsService svc = null;
 
 	private IMocksControl control;
 	private UserBusiness ub;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		svc = new RandomcoderUserDetailsService();
@@ -31,15 +36,13 @@ public class RandomcoderUserDetailsServiceTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		control = null;
 		ub = null;
 		svc = null;
 	}
 
-	private Role createTestRole()
-	{
+	private Role createTestRole() {
 		Role role = new Role();
 		role.setId(1L);
 		role.setName("ROLE_TEST");
@@ -47,8 +50,7 @@ public class RandomcoderUserDetailsServiceTest
 		return role;
 	}
 
-	private User createTestUser()
-	{
+	private User createTestUser() {
 		List<Role> roles = new ArrayList<>();
 		roles.add(createTestRole());
 
@@ -63,8 +65,7 @@ public class RandomcoderUserDetailsServiceTest
 	}
 
 	@Test
-	public void testLoadUserByUsername()
-	{
+	public void testLoadUserByUsername() {
 		expect(ub.findUserByName("test")).andReturn(createTestUser());
 		control.replay();
 
@@ -88,14 +89,12 @@ public class RandomcoderUserDetailsServiceTest
 	}
 
 	@Test(expected = UsernameNotFoundException.class)
-	public void testLoadUserByUsernameNotFound() throws Exception
-	{
+	public void testLoadUserByUsernameNotFound() throws Exception {
 		svc.loadUserByUsername("bogus");
 	}
 
 	@Test(expected = UsernameNotFoundException.class)
-	public void testLoadUserByUsernameNoPassword() throws Exception
-	{
+	public void testLoadUserByUsernameNoPassword() throws Exception {
 		svc.loadUserByUsername("test-no-password");
 	}
 }

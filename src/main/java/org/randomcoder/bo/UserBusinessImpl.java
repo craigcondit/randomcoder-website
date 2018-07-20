@@ -1,14 +1,21 @@
 package org.randomcoder.bo;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.hibernate.Hibernate;
-import org.randomcoder.db.*;
-import org.randomcoder.io.*;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.RoleRepository;
+import org.randomcoder.db.User;
+import org.randomcoder.db.UserRepository;
+import org.randomcoder.io.Consumer;
+import org.randomcoder.io.Producer;
 import org.randomcoder.user.UserNotFoundException;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Business implementation for user management.
  */
 @Component("userBusiness")
-public class UserBusinessImpl implements UserBusiness
-{
+public class UserBusinessImpl implements UserBusiness {
 	private RoleRepository roleRepository;
 	private UserRepository userRepository;
 
@@ -26,11 +32,10 @@ public class UserBusinessImpl implements UserBusiness
 	 * Sets the user repository to use.
 	 * 
 	 * @param userRepository
-	 *          user repository
+	 *            user repository
 	 */
 	@Inject
-	public void setUserRepository(UserRepository userRepository)
-	{
+	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -38,22 +43,19 @@ public class UserBusinessImpl implements UserBusiness
 	 * Sets the role repository to use.
 	 * 
 	 * @param roleRepository
-	 *          role repository
+	 *            role repository
 	 */
 	@Inject
-	public void setRoleRepository(RoleRepository roleRepository)
-	{
+	public void setRoleRepository(RoleRepository roleRepository) {
 		this.roleRepository = roleRepository;
 	}
 
 	@Override
 	@Transactional("transactionManager")
-	public void changePassword(String userName, String password)
-	{
+	public void changePassword(String userName, String password) {
 		User user = userRepository.findByUserName(userName);
 
-		if (user == null)
-		{
+		if (user == null) {
 			throw new UserNotFoundException("Unknown user: " + userName);
 		}
 
@@ -64,8 +66,7 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void createUser(Producer<User> producer)
-	{
+	public void createUser(Producer<User> producer) {
 		User user = new User();
 		producer.produce(user);
 		userRepository.save(user);
@@ -73,8 +74,7 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void createAccount(Producer<User> producer)
-	{
+	public void createAccount(Producer<User> producer) {
 		User user = new User();
 		producer.produce(user);
 		userRepository.save(user);
@@ -82,8 +82,7 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void updateUser(Producer<User> producer, Long userId)
-	{
+	public void updateUser(Producer<User> producer, Long userId) {
 		User user = loadUser(userId);
 		producer.produce(user);
 		userRepository.save(user);
@@ -91,24 +90,20 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void deleteUser(Long userId)
-	{
+	public void deleteUser(Long userId) {
 		userRepository.delete(userId);
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public void loadUserForEditing(Consumer<User> consumer, Long userId)
-	{
+	public void loadUserForEditing(Consumer<User> consumer, Long userId) {
 		User user = loadUser(userId);
 		consumer.consume(user);
 	}
 
-	private User loadUser(Long userId)
-	{
+	private User loadUser(Long userId) {
 		User user = userRepository.findOne(userId);
-		if (user == null)
-		{
+		if (user == null) {
 			throw new UserNotFoundException();
 		}
 		return user;
@@ -116,25 +111,21 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<Role> listRoles()
-	{
+	public List<Role> listRoles() {
 		return roleRepository.findAll(new Sort(Direction.ASC, "description"));
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Role findRoleByName(String name)
-	{
+	public Role findRoleByName(String name) {
 		return roleRepository.findByName(name);
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public User findUserByName(String name)
-	{
+	public User findUserByName(String name) {
 		User user = userRepository.findByUserName(name);
-		if (user != null)
-		{
+		if (user != null) {
 			Hibernate.initialize(user.getRoles());
 		}
 		return user;
@@ -142,11 +133,9 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public User findUserByNameEnabled(String name)
-	{
+	public User findUserByNameEnabled(String name) {
 		User user = userRepository.findByUserNameEnabled(name);
-		if (user != null)
-		{
+		if (user != null) {
 			Hibernate.initialize(user.getRoles());
 		}
 		return user;
@@ -154,11 +143,9 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Page<User> findAll(Pageable pageable)
-	{
+	public Page<User> findAll(Pageable pageable) {
 		Page<User> users = userRepository.findAll(pageable);
-		for (User user : users.getContent())
-		{
+		for (User user : users.getContent()) {
 			Hibernate.initialize(user.getRoles());
 		}
 		return users;
@@ -166,12 +153,10 @@ public class UserBusinessImpl implements UserBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void auditUsernamePasswordLogin(String userName)
-	{
+	public void auditUsernamePasswordLogin(String userName) {
 		User user = userRepository.findByUserName(userName);
 
-		if (user == null)
-		{
+		if (user == null) {
 			throw new UserNotFoundException("Unknown user: " + userName);
 		}
 

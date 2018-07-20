@@ -1,25 +1,31 @@
 package org.randomcoder.security;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.same;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletRequest;
 
 import org.easymock.IMocksControl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.test.GenericProxy;
-import org.springframework.mock.web.*;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
 
 @SuppressWarnings("javadoc")
-public class DisableUrlSessionFilterTest
-{
+public class DisableUrlSessionFilterTest {
 	private IMocksControl control;
 	private FilterChain fc;
 	private DisableUrlSessionFilter filter;
 
 	@Before
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		control = createControl();
 		fc = control.createMock(FilterChain.class);
 
@@ -28,15 +34,13 @@ public class DisableUrlSessionFilterTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		filter.destroy();
 		filter = null;
 	}
 
 	@Test
-	public void testDoFilter() throws Exception
-	{
+	public void testDoFilter() throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -55,11 +59,11 @@ public class DisableUrlSessionFilterTest
 	}
 
 	@Test
-	public void testNonHttpServletRequest() throws Exception
-	{
+	public void testNonHttpServletRequest() throws Exception {
 		// proxy the request object so that it no longer implements
 		// HttpServletRequest
-		ServletRequest request = (ServletRequest) GenericProxy.proxy(new MockHttpServletRequest(), ServletRequest.class);
+		ServletRequest request = (ServletRequest) GenericProxy.proxy(new MockHttpServletRequest(),
+				ServletRequest.class);
 
 		MockHttpServletResponse response = new MockHttpServletResponse();
 

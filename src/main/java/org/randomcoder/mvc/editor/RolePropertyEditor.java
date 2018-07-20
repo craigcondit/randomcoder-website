@@ -8,8 +8,7 @@ import org.randomcoder.db.Role;
 /**
  * Property editor for roles.
  */
-public class RolePropertyEditor extends PropertyEditorSupport
-{
+public class RolePropertyEditor extends PropertyEditorSupport {
 	private final UserBusiness userBusiness;
 
 	/**
@@ -18,8 +17,7 @@ public class RolePropertyEditor extends PropertyEditorSupport
 	 * @param userBusiness
 	 *            UserBusiness implementation to use
 	 */
-	public RolePropertyEditor(UserBusiness userBusiness)
-	{
+	public RolePropertyEditor(UserBusiness userBusiness) {
 		this.userBusiness = userBusiness;
 	}
 
@@ -29,8 +27,7 @@ public class RolePropertyEditor extends PropertyEditorSupport
 	 * @return text representation of object
 	 */
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
 		Role role = (Role) getValue();
 		String result = (role == null) ? "" : role.getName();
 		return result;
@@ -45,11 +42,9 @@ public class RolePropertyEditor extends PropertyEditorSupport
 	 *             if parsing fails
 	 */
 	@Override
-	public void setAsText(String string) throws IllegalArgumentException
-	{
+	public void setAsText(String string) throws IllegalArgumentException {
 		Role role = userBusiness.findRoleByName(string);
-		if (role == null)
-		{
+		if (role == null) {
 			throw new IllegalArgumentException("No such role: " + string);
 		}
 		setValue(role);

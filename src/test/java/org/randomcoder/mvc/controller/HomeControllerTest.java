@@ -11,6 +11,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.easymock.Capture;
 import org.easymock.IMocksControl;
 import org.junit.After;
@@ -28,16 +35,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 @SuppressWarnings("javadoc")
-public class HomeControllerTest
-{
+public class HomeControllerTest {
 	private IMocksControl control;
 	private ArticleBusiness ab;
 	private ContentFilter cf;
@@ -47,8 +46,7 @@ public class HomeControllerTest
 	private HttpServletRequest r;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ab = control.createMock(ArticleBusiness.class);
 		cf = control.createMock(ContentFilter.class);
@@ -62,8 +60,7 @@ public class HomeControllerTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		c = null;
 		tb = null;
 		cf = null;
@@ -71,8 +68,7 @@ public class HomeControllerTest
 	}
 
 	@Test
-	public void testListArticlesBetweenDates()
-	{
+	public void testListArticlesBetweenDates() {
 		Date startDate = new Date();
 		Date endDate = new Date();
 		List<Article> articles = new ArrayList<>();
@@ -85,8 +81,7 @@ public class HomeControllerTest
 	}
 
 	@Test
-	public void testListArticlesBeforeDate()
-	{
+	public void testListArticlesBeforeDate() {
 		Date endDate = new Date();
 		List<Article> articles = new ArrayList<>();
 		Page<Article> page = new PageImpl<>(articles);
@@ -103,24 +98,24 @@ public class HomeControllerTest
 	}
 
 	@Test
-	public void testGetSubTitle()
-	{
+	public void testGetSubTitle() {
 		assertNull(c.getSubTitle(null));
 	}
 
 	@Test
-	public void testHome()
-	{
+	public void testHome() {
 		Capture<Pageable> pageCap = newCapture();
 
-		expect(ab.listArticlesBetweenDates(isA(Date.class), isA(Date.class))).andReturn(Collections.<Article> emptyList());
-		expect(ab.listArticlesBeforeDate(isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article> emptyList()));
+		expect(ab.listArticlesBetweenDates(isA(Date.class), isA(Date.class)))
+				.andReturn(Collections.<Article> emptyList());
+		expect(ab.listArticlesBeforeDate(isA(Date.class), capture(pageCap)))
+				.andReturn(new PageImpl<>(Collections.<Article> emptyList()));
 		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry> emptyList());
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
-    expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
-    expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
-    expect(r.getParameter("year")).andStubReturn(null);
-    expect(r.getParameter("month")).andStubReturn(null);
+		expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
+		expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
+		expect(r.getParameter("year")).andStubReturn(null);
+		expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
 		assertEquals("home", c.home(new ArticleListCommand(), m, new PageRequest(0, 10), r));

@@ -1,21 +1,16 @@
 package org.randomcoder.content;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class InvalidContentTypeExceptionTest
-{
+public class InvalidContentTypeExceptionTest {
 	@Test
-	public void testInvalidContentTypeException()
-	{
-		try
-		{
+	public void testInvalidContentTypeException() {
+		try {
 			throw new InvalidContentTypeException("error");
-		}
-		catch (InvalidContentTypeException e)
-		{
+		} catch (InvalidContentTypeException e) {
 			assertEquals("error", e.getMessage());
 		}
 	}

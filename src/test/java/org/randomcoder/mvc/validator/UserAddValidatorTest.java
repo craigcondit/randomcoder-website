@@ -1,27 +1,31 @@
 package org.randomcoder.mvc.validator;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
 import org.easymock.IMocksControl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
-import org.randomcoder.db.*;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.UserAddCommand;
-import org.springframework.validation.*;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 
 @SuppressWarnings("javadoc")
-public class UserAddValidatorTest
-{
+public class UserAddValidatorTest {
 	private UserAddValidator validator;
 	private IMocksControl control;
 	private UserBusiness ub;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		validator = new UserAddValidator();
@@ -31,22 +35,19 @@ public class UserAddValidatorTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		validator = null;
 		control = null;
 		ub = null;
 	}
 
 	@Test
-	public void testSupports()
-	{
+	public void testSupports() {
 		assertTrue("Validator doesn't support command class", validator.supports(UserAddCommand.class));
 	}
 
 	@Test
-	public void testValidate()
-	{
+	public void testValidate() {
 		FieldError error;
 		BindException errors;
 

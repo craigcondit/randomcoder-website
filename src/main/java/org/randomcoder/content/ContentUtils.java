@@ -1,15 +1,25 @@
 package org.randomcoder.content;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.xml.transform.*;
-import javax.xml.transform.sax.*;
+import javax.xml.transform.Result;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.randomcoder.io.SequenceReader;
-import org.xml.sax.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * Utility methods for content formatting.
@@ -39,28 +49,35 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class ContentUtils
-{
+public class ContentUtils {
 
 	/**
 	 * Format the given input source using the given filter into XHTML.
-	 * @param mimeType mime type
-	 * @param baseUrl base URL for links, or <code>null</code> to omit
-	 * @param content original content
-	 * @param filter filter instance
-	 * @param output XSLT result object
-	 * @throws TransformerException if transforming xml fails
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if xml parsing fails
+	 * 
+	 * @param mimeType
+	 *            mime type
+	 * @param baseUrl
+	 *            base URL for links, or <code>null</code> to omit
+	 * @param content
+	 *            original content
+	 * @param filter
+	 *            filter instance
+	 * @param output
+	 *            XSLT result object
+	 * @throws TransformerException
+	 *             if transforming xml fails
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws SAXException
+	 *             if xml parsing fails
 	 *
 	 */
 	public static void format(String mimeType, URL baseUrl, InputSource content, ContentFilter filter, Result output)
-	throws TransformerException, IOException, SAXException
-	{
+			throws TransformerException, IOException, SAXException {
 		// TODO needs unit testing
-		
+
 		TransformerFactory tFactory = TransformerFactory.newInstance();
-		
+
 		SAXTransformerFactory stFactory = (SAXTransformerFactory) tFactory;
 
 		Templates templates = filter.getXSLTemplates(mimeType);
@@ -80,37 +97,51 @@ public class ContentUtils
 
 	/**
 	 * Format the given input source using the given filter into XHTML.
-	 * @param mimeType mime type
-	 * @param baseUrl base URL for links, or <code>null</code> to omit.
-	 * @param content original content
-	 * @param filter filter instance
+	 * 
+	 * @param mimeType
+	 *            mime type
+	 * @param baseUrl
+	 *            base URL for links, or <code>null</code> to omit.
+	 * @param content
+	 *            original content
+	 * @param filter
+	 *            filter instance
 	 * @return XHTML-transformed content
-	 * @throws TransformerException if transforming xml fails
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if xml parsing fails
+	 * @throws TransformerException
+	 *             if transforming xml fails
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws SAXException
+	 *             if xml parsing fails
 	 */
 	public static String format(String mimeType, URL baseUrl, InputSource content, ContentFilter filter)
-	throws TransformerException, IOException, SAXException
-	{
+			throws TransformerException, IOException, SAXException {
 		StringWriter out = new StringWriter();
 		format(mimeType, baseUrl, content, filter, new StreamResult(out));
 		return out.toString();
 	}
 
 	/**
-	 * Format the given content to XHTML. 
-	 * @param content content
-	 * @param contentType content type
-	 * @param filter content filter
-	 * @param baseUrl base URL for links, or <code>null</code> to omit
+	 * Format the given content to XHTML.
+	 * 
+	 * @param content
+	 *            content
+	 * @param contentType
+	 *            content type
+	 * @param filter
+	 *            content filter
+	 * @param baseUrl
+	 *            base URL for links, or <code>null</code> to omit
 	 * @return transformed output
-	 * @throws TransformerException if transforming xml fails
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if xml parsing fails
+	 * @throws TransformerException
+	 *             if transforming xml fails
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws SAXException
+	 *             if xml parsing fails
 	 */
 	public static String formatText(String content, URL baseUrl, ContentType contentType, ContentFilter filter)
-	throws TransformerException, IOException, SAXException
-	{
+			throws TransformerException, IOException, SAXException {
 		String mimeType = contentType.getMimeType();
 
 		String prefix = filter.getPrefix(mimeType);
@@ -119,9 +150,9 @@ public class ContentUtils
 		List<Reader> readers = new ArrayList<Reader>();
 		if (prefix != null)
 			readers.add(new StringReader(prefix));
-		
+
 		readers.add(new StringReader(content));
-		
+
 		if (suffix != null)
 			readers.add(new StringReader(suffix));
 
@@ -129,21 +160,30 @@ public class ContentUtils
 
 		return format(mimeType, baseUrl, new InputSource(reader), filter);
 	}
-	
+
 	/**
-	 * Format the given content to XHTML. 
-	 * @param content content
-	 * @param baseUrl base URL for links, or <code>null</code> to omit
-	 * @param contentType content type
-	 * @param filter content filter
-	 * @param result XSLT result
-	 * @throws TransformerException if transforming xml fails
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if xml parsing fails
+	 * Format the given content to XHTML.
+	 * 
+	 * @param content
+	 *            content
+	 * @param baseUrl
+	 *            base URL for links, or <code>null</code> to omit
+	 * @param contentType
+	 *            content type
+	 * @param filter
+	 *            content filter
+	 * @param result
+	 *            XSLT result
+	 * @throws TransformerException
+	 *             if transforming xml fails
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws SAXException
+	 *             if xml parsing fails
 	 */
-	public static void formatText(String content, URL baseUrl, ContentType contentType, ContentFilter filter, Result result)
-	throws TransformerException, IOException, SAXException
-	{
+	public static void formatText(String content, URL baseUrl, ContentType contentType, ContentFilter filter,
+			Result result)
+			throws TransformerException, IOException, SAXException {
 		String mimeType = contentType.getMimeType();
 
 		String prefix = filter.getPrefix(mimeType);
@@ -152,14 +192,14 @@ public class ContentUtils
 		List<Reader> readers = new ArrayList<Reader>();
 		if (prefix != null)
 			readers.add(new StringReader(prefix));
-		
+
 		readers.add(new StringReader(content));
-		
+
 		if (suffix != null)
 			readers.add(new StringReader(suffix));
 
 		SequenceReader reader = new SequenceReader(readers);
 
 		format(mimeType, baseUrl, new InputSource(reader), filter, result);
-	}		
+	}
 }

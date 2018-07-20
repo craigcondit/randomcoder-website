@@ -1,16 +1,15 @@
 package org.randomcoder.mvc.editor;
 
+import java.beans.PropertyEditorSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.beans.PropertyEditorSupport;
 
 /**
  * Enum property editor support.
  */
 @SuppressWarnings("rawtypes")
-public class EnumPropertyEditor extends PropertyEditorSupport
-{
+public class EnumPropertyEditor extends PropertyEditorSupport {
 	private static final Logger logger = LoggerFactory.getLogger(EnumPropertyEditor.class);
 
 	private Class<? extends Enum> enumType;
@@ -21,8 +20,7 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 	 * @param enumType
 	 *            enum type
 	 */
-	public EnumPropertyEditor(Class<? extends Enum> enumType)
-	{
+	public EnumPropertyEditor(Class<? extends Enum> enumType) {
 		this.enumType = enumType;
 	}
 
@@ -32,13 +30,11 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 	 * @return String enum string value
 	 */
 	@Override
-	public String getAsText()
-	{
+	public String getAsText() {
 		logger.debug("getAsText()");
 
 		Object value = getValue();
-		if (value == null)
-		{
+		if (value == null) {
 			return "";
 		}
 
@@ -55,12 +51,10 @@ public class EnumPropertyEditor extends PropertyEditorSupport
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public void setAsText(String string) throws IllegalArgumentException
-	{
+	public void setAsText(String string) throws IllegalArgumentException {
 		logger.debug("setAsText(" + string + ")");
 
-		if (string == null || string.trim().length() == 0)
-		{
+		if (string == null || string.trim().length() == 0) {
 			setValue(null);
 			return;
 		}

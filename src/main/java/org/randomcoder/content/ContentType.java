@@ -28,48 +28,58 @@ package org.randomcoder.content;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public enum ContentType
-{
+public enum ContentType {
 	/**
 	 * Plain text.
 	 */
-	TEXT ("text/plain", "Plain text"),
-	
+	TEXT("text/plain", "Plain text"),
+
 	/**
 	 * XHTML.
 	 */
-	XHTML ("application/xhtml+xml", "XHTML");
-	
+	XHTML("application/xhtml+xml", "XHTML");
+
 	private final String mimeType;
 	private final String description;
-	
-	private ContentType(String mimeType, String description)
-	{		
+
+	private ContentType(String mimeType, String description) {
 		this.mimeType = mimeType;
 		this.description = description;
 	}
-	
+
 	/**
 	 * Get the mime-type associated with this content type.
+	 * 
 	 * @return mime-type
 	 */
-	public String getMimeType() { return mimeType; }
-	
+	public String getMimeType() {
+		return mimeType;
+	}
+
 	/**
 	 * Get the human-readable description of this content type.
+	 * 
 	 * @return description
 	 */
-	public String getDescription() { return description; }
-		
+	public String getDescription() {
+		return description;
+	}
+
 	/**
 	 * Getter for innate name() property
+	 * 
 	 * @return name of this enum instance
 	 */
-	public String getName() { return name(); }
-	
+	public String getName() {
+		return name();
+	}
+
 	/**
 	 * Getter for innate ordinal() property
+	 * 
 	 * @return ordinal of this enum instance
 	 */
-	public int getOrdinal() { return ordinal(); }
+	public int getOrdinal() {
+		return ordinal();
+	}
 }

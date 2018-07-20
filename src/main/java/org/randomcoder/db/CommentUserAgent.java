@@ -3,10 +3,17 @@ package org.randomcoder.db;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * JPA entity representing a comment user agent.
@@ -14,8 +21,7 @@ import org.apache.commons.lang.builder.*;
 @Entity
 @Table(name = "comment_useragents")
 @SequenceGenerator(name = "comment_useragents", sequenceName = "comment_useragents_seq", allocationSize = 1)
-public class CommentUserAgent implements Serializable
-{
+public class CommentUserAgent implements Serializable {
 	private static final long serialVersionUID = 4101138502746346499L;
 
 	private Long id;
@@ -30,8 +36,7 @@ public class CommentUserAgent implements Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "comment_useragents")
 	@Column(name = "comment_useragent_id")
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -39,10 +44,9 @@ public class CommentUserAgent implements Serializable
 	 * Sets the ID for this user agent.
 	 * 
 	 * @param id
-	 *          id
+	 *            id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -52,8 +56,7 @@ public class CommentUserAgent implements Serializable
 	 * @return user agent name
 	 */
 	@Column(name = "user_agent", nullable = false, length = 255)
-	public String getUserAgentName()
-	{
+	public String getUserAgentName() {
 		return userAgentName;
 	}
 
@@ -61,10 +64,9 @@ public class CommentUserAgent implements Serializable
 	 * Sets the user agent name.
 	 * 
 	 * @param userAgentName
-	 *          user agent name
+	 *            user agent name
 	 */
-	public void setUserAgentName(String userAgentName)
-	{
+	public void setUserAgentName(String userAgentName) {
 		this.userAgentName = userAgentName;
 	}
 
@@ -74,8 +76,7 @@ public class CommentUserAgent implements Serializable
 	 * @return creation date
 	 */
 	@Column(name = "create_date", nullable = false)
-	public Date getCreationDate()
-	{
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
@@ -83,10 +84,9 @@ public class CommentUserAgent implements Serializable
 	 * Sets the creation date of this user agent.
 	 * 
 	 * @param creationDate
-	 *          creation date
+	 *            creation date
 	 */
-	public void setCreationDate(Date creationDate)
-	{
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -96,8 +96,7 @@ public class CommentUserAgent implements Serializable
 	 * @return hash code
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return StringUtils.trimToEmpty(getUserAgentName()).hashCode();
 	}
 
@@ -107,8 +106,7 @@ public class CommentUserAgent implements Serializable
 	 * @return true if equal, false if not
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (!(obj instanceof CommentUserAgent))
 			return false;
 
@@ -127,8 +125,7 @@ public class CommentUserAgent implements Serializable
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

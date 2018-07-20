@@ -1,25 +1,43 @@
 package org.randomcoder.mvc.controller;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.newCapture;
+import static org.easymock.EasyMock.notNull;
+import static org.easymock.EasyMock.same;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.easymock.*;
-import org.junit.*;
-import org.randomcoder.bo.*;
+import org.easymock.Capture;
+import org.easymock.IMocksControl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.content.ContentFilter;
-import org.randomcoder.db.*;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleTagListCommand;
 import org.randomcoder.tag.TagCloudEntry;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
 @SuppressWarnings("javadoc")
-public class ArticleTagListControllerTest
-{
+public class ArticleTagListControllerTest {
 	private IMocksControl control;
 	private ArticleBusiness ab;
 	private ContentFilter cf;
@@ -29,8 +47,7 @@ public class ArticleTagListControllerTest
 	private HttpServletRequest r;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ab = control.createMock(ArticleBusiness.class);
 		cf = control.createMock(ContentFilter.class);
@@ -44,8 +61,7 @@ public class ArticleTagListControllerTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		c = null;
 		tb = null;
 		cf = null;
@@ -53,16 +69,15 @@ public class ArticleTagListControllerTest
 	}
 
 	@Test
-	public void testListArticlesBetweenDates()
-	{
+	public void testListArticlesBetweenDates() {
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
-		
+
 		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
-		
+
 		Date startDate = new Date();
 		Date endDate = new Date();
 		List<Article> articles = new ArrayList<>();
@@ -75,22 +90,21 @@ public class ArticleTagListControllerTest
 	}
 
 	@Test
-	public void testListArticlesBeforeDate()
-	{
+	public void testListArticlesBeforeDate() {
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
-		
+
 		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
-		
+
 		Date endDate = new Date();
 		List<Article> articles = new ArrayList<>();
 		Page<Article> page = new PageImpl<>(articles);
-		
+
 		Capture<Pageable> pageCap = newCapture();
-		
+
 		expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate), capture(pageCap))).andReturn(page);
 		control.replay();
 
@@ -101,40 +115,40 @@ public class ArticleTagListControllerTest
 	}
 
 	@Test
-	public void testGetSubTitle()
-	{
+	public void testGetSubTitle() {
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
-		
+
 		ArticleTagListCommand cmd = new ArticleTagListCommand();
 		cmd.setTag(tag);
-		
+
 		assertEquals("Tag", c.getSubTitle(cmd));
 	}
 
 	@Test
-	public void testTagList()
-	{
+	public void testTagList() {
 		Tag tag = new Tag();
 		tag.setName("tag");
 		tag.setDisplayName("Tag");
 		tag.setId(1L);
-		
+
 		ArticleTagListCommand cmd = new ArticleTagListCommand();
-		
+
 		Capture<Pageable> pageCap = newCapture();
-		
+
 		expect(tb.findTagByName("tag")).andReturn(tag);
-		expect(ab.listArticlesByTagBetweenDates(same(tag), isA(Date.class), isA(Date.class))).andReturn(Collections.<Article>emptyList());
-		expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class), capture(pageCap))).andReturn(new PageImpl<>(Collections.<Article>emptyList()));
-		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry>emptyList());
+		expect(ab.listArticlesByTagBetweenDates(same(tag), isA(Date.class), isA(Date.class)))
+				.andReturn(Collections.<Article> emptyList());
+		expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class), capture(pageCap)))
+				.andReturn(new PageImpl<>(Collections.<Article> emptyList()));
+		expect(tb.getTagCloud()).andStubReturn(Collections.<TagCloudEntry> emptyList());
 		expect(m.addAttribute((String) notNull(), notNull())).andStubReturn(m);
 		expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
 		expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
 		expect(r.getParameter("year")).andStubReturn(null);
-    expect(r.getParameter("month")).andStubReturn(null);
+		expect(r.getParameter("month")).andStubReturn(null);
 		control.replay();
 
 		assertEquals("article-tag-list", c.tagList(cmd, m, "tag", new PageRequest(0, 10), r));

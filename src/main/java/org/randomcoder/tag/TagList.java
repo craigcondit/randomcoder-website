@@ -8,8 +8,7 @@ import org.randomcoder.db.Tag;
 /**
  * Container for a list of tags.
  */
-public class TagList implements Serializable
-{
+public class TagList implements Serializable {
 	private static final long serialVersionUID = 8246304617489842857L;
 
 	private List<Tag> tags;
@@ -17,17 +16,16 @@ public class TagList implements Serializable
 	/**
 	 * Default constructor.
 	 */
-	public TagList()
-	{}
+	public TagList() {
+	}
 
 	/**
 	 * Creates a new TagList populated with the given tag list.
 	 * 
 	 * @param tags
-	 *          tag list
+	 *            tag list
 	 */
-	public TagList(List<Tag> tags)
-	{
+	public TagList(List<Tag> tags) {
 		this.tags = tags;
 	}
 
@@ -36,8 +34,7 @@ public class TagList implements Serializable
 	 * 
 	 * @return list of tags
 	 */
-	public List<Tag> getTags()
-	{
+	public List<Tag> getTags() {
 		return tags;
 	}
 
@@ -45,10 +42,9 @@ public class TagList implements Serializable
 	 * Setter for tags property.
 	 * 
 	 * @param tags
-	 *          list of tags
+	 *            list of tags
 	 */
-	public void setTags(List<Tag> tags)
-	{
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 }

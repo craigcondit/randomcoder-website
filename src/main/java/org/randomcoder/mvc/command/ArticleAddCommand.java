@@ -1,20 +1,24 @@
 package org.randomcoder.mvc.command;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.randomcoder.content.ContentType;
-import org.randomcoder.db.*;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Tag;
 import org.randomcoder.io.Producer;
 import org.randomcoder.tag.TagList;
 
 /**
  * Command class used for adding articles.
  */
-public class ArticleAddCommand implements Producer<Article>, Serializable
-{
+public class ArticleAddCommand implements Producer<Article>, Serializable {
 	private static final long serialVersionUID = -6429429692732106826L;
 
 	/**
@@ -51,10 +55,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the title of the article.
 	 * 
 	 * @param title
-	 *          article title
+	 *            article title
 	 */
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = StringUtils.trimToNull(title);
 	}
 
@@ -63,8 +66,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return article title
 	 */
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
@@ -72,10 +74,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the content type of the article.
 	 * 
 	 * @param contentType
-	 *          content type
+	 *            content type
 	 */
-	public void setContentType(ContentType contentType)
-	{
+	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
 
@@ -84,8 +85,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return content type
 	 */
-	public ContentType getContentType()
-	{
+	public ContentType getContentType() {
 		return contentType;
 	}
 
@@ -93,10 +93,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the permalink for this article.
 	 * 
 	 * @param permalink
-	 *          permalink
+	 *            permalink
 	 */
-	public void setPermalink(String permalink)
-	{
+	public void setPermalink(String permalink) {
 		this.permalink = StringUtils.stripToNull(StringUtils.defaultString(permalink).toLowerCase(Locale.US));
 	}
 
@@ -105,8 +104,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return permalink
 	 */
-	public String getPermalink()
-	{
+	public String getPermalink() {
 		return permalink;
 	}
 
@@ -114,10 +112,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the tags for this article.
 	 * 
 	 * @param tags
-	 *          tags
+	 *            tags
 	 */
-	public void setTags(TagList tags)
-	{
+	public void setTags(TagList tags) {
 		this.tags = tags;
 	}
 
@@ -126,8 +123,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return tags
 	 */
-	public TagList getTags()
-	{
+	public TagList getTags() {
 		return tags;
 	}
 
@@ -135,10 +131,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the textual content of the article.
 	 * 
 	 * @param content
-	 *          article content
+	 *            article content
 	 */
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = StringUtils.trimToNull(content);
 	}
 
@@ -147,8 +142,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return article content
 	 */
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
@@ -157,8 +151,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * 
 	 * @return summary text
 	 */
-	public String getSummary()
-	{
+	public String getSummary() {
 		return summary;
 	}
 
@@ -166,10 +159,9 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Sets the summary text for this article.
 	 * 
 	 * @param summary
-	 *          summary text
+	 *            summary text
 	 */
-	public void setSummary(String summary)
-	{
+	public void setSummary(String summary) {
 		this.summary = StringUtils.trimToNull(summary);
 	}
 
@@ -177,16 +169,14 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * Writes out the contents of the form to the given article.
 	 */
 	@Override
-	public void produce(Article article)
-	{
+	public void produce(Article article) {
 		article.setTitle(title);
 		article.setContentType(contentType);
 		article.setPermalink(permalink);
 		article.setContent(content);
 		article.setSummary(summary);
 
-		if (article.getTags() == null)
-		{
+		if (article.getTags() == null) {
 			article.setTags(new ArrayList<Tag>());
 		}
 
@@ -214,8 +204,7 @@ public class ArticleAddCommand implements Producer<Article>, Serializable
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
 	}
 }

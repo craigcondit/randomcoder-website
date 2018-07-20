@@ -2,14 +2,14 @@ package org.randomcoder.mvc.command;
 
 import java.util.List;
 
-import org.randomcoder.db.*;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.User;
 import org.randomcoder.io.Consumer;
 
 /**
  * Command class for editing users.
  */
-public class UserEditCommand extends UserAddCommand implements Consumer<User>
-{
+public class UserEditCommand extends UserAddCommand implements Consumer<User> {
 	private static final long serialVersionUID = 2923257330122456830L;
 
 	private Long id;
@@ -19,8 +19,7 @@ public class UserEditCommand extends UserAddCommand implements Consumer<User>
 	 * 
 	 * @return id
 	 */
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -28,16 +27,14 @@ public class UserEditCommand extends UserAddCommand implements Consumer<User>
 	 * Sets the ID associated with this user.
 	 * 
 	 * @param id
-	 *          id
+	 *            id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	@Override
-	public void consume(User user)
-	{
+	public void consume(User user) {
 		setUserName(user.getUserName());
 		setEmailAddress(user.getEmailAddress());
 		setWebsite(user.getWebsite());

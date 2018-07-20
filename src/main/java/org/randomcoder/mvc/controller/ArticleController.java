@@ -1,5 +1,15 @@
 package org.randomcoder.mvc.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+
 import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.article.ArticleNotFoundException;
 import org.randomcoder.bo.ArticleBusiness;
@@ -31,22 +41,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UrlPathHelper;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Controller class for managing articles.
  */
 @Controller("articleController")
-public class ArticleController
-{
+public class ArticleController {
 	private static final Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
 	private ArticleBusiness articleBusiness;
@@ -63,8 +62,7 @@ public class ArticleController
 	 *            ArticleBusiness implementation
 	 */
 	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness)
-	{
+	public void setArticleBusiness(ArticleBusiness articleBusiness) {
 		this.articleBusiness = articleBusiness;
 	}
 
@@ -75,8 +73,7 @@ public class ArticleController
 	 *            TagBusiness implementation
 	 */
 	@Inject
-	public void setTagBusiness(TagBusiness tagBusiness)
-	{
+	public void setTagBusiness(TagBusiness tagBusiness) {
 		this.tagBusiness = tagBusiness;
 	}
 
@@ -87,8 +84,7 @@ public class ArticleController
 	 *            comment validator
 	 */
 	@Inject
-	public void setCommentValidator(CommentValidator commentValidator)
-	{
+	public void setCommentValidator(CommentValidator commentValidator) {
 		this.commentValidator = commentValidator;
 	}
 
@@ -99,8 +95,7 @@ public class ArticleController
 	 *            article add validator
 	 */
 	@Inject
-	public void setArticleAddValidator(ArticleAddValidator articleAddValidator)
-	{
+	public void setArticleAddValidator(ArticleAddValidator articleAddValidator) {
 		this.articleAddValidator = articleAddValidator;
 	}
 
@@ -111,8 +106,7 @@ public class ArticleController
 	 *            article edit validator
 	 */
 	@Inject
-	public void setArticleEditValidator(ArticleEditValidator articleEditValidator)
-	{
+	public void setArticleEditValidator(ArticleEditValidator articleEditValidator) {
 		this.articleEditValidator = articleEditValidator;
 	}
 
@@ -124,8 +118,7 @@ public class ArticleController
 	 */
 	@Inject
 	@Named("contentFilter")
-	public void setContentFilter(ContentFilter contentFilter)
-	{
+	public void setContentFilter(ContentFilter contentFilter) {
 		this.contentFilter = contentFilter;
 	}
 
@@ -136,22 +129,16 @@ public class ArticleController
 	 *            data binder
 	 */
 	@InitBinder
-	public void initBinder(WebDataBinder binder)
-	{
+	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(ContentType.class, new EnumPropertyEditor(ContentType.class));
 		binder.registerCustomEditor(TagList.class, new TagListPropertyEditor(tagBusiness));
 
 		Object target = binder.getTarget();
-		if (target instanceof CommentCommand)
-		{
+		if (target instanceof CommentCommand) {
 			binder.setValidator(commentValidator);
-		}
-		else if (target instanceof ArticleEditCommand)
-		{
+		} else if (target instanceof ArticleEditCommand) {
 			binder.setValidator(articleEditValidator);
-		}
-		else if (target instanceof ArticleAddCommand)
-		{
+		} else if (target instanceof ArticleAddCommand) {
 			binder.setValidator(articleAddValidator);
 		}
 	}
@@ -170,8 +157,7 @@ public class ArticleController
 	@RequestMapping(value = "/articles/id/{id}", method = RequestMethod.GET)
 	public String articleById(
 			@PathVariable("id") long id,
-			Principal user, Model model)
-	{
+			Principal user, Model model) {
 		Article article = articleBusiness.readArticle(id);
 		return viewArticle(user, model, article);
 	}
@@ -190,16 +176,13 @@ public class ArticleController
 	@RequestMapping(value = "/articles/{permalink}", method = RequestMethod.GET)
 	public String articleByPermalink(
 			@PathVariable("permalink") String permalink,
-			Principal user, Model model)
-	{
+			Principal user, Model model) {
 		Article article = articleBusiness.findArticleByPermalink(permalink);
 		return viewArticle(user, model, article);
 	}
 
-	private String viewArticle(Principal user, Model model, Article article)
-	{
-		if (article == null)
-		{
+	private String viewArticle(Principal user, Model model, Article article) {
+		if (article == null) {
 			throw new ArticleNotFoundException();
 		}
 
@@ -211,8 +194,7 @@ public class ArticleController
 		return "article-view";
 	}
 
-	private void populateArticleModel(Model model, Article article, CommentCommand command)
-	{
+	private void populateArticleModel(Model model, Article article, CommentCommand command) {
 		List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(1);
 		wrappedArticles.add(new ArticleDecorator(article, contentFilter));
 		model.addAttribute("articles", wrappedArticles);
@@ -243,8 +225,7 @@ public class ArticleController
 	public String articleByIdSubmit(
 			@PathVariable("id") long id,
 			Principal user, Model model, HttpServletRequest request,
-			@ModelAttribute("command") CommentCommand command, BindingResult result)
-	{
+			@ModelAttribute("command") CommentCommand command, BindingResult result) {
 		logger.debug("articleByIdSubmit()");
 
 		Article article = articleBusiness.readArticle(id);
@@ -272,8 +253,7 @@ public class ArticleController
 	public String articleByPermalinkSubmit(
 			@PathVariable("permalink") String permalink,
 			Principal user, Model model, HttpServletRequest request,
-			@ModelAttribute("command") CommentCommand command, BindingResult result)
-	{
+			@ModelAttribute("command") CommentCommand command, BindingResult result) {
 		logger.debug("articleByPermalinkSubmit()");
 
 		Article article = articleBusiness.findArticleByPermalink(permalink);
@@ -283,10 +263,8 @@ public class ArticleController
 	private String commentOnArticle(
 			Article article, Principal user,
 			Model model, HttpServletRequest request,
-			CommentCommand command, BindingResult result)
-	{
-		if (article == null)
-		{
+			CommentCommand command, BindingResult result) {
+		if (article == null) {
 			throw new ArticleNotFoundException();
 		}
 
@@ -294,8 +272,7 @@ public class ArticleController
 
 		command.bind(user == null);
 		commentValidator.validate(command, result);
-		if (result.hasErrors())
-		{
+		if (result.hasErrors()) {
 			return "article-view";
 		}
 
@@ -325,8 +302,7 @@ public class ArticleController
 	public String addArticle(
 			Model model,
 			@ModelAttribute("command") ArticleAddCommand command,
-			BindingResult result)
-	{
+			BindingResult result) {
 		populateArticleEditModel(model);
 		return "article-add";
 	}
@@ -337,8 +313,7 @@ public class ArticleController
 	 * @return default view
 	 */
 	@RequestMapping(value = "/article/add", method = RequestMethod.POST, params = "cancel")
-	public String addArticleCancel()
-	{
+	public String addArticleCancel() {
 		return "default";
 	}
 
@@ -361,10 +336,8 @@ public class ArticleController
 			@ModelAttribute("command") @Validated ArticleAddCommand command,
 			BindingResult result,
 			Model model,
-			Principal user)
-	{
-		if (result.hasErrors())
-		{
+			Principal user) {
+		if (result.hasErrors()) {
 			populateArticleEditModel(model);
 			return "article-add";
 		}
@@ -392,11 +365,10 @@ public class ArticleController
 			Model model,
 			@ModelAttribute("command") ArticleEditCommand command,
 			BindingResult result,
-			Principal user)
-	{
+			Principal user) {
 		articleBusiness.loadArticleForEditing(command, command.getId(), user.getName());
-		
-		populateArticleEditModel(model);		
+
+		populateArticleEditModel(model);
 		return "article-edit";
 	}
 
@@ -406,11 +378,10 @@ public class ArticleController
 	 * @return default view
 	 */
 	@RequestMapping(value = "/article/edit", method = RequestMethod.POST, params = "cancel")
-	public String editArticleCancel()
-	{
+	public String editArticleCancel() {
 		return "default";
 	}
-	
+
 	/**
 	 * Submits a modified article.
 	 * 
@@ -430,10 +401,8 @@ public class ArticleController
 			@ModelAttribute("command") @Validated ArticleEditCommand command,
 			BindingResult result,
 			Model model,
-			Principal user)
-	{
-		if (result.hasErrors())
-		{
+			Principal user) {
+		if (result.hasErrors()) {
 			populateArticleEditModel(model);
 			return "article-edit";
 		}
@@ -442,9 +411,8 @@ public class ArticleController
 
 		return "default";
 	}
-	
-	private void populateArticleEditModel(Model model)
-	{
+
+	private void populateArticleEditModel(Model model) {
 		model.addAttribute("contentTypes", ContentType.values());
 	}
 
@@ -458,8 +426,7 @@ public class ArticleController
 	 * @return default view
 	 */
 	@RequestMapping("/article/delete")
-	public String deleteArticle(@RequestParam("id") long id, Principal user)
-	{
+	public String deleteArticle(@RequestParam("id") long id, Principal user) {
 		articleBusiness.deleteArticle(user.getName(), id);
 		return "default";
 	}
@@ -471,22 +438,17 @@ public class ArticleController
 	 *            request
 	 * @return app path
 	 */
-	private String getAppPath(HttpServletRequest request)
-	{
+	private String getAppPath(HttpServletRequest request) {
 		UrlPathHelper helper = new UrlPathHelper();
 
 		String appPath = helper.getPathWithinApplication(request);
-		try
-		{
+		try {
 			appPath = URLDecoder.decode(appPath, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
+		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Unsupported encoding", e);
 		}
 
-		if (logger.isDebugEnabled())
-		{
+		if (logger.isDebugEnabled()) {
 			logger.debug("appPath: " + appPath);
 		}
 

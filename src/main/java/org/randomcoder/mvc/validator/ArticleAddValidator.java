@@ -1,5 +1,14 @@
 package org.randomcoder.mvc.validator;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.content.ContentType;
@@ -15,21 +24,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 /**
  * Validator for adding articles.
  */
 @Component("articleAddValidator")
-public class ArticleAddValidator implements Validator
-{
+public class ArticleAddValidator implements Validator {
 	private static final String ERROR_ARTICLE_CONTENT_INVALID = "error.article.content.invalid";
 	private static final String ERROR_ARTICLE_CONTENT_REQUIRED = "error.article.content.required";
 	private static final String ERROR_ARTICLE_SUMMARY_INVALID = "error.article.summary.invalid";
@@ -67,8 +66,7 @@ public class ArticleAddValidator implements Validator
 	 */
 	@Inject
 	@Named("contentFilter")
-	public void setContentFilter(ContentFilter contentFilter)
-	{
+	public void setContentFilter(ContentFilter contentFilter) {
 		this.contentFilter = contentFilter;
 	}
 
@@ -79,8 +77,7 @@ public class ArticleAddValidator implements Validator
 	 *            article business object
 	 */
 	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness)
-	{
+	public void setArticleBusiness(ArticleBusiness articleBusiness) {
 		this.articleBusiness = articleBusiness;
 	}
 
@@ -91,8 +88,7 @@ public class ArticleAddValidator implements Validator
 	 *            max summary length
 	 */
 	@Value("${article.max.summary.length}")
-	public void setMaximumSummaryLength(int maximumSummaryLength)
-	{
+	public void setMaximumSummaryLength(int maximumSummaryLength) {
 		this.maximumSummaryLength = maximumSummaryLength;
 	}
 
@@ -107,8 +103,7 @@ public class ArticleAddValidator implements Validator
 	 *            class to check
 	 */
 	@Override
-	public boolean supports(Class<?> givenClass)
-	{
+	public boolean supports(Class<?> givenClass) {
 		return ArticleAddCommand.class.equals(givenClass);
 	}
 
@@ -121,24 +116,19 @@ public class ArticleAddValidator implements Validator
 	 *            Spring Errors object to populate
 	 */
 	@Override
-	public void validate(Object obj, Errors errors)
-	{
+	public void validate(Object obj, Errors errors) {
 		ArticleAddCommand command = (ArticleAddCommand) obj;
 
-		if (!validateCommon(command, errors))
-		{
+		if (!validateCommon(command, errors)) {
 			return;
 		}
 
-		if (errors.getFieldErrorCount("permalink") == 0)
-		{
+		if (errors.getFieldErrorCount("permalink") == 0) {
 			String permalink = command.getPermalink();
-			if (permalink != null)
-			{
+			if (permalink != null) {
 				// look for article with the same permalink
 				Article prev = articleBusiness.findArticleByPermalink(permalink);
-				if (prev != null)
-				{
+				if (prev != null) {
 					errors.rejectValue("permalink", ERROR_ARTICLE_PERMALINK_EXISTS, "permalink exists");
 				}
 			}
@@ -154,98 +144,81 @@ public class ArticleAddValidator implements Validator
 	 *            spring errors object to populate
 	 * @return true if validation completed, false if processing should stop
 	 */
-	protected final boolean validateCommon(ArticleAddCommand command, Errors errors)
-	{
+	protected final boolean validateCommon(ArticleAddCommand command, Errors errors) {
 
-		if (command == null)
-		{
+		if (command == null) {
 			errors.reject(ERROR_ARTICLE_NULL, "Null data received");
 			// do not continue processing, as this will lead to NPEs later
 			return false;
 		}
 
 		String title = command.getTitle();
-		if (title == null || title.trim().length() == 0)
-		{
+		if (title == null || title.trim().length() == 0) {
 			errors.rejectValue("title", ERROR_ARTICLE_TITLE_REQUIRED, "title required");
 		}
 
 		String permalink = command.getPermalink();
-		if (permalink != null && !permalink.matches("[a-z0-9\\-]+"))
-		{
+		if (permalink != null && !permalink.matches("[a-z0-9\\-]+")) {
 			errors.rejectValue("permalink", ERROR_ARTICLE_PERMALINK_INVALID, "permalink invalid");
 		}
 
 		ContentType contentType = command.getContentType();
-		if (contentType == null)
-		{
+		if (contentType == null) {
 			errors.rejectValue("contentType", ERROR_ARTICLE_CONTENT_TYPE_REQUIRED, "content type required");
 		}
 
 		String content = command.getContent();
-		if (content == null || content.trim().length() == 0)
-		{
+		if (content == null || content.trim().length() == 0) {
 			errors.rejectValue("content", ERROR_ARTICLE_CONTENT_REQUIRED, "content required");
-		}
-		else if (contentType != null)
-		{
+		} else if (contentType != null) {
 			// validate the content
-			validateContent(errors, content, contentType.getMimeType(), "content", ERROR_ARTICLE_CONTENT_INVALID, "content invalid");
+			validateContent(errors, content, contentType.getMimeType(), "content", ERROR_ARTICLE_CONTENT_INVALID,
+					"content invalid");
 		}
 
 		String summary = command.getSummary();
-		if (summary != null)
-		{
+		if (summary != null) {
 			// validate summary
-			if (summary.length() > maximumSummaryLength)
-			{
-				errors.rejectValue("summary", ERROR_ARTICLE_SUMMARY_TOO_LONG, new Object[] { new Integer(maximumSummaryLength) }, "summary too long");
-			}
-			else
-			{
-				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID, "summary invalid");
+			if (summary.length() > maximumSummaryLength) {
+				errors.rejectValue("summary", ERROR_ARTICLE_SUMMARY_TOO_LONG,
+						new Object[] { new Integer(maximumSummaryLength) }, "summary too long");
+			} else {
+				validateContent(errors, summary, contentType.getMimeType(), "summary", ERROR_ARTICLE_SUMMARY_INVALID,
+						"summary invalid");
 			}
 		}
 
 		return true;
 	}
 
-	private void validateContent(Errors errors, String content, String mimeType, String fieldName, String errorMessage, String fallbackMessage)
-	{
+	private void validateContent(Errors errors, String content, String mimeType, String fieldName, String errorMessage,
+			String fallbackMessage) {
 		String prefix = contentFilter.getPrefix(mimeType);
 		String suffix = contentFilter.getSuffix(mimeType);
 
 		List<Reader> readers = new ArrayList<Reader>();
-		if (prefix != null)
-		{
+		if (prefix != null) {
 			readers.add(new StringReader(prefix));
 		}
 		readers.add(new StringReader(content));
-		if (suffix != null)
-		{
+		if (suffix != null) {
 			readers.add(new StringReader(suffix));
 		}
 
 		SequenceReader reader = new SequenceReader(readers);
 
-		try
-		{
+		try {
 			contentFilter.validate(mimeType, reader);
-		}
-		catch (InvalidContentException e)
-		{
+		} catch (InvalidContentException e) {
 			int line = e.getLineNumber();
 			int col = e.getColumnNumber();
 
-			errors.rejectValue(fieldName, errorMessage, new Object[] { new Integer(line), new Integer(col), e.getMessage() }, fallbackMessage);
-		}
-		catch (InvalidContentTypeException e)
-		{
+			errors.rejectValue(fieldName, errorMessage,
+					new Object[] { new Integer(line), new Integer(col), e.getMessage() }, fallbackMessage);
+		} catch (InvalidContentTypeException e) {
 			logger.error("Caught exception", e);
 			throw new RuntimeException("Invalid content type", e);
-		}
-		catch (IOException e)
-		{
+		} catch (IOException e) {
 			// this shouldn't happen, since all readers are string readers
 			logger.error("Caught exception", e);
 			throw new RuntimeException("I/O error", e);

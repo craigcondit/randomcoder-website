@@ -10,8 +10,7 @@ import org.randomcoder.io.Producer;
 /**
  * Command class for comment posting.
  */
-public class CommentCommand implements Serializable, Producer<Comment>
-{
+public class CommentCommand implements Serializable, Producer<Comment> {
 	private static final long serialVersionUID = -1245687879900306444L;
 
 	private boolean anonymous;
@@ -28,8 +27,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return true if anonymous, false otherwise
 	 */
-	public boolean isAnonymous()
-	{
+	public boolean isAnonymous() {
 		return anonymous;
 	}
 
@@ -37,10 +35,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Binds non-request parameters to form.
 	 * 
 	 * @param isAnonymous
-	 *          true if anonymous, false otherwise
+	 *            true if anonymous, false otherwise
 	 */
-	public void bind(boolean isAnonymous)
-	{
+	public void bind(boolean isAnonymous) {
 		this.anonymous = isAnonymous;
 	}
 
@@ -49,8 +46,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return anonymous name
 	 */
-	public String getAnonymousUserName()
-	{
+	public String getAnonymousUserName() {
 		return anonymousUserName;
 	}
 
@@ -58,10 +54,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Set the anonymous name of the comment poster.
 	 * 
 	 * @param anonymousUserName
-	 *          anonymous name
+	 *            anonymous name
 	 */
-	public void setAnonymousUserName(String anonymousUserName)
-	{
+	public void setAnonymousUserName(String anonymousUserName) {
 		this.anonymousUserName = StringUtils.trimToNull(anonymousUserName);
 	}
 
@@ -70,8 +65,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return anonymous email address
 	 */
-	public String getAnonymousEmailAddress()
-	{
+	public String getAnonymousEmailAddress() {
 		return anonymousEmailAddress;
 	}
 
@@ -79,10 +73,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Sets the anonymous email address of the comment poster.
 	 * 
 	 * @param anonymousEmailAddress
-	 *          email address
+	 *            email address
 	 */
-	public void setAnonymousEmailAddress(String anonymousEmailAddress)
-	{
+	public void setAnonymousEmailAddress(String anonymousEmailAddress) {
 		this.anonymousEmailAddress = StringUtils.trimToNull(anonymousEmailAddress);
 	}
 
@@ -91,8 +84,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return anonymous web site
 	 */
-	public String getAnonymousWebsite()
-	{
+	public String getAnonymousWebsite() {
 		return anonymousWebsite;
 	}
 
@@ -100,10 +92,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Sets the anonymous website associated with this user.
 	 * 
 	 * @param anonymousWebsite
-	 *          anonymous website
+	 *            anonymous website
 	 */
-	public void setAnonymousWebsite(String anonymousWebsite)
-	{
+	public void setAnonymousWebsite(String anonymousWebsite) {
 		this.anonymousWebsite = StringUtils.trimToNull(anonymousWebsite);
 	}
 
@@ -112,8 +103,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return title
 	 */
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
@@ -121,10 +111,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Sets the title of this comment.
 	 * 
 	 * @param title
-	 *          title
+	 *            title
 	 */
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = StringUtils.trimToNull(title);
 	}
 
@@ -133,8 +122,7 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * 
 	 * @return comment text
 	 */
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
@@ -142,10 +130,9 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Sets the text of the comment.
 	 * 
 	 * @param content
-	 *          comment text
+	 *            comment text
 	 */
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = StringUtils.trimToNull(content);
 	}
 
@@ -153,16 +140,12 @@ public class CommentCommand implements Serializable, Producer<Comment>
 	 * Populates a comment object with data.
 	 */
 	@Override
-	public void produce(Comment comment)
-	{
-		if (anonymous)
-		{
+	public void produce(Comment comment) {
+		if (anonymous) {
 			comment.setAnonymousUserName(anonymousUserName);
 			comment.setAnonymousEmailAddress(anonymousEmailAddress);
 			comment.setAnonymousWebsite(anonymousWebsite);
-		}
-		else
-		{
+		} else {
 			comment.setAnonymousUserName(null);
 			comment.setAnonymousEmailAddress(null);
 			comment.setAnonymousWebsite(null);

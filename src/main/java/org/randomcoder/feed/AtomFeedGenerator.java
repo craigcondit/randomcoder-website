@@ -1,31 +1,42 @@
 package org.randomcoder.feed;
 
-import static javax.xml.XMLConstants.*;
+import static javax.xml.XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 
 import org.randomcoder.bo.AppInfoBusiness;
-import org.randomcoder.content.*;
-import org.randomcoder.db.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.content.ContentUtils;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Tag;
+import org.randomcoder.db.User;
 import org.randomcoder.validation.DataValidationUtils;
 import org.randomcoder.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
  * Generator for Atom 1.0 feeds.
  */
-public class AtomFeedGenerator implements FeedGenerator
-{
+public class AtomFeedGenerator implements FeedGenerator {
 	private static final String ATOM_1_0_NS = "http://www.w3.org/2005/Atom";
 	private static final String THREAD_NS = "http://purl.org/syndication/thread/1.0";
 	private static final String THREAD_NS_PREFIX = "thr";
@@ -41,13 +52,12 @@ public class AtomFeedGenerator implements FeedGenerator
 	 * Sets the base URL to use for articles.
 	 * 
 	 * @param baseUrl
-	 *          base URL
+	 *            base URL
 	 * @throws MalformedURLException
-	 *           if URL is invalid
+	 *             if URL is invalid
 	 */
 	@Required
-	public void setBaseUrl(String baseUrl) throws MalformedURLException
-	{
+	public void setBaseUrl(String baseUrl) throws MalformedURLException {
 		this.baseUrl = new URL(baseUrl);
 	}
 
@@ -55,11 +65,10 @@ public class AtomFeedGenerator implements FeedGenerator
 	 * Sets the URI prefix used for generating unique identifiers.
 	 * 
 	 * @param uriPrefix
-	 *          URI prefix
+	 *            URI prefix
 	 */
 	@Required
-	public void setUriPrefix(String uriPrefix)
-	{
+	public void setUriPrefix(String uriPrefix) {
 		this.uriPrefix = uriPrefix;
 	}
 
@@ -67,11 +76,10 @@ public class AtomFeedGenerator implements FeedGenerator
 	 * Sets the content filter to use for transforming articles into XHTML.
 	 * 
 	 * @param contentFilter
-	 *          content filter
+	 *            content filter
 	 */
 	@Required
-	public void setContentFilter(ContentFilter contentFilter)
-	{
+	public void setContentFilter(ContentFilter contentFilter) {
 		this.contentFilter = contentFilter;
 	}
 
@@ -79,23 +87,20 @@ public class AtomFeedGenerator implements FeedGenerator
 	 * Sets the AppInfoBusiness instance to use.
 	 * 
 	 * @param appInfoBusiness
-	 *          AppInfoBusiness instance
+	 *            AppInfoBusiness instance
 	 */
 	@Required
-	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness)
-	{
+	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness) {
 		this.appInfoBusiness = appInfoBusiness;
 	}
 
 	@Override
-	public String getContentType()
-	{
+	public String getContentType() {
 		return "application/atom+xml";
 	}
 
 	@Override
-	public String generateFeed(FeedInfo info) throws FeedException
-	{
+	public String generateFeed(FeedInfo info) throws FeedException {
 		// need to write out XML
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
@@ -103,12 +108,9 @@ public class AtomFeedGenerator implements FeedGenerator
 		DecimalFormat df = new DecimalFormat("####################");
 
 		DocumentBuilder db = null;
-		try
-		{
+		try {
 			db = dbf.newDocumentBuilder();
-		}
-		catch (ParserConfigurationException e)
-		{
+		} catch (ParserConfigurationException e) {
 			throw new FeedConfigurationException("Unable to generate document builder", e);
 		}
 
@@ -126,8 +128,7 @@ public class AtomFeedGenerator implements FeedGenerator
 
 		// write feed subtitle
 		String subtitle = info.getSubtitle();
-		if (subtitle != null)
-		{
+		if (subtitle != null) {
 			Element subtitleEl = doc.createElementNS(ATOM_1_0_NS, "subtitle");
 			subtitleEl.appendChild(doc.createTextNode(subtitle));
 			root.appendChild(subtitleEl);
@@ -149,8 +150,7 @@ public class AtomFeedGenerator implements FeedGenerator
 
 		// write alternate URL
 		URL altUrl = info.getAltUrl();
-		if (altUrl != null)
-		{
+		if (altUrl != null) {
 			Element altEl = doc.createElementNS(ATOM_1_0_NS, "link");
 			altEl.setAttribute("rel", "alternate");
 			altEl.setAttribute("type", "text/html");
@@ -169,8 +169,7 @@ public class AtomFeedGenerator implements FeedGenerator
 
 		Date feedUpdated = null;
 
-		for (Article article : info.getArticles())
-		{
+		for (Article article : info.getArticles()) {
 			Element entryEl = doc.createElementNS(ATOM_1_0_NS, "entry");
 
 			// write title
@@ -179,12 +178,9 @@ public class AtomFeedGenerator implements FeedGenerator
 			entryEl.appendChild(articleTitleEl);
 
 			URL articleUrl = null;
-			try
-			{
+			try {
 				articleUrl = new URL(baseUrl, article.getPermalinkUrl());
-			}
-			catch (MalformedURLException e)
-			{
+			} catch (MalformedURLException e) {
 				throw new FeedException("Unable to generate feed URL", e);
 			}
 
@@ -196,12 +192,9 @@ public class AtomFeedGenerator implements FeedGenerator
 			entryEl.appendChild(articleAltEl);
 
 			URL replyUrl = null;
-			try
-			{
+			try {
 				replyUrl = new URL(articleUrl, "#comments");
-			}
-			catch (MalformedURLException e)
-			{
+			} catch (MalformedURLException e) {
 				throw new FeedException("Unable to generate reply URL", e);
 			}
 
@@ -210,7 +203,8 @@ public class AtomFeedGenerator implements FeedGenerator
 			repliesEl.setAttribute("rel", "replies");
 			repliesEl.setAttribute("type", "text/html");
 			repliesEl.setAttribute("href", replyUrl.toExternalForm());
-			repliesEl.setAttributeNS(THREAD_NS, THREAD_NS_PREFIX + ":count", Integer.toString(article.getComments().size()));
+			repliesEl.setAttributeNS(THREAD_NS, THREAD_NS_PREFIX + ":count",
+					Integer.toString(article.getComments().size()));
 			entryEl.appendChild(repliesEl);
 
 			// write id
@@ -224,21 +218,18 @@ public class AtomFeedGenerator implements FeedGenerator
 			articlePublishedEl.appendChild(doc.createTextNode(formatDate(published)));
 			entryEl.appendChild(articlePublishedEl);
 
-			if (feedUpdated == null || feedUpdated.before(published))
-			{
+			if (feedUpdated == null || feedUpdated.before(published)) {
 				feedUpdated = published;
 			}
 
 			// write modified
 			Date updated = article.getModificationDate();
-			if (updated != null)
-			{
+			if (updated != null) {
 				Element articleUpdatedEl = doc.createElementNS(ATOM_1_0_NS, "updated");
 				articleUpdatedEl.appendChild(doc.createTextNode(formatDate(updated)));
 				entryEl.appendChild(articleUpdatedEl);
 
-				if (feedUpdated == null || feedUpdated.before(updated))
-				{
+				if (feedUpdated == null || feedUpdated.before(updated)) {
 					feedUpdated = updated;
 				}
 			}
@@ -247,13 +238,10 @@ public class AtomFeedGenerator implements FeedGenerator
 			String authorName;
 			String authorUrl;
 			User createdBy = article.getCreatedByUser();
-			if (createdBy == null)
-			{
+			if (createdBy == null) {
 				authorName = "anonymous";
 				authorUrl = null;
-			}
-			else
-			{
+			} else {
 				authorName = createdBy.getUserName();
 				authorUrl = createdBy.getWebsite();
 			}
@@ -264,8 +252,7 @@ public class AtomFeedGenerator implements FeedGenerator
 			authorNameEl.appendChild(doc.createTextNode(authorName));
 			authorEl.appendChild(authorNameEl);
 
-			if (DataValidationUtils.isValidUrl(authorUrl))
-			{
+			if (DataValidationUtils.isValidUrl(authorUrl)) {
 				Element authorUriEl = doc.createElementNS(ATOM_1_0_NS, "uri");
 				authorUriEl.appendChild(doc.createTextNode(authorUrl));
 				authorEl.appendChild(authorUriEl);
@@ -274,8 +261,7 @@ public class AtomFeedGenerator implements FeedGenerator
 			entryEl.appendChild(authorEl);
 
 			// write categories
-			for (Tag tag : article.getTags())
-			{
+			for (Tag tag : article.getTags()) {
 				Element categoryEl = doc.createElementNS(ATOM_1_0_NS, "category");
 				categoryEl.setAttribute("term", tag.getName());
 				categoryEl.setAttribute("label", tag.getDisplayName());
@@ -284,21 +270,18 @@ public class AtomFeedGenerator implements FeedGenerator
 
 			String summary = article.getSummary();
 
-			if (summary != null)
-			{
+			if (summary != null) {
 				// write summary -- will need content filter
 				Element summaryEl = doc.createElementNS(ATOM_1_0_NS, "summary");
 				summaryEl.setAttribute("type", "xhtml");
 				summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:lang", "en-US");
 				summaryEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:base", articleUrl.toExternalForm());
 
-				try
-				{
+				try {
 					addXHTML(doc, summaryEl, summary, article.getContentType());
-				}
-				catch (Exception e)
-				{
-					throw new FeedException("Unable to generate summary for article with id " + df.format(article.getId()), e);
+				} catch (Exception e) {
+					throw new FeedException(
+							"Unable to generate summary for article with id " + df.format(article.getId()), e);
 				}
 
 				entryEl.appendChild(summaryEl);
@@ -310,13 +293,11 @@ public class AtomFeedGenerator implements FeedGenerator
 			contentEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:lang", "en-US");
 			contentEl.setAttributeNS(javax.xml.XMLConstants.XML_NS_URI, "xml:base", articleUrl.toExternalForm());
 
-			try
-			{
+			try {
 				addXHTML(doc, contentEl, article.getContent(), article.getContentType());
-			}
-			catch (Exception e)
-			{
-				throw new FeedException("Unable to generate content for article with id " + df.format(article.getId()), e);
+			} catch (Exception e) {
+				throw new FeedException("Unable to generate content for article with id " + df.format(article.getId()),
+						e);
 			}
 
 			entryEl.appendChild(contentEl);
@@ -324,28 +305,24 @@ public class AtomFeedGenerator implements FeedGenerator
 			root.appendChild(entryEl);
 		}
 
-		if (feedUpdated == null)
-		{
+		if (feedUpdated == null) {
 			feedUpdated = new Date();
 		}
 
 		updatedEl.appendChild(doc.createTextNode(formatDate(feedUpdated)));
 
 		StringWriter writer = new StringWriter();
-		try
-		{
+		try {
 			XmlUtils.prettyPrint(doc, new StreamResult(writer));
-		}
-		catch (TransformerException e)
-		{
+		} catch (TransformerException e) {
 			throw new FeedException("Unable to generate XML for feed", e);
 		}
 
 		return writer.toString();
 	}
 
-	private void addXHTML(Document doc, Element parent, String text, ContentType contentType) throws TransformerException, SAXException, IOException
-	{
+	private void addXHTML(Document doc, Element parent, String text, ContentType contentType)
+			throws TransformerException, SAXException, IOException {
 		Element root = doc.createElementNS(XHTML_NS, "div");
 		Element tempRoot = doc.createElementNS(XHTML_NS, "div");
 
@@ -354,8 +331,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		// copy children to remove extra nesting
 		Node child = tempRoot.getFirstChild();
 		NodeList nl = child.getChildNodes();
-		for (int i = 0; i < nl.getLength(); i++)
-		{
+		for (int i = 0; i < nl.getLength(); i++) {
 			Node node = nl.item(i);
 			child.removeChild(node);
 			root.appendChild(node);
@@ -364,8 +340,7 @@ public class AtomFeedGenerator implements FeedGenerator
 		parent.appendChild(root);
 	}
 
-	private String formatDate(Date date)
-	{
+	private String formatDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 		String text = sdf.format(date);
 		return text.substring(0, text.length() - 2) + ":" + text.substring(text.length() - 2);

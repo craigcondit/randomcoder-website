@@ -7,8 +7,7 @@ import org.randomcoder.db.Tag;
 /**
  * Statisitics for Tag instances (article count, etc).
  */
-public class TagStatistics implements Serializable
-{
+public class TagStatistics implements Serializable {
 	private static final long serialVersionUID = 7563892982366083919L;
 
 	private Tag tag;
@@ -17,19 +16,18 @@ public class TagStatistics implements Serializable
 	/**
 	 * Default constructor.
 	 */
-	public TagStatistics()
-	{}
+	public TagStatistics() {
+	}
 
 	/**
 	 * Creates a new TagStatistics object with the given tag and article count.
 	 * 
 	 * @param tag
-	 *          tag
+	 *            tag
 	 * @param articleCount
-	 *          article count
+	 *            article count
 	 */
-	public TagStatistics(Tag tag, int articleCount)
-	{
+	public TagStatistics(Tag tag, int articleCount) {
 		this.tag = tag;
 		this.articleCount = articleCount;
 	}
@@ -39,8 +37,7 @@ public class TagStatistics implements Serializable
 	 * 
 	 * @return Tag instance
 	 */
-	public Tag getTag()
-	{
+	public Tag getTag() {
 		return tag;
 	}
 
@@ -48,10 +45,9 @@ public class TagStatistics implements Serializable
 	 * Sets the tag to which statistics apply.
 	 * 
 	 * @param tag
-	 *          Tag instance
+	 *            Tag instance
 	 */
-	public void setTag(Tag tag)
-	{
+	public void setTag(Tag tag) {
 		this.tag = tag;
 	}
 
@@ -60,8 +56,7 @@ public class TagStatistics implements Serializable
 	 * 
 	 * @return article count
 	 */
-	public int getArticleCount()
-	{
+	public int getArticleCount() {
 		return articleCount;
 	}
 
@@ -69,10 +64,9 @@ public class TagStatistics implements Serializable
 	 * Sets the number of articles which this tag contains.
 	 * 
 	 * @param articleCount
-	 *          article count
+	 *            article count
 	 */
-	public void setArticleCount(int articleCount)
-	{
+	public void setArticleCount(int articleCount) {
 		this.articleCount = articleCount;
 	}
 

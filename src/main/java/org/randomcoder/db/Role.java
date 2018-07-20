@@ -3,14 +3,20 @@ package org.randomcoder.db;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.*;
-import org.hibernate.annotations.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Immutable;
 
 /**
  * JPA entity representing a security role.
@@ -20,18 +26,15 @@ import org.hibernate.annotations.Cache;
 @Table(name = "roles")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @SequenceGenerator(name = "roles", sequenceName = "roles_seq", allocationSize = 1)
-public class Role implements Serializable, Comparable<Role>
-{
+public class Role implements Serializable, Comparable<Role> {
 	private static final long serialVersionUID = -828314946477973093L;
 
 	/**
 	 * Role Comparator (by name).
 	 */
-	public static final Comparator<Role> NAME_COMPARATOR = new Comparator<Role>()
-	{
+	public static final Comparator<Role> NAME_COMPARATOR = new Comparator<Role>() {
 		@Override
-		public int compare(Role r1, Role r2)
-		{
+		public int compare(Role r1, Role r2) {
 			String s1 = StringUtils.trimToEmpty(r1.getName());
 			String s2 = StringUtils.trimToEmpty(r2.getName());
 			return s1.compareTo(s2);
@@ -41,11 +44,9 @@ public class Role implements Serializable, Comparable<Role>
 	/**
 	 * Role Comparator (by description).
 	 */
-	public static final Comparator<Role> DESCRIPTION_COMPARATOR = new Comparator<Role>()
-	{
+	public static final Comparator<Role> DESCRIPTION_COMPARATOR = new Comparator<Role>() {
 		@Override
-		public int compare(Role r1, Role r2)
-		{
+		public int compare(Role r1, Role r2) {
 			String s1 = StringUtils.trimToEmpty(r1.getDescription());
 			String s2 = StringUtils.trimToEmpty(r2.getDescription());
 			return s1.compareTo(s2);
@@ -64,8 +65,7 @@ public class Role implements Serializable, Comparable<Role>
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "roles")
 	@Column(name = "role_id")
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -73,10 +73,9 @@ public class Role implements Serializable, Comparable<Role>
 	 * Sets the id of this role.
 	 * 
 	 * @param id
-	 *          role id
+	 *            role id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -86,8 +85,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return role name
 	 */
 	@Column(name = "name", unique = true, nullable = false, length = 30)
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -95,10 +93,9 @@ public class Role implements Serializable, Comparable<Role>
 	 * Sets the name of this role.
 	 * 
 	 * @param name
-	 *          role name
+	 *            role name
 	 */
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -108,8 +105,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return role description, or null if not supplied.
 	 */
 	@Column(name = "description", nullable = true, length = 255)
-	public String getDescription()
-	{
+	public String getDescription() {
 		return description;
 	}
 
@@ -117,10 +113,9 @@ public class Role implements Serializable, Comparable<Role>
 	 * Sets the description of this role.
 	 * 
 	 * @param description
-	 *          role description
+	 *            role description
 	 */
-	public void setDescription(String description)
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
@@ -130,8 +125,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return true if equal, false if not
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (!(obj instanceof Role))
 			return false;
 
@@ -150,8 +144,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return hash code
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return StringUtils.trimToEmpty(getName()).hashCode();
 	}
 
@@ -161,8 +154,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return 0 if equal, -1 if this is before, 1 if this is after
 	 */
 	@Override
-	public int compareTo(Role o)
-	{
+	public int compareTo(Role o) {
 		return DESCRIPTION_COMPARATOR.compare(this, o);
 	}
 
@@ -172,8 +164,7 @@ public class Role implements Serializable, Comparable<Role>
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

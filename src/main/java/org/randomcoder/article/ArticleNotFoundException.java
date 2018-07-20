@@ -3,15 +3,13 @@ package org.randomcoder.article;
 /**
  * Exception thrown when a requested article cannot be found.
  */
-public class ArticleNotFoundException extends RuntimeException
-{
+public class ArticleNotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
 	 * Default constructor.
 	 */
-	public ArticleNotFoundException()
-	{
+	public ArticleNotFoundException() {
 		super();
 	}
 
@@ -21,8 +19,7 @@ public class ArticleNotFoundException extends RuntimeException
 	 * @param message
 	 *            message to assoicate with this exception.
 	 */
-	public ArticleNotFoundException(String message)
-	{
+	public ArticleNotFoundException(String message) {
 		super(message);
 	}
 
@@ -32,8 +29,7 @@ public class ArticleNotFoundException extends RuntimeException
 	 * @return message
 	 */
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return super.getMessage();
 	}
 }

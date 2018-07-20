@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Statisitics for Tag instances with extensions for creating tag clouds.
  */
-public class TagCloudEntry extends TagStatistics
-{
+public class TagCloudEntry extends TagStatistics {
 	private static final long serialVersionUID = 7928407251644710555L;
 
 	private static final Logger logger = LoggerFactory.getLogger(TagCloudEntry.class);
@@ -17,8 +16,7 @@ public class TagCloudEntry extends TagStatistics
 	/**
 	 * Constructs an empty TagCloudEntry.
 	 */
-	public TagCloudEntry()
-	{
+	public TagCloudEntry() {
 		super();
 	}
 
@@ -26,24 +24,20 @@ public class TagCloudEntry extends TagStatistics
 	 * Creates a Tag cloud entry from the given statistics
 	 * 
 	 * @param stat
-	 *          Tag statistics
+	 *            Tag statistics
 	 * @param maximumArticleCount
-	 *          ceiling value for article count
+	 *            ceiling value for article count
 	 */
-	public TagCloudEntry(TagStatistics stat, int maximumArticleCount)
-	{
+	public TagCloudEntry(TagStatistics stat, int maximumArticleCount) {
 		super(stat.getTag(), stat.getArticleCount());
 
-		if (maximumArticleCount <= 0)
-		{
+		if (maximumArticleCount <= 0) {
 			scale = 0;
-		}
-		else
-		{
-			if (logger.isDebugEnabled())
-			{
-				logger.debug("Tag: " + getTag().getName() + " -> " + getArticleCount() + " / " + maximumArticleCount + " = "
-						+ ((getArticleCount() * 10) / maximumArticleCount));
+		} else {
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"Tag: " + getTag().getName() + " -> " + getArticleCount() + " / " + maximumArticleCount + " = "
+								+ ((getArticleCount() * 10) / maximumArticleCount));
 			}
 
 			setScale((getArticleCount() * 10) / maximumArticleCount);
@@ -55,8 +49,7 @@ public class TagCloudEntry extends TagStatistics
 	 * 
 	 * @return scale factor
 	 */
-	public int getScale()
-	{
+	public int getScale() {
 		return scale;
 	}
 
@@ -69,16 +62,13 @@ public class TagCloudEntry extends TagStatistics
 	 * </p>
 	 * 
 	 * @param scale
-	 *          scale factor
+	 *            scale factor
 	 */
-	public void setScale(int scale)
-	{
-		if (scale < 0)
-		{
+	public void setScale(int scale) {
+		if (scale < 0) {
 			scale = 0;
 		}
-		if (scale > 9)
-		{
+		if (scale > 9) {
 			scale = 9;
 		}
 		this.scale = scale;

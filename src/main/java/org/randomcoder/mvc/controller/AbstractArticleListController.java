@@ -1,20 +1,27 @@
 package org.randomcoder.mvc.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.article.CalendarInfo;
-import org.randomcoder.bo.*;
+import org.randomcoder.bo.ArticleBusiness;
+import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.content.ContentFilter;
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
@@ -25,8 +32,7 @@ import org.springframework.ui.Model;
  * @param <T>
  *            command type
  */
-abstract public class AbstractArticleListController<T extends ArticleListCommand>
-{
+abstract public class AbstractArticleListController<T extends ArticleListCommand> {
 	/**
 	 * Article Business.
 	 */
@@ -54,8 +60,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 *            ArticleBusiness implementation
 	 */
 	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness)
-	{
+	public void setArticleBusiness(ArticleBusiness articleBusiness) {
 		this.articleBusiness = articleBusiness;
 	}
 
@@ -66,8 +71,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 *            TagBusiness implementation
 	 */
 	@Inject
-	public void setTagBusiness(TagBusiness tagBusiness)
-	{
+	public void setTagBusiness(TagBusiness tagBusiness) {
 		this.tagBusiness = tagBusiness;
 	}
 
@@ -78,8 +82,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 *            maximum number of items per page
 	 */
 	@Value("${article.pagesize.max}")
-	public void setMaximumPageSize(int maximumPageSize)
-	{
+	public void setMaximumPageSize(int maximumPageSize) {
 		this.maximumPageSize = maximumPageSize;
 	}
 
@@ -90,8 +93,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 *            ContentFilter implementation
 	 */
 	@Inject
-	public void setContentFilter(ContentFilter contentFilter)
-	{
+	public void setContentFilter(ContentFilter contentFilter) {
 		this.contentFilter = contentFilter;
 	}
 
@@ -134,32 +136,30 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 	 * Populates the model.
 	 * 
 	 * @param command
-	 *          page command
+	 *            page command
 	 * @param model
-	 *          model
+	 *            model
 	 * @param pageable
-	 *          paging variables
-   * @param request
-   *          HTTP servlet request
+	 *            paging variables
+	 * @param request
+	 *            HTTP servlet request
 	 */
-	protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request)
-	{
+	protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable,
+			HttpServletRequest request) {
 		// set range and sort order
 		int size = pageable.getPageSize();
 		int page = pageable.getPageNumber();
-		if (size > maximumPageSize)
-		{
+		if (size > maximumPageSize) {
 			size = maximumPageSize;
-			page = 0;	
+			page = 0;
 		}
-		
+
 		pageable = new PageRequest(page, size, new Sort(Direction.DESC, "creationDate"));
-		
+
 		// get current month
 		Calendar currentMonth = Calendar.getInstance();
 		currentMonth.setTime(new Date());
-		if (command.getYear() > 0 && command.getMonth() > 0)
-		{
+		if (command.getYear() > 0 && command.getMonth() > 0) {
 			currentMonth.set(Calendar.YEAR, command.getYear());
 			currentMonth.set(Calendar.MONTH, command.getMonth() - 1);
 		}
@@ -182,14 +182,12 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 
 		// mark calendar with days containing articles
 		boolean[] days = new boolean[31];
-		for (int i = 0; i < 31; i++)
-		{
+		for (int i = 0; i < 31; i++) {
 			days[i] = false;
 		}
 
 		Calendar cal = Calendar.getInstance();
-		for (Article article : listArticlesBetweenDates(command, currentMonth.getTime(), nextMonth.getTime()))
-		{
+		for (Article article : listArticlesBetweenDates(command, currentMonth.getTime(), nextMonth.getTime())) {
 			cal.setTime(article.getCreationDate());
 			days[cal.get(Calendar.DAY_OF_MONTH) - 1] = true;
 		}
@@ -197,13 +195,10 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 		Calendar cutoff = Calendar.getInstance();
 		cutoff.setTime(currentMonth.getTime());
 
-		if (command.getYear() > 0 && command.getMonth() > 0 && command.getDay() > 0)
-		{
+		if (command.getYear() > 0 && command.getMonth() > 0 && command.getDay() > 0) {
 			cutoff.set(Calendar.DAY_OF_MONTH, command.getDay());
 			cutoff.add(Calendar.DAY_OF_MONTH, 1);
-		}
-		else
-		{
+		} else {
 			cutoff.add(Calendar.MONTH, 1);
 		}
 
@@ -217,8 +212,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 
 		// wrap article list
 		List<ArticleDecorator> wrappedArticles = new ArrayList<>(articles.getContent().size());
-		for (Article article : articles.getContent())
-		{
+		for (Article article : articles.getContent()) {
 			wrappedArticles.add(new ArticleDecorator(article, contentFilter));
 		}
 
@@ -234,8 +228,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
 		model.addAttribute("calendar", new CalendarInfo(request, days));
 
 		String subTitle = getSubTitle(command);
-		if (subTitle != null)
-		{
+		if (subTitle != null) {
 			model.addAttribute("pageSubTitle", subTitle);
 		}
 	}

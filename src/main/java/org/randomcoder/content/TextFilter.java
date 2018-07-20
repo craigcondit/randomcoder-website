@@ -1,18 +1,24 @@
 package org.randomcoder.content;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
 
-import javax.xml.transform.*;
+import javax.xml.transform.Templates;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXSource;
 
-import org.xml.sax.*;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
 
 /**
  * Plain text (text/plain) filter.
  * 
- * <p> This implementation does very little formatting - line breaks are
- * replaced with &lt;br /&gt; tags. </p>
+ * <p>
+ * This implementation does very little formatting - line breaks are
+ * replaced with &lt;br /&gt; tags.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -39,50 +45,46 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TextFilter implements ContentFilter
-{
+public class TextFilter implements ContentFilter {
 	private static final String XSL_RESOURCE = "text-to-xhtml.xsl";
 
 	private final Templates templates;
 
 	/**
 	 * Creates a new text filter.
-	 * @throws TransformerConfigurationException if transformer factory fails
+	 * 
+	 * @throws TransformerConfigurationException
+	 *             if transformer factory fails
 	 */
-	public TextFilter() throws TransformerConfigurationException
-	{
+	public TextFilter() throws TransformerConfigurationException {
 		// cache templates for later use
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 		templates = tFactory.newTemplates(new SAXSource(new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
 	}
 
 	@Override
-	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException
-	{
-	// all input is legal here
+	public void validate(String contentType, Reader content)
+			throws InvalidContentException, InvalidContentTypeException, IOException {
+		// all input is legal here
 	}
 
 	@Override
-	public XMLReader getXMLReader(URL baseUrl, String contentType)
-	{
+	public XMLReader getXMLReader(URL baseUrl, String contentType) {
 		return new TextReader();
 	}
 
 	@Override
-	public Templates getXSLTemplates(String contentType)
-	{
+	public Templates getXSLTemplates(String contentType) {
 		return templates;
 	}
 
 	@Override
-	public String getPrefix(String contentType)
-	{
+	public String getPrefix(String contentType) {
 		return null;
 	}
 
 	@Override
-	public String getSuffix(String contentType)
-	{
+	public String getSuffix(String contentType) {
 		return null;
 	}
 }

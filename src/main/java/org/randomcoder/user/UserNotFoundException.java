@@ -3,16 +3,14 @@ package org.randomcoder.user;
 /**
  * Exception thrown when a requested user cannot be found.
  */
-public class UserNotFoundException extends RuntimeException
-{
+public class UserNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
 	 * Default constructor.
 	 */
-	public UserNotFoundException()
-	{
+	public UserNotFoundException() {
 		super();
 	}
 
@@ -22,8 +20,7 @@ public class UserNotFoundException extends RuntimeException
 	 * @param message
 	 *            message to assoicate with this exception.
 	 */
-	public UserNotFoundException(String message)
-	{
+	public UserNotFoundException(String message) {
 		super(message);
 	}
 
@@ -33,8 +30,7 @@ public class UserNotFoundException extends RuntimeException
 	 * @return message
 	 */
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return super.getMessage();
 	}
 }

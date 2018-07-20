@@ -1,27 +1,38 @@
 package org.randomcoder.bo;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.newCapture;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
-import org.easymock.*;
-import org.junit.*;
-import org.randomcoder.db.*;
-import org.randomcoder.mvc.command.*;
+import org.easymock.Capture;
+import org.easymock.IMocksControl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.RoleRepository;
+import org.randomcoder.db.User;
+import org.randomcoder.db.UserRepository;
+import org.randomcoder.mvc.command.AccountCreateCommand;
+import org.randomcoder.mvc.command.UserAddCommand;
+import org.randomcoder.mvc.command.UserEditCommand;
 import org.randomcoder.user.UserNotFoundException;
 
 @SuppressWarnings("javadoc")
-public class UserBusinessImplTest
-{
+public class UserBusinessImplTest {
 	private IMocksControl control;
 	private UserBusinessImpl ub;
 	private UserRepository ur;
 	private RoleRepository rr;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ur = control.createMock(UserRepository.class);
 		rr = control.createMock(RoleRepository.class);
@@ -32,8 +43,7 @@ public class UserBusinessImplTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		control = null;
 		ur = null;
 		rr = null;
@@ -41,8 +51,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testChangePassword()
-	{
+	public void testChangePassword() {
 		User user = new User();
 		user.setUserName("test-change-password");
 		user.setEnabled(true);
@@ -59,8 +68,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test(expected = UserNotFoundException.class)
-	public void testChangePasswordUserNotFound()
-	{
+	public void testChangePasswordUserNotFound() {
 		expect(ur.findByUserName("bogus-user")).andReturn(null);
 		control.replay();
 
@@ -69,8 +77,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testCreateUser()
-	{
+	public void testCreateUser() {
 		UserAddCommand cmd = new UserAddCommand();
 
 		cmd.setUserName("test-create");
@@ -98,8 +105,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testCreateAccountByPassword()
-	{
+	public void testCreateAccountByPassword() {
 		AccountCreateCommand cmd = new AccountCreateCommand();
 		cmd.setUserName("test-create");
 		cmd.setEmailAddress("test-create@example.com");
@@ -119,8 +125,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testUpdateUser()
-	{
+	public void testUpdateUser() {
 		User user = new User();
 		user.setUserName("test-update-user");
 		user.setEnabled(true);
@@ -148,8 +153,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testDeleteUser()
-	{
+	public void testDeleteUser() {
 		User user = new User();
 		user.setId(1L);
 		ur.delete(1L);
@@ -160,8 +164,7 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testLoadUserForEditing()
-	{
+	public void testLoadUserForEditing() {
 		User user = new User();
 		user.setUserName("test-load-user");
 		user.setEnabled(true);
@@ -182,23 +185,18 @@ public class UserBusinessImplTest
 	}
 
 	@Test
-	public void testLoadUserForEditingUserNotFound()
-	{
-		try
-		{
+	public void testLoadUserForEditingUserNotFound() {
+		try {
 			UserEditCommand cmd = new UserEditCommand();
 			ub.loadUserForEditing(cmd, (long) -1);
 			fail("UserNotFoundException expected");
-		}
-		catch (UserNotFoundException e)
-		{
+		} catch (UserNotFoundException e) {
 			// pass
 		}
 	}
 
 	@Test
-	public void testAuditUsernamePasswordLogin()
-	{
+	public void testAuditUsernamePasswordLogin() {
 		User user = new User();
 		user.setUserName("test-audit-user");
 		user.setEnabled(true);
@@ -210,15 +208,14 @@ public class UserBusinessImplTest
 		expect(ur.findByUserName("test-audit-user")).andReturn(user);
 		expect(ur.save(user)).andReturn(user);
 		control.replay();
-		
+
 		ub.auditUsernamePasswordLogin("test-audit-user");
 		control.verify();
 		assertNotNull("Missing last login date", user.getLastLoginDate());
 	}
 
 	@Test(expected = UserNotFoundException.class)
-	public void testAuditUsernamePasswordLoginNullUser()
-	{
+	public void testAuditUsernamePasswordLoginNullUser() {
 		expect(ur.findByUserName(null)).andReturn(null);
 		control.replay();
 

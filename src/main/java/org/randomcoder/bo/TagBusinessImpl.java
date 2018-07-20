@@ -1,13 +1,19 @@
 package org.randomcoder.bo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
-import org.randomcoder.db.*;
-import org.randomcoder.io.*;
-import org.randomcoder.tag.*;
-import org.springframework.data.domain.*;
+import org.randomcoder.db.Tag;
+import org.randomcoder.db.TagRepository;
+import org.randomcoder.io.Consumer;
+import org.randomcoder.io.Producer;
+import org.randomcoder.tag.TagCloudEntry;
+import org.randomcoder.tag.TagNotFoundException;
+import org.randomcoder.tag.TagStatistics;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,35 +21,30 @@ import org.springframework.transaction.annotation.Transactional;
  * Tag management implementation.
  */
 @Component("tagBusiness")
-public class TagBusinessImpl implements TagBusiness
-{
+public class TagBusinessImpl implements TagBusiness {
 	private TagRepository tagRepository;
 
 	/**
 	 * Sets the tag repository to use.
 	 * 
 	 * @param tagRepository
-	 *          tag repository
+	 *            tag repository
 	 */
 	@Inject
-	public void setTagRepository(TagRepository tagRepository)
-	{
+	public void setTagRepository(TagRepository tagRepository) {
 		this.tagRepository = tagRepository;
 	}
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public List<TagCloudEntry> getTagCloud()
-	{
+	public List<TagCloudEntry> getTagCloud() {
 		List<TagStatistics> tagStats = tagRepository.findAllTagStatistics();
 		int mostArticles = tagRepository.maxArticleCount();
 
 		List<TagCloudEntry> cloud = new ArrayList<>(tagStats.size());
 
-		for (TagStatistics tag : tagStats)
-		{
-			if (tag.getArticleCount() > 0)
-			{
+		for (TagStatistics tag : tagStats) {
+			if (tag.getArticleCount() > 0) {
 				cloud.add(new TagCloudEntry(tag, mostArticles));
 			}
 		}
@@ -53,16 +54,14 @@ public class TagBusinessImpl implements TagBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId)
-	{
+	public void loadTagForEditing(Consumer<Tag> consumer, Long tagId) {
 		Tag tag = loadTag(tagId);
 		consumer.consume(tag);
 	}
 
 	@Override
 	@Transactional("transactionManager")
-	public void createTag(Producer<Tag> producer)
-	{
+	public void createTag(Producer<Tag> producer) {
 		Tag tag = new Tag();
 		producer.produce(tag);
 		tagRepository.save(tag);
@@ -70,8 +69,7 @@ public class TagBusinessImpl implements TagBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void updateTag(Producer<Tag> producer, Long tagId)
-	{
+	public void updateTag(Producer<Tag> producer, Long tagId) {
 		Tag tag = loadTag(tagId);
 		producer.produce(tag);
 		tagRepository.save(tag);
@@ -79,11 +77,9 @@ public class TagBusinessImpl implements TagBusiness
 
 	@Override
 	@Transactional("transactionManager")
-	public void deleteTag(Long tagId)
-	{
+	public void deleteTag(Long tagId) {
 		Tag tag = tagRepository.findOne(tagId);
-		if (tag == null)
-		{
+		if (tag == null) {
 			return;
 		}
 
@@ -92,16 +88,13 @@ public class TagBusinessImpl implements TagBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Tag findTagByName(String name)
-	{
+	public Tag findTagByName(String name) {
 		return tagRepository.findByName(name);
 	}
 
-	private Tag loadTag(Long tagId)
-	{
+	private Tag loadTag(Long tagId) {
 		Tag tag = tagRepository.findOne(tagId);
-		if (tag == null)
-		{
+		if (tag == null) {
 			throw new TagNotFoundException();
 		}
 		return tag;
@@ -109,8 +102,7 @@ public class TagBusinessImpl implements TagBusiness
 
 	@Override
 	@Transactional(value = "transactionManager", readOnly = true)
-	public Page<TagStatistics> findTagStatistics(Pageable pageable)
-	{
+	public Page<TagStatistics> findTagStatistics(Pageable pageable) {
 		return tagRepository.findAllTagStatistics(pageable);
 	}
 }

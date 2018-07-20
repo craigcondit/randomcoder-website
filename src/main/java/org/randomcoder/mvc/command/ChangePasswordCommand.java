@@ -7,8 +7,7 @@ import org.randomcoder.db.User;
 /**
  * Command used to change a user's password.
  */
-public class ChangePasswordCommand implements Serializable
-{
+public class ChangePasswordCommand implements Serializable {
 	private static final long serialVersionUID = -6349438305307982312L;
 
 	private String oldPassword;
@@ -21,8 +20,7 @@ public class ChangePasswordCommand implements Serializable
 	 * 
 	 * @return old password
 	 */
-	public String getOldPassword()
-	{
+	public String getOldPassword() {
 		return oldPassword;
 	}
 
@@ -30,10 +28,9 @@ public class ChangePasswordCommand implements Serializable
 	 * Sets the value of the old password.
 	 * 
 	 * @param oldPassword
-	 *          old password
+	 *            old password
 	 */
-	public void setOldPassword(String oldPassword)
-	{
+	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
 	}
 
@@ -42,8 +39,7 @@ public class ChangePasswordCommand implements Serializable
 	 * 
 	 * @return new password
 	 */
-	public String getPassword()
-	{
+	public String getPassword() {
 		return password;
 	}
 
@@ -51,10 +47,9 @@ public class ChangePasswordCommand implements Serializable
 	 * Sets the new password.
 	 * 
 	 * @param password
-	 *          new password
+	 *            new password
 	 */
-	public void setPassword(String password)
-	{
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -63,8 +58,7 @@ public class ChangePasswordCommand implements Serializable
 	 * 
 	 * @return new password
 	 */
-	public String getPassword2()
-	{
+	public String getPassword2() {
 		return password2;
 	}
 
@@ -72,10 +66,9 @@ public class ChangePasswordCommand implements Serializable
 	 * Sets the new password again for verification.
 	 * 
 	 * @param password2
-	 *          new password
+	 *            new password
 	 */
-	public void setPassword2(String password2)
-	{
+	public void setPassword2(String password2) {
 		this.password2 = password2;
 	}
 
@@ -84,8 +77,7 @@ public class ChangePasswordCommand implements Serializable
 	 * 
 	 * @return user
 	 */
-	public User getUser()
-	{
+	public User getUser() {
 		return user;
 	}
 
@@ -93,10 +85,9 @@ public class ChangePasswordCommand implements Serializable
 	 * Sets the user associated with this request.
 	 * 
 	 * @param user
-	 *          user
+	 *            user
 	 */
-	public void setUser(User user)
-	{
+	public void setUser(User user) {
 		this.user = user;
 	}
 

@@ -1,42 +1,42 @@
 package org.randomcoder.mvc.validator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import org.junit.*;
-import org.randomcoder.db.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.UserEditCommand;
-import org.springframework.validation.*;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
 
 @SuppressWarnings("javadoc")
-public class UserEditValidatorTest
-{
+public class UserEditValidatorTest {
 	private UserEditValidator validator;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		validator = new UserEditValidator();
 		validator.setMinimumPasswordLength(6);
 		validator.setMinimumUsernameLength(6);
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		validator = null;
 	}
 
 	@Test
-	public void testSupports()
-	{
+	public void testSupports() {
 		assertTrue("Validator doesn't support command class", validator.supports(UserEditCommand.class));
 	}
 
 	@Test
-	public void testValidate()
-	{
+	public void testValidate() {
 		FieldError error;
 		BindException errors;
 

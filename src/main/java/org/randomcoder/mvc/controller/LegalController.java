@@ -7,16 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Legal documents controller.
  */
 @Controller("legalController")
-public class LegalController
-{
+public class LegalController {
 	/**
 	 * Displays the about page.
 	 * 
 	 * @return about view
 	 */
 	@RequestMapping("/legal/about")
-	public String about()
-	{
+	public String about() {
 		return "legal-about";
 	}
 
@@ -26,8 +24,7 @@ public class LegalController
 	 * @return license view
 	 */
 	@RequestMapping("/legal/license")
-	public String license()
-	{
+	public String license() {
 		return "legal-license";
 	}
 }

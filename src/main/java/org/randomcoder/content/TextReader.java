@@ -1,17 +1,24 @@
 package org.randomcoder.content;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.randomcoder.xml.AbstractXMLReader;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 /**
  * Plain text to XML reader.
  * 
- * <p> This implementation does very little formatting - line breaks are
- * replaced with &lt;br /&gt; tags. </p>
+ * <p>
+ * This implementation does very little formatting - line breaks are
+ * replaced with &lt;br /&gt; tags.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -38,39 +45,34 @@ import org.xml.sax.helpers.AttributesImpl;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class TextReader extends AbstractXMLReader
-{
+public class TextReader extends AbstractXMLReader {
 	private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
 
 	/**
 	 * Parses the given input source.
-	 * @param input input source
-	 * @throws IOException if an I/O error occurs
-	 * @throws SAXException if XML parsing fails
+	 * 
+	 * @param input
+	 *            input source
+	 * @throws IOException
+	 *             if an I/O error occurs
+	 * @throws SAXException
+	 *             if XML parsing fails
 	 */
 	@Override
-	public void parse(InputSource input) throws IOException, SAXException
-	{
+	public void parse(InputSource input) throws IOException, SAXException {
 		ContentHandler handler = getContentHandler();
 		if (handler == null)
 			return;
 
 		// get a reader object
 		BufferedReader reader = null;
-		if (input.getCharacterStream() != null)
-		{
+		if (input.getCharacterStream() != null) {
 			reader = new BufferedReader(input.getCharacterStream());
-		}
-		else if (input.getByteStream() != null)
-		{
+		} else if (input.getByteStream() != null) {
 			reader = new BufferedReader(new InputStreamReader(input.getByteStream()));
-		}
-		else if (input.getSystemId() != null)
-		{
+		} else if (input.getSystemId() != null) {
 			reader = new BufferedReader(new InputStreamReader(new URL(input.getSystemId()).openStream()));
-		}
-		else
-		{
+		} else {
 			throw new SAXException("Invalid InputSource");
 		}
 
@@ -81,8 +83,7 @@ public class TextReader extends AbstractXMLReader
 		handler.startElement("", "text", "text", NO_ATTRIBUTES);
 
 		String line = null;
-		while ((line = reader.readLine()) != null)
-		{
+		while ((line = reader.readLine()) != null) {
 			handler.startElement("", "line", "line", NO_ATTRIBUTES);
 			char[] data = line.trim().toCharArray();
 			handler.characters(data, 0, data.length);

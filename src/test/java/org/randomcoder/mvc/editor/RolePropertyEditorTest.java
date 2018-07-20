@@ -1,39 +1,40 @@
 package org.randomcoder.mvc.editor;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.easymock.IMocksControl;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.Role;
 
 @SuppressWarnings("javadoc")
-public class RolePropertyEditorTest
-{
+public class RolePropertyEditorTest {
 	private IMocksControl control;
 	private UserBusiness ub;
 	private RolePropertyEditor editor;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		editor = new RolePropertyEditor(ub);
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		editor = null;
 		ub = null;
 		control = null;
 	}
 
 	@Test
-	public void testGetAsText()
-	{
+	public void testGetAsText() {
 		Role role = new Role();
 		role.setName("get-as-text");
 		role.setDescription("Get as text");
@@ -44,15 +45,13 @@ public class RolePropertyEditorTest
 	}
 
 	@Test
-	public void testGetAsTextNull()
-	{
+	public void testGetAsTextNull() {
 		editor.setValue(null);
 		assertEquals("", editor.getAsText());
 	}
 
 	@Test
-	public void testSetAsText()
-	{
+	public void testSetAsText() {
 		Role role = new Role();
 		role.setName("set-as-text");
 		role.setDescription("Set as text");
@@ -71,8 +70,7 @@ public class RolePropertyEditorTest
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetAsTextInvalidRole()
-	{
+	public void testSetAsTextInvalidRole() {
 		editor.setAsText("bogus-role");
 	}
 }

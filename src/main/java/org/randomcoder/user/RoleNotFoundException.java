@@ -3,16 +3,14 @@ package org.randomcoder.user;
 /**
  * Exception thrown when a requested role cannot be found.
  */
-public class RoleNotFoundException extends RuntimeException
-{
+public class RoleNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
 	 * Default constructor.
 	 */
-	public RoleNotFoundException()
-	{
+	public RoleNotFoundException() {
 		super();
 	}
 
@@ -22,8 +20,7 @@ public class RoleNotFoundException extends RuntimeException
 	 * @param message
 	 *            message to assoicate with this exception.
 	 */
-	public RoleNotFoundException(String message)
-	{
+	public RoleNotFoundException(String message) {
 		super(message);
 	}
 
@@ -33,8 +30,7 @@ public class RoleNotFoundException extends RuntimeException
 	 * @return message
 	 */
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return super.getMessage();
 	}
 }

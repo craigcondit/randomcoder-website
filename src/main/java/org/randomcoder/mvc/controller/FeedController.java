@@ -1,17 +1,21 @@
 package org.randomcoder.mvc.controller;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import javax.inject.*;
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.db.Article;
-import org.randomcoder.feed.*;
+import org.randomcoder.feed.FeedException;
+import org.randomcoder.feed.FeedGenerator;
+import org.randomcoder.feed.FeedInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -19,8 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Feed controller which generates feeds for all articles.
  */
 @Controller("feedController")
-public class FeedController
-{
+public class FeedController {
 	private static final int ARTICLE_LIMIT = 20;
 	private static final String FEED_TITLE = "randomCoder";
 	private static final String FEED_SUBTITLE = "// TODO build a better web";
@@ -28,16 +31,12 @@ public class FeedController
 	private static final URL ATOM_ALL_URL;
 	private static final URL RSS20_ALL_URL;
 	private static final URL ALT_URL;
-	static
-	{
-		try
-		{
+	static {
+		try {
 			ATOM_ALL_URL = new URL("https://randomcoder.org/feeds/atom/all");
 			RSS20_ALL_URL = new URL("https://randomcoder.org/feeds/rss20/all");
 			ALT_URL = new URL("https://randomcoder.org/");
-		}
-		catch (MalformedURLException e)
-		{
+		} catch (MalformedURLException e) {
 			throw new ExceptionInInitializerError(e);
 		}
 	}
@@ -54,11 +53,10 @@ public class FeedController
 	 */
 	@Inject
 	@Named("atomFeedGenerator")
-	public void setAtomFeedGenerator(FeedGenerator atomFeedGenerator)
-	{
+	public void setAtomFeedGenerator(FeedGenerator atomFeedGenerator) {
 		this.atomFeedGenerator = atomFeedGenerator;
 	}
-	
+
 	/**
 	 * Sets the RSS 2.0 feed generator.
 	 * 
@@ -67,11 +65,10 @@ public class FeedController
 	 */
 	@Inject
 	@Named("rss20FeedGenerator")
-	public void setRss20FeedGenerator(FeedGenerator rss20FeedGenerator)
-	{
+	public void setRss20FeedGenerator(FeedGenerator rss20FeedGenerator) {
 		this.rss20FeedGenerator = rss20FeedGenerator;
 	}
-	
+
 	/**
 	 * Sets the ArticleBusiness implementation to use.
 	 * 
@@ -79,8 +76,7 @@ public class FeedController
 	 *            ArticleBusiness implementation
 	 */
 	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness)
-	{
+	public void setArticleBusiness(ArticleBusiness articleBusiness) {
 		this.articleBusiness = articleBusiness;
 	}
 
@@ -93,8 +89,7 @@ public class FeedController
 	 *             if an error occurs
 	 */
 	@RequestMapping("/feeds/atom/all")
-	public void atomAllFeed(HttpServletResponse response) throws Exception
-	{
+	public void atomAllFeed(HttpServletResponse response) throws Exception {
 		generateFeed(atomFeedGenerator, response, "atom-all", ATOM_ALL_URL);
 	}
 
@@ -107,13 +102,11 @@ public class FeedController
 	 *             if an error occurs
 	 */
 	@RequestMapping("/feeds/rss20/all")
-	public void rss20AllFeed(HttpServletResponse response) throws Exception
-	{
+	public void rss20AllFeed(HttpServletResponse response) throws Exception {
 		generateFeed(rss20FeedGenerator, response, "rss20-all", RSS20_ALL_URL);
 	}
 
-	private FeedInfo getFeed(String feedId, URL feedUrl)
-	{
+	private FeedInfo getFeed(String feedId, URL feedUrl) {
 		List<Article> articles = articleBusiness.listRecentArticles(ARTICLE_LIMIT);
 
 		FeedInfo feedInfo = new FeedInfo();
@@ -128,10 +121,9 @@ public class FeedController
 		return feedInfo;
 	}
 
-	private void generateFeed(FeedGenerator feedGenerator, 
+	private void generateFeed(FeedGenerator feedGenerator,
 			HttpServletResponse response, String feedId, URL feedUrl)
-					throws FeedException, IOException
-	{
+			throws FeedException, IOException {
 		// get feed data
 		FeedInfo feedInfo = getFeed(feedId, feedUrl);
 
@@ -146,20 +138,14 @@ public class FeedController
 
 		ServletOutputStream out = null;
 
-		try
-		{
+		try {
 			out = response.getOutputStream();
 			out.write(data);
-		}
-		finally
-		{
+		} finally {
 			if (out != null)
-				try
-				{
+				try {
 					out.close();
-				}
-				catch (Throwable ignored)
-				{
+				} catch (Throwable ignored) {
 				}
 		}
 	}

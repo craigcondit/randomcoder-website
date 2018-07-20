@@ -9,8 +9,7 @@ import org.randomcoder.io.Producer;
 /**
  * Command class for updating a user profile.
  */
-public class UserProfileCommand implements Serializable, Producer<User>
-{
+public class UserProfileCommand implements Serializable, Producer<User> {
 	private static final long serialVersionUID = 8464807327958297647L;
 
 	private String emailAddress;
@@ -21,8 +20,7 @@ public class UserProfileCommand implements Serializable, Producer<User>
 	 * 
 	 * @return email address
 	 */
-	public String getEmailAddress()
-	{
+	public String getEmailAddress() {
 		return emailAddress;
 	}
 
@@ -30,10 +28,9 @@ public class UserProfileCommand implements Serializable, Producer<User>
 	 * Sets the email address of this user.
 	 * 
 	 * @param emailAddress
-	 *          email address
+	 *            email address
 	 */
-	public void setEmailAddress(String emailAddress)
-	{
+	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = StringUtils.trimToNull(emailAddress);
 	}
 
@@ -42,8 +39,7 @@ public class UserProfileCommand implements Serializable, Producer<User>
 	 * 
 	 * @return web site
 	 */
-	public String getWebsite()
-	{
+	public String getWebsite() {
 		return website;
 	}
 
@@ -51,16 +47,14 @@ public class UserProfileCommand implements Serializable, Producer<User>
 	 * Sets the website for this user.
 	 * 
 	 * @param website
-	 *          seb site
+	 *            seb site
 	 */
-	public void setWebsite(String website)
-	{
+	public void setWebsite(String website) {
 		this.website = StringUtils.trimToNull(website);
 	}
 
 	@Override
-	public void produce(User target)
-	{
+	public void produce(User target) {
 		target.setWebsite(website);
 		target.setEmailAddress(emailAddress);
 	}

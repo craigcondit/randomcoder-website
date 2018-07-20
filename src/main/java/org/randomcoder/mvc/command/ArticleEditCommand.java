@@ -7,8 +7,7 @@ import org.randomcoder.tag.TagList;
 /**
  * Command class used for updating articles.
  */
-public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Article>
-{
+public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Article> {
 	private static final long serialVersionUID = 3328453271434578065L;
 
 	private Long id;
@@ -17,10 +16,9 @@ public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Ar
 	 * Sets the id of the article to edit.
 	 * 
 	 * @param id
-	 *          article id
+	 *            article id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -29,8 +27,7 @@ public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Ar
 	 * 
 	 * @return article id
 	 */
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -38,8 +35,7 @@ public class ArticleEditCommand extends ArticleAddCommand implements Consumer<Ar
 	 * Populates the form based on the supplied article
 	 */
 	@Override
-	public void consume(Article article)
-	{
+	public void consume(Article article) {
 		setId(article.getId());
 		setTitle(article.getTitle());
 		setPermalink(article.getPermalink());

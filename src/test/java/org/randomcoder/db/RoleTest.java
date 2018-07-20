@@ -1,15 +1,15 @@
 package org.randomcoder.db;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class RoleTest
-{
+public class RoleTest {
 	@Test
-	public void testEqualsObject()
-	{
+	public void testEqualsObject() {
 		Role role1 = new Role();
 		role1.setId((long) 1);
 		role1.setName("Role 1");
@@ -32,8 +32,7 @@ public class RoleTest
 	}
 
 	@Test
-	public void testCompareTo()
-	{
+	public void testCompareTo() {
 		Role role1 = new Role();
 		role1.setId((long) 1);
 		role1.setName("Role 1");
@@ -48,8 +47,7 @@ public class RoleTest
 	}
 
 	@Test
-	public void testNameComparator()
-	{
+	public void testNameComparator() {
 		Role role1 = new Role();
 		role1.setId((long) 1);
 		role1.setName("Role 1");

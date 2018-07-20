@@ -1,15 +1,23 @@
 package org.randomcoder.xml;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.xml.sax.*;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.DTDHandler;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.XMLReader;
 
 /**
  * Abstract base class for {@link XMLReader} implementations.
  */
-abstract public class AbstractXMLReader implements XMLReader
-{
+abstract public class AbstractXMLReader implements XMLReader {
 	private final Map<String, Boolean> features = new HashMap<String, Boolean>();
 	private final Map<String, Object> properties = new HashMap<String, Object>();
 
@@ -26,11 +34,11 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * </p>
 	 * 
 	 * @param input
-	 *          input source to parse
+	 *            input source to parse
 	 * @throws IOException
-	 *           if resource cannot be read
+	 *             if resource cannot be read
 	 * @throws SAXException
-	 *           if an error occurs
+	 *             if an error occurs
 	 * @see XMLReader#parse(InputSource)
 	 */
 	@Override
@@ -40,15 +48,14 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Parses a document using the given system id.
 	 * 
 	 * @param systemId
-	 *          system id
+	 *            system id
 	 * @throws IOException
-	 *           if resource cannot be read
+	 *             if resource cannot be read
 	 * @throws SAXException
-	 *           if an error occurs
+	 *             if an error occurs
 	 */
 	@Override
-	public void parse(String systemId) throws IOException, SAXException
-	{
+	public void parse(String systemId) throws IOException, SAXException {
 		parse(new InputSource(systemId));
 	}
 
@@ -58,8 +65,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @return content handler
 	 */
 	@Override
-	public ContentHandler getContentHandler()
-	{
+	public ContentHandler getContentHandler() {
 		return contentHandler;
 	}
 
@@ -67,11 +73,10 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the content handler for this reader.
 	 * 
 	 * @param contentHandler
-	 *          content handler
+	 *            content handler
 	 */
 	@Override
-	public void setContentHandler(ContentHandler contentHandler)
-	{
+	public void setContentHandler(ContentHandler contentHandler) {
 		this.contentHandler = contentHandler;
 	}
 
@@ -81,8 +86,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @return DTD handler
 	 */
 	@Override
-	public DTDHandler getDTDHandler()
-	{
+	public DTDHandler getDTDHandler() {
 		return dtdHandler;
 	}
 
@@ -90,11 +94,10 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the DTD handler for this reader.
 	 * 
 	 * @param dtdHandler
-	 *          DTD handler
+	 *            DTD handler
 	 */
 	@Override
-	public void setDTDHandler(DTDHandler dtdHandler)
-	{
+	public void setDTDHandler(DTDHandler dtdHandler) {
 		this.dtdHandler = dtdHandler;
 	}
 
@@ -104,8 +107,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @return entity resolver
 	 */
 	@Override
-	public EntityResolver getEntityResolver()
-	{
+	public EntityResolver getEntityResolver() {
 		return entityResolver;
 	}
 
@@ -113,11 +115,10 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the entity resolver for this reader.
 	 * 
 	 * @param entityResolver
-	 *          entity resolver
+	 *            entity resolver
 	 */
 	@Override
-	public void setEntityResolver(EntityResolver entityResolver)
-	{
+	public void setEntityResolver(EntityResolver entityResolver) {
 		this.entityResolver = entityResolver;
 	}
 
@@ -127,8 +128,7 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * @return error handler
 	 */
 	@Override
-	public ErrorHandler getErrorHandler()
-	{
+	public ErrorHandler getErrorHandler() {
 		return errorHandler;
 	}
 
@@ -136,11 +136,10 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the error handler for this reader.
 	 * 
 	 * @param errorHandler
-	 *          error handler
+	 *            error handler
 	 */
 	@Override
-	public void setErrorHandler(ErrorHandler errorHandler)
-	{
+	public void setErrorHandler(ErrorHandler errorHandler) {
 		this.errorHandler = errorHandler;
 	}
 
@@ -148,19 +147,17 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Determines if this reader supports the given feature.
 	 * 
 	 * @param name
-	 *          feature name
+	 *            feature name
 	 * @throws SAXNotRecognizedException
-	 *           if the feature is not recognized
+	 *             if the feature is not recognized
 	 * @throws SAXNotSupportedException
-	 *           if the method is not supported
+	 *             if the method is not supported
 	 * @return true if feature is available, false otherwise
 	 */
 	@Override
-	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException
-	{
+	public boolean getFeature(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
 		Boolean exists = features.get(name);
-		if (exists == null)
-		{
+		if (exists == null) {
 			return false;
 		}
 		return exists.booleanValue();
@@ -170,17 +167,16 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the availability of the given feature.
 	 * 
 	 * @param name
-	 *          feature name
+	 *            feature name
 	 * @param value
-	 *          true if enabled, false otherwise
+	 *            true if enabled, false otherwise
 	 * @throws SAXNotRecognizedException
-	 *           if the feature is not recognized
+	 *             if the feature is not recognized
 	 * @throws SAXNotSupportedException
-	 *           if the method is not supported
+	 *             if the method is not supported
 	 */
 	@Override
-	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException
-	{
+	public void setFeature(String name, boolean value) throws SAXNotRecognizedException, SAXNotSupportedException {
 		features.put(name, value);
 	}
 
@@ -188,16 +184,15 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Gets the value of the named property.
 	 * 
 	 * @param name
-	 *          property name
+	 *            property name
 	 * @return property value
 	 * @throws SAXNotRecognizedException
-	 *           if the property is not recognized
+	 *             if the property is not recognized
 	 * @throws SAXNotSupportedException
-	 *           if the method is not supported
+	 *             if the method is not supported
 	 */
 	@Override
-	public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException
-	{
+	public Object getProperty(String name) throws SAXNotRecognizedException, SAXNotSupportedException {
 		return properties.get(name);
 	}
 
@@ -205,17 +200,16 @@ abstract public class AbstractXMLReader implements XMLReader
 	 * Sets the value o fthe named property.
 	 * 
 	 * @param name
-	 *          property name
+	 *            property name
 	 * @param value
-	 *          property value
+	 *            property value
 	 * @throws SAXNotRecognizedException
-	 *           if the property is not recognized
+	 *             if the property is not recognized
 	 * @throws SAXNotSupportedException
-	 *           if the method is not supported
+	 *             if the method is not supported
 	 */
 	@Override
-	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException
-	{
+	public void setProperty(String name, Object value) throws SAXNotRecognizedException, SAXNotSupportedException {
 		properties.put(name, value);
 	}
 }

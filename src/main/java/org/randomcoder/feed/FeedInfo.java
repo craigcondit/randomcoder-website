@@ -2,15 +2,15 @@ package org.randomcoder.feed;
 
 import java.io.Serializable;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.randomcoder.db.Article;
 
 /**
  * JavaBean which holds information about a syndicated feed.
  */
-public class FeedInfo implements Serializable
-{
+public class FeedInfo implements Serializable {
 	private static final long serialVersionUID = -2535221591939158773L;
 
 	private String title;
@@ -23,8 +23,7 @@ public class FeedInfo implements Serializable
 	/**
 	 * Creates an uninitialized feed info object.
 	 */
-	public FeedInfo()
-	{
+	public FeedInfo() {
 		articles = new ArrayList<Article>();
 	}
 
@@ -32,20 +31,19 @@ public class FeedInfo implements Serializable
 	 * Creates a new feed info object.
 	 * 
 	 * @param title
-	 *          article title
+	 *            article title
 	 * @param subtitle
-	 *          article subtitle, or <code>null</code> to omit
+	 *            article subtitle, or <code>null</code> to omit
 	 * @param feedUrl
-	 *          canonical feed URL
+	 *            canonical feed URL
 	 * @param altUrl
-	 *          alternate URL of content
+	 *            alternate URL of content
 	 * @param feedId
-	 *          unique feed identifier
+	 *            unique feed identifier
 	 * @param articles
-	 *          list of articles to include
+	 *            list of articles to include
 	 */
-	public FeedInfo(String title, String subtitle, URL feedUrl, URL altUrl, String feedId, List<Article> articles)
-	{
+	public FeedInfo(String title, String subtitle, URL feedUrl, URL altUrl, String feedId, List<Article> articles) {
 		super();
 		this.title = title;
 		this.subtitle = subtitle;
@@ -60,8 +58,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return article title
 	 */
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
@@ -69,10 +66,9 @@ public class FeedInfo implements Serializable
 	 * Sets the title of this article.
 	 * 
 	 * @param title
-	 *          article title
+	 *            article title
 	 */
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -82,8 +78,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return article subtitle
 	 */
-	public String getSubtitle()
-	{
+	public String getSubtitle() {
 		return subtitle;
 	}
 
@@ -92,10 +87,9 @@ public class FeedInfo implements Serializable
 	 * used.
 	 * 
 	 * @param subtitle
-	 *          article subtitle
+	 *            article subtitle
 	 */
-	public void setSubtitle(String subtitle)
-	{
+	public void setSubtitle(String subtitle) {
 		this.subtitle = subtitle;
 	}
 
@@ -104,8 +98,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return feed URL
 	 */
-	public URL getFeedUrl()
-	{
+	public URL getFeedUrl() {
 		return feedUrl;
 	}
 
@@ -113,10 +106,9 @@ public class FeedInfo implements Serializable
 	 * Sets the URL of this feed.
 	 * 
 	 * @param feedUrl
-	 *          feed URL
+	 *            feed URL
 	 */
-	public void setFeedUrl(URL feedUrl)
-	{
+	public void setFeedUrl(URL feedUrl) {
 		this.feedUrl = feedUrl;
 	}
 
@@ -125,8 +117,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return alternate URL
 	 */
-	public URL getAltUrl()
-	{
+	public URL getAltUrl() {
 		return altUrl;
 	}
 
@@ -134,10 +125,9 @@ public class FeedInfo implements Serializable
 	 * Sets the alternate URL for this feed.
 	 * 
 	 * @param altUrl
-	 *          alternate URL
+	 *            alternate URL
 	 */
-	public void setAltUrl(URL altUrl)
-	{
+	public void setAltUrl(URL altUrl) {
 		this.altUrl = altUrl;
 	}
 
@@ -146,8 +136,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return feed id
 	 */
-	public String getFeedId()
-	{
+	public String getFeedId() {
 		return feedId;
 	}
 
@@ -155,10 +144,9 @@ public class FeedInfo implements Serializable
 	 * Sets the unique identifier for this feed.
 	 * 
 	 * @param feedId
-	 *          feed id
+	 *            feed id
 	 */
-	public void setFeedId(String feedId)
-	{
+	public void setFeedId(String feedId) {
 		this.feedId = feedId;
 	}
 
@@ -167,8 +155,7 @@ public class FeedInfo implements Serializable
 	 * 
 	 * @return article list
 	 */
-	public List<Article> getArticles()
-	{
+	public List<Article> getArticles() {
 		return articles;
 	}
 
@@ -176,10 +163,9 @@ public class FeedInfo implements Serializable
 	 * Sets the list of articles which should be rendered in this feed.
 	 * 
 	 * @param articles
-	 *          article list
+	 *            article list
 	 */
-	public void setArticles(List<Article> articles)
-	{
+	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
 }

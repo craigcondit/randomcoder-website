@@ -28,8 +28,7 @@ package org.randomcoder.content;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class InvalidContentException extends Exception
-{
+public class InvalidContentException extends Exception {
 	private static final long serialVersionUID = 106795571729597774L;
 
 	private final int lineNumber;
@@ -37,12 +36,15 @@ public class InvalidContentException extends Exception
 
 	/**
 	 * Constructs a new exception.
-	 * @param msg error message
-	 * @param lineNumber line number
-	 * @param columnNumber column number
+	 * 
+	 * @param msg
+	 *            error message
+	 * @param lineNumber
+	 *            line number
+	 * @param columnNumber
+	 *            column number
 	 */
-	public InvalidContentException(String msg, int lineNumber, int columnNumber)
-	{
+	public InvalidContentException(String msg, int lineNumber, int columnNumber) {
 		super(msg);
 		this.lineNumber = lineNumber;
 		this.columnNumber = columnNumber;
@@ -50,24 +52,23 @@ public class InvalidContentException extends Exception
 
 	/**
 	 * Gets the line number where the error occured.
+	 * 
 	 * @return line number
 	 */
-	public int getLineNumber()
-	{
+	public int getLineNumber() {
 		return lineNumber;
 	}
 
 	/**
 	 * Gets the column number where the error occured.
+	 * 
 	 * @return column number
 	 */
-	public int getColumnNumber()
-	{
+	public int getColumnNumber() {
 		return columnNumber;
 	}
 
-	private String cleanMessage(String message)
-	{
+	private String cleanMessage(String message) {
 		if (message == null)
 			return null;
 
@@ -80,22 +81,23 @@ public class InvalidContentException extends Exception
 
 	/**
 	 * Gets the message associated with this exception.
+	 * 
 	 * @return message
 	 */
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		// try to clean it up
 		return cleanMessage(super.getMessage());
 	}
 
 	/**
-	 * Attempts to construct a meaningful string representation of this exception.
+	 * Attempts to construct a meaningful string representation of this
+	 * exception.
+	 * 
 	 * @return string value
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder buf = new StringBuilder();
 
 		buf.append("Line ");

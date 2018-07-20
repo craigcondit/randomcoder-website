@@ -1,29 +1,28 @@
 package org.randomcoder.mvc.editor;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class EnumPropertyEditorTest
-{
+public class EnumPropertyEditorTest {
 	private EnumPropertyEditor editor;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		editor = new EnumPropertyEditor(TestEnum.class);
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		editor = null;
 	}
 
 	@Test
-	public void testGetAsText()
-	{
+	public void testGetAsText() {
 		editor.setValue(TestEnum.ONE);
 		assertEquals("Wrong enum value", "ONE", editor.getAsText());
 
@@ -38,8 +37,7 @@ public class EnumPropertyEditorTest
 	}
 
 	@Test
-	public void testSetAsText()
-	{
+	public void testSetAsText() {
 		editor.setAsText("ONE");
 		assertEquals("Wrong enum value", TestEnum.ONE, editor.getValue());
 
@@ -54,13 +52,11 @@ public class EnumPropertyEditorTest
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testSetAsTextInvalid()
-	{
+	public void testSetAsTextInvalid() {
 		editor.setAsText("BOGUS");
 	}
 
-	protected static enum TestEnum
-	{
+	protected static enum TestEnum {
 		ONE, TWO, THREE;
 	}
 }

@@ -6,16 +6,17 @@ import java.util.Locale;
 import javax.xml.transform.TransformerException;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.randomcoder.content.*;
-import org.randomcoder.db.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentUtils;
+import org.randomcoder.db.Comment;
+import org.randomcoder.db.User;
 import org.xml.sax.SAXException;
 
 /**
  * Helper class which "decorates" an {@code Comment} instance by providing XHTML
  * formatting support.
  */
-public class CommentDecorator
-{
+public class CommentDecorator {
 	private final Comment comment;
 	private final ContentFilter filter;
 
@@ -23,12 +24,11 @@ public class CommentDecorator
 	 * Creates a new comment decorator using the given comment and filter.
 	 * 
 	 * @param comment
-	 *          comment
+	 *            comment
 	 * @param filter
-	 *          content filter
+	 *            content filter
 	 */
-	public CommentDecorator(Comment comment, ContentFilter filter)
-	{
+	public CommentDecorator(Comment comment, ContentFilter filter) {
 		this.comment = comment;
 		this.filter = filter;
 	}
@@ -38,8 +38,7 @@ public class CommentDecorator
 	 * 
 	 * @return comment
 	 */
-	public Comment getComment()
-	{
+	public Comment getComment() {
 		return comment;
 	}
 
@@ -48,20 +47,15 @@ public class CommentDecorator
 	 * 
 	 * @return image URL or <code>null</code> if not present
 	 */
-	public String getAuthorAvatarImageUrl()
-	{
+	public String getAuthorAvatarImageUrl() {
 		String emailAddress = null;
 		User createdBy = comment.getCreatedByUser();
-		if (createdBy == null)
-		{
-			emailAddress = comment.getAnonymousEmailAddress(); 
-		}
-		else
-		{
+		if (createdBy == null) {
+			emailAddress = comment.getAnonymousEmailAddress();
+		} else {
 			emailAddress = createdBy.getEmailAddress();
 		}
-		if (emailAddress == null)
-		{
+		if (emailAddress == null) {
 			return null;
 		}
 		emailAddress = emailAddress.trim().toLowerCase(Locale.US);
@@ -70,60 +64,50 @@ public class CommentDecorator
 
 		return "https://secure.gravatar.com/avatar/" + hash + "?s=40&d=mm";
 	}
-	
+
 	/**
 	 * Gets article content after applying filters and HTML escaping.
 	 * 
 	 * @return {@code String} containing the article content in XHTML.
 	 * @throws TransformerException
-	 *           if filtering fails
+	 *             if filtering fails
 	 * @throws IOException
-	 *           if an I/O error occurs
+	 *             if an I/O error occurs
 	 * @throws SAXException
-	 *           if parsing fails
+	 *             if parsing fails
 	 */
-	public String getFormattedText() throws TransformerException, IOException, SAXException
-	{
+	public String getFormattedText() throws TransformerException, IOException, SAXException {
 		return ContentUtils.formatText(comment.getContent(), null, comment.getContentType(), filter);
 	}
-	
-	public String getAuthor()
-	{
-	  if (comment.getCreatedByUser() != null)
-	  {
-	    return comment.getCreatedByUser().getUserName();
-	  }
-	  if (comment.getAnonymousUserName() != null)
-	  {
-	    return comment.getAnonymousUserName();
-	  }
-	  return null;
+
+	public String getAuthor() {
+		if (comment.getCreatedByUser() != null) {
+			return comment.getCreatedByUser().getUserName();
+		}
+		if (comment.getAnonymousUserName() != null) {
+			return comment.getAnonymousUserName();
+		}
+		return null;
 	}
-	
-	public String getCommentLink()
-	{
-    if (comment.getCreatedByUser() != null)
-    {
-      return comment.getCreatedByUser().getWebsite();
-    }
-    if (comment.getAnonymousUserName() != null)
-    {
-      return comment.getAnonymousWebsite();
-    }
-    return null;
+
+	public String getCommentLink() {
+		if (comment.getCreatedByUser() != null) {
+			return comment.getCreatedByUser().getWebsite();
+		}
+		if (comment.getAnonymousUserName() != null) {
+			return comment.getAnonymousWebsite();
+		}
+		return null;
 	}
-	
-	public boolean isCommentExternal()
-	{
-    if (comment.getCreatedByUser() != null)
-    {
-      return true;
-    }
-    if (comment.getAnonymousUserName() != null)
-    {
-      return true;
-    }
-    return false;
+
+	public boolean isCommentExternal() {
+		if (comment.getCreatedByUser() != null) {
+			return true;
+		}
+		if (comment.getAnonymousUserName() != null) {
+			return true;
+		}
+		return false;
 	}
-	
+
 }

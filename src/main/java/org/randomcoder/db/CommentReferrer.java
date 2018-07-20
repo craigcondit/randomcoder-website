@@ -3,10 +3,17 @@ package org.randomcoder.db;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * JPA entity representing a comment referrer.
@@ -14,8 +21,7 @@ import org.apache.commons.lang.builder.*;
 @Entity
 @Table(name = "comment_referrers")
 @SequenceGenerator(name = "comment_referrers", sequenceName = "comment_referrers_seq", allocationSize = 1)
-public class CommentReferrer implements Serializable
-{
+public class CommentReferrer implements Serializable {
 	private static final long serialVersionUID = 4101138502746346499L;
 
 	private Long id;
@@ -30,8 +36,7 @@ public class CommentReferrer implements Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "comment_referrers")
 	@Column(name = "comment_referrer_id")
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -39,10 +44,9 @@ public class CommentReferrer implements Serializable
 	 * Sets the ID for this referrer.
 	 * 
 	 * @param id
-	 *          id
+	 *            id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -52,8 +56,7 @@ public class CommentReferrer implements Serializable
 	 * @return referrer URI
 	 */
 	@Column(name = "referrer", nullable = false, length = 1024)
-	public String getReferrerUri()
-	{
+	public String getReferrerUri() {
 		return referrerUri;
 	}
 
@@ -61,10 +64,9 @@ public class CommentReferrer implements Serializable
 	 * Sets the URI sent as the HTTP referrer.
 	 * 
 	 * @param referrerUri
-	 *          referrer URI
+	 *            referrer URI
 	 */
-	public void setReferrerUri(String referrerUri)
-	{
+	public void setReferrerUri(String referrerUri) {
 		this.referrerUri = referrerUri;
 	}
 
@@ -74,8 +76,7 @@ public class CommentReferrer implements Serializable
 	 * @return creation date
 	 */
 	@Column(name = "create_date", nullable = false)
-	public Date getCreationDate()
-	{
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
@@ -83,10 +84,9 @@ public class CommentReferrer implements Serializable
 	 * Sets the creation date of this referrer.
 	 * 
 	 * @param creationDate
-	 *          creation date
+	 *            creation date
 	 */
-	public void setCreationDate(Date creationDate)
-	{
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -96,8 +96,7 @@ public class CommentReferrer implements Serializable
 	 * @return hash code
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return StringUtils.trimToEmpty(getReferrerUri()).hashCode();
 	}
 
@@ -107,8 +106,7 @@ public class CommentReferrer implements Serializable
 	 * @return true if equal, false if not
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (!(obj instanceof CommentReferrer))
 			return false;
 
@@ -127,8 +125,7 @@ public class CommentReferrer implements Serializable
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

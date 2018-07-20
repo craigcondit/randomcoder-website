@@ -1,5 +1,13 @@
 package org.randomcoder.article;
 
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import javax.xml.transform.TransformerException;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.randomcoder.article.comment.CommentDecorator;
 import org.randomcoder.content.ContentFilter;
@@ -9,20 +17,11 @@ import org.randomcoder.db.Comment;
 import org.randomcoder.db.User;
 import org.xml.sax.SAXException;
 
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
-import javax.xml.transform.TransformerException;
-
 /**
  * Helper class which "decorates" an {@code Article} instance by providing XHTML
  * formatting support.
  */
-public class ArticleDecorator
-{
+public class ArticleDecorator {
 	private final Article article;
 	private final ContentFilter filter;
 	private final List<CommentDecorator> comments;
@@ -35,13 +34,11 @@ public class ArticleDecorator
 	 * @param filter
 	 *            content filter to parse content with
 	 */
-	public ArticleDecorator(Article article, ContentFilter filter)
-	{
+	public ArticleDecorator(Article article, ContentFilter filter) {
 		this.article = article;
 		this.filter = filter;
 		comments = new ArrayList<>(article.getComments().size());
-		for (Comment comment : article.getComments())
-		{
+		for (Comment comment : article.getComments()) {
 			comments.add(new CommentDecorator(comment, filter));
 		}
 	}
@@ -51,16 +48,13 @@ public class ArticleDecorator
 	 * 
 	 * @return image URL or <code>null</code> if not present
 	 */
-	public String getAuthorAvatarImageUrl()
-	{
+	public String getAuthorAvatarImageUrl() {
 		User createdBy = article.getCreatedByUser();
-		if (createdBy == null)
-		{
+		if (createdBy == null) {
 			return null;
 		}
 		String emailAddress = createdBy.getEmailAddress();
-		if (emailAddress == null)
-		{
+		if (emailAddress == null) {
 			return null;
 		}
 		emailAddress = emailAddress.trim().toLowerCase(Locale.US);
@@ -75,8 +69,7 @@ public class ArticleDecorator
 	 * 
 	 * @return article instance
 	 */
-	public Article getArticle()
-	{
+	public Article getArticle() {
 		return article;
 	}
 
@@ -85,8 +78,7 @@ public class ArticleDecorator
 	 * 
 	 * @return comment list
 	 */
-	public List<CommentDecorator> getComments()
-	{
+	public List<CommentDecorator> getComments() {
 		return comments;
 	}
 
@@ -95,8 +87,7 @@ public class ArticleDecorator
 	 * 
 	 * @return true if summary exists, false otherwise
 	 */
-	public boolean isSummaryPresent()
-	{
+	public boolean isSummaryPresent() {
 		return article.getSummary() != null;
 	}
 
@@ -111,28 +102,26 @@ public class ArticleDecorator
 	 * @throws SAXException
 	 *             if parsing fails
 	 */
-	public String getFormattedText() throws TransformerException, IOException, SAXException
-	{
+	public String getFormattedText() throws TransformerException, IOException, SAXException {
 		return ContentUtils.formatText(article.getContent(), null, article.getContentType(), filter);
 	}
 
-	public String getCommentCountText()
-	{
-	  if (comments.size() == 1) {
-	    return "1 comment";
-	  }
-	  
-	  if (comments.size() > 1) {
-	    return new DecimalFormat("##########").format(comments.size()) + " comments";
-	  }
-	  
-	  if (article.isCommentsEnabled()) {
-	    return "Comment on this article";
-	  }
-	  
-	  return "0 comments";
+	public String getCommentCountText() {
+		if (comments.size() == 1) {
+			return "1 comment";
+		}
+
+		if (comments.size() > 1) {
+			return new DecimalFormat("##########").format(comments.size()) + " comments";
+		}
+
+		if (article.isCommentsEnabled()) {
+			return "Comment on this article";
+		}
+
+		return "0 comments";
 	}
-	
+
 	/**
 	 * Gets article summary after applying filters and HTML escaping.
 	 * 
@@ -144,11 +133,9 @@ public class ArticleDecorator
 	 * @throws SAXException
 	 *             if parsing fails
 	 */
-	public String getFormattedSummary() throws TransformerException, IOException, SAXException
-	{
+	public String getFormattedSummary() throws TransformerException, IOException, SAXException {
 		String summary = article.getSummary();
-		if (summary == null)
-		{
+		if (summary == null) {
 			return null;
 		}
 		return ContentUtils.formatText(summary, null, article.getContentType(), filter);

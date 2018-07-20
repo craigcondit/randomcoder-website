@@ -1,35 +1,32 @@
 package org.randomcoder.mvc.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class LoginControllerTest
-{
+public class LoginControllerTest {
 	private LoginController c;
-	
+
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		c = new LoginController();
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		c = null;
 	}
 
 	@Test
-	public void testLogin()
-	{
+	public void testLogin() {
 		assertEquals("login", c.login());
 	}
 
 	@Test
-	public void testLoginError()
-	{
+	public void testLoginError() {
 		assertEquals("login-error", c.loginError());
 	}
 }

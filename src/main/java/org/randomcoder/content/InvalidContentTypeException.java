@@ -3,8 +3,10 @@ package org.randomcoder.content;
 /**
  * Exception thrown when an unhandled content type is encountered.
  * 
- * <p> This exception is unchecked because it generally indicates a
- * configuration error. </p>
+ * <p>
+ * This exception is unchecked because it generally indicates a
+ * configuration error.
+ * </p>
  * 
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
@@ -31,16 +33,16 @@ package org.randomcoder.content;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class InvalidContentTypeException extends RuntimeException
-{
+public class InvalidContentTypeException extends RuntimeException {
 	private static final long serialVersionUID = 4715267678027941575L;
 
 	/**
 	 * Constructs a new exception.
-	 * @param msg error message
+	 * 
+	 * @param msg
+	 *            error message
 	 */
-	public InvalidContentTypeException(String msg)
-	{
+	public InvalidContentTypeException(String msg) {
 		super(msg);
 	}
 }

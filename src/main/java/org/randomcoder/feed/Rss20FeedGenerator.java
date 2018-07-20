@@ -1,27 +1,35 @@
 package org.randomcoder.feed;
 
-import java.io.*;
-import java.net.*;
-import java.text.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.xml.parsers.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamResult;
 
 import org.randomcoder.bo.AppInfoBusiness;
-import org.randomcoder.content.*;
-import org.randomcoder.db.*;
+import org.randomcoder.content.ContentFilter;
+import org.randomcoder.content.ContentType;
+import org.randomcoder.content.ContentUtils;
+import org.randomcoder.db.Article;
+import org.randomcoder.db.Tag;
 import org.randomcoder.xml.XmlUtils;
 import org.springframework.beans.factory.annotation.Required;
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 /**
  * Generator for RSS 1.0 feeds.
  */
-public class Rss20FeedGenerator implements FeedGenerator
-{
+public class Rss20FeedGenerator implements FeedGenerator {
 	private AppInfoBusiness appInfoBusiness;
 	private URL baseUrl;
 	private ContentFilter contentFilter;
@@ -30,11 +38,10 @@ public class Rss20FeedGenerator implements FeedGenerator
 	 * Sets the application information for this feed.
 	 * 
 	 * @param appInfoBusiness
-	 *          application information
+	 *            application information
 	 */
 	@Required
-	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness)
-	{
+	public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness) {
 		this.appInfoBusiness = appInfoBusiness;
 	}
 
@@ -42,13 +49,12 @@ public class Rss20FeedGenerator implements FeedGenerator
 	 * Sets the base URL to use for articles.
 	 * 
 	 * @param baseUrl
-	 *          base URL
+	 *            base URL
 	 * @throws MalformedURLException
-	 *           if URL is invalid
+	 *             if URL is invalid
 	 */
 	@Required
-	public void setBaseUrl(String baseUrl) throws MalformedURLException
-	{
+	public void setBaseUrl(String baseUrl) throws MalformedURLException {
 		this.baseUrl = new URL(baseUrl);
 	}
 
@@ -56,17 +62,15 @@ public class Rss20FeedGenerator implements FeedGenerator
 	 * Sets the content filter to use for transforming articles into XHTML.
 	 * 
 	 * @param contentFilter
-	 *          content filter
+	 *            content filter
 	 */
 	@Required
-	public void setContentFilter(ContentFilter contentFilter)
-	{
+	public void setContentFilter(ContentFilter contentFilter) {
 		this.contentFilter = contentFilter;
 	}
 
 	@Override
-	public String generateFeed(FeedInfo info) throws FeedException
-	{
+	public String generateFeed(FeedInfo info) throws FeedException {
 		// need to write out XML
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		dbf.setNamespaceAware(true);
@@ -74,12 +78,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 		DecimalFormat df = new DecimalFormat("####################");
 
 		DocumentBuilder db = null;
-		try
-		{
+		try {
 			db = dbf.newDocumentBuilder();
-		}
-		catch (ParserConfigurationException e)
-		{
+		} catch (ParserConfigurationException e) {
 			throw new FeedConfigurationException("Unable to generate document builder", e);
 		}
 
@@ -99,8 +100,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 		channelEl.appendChild(linkEl);
 
 		String subtitle = info.getSubtitle();
-		if (subtitle != null)
-		{
+		if (subtitle != null) {
 			Element descriptionEl = doc.createElement("description");
 			descriptionEl.appendChild(doc.createTextNode(subtitle));
 			channelEl.appendChild(descriptionEl);
@@ -111,7 +111,8 @@ public class Rss20FeedGenerator implements FeedGenerator
 		channelEl.appendChild(docsEl);
 
 		Element generatorEl = doc.createElement("generator");
-		generatorEl.appendChild(doc.createTextNode(appInfoBusiness.getApplicationName() + " " + appInfoBusiness.getApplicationVersion()));
+		generatorEl.appendChild(doc
+				.createTextNode(appInfoBusiness.getApplicationName() + " " + appInfoBusiness.getApplicationVersion()));
 		channelEl.appendChild(generatorEl);
 
 		Element languageEl = doc.createElement("language");
@@ -123,8 +124,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 
 		Date feedUpdated = null;
 
-		for (Article article : info.getArticles())
-		{
+		for (Article article : info.getArticles()) {
 			Element itemEl = doc.createElement("item");
 
 			// write title
@@ -133,12 +133,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 			itemEl.appendChild(articleTitleEl);
 
 			URL articleUrl = null;
-			try
-			{
+			try {
 				articleUrl = new URL(baseUrl, article.getPermalinkUrl());
-			}
-			catch (MalformedURLException e)
-			{
+			} catch (MalformedURLException e) {
 				throw new FeedException("Unable to generate feed URL", e);
 			}
 
@@ -149,8 +146,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 
 			// write guid
 			Element articleGuidEl = doc.createElement("guid");
-			if (article.getPermalink() != null)
-			{
+			if (article.getPermalink() != null) {
 				articleGuidEl.setAttribute("isPermaLink", "true");
 			}
 
@@ -163,14 +159,12 @@ public class Rss20FeedGenerator implements FeedGenerator
 			articlePubDateEl.appendChild(doc.createTextNode(formatDate(published)));
 			itemEl.appendChild(articlePubDateEl);
 
-			if (feedUpdated == null || feedUpdated.before(published))
-			{
+			if (feedUpdated == null || feedUpdated.before(published)) {
 				feedUpdated = published;
 			}
 
 			// write categories
-			for (Tag tag : article.getTags())
-			{
+			for (Tag tag : article.getTags()) {
 				Element categoryEl = doc.createElement("category");
 				categoryEl.appendChild(doc.createTextNode(tag.getDisplayName()));
 				itemEl.appendChild(categoryEl);
@@ -180,18 +174,15 @@ public class Rss20FeedGenerator implements FeedGenerator
 			Element descriptionEl = doc.createElement("description");
 
 			String content = article.getSummary();
-			if (content == null)
-			{
+			if (content == null) {
 				content = article.getContent();
 			}
 
-			try
-			{
+			try {
 				addXHTML(doc, descriptionEl, content, article.getContentType(), articleUrl);
-			}
-			catch (Exception e)
-			{
-				throw new FeedException("Unable to generate description for article with id " + df.format(article.getId()), e);
+			} catch (Exception e) {
+				throw new FeedException(
+						"Unable to generate description for article with id " + df.format(article.getId()), e);
 			}
 
 			itemEl.appendChild(descriptionEl);
@@ -199,8 +190,7 @@ public class Rss20FeedGenerator implements FeedGenerator
 			channelEl.appendChild(itemEl);
 		}
 
-		if (feedUpdated == null)
-		{
+		if (feedUpdated == null) {
 			feedUpdated = new Date();
 		}
 
@@ -209,12 +199,9 @@ public class Rss20FeedGenerator implements FeedGenerator
 		root.appendChild(channelEl);
 
 		StringWriter writer = new StringWriter();
-		try
-		{
+		try {
 			XmlUtils.prettyPrint(doc, new StreamResult(writer));
-		}
-		catch (TransformerException e)
-		{
+		} catch (TransformerException e) {
 			throw new FeedException("Unable to generate XML for feed", e);
 		}
 
@@ -222,21 +209,19 @@ public class Rss20FeedGenerator implements FeedGenerator
 	}
 
 	@Override
-	public String getContentType()
-	{
+	public String getContentType() {
 		return "application/rss+xml";
 	}
 
-	private String formatDate(Date date)
-	{
+	private String formatDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 		String text = sdf.format(date);
 		return text.substring(0, text.length() - 2) + ":" + text.substring(text.length() - 2);
 	}
 
-	private void addXHTML(Document doc, Element parent, String text, ContentType contentType, URL articleUrl) throws TransformerException, SAXException,
-			IOException
-	{
+	private void addXHTML(Document doc, Element parent, String text, ContentType contentType, URL articleUrl)
+			throws TransformerException, SAXException,
+			IOException {
 		String content = ContentUtils.formatText(text, articleUrl, contentType, contentFilter);
 		parent.appendChild(doc.createTextNode(content));
 	}

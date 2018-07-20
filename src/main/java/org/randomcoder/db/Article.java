@@ -1,20 +1,36 @@
 package org.randomcoder.db;
 
-import java.io.*;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.apache.commons.lang.builder.*;
-import org.hibernate.annotations.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.randomcoder.content.ContentType;
 
 /**
@@ -24,10 +40,9 @@ import org.randomcoder.content.ContentType;
 @Table(name = "articles")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "articles", sequenceName = "articles_seq", allocationSize = 1)
-public class Article implements Serializable
-{
+public class Article implements Serializable {
 	private static final long serialVersionUID = 4017235474814138625L;
-	
+
 	private Long id;
 	private ContentType contentType;
 	private String permalink;
@@ -51,8 +66,7 @@ public class Article implements Serializable
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "articles")
 	@Column(name = "article_id")
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -62,8 +76,7 @@ public class Article implements Serializable
 	 * @param id
 	 *            article id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -73,10 +86,10 @@ public class Article implements Serializable
 	 * @return List of {@code Tag} objects
 	 */
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "article_tag_link", joinColumns = { @JoinColumn(name = "article_id") }, inverseJoinColumns = @JoinColumn(name = "tag_id"))
+	@JoinTable(name = "article_tag_link", joinColumns = {
+			@JoinColumn(name = "article_id") }, inverseJoinColumns = @JoinColumn(name = "tag_id"))
 	@OrderBy("displayName")
-	public List<Tag> getTags()
-	{
+	public List<Tag> getTags() {
 		return tags;
 	}
 
@@ -86,8 +99,7 @@ public class Article implements Serializable
 	 * @param tags
 	 *            List of {@code Tag} objects
 	 */
-	public void setTags(List<Tag> tags)
-	{
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 
@@ -98,8 +110,7 @@ public class Article implements Serializable
 	 */
 	@OneToMany(mappedBy = "article", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	@OrderBy()
-	public List<Comment> getComments()
-	{
+	public List<Comment> getComments() {
 		return comments;
 	}
 
@@ -109,8 +120,7 @@ public class Article implements Serializable
 	 * @param comments
 	 *            list of comments
 	 */
-	public void setComments(List<Comment> comments)
-	{
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
@@ -121,8 +131,7 @@ public class Article implements Serializable
 	 */
 	@Enumerated(EnumType.STRING)
 	@Column(name = "content_type", nullable = false, length = 255)
-	public ContentType getContentType()
-	{
+	public ContentType getContentType() {
 		return contentType;
 	}
 
@@ -132,8 +141,7 @@ public class Article implements Serializable
 	 * @param contentType
 	 *            content type
 	 */
-	public void setContentType(ContentType contentType)
-	{
+	public void setContentType(ContentType contentType) {
 		this.contentType = contentType;
 	}
 
@@ -143,8 +151,7 @@ public class Article implements Serializable
 	 * @return permalink
 	 */
 	@Column(name = "permalink", nullable = true, unique = true, length = 100)
-	public String getPermalink()
-	{
+	public String getPermalink() {
 		return permalink;
 	}
 
@@ -154,8 +161,7 @@ public class Article implements Serializable
 	 * @param permalink
 	 *            permalink
 	 */
-	public void setPermalink(String permalink)
-	{
+	public void setPermalink(String permalink) {
 		this.permalink = permalink;
 	}
 
@@ -166,8 +172,7 @@ public class Article implements Serializable
 	 */
 	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "create_user_id", nullable = true)
-	public User getCreatedByUser()
-	{
+	public User getCreatedByUser() {
 		return createdByUser;
 	}
 
@@ -177,8 +182,7 @@ public class Article implements Serializable
 	 * @param createdByUser
 	 *            user, or null if user no longer exists.
 	 */
-	public void setCreatedByUser(User createdByUser)
-	{
+	public void setCreatedByUser(User createdByUser) {
 		this.createdByUser = createdByUser;
 	}
 
@@ -188,8 +192,7 @@ public class Article implements Serializable
 	 * @return creation date
 	 */
 	@Column(name = "create_date", nullable = false)
-	public Date getCreationDate()
-	{
+	public Date getCreationDate() {
 		return creationDate;
 	}
 
@@ -199,8 +202,7 @@ public class Article implements Serializable
 	 * @param creationDate
 	 *            creation date
 	 */
-	public void setCreationDate(Date creationDate)
-	{
+	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
 
@@ -211,8 +213,7 @@ public class Article implements Serializable
 	 */
 	@ManyToOne(cascade = { CascadeType.PERSIST }, fetch = FetchType.EAGER, optional = true)
 	@JoinColumn(name = "modify_user_id", nullable = true)
-	public User getModifiedByUser()
-	{
+	public User getModifiedByUser() {
 		return modifiedByUser;
 	}
 
@@ -222,8 +223,7 @@ public class Article implements Serializable
 	 * @param modifiedByUser
 	 *            user
 	 */
-	public void setModifiedByUser(User modifiedByUser)
-	{
+	public void setModifiedByUser(User modifiedByUser) {
 		this.modifiedByUser = modifiedByUser;
 	}
 
@@ -233,8 +233,7 @@ public class Article implements Serializable
 	 * @return modification date, or null if article has not been modified
 	 */
 	@Column(name = "modify_date", nullable = true)
-	public Date getModificationDate()
-	{
+	public Date getModificationDate() {
 		return modificationDate;
 	}
 
@@ -244,8 +243,7 @@ public class Article implements Serializable
 	 * @param modificationDate
 	 *            modification date
 	 */
-	public void setModificationDate(Date modificationDate)
-	{
+	public void setModificationDate(Date modificationDate) {
 		this.modificationDate = modificationDate;
 	}
 
@@ -255,8 +253,7 @@ public class Article implements Serializable
 	 * @return article title
 	 */
 	@Column(name = "title", nullable = false, length = 255)
-	public String getTitle()
-	{
+	public String getTitle() {
 		return title;
 	}
 
@@ -266,8 +263,7 @@ public class Article implements Serializable
 	 * @param title
 	 *            article title
 	 */
-	public void setTitle(String title)
-	{
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -277,8 +273,7 @@ public class Article implements Serializable
 	 * @return article content
 	 */
 	@Column(name = "content", nullable = false)
-	public String getContent()
-	{
+	public String getContent() {
 		return content;
 	}
 
@@ -288,8 +283,7 @@ public class Article implements Serializable
 	 * @param content
 	 *            article content
 	 */
-	public void setContent(String content)
-	{
+	public void setContent(String content) {
 		this.content = content;
 	}
 
@@ -299,8 +293,7 @@ public class Article implements Serializable
 	 * @return article summyar
 	 */
 	@Column(name = "summary", nullable = true)
-	public String getSummary()
-	{
+	public String getSummary() {
 		return summary;
 	}
 
@@ -310,8 +303,7 @@ public class Article implements Serializable
 	 * @param summary
 	 *            summary text
 	 */
-	public void setSummary(String summary)
-	{
+	public void setSummary(String summary) {
 		this.summary = summary;
 	}
 
@@ -321,8 +313,7 @@ public class Article implements Serializable
 	 * @return <code>true</code> if comments are enabled
 	 */
 	@Column(name = "comments_enabled", nullable = false)
-	public boolean isCommentsEnabled()
-	{
+	public boolean isCommentsEnabled() {
 		return commentsEnabled;
 	}
 
@@ -332,8 +323,7 @@ public class Article implements Serializable
 	 * @param commentsEnabled
 	 *            <code>true</code> if comments should be enabled
 	 */
-	public void setCommentsEnabled(boolean commentsEnabled)
-	{
+	public void setCommentsEnabled(boolean commentsEnabled) {
 		this.commentsEnabled = commentsEnabled;
 	}
 
@@ -343,18 +333,13 @@ public class Article implements Serializable
 	 * @return permalink
 	 */
 	@Transient
-	public String getPermalinkUrl()
-	{
+	public String getPermalinkUrl() {
 		String perm = getPermalink();
-		try
-		{
-			if (perm != null)
-			{
+		try {
+			if (perm != null) {
 				return "/articles/" + URLEncoder.encode(perm, "UTF-8");
 			}
-		}
-		catch (UnsupportedEncodingException e)
-		{
+		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("Unsupported encoding", e);
 		}
 
@@ -368,16 +353,12 @@ public class Article implements Serializable
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
-		return (new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-		{
+	public String toString() {
+		return (new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE) {
 			@Override
-			protected boolean accept(Field f)
-			{
+			protected boolean accept(Field f) {
 				String fName = f.getName();
-				if (fName.equals("content"))
-				{
+				if (fName.equals("content")) {
 					return false;
 				}
 				return super.accept(f);

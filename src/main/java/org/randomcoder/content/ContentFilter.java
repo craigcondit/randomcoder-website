@@ -1,11 +1,13 @@
 package org.randomcoder.content;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
 
 import javax.xml.transform.Templates;
 
-import org.xml.sax.*;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 /**
  * Content filtering interface.
@@ -35,45 +37,61 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public interface ContentFilter
-{
+public interface ContentFilter {
 
 	/**
 	 * Validates the given input.
-	 * @param contentType content type
-	 * @param content textual content to validate
-	 * @throws InvalidContentException if content is invalid
-	 * @throws InvalidContentTypeException if the content type is invalid
-	 * @throws IOException if content could not be read
+	 * 
+	 * @param contentType
+	 *            content type
+	 * @param content
+	 *            textual content to validate
+	 * @throws InvalidContentException
+	 *             if content is invalid
+	 * @throws InvalidContentTypeException
+	 *             if the content type is invalid
+	 * @throws IOException
+	 *             if content could not be read
 	 */
-	public void validate(String contentType, Reader content) throws InvalidContentException, InvalidContentTypeException, IOException;
+	public void validate(String contentType, Reader content)
+			throws InvalidContentException, InvalidContentTypeException, IOException;
 
 	/**
 	 * Gets an XML reader suitable for the given content type.
-	 * @param baseUrl base URL for content, or <code>null</code> to omit
-	 * @param contentType content type of input
+	 * 
+	 * @param baseUrl
+	 *            base URL for content, or <code>null</code> to omit
+	 * @param contentType
+	 *            content type of input
 	 * @return XML reader
-	 * @throws SAXException if a SAX parsing error occurs
+	 * @throws SAXException
+	 *             if a SAX parsing error occurs
 	 */
 	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException;
 
 	/**
 	 * Gets XSL templates for the given content type.
-	 * @param contentType content type of input
+	 * 
+	 * @param contentType
+	 *            content type of input
 	 * @return templates, or null if no transformation is to be done
 	 */
 	public Templates getXSLTemplates(String contentType);
 
 	/**
 	 * Gets the data to prepend to a content stream before processing.
-	 * @param contentType content type
+	 * 
+	 * @param contentType
+	 *            content type
 	 * @return prefix data or null if none
 	 */
 	public String getPrefix(String contentType);
 
 	/**
 	 * Gets the data to append to a content stream before processing.
-	 * @param contentType content type
+	 * 
+	 * @param contentType
+	 *            content type
 	 * @return suffixs data or null if none
 	 */
 	public String getSuffix(String contentType);

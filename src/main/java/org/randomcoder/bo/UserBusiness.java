@@ -2,22 +2,24 @@ package org.randomcoder.bo;
 
 import java.util.List;
 
-import org.randomcoder.db.*;
-import org.randomcoder.io.*;
-import org.springframework.data.domain.*;
+import org.randomcoder.db.Role;
+import org.randomcoder.db.User;
+import org.randomcoder.io.Consumer;
+import org.randomcoder.io.Producer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Business interface for user management.
  */
-public interface UserBusiness
-{
+public interface UserBusiness {
 	/**
 	 * Change a user's password.
 	 * 
 	 * @param userName
-	 *          user name
+	 *            user name
 	 * @param password
-	 *          new password
+	 *            new password
 	 */
 	public void changePassword(String userName, String password);
 
@@ -25,7 +27,7 @@ public interface UserBusiness
 	 * Create a new user.
 	 * 
 	 * @param producer
-	 *          user producer
+	 *            user producer
 	 */
 	public void createUser(Producer<User> producer);
 
@@ -33,7 +35,7 @@ public interface UserBusiness
 	 * Creates a new account using a password.
 	 * 
 	 * @param producer
-	 *          user producer
+	 *            user producer
 	 */
 	public void createAccount(Producer<User> producer);
 
@@ -41,9 +43,9 @@ public interface UserBusiness
 	 * Loads a user for editing.
 	 * 
 	 * @param consumer
-	 *          consumer
+	 *            consumer
 	 * @param userId
-	 *          id of user to load
+	 *            id of user to load
 	 */
 	public void loadUserForEditing(Consumer<User> consumer, Long userId);
 
@@ -51,9 +53,9 @@ public interface UserBusiness
 	 * Update an existing user.
 	 * 
 	 * @param producer
-	 *          user producer
+	 *            user producer
 	 * @param userId
-	 *          user id
+	 *            user id
 	 */
 	public void updateUser(Producer<User> producer, Long userId);
 
@@ -61,7 +63,7 @@ public interface UserBusiness
 	 * Deletes a user.
 	 * 
 	 * @param userId
-	 *          user id to delete
+	 *            user id to delete
 	 */
 	public void deleteUser(Long userId);
 
@@ -69,7 +71,7 @@ public interface UserBusiness
 	 * Marks a user as having logged in as of a particular date and time.
 	 * 
 	 * @param userName
-	 *          user name to update
+	 *            user name to update
 	 */
 	public void auditUsernamePasswordLogin(String userName);
 
@@ -84,7 +86,7 @@ public interface UserBusiness
 	 * Finds a {@code Role} instance with the given name.
 	 * 
 	 * @param name
-	 *          role name
+	 *            role name
 	 * @return {@code Role} instance, or null if not found
 	 */
 	public Role findRoleByName(String name);
@@ -93,7 +95,7 @@ public interface UserBusiness
 	 * Finds a {@code User} with the given user name.
 	 * 
 	 * @param name
-	 *          user name
+	 *            user name
 	 * @return {@code User} instance, or null if not found
 	 */
 	public User findUserByName(String name);
@@ -102,7 +104,7 @@ public interface UserBusiness
 	 * Finds an enabled {@code User} with the given user name.
 	 * 
 	 * @param name
-	 *          user name
+	 *            user name
 	 * @return {@code User} instance, or null if not found or not enabled
 	 */
 	public User findUserByNameEnabled(String name);
@@ -111,7 +113,7 @@ public interface UserBusiness
 	 * Lists all {@code User} objects in range, ordered by user name.
 	 * 
 	 * @param pageable
-	 *          paging parameters
+	 *            paging parameters
 	 * @return List of {@code User} objects
 	 */
 	public Page<User> findAll(Pageable pageable);

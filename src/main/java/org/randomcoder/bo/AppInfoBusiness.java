@@ -3,8 +3,7 @@ package org.randomcoder.bo;
 /**
  * Application information business interface.
  */
-public interface AppInfoBusiness
-{
+public interface AppInfoBusiness {
 	/**
 	 * Gets the name of the application.
 	 * 

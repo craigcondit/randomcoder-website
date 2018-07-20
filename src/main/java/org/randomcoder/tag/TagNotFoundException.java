@@ -3,16 +3,14 @@ package org.randomcoder.tag;
 /**
  * Exception thrown when a requested tag cannot be found.
  */
-public class TagNotFoundException extends RuntimeException
-{
+public class TagNotFoundException extends RuntimeException {
 
 	private static final long serialVersionUID = 8212072324579650157L;
 
 	/**
 	 * Default constructor.
 	 */
-	public TagNotFoundException()
-	{
+	public TagNotFoundException() {
 		super();
 	}
 
@@ -20,10 +18,9 @@ public class TagNotFoundException extends RuntimeException
 	 * Constructor taking an optional message to display.
 	 * 
 	 * @param message
-	 *          message to assoicate with this exception.
+	 *            message to assoicate with this exception.
 	 */
-	public TagNotFoundException(String message)
-	{
+	public TagNotFoundException(String message) {
 		super(message);
 	}
 
@@ -33,8 +30,7 @@ public class TagNotFoundException extends RuntimeException
 	 * @return message
 	 */
 	@Override
-	public String getMessage()
-	{
+	public String getMessage() {
 		return super.getMessage();
 	}
 }

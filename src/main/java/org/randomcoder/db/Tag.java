@@ -1,18 +1,25 @@
 package org.randomcoder.db;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 
-import javax.persistence.*;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.*;
-import org.hibernate.annotations.*;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * JPA entity representing an article tag or category.
@@ -21,18 +28,15 @@ import org.hibernate.annotations.Cache;
 @Table(name = "tags")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "tags", sequenceName = "tags_seq", allocationSize = 1)
-public class Tag implements Serializable, Comparable<Tag>
-{
+public class Tag implements Serializable, Comparable<Tag> {
 	private static final long serialVersionUID = 3814891608527889241L;
 
 	/**
 	 * Tag Comparator (by name).
 	 */
-	public static final Comparator<Tag> NAME_COMPARATOR = new Comparator<Tag>()
-	{
+	public static final Comparator<Tag> NAME_COMPARATOR = new Comparator<Tag>() {
 		@Override
-		public int compare(Tag t1, Tag t2)
-		{
+		public int compare(Tag t1, Tag t2) {
 			String s1 = StringUtils.trimToEmpty(t1.getName());
 			String s2 = StringUtils.trimToEmpty(t2.getName());
 			return s1.compareTo(s2);
@@ -42,11 +46,9 @@ public class Tag implements Serializable, Comparable<Tag>
 	/**
 	 * Tag Comparator (by display name).
 	 */
-	public static final Comparator<Tag> DISPLAY_NAME_COMPARATOR = new Comparator<Tag>()
-	{
+	public static final Comparator<Tag> DISPLAY_NAME_COMPARATOR = new Comparator<Tag>() {
 		@Override
-		public int compare(Tag t1, Tag t2)
-		{
+		public int compare(Tag t1, Tag t2) {
 			String s1 = StringUtils.trimToEmpty(t1.getDisplayName());
 			String s2 = StringUtils.trimToEmpty(t2.getDisplayName());
 			return s1.compareTo(s2);
@@ -67,8 +69,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "tags")
 	@Column(name = "tag_id")
-	public Long getId()
-	{
+	public Long getId() {
 		return id;
 	}
 
@@ -78,8 +79,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @param id
 	 *            tag id
 	 */
-	public void setId(Long id)
-	{
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -89,8 +89,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return tag name
 	 */
 	@Column(name = "name", unique = true, nullable = false, length = 255)
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -100,8 +99,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @param name
 	 *            tag name
 	 */
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -111,8 +109,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return display name
 	 */
 	@Column(name = "display_name", nullable = false, length = 255)
-	public String getDisplayName()
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
@@ -122,8 +119,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @param displayName
 	 *            display name
 	 */
-	public void setDisplayName(String displayName)
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
@@ -134,8 +130,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 */
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "tags")
 	@OrderBy("creationDate DESC")
-	public List<Article> getArticles()
-	{
+	public List<Article> getArticles() {
 		return articles;
 	}
 
@@ -145,8 +140,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @param articles
 	 *            article list
 	 */
-	public void setArticles(List<Article> articles)
-	{
+	public void setArticles(List<Article> articles) {
 		this.articles = articles;
 	}
 
@@ -156,10 +150,8 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return true if equal, false if not
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (!(obj instanceof Tag))
-		{
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Tag)) {
 			return false;
 		}
 
@@ -178,8 +170,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return hash code
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		return StringUtils.trimToEmpty(getName()).hashCode();
 	}
 
@@ -189,8 +180,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return 0 if equal, -1 if this is before, 1 if this is after
 	 */
 	@Override
-	public int compareTo(Tag o)
-	{
+	public int compareTo(Tag o) {
 		return NAME_COMPARATOR.compare(this, o);
 	}
 
@@ -200,8 +190,7 @@ public class Tag implements Serializable, Comparable<Tag>
 	 * @return string representation of this object
 	 */
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

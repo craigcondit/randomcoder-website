@@ -3,15 +3,13 @@ package org.randomcoder.feed;
 /**
  * Superclass of exceptions thrown during feed generation.
  */
-public class FeedException extends Exception
-{
+public class FeedException extends Exception {
 	private static final long serialVersionUID = 7305739829048095127L;
 
 	/**
 	 * Creates a new exception.
 	 */
-	public FeedException()
-	{
+	public FeedException() {
 		super();
 	}
 
@@ -19,10 +17,9 @@ public class FeedException extends Exception
 	 * Creates a new exception with the given message.
 	 * 
 	 * @param message
-	 *          error message
+	 *            error message
 	 */
-	public FeedException(String message)
-	{
+	public FeedException(String message) {
 		super(message);
 	}
 
@@ -30,10 +27,9 @@ public class FeedException extends Exception
 	 * Creates a new exception with the given cause.
 	 * 
 	 * @param cause
-	 *          root cause
+	 *            root cause
 	 */
-	public FeedException(Throwable cause)
-	{
+	public FeedException(Throwable cause) {
 		super(cause);
 	}
 
@@ -41,12 +37,11 @@ public class FeedException extends Exception
 	 * Creates a new exception with the given message and cause.
 	 * 
 	 * @param message
-	 *          error message
+	 *            error message
 	 * @param cause
-	 *          root cause
+	 *            root cause
 	 */
-	public FeedException(String message, Throwable cause)
-	{
+	public FeedException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -11,6 +11,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.easymock.Capture;
 import org.easymock.IMocksControl;
 import org.junit.After;
@@ -41,13 +45,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-
 @SuppressWarnings("javadoc")
-public class UserControllerTest
-{
+public class UserControllerTest {
 	private IMocksControl control;
 	private UserBusiness ub;
 	private UserController c;
@@ -62,8 +61,7 @@ public class UserControllerTest
 	private Model m;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() {
 		control = createControl();
 		ub = control.createMock(UserBusiness.class);
 		m = control.createMock(Model.class);
@@ -86,8 +84,7 @@ public class UserControllerTest
 	}
 
 	@After
-	public void tearDown()
-	{
+	public void tearDown() {
 		uav = null;
 		uev = null;
 		acv = null;
@@ -102,8 +99,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testInitBinder() throws Exception
-	{
+	public void testInitBinder() throws Exception {
 		expect(wdb.getTarget()).andReturn(new Object());
 		control.replay();
 
@@ -112,8 +108,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testInitBinderUserProfile() throws Exception
-	{
+	public void testInitBinderUserProfile() throws Exception {
 		expect(wdb.getTarget()).andReturn(new UserProfileCommand());
 		wdb.setValidator(upv);
 		control.replay();
@@ -123,8 +118,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testInitBinderAccountCreate() throws Exception
-	{
+	public void testInitBinderAccountCreate() throws Exception {
 		expect(wdb.getTarget()).andReturn(new AccountCreateCommand());
 		wdb.setValidator(acv);
 		control.replay();
@@ -134,8 +128,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testInitBinderUserAdd() throws Exception
-	{
+	public void testInitBinderUserAdd() throws Exception {
 		expect(wdb.getTarget()).andReturn(new UserAddCommand());
 		wdb.registerCustomEditor(same(Role.class), isA(RolePropertyEditor.class));
 		wdb.setValidator(uav);
@@ -146,8 +139,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testInitBinderUserEdit() throws Exception
-	{
+	public void testInitBinderUserEdit() throws Exception {
 		expect(wdb.getTarget()).andReturn(new UserEditCommand());
 		wdb.registerCustomEditor(same(Role.class), isA(RolePropertyEditor.class));
 		wdb.setValidator(uev);
@@ -158,8 +150,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testDeleteUser() throws Exception
-	{
+	public void testDeleteUser() throws Exception {
 		ub.deleteUser(1L);
 		control.replay();
 
@@ -168,8 +159,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testListUsers() throws Exception
-	{
+	public void testListUsers() throws Exception {
 		List<User> users = new ArrayList<>();
 		Page<User> page = new PageImpl<>(users);
 
@@ -183,15 +173,14 @@ public class UserControllerTest
 
 		c.listUsers(m, pr, null);
 		control.verify();
-		
+
 		assertEquals(new Sort("userName"), pc.getValue().getSort());
 		assertEquals(0, pc.getValue().getOffset());
 		assertEquals(20, pc.getValue().getPageSize());
 	}
 
 	@Test
-	public void testListUsersPageTooBig() throws Exception
-	{
+	public void testListUsersPageTooBig() throws Exception {
 		List<User> users = new ArrayList<>();
 		Page<User> page = new PageImpl<>(users);
 
@@ -200,20 +189,19 @@ public class UserControllerTest
 
 		expect(ub.findAll(capture(pc))).andReturn(page);
 		expect(m.addAttribute("users", page)).andReturn(m);
-    expect(m.addAttribute(eq("pagerInfo"), isA(PagerInfo.class))).andReturn(m);
+		expect(m.addAttribute(eq("pagerInfo"), isA(PagerInfo.class))).andReturn(m);
 		control.replay();
 
 		c.listUsers(m, pr, null);
 		control.verify();
-		
+
 		assertEquals(new Sort("userName"), pc.getValue().getSort());
 		assertEquals(0, pc.getValue().getOffset());
 		assertEquals(25, pc.getValue().getPageSize());
 	}
 
 	@Test
-	public void testChangePassword()
-	{
+	public void testChangePassword() {
 		ChangePasswordCommand command = new ChangePasswordCommand();
 
 		User user = new User();
@@ -228,14 +216,12 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testChangePasswordCancel()
-	{
+	public void testChangePasswordCancel() {
 		assertEquals("user-profile-redirect", c.changePasswordCancel());
 	}
 
 	@Test
-	public void testChangePasswordSubmit()
-	{
+	public void testChangePasswordSubmit() {
 		ChangePasswordCommand command = new ChangePasswordCommand();
 		command.setPassword("password");
 		User user = new User();
@@ -253,8 +239,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testChangePasswordSubmitErrors()
-	{
+	public void testChangePasswordSubmitErrors() {
 		ChangePasswordCommand command = new ChangePasswordCommand();
 		command.setPassword("password");
 		User user = new User();
@@ -271,8 +256,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testUserProfile()
-	{
+	public void testUserProfile() {
 		UserProfileCommand command = new UserProfileCommand();
 
 		User user = new User();
@@ -287,14 +271,12 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testUserProfileCancel()
-	{
+	public void testUserProfileCancel() {
 		assertEquals("default", c.userProfileCancel());
 	}
 
 	@Test
-	public void testUserProfileSubmit()
-	{
+	public void testUserProfileSubmit() {
 		UserProfileCommand command = new UserProfileCommand();
 		User user = new User();
 		user.setId(1L);
@@ -310,8 +292,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testUserProfileError()
-	{
+	public void testUserProfileError() {
 		UserProfileCommand command = new UserProfileCommand();
 		User user = new User();
 		user.setId(1L);
@@ -327,20 +308,17 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testAccountCreate()
-	{
+	public void testAccountCreate() {
 		assertEquals("account-create", c.accountCreate(null));
 	}
 
 	@Test
-	public void testAccountCreateCancel()
-	{
+	public void testAccountCreateCancel() {
 		assertEquals("default", c.accountCreateCancel());
 	}
 
 	@Test
-	public void testAccountCreateSubmit()
-	{
+	public void testAccountCreateSubmit() {
 		AccountCreateCommand command = new AccountCreateCommand();
 
 		expect(br.hasErrors()).andReturn(false);
@@ -352,8 +330,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testAccountCreateSubmitError()
-	{
+	public void testAccountCreateSubmitError() {
 		AccountCreateCommand command = new AccountCreateCommand();
 
 		expect(br.hasErrors()).andReturn(true);
@@ -364,8 +341,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testAddUser()
-	{
+	public void testAddUser() {
 		UserAddCommand command = new UserAddCommand();
 		List<Role> roles = new ArrayList<>();
 
@@ -379,14 +355,12 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testAddUserCancel()
-	{
+	public void testAddUserCancel() {
 		assertEquals("user-list-redirect", c.addUserCancel());
 	}
 
 	@Test
-	public void testAddUserSubmit()
-	{
+	public void testAddUserSubmit() {
 		UserAddCommand command = new UserAddCommand();
 
 		expect(br.hasErrors()).andReturn(false);
@@ -398,8 +372,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testAddUserSubmitError()
-	{
+	public void testAddUserSubmitError() {
 		UserAddCommand command = new UserAddCommand();
 		List<Role> roles = new ArrayList<>();
 
@@ -413,8 +386,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testEditUser()
-	{
+	public void testEditUser() {
 		UserEditCommand command = new UserEditCommand();
 		command.setId(1L);
 		List<Role> roles = new ArrayList<>();
@@ -429,14 +401,12 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testEditUserCancel()
-	{
+	public void testEditUserCancel() {
 		assertEquals("user-list-redirect", c.editUserCancel());
 	}
 
 	@Test
-	public void testEditUserSubmit()
-	{
+	public void testEditUserSubmit() {
 		UserEditCommand command = new UserEditCommand();
 		command.setId(1L);
 
@@ -449,8 +419,7 @@ public class UserControllerTest
 	}
 
 	@Test
-	public void testEditUserSubmitError()
-	{
+	public void testEditUserSubmitError() {
 		UserEditCommand command = new UserEditCommand();
 		command.setId(1L);
 		List<Role> roles = new ArrayList<>();

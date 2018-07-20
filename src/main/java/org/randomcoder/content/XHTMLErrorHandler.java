@@ -1,6 +1,8 @@
 package org.randomcoder.content;
 
-import org.xml.sax.*;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * {@link ErrorHandler} implementation used to derive line and column numbers.
@@ -30,77 +32,81 @@ import org.xml.sax.*;
  * POSSIBILITY OF SUCH DAMAGE.
  * </pre>
  */
-public class XHTMLErrorHandler implements ErrorHandler
-{
+public class XHTMLErrorHandler implements ErrorHandler {
 	private int lineNumber = 1;
 	private int columnNumber = 1;
 	private String message = null;
 
 	/**
 	 * Gets the line number where processing failed.
+	 * 
 	 * @return line number
 	 */
-	public int getLineNumber()
-	{
+	public int getLineNumber() {
 		return lineNumber;
 	}
 
 	/**
 	 * Gets the column number where processing failed.
+	 * 
 	 * @return column number
 	 */
-	public int getColumnNumber()
-	{
+	public int getColumnNumber() {
 		return columnNumber;
 	}
 
 	/**
 	 * Gets the error message.
+	 * 
 	 * @return error message
 	 */
-	public String getMessage()
-	{
+	public String getMessage() {
 		return message;
 	}
-	
+
 	/**
 	 * Handles SAX warnings.
-	 * @param ex SAX exception to handle.
-	 * @throws SAXException the passed-in exception
+	 * 
+	 * @param ex
+	 *            SAX exception to handle.
+	 * @throws SAXException
+	 *             the passed-in exception
 	 */
 	@Override
-	public void warning(SAXParseException ex) throws SAXException
-	{
+	public void warning(SAXParseException ex) throws SAXException {
 		handle(ex);
 		throw ex;
 	}
 
 	/**
 	 * Handles SAX errors.
-	 * @param ex SAX exception to handle.
-	 * @throws SAXException the passed-in exception
+	 * 
+	 * @param ex
+	 *            SAX exception to handle.
+	 * @throws SAXException
+	 *             the passed-in exception
 	 */
 	@Override
-	public void error(SAXParseException ex) throws SAXException
-	{
+	public void error(SAXParseException ex) throws SAXException {
 		handle(ex);
 		throw ex;
 	}
-	
+
 	/**
 	 * Handles SAX fatal errors.
-	 * @param ex SAX exception to handle.
-	 * @throws SAXException the passed-in exception
+	 * 
+	 * @param ex
+	 *            SAX exception to handle.
+	 * @throws SAXException
+	 *             the passed-in exception
 	 */
 	@Override
-	public void fatalError(SAXParseException ex) throws SAXException
-	{
+	public void fatalError(SAXParseException ex) throws SAXException {
 		handle(ex);
 		throw ex;
 	}
-	
-	private void handle(SAXParseException ex)
-	{
+
+	private void handle(SAXParseException ex) {
 		lineNumber = ex.getLineNumber();
 		columnNumber = ex.getColumnNumber();
 		message = ex.getMessage();
@@ -108,5 +114,5 @@ public class XHTMLErrorHandler implements ErrorHandler
 		// account for prefix
 		if (lineNumber == 1)
 			columnNumber -= XHTMLFilter.PREFIX.length();
-	}	
+	}
 }
