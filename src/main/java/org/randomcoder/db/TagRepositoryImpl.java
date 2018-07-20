@@ -14,7 +14,7 @@ import org.springframework.data.domain.*;
 public class TagRepositoryImpl implements TagRepositoryCustom
 {
 	private static final String QUERY_ALL_TAG_STATISTICS = "select t, size(t.articles) from Tag t group by t order by t.displayName";
-	private static final String QUERY_MOST_ARTICLES = "select max(sz) from (select size(t.articles) as szfrom Tag t) x";
+	private static final String NATIVE_QUERY_MOST_ARTICLES = "select max(c) from (select article_id, count(1) c from article_tag_link group by article_id) x";
 	
 	private EntityManager entityManager;
 
@@ -74,7 +74,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom
 	@Override
 	public int maxArticleCount()
 	{
-		Number result = (Number) entityManager.createQuery(QUERY_MOST_ARTICLES).getSingleResult();
+		Number result = (Number) entityManager.createNativeQuery(NATIVE_QUERY_MOST_ARTICLES).getSingleResult();
 		return result == null ? 0 : result.intValue();
 	}
 	
