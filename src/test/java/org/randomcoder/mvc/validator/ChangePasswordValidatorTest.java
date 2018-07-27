@@ -11,7 +11,6 @@ import org.randomcoder.mvc.command.ChangePasswordCommand;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
-@SuppressWarnings("javadoc")
 public class ChangePasswordValidatorTest {
 	private ChangePasswordValidator validator;
 

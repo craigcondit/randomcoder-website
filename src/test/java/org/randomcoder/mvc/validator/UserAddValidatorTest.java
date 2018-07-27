@@ -18,7 +18,6 @@ import org.randomcoder.mvc.command.UserAddCommand;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
-@SuppressWarnings("javadoc")
 public class UserAddValidatorTest {
 	private UserAddValidator validator;
 	private IMocksControl control;

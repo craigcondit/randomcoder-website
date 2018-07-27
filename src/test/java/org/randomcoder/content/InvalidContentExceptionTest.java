@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-@SuppressWarnings("javadoc")
 public class InvalidContentExceptionTest {
 	@Test
 	public void testInvalidContentException() {

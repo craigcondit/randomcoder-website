@@ -22,7 +22,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-@SuppressWarnings("javadoc")
 public class XmlUtilsTest {
 	private static final String XML_VALID_DOCUMENT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
 			"<Test value='test'><Entry value='1' /><Entry value='2' /></Test>";

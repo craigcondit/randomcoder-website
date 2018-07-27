@@ -36,7 +36,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
-@SuppressWarnings("javadoc")
 public class ArticleTagListControllerTest {
 	private IMocksControl control;
 	private ArticleBusiness ab;

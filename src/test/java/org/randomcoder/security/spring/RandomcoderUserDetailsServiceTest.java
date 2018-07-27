@@ -20,7 +20,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-@SuppressWarnings("javadoc")
 public class RandomcoderUserDetailsServiceTest {
 	private RandomcoderUserDetailsService svc = null;
 

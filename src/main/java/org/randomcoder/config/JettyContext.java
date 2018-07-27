@@ -35,7 +35,6 @@ import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
 @Configuration
-@SuppressWarnings("javadoc")
 public class JettyContext {
 	public static final String HTTP_PORT_PROP = "http.port";
 	public static final String HTTP_ADDRESS_PROP = "http.address";

@@ -13,7 +13,6 @@ import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.db.Role;
 
-@SuppressWarnings("javadoc")
 public class RolePropertyEditorTest {
 	private IMocksControl control;
 	private UserBusiness ub;

@@ -19,7 +19,6 @@ import org.randomcoder.test.mock.content.ContentFilterMock;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-@SuppressWarnings("javadoc")
 public class MultiContentFilterTest {
 	private MultiContentFilter filter;
 

@@ -14,7 +14,6 @@ import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-@SuppressWarnings("javadoc")
 public class AbsXMLReaderTest {
 	private AbstractXMLReaderMock reader;
 

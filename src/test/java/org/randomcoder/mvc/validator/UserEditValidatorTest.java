@@ -14,7 +14,6 @@ import org.randomcoder.mvc.command.UserEditCommand;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 
-@SuppressWarnings("javadoc")
 public class UserEditValidatorTest {
 	private UserEditValidator validator;
 

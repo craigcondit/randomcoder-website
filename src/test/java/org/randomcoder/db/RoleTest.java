@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-@SuppressWarnings("javadoc")
 public class RoleTest {
 	@Test
 	public void testEqualsObject() {

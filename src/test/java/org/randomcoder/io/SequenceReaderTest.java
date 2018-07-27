@@ -17,7 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings("javadoc")
 public class SequenceReaderTest {
 	private static final String TEXT1 = "Reader Number One";
 	private static final String TEXT2 = "Reader Number Two";

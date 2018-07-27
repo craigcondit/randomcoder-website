@@ -24,7 +24,6 @@ import org.randomcoder.mvc.command.UserAddCommand;
 import org.randomcoder.mvc.command.UserEditCommand;
 import org.randomcoder.user.UserNotFoundException;
 
-@SuppressWarnings("javadoc")
 public class UserBusinessImplTest {
 	private IMocksControl control;
 	private UserBusinessImpl ub;

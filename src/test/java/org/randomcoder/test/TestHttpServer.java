@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
-@SuppressWarnings("javadoc")
 abstract public class TestHttpServer {
 	protected final ServerSocket socket;
 

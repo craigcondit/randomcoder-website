@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-@SuppressWarnings("javadoc")
 public class XHTMLErrorHandlerTest {
 	private XHTMLErrorHandler handler;
 

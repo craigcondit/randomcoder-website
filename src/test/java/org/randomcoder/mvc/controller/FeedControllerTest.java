@@ -22,7 +22,6 @@ import org.randomcoder.feed.FeedGenerator;
 import org.randomcoder.feed.FeedInfo;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-@SuppressWarnings("javadoc")
 public class FeedControllerTest {
 	private IMocksControl control;
 	private FeedGenerator atom;

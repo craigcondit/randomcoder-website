@@ -34,7 +34,6 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@SuppressWarnings("javadoc")
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
 @ComponentScan({ "org.randomcoder.bo", "org.randomcoder.security.spring" })

@@ -42,7 +42,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.ui.Model;
 
-@SuppressWarnings("javadoc")
 public class AbsArticleListControllerTest {
 	private IMocksControl control;
 	private Model m;

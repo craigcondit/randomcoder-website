@@ -45,7 +45,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 
-@SuppressWarnings("javadoc")
 public class UserControllerTest {
 	private IMocksControl control;
 	private UserBusiness ub;

@@ -17,7 +17,6 @@ import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.AccountCreateCommand;
 import org.springframework.validation.BindException;
 
-@SuppressWarnings("javadoc")
 public class AccountCreateValidatorTest {
 	private IMocksControl control;
 	private UserBusiness ub;

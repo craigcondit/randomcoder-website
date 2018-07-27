@@ -18,7 +18,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-@SuppressWarnings("javadoc")
 public class DisableUrlSessionFilterTest {
 	private IMocksControl control;
 	private FilterChain fc;

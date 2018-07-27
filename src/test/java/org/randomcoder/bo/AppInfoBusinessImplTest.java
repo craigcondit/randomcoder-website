@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
-@SuppressWarnings("javadoc")
 public class AppInfoBusinessImplTest {
 	private AppInfoBusinessImpl info;
 

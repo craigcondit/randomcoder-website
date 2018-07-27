@@ -16,7 +16,6 @@ import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.Tag;
 import org.randomcoder.tag.TagList;
 
-@SuppressWarnings("javadoc")
 public class TagListPropertyEditorTest {
 	private IMocksControl control;
 	private TagBusiness tb;

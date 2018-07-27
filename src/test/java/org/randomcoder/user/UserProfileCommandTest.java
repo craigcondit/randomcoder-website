@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.UserProfileCommand;
 
-@SuppressWarnings("javadoc")
 public class UserProfileCommandTest {
 	private UserProfileCommand command;
 

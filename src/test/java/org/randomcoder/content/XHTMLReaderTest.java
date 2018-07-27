@@ -19,7 +19,6 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-@SuppressWarnings("deprecation")
 public class XHTMLReaderTest {
 	private static final String TEST_PREFIX = "<html><body>";
 	private static final String TEST_SUFFIX = "</body></html>";

@@ -13,7 +13,6 @@ import org.randomcoder.content.TextReader;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-@SuppressWarnings("javadoc")
 public class ContentFilterMock implements ContentFilter {
 	@Override
 	public String getPrefix(String contentType) {

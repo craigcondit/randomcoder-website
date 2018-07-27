@@ -11,7 +11,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-@SuppressWarnings("javadoc")
 public class RedirectControllerTest {
 	private RedirectController rc;
 	private IMocksControl control;
