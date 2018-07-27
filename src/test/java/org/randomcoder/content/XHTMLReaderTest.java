@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.parsers.SAXParserFactory;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +18,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 public class XHTMLReaderTest {
 	private static final String TEST_PREFIX = "<html><body>";
@@ -32,7 +34,10 @@ public class XHTMLReaderTest {
 		Set<String> allowedClasses = new HashSet<String>();
 		allowedClasses.add("allowed");
 		allowedClasses.add("allowed2");
-		reader = new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, null);
+		SAXParserFactory spf = SAXParserFactory.newInstance();
+		spf.setNamespaceAware(true);
+		XMLReader xmlReader = spf.newSAXParser().getXMLReader();
+		reader = new XHTMLReader(xmlReader, allowedClasses, null);
 		reader.setContentHandler(handler);
 		reader.setErrorHandler(handler);
 	}

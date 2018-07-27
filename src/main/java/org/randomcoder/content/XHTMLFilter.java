@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
@@ -23,7 +25,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /**
  * Simple XHTML content filter.
@@ -118,7 +119,16 @@ public class XHTMLFilter implements ContentFilter {
 
 	@Override
 	public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException {
-		return new XHTMLReader(XMLReaderFactory.createXMLReader(), allowedClasses, baseUrl);
+		XMLReader xmlReader;
+		try {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			spf.setNamespaceAware(true);
+			xmlReader = spf.newSAXParser().getXMLReader();
+		} catch (ParserConfigurationException e) {
+			throw new SAXException(e);
+		}
+
+		return new XHTMLReader(xmlReader, allowedClasses, baseUrl);
 	}
 
 	@Override
