@@ -74,8 +74,6 @@ public class ContentUtils {
 	 */
 	public static void format(String mimeType, URL baseUrl, InputSource content, ContentFilter filter, Result output)
 			throws TransformerException, IOException, SAXException {
-		// TODO needs unit testing
-
 		TransformerFactory tFactory = TransformerFactory.newInstance();
 
 		SAXTransformerFactory stFactory = (SAXTransformerFactory) tFactory;
