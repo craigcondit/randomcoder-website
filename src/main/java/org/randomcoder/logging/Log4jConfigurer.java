@@ -42,8 +42,6 @@ import java.net.URL;
  * via Log4jConfigListener, delegating to Log4jWebConfigurer underneath.
  *
  * @author Juergen Hoeller
- * @see org.springframework.web.util.Log4jWebConfigurer
- * @see org.springframework.web.util.Log4jConfigListener
  * @since 13.03.2003
  */
 public abstract class Log4jConfigurer {
