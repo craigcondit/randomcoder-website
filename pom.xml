@@ -8,7 +8,7 @@
     <groupId>org.randomcoder</groupId>
     <artifactId>randomcoder-website</artifactId>
     <name>Randomcoder Website</name>
-    <version>4.0.3</version>
+    <version>4.0.4-SNAPSHOT</version>
     <description>This project contains the RandomCoder.Org website.
     </description>
     <url>https://github.com/insideo/randomcoder-website</url>
@@ -20,7 +20,7 @@
             scm:git:git@github.com:insideo/randomcoder-website.git
         </developerConnection>
         <url>https://github.com/insideo/randomcoder-website</url>
-        <tag>randomcoder-website-4.0.3</tag>
+        <tag>HEAD</tag>
     </scm>
     <developers>
         <developer>
