@@ -1,10 +1,5 @@
 package org.randomcoder.content;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
 import org.randomcoder.xml.AbstractXMLReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -12,26 +7,31 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
 /**
  * Plain text to XML reader.
- * 
+ *
  * <p>
  * This implementation does very little formatting - line breaks are
  * replaced with &lt;br /&gt; tags.
  * </p>
- * 
+ *
  * <pre>
  * Copyright (c) 2006, Craig Condit. All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  *   * Redistributions of source code must retain the above copyright notice,
  *     this list of conditions and the following disclaimer.
  *   * Redistributions in binary form must reproduce the above copyright notice,
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
- *     
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -46,54 +46,52 @@ import org.xml.sax.helpers.AttributesImpl;
  * </pre>
  */
 public class TextReader extends AbstractXMLReader {
-	private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
+  private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
 
-	/**
-	 * Parses the given input source.
-	 * 
-	 * @param input
-	 *            input source
-	 * @throws IOException
-	 *             if an I/O error occurs
-	 * @throws SAXException
-	 *             if XML parsing fails
-	 */
-	@Override
-	public void parse(InputSource input) throws IOException, SAXException {
-		ContentHandler handler = getContentHandler();
-		if (handler == null)
-			return;
+  /**
+   * Parses the given input source.
+   *
+   * @param input input source
+   * @throws IOException  if an I/O error occurs
+   * @throws SAXException if XML parsing fails
+   */
+  @Override public void parse(InputSource input)
+      throws IOException, SAXException {
+    ContentHandler handler = getContentHandler();
+    if (handler == null)
+      return;
 
-		// get a reader object
-		BufferedReader reader = null;
-		if (input.getCharacterStream() != null) {
-			reader = new BufferedReader(input.getCharacterStream());
-		} else if (input.getByteStream() != null) {
-			reader = new BufferedReader(new InputStreamReader(input.getByteStream()));
-		} else if (input.getSystemId() != null) {
-			reader = new BufferedReader(new InputStreamReader(new URL(input.getSystemId()).openStream()));
-		} else {
-			throw new SAXException("Invalid InputSource");
-		}
+    // get a reader object
+    BufferedReader reader = null;
+    if (input.getCharacterStream() != null) {
+      reader = new BufferedReader(input.getCharacterStream());
+    } else if (input.getByteStream() != null) {
+      reader = new BufferedReader(new InputStreamReader(input.getByteStream()));
+    } else if (input.getSystemId() != null) {
+      reader = new BufferedReader(
+          new InputStreamReader(new URL(input.getSystemId()).openStream()));
+    } else {
+      throw new SAXException("Invalid InputSource");
+    }
 
-		// start document
-		handler.startDocument();
+    // start document
+    handler.startDocument();
 
-		// root element
-		handler.startElement("", "text", "text", NO_ATTRIBUTES);
+    // root element
+    handler.startElement("", "text", "text", NO_ATTRIBUTES);
 
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-			handler.startElement("", "line", "line", NO_ATTRIBUTES);
-			char[] data = line.trim().toCharArray();
-			handler.characters(data, 0, data.length);
-			handler.endElement("", "line", "line");
-		}
+    String line = null;
+    while ((line = reader.readLine()) != null) {
+      handler.startElement("", "line", "line", NO_ATTRIBUTES);
+      char[] data = line.trim().toCharArray();
+      handler.characters(data, 0, data.length);
+      handler.endElement("", "line", "line");
+    }
 
-		// end root element
-		handler.endElement("", "text", "text");
+    // end root element
+    handler.endElement("", "text", "text");
 
-		// end document
-		handler.endDocument();
-	}
+    // end document
+    handler.endDocument();
+  }
 }

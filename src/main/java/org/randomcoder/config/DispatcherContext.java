@@ -1,9 +1,5 @@
 package org.randomcoder.config;
 
-import java.util.List;
-
-import javax.inject.Inject;
-
 import org.randomcoder.mvc.SuffixedBeanNameViewResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -30,111 +26,107 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-@Configuration
-@EnableTransactionManagement(proxyTargetClass = true)
-@ComponentScan({ "org.randomcoder.mvc" })
-@EnableWebMvc
-public class DispatcherContext implements WebMvcConfigurer, ApplicationContextAware {
+import javax.inject.Inject;
+import java.util.List;
 
-	@Inject
-	Environment env;
+@Configuration @EnableTransactionManagement(proxyTargetClass = true)
+@ComponentScan({ "org.randomcoder.mvc" }) @EnableWebMvc
+public class DispatcherContext
+    implements WebMvcConfigurer, ApplicationContextAware {
 
-	ApplicationContext applicationContext;
+  @Inject Environment env;
 
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+  ApplicationContext applicationContext;
 
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-		PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
-		pspc.setIgnoreUnresolvablePlaceholders(false);
-		return pspc;
-	}
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext)
+      throws BeansException {
+    this.applicationContext = applicationContext;
+  }
 
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
-		resolver.setPageParameterName("page");
-		resolver.setSizeParameterName("size");
-		resolver.setPrefix("page.");
-		argumentResolvers.add(resolver);
-	}
+  @Bean
+  public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+    PropertySourcesPlaceholderConfigurer pspc =
+        new PropertySourcesPlaceholderConfigurer();
+    pspc.setIgnoreUnresolvablePlaceholders(false);
+    return pspc;
+  }
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// define some static content that will bypass the dispatcher
-		registry
-				.addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico", "/**/*.jpg", "/**/*.png",
-						"/**/*.gif",
-						"/**/*.txt")
-				.addResourceLocations("classpath:/webapp/");
-	}
+  @Override public void addArgumentResolvers(
+      List<HandlerMethodArgumentResolver> argumentResolvers) {
+    PageableHandlerMethodArgumentResolver resolver =
+        new PageableHandlerMethodArgumentResolver();
+    resolver.setPageParameterName("page");
+    resolver.setSizeParameterName("size");
+    resolver.setPrefix("page.");
+    argumentResolvers.add(resolver);
+  }
 
-	@Bean
-	public RequestMappingHandlerMapping handlerMapping() {
-		RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
-		mapping.setAlwaysUseFullPath(true);
-		return mapping;
-	}
+  @Override public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    // define some static content that will bypass the dispatcher
+    registry
+        .addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico",
+            "/**/*.jpg", "/**/*.png", "/**/*.gif", "/**/*.txt")
+        .addResourceLocations("classpath:/webapp/");
+  }
 
-	@Bean
-	public ITemplateResolver templateResolver() {
-		SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-		resolver.setApplicationContext(applicationContext);
-		resolver.setPrefix("/WEB-INF/templates/");
-		resolver.setSuffix(".html");
-		resolver.setTemplateMode(TemplateMode.HTML);
-		if (env.acceptsProfiles("dev")) {
-			resolver.setCacheable(false);
-		}
-		return resolver;
-	}
+  @Bean public RequestMappingHandlerMapping handlerMapping() {
+    RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
+    mapping.setAlwaysUseFullPath(true);
+    return mapping;
+  }
 
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-		SpringTemplateEngine engine = new SpringTemplateEngine();
-		engine.setTemplateResolver(templateResolver());
-		engine.setEnableSpringELCompiler(true);
-		engine.addDialect(new SpringSecurityDialect());
-		return engine;
-	}
+  @Bean public ITemplateResolver templateResolver() {
+    SpringResourceTemplateResolver resolver =
+        new SpringResourceTemplateResolver();
+    resolver.setApplicationContext(applicationContext);
+    resolver.setPrefix("/WEB-INF/templates/");
+    resolver.setSuffix(".html");
+    resolver.setTemplateMode(TemplateMode.HTML);
+    if (env.acceptsProfiles("dev")) {
+      resolver.setCacheable(false);
+    }
+    return resolver;
+  }
 
-	@Bean
-	public ViewResolver beanNameViewResolver() {
-		SuffixedBeanNameViewResolver resolver = new SuffixedBeanNameViewResolver("-view");
-		resolver.setOrder(0);
-		return resolver;
-	}
+  @Bean public SpringTemplateEngine templateEngine() {
+    SpringTemplateEngine engine = new SpringTemplateEngine();
+    engine.setTemplateResolver(templateResolver());
+    engine.setEnableSpringELCompiler(true);
+    engine.addDialect(new SpringSecurityDialect());
+    return engine;
+  }
 
-	@Bean
-	public ViewResolver thymeleafViewResolver() {
-		ThymeleafViewResolver resolver = new ThymeleafViewResolver();
-		resolver.setOrder(1);
-		resolver.setTemplateEngine(templateEngine());
-		resolver.setCharacterEncoding("UTF-8");
-		return resolver;
-	}
+  @Bean public ViewResolver beanNameViewResolver() {
+    SuffixedBeanNameViewResolver resolver =
+        new SuffixedBeanNameViewResolver("-view");
+    resolver.setOrder(0);
+    return resolver;
+  }
 
-	@Bean(name = "default-view")
-	public View defaultView() {
-		return new RedirectView("/", true);
-	}
+  @Bean public ViewResolver thymeleafViewResolver() {
+    ThymeleafViewResolver resolver = new ThymeleafViewResolver();
+    resolver.setOrder(1);
+    resolver.setTemplateEngine(templateEngine());
+    resolver.setCharacterEncoding("UTF-8");
+    return resolver;
+  }
 
-	@Bean(name = "user-list-redirect-view")
-	public View userListRedirectView() {
-		return new RedirectView("/user", true);
-	}
+  @Bean(name = "default-view") public View defaultView() {
+    return new RedirectView("/", true);
+  }
 
-	@Bean(name = "user-profile-redirect-view")
-	public View userProfileRedirectView() {
-		return new RedirectView("/user/profile", true);
-	}
+  @Bean(name = "user-list-redirect-view") public View userListRedirectView() {
+    return new RedirectView("/user", true);
+  }
 
-	@Bean(name = "tag-list-redirect-view")
-	public View tagListRedirectView() {
-		return new RedirectView("/tag", true);
-	}
+  @Bean(name = "user-profile-redirect-view")
+  public View userProfileRedirectView() {
+    return new RedirectView("/user/profile", true);
+  }
+
+  @Bean(name = "tag-list-redirect-view") public View tagListRedirectView() {
+    return new RedirectView("/tag", true);
+  }
 
 }

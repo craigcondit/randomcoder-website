@@ -1,16 +1,5 @@
 package org.randomcoder.content;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,66 +8,72 @@ import org.randomcoder.test.mock.content.ContentFilterMock;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 public class MultiContentFilterTest {
-	private MultiContentFilter filter;
+  private MultiContentFilter filter;
 
-	@Before
-	public void setUp() throws Exception {
-		Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
-		filters.put("text/plain", new TextFilter());
-		filters.put("application/xhtml+xml", new XHTMLFilter());
+  @Before public void setUp() throws Exception {
+    Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
+    filters.put("text/plain", new TextFilter());
+    filters.put("application/xhtml+xml", new XHTMLFilter());
 
-		filter = new MultiContentFilter();
-		filter.setDefaultHandler(new ContentFilterMock());
-		filter.setFilters(filters);
-	}
+    filter = new MultiContentFilter();
+    filter.setDefaultHandler(new ContentFilterMock());
+    filter.setFilters(filters);
+  }
 
-	@After
-	public void tearDown() {
-		filter = null;
-	}
+  @After public void tearDown() {
+    filter = null;
+  }
 
-	@Test
-	public void testValidate() throws Exception {
-		filter.validate("text/plain", new StringReader("Testing"));
-	}
+  @Test public void testValidate() throws Exception {
+    filter.validate("text/plain", new StringReader("Testing"));
+  }
 
-	@Test(expected = InvalidContentException.class)
-	public void testValidateFailure() throws Exception {
-		String prefix = filter.getPrefix("application/xhtml+xml");
-		String suffix = filter.getSuffix("application/xhtml+xml");
+  @Test(expected = InvalidContentException.class)
+  public void testValidateFailure() throws Exception {
+    String prefix = filter.getPrefix("application/xhtml+xml");
+    String suffix = filter.getSuffix("application/xhtml+xml");
 
-		assertEquals(XHTMLFilter.PREFIX, prefix);
-		assertEquals(XHTMLFilter.SUFFIX, suffix);
+    assertEquals(XHTMLFilter.PREFIX, prefix);
+    assertEquals(XHTMLFilter.SUFFIX, suffix);
 
-		List<Reader> readers = new ArrayList<Reader>();
-		if (prefix != null)
-			readers.add(new StringReader(prefix));
-		readers.add(new StringReader("<br>"));
-		if (suffix != null)
-			readers.add(new StringReader(suffix));
+    List<Reader> readers = new ArrayList<Reader>();
+    if (prefix != null)
+      readers.add(new StringReader(prefix));
+    readers.add(new StringReader("<br>"));
+    if (suffix != null)
+      readers.add(new StringReader(suffix));
 
-		try (Reader reader = new SequenceReader(readers)) {
-			filter.validate("application/xhtml+xml", reader);
-		}
-	}
+    try (Reader reader = new SequenceReader(readers)) {
+      filter.validate("application/xhtml+xml", reader);
+    }
+  }
 
-	@Test
-	public void testGetXSLTemplates() {
-		assertNotNull(filter.getXSLTemplates("text/plain"));
-		assertNotNull(filter.getXSLTemplates("application/xhtml+xml"));
-		assertNull(filter.getXSLTemplates("bogus"));
-	}
+  @Test public void testGetXSLTemplates() {
+    assertNotNull(filter.getXSLTemplates("text/plain"));
+    assertNotNull(filter.getXSLTemplates("application/xhtml+xml"));
+    assertNull(filter.getXSLTemplates("bogus"));
+  }
 
-	@Test
-	public void testGetXMLReader() throws Exception {
-		XMLReader reader = filter.getXMLReader(null, "text/plain");
-		reader.parse(new InputSource(new StringReader("testing")));
-	}
+  @Test public void testGetXMLReader() throws Exception {
+    XMLReader reader = filter.getXMLReader(null, "text/plain");
+    reader.parse(new InputSource(new StringReader("testing")));
+  }
 
-	@Test(expected = InvalidContentTypeException.class)
-	public void testNoDefaultHandler() throws Exception {
-		filter.setDefaultHandler(null);
-		filter.getPrefix("bogus");
-	}
+  @Test(expected = InvalidContentTypeException.class)
+  public void testNoDefaultHandler() throws Exception {
+    filter.setDefaultHandler(null);
+    filter.getPrefix("bogus");
+  }
 }

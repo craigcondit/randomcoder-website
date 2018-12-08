@@ -1,16 +1,5 @@
 package org.randomcoder.mvc.controller;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.db.Article;
 import org.randomcoder.feed.FeedException;
@@ -19,135 +8,135 @@ import org.randomcoder.feed.FeedInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.List;
+
 /**
  * Feed controller which generates feeds for all articles.
  */
-@Controller("feedController")
-public class FeedController {
-	private static final int ARTICLE_LIMIT = 20;
-	private static final String FEED_TITLE = "randomCoder";
-	private static final String FEED_SUBTITLE = "// TODO build a better web";
+@Controller("feedController") public class FeedController {
+  private static final int ARTICLE_LIMIT = 20;
+  private static final String FEED_TITLE = "randomCoder";
+  private static final String FEED_SUBTITLE = "// TODO build a better web";
 
-	private static final URL ATOM_ALL_URL;
-	private static final URL RSS20_ALL_URL;
-	private static final URL ALT_URL;
-	static {
-		try {
-			ATOM_ALL_URL = new URL("https://randomcoder.org/feeds/atom/all");
-			RSS20_ALL_URL = new URL("https://randomcoder.org/feeds/rss20/all");
-			ALT_URL = new URL("https://randomcoder.org/");
-		} catch (MalformedURLException e) {
-			throw new ExceptionInInitializerError(e);
-		}
-	}
+  private static final URL ATOM_ALL_URL;
+  private static final URL RSS20_ALL_URL;
+  private static final URL ALT_URL;
 
-	private FeedGenerator atomFeedGenerator;
-	private FeedGenerator rss20FeedGenerator;
-	private ArticleBusiness articleBusiness;
+  static {
+    try {
+      ATOM_ALL_URL = new URL("https://randomcoder.org/feeds/atom/all");
+      RSS20_ALL_URL = new URL("https://randomcoder.org/feeds/rss20/all");
+      ALT_URL = new URL("https://randomcoder.org/");
+    } catch (MalformedURLException e) {
+      throw new ExceptionInInitializerError(e);
+    }
+  }
 
-	/**
-	 * Sets the Atom feed generator.
-	 * 
-	 * @param atomFeedGenerator
-	 *            atom feed generator
-	 */
-	@Inject
-	@Named("atomFeedGenerator")
-	public void setAtomFeedGenerator(FeedGenerator atomFeedGenerator) {
-		this.atomFeedGenerator = atomFeedGenerator;
-	}
+  private FeedGenerator atomFeedGenerator;
+  private FeedGenerator rss20FeedGenerator;
+  private ArticleBusiness articleBusiness;
 
-	/**
-	 * Sets the RSS 2.0 feed generator.
-	 * 
-	 * @param rss20FeedGenerator
-	 *            RSS 2.0 feed generator
-	 */
-	@Inject
-	@Named("rss20FeedGenerator")
-	public void setRss20FeedGenerator(FeedGenerator rss20FeedGenerator) {
-		this.rss20FeedGenerator = rss20FeedGenerator;
-	}
+  /**
+   * Sets the Atom feed generator.
+   *
+   * @param atomFeedGenerator atom feed generator
+   */
+  @Inject @Named("atomFeedGenerator") public void setAtomFeedGenerator(
+      FeedGenerator atomFeedGenerator) {
+    this.atomFeedGenerator = atomFeedGenerator;
+  }
 
-	/**
-	 * Sets the ArticleBusiness implementation to use.
-	 * 
-	 * @param articleBusiness
-	 *            ArticleBusiness implementation
-	 */
-	@Inject
-	public void setArticleBusiness(ArticleBusiness articleBusiness) {
-		this.articleBusiness = articleBusiness;
-	}
+  /**
+   * Sets the RSS 2.0 feed generator.
+   *
+   * @param rss20FeedGenerator RSS 2.0 feed generator
+   */
+  @Inject @Named("rss20FeedGenerator") public void setRss20FeedGenerator(
+      FeedGenerator rss20FeedGenerator) {
+    this.rss20FeedGenerator = rss20FeedGenerator;
+  }
 
-	/**
-	 * Generates the Atom feed for all articles.
-	 * 
-	 * @param response
-	 *            HTTP servlet response
-	 * @throws Exception
-	 *             if an error occurs
-	 */
-	@RequestMapping("/feeds/atom/all")
-	public void atomAllFeed(HttpServletResponse response) throws Exception {
-		generateFeed(atomFeedGenerator, response, "atom-all", ATOM_ALL_URL);
-	}
+  /**
+   * Sets the ArticleBusiness implementation to use.
+   *
+   * @param articleBusiness ArticleBusiness implementation
+   */
+  @Inject public void setArticleBusiness(ArticleBusiness articleBusiness) {
+    this.articleBusiness = articleBusiness;
+  }
 
-	/**
-	 * Generates the RSS 2.0 feed for all articles.
-	 * 
-	 * @param response
-	 *            HTTP servlet response
-	 * @throws Exception
-	 *             if an error occurs
-	 */
-	@RequestMapping("/feeds/rss20/all")
-	public void rss20AllFeed(HttpServletResponse response) throws Exception {
-		generateFeed(rss20FeedGenerator, response, "rss20-all", RSS20_ALL_URL);
-	}
+  /**
+   * Generates the Atom feed for all articles.
+   *
+   * @param response HTTP servlet response
+   * @throws Exception if an error occurs
+   */
+  @RequestMapping("/feeds/atom/all") public void atomAllFeed(
+      HttpServletResponse response) throws Exception {
+    generateFeed(atomFeedGenerator, response, "atom-all", ATOM_ALL_URL);
+  }
 
-	private FeedInfo getFeed(String feedId, URL feedUrl) {
-		List<Article> articles = articleBusiness.listRecentArticles(ARTICLE_LIMIT);
+  /**
+   * Generates the RSS 2.0 feed for all articles.
+   *
+   * @param response HTTP servlet response
+   * @throws Exception if an error occurs
+   */
+  @RequestMapping("/feeds/rss20/all") public void rss20AllFeed(
+      HttpServletResponse response) throws Exception {
+    generateFeed(rss20FeedGenerator, response, "rss20-all", RSS20_ALL_URL);
+  }
 
-		FeedInfo feedInfo = new FeedInfo();
+  private FeedInfo getFeed(String feedId, URL feedUrl) {
+    List<Article> articles = articleBusiness.listRecentArticles(ARTICLE_LIMIT);
 
-		feedInfo.setFeedUrl(feedUrl);
-		feedInfo.setAltUrl(ALT_URL);
-		feedInfo.setFeedId(feedId);
-		feedInfo.setTitle(FEED_TITLE);
-		feedInfo.setSubtitle(FEED_SUBTITLE);
-		feedInfo.setArticles(articles);
+    FeedInfo feedInfo = new FeedInfo();
 
-		return feedInfo;
-	}
+    feedInfo.setFeedUrl(feedUrl);
+    feedInfo.setAltUrl(ALT_URL);
+    feedInfo.setFeedId(feedId);
+    feedInfo.setTitle(FEED_TITLE);
+    feedInfo.setSubtitle(FEED_SUBTITLE);
+    feedInfo.setArticles(articles);
 
-	private void generateFeed(FeedGenerator feedGenerator,
-			HttpServletResponse response, String feedId, URL feedUrl)
-			throws FeedException, IOException {
-		// get feed data
-		FeedInfo feedInfo = getFeed(feedId, feedUrl);
+    return feedInfo;
+  }
 
-		// generate feed
-		String feed = feedGenerator.generateFeed(feedInfo);
+  private void generateFeed(FeedGenerator feedGenerator,
+      HttpServletResponse response, String feedId, URL feedUrl)
+      throws FeedException, IOException {
+    // get feed data
+    FeedInfo feedInfo = getFeed(feedId, feedUrl);
 
-		// output feed
-		byte[] data = feed.getBytes(Charset.forName("UTF-8"));
+    // generate feed
+    String feed = feedGenerator.generateFeed(feedInfo);
 
-		response.setContentType(feedGenerator.getContentType());
-		response.setContentLength(data.length);
+    // output feed
+    byte[] data = feed.getBytes(Charset.forName("UTF-8"));
 
-		ServletOutputStream out = null;
+    response.setContentType(feedGenerator.getContentType());
+    response.setContentLength(data.length);
 
-		try {
-			out = response.getOutputStream();
-			out.write(data);
-		} finally {
-			if (out != null)
-				try {
-					out.close();
-				} catch (Throwable ignored) {
-				}
-		}
-	}
+    ServletOutputStream out = null;
+
+    try {
+      out = response.getOutputStream();
+      out.write(data);
+    } finally {
+      if (out != null)
+        try {
+          out.close();
+        } catch (Throwable ignored) {
+        }
+    }
+  }
 
 }

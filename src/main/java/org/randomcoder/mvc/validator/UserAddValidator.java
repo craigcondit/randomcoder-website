@@ -1,7 +1,5 @@
 package org.randomcoder.mvc.validator;
 
-import javax.inject.Inject;
-
 import org.apache.commons.lang.StringUtils;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.mvc.command.UserAddCommand;
@@ -11,170 +9,179 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import javax.inject.Inject;
+
 /**
  * Validator used for adding users.
  */
-@Component("userAddValidator")
-public class UserAddValidator implements Validator {
-	private static final int DEFAULT_MINIMUM_USERNAME_LENGTH = 3;
-	private static final int DEFAULT_MINIMUM_PASSWORD_LENGTH = 6;
+@Component("userAddValidator") public class UserAddValidator
+    implements Validator {
+  private static final int DEFAULT_MINIMUM_USERNAME_LENGTH = 3;
+  private static final int DEFAULT_MINIMUM_PASSWORD_LENGTH = 6;
 
-	private static final String ERROR_USER_NULL = "error.user.null";
-	private static final String ERROR_USERNAME_REQUIRED = "error.user.username.required";
-	private static final String ERROR_USERNAME_TOO_SHORT = "error.user.username.tooshort";
-	private static final String ERROR_USERNAME_EXISTS = "error.user.username.exists";
-	private static final String ERROR_EMAIL_ADDRESS_REQUIRED = "error.user.emailaddress.required";
-	private static final String ERROR_EMAIL_ADDRESS_INVALID = "error.user.emailaddress.invalid";
-	private static final String ERROR_WEBSITE_INVALID = "error.user.website.invalid";
-	private static final String ERROR_PASSWORD_REQUIRED = "error.user.password.required";
-	private static final String ERROR_PASSWORD_TOO_SHORT = "error.user.password.tooshort";
-	private static final String ERROR_PASSWORD_NO_MATCH = "error.user.password.nomatch";
+  private static final String ERROR_USER_NULL = "error.user.null";
+  private static final String ERROR_USERNAME_REQUIRED =
+      "error.user.username.required";
+  private static final String ERROR_USERNAME_TOO_SHORT =
+      "error.user.username.tooshort";
+  private static final String ERROR_USERNAME_EXISTS =
+      "error.user.username.exists";
+  private static final String ERROR_EMAIL_ADDRESS_REQUIRED =
+      "error.user.emailaddress.required";
+  private static final String ERROR_EMAIL_ADDRESS_INVALID =
+      "error.user.emailaddress.invalid";
+  private static final String ERROR_WEBSITE_INVALID =
+      "error.user.website.invalid";
+  private static final String ERROR_PASSWORD_REQUIRED =
+      "error.user.password.required";
+  private static final String ERROR_PASSWORD_TOO_SHORT =
+      "error.user.password.tooshort";
+  private static final String ERROR_PASSWORD_NO_MATCH =
+      "error.user.password.nomatch";
 
-	private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
-	private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;
-	private UserBusiness userBusiness;
+  private int minimumPasswordLength = DEFAULT_MINIMUM_PASSWORD_LENGTH;
+  private int minimumUsernameLength = DEFAULT_MINIMUM_USERNAME_LENGTH;
+  private UserBusiness userBusiness;
 
-	/**
-	 * Sets the minimum password length.
-	 * 
-	 * @param minimumPasswordLength
-	 *            minimum password length
-	 */
-	@Value("${password.length.minimum}")
-	public void setMinimumPasswordLength(int minimumPasswordLength) {
-		this.minimumPasswordLength = minimumPasswordLength;
-	}
+  /**
+   * Sets the minimum password length.
+   *
+   * @param minimumPasswordLength minimum password length
+   */
+  @Value("${password.length.minimum}") public void setMinimumPasswordLength(
+      int minimumPasswordLength) {
+    this.minimumPasswordLength = minimumPasswordLength;
+  }
 
-	/**
-	 * Sets the minimum username length.
-	 * 
-	 * @param minimumUsernameLength
-	 *            minimum username length
-	 */
-	@Value("${username.length.minimum}")
-	public void setMinimumUsernameLength(int minimumUsernameLength) {
-		this.minimumUsernameLength = minimumUsernameLength;
-	}
+  /**
+   * Sets the minimum username length.
+   *
+   * @param minimumUsernameLength minimum username length
+   */
+  @Value("${username.length.minimum}") public void setMinimumUsernameLength(
+      int minimumUsernameLength) {
+    this.minimumUsernameLength = minimumUsernameLength;
+  }
 
-	/**
-	 * Sets the UserBusiness implementation to use.
-	 * 
-	 * @param userBusiness
-	 *            UserBusiness implementation
-	 */
-	@Inject
-	public void setUserBusiness(UserBusiness userBusiness) {
-		this.userBusiness = userBusiness;
-	}
+  /**
+   * Sets the UserBusiness implementation to use.
+   *
+   * @param userBusiness UserBusiness implementation
+   */
+  @Inject public void setUserBusiness(UserBusiness userBusiness) {
+    this.userBusiness = userBusiness;
+  }
 
-	/**
-	 * Determines if this validator supports the given class.
-	 * 
-	 * @param targetClass
-	 *            class to check
-	 * @return true if targetClass is {@code UserAddCommand}, false otherwise
-	 */
-	@Override
-	public boolean supports(Class<?> targetClass) {
-		return UserAddCommand.class.equals(targetClass);
-	}
+  /**
+   * Determines if this validator supports the given class.
+   *
+   * @param targetClass class to check
+   * @return true if targetClass is {@code UserAddCommand}, false otherwise
+   */
+  @Override public boolean supports(Class<?> targetClass) {
+    return UserAddCommand.class.equals(targetClass);
+  }
 
-	/**
-	 * Validates the given object.
-	 * 
-	 * @param target
-	 *            object to validate
-	 * @param errors
-	 *            error object to populate with validation errors
-	 */
-	@Override
-	public void validate(Object target, Errors errors) {
-		UserAddCommand command = (UserAddCommand) target;
+  /**
+   * Validates the given object.
+   *
+   * @param target object to validate
+   * @param errors error object to populate with validation errors
+   */
+  @Override public void validate(Object target, Errors errors) {
+    UserAddCommand command = (UserAddCommand) target;
 
-		if (!validateCommon(command, errors)) {
-			return;
-		}
+    if (!validateCommon(command, errors)) {
+      return;
+    }
 
-		// username
-		String userName = command.getUserName();
-		if (userName == null) {
-			errors.rejectValue("userName", ERROR_USERNAME_REQUIRED, "Username required.");
-		} else if (userName.length() < minimumUsernameLength) {
-			errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT,
-					new Object[] { Integer.valueOf(minimumUsernameLength) }, "Username too short.");
-		} else if (userBusiness.findUserByName(userName) != null) {
-			errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");
-		}
+    // username
+    String userName = command.getUserName();
+    if (userName == null) {
+      errors.rejectValue("userName", ERROR_USERNAME_REQUIRED,
+          "Username required.");
+    } else if (userName.length() < minimumUsernameLength) {
+      errors.rejectValue("userName", ERROR_USERNAME_TOO_SHORT,
+          new Object[] { Integer.valueOf(minimumUsernameLength) },
+          "Username too short.");
+    } else if (userBusiness.findUserByName(userName) != null) {
+      errors.rejectValue("userName", ERROR_USERNAME_EXISTS, "Username exists.");
+    }
 
-		// password
-		String password = command.getPassword();
-		if (password == null || password.trim().length() == 0) {
-			errors.rejectValue("password", ERROR_PASSWORD_REQUIRED, "Password required.");
-		}
+    // password
+    String password = command.getPassword();
+    if (password == null || password.trim().length() == 0) {
+      errors.rejectValue("password", ERROR_PASSWORD_REQUIRED,
+          "Password required.");
+    }
 
-		// password2, but only if no other errors
-		if (errors.getFieldErrorCount("password2") == 0) {
-			String password2 = command.getPassword2();
-			if (password2 == null || password2.trim().length() == 0) {
-				errors.rejectValue("password2", ERROR_PASSWORD_REQUIRED, "Password required.");
-			}
-		}
+    // password2, but only if no other errors
+    if (errors.getFieldErrorCount("password2") == 0) {
+      String password2 = command.getPassword2();
+      if (password2 == null || password2.trim().length() == 0) {
+        errors.rejectValue("password2", ERROR_PASSWORD_REQUIRED,
+            "Password required.");
+      }
+    }
 
-	}
+  }
 
-	/**
-	 * Validate errors common to this class and subclasses.
-	 * 
-	 * @param command
-	 *            command to validate
-	 * @param errors
-	 *            errors
-	 * @return true if validation should continue, false otherwise
-	 */
-	protected boolean validateCommon(UserAddCommand command, Errors errors) {
-		if (command == null) {
-			errors.reject(ERROR_USER_NULL, "Null data received");
-			// do not continue processing, as this will lead to NPEs later
-			return false;
-		}
+  /**
+   * Validate errors common to this class and subclasses.
+   *
+   * @param command command to validate
+   * @param errors  errors
+   * @return true if validation should continue, false otherwise
+   */
+  protected boolean validateCommon(UserAddCommand command, Errors errors) {
+    if (command == null) {
+      errors.reject(ERROR_USER_NULL, "Null data received");
+      // do not continue processing, as this will lead to NPEs later
+      return false;
+    }
 
-		// email address
-		String emailAddress = command.getEmailAddress();
-		if (emailAddress == null) {
-			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_REQUIRED, "Email address required.");
-		} else if (!DataValidationUtils.isValidEmailAddress(emailAddress)) {
-			errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID, "Email address invalid.");
-		}
+    // email address
+    String emailAddress = command.getEmailAddress();
+    if (emailAddress == null) {
+      errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_REQUIRED,
+          "Email address required.");
+    } else if (!DataValidationUtils.isValidEmailAddress(emailAddress)) {
+      errors.rejectValue("emailAddress", ERROR_EMAIL_ADDRESS_INVALID,
+          "Email address invalid.");
+    }
 
-		// web site
-		String website = command.getWebsite();
-		if (website != null) {
-			if (website.length() > 255 || !DataValidationUtils.isValidUrl(website)) {
-				errors.rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
-			}
-		}
+    // web site
+    String website = command.getWebsite();
+    if (website != null) {
+      if (website.length() > 255 || !DataValidationUtils.isValidUrl(website)) {
+        errors
+            .rejectValue("website", ERROR_WEBSITE_INVALID, "Website invalid.");
+      }
+    }
 
-		// password (if specified)
-		String password = StringUtils.defaultIfEmpty(command.getPassword(), "");
+    // password (if specified)
+    String password = StringUtils.defaultIfEmpty(command.getPassword(), "");
 
-		if (password.length() > 0) {
-			// password is specified, so validate it
-			if (password.trim().length() < minimumPasswordLength) {
-				errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT,
-						new Object[] { Integer.valueOf(minimumPasswordLength) }, "Password too short.");
-			}
+    if (password.length() > 0) {
+      // password is specified, so validate it
+      if (password.trim().length() < minimumPasswordLength) {
+        errors.rejectValue("password", ERROR_PASSWORD_TOO_SHORT,
+            new Object[] { Integer.valueOf(minimumPasswordLength) },
+            "Password too short.");
+      }
 
-		}
+    }
 
-		// compare passwords if at least one is specified
-		String password2 = StringUtils.defaultIfEmpty(command.getPassword2(), "");
+    // compare passwords if at least one is specified
+    String password2 = StringUtils.defaultIfEmpty(command.getPassword2(), "");
 
-		if (password.length() > 0 || password2.length() > 0) {
-			if (!password.equals(password2)) {
-				errors.rejectValue("password2", ERROR_PASSWORD_NO_MATCH, "Passwords don't match.");
-			}
-		}
+    if (password.length() > 0 || password2.length() > 0) {
+      if (!password.equals(password2)) {
+        errors.rejectValue("password2", ERROR_PASSWORD_NO_MATCH,
+            "Passwords don't match.");
+      }
+    }
 
-		return true;
-	}
+    return true;
+  }
 }

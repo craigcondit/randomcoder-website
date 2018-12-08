@@ -1,64 +1,65 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
-  <appender name="journal" class="org.randomcoder.log4j.SystemdJournalAppender">
-    <param name="SyslogIdentifier" value="randomcoder-website" />
-    <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern" value="%c: %m%n" />
-    </layout>
-  </appender>
-  
-  <logger name="org.randomcoder">
-    <level value="info" />
-  </logger>
+    <appender name="journal"
+              class="org.randomcoder.log4j.SystemdJournalAppender">
+        <param name="SyslogIdentifier" value="randomcoder-website"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%c: %m%n"/>
+        </layout>
+    </appender>
 
-  <logger name="org.randomcoder.dao.hibernate">
-    <level value="warn" />
-  </logger>
+    <logger name="org.randomcoder">
+        <level value="info"/>
+    </logger>
 
-  <logger name="org.randomcoder.mvc">
-    <level value="warn" />
-  </logger>
+    <logger name="org.randomcoder.dao.hibernate">
+        <level value="warn"/>
+    </logger>
 
-  <logger name="httpclient.wire">
-    <level value="warn" />
-  </logger>
+    <logger name="org.randomcoder.mvc">
+        <level value="warn"/>
+    </logger>
 
-  <logger name="net.sf.ehcache">
-    <level value="warn" />
-  </logger>
+    <logger name="httpclient.wire">
+        <level value="warn"/>
+    </logger>
 
-  <logger name="org.apache">
-    <level value="warn" />
-  </logger>
-  
-  <logger name="org.eclipse.jetty">
-    <level value="warn" />
-  </logger>
-  
-  <logger name="org.thymeleaf">
-    <level value="warn" />
-  </logger>
-  
-  <logger name="org.springframework">
-    <level value="warn" />
-  </logger>
-  
-  <logger name="uk.ltd.getahead.dwr">
-    <level value="warn" />
-  </logger>
+    <logger name="net.sf.ehcache">
+        <level value="warn"/>
+    </logger>
 
-  <logger name="org.hibernate">
-    <level value="warn" />
-  </logger>
-  
-  <logger name="org.hibernate.SQL">
-    <level value="warn" />
-  </logger>
+    <logger name="org.apache">
+        <level value="warn"/>
+    </logger>
 
-  <root>
-    <priority value="debug" />
-    <appender-ref ref="journal" />
-  </root>
+    <logger name="org.eclipse.jetty">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.thymeleaf">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.springframework">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="uk.ltd.getahead.dwr">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.hibernate">
+        <level value="warn"/>
+    </logger>
+
+    <logger name="org.hibernate.SQL">
+        <level value="warn"/>
+    </logger>
+
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="journal"/>
+    </root>
 
 </log4j:configuration>

@@ -1,11 +1,5 @@
 package org.randomcoder.mvc.command;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -13,203 +7,201 @@ import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.randomcoder.io.Producer;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Command class for adding users.
  */
 public class UserAddCommand implements Serializable, Producer<User> {
-	private static final long serialVersionUID = -4063217084413700225L;
+  private static final long serialVersionUID = -4063217084413700225L;
 
-	private String userName;
-	private String emailAddress;
-	private String website;
-	private boolean enabled;
-	private String password;
-	private String password2;
+  private String userName;
+  private String emailAddress;
+  private String website;
+  private boolean enabled;
+  private String password;
+  private String password2;
 
-	private Role[] roles;
+  private Role[] roles;
 
-	/**
-	 * Gets the username of this user.
-	 * 
-	 * @return user name
-	 */
-	public String getUserName() {
-		return userName;
-	}
+  /**
+   * Gets the username of this user.
+   *
+   * @return user name
+   */
+  public String getUserName() {
+    return userName;
+  }
 
-	/**
-	 * Sets the username of this user.
-	 * 
-	 * @param userName
-	 *            user name
-	 */
-	public void setUserName(String userName) {
-		this.userName = StringUtils.trimToNull(userName);
-	}
+  /**
+   * Sets the username of this user.
+   *
+   * @param userName user name
+   */
+  public void setUserName(String userName) {
+    this.userName = StringUtils.trimToNull(userName);
+  }
 
-	/**
-	 * Gets the email address of this user.
-	 * 
-	 * @return email address
-	 */
-	public String getEmailAddress() {
-		return emailAddress;
-	}
+  /**
+   * Gets the email address of this user.
+   *
+   * @return email address
+   */
+  public String getEmailAddress() {
+    return emailAddress;
+  }
 
-	/**
-	 * Sets the email address of this user.
-	 * 
-	 * @param emailAddress
-	 *            email address
-	 */
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = StringUtils.trimToNull(emailAddress);
-	}
+  /**
+   * Sets the email address of this user.
+   *
+   * @param emailAddress email address
+   */
+  public void setEmailAddress(String emailAddress) {
+    this.emailAddress = StringUtils.trimToNull(emailAddress);
+  }
 
-	/**
-	 * Sets the web site for this user.
-	 * 
-	 * @param website
-	 *            web site
-	 */
-	public void setWebsite(String website) {
-		this.website = StringUtils.trimToNull(website);
-	}
+  /**
+   * Sets the web site for this user.
+   *
+   * @param website web site
+   */
+  public void setWebsite(String website) {
+    this.website = StringUtils.trimToNull(website);
+  }
 
-	/**
-	 * Gets the website for this user.
-	 * 
-	 * @return web site
-	 */
-	public String getWebsite() {
-		return website;
-	}
+  /**
+   * Gets the website for this user.
+   *
+   * @return web site
+   */
+  public String getWebsite() {
+    return website;
+  }
 
-	/**
-	 * Determines if this user is enabled.
-	 * 
-	 * @return true if enabled, false otherwise
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
+  /**
+   * Determines if this user is enabled.
+   *
+   * @return true if enabled, false otherwise
+   */
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-	/**
-	 * Sets whether this user is enabled.
-	 * 
-	 * @param enabled
-	 *            true if enabled, false otherwise
-	 */
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+  /**
+   * Sets whether this user is enabled.
+   *
+   * @param enabled true if enabled, false otherwise
+   */
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-	/**
-	 * Gets the password associated with this user.
-	 * 
-	 * @return password
-	 */
-	public String getPassword() {
-		return password;
-	}
+  /**
+   * Gets the password associated with this user.
+   *
+   * @return password
+   */
+  public String getPassword() {
+    return password;
+  }
 
-	/**
-	 * Sets the password associated with this user.
-	 * 
-	 * @param password
-	 *            password
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  /**
+   * Sets the password associated with this user.
+   *
+   * @param password password
+   */
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	/**
-	 * Gets the password for this user again for validation.
-	 * 
-	 * @return password
-	 */
-	public String getPassword2() {
-		return password2;
-	}
+  /**
+   * Gets the password for this user again for validation.
+   *
+   * @return password
+   */
+  public String getPassword2() {
+    return password2;
+  }
 
-	/**
-	 * Sets the password for this user again for validation.
-	 * 
-	 * @param password2
-	 *            password
-	 */
-	public void setPassword2(String password2) {
-		this.password2 = password2;
-	}
+  /**
+   * Sets the password for this user again for validation.
+   *
+   * @param password2 password
+   */
+  public void setPassword2(String password2) {
+    this.password2 = password2;
+  }
 
-	/**
-	 * Gets the roles associated with this user.
-	 * 
-	 * @return array of roles
-	 */
-	public Role[] getRoles() {
-		return roles;
-	}
+  /**
+   * Gets the roles associated with this user.
+   *
+   * @return array of roles
+   */
+  public Role[] getRoles() {
+    return roles;
+  }
 
-	/**
-	 * Sets the roles associated with this user.
-	 * 
-	 * @param roles
-	 *            array of roles
-	 */
-	public void setRoles(Role[] roles) {
-		this.roles = roles;
-	}
+  /**
+   * Sets the roles associated with this user.
+   *
+   * @param roles array of roles
+   */
+  public void setRoles(Role[] roles) {
+    this.roles = roles;
+  }
 
-	/**
-	 * Writes out the contents of the current form to the given user.
-	 */
-	@Override
-	public void produce(User user) {
-		if (user.getId() == null) {
-			user.setUserName(userName); // only for new users
-		}
+  /**
+   * Writes out the contents of the current form to the given user.
+   */
+  @Override public void produce(User user) {
+    if (user.getId() == null) {
+      user.setUserName(userName); // only for new users
+    }
 
-		user.setEmailAddress(emailAddress);
-		user.setWebsite(website);
-		user.setEnabled(enabled);
+    user.setEmailAddress(emailAddress);
+    user.setWebsite(website);
+    user.setEnabled(enabled);
 
-		if (password != null && password.trim().length() > 0) {
-			user.setPassword(User.hashPassword(password));
-		}
+    if (password != null && password.trim().length() > 0) {
+      user.setPassword(User.hashPassword(password));
+    }
 
-		if (user.getRoles() == null) {
-			user.setRoles(new ArrayList<Role>());
-		}
+    if (user.getRoles() == null) {
+      user.setRoles(new ArrayList<Role>());
+    }
 
-		Set<Role> currentRoles = new HashSet<>(user.getRoles());
-		Set<Role> selectedRoles = new HashSet<>();
-		if (roles != null) {
-			selectedRoles.addAll(Arrays.asList(roles));
-		}
+    Set<Role> currentRoles = new HashSet<>(user.getRoles());
+    Set<Role> selectedRoles = new HashSet<>();
+    if (roles != null) {
+      selectedRoles.addAll(Arrays.asList(roles));
+    }
 
-		// get list of deleted roles (current - selected)
-		Set<Role> deletedRoles = new HashSet<>(currentRoles);
-		deletedRoles.removeAll(selectedRoles);
+    // get list of deleted roles (current - selected)
+    Set<Role> deletedRoles = new HashSet<>(currentRoles);
+    deletedRoles.removeAll(selectedRoles);
 
-		// get list of added roles (selected - current)
-		Set<Role> addedRoles = new HashSet<>(selectedRoles);
-		addedRoles.removeAll(currentRoles);
+    // get list of added roles (selected - current)
+    Set<Role> addedRoles = new HashSet<>(selectedRoles);
+    addedRoles.removeAll(currentRoles);
 
-		// remove deleted roles
-		user.getRoles().removeAll(deletedRoles);
+    // remove deleted roles
+    user.getRoles().removeAll(deletedRoles);
 
-		// add new roles
-		user.getRoles().addAll(addedRoles);
-	}
+    // add new roles
+    user.getRoles().addAll(addedRoles);
+  }
 
-	/**
-	 * Gets a string representation of this object, suitable for debugging.
-	 * 
-	 * @return string representation of this object
-	 */
-	@Override
-	public String toString() {
-		return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).toString();
-	}
+  /**
+   * Gets a string representation of this object, suitable for debugging.
+   *
+   * @return string representation of this object
+   */
+  @Override public String toString() {
+    return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+        .toString();
+  }
 }
