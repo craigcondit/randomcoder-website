@@ -133,7 +133,7 @@ public class AbsArticleListControllerTest {
         Date cutoffDate, Pageable pageable) {
       assertEquals(0, pageable.getOffset());
       assertEquals(10, pageable.getPageSize());
-      assertEquals(new Sort(Direction.DESC, "creationDate"),
+      assertEquals(Sort.by("creationDate").descending(),
           pageable.getSort());
       return new PageImpl<>(Collections.singletonList(createArticle()));
     }

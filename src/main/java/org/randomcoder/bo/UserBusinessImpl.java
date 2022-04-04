@@ -100,7 +100,7 @@ import java.util.List;
 
   @Override @Transactional(value = "transactionManager", readOnly = true)
   public List<Role> listRoles() {
-    return roleRepository.findAll(new Sort(Direction.ASC, "description"));
+    return roleRepository.findAll(Sort.by("description"));
   }
 
   @Override @Transactional(value = "transactionManager", readOnly = true)

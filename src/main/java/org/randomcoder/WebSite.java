@@ -1,7 +1,6 @@
 package org.randomcoder;
 
 import org.randomcoder.config.JettyContext;
-import org.randomcoder.logging.Log4jConfigurer;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
@@ -56,10 +55,6 @@ public class WebSite {
     if (env.getActiveProfiles().length == 0) {
       env.addActiveProfile("dev");
     }
-
-    boolean dev = Arrays.asList(env.getActiveProfiles()).contains("dev");
-    Log4jConfigurer.initLogging(
-        "classpath:" + log4jPrefix + (dev ? "dev" : "prod") + ".xml");
 
     File configDir = new File(CONFIG_DIR);
 
