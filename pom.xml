@@ -38,7 +38,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <distributionManagement />
     <repositories>
         <repository>
             <id>github-randomcoder-parent</id>
@@ -410,6 +409,9 @@
             </plugin>
             <plugin>
                 <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                  <goals>install</goals>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -486,52 +488,6 @@
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>${maven.site.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>sql-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [${sql.maven.plugin.version},)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>execute</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute>
-                                            <runOnIncremental>false
-                                            </runOnIncremental>
-                                        </execute>
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.jacoco</groupId>
-                                        <artifactId>jacoco-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [${jacoco.maven.plugin.version},)
-                                        </versionRange>
-                                        <goals>
-                                            <goal>prepare-agent</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
