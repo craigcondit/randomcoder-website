@@ -38,12 +38,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <distributionManagement>
-        <repository>
-            <id>github-randomcoder-website</id>
-            <url>https://maven.pkg.github.com/craigcondit/randomcoder-website</url>
-        </repository>
-    </distributionManagement>
     <repositories>
         <repository>
             <id>github-randomcoder-parent</id>
