@@ -38,6 +38,7 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <distributionManagement />
     <repositories>
         <repository>
             <id>github-randomcoder-parent</id>
