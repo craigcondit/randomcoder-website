@@ -11,6 +11,7 @@ import org.xml.sax.XMLReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +26,10 @@ public class MultiContentFilterTest {
   @Before public void setUp() throws Exception {
     Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
     filters.put("text/plain", new TextFilter());
-    filters.put("application/xhtml+xml", new XHTMLFilter());
+    filters.put("application/xhtml+xml", new XHTMLFilter(Collections.emptySet()));
 
-    filter = new MultiContentFilter();
+    filter = new MultiContentFilter(filters);
     filter.setDefaultHandler(new ContentFilterMock());
-    filter.setFilters(filters);
   }
 
   @After public void tearDown() {

@@ -2,7 +2,6 @@ package org.randomcoder.content;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -84,25 +83,21 @@ public class XHTMLFilter implements ContentFilter {
 
   private final Templates templates;
   private final Schema schema;
-
-  private Set<String> allowedClasses = new HashSet<String>();
+  private final Set<String> allowedClasses;
 
   /**
-   * Sets a list of allowed CSS class names in the markup.
+   * Constructs a new XHTML filter.
    *
    * @param allowedClasses Set of CSS class names
-   */
-  @Required public void setAllowedClasses(Set<String> allowedClasses) {
-    this.allowedClasses = allowedClasses;
-  }
-
-  /**
-   * Constructs a new XHTML filter
    *
    * @throws TransformerConfigurationException if transformer factory fails
    * @throws SAXException                      if schema validation fails
    */
-  public XHTMLFilter() throws TransformerConfigurationException, SAXException {
+  public XHTMLFilter(Set<String> allowedClasses)
+      throws TransformerConfigurationException, SAXException {
+
+    this.allowedClasses = allowedClasses;
+
     // cache templates for later use
     TransformerFactory tFactory = TransformerFactory.newInstance();
     templates = tFactory.newTemplates(new SAXSource(

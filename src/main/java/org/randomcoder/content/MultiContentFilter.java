@@ -1,6 +1,5 @@
 package org.randomcoder.content;
 
-import org.springframework.beans.factory.annotation.Required;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -40,15 +39,15 @@ import java.util.Map;
  * </pre>
  */
 public class MultiContentFilter implements ContentFilter {
-  private Map<String, ContentFilter> filters;
+  private final Map<String, ContentFilter> filters;
   private ContentFilter defaultFilter;
 
   /**
-   * Sets a map of filters keyed by content type to use.
+   * Creates a new filter.
    *
    * @param filters filter map
    */
-  @Required public void setFilters(Map<String, ContentFilter> filters) {
+  public MultiContentFilter(Map<String, ContentFilter> filters) {
     this.filters = filters;
   }
 

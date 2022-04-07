@@ -2,7 +2,7 @@ package org.randomcoder.pagination;
 
 import org.springframework.data.domain.Page;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;

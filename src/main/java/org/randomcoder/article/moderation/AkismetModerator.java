@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Required;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -29,41 +28,28 @@ public class AkismetModerator
 
   private MultiThreadedHttpConnectionManager connectionManager;
 
-  private String apiKey;
-  private String siteUrl;
-  private String userAgent;
+  private final String apiKey;
+  private final String siteUrl;
+  private final String userAgent;
 
   /**
-   * Sets the Akismet API key to use.
+   * Creates a new moderator.
    *
    * @param apiKey API key
-   */
-  @Required public void setApiKey(String apiKey) {
-    this.apiKey = apiKey;
-  }
-
-  /**
-   * Sets the base url of the client site.
-   *
    * @param siteUrl site url
-   */
-  @Required public void setSiteUrl(String siteUrl) {
-    this.siteUrl = siteUrl;
-  }
-
-  /**
-   * Sets the application information for this client.
-   *
    * @param appInfoBusiness application information
    */
-  @Required public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness) {
+  public AkismetModerator(String apiKey, String siteUrl, AppInfoBusiness appInfoBusiness) {
+    this.apiKey = apiKey;
+    this.siteUrl = siteUrl;
+
     String appName = appInfoBusiness.getApplicationName();
     String appVersion = appInfoBusiness.getApplicationVersion();
 
     appName = appName.replaceAll("\\s+", "-");
     appVersion = appVersion.replaceAll("\\s+", "_");
 
-    userAgent =
+    this.userAgent =
         appName + "/" + appVersion + " | " + getClass().getCanonicalName() + "/"
             + appVersion;
 

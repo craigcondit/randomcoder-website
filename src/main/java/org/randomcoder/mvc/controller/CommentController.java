@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 

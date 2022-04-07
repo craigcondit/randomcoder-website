@@ -1,7 +1,7 @@
 package org.randomcoder.security;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * HTTP servlet response wrapper which does no encoding of URLs.

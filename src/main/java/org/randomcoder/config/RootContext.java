@@ -24,7 +24,7 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -63,13 +63,11 @@ import java.util.concurrent.Executors;
   }
 
   @Bean public MultiContentFilter contentFilter() throws Exception {
-    MultiContentFilter mcf = new MultiContentFilter();
-
     Map<String, ContentFilter> filters = new HashMap<String, ContentFilter>();
     filters.put("text/plain", textFilter());
     filters.put("application/xhtml+xml", xhtmlFilter());
-    mcf.setFilters(filters);
 
+    MultiContentFilter mcf = new MultiContentFilter(filters);
     mcf.setDefaultHandler(textFilter());
     return mcf;
   }
@@ -79,43 +77,31 @@ import java.util.concurrent.Executors;
   }
 
   @Bean public ContentFilter xhtmlFilter() throws Exception {
-    XHTMLFilter filter = new XHTMLFilter();
-
     Set<String> ac = new HashSet<String>();
     ac.add("lang-xml");
     ac.add("lang-js");
     ac.add("lang-css");
     ac.add("external");
-    filter.setAllowedClasses(ac);
 
-    return filter;
+    return new XHTMLFilter(ac);
   }
 
   @Bean public FeedGenerator atomFeedGenerator(final AppInfoBusiness appInfo)
       throws Exception {
-    AtomFeedGenerator gen = new AtomFeedGenerator();
-    gen.setAppInfoBusiness(appInfo);
-    gen.setBaseUrl("https://randomcoder.org/");
-    gen.setUriPrefix("tag:randomcoder.org,2007:");
-    gen.setContentFilter(contentFilter());
-    return gen;
+    return new AtomFeedGenerator(appInfo, "https://randomcoder.org/", "tag:randomcoder.org,2007:", contentFilter());
   }
 
   @Bean public FeedGenerator rss20FeedGenerator(final AppInfoBusiness appInfo)
       throws Exception {
-    Rss20FeedGenerator gen = new Rss20FeedGenerator();
-    gen.setAppInfoBusiness(appInfo);
-    gen.setBaseUrl("https://randomcoder.org/");
-    gen.setContentFilter(contentFilter());
-    return gen;
+    return new Rss20FeedGenerator("https://randomcoder.org/", contentFilter(), appInfo);
   }
 
   @Bean
   public Moderator moderator(final AppInfoBusiness applicationInformation) {
-    AkismetModerator mod = new AkismetModerator();
-    mod.setAppInfoBusiness(applicationInformation);
-    mod.setApiKey(env.getRequiredProperty("akismet.site.key"));
-    mod.setSiteUrl(env.getRequiredProperty("akismet.site.url"));
-    return mod;
+    return new AkismetModerator(
+      env.getRequiredProperty("akismet.site.key"),
+      env.getRequiredProperty("akismet.site.url"),
+      applicationInformation);
   }
+
 }

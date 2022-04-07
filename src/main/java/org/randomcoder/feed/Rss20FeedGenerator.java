@@ -7,7 +7,6 @@ import org.randomcoder.content.ContentUtils;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.Tag;
 import org.randomcoder.xml.XmlUtils;
-import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -29,37 +28,24 @@ import java.util.Date;
  * Generator for RSS 1.0 feeds.
  */
 public class Rss20FeedGenerator implements FeedGenerator {
-  private AppInfoBusiness appInfoBusiness;
-  private URL baseUrl;
-  private ContentFilter contentFilter;
+  private final AppInfoBusiness appInfoBusiness;
+  private final URL baseUrl;
+  private final ContentFilter contentFilter;
 
   /**
-   * Sets the application information for this feed.
-   *
-   * @param appInfoBusiness application information
-   */
-  @Required public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness) {
-    this.appInfoBusiness = appInfoBusiness;
-  }
-
-  /**
-   * Sets the base URL to use for articles.
+   * Creates a new RSS 2.0 feed generator.
    *
    * @param baseUrl base URL
+   * @param contentFilter content filter
+   * @param appInfoBusiness application information
+   *
    * @throws MalformedURLException if URL is invalid
    */
-  @Required public void setBaseUrl(String baseUrl)
+  public Rss20FeedGenerator(String baseUrl, ContentFilter contentFilter, AppInfoBusiness appInfoBusiness)
       throws MalformedURLException {
     this.baseUrl = new URL(baseUrl);
-  }
-
-  /**
-   * Sets the content filter to use for transforming articles into XHTML.
-   *
-   * @param contentFilter content filter
-   */
-  @Required public void setContentFilter(ContentFilter contentFilter) {
     this.contentFilter = contentFilter;
+    this.appInfoBusiness = appInfoBusiness;
   }
 
   @Override public String generateFeed(FeedInfo info) throws FeedException {

@@ -26,9 +26,9 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.inject.Inject;
-import javax.servlet.DispatcherType;
-import javax.servlet.SessionTrackingMode;
+import jakarta.inject.Inject;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.SessionTrackingMode;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;

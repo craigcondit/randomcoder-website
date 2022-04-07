@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * Validator used for adding users.

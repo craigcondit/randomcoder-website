@@ -5,6 +5,7 @@ import org.randomcoder.test.mock.content.ContentFilterMock;
 import org.xml.sax.InputSource;
 
 import java.io.StringReader;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 
@@ -44,6 +45,6 @@ public class ContentUtilsTest {
   }
 
   @Test public void testFormatTextWithPrefixes() throws Exception {
-    ContentUtils.formatText("text", null, ContentType.XHTML, new XHTMLFilter());
+    ContentUtils.formatText("text", null, ContentType.XHTML, new XHTMLFilter(Collections.emptySet()));
   }
 }

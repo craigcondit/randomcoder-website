@@ -9,8 +9,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletRequest;
 
 import static org.easymock.EasyMock.createControl;
 import static org.easymock.EasyMock.isA;

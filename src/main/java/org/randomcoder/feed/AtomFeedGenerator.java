@@ -9,7 +9,6 @@ import org.randomcoder.db.Tag;
 import org.randomcoder.db.User;
 import org.randomcoder.validation.DataValidationUtils;
 import org.randomcoder.xml.XmlUtils;
-import org.springframework.beans.factory.annotation.Required;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,47 +42,30 @@ public class AtomFeedGenerator implements FeedGenerator {
   private static final String XHTML_NS = "http://www.w3.org/1999/xhtml";
   private static final String XHTML_NS_PREFIX = "xhtml";
 
-  private AppInfoBusiness appInfoBusiness;
-  private URL baseUrl;
-  private String uriPrefix;
-  private ContentFilter contentFilter;
+  private final AppInfoBusiness appInfoBusiness;
+  private final URL baseUrl;
+  private final String uriPrefix;
+  private final ContentFilter contentFilter;
 
   /**
-   * Sets the base URL to use for articles.
-   *
-   * @param baseUrl base URL
-   * @throws MalformedURLException if URL is invalid
-   */
-  @Required public void setBaseUrl(String baseUrl)
-      throws MalformedURLException {
-    this.baseUrl = new URL(baseUrl);
-  }
-
-  /**
-   * Sets the URI prefix used for generating unique identifiers.
-   *
-   * @param uriPrefix URI prefix
-   */
-  @Required public void setUriPrefix(String uriPrefix) {
-    this.uriPrefix = uriPrefix;
-  }
-
-  /**
-   * Sets the content filter to use for transforming articles into XHTML.
-   *
-   * @param contentFilter content filter
-   */
-  @Required public void setContentFilter(ContentFilter contentFilter) {
-    this.contentFilter = contentFilter;
-  }
-
-  /**
-   * Sets the AppInfoBusiness instance to use.
+   * Constructs a new Atom feed generator.
    *
    * @param appInfoBusiness AppInfoBusiness instance
+   * @param baseUrl base URL
+   * @param uriPrefix URI prefix
+   * @param contentFilter content filter
+   *
+   * @throws MalformedURLException if baseURL is invalid
    */
-  @Required public void setAppInfoBusiness(AppInfoBusiness appInfoBusiness) {
+  public AtomFeedGenerator(
+      AppInfoBusiness appInfoBusiness,
+      String baseUrl,
+      String uriPrefix,
+      ContentFilter contentFilter) throws MalformedURLException {
     this.appInfoBusiness = appInfoBusiness;
+    this.baseUrl = new URL(baseUrl);
+    this.uriPrefix = uriPrefix;
+    this.contentFilter = contentFilter;
   }
 
   @Override public String getContentType() {
