@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <param name="Target" value="System.out" />
+        <target>System.out</target>
         <encoder>
-            <pattern>%-5.5p - %c - %m%n</pattern>
+            <pattern>%-5.5p - %logger - %m%n</pattern>
         </encoder>
     </appender>
 

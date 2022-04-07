@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.controller;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleTagListCommand;

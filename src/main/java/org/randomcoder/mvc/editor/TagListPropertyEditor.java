@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.editor;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.db.Tag;
 import org.randomcoder.tag.TagList;

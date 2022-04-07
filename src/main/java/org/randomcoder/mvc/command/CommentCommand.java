@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.command;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.content.ContentType;
 import org.randomcoder.db.Comment;
 import org.randomcoder.io.Producer;

@@ -1,8 +1,8 @@
 package org.randomcoder.mvc.command;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.randomcoder.io.Producer;

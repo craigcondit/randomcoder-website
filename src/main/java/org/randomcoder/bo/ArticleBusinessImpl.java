@@ -1,6 +1,6 @@
 package org.randomcoder.bo;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Hibernate;
 import org.randomcoder.article.ArticleNotFoundException;
 import org.randomcoder.article.comment.CommentNotFoundException;

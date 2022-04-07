@@ -1,6 +1,6 @@
 package org.randomcoder.mvc.validator;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.mvc.command.UserAddCommand;
 import org.randomcoder.validation.DataValidationUtils;
