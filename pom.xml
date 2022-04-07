@@ -17,7 +17,6 @@
         <connection>scm:git:https://github.com/craigcondit/randomcoder-website.git</connection>
         <developerConnection>scm:git:git@github.com:craigcondit/randomcoder-website.git</developerConnection>
         <url>https://github.com/craigcondit/randomcoder-website</url>
-        <tag>randomcoder-website-4.2.0</tag>
     </scm>
     <developers>
         <developer>
