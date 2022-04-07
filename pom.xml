@@ -70,21 +70,19 @@
         <hsqldb.version>2.6.1</hsqldb.version>
         <logback.version>1.3.0-alpha14</logback.version>
         <postgresql.version>42.3.3</postgresql.version>
-        <easymock.version>3.6</easymock.version>
+        <easymock.version>4.3</easymock.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
         <thymeleaf.version>3.1.0.M1</thymeleaf.version>
         <thymeleaf.extras.springsecurity6.version>3.1.0.M1</thymeleaf.extras.springsecurity6.version>
-        <hibernate.version>5.6.7.Final</hibernate.version>
-        <hibernate.jcache.version>5.6.7.Final</hibernate.jcache.version>
-        <hibernate.validator.version>7.0.2.Final</hibernate.validator.version>
+        <hibernate.version>6.0.0.Final</hibernate.version>
+        <hibernate.jcache.version>6.0.0.Final</hibernate.jcache.version>
+        <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
         <ehcache.version>3.10.0</ehcache.version>
+        <bytebuddy.version>1.12.9</bytebuddy.version>
         <spring.version>6.0.0-M3</spring.version>
         <spring.security.version>6.0.0-M3</spring.security.version>
         <spring.data.jpa.version>3.0.0-M3</spring.data.jpa.version>
-        <jaxb.api.version>2.3.1</jaxb.api.version>
-        <jaxb.impl.version>2.3.6</jaxb.impl.version>
-        <jaxb.core.version>2.3.0.1</jaxb.core.version>
         <jakarta.jaxb.api.version>3.0.1</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>3.0.2</jakarta.jaxb.version>
         <jakarta.inject.version>2.0.1</jakarta.inject.version>
@@ -116,6 +114,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>${bytebuddy.version}</version>
+        </dependency>
+        <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
             <version>${jakarta.jaxb.api.version}</version>
@@ -130,21 +133,6 @@
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <version>${jakarta.jaxb.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>${jaxb.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-core</artifactId>
-            <version>${jaxb.core.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.impl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -302,8 +290,8 @@
             <version>${jetty.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core-jakarta</artifactId>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
             <exclusions>
                 <exclusion>
@@ -313,15 +301,14 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-jcache</artifactId>
             <version>${hibernate.jcache.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -332,6 +319,7 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
             <version>${ehcache.version}</version>
+            <classifier>jakarta</classifier>
             <exclusions>
                 <exclusion>
                     <groupId>org.glassfish.jaxb</groupId>
