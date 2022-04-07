@@ -8,7 +8,7 @@
     <groupId>org.randomcoder</groupId>
     <artifactId>randomcoder-website</artifactId>
     <name>Randomcoder Website</name>
-    <version>4.2.0</version>
+    <version>4.2.1-SNAPSHOT</version>
     <description>This project contains the RandomCoder.Org website.
     </description>
     <url>https://github.com/craigcondit/randomcoder-website</url>
