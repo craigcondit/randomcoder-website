@@ -47,14 +47,34 @@ module org.randomcoder.website {
     requires spring.web;
     requires spring.webmvc;
 
+    opens database;
+    opens org.randomcoder.article;
+    opens org.randomcoder.article.comment;
+    opens org.randomcoder.article.moderation;
     opens org.randomcoder.bo;
     opens org.randomcoder.config;
+    opens org.randomcoder.content;
     opens org.randomcoder.db;
+    opens org.randomcoder.feed;
+    opens org.randomcoder.io;
     opens org.randomcoder.mvc.command;
     opens org.randomcoder.mvc.controller;
     opens org.randomcoder.mvc.editor;
     opens org.randomcoder.mvc.validator;
+    opens org.randomcoder.pagination;
+    opens org.randomcoder.security;
     opens org.randomcoder.security.spring;
+    opens org.randomcoder.tag;
+    opens org.randomcoder.user;
+    opens org.randomcoder.validation;
+    opens org.randomcoder.xml;
     opens profiles;
+    opens webapp;
+    opens webapp.css;
+    opens webapp.images;
+    opens webapp.images.silk;
+    opens webapp.images.badges;
+    opens webapp.js;
+    opens webapp.js.lib;
 }
 
