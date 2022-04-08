@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -83,7 +84,7 @@ public class DispatcherContext
     resolver.setPrefix("/WEB-INF/templates/");
     resolver.setSuffix(".html");
     resolver.setTemplateMode(TemplateMode.HTML);
-    if (env.acceptsProfiles("dev")) {
+    if (env.acceptsProfiles(Profiles.of("dev"))) {
       resolver.setCacheable(false);
     }
     return resolver;

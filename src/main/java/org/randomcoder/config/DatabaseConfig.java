@@ -3,6 +3,7 @@ package org.randomcoder.config;
 import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.PostgreSQL95Dialect;
+import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +35,11 @@ public class DatabaseConfig {
         new LocalContainerEntityManagerFactoryBean();
 
     emfb.setDataSource(dataSource());
-    emfb.setPackagesToScan(new String[] { "org.randomcoder.db" });
+    emfb.setPackagesToScan("org.randomcoder.db");
     emfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 
     Properties props = new Properties();
-    props.setProperty("hibernate.dialect", PostgreSQL95Dialect.class.getName());
+    props.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
     props.setProperty("hibernate.ejb.naming_strategy",
         ImprovedNamingStrategy.class.getName());
     props.setProperty("hibernate.format_sql", "false");

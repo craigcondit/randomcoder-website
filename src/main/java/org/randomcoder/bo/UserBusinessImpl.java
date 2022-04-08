@@ -91,7 +91,7 @@ import java.util.List;
   }
 
   private User loadUser(Long userId) {
-    User user = userRepository.getOne(userId);
+    User user = userRepository.getReferenceById(userId);
     if (user == null) {
       throw new UserNotFoundException();
     }

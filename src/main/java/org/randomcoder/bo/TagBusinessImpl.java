@@ -69,7 +69,7 @@ import java.util.List;
 
   @Override @Transactional("transactionManager")
   public void deleteTag(Long tagId) {
-    Tag tag = tagRepository.getOne(tagId);
+    Tag tag = tagRepository.getReferenceById(tagId);
     if (tag == null) {
       return;
     }
@@ -83,7 +83,7 @@ import java.util.List;
   }
 
   private Tag loadTag(Long tagId) {
-    Tag tag = tagRepository.getOne(tagId);
+    Tag tag = tagRepository.getReferenceById(tagId);
     if (tag == null) {
       throw new TagNotFoundException();
     }

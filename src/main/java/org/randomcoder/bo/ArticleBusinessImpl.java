@@ -166,7 +166,7 @@ import java.util.List;
       if (tag.getId() == null) {
         tags.add(tagRepository.save(tag));
       } else {
-        tags.add(tagRepository.getOne(tag.getId()));
+        tags.add(tagRepository.getReferenceById(tag.getId()));
       }
     }
     article.setTags(tags);
@@ -268,7 +268,7 @@ import java.util.List;
       if (tag.getId() == null) {
         tags.add(tagRepository.save(tag));
       } else {
-        tags.add(tagRepository.getOne(tag.getId()));
+        tags.add(tagRepository.getReferenceById(tag.getId()));
       }
     }
     article.setTags(tags);
@@ -278,7 +278,7 @@ import java.util.List;
 
   @Override @Transactional(value = "transactionManager", readOnly = true)
   public Article readArticle(long articleId) {
-    Article article = articleRepository.getOne(articleId);
+    Article article = articleRepository.getReferenceById(articleId);
     if (article != null) {
       Hibernate.initialize(article.getTags());
       Hibernate.initialize(article.getComments());
@@ -502,7 +502,7 @@ import java.util.List;
       throw new ArticleNotFoundException("Invalid id specified.");
     }
 
-    Article article = articleRepository.getOne(articleId);
+    Article article = articleRepository.getReferenceById(articleId);
     if (article == null) {
       throw new ArticleNotFoundException(
           "No article exists with id: " + articleId);
@@ -516,7 +516,7 @@ import java.util.List;
       throw new CommentNotFoundException("Invalid id specified.");
     }
 
-    Comment comment = commentRepository.getOne(commentId);
+    Comment comment = commentRepository.getReferenceById(commentId);
     if (comment == null) {
       throw new CommentNotFoundException(
           "No comment exists with id: " + commentId);

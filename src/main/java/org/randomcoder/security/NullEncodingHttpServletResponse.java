@@ -17,6 +17,7 @@ public class NullEncodingHttpServletResponse
     super(response);
   }
 
+  @SuppressWarnings("deprecation")
   @Override public String encodeRedirectUrl(String url) {
     return url;
   }
@@ -25,6 +26,7 @@ public class NullEncodingHttpServletResponse
     return url;
   }
 
+  @SuppressWarnings("deprecation")
   @Override public String encodeUrl(String url) {
     return url;
   }

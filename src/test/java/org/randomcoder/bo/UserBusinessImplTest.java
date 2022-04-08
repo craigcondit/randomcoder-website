@@ -136,7 +136,7 @@ public class UserBusinessImplTest {
 
     Capture<User> saved = newCapture();
 
-    expect(ur.getOne(1L)).andReturn(user);
+    expect(ur.getReferenceById(1L)).andReturn(user);
     expect(ur.save(capture(saved))).andReturn(null);
     control.replay();
 
@@ -168,7 +168,7 @@ public class UserBusinessImplTest {
 
     UserEditCommand cmd = new UserEditCommand();
 
-    expect(ur.getOne(1L)).andReturn(user);
+    expect(ur.getReferenceById(1L)).andReturn(user);
     control.replay();
 
     ub.loadUserForEditing(cmd, 1L);
