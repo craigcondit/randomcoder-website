@@ -11,8 +11,6 @@
             <item name="Home" href="https://randomcoder.org/"/>
             <item name="Website" href="../randomcoder-website/"/>
         </links>
-
-        ${reports}
-
+        <menu ref="reports"/>
     </body>
 </project>
