@@ -1,4 +1,4 @@
-<project>
+<project combine.self="override">
     <bannerLeft>
         <src>https://randomcoder.org/images/randomcoder-logo.png</src>
         <href>https://randomcoder.org/</href>
@@ -9,9 +9,7 @@
     <body>
         <links>
             <item name="Home" href="https://randomcoder.org/"/>
-            <item name="Base" href="../randomcoder-base/"/>
             <item name="Website" href="../randomcoder-website/"/>
-            <item name="Taglibs" href="../randomcoder-taglibs/"/>
         </links>
 
         ${reports}
