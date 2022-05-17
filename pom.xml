@@ -69,20 +69,20 @@
         <slf4j.version>2.0.0-alpha7</slf4j.version>
         <hsqldb.version>2.6.1</hsqldb.version>
         <logback.version>1.3.0-alpha14</logback.version>
-        <postgresql.version>42.3.3</postgresql.version>
+        <postgresql.version>42.3.5</postgresql.version>
         <easymock.version>4.3</easymock.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
-        <thymeleaf.version>3.1.0.M1</thymeleaf.version>
+        <thymeleaf.version>3.1.0.M2</thymeleaf.version>
         <thymeleaf.extras.springsecurity6.version>3.1.0.M1</thymeleaf.extras.springsecurity6.version>
-        <hibernate.version>6.0.0.Final</hibernate.version>
-        <hibernate.jcache.version>6.0.0.Final</hibernate.jcache.version>
+        <hibernate.version>6.0.1.Final</hibernate.version>
+        <hibernate.jcache.version>6.0.1.Final</hibernate.jcache.version>
         <hibernate.validator.version>7.0.4.Final</hibernate.validator.version>
         <ehcache.version>3.10.0</ehcache.version>
-        <bytebuddy.version>1.12.9</bytebuddy.version>
-        <spring.version>6.0.0-M3</spring.version>
-        <spring.security.version>6.0.0-M3</spring.security.version>
-        <spring.data.jpa.version>3.0.0-M3</spring.data.jpa.version>
+        <bytebuddy.version>1.12.10</bytebuddy.version>
+        <spring.version>6.0.0-M4</spring.version>
+        <spring.security.version>6.0.0-M4</spring.security.version>
+        <spring.data.jpa.version>3.0.0-M4</spring.data.jpa.version>
         <jakarta.jaxb.api.version>3.0.1</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>3.0.2</jakarta.jaxb.version>
         <jakarta.inject.version>2.0.1</jakarta.inject.version>
@@ -90,8 +90,8 @@
         <jacoco.maven.plugin.version>0.8.8</jacoco.maven.plugin.version>
         <maven.site.plugin.version>3.11.0</maven.site.plugin.version>
         <maven.project.info.reports.plugin.version>3.2.2</maven.project.info.reports.plugin.version>
-        <maven.surefire.plugin.version>3.0.0-M5</maven.surefire.plugin.version>
-        <maven.surefire.report.plugin.version>3.0.0-M5</maven.surefire.report.plugin.version>
+        <maven.surefire.plugin.version>3.0.0-M6</maven.surefire.plugin.version>
+        <maven.surefire.report.plugin.version>3.0.0-M6</maven.surefire.report.plugin.version>
         <maven.javadoc.plugin.version>3.3.2</maven.javadoc.plugin.version>
         <sql.maven.plugin.version>1.5</sql.maven.plugin.version>
         <maven.jar.plugin.version>3.2.2</maven.jar.plugin.version>
