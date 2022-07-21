@@ -52,16 +52,28 @@ public class CalendarInfo {
     cal.set(Calendar.SECOND, 0);
     cal.set(Calendar.MILLISECOND, 0);
 
-    Date now = cal.getTime();
+    Date selectedDate = cal.getTime();
 
-    displayedMonthText = new SimpleDateFormat("MMM yyyy").format(now);
+    // sanity check; don't allow prev link if date is more than 10 years in the past
+    Calendar prevCal = new GregorianCalendar();
+    prevCal.setTime(new Date());
+    prevCal.add(Calendar.YEAR, -10);
+    Date prevLimit = prevCal.getTime();
+
+    // sanity check; don't allow next link if date is more than 1 year in the future
+    Calendar nextCal = new GregorianCalendar();
+    nextCal.setTime(new Date());
+    nextCal.add(Calendar.YEAR, 1);
+    Date nextLimit = nextCal.getTime();
+
+    displayedMonthText = new SimpleDateFormat("MMM yyyy").format(selectedDate);
 
     selfLink = makeLink(
         urlWithParams(request, REMOVED_PARAMS, Collections.emptyMap()));
-    prevMonthLink =
-        makeLink(urlWithParams(request, REMOVED_PARAMS, prevMonthParams(now)));
-    nextMonthLink =
-        makeLink(urlWithParams(request, REMOVED_PARAMS, nextMonthParams(now)));
+    prevMonthLink = selectedDate.before(prevLimit) ? null :
+        makeLink(urlWithParams(request, REMOVED_PARAMS, prevMonthParams(selectedDate)));
+    nextMonthLink = selectedDate.after(nextLimit) ? null :
+        makeLink(urlWithParams(request, REMOVED_PARAMS, nextMonthParams(selectedDate)));
 
     // capture current month / year
     int month = cal.get(Calendar.MONTH);

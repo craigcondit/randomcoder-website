@@ -1,7 +1,7 @@
 <div class="sectionHeading">
-	<a th:href="${calendar.prevMonthLink}">&#171;</a>
+	<th:block th:if="${calendar.prevMonthLink != null}"><a th:href="${calendar.prevMonthLink}">&#171;</a></th:block>
 	<th:block th:text="${calendar.displayedMonthText}">Feb 1977</th:block>
-	<a th:href="${calendar.nextMonthLink}">&#187;</a>
+	<th:block th:if="${calendar.nextMonthLink != null}"><a th:href="${calendar.nextMonthLink}">&#187;</a></th:block>
 </div>
 <div class="sectionContent">
 	<div align="center">
