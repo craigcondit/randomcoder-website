@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -53,6 +54,11 @@ public class DispatcherContext
     return pspc;
   }
 
+  @Override public void configureDefaultServletHandling(
+      DefaultServletHandlerConfigurer configurer) {
+    configurer.enable();    
+  }
+
   @Override public void addArgumentResolvers(
       List<HandlerMethodArgumentResolver> argumentResolvers) {
     PageableHandlerMethodArgumentResolver resolver =
@@ -66,9 +72,8 @@ public class DispatcherContext
   @Override public void addResourceHandlers(ResourceHandlerRegistry registry) {
     // define some static content that will bypass the dispatcher
     registry
-        .addResourceHandler("/**/*.html", "/**/*.css", "/**/*.js", "/**/*.ico",
-            "/**/*.jpg", "/**/*.png", "/**/*.gif", "/**/*.txt")
-        .addResourceLocations("classpath:/webapp/");
+      .addResourceHandler("/**")
+      .addResourceLocations("classpath:/webapp/");
   }
 
   @Bean public RequestMappingHandlerMapping handlerMapping() {

@@ -44,7 +44,7 @@ import java.util.List;
    * @param request  HTTP servlet request
    * @return home view
    */
-  @RequestMapping("") public String home(ArticleListCommand command,
+  @RequestMapping("/") public String home(ArticleListCommand command,
       Model model, @PageableDefault(10) Pageable pageable,
       HttpServletRequest request) {
     populateModel(command, model, pageable, request);
