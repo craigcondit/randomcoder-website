@@ -34,18 +34,17 @@ public class WebSite {
    * @throws Exception if an error occurs
    */
   public WebSite() throws Exception {
-    this("log4j-", JettyContext.class);
+    this(JettyContext.class);
   }
 
   /**
    * Create the website with a custom log4j config file prefix and
    * configuration class.
    *
-   * @param log4jPrefix log4j prefix
    * @param configClass configuration class
    * @throws Exception if an error occurs
    */
-  public WebSite(String log4jPrefix, Class<?> configClass) throws Exception {
+  public WebSite(Class<?> configClass) throws Exception {
     context = new AnnotationConfigApplicationContext();
 
     ConfigurableEnvironment env = new StandardEnvironment();
@@ -56,7 +55,11 @@ public class WebSite {
       env.addActiveProfile("dev");
     }
 
-    File configDir = new File(CONFIG_DIR);
+    String configPath = System.getenv("CONFIG_DIR");
+    if (configPath == null || configPath.isEmpty()) {
+      configPath = CONFIG_DIR;
+    }
+    File configDir = new File(configPath);
 
     // add profile-specific config files
     for (String profile : env.getActiveProfiles()) {
