@@ -10,7 +10,6 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.ResourcePropertySource;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Startup class for the randomcoder website.
@@ -89,17 +88,21 @@ public class WebSite {
 
     context.setEnvironment(env);
     context.register(configClass);
+  }
+
+  public void run() {
     context.refresh();
     context.registerShutdownHook();
   }
 
   /**
-   * Main method. Simple starts a new web site instance.
+   * Main method. Simple starts a new website instance.
    *
    * @param args ignored
    * @throws Exception if an error occurs
    */
   public static void main(String[] args) throws Exception {
-    new WebSite();
+    WebSite site = new WebSite();
+    site.run();
   }
 }
