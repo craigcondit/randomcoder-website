@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.util.UrlPathHelper;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
@@ -78,7 +79,9 @@ public class DispatcherContext
 
   @Bean public RequestMappingHandlerMapping handlerMapping() {
     RequestMappingHandlerMapping mapping = new RequestMappingHandlerMapping();
-    mapping.setAlwaysUseFullPath(true);
+    UrlPathHelper uph = new UrlPathHelper();
+    uph.setAlwaysUseFullPath(true);
+    mapping.setUrlPathHelper(uph);
     return mapping;
   }
 
