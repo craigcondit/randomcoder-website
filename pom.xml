@@ -40,8 +40,8 @@
     </licenses>
     <repositories>
         <repository>
-            <id>spring-libs-private-release</id>
-            <url>https://repo.spring.io/artifactory/libs-private-release</url>
+            <id>spring-milestone</id>
+            <url>https://repo.spring.io/milestone</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -68,7 +68,7 @@
         <dbunit.version>2.7.3</dbunit.version>
         <slf4j.version>2.0.3</slf4j.version>
         <hsqldb.version>2.7.0</hsqldb.version>
-        <logback.version>1.4.3</logback.version>
+        <logback.version>1.4.4</logback.version>
         <postgresql.version>42.5.0</postgresql.version>
         <easymock.version>4.3</easymock.version>
         <commons.codec.version>1.15</commons.codec.version>
@@ -79,7 +79,7 @@
         <hibernate.annotations.version>6.0.4.Final</hibernate.annotations.version>
         <hibernate.jcache.version>6.1.4.Final</hibernate.jcache.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
-        <ehcache.version>3.10.1</ehcache.version>
+        <ehcache.version>3.10.2</ehcache.version>
         <bytebuddy.version>1.12.17</bytebuddy.version>
         <spring.version>6.0.0-M6</spring.version>
         <spring.security.version>6.0.0-M7</spring.security.version>
@@ -449,6 +449,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <release>17</release>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <propertiesEncoding>${project.build.sourceEncoding}</propertiesEncoding>
                 </configuration>
             </plugin>
             <plugin>
