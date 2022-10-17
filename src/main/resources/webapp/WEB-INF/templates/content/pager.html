@@ -1,6 +1,6 @@
 <div class="pager" th:if="${pagerInfo != null and #lists.size(pagerInfo.links) > 1}">
-	<th:block th:each="lnk,stat : ${pagerInfo.links}">
-		<th:block th:if="${lnk.link == null}" th:utext="${lnk.text}" />
-		<a th:unless="${lnk.link == null}" th:href="${lnk.link}"><th:block th:utext="${lnk.text}" /></a>
-	</th:block>
+  <th:block th:each="lnk,stat : ${pagerInfo.links}">
+    <th:block th:if="${lnk.link == null}" th:utext="${lnk.text}" />
+    <a th:unless="${lnk.link == null}" th:href="${lnk.link}"><th:block th:utext="${lnk.text}" /></a>
+  </th:block>
 </div>
