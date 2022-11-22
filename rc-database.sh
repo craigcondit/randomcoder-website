@@ -24,7 +24,7 @@ do_start() {
   echo "Starting database..."
   docker run --rm=true -d \
     --name randomcoder-postgres \
-    -e POSTGRES_PASSWORD=password \
+    -e POSTGRES_PASSWORD=postgres \
     -p 5432:5432 \
     library/postgres:15-alpine
 

@@ -16,11 +16,6 @@ import java.io.File;
  */
 public class WebSite {
   /**
-   * Configuration directory.
-   */
-  public static final String CONFIG_DIR = "/srv/randomcoder-website/etc";
-
-  /**
    * Configuration file.
    */
   public static final String CONFIG_FILE = "randomcoder-website.conf";
@@ -54,15 +49,9 @@ public class WebSite {
       env.addActiveProfile("dev");
     }
 
-    String configPath = System.getenv("CONFIG_DIR");
-    if (configPath == null || configPath.isEmpty()) {
-      configPath = CONFIG_DIR;
-    }
-    File configDir = new File(configPath);
-
     // add profile-specific config files
     for (String profile : env.getActiveProfiles()) {
-      File profileConfigFile = new File(configDir, CONFIG_FILE + "." + profile);
+      File profileConfigFile = new File( CONFIG_FILE + "." + profile);
       if (profileConfigFile.exists()) {
         propertySources.addLast(new ResourcePropertySource(
             new FileSystemResource(profileConfigFile)));
@@ -76,7 +65,7 @@ public class WebSite {
     }
 
     // add default config file (if it exists)
-    File configFile = new File(configDir, CONFIG_FILE);
+    File configFile = new File(CONFIG_FILE);
     if (configFile.exists()) {
       propertySources.addLast(
           new ResourcePropertySource(new FileSystemResource(configFile)));
