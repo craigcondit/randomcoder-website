@@ -44,6 +44,12 @@ public class WebSite {
     ConfigurableEnvironment env = new StandardEnvironment();
     MutablePropertySources propertySources = env.getPropertySources();
 
+    // get config file
+    var configFileName = System.getenv("CONFIG_FILE");
+    if (configFileName == null) {
+      configFileName = CONFIG_FILE;
+    }
+
     // make sure at least the dev profile is active
     if (env.getActiveProfiles().length == 0) {
       env.addActiveProfile("dev");
@@ -51,7 +57,7 @@ public class WebSite {
 
     // add profile-specific config files
     for (String profile : env.getActiveProfiles()) {
-      File profileConfigFile = new File( CONFIG_FILE + "." + profile);
+      File profileConfigFile = new File( configFileName + "." + profile);
       if (profileConfigFile.exists()) {
         propertySources.addLast(new ResourcePropertySource(
             new FileSystemResource(profileConfigFile)));
@@ -65,7 +71,7 @@ public class WebSite {
     }
 
     // add default config file (if it exists)
-    File configFile = new File(CONFIG_FILE);
+    File configFile = new File(configFileName);
     if (configFile.exists()) {
       propertySources.addLast(
           new ResourcePropertySource(new FileSystemResource(configFile)));
