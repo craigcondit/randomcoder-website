@@ -5,7 +5,7 @@ solutions to common software develpment problems. Predominantly, this includes
 Java and related web technologies, because that is where I spend most of my
 time.
 
-Much of what you find here and in the associated randomcoder-* libraries is
+Much of what you find here and in the associated randomcoder libraries is
 code that I find myself writing and re-writing for nearly every project I
 work on. My hope is that others may be able to use my "wheels" without
 re-inventing their own.
