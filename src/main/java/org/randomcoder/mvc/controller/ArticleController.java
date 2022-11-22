@@ -141,10 +141,13 @@ import java.util.List;
    * @return article view
    */
   @RequestMapping(value = "/articles/id/{id}", method = RequestMethod.GET)
-  public String articleById(@PathVariable("id") long id, Principal user,
-      Model model) {
+  public String articleById(
+          @PathVariable("id") long id,
+          HttpServletRequest request,
+          Principal user,
+          Model model) {
     Article article = articleBusiness.readArticle(id);
-    return viewArticle(user, model, article);
+    return viewArticle(user, request, model, article);
   }
 
   /**
@@ -156,13 +159,20 @@ import java.util.List;
    * @return article view
    */
   @RequestMapping(value = "/articles/{permalink}", method = RequestMethod.GET)
-  public String articleByPermalink(@PathVariable("permalink") String permalink,
-      Principal user, Model model) {
+  public String articleByPermalink(
+          @PathVariable("permalink") String permalink,
+          HttpServletRequest request,
+          Principal user,
+          Model model) {
     Article article = articleBusiness.findArticleByPermalink(permalink);
-    return viewArticle(user, model, article);
+    return viewArticle(user, request, model, article);
   }
 
-  private String viewArticle(Principal user, Model model, Article article) {
+  private String viewArticle(
+          Principal user,
+          HttpServletRequest request,
+          Model model,
+          Article article) {
     if (article == null) {
       throw new ArticleNotFoundException();
     }
@@ -170,13 +180,16 @@ import java.util.List;
     CommentCommand command = new CommentCommand();
     command.bind(user == null);
 
-    populateArticleModel(model, article, command);
+    populateArticleModel(model, request, article, command);
 
     return "article-view";
   }
 
-  private void populateArticleModel(Model model, Article article,
-      CommentCommand command) {
+  private void populateArticleModel(
+          Model model,
+          HttpServletRequest request,
+          Article article,
+          CommentCommand command) {
     List<ArticleDecorator> wrappedArticles = new ArrayList<ArticleDecorator>(1);
     wrappedArticles.add(new ArticleDecorator(article, contentFilter));
     model.addAttribute("articles", wrappedArticles);
@@ -184,6 +197,7 @@ import java.util.List;
     model.addAttribute("commentsEnabled", article.isCommentsEnabled());
     model.addAttribute("command", command);
     model.addAttribute("contentTypes", ContentType.values());
+    model.addAttribute("request", request);
   }
 
   /**
@@ -229,14 +243,18 @@ import java.util.List;
     return commentOnArticle(article, user, model, request, command, result);
   }
 
-  private String commentOnArticle(Article article, Principal user, Model model,
-      HttpServletRequest request, CommentCommand command,
-      BindingResult result) {
+  private String commentOnArticle(
+          Article article,
+          Principal user,
+          Model model,
+          HttpServletRequest request,
+          CommentCommand command,
+          BindingResult result) {
     if (article == null) {
       throw new ArticleNotFoundException();
     }
 
-    populateArticleModel(model, article, command);
+    populateArticleModel(model, request, article, command);
 
     command.bind(user == null);
     commentValidator.validate(command, result);

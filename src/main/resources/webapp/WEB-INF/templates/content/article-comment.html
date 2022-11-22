@@ -5,7 +5,7 @@
   <th:block th:if="${commentsEnabled}">
     <th:block th:if="${command.anonymous}">
       <p>
-        You are not currently logged in. <a th:href="@{/redirect#post-comments(url=${#httpServletRequest.requestURI})}">Login now</a> or
+        You are not currently logged in. <a th:href="@{/redirect#post-comments(url=${request.getRequestURI()})}">Login now</a> or
         post as a guest.
       </p>
 
@@ -15,7 +15,7 @@
       </p>
     </th:block>
 
-    <form method="post" th:object="${command}" th:action="${#httpServletRequest.requestURI + '#post-comments'}">
+    <form method="post" th:object="${command}" th:action="${request.getRequestURI() + '#post-comments'}">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <th:block th:if="${#fields.hasErrors('global')}">
         <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
