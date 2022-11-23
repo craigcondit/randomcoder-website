@@ -32,19 +32,19 @@ public class StaticResource {
     }
 
     @GET
-    @Path("/css/{path}")
+    @Path("/css/{path: .+}")
     public Response css(@PathParam("path") String path) {
         return staticResource(String.format("css/%s", path));
     }
 
     @GET
-    @Path("/images/{path}")
+    @Path("/images/{path: .+}")
     public Response images(@PathParam("path") String path) {
         return staticResource(String.format("images/%s", path));
     }
 
     @GET
-    @Path("/js/{path}")
+    @Path("/js/{path: .+}")
     public Response js(@PathParam("path") String path) {
         return staticResource(String.format("js/%s", path));
     }

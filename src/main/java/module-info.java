@@ -83,6 +83,12 @@ module org.randomcoder.website {
     opens org.randomcoder.security;
     opens org.randomcoder.security.spring;
     opens org.randomcoder.staticcontent;
+    opens org.randomcoder.staticcontent.css;
+    opens org.randomcoder.staticcontent.js;
+    opens org.randomcoder.staticcontent.js.lib;
+    opens org.randomcoder.staticcontent.images;
+    opens org.randomcoder.staticcontent.images.badges;
+    opens org.randomcoder.staticcontent.images.silk;
     opens org.randomcoder.templates;
     opens org.randomcoder.templates.content;
     opens org.randomcoder.templates.footer;
