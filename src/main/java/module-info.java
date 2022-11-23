@@ -7,18 +7,31 @@ module org.randomcoder.website {
     requires ch.qos.logback.classic;
     requires commons.httpclient;
     requires com.fasterxml.classmate;
+    requires com.fasterxml.jackson.annotation;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.dataformat.yaml;
+    requires com.fasterxml.jackson.module.jakarta.xmlbind;
     requires ehcache;
     requires jakarta.el;
     requires jakarta.inject;
     requires jakarta.persistence;
     requires jakarta.xml.bind;
+    requires jersey.container.servlet.core;
+    requires jersey.common;
+    requires jersey.hk2;
+    requires jersey.server;
+    requires jul.to.slf4j;
     requires net.bytebuddy;
     requires org.apache.commons.lang3;
     requires org.apache.commons.codec;
     requires org.eclipse.jetty.http2.server;
+    requires org.eclipse.jetty.rewrite;
     requires org.eclipse.jetty.server;
     requires org.eclipse.jetty.servlet;
     requires org.eclipse.jetty.webapp;
+    requires org.glassfish.hk2.api;
+    requires org.glassfish.hk2.utilities;
     requires org.glassfish.jaxb.core;
     requires org.glassfish.jaxb.runtime;
     requires org.hibernate.commons.annotations;
@@ -27,6 +40,7 @@ module org.randomcoder.website {
     requires org.hibernate.validator;
     requires org.postgresql.jdbc;
     requires org.slf4j;
+    requires org.yaml.snakeyaml;
     requires thymeleaf;
     requires thymeleaf.spring6;
     requires thymeleaf.extras.springsecurity6;
@@ -46,6 +60,10 @@ module org.randomcoder.website {
     requires spring.tx;
     requires spring.web;
     requires spring.webmvc;
+    requires jakarta.ws.rs;
+
+    exports org.randomcoder.providers;
+    exports org.randomcoder.resources;
 
     opens database;
     opens org.randomcoder.article;
