@@ -75,7 +75,7 @@
         <easymock.version>5.0.1</easymock.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
-        <thymeleaf.version>3.1.0.RC1</thymeleaf.version>
+        <thymeleaf.version>3.1.0.RELEASE</thymeleaf.version>
         <thymeleaf.extras.springsecurity6.version>3.1.0.M1</thymeleaf.extras.springsecurity6.version>
         <hibernate.version>6.1.5.Final</hibernate.version>
         <hibernate.annotations.version>6.0.4.Final</hibernate.annotations.version>
@@ -173,6 +173,11 @@
             <artifactId>easymock</artifactId>
             <version>${easymock.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>

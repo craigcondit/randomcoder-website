@@ -82,6 +82,13 @@ module org.randomcoder.website {
     opens org.randomcoder.pagination;
     opens org.randomcoder.security;
     opens org.randomcoder.security.spring;
+    opens org.randomcoder.staticcontent;
+    opens org.randomcoder.templates;
+    opens org.randomcoder.templates.content;
+    opens org.randomcoder.templates.footer;
+    opens org.randomcoder.templates.head;
+    opens org.randomcoder.templates.header;
+    opens org.randomcoder.templates.sidebar;
     opens org.randomcoder.tag;
     opens org.randomcoder.user;
     opens org.randomcoder.validation;

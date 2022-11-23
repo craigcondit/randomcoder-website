@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>randomCoder : Home</title>
+<th:block th:replace="~{head/main}"></th:block>
+<th:block th:replace="~{head/feeds}"></th:block>
+</head>
+<body>
+  <div id="header" th:insert="~{header/default}">header/default</div>
+
+  <div id="left">
+    <div class="left" th:insert="~{sidebar/navigation}">sidebar/navigation</div>
+    <div class="left" th:insert="~{sidebar/login}">sidebar/login</div>
+    <div class="left" th:insert="~{sidebar/welcome}">sidebar/welcome</div>
+    <div class="left" th:insert="~{sidebar/feeds}">sidebar/feeds</div>
+  </div>
+
+  <div id="content">
+    <div class="content" th:insert="~{content/article-list :: articles(summaryVisible=true)}">content/article-list :: articles</div>
+    <div class="content" th:insert="~{content/pager}">content/pager</div>
+  </div>
+
+  <div id="footer" th:insert="~{footer/default}">footer/default</div>
+  
+  <div id="right">
+    <div class="right" th:insert="~{sidebar/calendar}">sidebar/calendar</div>
+    <div class="right" th:insert="~{sidebar/tagcloud}">sidebar/tagcloud</div>
+  </div>
+</body>
+</html>

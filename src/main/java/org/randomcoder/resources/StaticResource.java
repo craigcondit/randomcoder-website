@@ -3,13 +3,21 @@ package org.randomcoder.resources;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.randomcoder.thymeleaf.ThymeleafEntity;
 
 import java.util.Objects;
 
 @Path("")
 public class StaticResource {
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public ThymeleafEntity home() {
+        return new ThymeleafEntity("home");
+    }
 
     @GET
     @Path("/favicon.ico")
@@ -47,7 +55,7 @@ public class StaticResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        var resource = getClass().getResourceAsStream(String.format("/webapp/%s", path));
+        var resource = getClass().getResourceAsStream(String.format("/org/randomcoder/staticcontent/%s", path));
         return Objects.isNull(resource)
                 ? Response.status(Response.Status.NOT_FOUND).build()
                 : Response.ok(resource, mediaType(path)).build();

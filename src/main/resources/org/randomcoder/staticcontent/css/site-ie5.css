@@ -1,0 +1,12 @@
+/* Various fixes for IE5 */
+#left {
+	width: 12em;
+}
+
+#right {
+	width: 12.5em;
+}
+
+.calendar {
+	text-align: center;
+}

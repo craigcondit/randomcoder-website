@@ -1,0 +1,31 @@
+<div class="sectionHeading">Users</div>
+<div class="sectionSubHeading">
+  <a class="add" th:href="@{/user/add}">Add new user</a> :: <a href="${homeUrl}">Done</a>
+</div>
+<div class="sectionContentFull">
+  <th:block th:each="user,status : ${users.content}">
+    <div th:class="${status.even ? 'even' : 'odd'}">
+      <div class="actions">
+        <a class="edit" th:href="@{/user/edit(id=${user.id})}">Edit</a> :: <a class="delete" th:href="@{/user/delete(id=${user.id})}">Delete</a>
+      </div>
+      <th:block th:if="${user.enabled}">
+        <a th:href="@{/user/edit(id=${user.id})}"><strong th:text="${user.userName}">username</strong></a>
+        <th:block th:if="${user.emailAddress != null and user.emailAddress != ''}">
+          (<th:block th:text="${user.emailAddress}" />)
+        </th:block>
+      </th:block>
+      <th:block th:unless="${user.enabled}">
+        <del>
+          <a th:href="@{/user/edit(id=${user.id})}"><strong th:text="${user.userName}">username</strong></a>
+          <th:block th:if="${user.emailAddress != null and user.emailAddress != ''}">
+          (<th:block th:text="${user.emailAddress}" />)
+        </th:block>
+        </del>
+      </th:block>
+      <div class="details" th:if="${not #lists.isEmpty(user.roles)}">
+        <strong>Roles:</strong>
+        <th:block th:each="role,roleStatus : ${user.roles}" th:text="${role.description + (roleStatus.last ? ' ' : ', ')}" />
+      </div>
+    </div>
+  </th:block>
+</div>

@@ -1,0 +1,68 @@
+<th:block th:fragment="edit(mode)">
+  <c:url var="formAction" value="${template.formAction}" />
+  <c:choose>
+    <c:when test="${template.formMode == 'edit'}">
+      <c:set var="headingText" value="Edit tag" />
+      <c:set var="displayNameClass" value="focusFirst " />
+    </c:when>
+    <c:otherwise>
+      <c:set var="headingText" value="Add tag" />
+      <c:set var="displayNameClass" value="" />
+    </c:otherwise>
+  </c:choose>
+  <div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit tag' : 'Add tag'}" />
+  <div class="sectionContent">
+    <form method="post" th:action="@{/tag/{mode}(mode=${mode})}" th:object="${command}">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <th:block th:if="${#fields.hasErrors('global')}">
+        <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
+      </th:block>
+
+      <th:block th:if="${mode == 'add'}">
+        <div th:class="${'fields required' + (#fields.hasErrors('name') ? ' error' : '')}">
+          <div>
+            <th:block th:if="${#fields.hasErrors('name')}">
+              <span class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}">error</span>
+            </th:block>
+          </div>
+          <div>
+            <label for="tagName">Tag name:</label> <input type="text" name="name" class="text focusFirst" id="tagName" maxlength="255"
+              th:field="${command.name}" />
+          </div>
+          <div class="description">Enter a unique name for the new tag.</div>
+        </div>
+      </th:block>
+      <th:block th:unless="${mode == 'add'}">
+        <div class="fields">
+          <div>
+            <label>Tag name:</label> <span class="constant" th:text="${command.name}" />
+          </div>
+        </div>
+      </th:block>
+      <div th:class="${'fields required' + (#fields.hasErrors('displayName') ? ' error' : '')}">
+        <div>
+          <th:block th:if="${#fields.hasErrors('displayName')}">
+            <span class="error" th:each="err : ${#fields.errors('displayName')}" th:text="${err}">error</span>
+          </th:block>
+        </div>
+        <div>
+          <label for="displayName">Display name:</label> <input type="text" name="displayName" class="text focusFirst" id="displayName"
+            maxlength="255" th:field="${command.displayName}" />
+        </div>
+        <div class="description">Enter a friendly name for this tag.</div>
+      </div>
+
+      <div class="fields">
+        <th:block th:if="${mode == 'edit'}">
+          <input type="hidden" name="id" th:value="${command.id}" />
+          <input type="hidden" name="name" th:value="${command.name}" />
+        </th:block>
+        <div class="buttons">
+          <input type="submit" class="submit" value="Save &#187;" /> <input type="submit" class="button" name="cancel" value="Cancel" />
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</th:block>

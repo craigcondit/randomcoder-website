@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>randomCoder : Edit article</title>
+<th:block th:replace="~{head/main}"></th:block>
+<th:block th:replace="~{head/feeds}"></th:block>
+<link rel="stylesheet" type="text/css" th:href="@{/css/entry.css}" />
+</head>
+<body>
+  <div id="header" th:insert="~{header/default}">header/default</div>
+
+  <div id="left">
+    <div class="left" th:insert="~{sidebar/navigation}">sidebar/navigation</div>
+    <div class="left" th:insert="~{sidebar/login}">sidebar/login</div>
+    <div class="left" th:insert="~{sidebar/welcome}">sidebar/welcome</div>
+    <div class="left" th:insert="~{sidebar/feeds}">sidebar/feeds</div>
+  </div>
+
+  <div id="content">
+    <div class="content" th:insert="~{content/article-edit :: edit(mode=edit)}">content/article-edit :: edit(edit)</div>
+  </div>
+
+  <div id="footer" th:insert="~{footer/default}">footer/default</div>
+  
+</body>
+</html>
