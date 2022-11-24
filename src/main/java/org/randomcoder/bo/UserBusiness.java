@@ -29,13 +29,6 @@ public interface UserBusiness {
     void createUser(Producer<User> producer);
 
     /**
-     * Creates a new account using a password.
-     *
-     * @param producer user producer
-     */
-    void createAccount(Producer<User> producer);
-
-    /**
      * Loads a user for editing.
      *
      * @param consumer consumer

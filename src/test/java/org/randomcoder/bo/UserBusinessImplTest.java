@@ -100,7 +100,7 @@ public class UserBusinessImplTest {
     assertEquals("test-create", created.getValue().getUserName());
   }
 
-  @Test public void testCreateAccountByPassword() {
+  @Test public void testCreateUserByPassword() {
     AccountCreateCommand cmd = new AccountCreateCommand();
     cmd.setUserName("test-create");
     cmd.setEmailAddress("test-create@example.com");
@@ -113,7 +113,7 @@ public class UserBusinessImplTest {
     expect(ur.save(capture(created))).andReturn(null);
     control.replay();
 
-    ub.createAccount(cmd);
+    ub.createUser(cmd);
     control.verify();
 
     assertEquals("test-create", created.getValue().getUserName());

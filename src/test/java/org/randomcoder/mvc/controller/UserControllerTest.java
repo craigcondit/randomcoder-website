@@ -301,7 +301,7 @@ public class UserControllerTest {
     AccountCreateCommand command = new AccountCreateCommand();
 
     expect(br.hasErrors()).andReturn(false);
-    ub.createAccount(command);
+    ub.createUser(command);
     control.replay();
 
     assertEquals("account-create-done", c.accountCreateSubmit(command, br));

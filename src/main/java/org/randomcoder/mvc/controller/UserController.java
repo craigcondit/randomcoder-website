@@ -216,7 +216,7 @@ public class UserController {
             return "account-create";
         }
 
-        userBusiness.createAccount(command);
+        userBusiness.createUser(command);
 
         return "account-create-done";
     }

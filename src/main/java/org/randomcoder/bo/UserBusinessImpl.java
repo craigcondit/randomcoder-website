@@ -22,8 +22,7 @@ import java.util.List;
  * Business implementation for user management.
  */
 @Component("userBusiness")
-public class UserBusinessImpl
-        implements UserBusiness {
+public class UserBusinessImpl implements UserBusiness {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
 
@@ -64,14 +63,6 @@ public class UserBusinessImpl
     @Override
     @Transactional("transactionManager")
     public void createUser(Producer<User> producer) {
-        User user = new User();
-        producer.produce(user);
-        userRepository.save(user);
-    }
-
-    @Override
-    @Transactional("transactionManager")
-    public void createAccount(Producer<User> producer) {
         User user = new User();
         producer.produce(user);
         userRepository.save(user);
