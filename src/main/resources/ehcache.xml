@@ -25,27 +25,6 @@
         <heap unit="entries">1000</heap>
     </cache>
 
-    <cache alias="org.randomcoder.db.CommentReferrer">
-        <expiry>
-            <ttl unit="seconds">3600</ttl>
-        </expiry>
-        <heap unit="entries">1000</heap>
-    </cache>
-
-    <cache alias="org.randomcoder.db.CommentIp">
-        <expiry>
-            <ttl unit="seconds">3600</ttl>
-        </expiry>
-        <heap unit="entries">1000</heap>
-    </cache>
-
-    <cache alias="org.randomcoder.db.CommentUserAgent">
-        <expiry>
-            <ttl unit="seconds">3600</ttl>
-        </expiry>
-        <heap unit="entries">1000</heap>
-    </cache>
-
     <cache alias="org.randomcoder.db.User">
         <expiry>
             <ttl unit="seconds">3600</ttl>

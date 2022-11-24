@@ -42,9 +42,9 @@ import java.util.Date;
   private String content;
   private boolean visible;
   private ModerationStatus moderationStatus;
-  private CommentReferrer referrer;
-  private CommentIp ipAddress;
-  private CommentUserAgent userAgent;
+  private String referrer;
+  private String ipAddress;
+  private String userAgent;
 
   /**
    * Gets the ID for this comment.
@@ -282,10 +282,8 @@ import java.util.Date;
    *
    * @return HTTP referrer
    */
-  @ManyToOne(cascade = {
-      CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "comment_referrer_id", nullable = true)
-  public CommentReferrer getReferrer() {
+  @Column(name = "referrer", nullable = true)
+  public String getReferrer() {
     return referrer;
   }
 
@@ -294,7 +292,7 @@ import java.util.Date;
    *
    * @param referrer HTTP referrer
    */
-  public void setReferrer(CommentReferrer referrer) {
+  public void setReferrer(String referrer) {
     this.referrer = referrer;
   }
 
@@ -303,10 +301,8 @@ import java.util.Date;
    *
    * @return IP address
    */
-  @ManyToOne(cascade = {
-      CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "comment_ip_id", nullable = true)
-  public CommentIp getIpAddress() {
+  @Column(name = "ip_address", nullable = true)
+  public String getIpAddress() {
     return ipAddress;
   }
 
@@ -315,7 +311,7 @@ import java.util.Date;
    *
    * @param ipAddress IP address
    */
-  public void setIpAddress(CommentIp ipAddress) {
+  public void setIpAddress(String ipAddress) {
     this.ipAddress = ipAddress;
   }
 
@@ -324,10 +320,8 @@ import java.util.Date;
    *
    * @return HTTP user agent
    */
-  @ManyToOne(cascade = {
-      CascadeType.PERSIST }, fetch = FetchType.LAZY, optional = true)
-  @JoinColumn(name = "comment_useragent_id", nullable = true)
-  public CommentUserAgent getUserAgent() {
+  @Column(name = "user_agent", nullable = true)
+  public String getUserAgent() {
     return userAgent;
   }
 
@@ -336,7 +330,7 @@ import java.util.Date;
    *
    * @param userAgent HTTP user agent
    */
-  public void setUserAgent(CommentUserAgent userAgent) {
+  public void setUserAgent(String userAgent) {
     this.userAgent = userAgent;
   }
 }

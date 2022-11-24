@@ -44,6 +44,7 @@ do_start() {
       upgrade-2.2 \
       upgrade-2.6 \
       upgrade-3.0 \
+      upgrade-4.0 \
       test ; do
     apply_script "${script}"
   done

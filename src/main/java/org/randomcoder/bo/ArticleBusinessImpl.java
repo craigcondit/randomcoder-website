@@ -10,13 +10,7 @@ import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.ArticleRepository;
 import org.randomcoder.db.Comment;
-import org.randomcoder.db.CommentIp;
-import org.randomcoder.db.CommentIpRepository;
-import org.randomcoder.db.CommentReferrer;
-import org.randomcoder.db.CommentReferrerRepository;
 import org.randomcoder.db.CommentRepository;
-import org.randomcoder.db.CommentUserAgent;
-import org.randomcoder.db.CommentUserAgentRepository;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.RoleRepository;
 import org.randomcoder.db.Tag;
@@ -59,9 +53,6 @@ import java.util.List;
   private ArticleRepository articleRepository;
   private TagRepository tagRepository;
   private CommentRepository commentRepository;
-  private CommentReferrerRepository commentReferrerRepository;
-  private CommentIpRepository commentIpRepository;
-  private CommentUserAgentRepository commentUserAgentRepository;
   private Moderator moderator;
 
   /**
@@ -109,36 +100,6 @@ import java.util.List;
   @Inject public void setCommentRepository(
       CommentRepository commentRepository) {
     this.commentRepository = commentRepository;
-  }
-
-  /**
-   * Sets the comment IP repository to use.
-   *
-   * @param commentIpRepository comment IP repository
-   */
-  @Inject public void setCommentIpRepository(
-      CommentIpRepository commentIpRepository) {
-    this.commentIpRepository = commentIpRepository;
-  }
-
-  /**
-   * Sets the comment referrer repository to use.
-   *
-   * @param commentReferrerRepository comment referrer repository
-   */
-  @Inject public void setCommentReferrerRepository(
-      CommentReferrerRepository commentReferrerRepository) {
-    this.commentReferrerRepository = commentReferrerRepository;
-  }
-
-  /**
-   * Sets the comment user agent repository to use.
-   *
-   * @param commentUserAgentRepository comment user agent repository
-   */
-  @Inject public void setCommentUserAgentRepository(
-      CommentUserAgentRepository commentUserAgentRepository) {
-    this.commentUserAgentRepository = commentUserAgentRepository;
   }
 
   /**
@@ -205,41 +166,9 @@ import java.util.List;
           trusted ? ModerationStatus.HAM : ModerationStatus.PENDING);
     }
 
-    referrer = StringUtils.trimToNull(referrer);
-    if (referrer != null) {
-      CommentReferrer ref = commentReferrerRepository.findByUri(referrer);
-      if (ref == null) {
-        ref = new CommentReferrer();
-        ref.setCreationDate(new Date());
-        ref.setReferrerUri(referrer);
-        commentReferrerRepository.save(ref);
-      }
-      comment.setReferrer(ref);
-    }
-
-    ipAddress = StringUtils.trimToNull(ipAddress);
-    if (ipAddress != null) {
-      CommentIp ip = commentIpRepository.findByIpAddress(ipAddress);
-      if (ip == null) {
-        ip = new CommentIp();
-        ip.setCreationDate(new Date());
-        ip.setIpAddress(ipAddress);
-        commentIpRepository.save(ip);
-      }
-      comment.setIpAddress(ip);
-    }
-
-    userAgent = StringUtils.trimToNull(userAgent);
-    if (userAgent != null) {
-      CommentUserAgent ua = commentUserAgentRepository.findByName(userAgent);
-      if (ua == null) {
-        ua = new CommentUserAgent();
-        ua.setCreationDate(new Date());
-        ua.setUserAgentName(userAgent);
-        commentUserAgentRepository.save(ua);
-      }
-      comment.setUserAgent(ua);
-    }
+    comment.setReferrer(StringUtils.trimToNull(referrer));
+    comment.setIpAddress(StringUtils.trimToNull(ipAddress));
+    comment.setUserAgent(StringUtils.trimToNull(userAgent));
 
     commentRepository.save(comment);
 

@@ -6,9 +6,6 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.randomcoder.bo.AppInfoBusiness;
 import org.randomcoder.db.Comment;
-import org.randomcoder.db.CommentIp;
-import org.randomcoder.db.CommentReferrer;
-import org.randomcoder.db.CommentUserAgent;
 import org.randomcoder.db.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -193,9 +190,9 @@ public class AkismetModerator
   }
 
   private void populatePost(PostMethod post, Comment comment) {
-    CommentIp ip = comment.getIpAddress();
-    CommentUserAgent ua = comment.getUserAgent();
-    CommentReferrer ref = comment.getReferrer();
+    String ip = comment.getIpAddress();
+    String ua = comment.getUserAgent();
+    String ref = comment.getReferrer();
     User user = comment.getCreatedByUser();
     String author =
         (user == null) ? comment.getAnonymousUserName() : user.getUserName();
@@ -206,9 +203,9 @@ public class AkismetModerator
 
     post.setRequestHeader("User-Agent", userAgent);
     post.addParameter("blog", siteUrl);
-    post.addParameter("user_ip", (ip == null) ? "" : ip.getIpAddress());
-    post.addParameter("user_agent", (ua == null) ? "" : ua.getUserAgentName());
-    post.addParameter("referrer", (ref == null) ? "" : ref.getReferrerUri());
+    post.addParameter("user_ip", (ip == null) ? "" : ip);
+    post.addParameter("user_agent", (ua == null) ? "" : ua);
+    post.addParameter("referrer", (ref == null) ? "" : ref);
     post.addParameter("permalink",
         siteUrl + comment.getArticle().getPermalinkUrl());
     post.addParameter("comment_type", "comment");
