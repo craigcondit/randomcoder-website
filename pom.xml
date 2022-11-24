@@ -334,6 +334,10 @@
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>${jersey.version}</version>
+            <exclusions>
+                <groupId>org.glassfish.hk2.external</groupId>
+                <artifactId>aopalliance-repackaged</artifactId>
+            </exclusion>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
