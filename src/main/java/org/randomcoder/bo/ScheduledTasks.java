@@ -1,60 +1,61 @@
 package org.randomcoder.bo;
 
+import jakarta.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import jakarta.inject.Inject;
-
 /**
  * Various scheduled tasks.
  */
-@Component("scheduledTasks") public class ScheduledTasks {
-  private static final Logger logger =
-      LoggerFactory.getLogger(ScheduledTasks.class);
+@Component("scheduledTasks")
+public class ScheduledTasks {
+    /**
+     * Default moderation batch size.
+     */
+    public static final int DEFAULT_MODERATION_BATCH_SIZE = 5;
+    private static final Logger logger =
+            LoggerFactory.getLogger(ScheduledTasks.class);
+    private ArticleBusiness articleBusiness;
 
-  /**
-   * Default moderation batch size.
-   */
-  public static final int DEFAULT_MODERATION_BATCH_SIZE = 5;
+    private int moderationBatchSize = DEFAULT_MODERATION_BATCH_SIZE;
 
-  private ArticleBusiness articleBusiness;
-
-  private int moderationBatchSize = DEFAULT_MODERATION_BATCH_SIZE;
-
-  /**
-   * Sets the ArticleBusiness implementation to use.
-   *
-   * @param articleBusiness ArticleBusiness implementation
-   */
-  @Inject public void setArticleBusiness(ArticleBusiness articleBusiness) {
-    this.articleBusiness = articleBusiness;
-  }
-
-  /**
-   * Sets the number of comments to moderate in each batch.
-   *
-   * @param moderationBatchSize number of comments to moderate
-   */
-  @Value("${moderation.batch.size}") public void setModerationBatchSize(
-      int moderationBatchSize) {
-    this.moderationBatchSize = moderationBatchSize;
-  }
-
-  /**
-   * Moderates comments.
-   */
-  @Scheduled(cron = "*/60 * * * * *") public void moderateComments() {
-    try {
-      boolean processed = false;
-      do {
-        processed = articleBusiness.moderateComments(moderationBatchSize);
-      } while (processed);
-    } catch (Exception e) {
-      logger.error("Error while moderating comments", e);
+    /**
+     * Sets the ArticleBusiness implementation to use.
+     *
+     * @param articleBusiness ArticleBusiness implementation
+     */
+    @Inject
+    public void setArticleBusiness(ArticleBusiness articleBusiness) {
+        this.articleBusiness = articleBusiness;
     }
-  }
+
+    /**
+     * Sets the number of comments to moderate in each batch.
+     *
+     * @param moderationBatchSize number of comments to moderate
+     */
+    @Value("${moderation.batch.size}")
+    public void setModerationBatchSize(
+            int moderationBatchSize) {
+        this.moderationBatchSize = moderationBatchSize;
+    }
+
+    /**
+     * Moderates comments.
+     */
+    @Scheduled(cron = "*/60 * * * * *")
+    public void moderateComments() {
+        try {
+            boolean processed = false;
+            do {
+                processed = articleBusiness.moderateComments(moderationBatchSize);
+            } while (processed);
+        } catch (Exception e) {
+            logger.error("Error while moderating comments", e);
+        }
+    }
 
 }

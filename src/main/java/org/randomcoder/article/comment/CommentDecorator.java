@@ -16,95 +16,92 @@ import java.util.Locale;
  * formatting support.
  */
 public class CommentDecorator {
-  private final Comment comment;
-  private final ContentFilter filter;
+    private final Comment comment;
+    private final ContentFilter filter;
 
-  /**
-   * Creates a new comment decorator using the given comment and filter.
-   *
-   * @param comment comment
-   * @param filter  content filter
-   */
-  public CommentDecorator(Comment comment, ContentFilter filter) {
-    this.comment = comment;
-    this.filter = filter;
-  }
-
-  /**
-   * Gets the comment wrapped by this decorator.
-   *
-   * @return comment
-   */
-  public Comment getComment() {
-    return comment;
-  }
-
-  /**
-   * Gets the avatar image URL for the comment author.
-   *
-   * @return image URL or <code>null</code> if not present
-   */
-  public String getAuthorAvatarImageUrl() {
-    String emailAddress = null;
-    User createdBy = comment.getCreatedByUser();
-    if (createdBy == null) {
-      emailAddress = comment.getAnonymousEmailAddress();
-    } else {
-      emailAddress = createdBy.getEmailAddress();
+    /**
+     * Creates a new comment decorator using the given comment and filter.
+     *
+     * @param comment comment
+     * @param filter  content filter
+     */
+    public CommentDecorator(Comment comment, ContentFilter filter) {
+        this.comment = comment;
+        this.filter = filter;
     }
-    if (emailAddress == null) {
-      return null;
-    }
-    emailAddress = emailAddress.trim().toLowerCase(Locale.US);
 
-    String hash = DigestUtils.md5Hex(emailAddress);
+    /**
+     * Gets the comment wrapped by this decorator.
+     *
+     * @return comment
+     */
+    public Comment getComment() {
+        return comment;
+    }
 
-    return "https://secure.gravatar.com/avatar/" + hash + "?s=40&d=mm";
-  }
+    /**
+     * Gets the avatar image URL for the comment author.
+     *
+     * @return image URL or <code>null</code> if not present
+     */
+    public String getAuthorAvatarImageUrl() {
+        String emailAddress = null;
+        User createdBy = comment.getCreatedByUser();
+        if (createdBy == null) {
+            emailAddress = comment.getAnonymousEmailAddress();
+        } else {
+            emailAddress = createdBy.getEmailAddress();
+        }
+        if (emailAddress == null) {
+            return null;
+        }
+        emailAddress = emailAddress.trim().toLowerCase(Locale.US);
 
-  /**
-   * Gets article content after applying filters and HTML escaping.
-   *
-   * @return {@code String} containing the article content in XHTML.
-   * @throws TransformerException if filtering fails
-   * @throws IOException          if an I/O error occurs
-   * @throws SAXException         if parsing fails
-   */
-  public String getFormattedText()
-      throws TransformerException, IOException, SAXException {
-    return ContentUtils
-        .formatText(comment.getContent(), null, comment.getContentType(),
-            filter);
-  }
+        String hash = DigestUtils.md5Hex(emailAddress);
 
-  public String getAuthor() {
-    if (comment.getCreatedByUser() != null) {
-      return comment.getCreatedByUser().getUserName();
+        return "https://secure.gravatar.com/avatar/" + hash + "?s=40&d=mm";
     }
-    if (comment.getAnonymousUserName() != null) {
-      return comment.getAnonymousUserName();
-    }
-    return null;
-  }
 
-  public String getCommentLink() {
-    if (comment.getCreatedByUser() != null) {
-      return comment.getCreatedByUser().getWebsite();
+    /**
+     * Gets article content after applying filters and HTML escaping.
+     *
+     * @return {@code String} containing the article content in XHTML.
+     * @throws TransformerException if filtering fails
+     * @throws IOException          if an I/O error occurs
+     * @throws SAXException         if parsing fails
+     */
+    public String getFormattedText()
+            throws TransformerException, IOException, SAXException {
+        return ContentUtils
+                .formatText(comment.getContent(), null, comment.getContentType(),
+                        filter);
     }
-    if (comment.getAnonymousUserName() != null) {
-      return comment.getAnonymousWebsite();
-    }
-    return null;
-  }
 
-  public boolean isCommentExternal() {
-    if (comment.getCreatedByUser() != null) {
-      return true;
+    public String getAuthor() {
+        if (comment.getCreatedByUser() != null) {
+            return comment.getCreatedByUser().getUserName();
+        }
+        if (comment.getAnonymousUserName() != null) {
+            return comment.getAnonymousUserName();
+        }
+        return null;
     }
-    if (comment.getAnonymousUserName() != null) {
-      return true;
+
+    public String getCommentLink() {
+        if (comment.getCreatedByUser() != null) {
+            return comment.getCreatedByUser().getWebsite();
+        }
+        if (comment.getAnonymousUserName() != null) {
+            return comment.getAnonymousWebsite();
+        }
+        return null;
     }
-    return false;
-  }
+
+    public boolean isCommentExternal() {
+        if (comment.getCreatedByUser() != null) {
+            return true;
+        }
+        return comment.getAnonymousUserName() != null;
+    }
 
 }

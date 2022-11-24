@@ -21,7 +21,6 @@ import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.io.Reader;
 import java.net.URL;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -60,101 +59,101 @@ import java.util.Set;
  * </pre>
  */
 public class XHTMLFilter implements ContentFilter {
-  /**
-   * Apache logger.
-   */
-  protected static final Logger logger =
-      LoggerFactory.getLogger(XHTMLFilter.class);
+    /**
+     * Prefix to add to content before parsing.
+     */
+    public static final String PREFIX =
+            "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Untitled</title></head><body>";
+    /**
+     * Suffix to add to content before parsing.
+     */
+    public static final String SUFFIX = "</body></html>";
+    /**
+     * Apache logger.
+     */
+    protected static final Logger logger =
+            LoggerFactory.getLogger(XHTMLFilter.class);
+    private static final String XSL_RESOURCE = "xhtml-to-xhtml.xsl";
+    private static final String XSD_RESOURCE = "xhtml1-transitional.xsd";
+    private static final String NS_RESOURCE = "namespace.xsd";
+    private final Templates templates;
+    private final Schema schema;
+    private final Set<String> allowedClasses;
 
-  private static final String XSL_RESOURCE = "xhtml-to-xhtml.xsl";
-  private static final String XSD_RESOURCE = "xhtml1-transitional.xsd";
-  private static final String NS_RESOURCE = "namespace.xsd";
+    /**
+     * Constructs a new XHTML filter.
+     *
+     * @param allowedClasses Set of CSS class names
+     * @throws TransformerConfigurationException if transformer factory fails
+     * @throws SAXException                      if schema validation fails
+     */
+    public XHTMLFilter(Set<String> allowedClasses)
+            throws TransformerConfigurationException, SAXException {
 
-  /**
-   * Prefix to add to content before parsing.
-   */
-  public static final String PREFIX =
-      "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Untitled</title></head><body>";
+        this.allowedClasses = allowedClasses;
 
-  /**
-   * Suffix to add to content before parsing.
-   */
-  public static final String SUFFIX = "</body></html>";
+        // cache templates for later use
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        templates = tFactory.newTemplates(new SAXSource(
+                new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
 
-  private final Templates templates;
-  private final Schema schema;
-  private final Set<String> allowedClasses;
+        SchemaFactory sFactory =
+                SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Source xhtmlSource =
+                new StreamSource(getClass().getResourceAsStream(XSD_RESOURCE));
+        Source nsSource =
+                new StreamSource(getClass().getResourceAsStream(NS_RESOURCE));
 
-  /**
-   * Constructs a new XHTML filter.
-   *
-   * @param allowedClasses Set of CSS class names
-   *
-   * @throws TransformerConfigurationException if transformer factory fails
-   * @throws SAXException                      if schema validation fails
-   */
-  public XHTMLFilter(Set<String> allowedClasses)
-      throws TransformerConfigurationException, SAXException {
-
-    this.allowedClasses = allowedClasses;
-
-    // cache templates for later use
-    TransformerFactory tFactory = TransformerFactory.newInstance();
-    templates = tFactory.newTemplates(new SAXSource(
-        new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
-
-    SchemaFactory sFactory =
-        SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Source xhtmlSource =
-        new StreamSource(getClass().getResourceAsStream(XSD_RESOURCE));
-    Source nsSource =
-        new StreamSource(getClass().getResourceAsStream(NS_RESOURCE));
-
-    schema = sFactory.newSchema(new Source[] { nsSource, xhtmlSource });
-  }
-
-  @Override public XMLReader getXMLReader(URL baseUrl, String contentType)
-      throws SAXException {
-    XMLReader xmlReader;
-    try {
-      SAXParserFactory spf = SAXParserFactory.newInstance();
-      spf.setNamespaceAware(true);
-      xmlReader = spf.newSAXParser().getXMLReader();
-    } catch (ParserConfigurationException e) {
-      throw new SAXException(e);
+        schema = sFactory.newSchema(new Source[]{nsSource, xhtmlSource});
     }
 
-    return new XHTMLReader(xmlReader, allowedClasses, baseUrl);
-  }
+    @Override
+    public XMLReader getXMLReader(URL baseUrl, String contentType)
+            throws SAXException {
+        XMLReader xmlReader;
+        try {
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            spf.setNamespaceAware(true);
+            xmlReader = spf.newSAXParser().getXMLReader();
+        } catch (ParserConfigurationException e) {
+            throw new SAXException(e);
+        }
 
-  @Override public Templates getXSLTemplates(String contentType) {
-    return templates;
-  }
-
-  @Override public String getPrefix(String contentType) {
-    return PREFIX;
-  }
-
-  @Override public String getSuffix(String contentType) {
-    return SUFFIX;
-  }
-
-  @Override public void validate(String contentType, Reader content)
-      throws InvalidContentException, InvalidContentTypeException, IOException {
-    Validator validator = schema.newValidator();
-    XHTMLErrorHandler handler = new XHTMLErrorHandler();
-    validator.setErrorHandler(handler);
-
-    try {
-      validator.validate(new StreamSource(content));
-    } catch (SAXException e) {
-      if (handler.getMessage() != null) {
-        // we caught it
-        throw new InvalidContentException(handler.getMessage(),
-            handler.getLineNumber(), handler.getColumnNumber());
-      }
-      // something else bad happened
-      throw new InvalidContentException(e.getMessage(), 1, 1);
+        return new XHTMLReader(xmlReader, allowedClasses, baseUrl);
     }
-  }
+
+    @Override
+    public Templates getXSLTemplates(String contentType) {
+        return templates;
+    }
+
+    @Override
+    public String getPrefix(String contentType) {
+        return PREFIX;
+    }
+
+    @Override
+    public String getSuffix(String contentType) {
+        return SUFFIX;
+    }
+
+    @Override
+    public void validate(String contentType, Reader content)
+            throws InvalidContentException, InvalidContentTypeException, IOException {
+        Validator validator = schema.newValidator();
+        XHTMLErrorHandler handler = new XHTMLErrorHandler();
+        validator.setErrorHandler(handler);
+
+        try {
+            validator.validate(new StreamSource(content));
+        } catch (SAXException e) {
+            if (handler.getMessage() != null) {
+                // we caught it
+                throw new InvalidContentException(handler.getMessage(),
+                        handler.getLineNumber(), handler.getColumnNumber());
+            }
+            // something else bad happened
+            throw new InvalidContentException(e.getMessage(), 1, 1);
+        }
+    }
 }

@@ -22,6 +22,18 @@ public class ThymeleafContext implements IContext {
         }
     }
 
+    static Map<String, Object> securityAttributes(SecurityContext securityContext) {
+        var map = new HashMap<String, Object>();
+
+        var userPrincipal = securityContext.getUserPrincipal();
+        if (userPrincipal == null) {
+            map.put("username", null);
+        } else {
+            map.put("username", userPrincipal.getName());
+        }
+        return map;
+    }
+
     @Override
     public Locale getLocale() {
         return Locale.getDefault();
@@ -40,18 +52,6 @@ public class ThymeleafContext implements IContext {
     @Override
     public Object getVariable(String name) {
         return variables.get(name);
-    }
-
-    static Map<String, Object> securityAttributes(SecurityContext securityContext) {
-        var map = new HashMap<String, Object>();
-
-        var userPrincipal = securityContext.getUserPrincipal();
-        if (userPrincipal == null) {
-            map.put("username", null);
-        } else {
-            map.put("username", userPrincipal.getName());
-        }
-        return map;
     }
 
 }

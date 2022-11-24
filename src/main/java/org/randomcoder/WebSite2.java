@@ -1,7 +1,12 @@
 package org.randomcoder;
 
 import org.eclipse.jetty.http2.server.HTTP2CServerConnectionFactory;
-import org.eclipse.jetty.server.*;
+import org.eclipse.jetty.server.ConnectionFactory;
+import org.eclipse.jetty.server.ForwardedRequestCustomizer;
+import org.eclipse.jetty.server.HttpConfiguration;
+import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.SecuredRedirectHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -20,7 +25,6 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.thymeleaf.ITemplateEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.io.IOException;
@@ -37,18 +41,6 @@ public class WebSite2 {
         LOG.info("Starting web server on {}:{} using document root {}", config.getString(Config.HTTP_ADDRESS), config.getString(Config.HTTP_PORT), contentBase(this));
         this.config = config;
         this.server = createServer(this, config);
-    }
-
-    public void start() throws Exception {
-        server.start();
-    }
-
-    public void stop() {
-        try {
-            server.stop();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     static Server createServer(Object owner, Config config) throws IOException {
@@ -124,7 +116,7 @@ public class WebSite2 {
         connectionFactories.add(http2cFactory);
 
         var httpConnector = new ServerConnector(
-                server, 1, -1, connectionFactories.toArray(new ConnectionFactory[] {}));
+                server, 1, -1, connectionFactories.toArray(new ConnectionFactory[]{}));
         var httpAddress = config.getString(Config.HTTP_ADDRESS);
         httpConnector.setHost("*".equals(httpAddress) ? "0.0.0.0" : httpAddress);
         httpConnector.setPort(config.getInt(Config.HTTP_PORT));
@@ -187,6 +179,18 @@ public class WebSite2 {
         long elapsedTime = endTime - startTime;
 
         LOG.info("Web site started in {}ms", elapsedTime);
+    }
+
+    public void start() throws Exception {
+        server.start();
+    }
+
+    public void stop() {
+        try {
+            server.stop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

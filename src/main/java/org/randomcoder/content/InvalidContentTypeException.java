@@ -34,14 +34,14 @@ package org.randomcoder.content;
  * </pre>
  */
 public class InvalidContentTypeException extends RuntimeException {
-  private static final long serialVersionUID = 4715267678027941575L;
+    private static final long serialVersionUID = 4715267678027941575L;
 
-  /**
-   * Constructs a new exception.
-   *
-   * @param msg error message
-   */
-  public InvalidContentTypeException(String msg) {
-    super(msg);
-  }
+    /**
+     * Constructs a new exception.
+     *
+     * @param msg error message
+     */
+    public InvalidContentTypeException(String msg) {
+        super(msg);
+    }
 }

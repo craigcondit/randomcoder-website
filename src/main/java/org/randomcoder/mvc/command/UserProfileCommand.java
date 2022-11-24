@@ -10,49 +10,50 @@ import java.io.Serializable;
  * Command class for updating a user profile.
  */
 public class UserProfileCommand implements Serializable, Producer<User> {
-  private static final long serialVersionUID = 8464807327958297647L;
+    private static final long serialVersionUID = 8464807327958297647L;
 
-  private String emailAddress;
-  private String website;
+    private String emailAddress;
+    private String website;
 
-  /**
-   * Gets the email address of this user.
-   *
-   * @return email address
-   */
-  public String getEmailAddress() {
-    return emailAddress;
-  }
+    /**
+     * Gets the email address of this user.
+     *
+     * @return email address
+     */
+    public String getEmailAddress() {
+        return emailAddress;
+    }
 
-  /**
-   * Sets the email address of this user.
-   *
-   * @param emailAddress email address
-   */
-  public void setEmailAddress(String emailAddress) {
-    this.emailAddress = StringUtils.trimToNull(emailAddress);
-  }
+    /**
+     * Sets the email address of this user.
+     *
+     * @param emailAddress email address
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = StringUtils.trimToNull(emailAddress);
+    }
 
-  /**
-   * Gets the website for this user.
-   *
-   * @return web site
-   */
-  public String getWebsite() {
-    return website;
-  }
+    /**
+     * Gets the website for this user.
+     *
+     * @return web site
+     */
+    public String getWebsite() {
+        return website;
+    }
 
-  /**
-   * Sets the website for this user.
-   *
-   * @param website seb site
-   */
-  public void setWebsite(String website) {
-    this.website = StringUtils.trimToNull(website);
-  }
+    /**
+     * Sets the website for this user.
+     *
+     * @param website seb site
+     */
+    public void setWebsite(String website) {
+        this.website = StringUtils.trimToNull(website);
+    }
 
-  @Override public void produce(User target) {
-    target.setWebsite(website);
-    target.setEmailAddress(emailAddress);
-  }
+    @Override
+    public void produce(User target) {
+        target.setWebsite(website);
+        target.setEmailAddress(emailAddress);
+    }
 }

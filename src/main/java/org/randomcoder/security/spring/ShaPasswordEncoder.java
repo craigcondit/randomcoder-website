@@ -9,21 +9,22 @@ import java.security.NoSuchAlgorithmException;
 
 public class ShaPasswordEncoder implements PasswordEncoder {
 
-  private MessageDigest digester() {
-    try {
-      return MessageDigest.getInstance("SHA-1");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalArgumentException("Unable to get SHA-1 digest");
+    private MessageDigest digester() {
+        try {
+            return MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException("Unable to get SHA-1 digest");
+        }
     }
-  }
 
-  @Override public String encode(CharSequence rawPassword) {
-    return new String(Hex.encode(digester().digest(Utf8.encode(rawPassword))));
-  }
+    @Override
+    public String encode(CharSequence rawPassword) {
+        return new String(Hex.encode(digester().digest(Utf8.encode(rawPassword))));
+    }
 
-  @Override
-  public boolean matches(CharSequence rawPassword, String encodedPassword) {
-    return encode(rawPassword).equals(encodedPassword);
-  }
+    @Override
+    public boolean matches(CharSequence rawPassword, String encodedPassword) {
+        return encode(rawPassword).equals(encodedPassword);
+    }
 
 }

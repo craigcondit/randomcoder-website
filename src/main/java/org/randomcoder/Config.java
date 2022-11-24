@@ -4,16 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.util.Properties;
 
 public class Config {
-
-    private final Properties props;
-
-    private static final String ENV_CONFIG_FILE = "CONFIG_FILE";
-    private static final String DEFAULT_CONFIG_FILE = "randomcoder-website.conf";
-    private static final String RESOURCE_DEFAULT_CONF = "/profiles/default.properties";
 
     // config properties
     public static final String HTTP_ADDRESS = "http.address";
@@ -40,6 +33,10 @@ public class Config {
     public static final String REMEMBERME_KEY = "rememberme.key";
     public static final String AKISMET_SITE_KEY = "akismet.site.key";
     public static final String AKISMET_SITE_URL = "akismet.site.url";
+    private static final String ENV_CONFIG_FILE = "CONFIG_FILE";
+    private static final String DEFAULT_CONFIG_FILE = "randomcoder-website.conf";
+    private static final String RESOURCE_DEFAULT_CONF = "/profiles/default.properties";
+    private final Properties props;
 
     private Config(Properties props) {
         this.props = props;
@@ -47,44 +44,6 @@ public class Config {
 
     public static Config load() throws IOException {
         return new Config(loadConfiguration());
-    }
-
-    public String getString(String key) throws IllegalArgumentException {
-        var result = props.getProperty(key);
-        if (result == null) {
-            throw new IllegalArgumentException(String.format("Missing required configuration '%s", key));
-        }
-        return result;
-    }
-
-    public String getStringOrDefault(String key, String defaultValue) {
-        return props.getProperty(key, defaultValue);
-    }
-
-    public int getInt(String key) throws IllegalArgumentException, NumberFormatException {
-        var string = getString(key);
-        return Integer.parseInt(string, 10);
-    }
-
-    public int getIntOrDefault(String key, int defaultValue) throws NumberFormatException {
-        var string = props.getProperty(key);
-        if (string == null) {
-            return defaultValue;
-        }
-        return Integer.parseInt(string, 10);
-    }
-
-    public boolean getBoolean(String key) throws IllegalArgumentException {
-        var string = getString(key);
-        return Boolean.valueOf(string);
-    }
-
-    public boolean getBooleanOrDefault(String key, boolean defaultValue) {
-        var string = props.getProperty(key);
-        if (string == null) {
-            return defaultValue;
-        }
-        return Boolean.valueOf(string);
     }
 
     private static Properties loadConfiguration() throws IOException {
@@ -111,6 +70,44 @@ public class Config {
         }
 
         return conf;
+    }
+
+    public String getString(String key) throws IllegalArgumentException {
+        var result = props.getProperty(key);
+        if (result == null) {
+            throw new IllegalArgumentException(String.format("Missing required configuration '%s", key));
+        }
+        return result;
+    }
+
+    public String getStringOrDefault(String key, String defaultValue) {
+        return props.getProperty(key, defaultValue);
+    }
+
+    public int getInt(String key) throws IllegalArgumentException {
+        var string = getString(key);
+        return Integer.parseInt(string, 10);
+    }
+
+    public int getIntOrDefault(String key, int defaultValue) throws NumberFormatException {
+        var string = props.getProperty(key);
+        if (string == null) {
+            return defaultValue;
+        }
+        return Integer.parseInt(string, 10);
+    }
+
+    public boolean getBoolean(String key) throws IllegalArgumentException {
+        var string = getString(key);
+        return Boolean.valueOf(string);
+    }
+
+    public boolean getBooleanOrDefault(String key, boolean defaultValue) {
+        var string = props.getProperty(key);
+        if (string == null) {
+            return defaultValue;
+        }
+        return Boolean.valueOf(string);
     }
 
 }

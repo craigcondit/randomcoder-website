@@ -6,10 +6,10 @@ package org.randomcoder.io;
  * @param <T> target type
  */
 public interface Producer<T> {
-  /**
-   * Writes information to the given object.
-   *
-   * @param target target object to write
-   */
-  public void produce(T target);
+    /**
+     * Writes information to the given object.
+     *
+     * @param target target object to write
+     */
+    void produce(T target);
 }

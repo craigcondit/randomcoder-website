@@ -45,40 +45,45 @@ import java.net.URL;
  * </pre>
  */
 public class TextFilter implements ContentFilter {
-  private static final String XSL_RESOURCE = "text-to-xhtml.xsl";
+    private static final String XSL_RESOURCE = "text-to-xhtml.xsl";
 
-  private final Templates templates;
+    private final Templates templates;
 
-  /**
-   * Creates a new text filter.
-   *
-   * @throws TransformerConfigurationException if transformer factory fails
-   */
-  public TextFilter() throws TransformerConfigurationException {
-    // cache templates for later use
-    TransformerFactory tFactory = TransformerFactory.newInstance();
-    templates = tFactory.newTemplates(new SAXSource(
-        new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
-  }
+    /**
+     * Creates a new text filter.
+     *
+     * @throws TransformerConfigurationException if transformer factory fails
+     */
+    public TextFilter() throws TransformerConfigurationException {
+        // cache templates for later use
+        TransformerFactory tFactory = TransformerFactory.newInstance();
+        templates = tFactory.newTemplates(new SAXSource(
+                new InputSource(getClass().getResourceAsStream(XSL_RESOURCE))));
+    }
 
-  @Override public void validate(String contentType, Reader content)
-      throws InvalidContentException, InvalidContentTypeException, IOException {
-    // all input is legal here
-  }
+    @Override
+    public void validate(String contentType, Reader content)
+            throws InvalidContentException, InvalidContentTypeException, IOException {
+        // all input is legal here
+    }
 
-  @Override public XMLReader getXMLReader(URL baseUrl, String contentType) {
-    return new TextReader();
-  }
+    @Override
+    public XMLReader getXMLReader(URL baseUrl, String contentType) {
+        return new TextReader();
+    }
 
-  @Override public Templates getXSLTemplates(String contentType) {
-    return templates;
-  }
+    @Override
+    public Templates getXSLTemplates(String contentType) {
+        return templates;
+    }
 
-  @Override public String getPrefix(String contentType) {
-    return null;
-  }
+    @Override
+    public String getPrefix(String contentType) {
+        return null;
+    }
 
-  @Override public String getSuffix(String contentType) {
-    return null;
-  }
+    @Override
+    public String getSuffix(String contentType) {
+        return null;
+    }
 }

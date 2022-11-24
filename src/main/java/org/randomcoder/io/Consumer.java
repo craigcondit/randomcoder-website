@@ -6,10 +6,10 @@ package org.randomcoder.io;
  * @param <T> target type
  */
 public interface Consumer<T> {
-  /**
-   * Reads information from the given object.
-   *
-   * @param target target object to read
-   */
-  public void consume(T target);
+    /**
+     * Reads information from the given object.
+     *
+     * @param target target object to read
+     */
+    void consume(T target);
 }

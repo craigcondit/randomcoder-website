@@ -5,7 +5,13 @@ import org.thymeleaf.util.ClassLoaderUtils;
 import org.thymeleaf.util.StringUtils;
 import org.thymeleaf.util.Validate;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 public class ThymeleafTemplateResource implements ITemplateResource {
 
@@ -16,40 +22,6 @@ public class ThymeleafTemplateResource implements ITemplateResource {
         Validate.notEmpty(path, "Resource Path cannot be null or empty");
         this.path = path;
         this.characterEncoding = characterEncoding;
-    }
-
-    @Override
-    public String getDescription() {
-        return this.path;
-    }
-
-    @Override
-    public String getBaseName() {
-        return computeBaseName(this.path);
-    }
-
-    @Override
-    public boolean exists() {
-        return ClassLoaderUtils.isResourcePresent(this.path);
-    }
-
-    @Override
-    public Reader reader() throws IOException {
-        InputStream inputStream = getClass().getResourceAsStream(this.path);
-        if (inputStream == null) {
-            throw new FileNotFoundException(String.format("ClassLoader resource \"%s\" could not be resolved", this.path));
-        }
-        if (!StringUtils.isEmptyOrWhitespace(this.characterEncoding)) {
-            return new BufferedReader(new InputStreamReader(new BufferedInputStream(inputStream), this.characterEncoding));
-        }
-        return new BufferedReader(new InputStreamReader(new BufferedInputStream(inputStream)));
-    }
-
-    @Override
-    public ITemplateResource relative(String relativeLocation) {
-        Validate.notEmpty(relativeLocation, "Relative Path cannot be null or empty");
-        final String fullRelativeLocation = computeRelativeLocation(this.path, relativeLocation);
-        return new ThymeleafTemplateResource(fullRelativeLocation, this.characterEncoding);
     }
 
     static String computeBaseName(String path) {
@@ -85,6 +57,40 @@ public class ThymeleafTemplateResource implements ITemplateResource {
             return relativeBuilder.toString();
         }
         return relativeLocation;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.path;
+    }
+
+    @Override
+    public String getBaseName() {
+        return computeBaseName(this.path);
+    }
+
+    @Override
+    public boolean exists() {
+        return ClassLoaderUtils.isResourcePresent(this.path);
+    }
+
+    @Override
+    public Reader reader() throws IOException {
+        InputStream inputStream = getClass().getResourceAsStream(this.path);
+        if (inputStream == null) {
+            throw new FileNotFoundException(String.format("ClassLoader resource \"%s\" could not be resolved", this.path));
+        }
+        if (!StringUtils.isEmptyOrWhitespace(this.characterEncoding)) {
+            return new BufferedReader(new InputStreamReader(new BufferedInputStream(inputStream), this.characterEncoding));
+        }
+        return new BufferedReader(new InputStreamReader(new BufferedInputStream(inputStream)));
+    }
+
+    @Override
+    public ITemplateResource relative(String relativeLocation) {
+        Validate.notEmpty(relativeLocation, "Relative Path cannot be null or empty");
+        final String fullRelativeLocation = computeRelativeLocation(this.path, relativeLocation);
+        return new ThymeleafTemplateResource(fullRelativeLocation, this.characterEncoding);
     }
 
 }

@@ -12,401 +12,397 @@ import java.util.Locale;
  * Convenience methods to validate common data types.
  */
 public final class DataValidationUtils {
-  private static final Logger logger =
-      LoggerFactory.getLogger(DataValidationUtils.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(DataValidationUtils.class);
 
-  private DataValidationUtils() {
-  }
-
-  /**
-   * Returns the canonical representation of a domain name.
-   *
-   * @param domain domain nam
-   * @return domain name with
-   */
-  public static String canonicalizeDomainName(String domain) {
-    if (domain == null) {
-      return null;
-    }
-    domain = domain.toLowerCase(Locale.US).trim();
-    if (domain.length() == 0) {
-      return null;
-    }
-    return domain;
-  }
-
-  /**
-   * Determines whether a domain name is valid or not.
-   *
-   * <p>
-   * <strong>NOTE:</strong> This method does not handle internationalized
-   * domain
-   * names.
-   * </p>
-   *
-   * @param domain domain name
-   * @return true if valid, false otherwise
-   */
-  public static boolean isValidDomainName(String domain) {
-    domain = canonicalizeDomainName(domain);
-    if (domain == null) {
-      return false;
-    }
-    if (domain.length() > 255) {
-      return false;
+    private DataValidationUtils() {
     }
 
-    String dom = "([a-z0-9]+|([a-z0-9]+[a-z0-9\\-]*[a-z0-9]+))";
-    if (!domain.matches("^(" + dom + "\\.)+" + dom + "+$")) {
-      return false;
+    /**
+     * Returns the canonical representation of a domain name.
+     *
+     * @param domain domain nam
+     * @return domain name with
+     */
+    public static String canonicalizeDomainName(String domain) {
+        if (domain == null) {
+            return null;
+        }
+        domain = domain.toLowerCase(Locale.US).trim();
+        if (domain.length() == 0) {
+            return null;
+        }
+        return domain;
     }
 
-    String[] parts = domain.split("\\.");
-    for (String part : parts) {
-      if (part.length() > 67) {
-        return false;
-      }
-    }
-    return true;
-  }
+    /**
+     * Determines whether a domain name is valid or not.
+     *
+     * <p>
+     * <strong>NOTE:</strong> This method does not handle internationalized
+     * domain
+     * names.
+     * </p>
+     *
+     * @param domain domain name
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidDomainName(String domain) {
+        domain = canonicalizeDomainName(domain);
+        if (domain == null) {
+            return false;
+        }
+        if (domain.length() > 255) {
+            return false;
+        }
 
-  /**
-   * Determines if the given string matches a domain name wildcard.
-   *
-   * @param domain domain name
-   * @return true if valid, false otherwise
-   */
-  public static boolean isValidDomainWildcard(String domain) {
-    domain = canonicalizeDomainName(domain);
-    if (domain == null) {
-      return false;
-    }
-    if (domain.length() > 255) {
-      return false;
-    }
+        String dom = "([a-z0-9]+|([a-z0-9]+[a-z0-9\\-]*[a-z0-9]+))";
+        if (!domain.matches("^(" + dom + "\\.)+" + dom + "+$")) {
+            return false;
+        }
 
-    if (domain.startsWith("*.")) {
-      domain = domain.substring(2);
-    }
-
-    return isValidDomainName(domain);
-  }
-
-  /**
-   * Validates local email account names.
-   *
-   * @param email email account
-   * @return true if valid email address, false otherwise
-   */
-  public static boolean isValidLocalEmailAccount(String email) {
-    if (!email.matches("^[A-Za-z0-9_\\-\\.]+$")) {
-      return false;
-    }
-    if (email.length() > 64) {
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
-   * Determines if a specified IP address is valid.
-   *
-   * <p>
-   * <strong>NOTE:</strong> This is IPv4 only.
-   * </p>
-   *
-   * @param ipAddress ip address to test
-   * @return true if valid, false otherwise
-   */
-  public static boolean isValidIpAddress(String ipAddress) {
-    if (ipAddress == null) {
-      return false;
-    }
-    ipAddress = ipAddress.trim();
-    if (!ipAddress.matches("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$")) {
-      return false;
-    }
-    String[] parts = ipAddress.split("\\.");
-    for (int i = 0; i < 4; i++) {
-      int value = Integer.parseInt(parts[i]);
-      if (value < 0 || value > 255) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Determines if a specified URL is valid.
-   * <p>
-   * This validates a URL, and restricts the protocols to http and https.
-   * </p>
-   *
-   * @param url URL to validate
-   * @return true if valid, false otherwise
-   */
-  public static boolean isValidUrl(String url) {
-    return isValidUrl(url, "http", "https");
-  }
-
-  /**
-   * Determines if a specified URL is valid.
-   *
-   * @param url              URL to validate
-   * @param allowedProtocols array of valid protocols
-   * @return true if valid, false otherwise
-   */
-  public static boolean isValidUrl(String url, String... allowedProtocols) {
-    URL validated = null;
-
-    try {
-      validated = new URL(url);
-    } catch (MalformedURLException e) {
-      logger.debug("Malformed URL", e);
-      return false;
-    }
-
-    String proto = validated.getProtocol();
-    for (String allowed : allowedProtocols) {
-      if (allowed.equals(proto)) {
+        String[] parts = domain.split("\\.");
+        for (String part : parts) {
+            if (part.length() > 67) {
+                return false;
+            }
+        }
         return true;
-      }
     }
 
-    return false;
-  }
+    /**
+     * Determines if the given string matches a domain name wildcard.
+     *
+     * @param domain domain name
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidDomainWildcard(String domain) {
+        domain = canonicalizeDomainName(domain);
+        if (domain == null) {
+            return false;
+        }
+        if (domain.length() > 255) {
+            return false;
+        }
 
-  /**
-   * Splits an email address into its local and domain parts.
-   *
-   * @param email email address
-   * @return String[] { local, domain }
-   */
-  public static String[] splitEmailAddress(String email) {
-    String[] results = new String[] { null, null };
-    if (email == null) {
-      return results;
-    }
-    email = email.trim();
+        if (domain.startsWith("*.")) {
+            domain = domain.substring(2);
+        }
 
-    // split into local-name@domain-name, taking into account escapes
-    boolean quoted = false;
-    int loc = -1;
-    for (int i = 0; i < email.length(); i++) {
-      char c = email.charAt(i);
-      if (c == '\\') {
-        i++;
-        continue;
-      }
-      if (i == 0 && c == '\"') {
-        quoted = true;
-        continue;
-      }
-      if (c == '\"') {
-        quoted = false;
-        continue;
-      }
-      if (c == '@' && !quoted) {
-        loc = i;
-        break;
-      }
+        return isValidDomainName(domain);
     }
 
-    if (loc >= 0) {
-      results[0] = email.substring(0, loc);
-      results[1] = email.substring(loc + 1);
-    } else {
-      results[0] = email;
-      results[1] = null;
-    }
-    return results;
-  }
-
-  /**
-   * Validates email addresses according to RFC2822.
-   *
-   * <p>
-   * This is equivalent to calling
-   * {@link #isValidEmailAddress(String, boolean, boolean, boolean)} with
-   * strict, local, and wildcard set to false.
-   * </p>
-   *
-   * @param email email address
-   * @return true if valid email address, false otherwise.
-   */
-  public static boolean isValidEmailAddress(String email) {
-    return isValidEmailAddress(email, false, false, false);
-  }
-
-  /**
-   * Validates email addresses according to RFC2822.
-   *
-   * @param email    email address
-   * @param strict   if name must be usable in DNS zone file
-   * @param local    if local addresses are to be allowed
-   * @param wildcard if wildcards are to be allowed
-   * @return true if valid email address, false otherwise
-   */
-  public static boolean isValidEmailAddress(String email, boolean strict,
-      boolean local, boolean wildcard) {
-    String[] parts = splitEmailAddress(email);
-
-    email = parts[0];
-    if (email == null) {
-      return false;
+    /**
+     * Validates local email account names.
+     *
+     * @param email email account
+     * @return true if valid email address, false otherwise
+     */
+    public static boolean isValidLocalEmailAccount(String email) {
+        if (!email.matches("^[A-Za-z0-9_\\-\\.]+$")) {
+            return false;
+        }
+        return email.length() <= 64;
     }
 
-    if (parts[1] == null) {
-      // no domain specified
-      if (!local) {
+    /**
+     * Determines if a specified IP address is valid.
+     *
+     * <p>
+     * <strong>NOTE:</strong> This is IPv4 only.
+     * </p>
+     *
+     * @param ipAddress ip address to test
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidIpAddress(String ipAddress) {
+        if (ipAddress == null) {
+            return false;
+        }
+        ipAddress = ipAddress.trim();
+        if (!ipAddress.matches("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$")) {
+            return false;
+        }
+        String[] parts = ipAddress.split("\\.");
+        for (int i = 0; i < 4; i++) {
+            int value = Integer.parseInt(parts[i]);
+            if (value < 0 || value > 255) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Determines if a specified URL is valid.
+     * <p>
+     * This validates a URL, and restricts the protocols to http and https.
+     * </p>
+     *
+     * @param url URL to validate
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidUrl(String url) {
+        return isValidUrl(url, "http", "https");
+    }
+
+    /**
+     * Determines if a specified URL is valid.
+     *
+     * @param url              URL to validate
+     * @param allowedProtocols array of valid protocols
+     * @return true if valid, false otherwise
+     */
+    public static boolean isValidUrl(String url, String... allowedProtocols) {
+        URL validated = null;
+
+        try {
+            validated = new URL(url);
+        } catch (MalformedURLException e) {
+            logger.debug("Malformed URL", e);
+            return false;
+        }
+
+        String proto = validated.getProtocol();
+        for (String allowed : allowedProtocols) {
+            if (allowed.equals(proto)) {
+                return true;
+            }
+        }
+
         return false;
-      }
-    } else {
-      // validate domain
-      if (wildcard) {
-        if (!isValidDomainWildcard(parts[1]) && !isValidIpAddress(parts[1])) {
-          return false;
-        }
-      } else {
-        if (!isValidDomainName(parts[1]) && !isValidIpAddress(parts[1])) {
-          return false;
-        }
-      }
     }
 
-    // validate local-name
+    /**
+     * Splits an email address into its local and domain parts.
+     *
+     * @param email email address
+     * @return String[] { local, domain }
+     */
+    public static String[] splitEmailAddress(String email) {
+        String[] results = new String[]{null, null};
+        if (email == null) {
+            return results;
+        }
+        email = email.trim();
 
-    if (strict && (email.contains(".") || email.contains("@"))) {
-      return false;
-    }
+        // split into local-name@domain-name, taking into account escapes
+        boolean quoted = false;
+        int loc = -1;
+        for (int i = 0; i < email.length(); i++) {
+            char c = email.charAt(i);
+            if (c == '\\') {
+                i++;
+                continue;
+            }
+            if (i == 0 && c == '\"') {
+                quoted = true;
+                continue;
+            }
+            if (c == '\"') {
+                quoted = false;
+                continue;
+            }
+            if (c == '@' && !quoted) {
+                loc = i;
+                break;
+            }
+        }
 
-    if (email.matches("^\\\".+\\\"$")) {
-      // quoted-string
-      email = email.substring(1, email.length() - 1);
-      for (int i = 0; i < email.length(); i++) {
-        char c = email.charAt(i);
-
-        if (c == '\\') {
-          // peek at next character
-          i++;
-          c = email.charAt(i);
-
-          if (c >= 1 && c <= 9) {
-            continue;
-          }
-          if (c == 11) {
-            continue;
-          }
-          if (c == 12) {
-            continue;
-          }
-          if (c >= 14 && c <= 127) {
-            continue;
-          }
+        if (loc >= 0) {
+            results[0] = email.substring(0, loc);
+            results[1] = email.substring(loc + 1);
         } else {
-          if (c >= 1 && c <= 8) {
-            continue;
-          }
-          if (c == 11) {
-            continue;
-          }
-          if (c == 12) {
-            continue;
-          }
-          if (c >= 14 && c <= 31) {
-            continue;
-          }
-          if (c >= 33 && c <= 90) {
-            continue;
-          }
-          if (c >= 94 && c <= 127) {
-            continue;
-          }
+            results[0] = email;
+            results[1] = null;
         }
-        return false;
-      }
-      return true;
+        return results;
     }
 
-    // replace \? with benign character to handle escapes
-    StringBuilder buf = new StringBuilder();
-    for (int i = 0; i < email.length(); i++) {
-      char c = email.charAt(i);
-
-      if (c == '\\') {
-        // peek at next character
-        i++;
-        c = email.charAt(i);
-
-        if (c >= 1 && c <= 9) {
-          buf.append("x");
-          continue;
-        }
-        if (c == 11) {
-          buf.append("x");
-          continue;
-        }
-        if (c == 12) {
-          buf.append("x");
-          continue;
-        }
-        if (c >= 14 && c <= 127) {
-          buf.append("x");
-          continue;
-        }
-
-        return false; // illegal escape
-      }
-
-      buf.append(c);
+    /**
+     * Validates email addresses according to RFC2822.
+     *
+     * <p>
+     * This is equivalent to calling
+     * {@link #isValidEmailAddress(String, boolean, boolean, boolean)} with
+     * strict, local, and wildcard set to false.
+     * </p>
+     *
+     * @param email email address
+     * @return true if valid email address, false otherwise.
+     */
+    public static boolean isValidEmailAddress(String email) {
+        return isValidEmailAddress(email, false, false, false);
     }
 
-    email = buf.toString();
+    /**
+     * Validates email addresses according to RFC2822.
+     *
+     * @param email    email address
+     * @param strict   if name must be usable in DNS zone file
+     * @param local    if local addresses are to be allowed
+     * @param wildcard if wildcards are to be allowed
+     * @return true if valid email address, false otherwise
+     */
+    public static boolean isValidEmailAddress(String email, boolean strict,
+                                              boolean local, boolean wildcard) {
+        String[] parts = splitEmailAddress(email);
 
-    // atom = alphanumeric, plus various punctuation
-    String atom =
-        "[A-Za-z0-9\\!\\#\\$\\%\\&\\'\\*\\+\\-\\/\\=\\?\\^\\_\\`\\{\\|\\}\\~]";
+        email = parts[0];
+        if (email == null) {
+            return false;
+        }
 
-    // either an atom, or atom(.atom)*
-    String pattern = "^(" + atom + ")+(\\.(" + atom + ")+)*$";
+        if (parts[1] == null) {
+            // no domain specified
+            if (!local) {
+                return false;
+            }
+        } else {
+            // validate domain
+            if (wildcard) {
+                if (!isValidDomainWildcard(parts[1]) && !isValidIpAddress(parts[1])) {
+                    return false;
+                }
+            } else {
+                if (!isValidDomainName(parts[1]) && !isValidIpAddress(parts[1])) {
+                    return false;
+                }
+            }
+        }
 
-    return email.matches(pattern);
-  }
+        // validate local-name
 
-  /**
-   * Derives a canonical representation of a tag name.
-   *
-   * @param name tag name
-   * @return canonical tag name
-   */
-  public static String canonicalizeTagName(String name) {
-    if (name == null) {
-      return null;
+        if (strict && (email.contains(".") || email.contains("@"))) {
+            return false;
+        }
+
+        if (email.matches("^\\\".+\\\"$")) {
+            // quoted-string
+            email = email.substring(1, email.length() - 1);
+            for (int i = 0; i < email.length(); i++) {
+                char c = email.charAt(i);
+
+                if (c == '\\') {
+                    // peek at next character
+                    i++;
+                    c = email.charAt(i);
+
+                    if (c >= 1 && c <= 9) {
+                        continue;
+                    }
+                    if (c == 11) {
+                        continue;
+                    }
+                    if (c == 12) {
+                        continue;
+                    }
+                    if (c >= 14 && c <= 127) {
+                        continue;
+                    }
+                } else {
+                    if (c >= 1 && c <= 8) {
+                        continue;
+                    }
+                    if (c == 11) {
+                        continue;
+                    }
+                    if (c == 12) {
+                        continue;
+                    }
+                    if (c >= 14 && c <= 31) {
+                        continue;
+                    }
+                    if (c >= 33 && c <= 90) {
+                        continue;
+                    }
+                    if (c >= 94 && c <= 127) {
+                        continue;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        // replace \? with benign character to handle escapes
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < email.length(); i++) {
+            char c = email.charAt(i);
+
+            if (c == '\\') {
+                // peek at next character
+                i++;
+                c = email.charAt(i);
+
+                if (c >= 1 && c <= 9) {
+                    buf.append("x");
+                    continue;
+                }
+                if (c == 11) {
+                    buf.append("x");
+                    continue;
+                }
+                if (c == 12) {
+                    buf.append("x");
+                    continue;
+                }
+                if (c >= 14 && c <= 127) {
+                    buf.append("x");
+                    continue;
+                }
+
+                return false; // illegal escape
+            }
+
+            buf.append(c);
+        }
+
+        email = buf.toString();
+
+        // atom = alphanumeric, plus various punctuation
+        String atom =
+                "[A-Za-z0-9\\!\\#\\$\\%\\&\\'\\*\\+\\-\\/\\=\\?\\^\\_\\`\\{\\|\\}\\~]";
+
+        // either an atom, or atom(.atom)*
+        String pattern = "^(" + atom + ")+(\\.(" + atom + ")+)*$";
+
+        return email.matches(pattern);
     }
 
-    // lowercase
-    name = name.toLowerCase(Locale.US);
+    /**
+     * Derives a canonical representation of a tag name.
+     *
+     * @param name tag name
+     * @return canonical tag name
+     */
+    public static String canonicalizeTagName(String name) {
+        if (name == null) {
+            return null;
+        }
 
-    // convert various punctuation to space
-    name = name.replaceAll("_", " ");
-    name = name.replaceAll("-", " ");
-    name = name.replaceAll("/", " ");
-    name = name.replaceAll("\\\\", " ");
+        // lowercase
+        name = name.toLowerCase(Locale.US);
 
-    // collapse all whitespace
-    name = name.replaceAll("\\s+", " ");
+        // convert various punctuation to space
+        name = name.replaceAll("_", " ");
+        name = name.replaceAll("-", " ");
+        name = name.replaceAll("/", " ");
+        name = name.replaceAll("\\\\", " ");
 
-    // trim leading and trailing space
-    name = name.trim();
+        // collapse all whitespace
+        name = name.replaceAll("\\s+", " ");
 
-    // convert spaces to dash
-    name = name.replaceAll(" ", "-");
+        // trim leading and trailing space
+        name = name.trim();
 
-    // convert back to null if empty
-    name = StringUtils.trimToNull(name);
+        // convert spaces to dash
+        name = name.replaceAll(" ", "-");
 
-    return name;
-  }
+        // convert back to null if empty
+        name = StringUtils.trimToNull(name);
+
+        return name;
+    }
 
 }
