@@ -7,21 +7,25 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class LegalControllerTest {
-  private LegalController c;
+    private LegalController c;
 
-  @Before public void setUp() {
-    c = new LegalController();
-  }
+    @Before
+    public void setUp() {
+        c = new LegalController();
+    }
 
-  @After public void tearDown() {
-    c = null;
-  }
+    @After
+    public void tearDown() {
+        c = null;
+    }
 
-  @Test public void testAbout() {
-    assertEquals("legal-about", c.about());
-  }
+    @Test
+    public void testAbout() {
+        assertEquals("legal-about", c.about());
+    }
 
-  @Test public void testLicense() {
-    assertEquals("legal-license", c.license());
-  }
+    @Test
+    public void testLicense() {
+        assertEquals("legal-license", c.license());
+    }
 }

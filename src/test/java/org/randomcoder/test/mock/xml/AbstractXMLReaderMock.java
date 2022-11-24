@@ -7,14 +7,15 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 
 public class AbstractXMLReaderMock extends AbstractXMLReader {
-  private InputSource input;
+    private InputSource input;
 
-  @Override public void parse(InputSource _input)
-      throws IOException, SAXException {
-    input = _input;
-  }
+    @Override
+    public void parse(InputSource _input)
+            throws IOException, SAXException {
+        input = _input;
+    }
 
-  public InputSource getInputSource() {
-    return input;
-  }
+    public InputSource getInputSource() {
+        return input;
+    }
 }
