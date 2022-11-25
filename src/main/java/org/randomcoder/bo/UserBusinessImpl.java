@@ -100,23 +100,13 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public User findUserByName(String name) {
-        User user = userRepository.findByUserName(name);
-        if (user != null) {
-            Hibernate.initialize(user.getRoles());
-        }
-        return user;
+        return userDao.findByName(name, true, true);
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public User findUserByNameEnabled(String name) {
-        User user = userRepository.findByUserNameEnabled(name);
-        if (user != null) {
-            Hibernate.initialize(user.getRoles());
-        }
-        return user;
+        return userDao.findByName(name, false, true);
     }
 
     @Override
