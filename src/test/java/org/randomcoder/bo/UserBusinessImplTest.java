@@ -9,7 +9,6 @@ import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
-import org.randomcoder.db.UserRepository;
 import org.randomcoder.mvc.command.AccountCreateCommand;
 import org.randomcoder.mvc.command.UserAddCommand;
 import org.randomcoder.mvc.command.UserEditCommand;
@@ -26,25 +25,21 @@ public class UserBusinessImplTest {
     private UserBusinessImpl ub;
     private UserDao ud;
     private RoleDao rd;
-    private UserRepository ur;
 
     @Before
     public void setUp() {
         control = createControl();
         ud = control.createMock(UserDao.class);
         rd = control.createMock(RoleDao.class);
-        ur = control.createMock(UserRepository.class);
 
         ub = new UserBusinessImpl();
         ub.setUserDao(ud);
         ub.setRoleDao(rd);
-        ub.setUserRepository(ur);
     }
 
     @After
     public void tearDown() {
         control = null;
-        ur = null;
         ub = null;
         ud = null;
         rd = null;
@@ -79,7 +74,7 @@ public class UserBusinessImplTest {
 
         Capture<User> created = newCapture();
 
-        expect(ur.save(capture(created))).andReturn(null);
+        expect(ud.save(capture(created))).andReturn(1L);
         control.replay();
 
         ub.createUser(cmd);
@@ -99,7 +94,7 @@ public class UserBusinessImplTest {
 
         Capture<User> created = newCapture();
 
-        expect(ur.save(capture(created))).andReturn(null);
+        expect(ud.save(capture(created))).andReturn(1L);
         control.replay();
 
         ub.createUser(cmd);
@@ -126,15 +121,14 @@ public class UserBusinessImplTest {
 
         Capture<User> saved = newCapture();
 
-        expect(ur.getReferenceById(1L)).andReturn(user);
-        expect(ur.save(capture(saved))).andReturn(null);
+        expect(ud.findById(1L, true)).andReturn(user);
+        expect(ud.save(capture(saved))).andReturn(1L);
         control.replay();
 
         ub.updateUser(cmd, 1L);
         control.verify();
 
-        assertEquals("test-update2@example.com",
-                saved.getValue().getEmailAddress());
+        assertEquals("test-update2@example.com", saved.getValue().getEmailAddress());
     }
 
     @Test
@@ -160,7 +154,7 @@ public class UserBusinessImplTest {
 
         UserEditCommand cmd = new UserEditCommand();
 
-        expect(ur.getReferenceById(1L)).andReturn(user);
+        expect(ud.findById(1L, true)).andReturn(user);
         control.replay();
 
         ub.loadUserForEditing(cmd, 1L);

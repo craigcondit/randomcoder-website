@@ -19,6 +19,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +42,7 @@ public class User implements Serializable {
     private boolean enabled;
     private Date lastLoginDate;
 
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
 
     /**
      * Hashes a password.

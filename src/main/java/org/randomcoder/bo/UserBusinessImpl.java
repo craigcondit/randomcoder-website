@@ -1,12 +1,10 @@
 package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
-import org.hibernate.Hibernate;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
-import org.randomcoder.db.UserRepository;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
 import org.randomcoder.user.UserNotFoundException;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,7 +20,6 @@ import java.util.List;
  */
 @Component("userBusiness")
 public class UserBusinessImpl implements UserBusiness {
-    private UserRepository userRepository;
 
     private RoleDao roleDao;
     private UserDao userDao;
@@ -38,35 +34,23 @@ public class UserBusinessImpl implements UserBusiness {
         this.userDao = userDao;
     }
 
-    /**
-     * Sets the user repository to use.
-     *
-     * @param userRepository user repository
-     */
-    @Inject
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public void changePassword(String userName, String password) {
         userDao.changePassword(userName, User.hashPassword(password));
     }
 
     @Override
-    @Transactional("transactionManager")
     public void createUser(Producer<User> producer) {
         User user = new User();
         producer.produce(user);
-        userRepository.save(user);
+        userDao.save(user);
     }
 
     @Override
-    @Transactional("transactionManager")
     public void updateUser(Producer<User> producer, Long userId) {
         User user = loadUser(userId);
         producer.produce(user);
-        userRepository.save(user);
+        userDao.save(user);
     }
 
     @Override
@@ -75,14 +59,13 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public void loadUserForEditing(Consumer<User> consumer, Long userId) {
         User user = loadUser(userId);
         consumer.consume(user);
     }
 
     private User loadUser(Long userId) {
-        User user = userRepository.getReferenceById(userId);
+        User user = userDao.findById(userId, true);
         if (user == null) {
             throw new UserNotFoundException();
         }

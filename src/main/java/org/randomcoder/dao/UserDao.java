@@ -8,7 +8,7 @@ public interface UserDao {
 
     User findByName(String userName, boolean includeDisabled, boolean includeRoles);
 
-    User findById(long userId);
+    User findById(long userId, boolean includeRoles);
 
     void deleteById(long userId);
 

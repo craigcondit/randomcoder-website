@@ -7,6 +7,7 @@ import org.randomcoder.user.UserNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -76,6 +77,12 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_LOGIN_TIME = """
             UPDATE users SET login_date = now() WHERE username = ?""";
 
+    private static final String DELETE_ROLE_LINK_BY_USER_ID = """
+            DELETE FROM user_role_link WHERE user_id = ?""";
+
+    private static final String INSERT_ROLE_LINK = """
+            INSERT INTO user_role_link (user_id, role_id) VALUES (?,?)""";
+
     private static final String COL_USER_ID = "user_id";
     private static final String COL_USERNAME = "username";
     private static final String COL_PASSWORD = "password";
@@ -90,38 +97,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Long save(User user) {
-        return withTransaction(dataSource, con -> {
-            if (user.getId() == null) {
-                // create
-                try (PreparedStatement ps = con.prepareStatement(CREATE)) {
-                    ps.setString(1, user.getUserName());
-                    ps.setString(2, user.getPassword());
-                    ps.setString(3, user.getEmailAddress());
-                    ps.setBoolean(4, user.isEnabled());
-                    ps.setString(5, user.getWebsite());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (!rs.next()) {
-                            throw new DataAccessException("Failed to save user");
-                        }
-                        user.setId(rs.getLong(1));
-                        return user.getId();
-                    }
-                }
-            } else {
-                // update
-                try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
-                    ps.setString(1, user.getPassword());
-                    ps.setString(2, user.getEmailAddress());
-                    ps.setBoolean(3, user.isEnabled());
-                    ps.setString(4, user.getWebsite());
-                    ps.setLong(5, user.getId());
-                    if (ps.executeUpdate() != 1) {
-                        throw new DataAccessException("User not found with ID: " + user.getId());
-                    }
-                    return user.getId();
-                }
-            }
-        });
+        return withTransaction(dataSource, con -> (user.getId() == null) ? createUser(user, con) : updateUser(user, con));
     }
 
     @Override
@@ -185,33 +161,29 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             if (includeRoles) {
-                try (PreparedStatement ps = con.prepareStatement(FIND_ROLES_BY_USER_ID)) {
-                    ps.setLong(1, user.getId());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        List<Role> roles = new ArrayList<>();
-                        while (rs.next()) {
-                            roles.add(populateRole(rs));
-                        }
-                        user.setRoles(roles);
-                    }
-                }
+                populateRoles(con, user);
             }
             return user;
         });
     }
 
     @Override
-    public User findById(long userId) {
+    public User findById(long userId, boolean includeRoles) {
         return withTransaction(dataSource, con -> {
+            User user;
             try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
                 ps.setLong(1, userId);
                 try (ResultSet rs = ps.executeQuery()) {
                     if (!rs.next()) {
                         return null;
                     }
-                    return populateUser(rs);
+                    user = populateUser(rs);
                 }
             }
+            if (includeRoles) {
+                populateRoles(con, user);
+            }
+            return user;
         });
     }
 
@@ -248,6 +220,62 @@ public class UserDaoImpl implements UserDao {
         });
     }
 
+    private Long createUser(User user, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(CREATE)) {
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmailAddress());
+            ps.setBoolean(4, user.isEnabled());
+            ps.setString(5, user.getWebsite());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new DataAccessException("Failed to save user");
+                }
+                user.setId(rs.getLong(1));
+            }
+        }
+        populateRoleLink(user, con);
+        return user.getId();
+    }
+
+    private Long updateUser(User user, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getEmailAddress());
+            ps.setBoolean(3, user.isEnabled());
+            ps.setString(4, user.getWebsite());
+            ps.setLong(5, user.getId());
+            if (ps.executeUpdate() != 1) {
+                throw new DataAccessException("User not found with ID: " + user.getId());
+            }
+        }
+        deleteRoleLink(user, con);
+        populateRoleLink(user, con);
+        return user.getId();
+    }
+
+    private void deleteRoleLink(User user, Connection con) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(DELETE_ROLE_LINK_BY_USER_ID)) {
+            ps.setLong(1, user.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    private void populateRoleLink(User user, Connection con) throws SQLException {
+        if (user.getRoles().isEmpty()) {
+            return;
+        }
+        try (PreparedStatement ps = con.prepareStatement(INSERT_ROLE_LINK)) {
+            long userId = user.getId();
+            for (Role role : user.getRoles()) {
+                ps.setLong(1, userId);
+                ps.setLong(2, role.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
+    }
+
     private User populateUser(ResultSet rs) throws SQLException {
         User user = new User();
         user.setId(rs.getLong(COL_USER_ID));
@@ -266,6 +294,19 @@ public class UserDaoImpl implements UserDao {
         role.setName(rs.getString(COL_ROLE_NAME));
         role.setDescription(rs.getString(COL_ROLE_DESCRIPTION));
         return role;
+    }
+
+    private void populateRoles(Connection con, User user) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(FIND_ROLES_BY_USER_ID)) {
+            ps.setLong(1, user.getId());
+            try (ResultSet rs = ps.executeQuery()) {
+                List<Role> roles = new ArrayList<>();
+                while (rs.next()) {
+                    roles.add(populateRole(rs));
+                }
+                user.setRoles(roles);
+            }
+        }
     }
 
 }
