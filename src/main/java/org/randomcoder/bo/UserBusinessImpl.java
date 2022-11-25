@@ -56,17 +56,8 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void changePassword(String userName, String password) {
-        User user = userRepository.findByUserName(userName);
-
-        if (user == null) {
-            throw new UserNotFoundException("Unknown user: " + userName);
-        }
-
-        user.setPassword(User.hashPassword(password));
-
-        userRepository.save(user);
+        userDao.changePassword(userName, User.hashPassword(password));
     }
 
     @Override

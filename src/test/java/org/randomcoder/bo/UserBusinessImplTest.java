@@ -51,28 +51,11 @@ public class UserBusinessImplTest {
 
     @Test
     public void testChangePassword() {
-        User user = new User();
-        user.setUserName("test-change-password");
-        user.setEnabled(true);
-        user.setEmailAddress("test@example.com");
-        user.setPassword(User.hashPassword("test-password"));
-
-        expect(ur.findByUserName("test-change-password")).andReturn(user);
-        expect(ur.save(user)).andReturn(user);
+        ud.changePassword("test-change-password", User.hashPassword("test-new-password"));
+        expectLastCall();
         control.replay();
 
         ub.changePassword("test-change-password", "test-new-password");
-        control.verify();
-        assertEquals("Wrong password", User.hashPassword("test-new-password"),
-                user.getPassword());
-    }
-
-    @Test(expected = UserNotFoundException.class)
-    public void testChangePasswordUserNotFound() {
-        expect(ur.findByUserName("bogus-user")).andReturn(null);
-        control.replay();
-
-        ub.changePassword("bogus-user", "bogus-password");
         control.verify();
     }
 
