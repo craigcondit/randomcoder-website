@@ -65,7 +65,8 @@ public class UserDaoImpl implements UserDao {
             FROM roles r
             JOIN user_role_link url ON r.role_id = url.role_id
             WHERE url.user_id IN (
-                SELECT user_id FROM users ORDER BY username OFFSET ? LIMIT ?)""";
+                SELECT user_id FROM users ORDER BY username OFFSET ? LIMIT ?)
+            ORDER BY r.description""";
 
     private static final String COUNT_ALL = """
             SELECT count(1) FROM users""";
