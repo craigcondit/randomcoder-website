@@ -141,7 +141,7 @@ public class UserBusinessImplTest {
     public void testDeleteUser() {
         User user = new User();
         user.setId(1L);
-        ur.deleteById(1L);
+        ud.deleteById(1L);
         control.replay();
 
         ub.deleteUser(1L);

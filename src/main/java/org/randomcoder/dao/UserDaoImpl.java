@@ -216,7 +216,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void deleteUserById(long userId) {
+    public void deleteById(long userId) {
         withTransaction(dataSource, con -> {
             try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
                 ps.setLong(1, userId);

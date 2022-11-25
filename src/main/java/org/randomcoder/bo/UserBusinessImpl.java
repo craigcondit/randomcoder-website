@@ -70,9 +70,8 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        userDao.deleteById(userId);
     }
 
     @Override
