@@ -8,12 +8,12 @@ import org.randomcoder.article.comment.CommentNotFoundException;
 import org.randomcoder.article.moderation.ModerationException;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.article.moderation.Moderator;
+import org.randomcoder.dao.RoleDao;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.ArticleRepository;
 import org.randomcoder.db.Comment;
 import org.randomcoder.db.CommentRepository;
 import org.randomcoder.db.Role;
-import org.randomcoder.db.RoleRepository;
 import org.randomcoder.db.Tag;
 import org.randomcoder.db.TagRepository;
 import org.randomcoder.db.User;
@@ -48,11 +48,16 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private RoleDao roleDao;
     private ArticleRepository articleRepository;
     private TagRepository tagRepository;
     private CommentRepository commentRepository;
     private Moderator moderator;
+
+    @Inject
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     /**
      * Sets the user repository to use.
@@ -62,16 +67,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     @Inject
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    /**
-     * Sets the role repository to use.
-     *
-     * @param roleRepository role repository
-     */
-    @Inject
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
     }
 
     /**
@@ -452,7 +447,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     private Role findRoleByName(String roleName) throws RoleNotFoundException {
-        Role role = roleRepository.findByName(roleName);
+        Role role = roleDao.findByName(roleName);
 
         if (role == null) {
             throw new RoleNotFoundException("Unknown role: " + roleName);

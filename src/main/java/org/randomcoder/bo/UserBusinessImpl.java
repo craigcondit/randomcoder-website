@@ -4,9 +4,7 @@ import jakarta.inject.Inject;
 import org.hibernate.Hibernate;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
-import org.randomcoder.dao.UserDaoImpl;
 import org.randomcoder.db.Role;
-import org.randomcoder.db.RoleRepository;
 import org.randomcoder.db.User;
 import org.randomcoder.db.UserRepository;
 import org.randomcoder.io.Consumer;
@@ -15,11 +13,9 @@ import org.randomcoder.user.UserNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
