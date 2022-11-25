@@ -2,6 +2,7 @@ package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
 import org.hibernate.Hibernate;
+import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.dao.UserDaoImpl;
 import org.randomcoder.db.Role;
@@ -26,9 +27,15 @@ import java.util.List;
  */
 @Component("userBusiness")
 public class UserBusinessImpl implements UserBusiness {
-    private RoleRepository roleRepository;
     private UserRepository userRepository;
+
+    private RoleDao roleDao;
     private UserDao userDao;
+
+    @Inject
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
+    }
 
     @Inject
     public void setUserDao(UserDao userDao) {
@@ -43,16 +50,6 @@ public class UserBusinessImpl implements UserBusiness {
     @Inject
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    /**
-     * Sets the role repository to use.
-     *
-     * @param roleRepository role repository
-     */
-    @Inject
-    public void setRoleRepository(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -98,15 +95,13 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public List<Role> listRoles() {
-        return roleRepository.findAll(Sort.by("description"));
+        return roleDao.listByDescription();
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public Role findRoleByName(String name) {
-        return roleRepository.findByName(name);
+        return roleDao.findByName(name);
     }
 
     @Override

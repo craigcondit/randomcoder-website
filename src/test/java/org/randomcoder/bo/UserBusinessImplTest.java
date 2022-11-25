@@ -5,6 +5,7 @@ import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.dao.UserDaoImpl;
 import org.randomcoder.db.Role;
@@ -17,6 +18,7 @@ import org.randomcoder.mvc.command.UserEditCommand;
 import org.randomcoder.user.UserNotFoundException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -25,28 +27,29 @@ public class UserBusinessImplTest {
     private IMocksControl control;
     private UserBusinessImpl ub;
     private UserDao ud;
+    private RoleDao rd;
     private UserRepository ur;
-    private RoleRepository rr;
 
     @Before
     public void setUp() {
         control = createControl();
         ud = control.createMock(UserDao.class);
+        rd = control.createMock(RoleDao.class);
         ur = control.createMock(UserRepository.class);
-        rr = control.createMock(RoleRepository.class);
 
         ub = new UserBusinessImpl();
         ub.setUserDao(ud);
+        ub.setRoleDao(rd);
         ub.setUserRepository(ur);
-        ub.setRoleRepository(rr);
     }
 
     @After
     public void tearDown() {
         control = null;
         ur = null;
-        rr = null;
         ub = null;
+        ud = null;
+        rd = null;
     }
 
     @Test
@@ -187,6 +190,40 @@ public class UserBusinessImplTest {
 
         ub.auditUsernamePasswordLogin("test-audit-user");
         control.verify();
+    }
+
+    @Test
+    public void testListRoles() {
+        Role role = new Role();
+        role.setId(1L);
+        role.setName("test-role");
+        role.setDescription("test-desc");
+
+        List<Role> roles = List.of(role);
+
+        expect(rd.listByDescription()).andReturn(roles);
+        control.replay();
+
+        var result = ub.listRoles();
+        control.verify();
+
+        assertSame(roles, result);
+
+    }
+
+    @Test
+    public void testFindRoleByName() {
+        Role role = new Role();
+        role.setId(1L);
+        role.setName("test-role");
+        role.setDescription("test-desc");
+
+        expect(rd.findByName("test-role")).andReturn(role);
+        control.replay();
+
+        var result = ub.findRoleByName("test-role");
+        control.verify();
+        assertSame(role, result);
     }
 
 }
