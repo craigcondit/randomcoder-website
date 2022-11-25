@@ -35,18 +35,17 @@ import java.util.concurrent.Executors;
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
-@ComponentScan({"org.randomcoder.bo", "org.randomcoder.security.spring"})
+@ComponentScan({"org.randomcoder.dao", "org.randomcoder.bo", "org.randomcoder.security.spring"})
 @ImportResource({"classpath:spring-security.xml"})
 @Import({DatabaseConfig.class})
-public class RootContext
-        implements SchedulingConfigurer {
+public class RootContext implements SchedulingConfigurer {
+
     @Inject
     Environment env;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        PropertySourcesPlaceholderConfigurer pspc =
-                new PropertySourcesPlaceholderConfigurer();
+        PropertySourcesPlaceholderConfigurer pspc = new PropertySourcesPlaceholderConfigurer();
         pspc.setIgnoreUnresolvablePlaceholders(false);
         return pspc;
     }

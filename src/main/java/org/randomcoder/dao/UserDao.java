@@ -1,35 +1,21 @@
 package org.randomcoder.dao;
 
-import jakarta.inject.Inject;
-import org.randomcoder.user.UserNotFoundException;
+import org.randomcoder.db.User;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+public interface UserDao {
 
-import static org.randomcoder.dao.DaoUtils.withConnection;
-import static org.randomcoder.dao.DaoUtils.withTransaction;
+    Page<User> listByName(long offset, long length);
 
-public class UserDao {
+    User findByName(String userName, boolean includeDisabled, boolean includeRoles);
 
-    @Inject
-    public DataSource dataSource;
+    User findById(long userId);
 
-    private static final String QUERY_CHANGE_PASSWORD = """
-            UPDATE users SET password = ? WHERE username = ?""";
+    void deleteUserById(long userId);
 
-    public void changePassword(String userName, String passwordHash) {
-        withConnection(dataSource, (con) -> {
-            withTransaction(con, () -> {
-                try (PreparedStatement ps = con.prepareStatement(QUERY_CHANGE_PASSWORD)) {
-                    ps.setString(1, passwordHash);
-                    ps.setString(2, userName);
-                    int rows = ps.executeUpdate();
-                    if (rows != 1) {
-                        throw new UserNotFoundException("Unknown user: " + userName);
-                    }
-                }
-            });
-        });
-    }
+    Long save(User user);
+
+    void updateLoginTime(String userName);
+
+    void changePassword(String userName, String passwordHash);
+
 }

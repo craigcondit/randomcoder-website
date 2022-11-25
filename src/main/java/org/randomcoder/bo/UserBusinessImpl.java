@@ -2,6 +2,8 @@ package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
 import org.hibernate.Hibernate;
+import org.randomcoder.dao.UserDao;
+import org.randomcoder.dao.UserDaoImpl;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.RoleRepository;
 import org.randomcoder.db.User;
@@ -25,6 +27,12 @@ import java.util.List;
 public class UserBusinessImpl implements UserBusiness {
     private RoleRepository roleRepository;
     private UserRepository userRepository;
+    private UserDao userDao;
+
+    @Inject
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     /**
      * Sets the user repository to use.
@@ -140,16 +148,8 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void auditUsernamePasswordLogin(String userName) {
-        User user = userRepository.findByUserName(userName);
-
-        if (user == null) {
-            throw new UserNotFoundException("Unknown user: " + userName);
-        }
-
-        user.setLastLoginDate(new Date());
-
-        userRepository.save(user);
+        userDao.updateLoginTime(userName);
     }
+
 }

@@ -20,6 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories("org.randomcoder.db")
 public class DatabaseConfig {
+
     @Inject
     Environment env;
 
@@ -43,8 +44,7 @@ public class DatabaseConfig {
 
         Properties props = new Properties();
         props.setProperty("hibernate.dialect", PostgreSQLDialect.class.getName());
-        props.setProperty("hibernate.ejb.naming_strategy",
-                ImprovedNamingStrategy.class.getName());
+        props.setProperty("hibernate.ejb.naming_strategy", ImprovedNamingStrategy.class.getName());
         props.setProperty("hibernate.format_sql", "false");
         props.setProperty("hibernate.show_sql", "false");
         props.setProperty("hibernate.max_fetch_depth", "2");
@@ -52,20 +52,18 @@ public class DatabaseConfig {
         props.setProperty("hibernate.jdbc.batch_size", "10");
         props.setProperty("hibernate.cache.use_query_cache", "true");
         props.setProperty("hibernate.cache.region.factory_class", "jcache");
-        props.setProperty("hibernate.javax.cache.provider",
-                EhcacheCachingProvider.class.getName());
-        props.setProperty("hibernate.javax.cache.uri",
-                getClass().getResource("/ehcache.xml").toExternalForm());
+        props.setProperty("hibernate.javax.cache.provider", EhcacheCachingProvider.class.getName());
+        props.setProperty("hibernate.javax.cache.uri", getClass().getResource("/ehcache.xml").toExternalForm());
         props.setProperty("hibernate.javax.cache.missing_cache_strategy", "fail");
         emfb.setJpaProperties(props);
         return emfb;
     }
 
     @Bean
-    public JpaTransactionManager transactionManager(
-            EntityManagerFactory entityManagerFactory) {
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
+
 }

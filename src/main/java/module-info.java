@@ -72,8 +72,10 @@ module org.randomcoder.website {
     opens org.randomcoder.bo;
     opens org.randomcoder.config;
     opens org.randomcoder.content;
+    opens org.randomcoder.dao;
     opens org.randomcoder.db;
     opens org.randomcoder.feed;
+    opens org.randomcoder.func;
     opens org.randomcoder.io;
     opens org.randomcoder.mvc.command;
     opens org.randomcoder.mvc.controller;

@@ -5,6 +5,8 @@ import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.randomcoder.dao.UserDao;
+import org.randomcoder.dao.UserDaoImpl;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.RoleRepository;
 import org.randomcoder.db.User;
@@ -22,16 +24,19 @@ import static org.junit.Assert.*;
 public class UserBusinessImplTest {
     private IMocksControl control;
     private UserBusinessImpl ub;
+    private UserDao ud;
     private UserRepository ur;
     private RoleRepository rr;
 
     @Before
     public void setUp() {
         control = createControl();
+        ud = control.createMock(UserDao.class);
         ur = control.createMock(UserRepository.class);
         rr = control.createMock(RoleRepository.class);
 
         ub = new UserBusinessImpl();
+        ub.setUserDao(ud);
         ub.setUserRepository(ur);
         ub.setRoleRepository(rr);
     }
@@ -193,29 +198,12 @@ public class UserBusinessImplTest {
 
     @Test
     public void testAuditUsernamePasswordLogin() {
-        User user = new User();
-        user.setUserName("test-audit-user");
-        user.setEnabled(true);
-        user.setEmailAddress("test-audit@example.com");
-        user.setPassword(User.hashPassword("testPassword1"));
-        user.setRoles(new ArrayList<Role>());
-        user.setId(1L);
-
-        expect(ur.findByUserName("test-audit-user")).andReturn(user);
-        expect(ur.save(user)).andReturn(user);
+        ud.updateLoginTime("test-audit-user");
+        expectLastCall();
         control.replay();
 
         ub.auditUsernamePasswordLogin("test-audit-user");
         control.verify();
-        assertNotNull("Missing last login date", user.getLastLoginDate());
     }
 
-    @Test(expected = UserNotFoundException.class)
-    public void testAuditUsernamePasswordLoginNullUser() {
-        expect(ur.findByUserName(null)).andReturn(null);
-        control.replay();
-
-        ub.auditUsernamePasswordLogin(null);
-        control.verify();
-    }
 }

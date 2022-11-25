@@ -59,6 +59,22 @@ public class DaoUtils {
         }
     }
 
+    public static void withTransaction(DataSource ds, UncheckedConsumer<Connection> consumer) throws DataAccessException {
+        withConnection(ds, (con) -> {
+            withTransaction(con, () -> {
+                consumer.invoke(con);
+            });
+        });
+    }
+
+    public static <T> T withTransaction(DataSource ds, UncheckedFunction<Connection, T> func) throws DataAccessException {
+        return withConnection(ds, (con) -> {
+            return withTransaction(con, () -> {
+                return func.call(con);
+            });
+        });
+    }
+
     public static void wrap(UncheckedBlock code) throws DataAccessException {
         wrap(() -> {
             code.call();

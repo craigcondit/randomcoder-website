@@ -36,8 +36,7 @@ import java.util.List;
 @EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan({"org.randomcoder.mvc"})
 @EnableWebMvc
-public class DispatcherContext
-        implements WebMvcConfigurer, ApplicationContextAware {
+public class DispatcherContext implements WebMvcConfigurer, ApplicationContextAware {
 
     @Inject
     Environment env;

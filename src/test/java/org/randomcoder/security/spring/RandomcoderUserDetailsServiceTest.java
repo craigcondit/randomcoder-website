@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,20 +23,20 @@ public class RandomcoderUserDetailsServiceTest {
     private RandomcoderUserDetailsService svc = null;
 
     private IMocksControl control;
-    private UserBusiness ub;
+    private UserDao ud;
 
     @Before
     public void setUp() {
         control = createControl();
-        ub = control.createMock(UserBusiness.class);
+        ud = control.createMock(UserDao.class);
         svc = new RandomcoderUserDetailsService();
-        svc.setUserBusiness(ub);
+        svc.setUserDao(ud);
     }
 
     @After
     public void tearDown() {
         control = null;
-        ub = null;
+        ud = null;
         svc = null;
     }
 
@@ -63,7 +64,7 @@ public class RandomcoderUserDetailsServiceTest {
 
     @Test
     public void testLoadUserByUsername() {
-        expect(ub.findUserByName("test")).andReturn(createTestUser());
+        expect(ud.findByName("test", false, true)).andReturn(createTestUser());
         control.replay();
 
         UserDetails details = svc.loadUserByUsername("test");
