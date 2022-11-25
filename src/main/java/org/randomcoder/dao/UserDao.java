@@ -4,7 +4,7 @@ import org.randomcoder.db.User;
 
 public interface UserDao {
 
-    Page<User> listByName(long offset, long length);
+    Page<User> listByName(long offset, long length, boolean includeRoles);
 
     User findByName(String userName, boolean includeDisabled, boolean includeRoles);
 

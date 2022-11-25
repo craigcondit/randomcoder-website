@@ -25,7 +25,7 @@ public class Page<T> {
         }
     }
 
-    public List<T> content() {
+    public List<T> getContent() {
         return content;
     }
 
@@ -38,6 +38,14 @@ public class Page<T> {
     }
 
     public long getNumber() {
+        return offset;
+    }
+
+    public long getTotalSize() {
+        return totalSize;
+    }
+
+    public long getPageNumber() {
         long page = offset / pageSize;
         if (offset % pageSize != 0) {
             page++;

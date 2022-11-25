@@ -12,6 +12,7 @@ import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
 import org.randomcoder.user.UserNotFoundException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -138,13 +139,9 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public Page<User> findAll(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
-        for (User user : users.getContent()) {
-            Hibernate.initialize(user.getRoles());
-        }
-        return users;
+        var result = userDao.listByName(pageable.getOffset(), pageable.getPageSize(), true);
+        return new PageImpl<>(result.getContent(), pageable, result.getTotalSize());
     }
 
     @Override

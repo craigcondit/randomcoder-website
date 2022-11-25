@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.randomcoder.dao.DaoUtils.withTransaction;
 
@@ -57,6 +59,13 @@ public class UserDaoImpl implements UserDao {
             JOIN USER_ROLE_LINK l ON r.role_id = l.role_id
             WHERE l.user_id = ?
             ORDER BY r.name""";
+
+    private static final String LIST_ROLES_FOR_USER_PAGED = """
+            SELECT url.user_id user_id, r.role_id role_id, r.name name, r.description description
+            FROM roles r
+            JOIN user_role_link url ON r.role_id = url.role_id
+            WHERE url.user_id IN (
+                SELECT user_id FROM users ORDER BY username OFFSET ? LIMIT ?)""";
 
     private static final String COUNT_ALL = """
             SELECT count(1) FROM users""";
@@ -115,9 +124,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Page<User> listByName(long offset, long length) {
+    public Page<User> listByName(long offset, long length, boolean includeRoles) {
         return withTransaction(dataSource, con -> {
             long count;
+            List<User> users = new ArrayList<>();
             try (PreparedStatement ps = con.prepareStatement(COUNT_ALL)) {
                 try (ResultSet rs = ps.executeQuery()) {
                     if (!rs.next()) {
@@ -130,13 +140,33 @@ public class UserDaoImpl implements UserDao {
                 ps.setLong(1, offset);
                 ps.setLong(2, length);
                 try (ResultSet rs = ps.executeQuery()) {
-                    List<User> users = new ArrayList<>();
                     while (rs.next()) {
                         users.add(populateUser(rs));
                     }
-                    return new Page(users, offset, count, length);
                 }
             }
+            if (includeRoles) {
+                Map<Long, User> userMap = new HashMap<>();
+                for (User user : users) {
+                    user.setRoles(new ArrayList<>());
+                    userMap.put(user.getId(), user);
+                }
+                try (PreparedStatement ps = con.prepareStatement(LIST_ROLES_FOR_USER_PAGED)) {
+                    ps.setLong(1, offset);
+                    ps.setLong(2, length);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            Role role = populateRole(rs);
+                            Long userId = rs.getLong("user_id");
+                            User user = userMap.get(userId);
+                            if (user != null) {
+                                user.getRoles().add(role);
+                            }
+                        }
+                    }
+                }
+            }
+            return new Page(users, offset, count, length);
         });
     }
 
