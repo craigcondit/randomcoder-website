@@ -121,7 +121,7 @@ public class UserBusinessImplTest {
 
         Capture<User> saved = newCapture();
 
-        expect(ud.findById(1L, true)).andReturn(user);
+        expect(ud.findById(1L)).andReturn(user);
         expect(ud.save(capture(saved))).andReturn(1L);
         control.replay();
 
@@ -154,7 +154,7 @@ public class UserBusinessImplTest {
 
         UserEditCommand cmd = new UserEditCommand();
 
-        expect(ud.findById(1L, true)).andReturn(user);
+        expect(ud.findById(1L)).andReturn(user);
         control.replay();
 
         ub.loadUserForEditing(cmd, 1L);

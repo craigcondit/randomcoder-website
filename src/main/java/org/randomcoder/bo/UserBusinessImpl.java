@@ -65,7 +65,7 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     private User loadUser(Long userId) {
-        User user = userDao.findById(userId, true);
+        User user = userDao.findById(userId);
         if (user == null) {
             throw new UserNotFoundException();
         }
@@ -84,17 +84,17 @@ public class UserBusinessImpl implements UserBusiness {
 
     @Override
     public User findUserByName(String name) {
-        return userDao.findByName(name, true, true);
+        return userDao.findByName(name, true);
     }
 
     @Override
     public User findUserByNameEnabled(String name) {
-        return userDao.findByName(name, false, true);
+        return userDao.findByName(name, false);
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        var result = userDao.listByName(pageable.getOffset(), pageable.getPageSize(), true);
+        var result = userDao.listByName(pageable.getOffset(), pageable.getPageSize());
         return new PageImpl<>(result.getContent(), pageable, result.getTotalSize());
     }
 

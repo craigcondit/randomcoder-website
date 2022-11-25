@@ -23,7 +23,7 @@ public class RandomcoderUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByName(username, false, true);
+        User user = userDao.findByName(username, false);
         if (user == null || user.getPassword() == null) {
             throw new UsernameNotFoundException(username);
         }

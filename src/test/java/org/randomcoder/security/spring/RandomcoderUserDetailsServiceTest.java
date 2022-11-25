@@ -4,7 +4,6 @@ import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.bo.UserBusiness;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
@@ -64,7 +63,7 @@ public class RandomcoderUserDetailsServiceTest {
 
     @Test
     public void testLoadUserByUsername() {
-        expect(ud.findByName("test", false, true)).andReturn(createTestUser());
+        expect(ud.findByName("test", false)).andReturn(createTestUser());
         control.replay();
 
         UserDetails details = svc.loadUserByUsername("test");

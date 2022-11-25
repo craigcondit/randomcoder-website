@@ -4,11 +4,11 @@ import org.randomcoder.db.User;
 
 public interface UserDao {
 
-    Page<User> listByName(long offset, long length, boolean includeRoles);
+    Page<User> listByName(long offset, long length);
 
-    User findByName(String userName, boolean includeDisabled, boolean includeRoles);
+    User findByName(String userName, boolean includeDisabled);
 
-    User findById(long userId, boolean includeRoles);
+    User findById(long userId);
 
     void deleteById(long userId);
 

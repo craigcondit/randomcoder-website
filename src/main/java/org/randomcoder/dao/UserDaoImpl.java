@@ -101,7 +101,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Page<User> listByName(long offset, long length, boolean includeRoles) {
+    public Page<User> listByName(long offset, long length) {
         return withTransaction(dataSource, con -> {
             long count;
             List<User> users = new ArrayList<>();
@@ -122,23 +122,21 @@ public class UserDaoImpl implements UserDao {
                     }
                 }
             }
-            if (includeRoles) {
-                Map<Long, User> userMap = new HashMap<>();
-                for (User user : users) {
-                    user.setRoles(new ArrayList<>());
-                    userMap.put(user.getId(), user);
-                }
-                try (PreparedStatement ps = con.prepareStatement(LIST_ROLES_FOR_USER_PAGED)) {
-                    ps.setLong(1, offset);
-                    ps.setLong(2, length);
-                    try (ResultSet rs = ps.executeQuery()) {
-                        while (rs.next()) {
-                            Role role = populateRole(rs);
-                            Long userId = rs.getLong("user_id");
-                            User user = userMap.get(userId);
-                            if (user != null) {
-                                user.getRoles().add(role);
-                            }
+            Map<Long, User> userMap = new HashMap<>();
+            for (User user : users) {
+                user.setRoles(new ArrayList<>());
+                userMap.put(user.getId(), user);
+            }
+            try (PreparedStatement ps = con.prepareStatement(LIST_ROLES_FOR_USER_PAGED)) {
+                ps.setLong(1, offset);
+                ps.setLong(2, length);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        Role role = populateRole(rs);
+                        Long userId = rs.getLong("user_id");
+                        User user = userMap.get(userId);
+                        if (user != null) {
+                            user.getRoles().add(role);
                         }
                     }
                 }
@@ -148,7 +146,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByName(String userName, boolean includeDisabled, boolean includeRoles) {
+    public User findByName(String userName, boolean includeDisabled) {
         return withTransaction(dataSource, con -> {
             User user;
             try (PreparedStatement ps = con.prepareStatement(includeDisabled ? FIND_BY_NAME : FIND_BY_NAME_ENABLED)) {
@@ -160,15 +158,13 @@ public class UserDaoImpl implements UserDao {
                     user = populateUser(rs);
                 }
             }
-            if (includeRoles) {
-                populateRoles(con, user);
-            }
+            populateRoles(con, user);
             return user;
         });
     }
 
     @Override
-    public User findById(long userId, boolean includeRoles) {
+    public User findById(long userId) {
         return withTransaction(dataSource, con -> {
             User user;
             try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
@@ -180,9 +176,7 @@ public class UserDaoImpl implements UserDao {
                     user = populateUser(rs);
                 }
             }
-            if (includeRoles) {
-                populateRoles(con, user);
-            }
+            populateRoles(con, user);
             return user;
         });
     }
