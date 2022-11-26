@@ -364,9 +364,8 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public List<Article> listArticlesBetweenDates(Date startDate, Date endDate) {
-        return articleRepository.findBetweenDates(startDate, endDate);
+        return articleDao.listBetweenDates(startDate, endDate);
     }
 
     @Override

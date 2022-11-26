@@ -18,16 +18,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     /**
      * Lists {@code Article} objects created within the specified date range.
      *
-     * @param startDate lower bound of date range (inclusive)
-     * @param endDate   upper bound of date range (exclusive)
-     * @return list of {@code Article} objects
-     */
-    @Query("from Article a where a.creationDate >= ?1 and a.creationDate < ?2 order by a.creationDate desc")
-    List<Article> findBetweenDates(Date startDate, Date endDate);
-
-    /**
-     * Lists {@code Article} objects created within the specified date range.
-     *
      * @param tag       tag to restrict by
      * @param startDate lower bound of date range (inclusive)
      * @param endDate   upper bound of date range (exclusive)

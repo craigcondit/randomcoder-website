@@ -89,6 +89,37 @@ public class ArticleDaoImpl implements ArticleDao {
             ORDER BY a.create_date DESC
             OFFSET ? LIMIT ?""";
 
+    private static final String COUNT_BETWEEN_DATES =
+            "SELECT count(1) FROM articles WHERE create_date >= ? AND create_date < ?";
+
+    private static final String LIST_BETWEEN_DATES = SELECT_ALL + " " + """
+            WHERE a.create_date >= ? AND a.create_date < ?
+            ORDER BY a.create_date DESC""";
+
+    private static final String SELECT_COMMENTS_BY_ARTICLE_IDS = """
+            SELECT
+                c.article_id article_id,
+                c.comment_id comment_id,
+                c.content_type content_type,
+                c.create_user_id create_user_id,
+                cu.username create_username,
+                cu.email create_email,
+                cu.website create_website,
+                c.create_date create_date,
+                c.anonymous_user_name anonymous_user_name,
+                c.anonymous_email_address anonymous_email_address,
+                c.anonymous_website anonymous_website,
+                c.title title,
+                c.content content,
+                c.visible visible,
+                c.moderation_status moderation_status,
+                c.ip_address ip_address,
+                c.referrer referrer,
+                c.user_agent user_agent
+            FROM comments c
+            LEFT JOIN users cu ON cu.user_id = c.create_user_id
+            WHERE c.article_id = ANY (?)
+            ORDER BY c.comment_id, c.article_id""";
 
     private static final String COL_ARTICLE_ID = "article_id";
     private static final String COL_CONTENT_TYPE = "content_type";
@@ -130,31 +161,6 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String COL_COMMENT_REFERRER = "referrer";
     private static final String COL_COMMENT_USER_AGENT = "user_agent";
 
-    private static final String SELECT_COMMENTS_BY_ARTICLE_IDS = """
-            SELECT
-                c.article_id article_id,
-                c.comment_id comment_id,
-                c.content_type content_type,
-                c.create_user_id create_user_id,
-                cu.username create_username,
-                cu.email create_email,
-                cu.website create_website,
-                c.create_date create_date,
-                c.anonymous_user_name anonymous_user_name,
-                c.anonymous_email_address anonymous_email_address,
-                c.anonymous_website anonymous_website,
-                c.title title,
-                c.content content,
-                c.visible visible,
-                c.moderation_status moderation_status,
-                c.ip_address ip_address,
-                c.referrer referrer,
-                c.user_agent user_agent
-            FROM comments c
-            LEFT JOIN users cu ON cu.user_id = c.create_user_id
-            WHERE c.article_id = ANY (?)
-            ORDER BY c.comment_id, c.article_id""";
-
     @Override
     public Article findById(long articleId) {
         return withReadonlyConnection(dataSource, con -> {
@@ -176,7 +182,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Page<Article> listBeforeDate(Date endDate, long offset, long length) {
         return withReadonlyConnection(dataSource, con -> {
-            return loadArticles(
+            return loadArticlesPaged(
                     con, offset, length, COUNT_BEFORE_DATE, LIST_BEFORE_DATE_PAGED,
                     ps -> {
                         ps.setTimestamp(1, new Timestamp(endDate.getTime()));
@@ -192,7 +198,7 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Page<Article> listByTagBeforeDate(long tagId, Date endDate, long offset, long length) {
         return withReadonlyConnection(dataSource, con -> {
-            return loadArticles(
+            return loadArticlesPaged(
                     con, offset, length, COUNT_BY_TAG_BEFORE_DATE, LIST_BY_TAG_BEFORE_DATE_PAGED,
                     ps -> {
                         ps.setLong(1, tagId);
@@ -209,7 +215,13 @@ public class ArticleDaoImpl implements ArticleDao {
 
     @Override
     public List<Article> listBetweenDates(Date startDate, Date endDate) {
-        return null;
+        return withReadonlyConnection(dataSource, con -> {
+            return loadArticles(con, LIST_BEFORE_DATE_PAGED,
+                    ps -> {
+                        ps.setTimestamp(1, new Timestamp(startDate.getTime()));
+                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                    });
+        });
     }
 
     @Override
@@ -217,7 +229,7 @@ public class ArticleDaoImpl implements ArticleDao {
         return null;
     }
 
-    private Page<Article> loadArticles(
+    private Page<Article> loadArticlesPaged(
             Connection con,
             long offset,
             long length,
@@ -226,7 +238,6 @@ public class ArticleDaoImpl implements ArticleDao {
             UncheckedConsumer<PreparedStatement> countCallback,
             UncheckedConsumer<PreparedStatement> queryCallback) throws Exception {
         long count;
-        List<Article> articles = new ArrayList<>();
         try (PreparedStatement ps = con.prepareStatement(countSql)) {
             countCallback.invoke(ps);
             try (ResultSet rs = ps.executeQuery()) {
@@ -236,8 +247,17 @@ public class ArticleDaoImpl implements ArticleDao {
                 count = rs.getLong(1);
             }
         }
-        try (PreparedStatement ps = con.prepareStatement(querySql)) {
-            queryCallback.invoke(ps);
+        var articles = loadArticles(con, querySql, queryCallback);
+        return new Page<>(articles, offset, count, length);
+    }
+
+    private List<Article> loadArticles(
+            Connection con,
+            String sql,
+            UncheckedConsumer<PreparedStatement> callback) throws Exception {
+        List<Article> articles = new ArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            callback.invoke(ps);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     articles.add(populateArticle(rs));
@@ -250,7 +270,7 @@ public class ArticleDaoImpl implements ArticleDao {
         }
         populateTags(con, map);
         populateComments(con, map);
-        return new Page<>(articles, offset, count, length);
+        return articles;
     }
 
     private Article loadArticle(
