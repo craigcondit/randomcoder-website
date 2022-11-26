@@ -12,7 +12,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
@@ -33,7 +32,6 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.util.List;
 
 @Configuration
-@EnableTransactionManagement(proxyTargetClass = true)
 @ComponentScan({"org.randomcoder.mvc"})
 @EnableWebMvc
 public class DispatcherContext implements WebMvcConfigurer, ApplicationContextAware {

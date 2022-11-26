@@ -45,14 +45,11 @@ module org.randomcoder.website {
     requires spring.context;
     requires spring.context.support;
     requires spring.data.commons;
-    requires spring.data.jpa;
     requires spring.jdbc;
     requires spring.security.core;
     requires spring.security.config;
     requires spring.security.crypto;
     requires spring.security.web;
-    requires spring.orm;
-    requires spring.tx;
     requires spring.web;
     requires spring.webmvc;
     requires jakarta.ws.rs;
