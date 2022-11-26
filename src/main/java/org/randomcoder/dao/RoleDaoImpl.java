@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.randomcoder.dao.DaoUtils.withTransaction;
+import static org.randomcoder.dao.DaoUtils.withReadonlyConnection;
 
 @Component("roleDao")
 public class RoleDaoImpl implements RoleDao {
@@ -39,7 +39,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public List<Role> listByDescription() {
-        return withTransaction(dataSource, con -> {
+        return withReadonlyConnection(dataSource, con -> {
             List<Role> roles = new ArrayList<>();
             try (PreparedStatement ps = con.prepareStatement(LIST_ALL_BY_DESC)) {
                 try (ResultSet rs = ps.executeQuery()) {
@@ -54,7 +54,7 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public Role findByName(String roleName) {
-        return withTransaction(dataSource, con -> {
+        return withReadonlyConnection(dataSource, con -> {
             try (PreparedStatement ps = con.prepareStatement(FIND_BY_NAME)) {
                 ps.setString(1, roleName);
                 try (ResultSet rs = ps.executeQuery()) {

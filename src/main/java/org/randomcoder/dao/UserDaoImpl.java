@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.randomcoder.dao.DaoUtils.withReadonlyConnection;
 import static org.randomcoder.dao.DaoUtils.withTransaction;
 
 @Component("userDao")
@@ -102,7 +103,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Page<User> listByName(long offset, long length) {
-        return withTransaction(dataSource, con -> {
+        return withReadonlyConnection(dataSource, con -> {
             long count;
             List<User> users = new ArrayList<>();
             try (PreparedStatement ps = con.prepareStatement(COUNT_ALL)) {
@@ -141,13 +142,13 @@ public class UserDaoImpl implements UserDao {
                     }
                 }
             }
-            return new Page(users, offset, count, length);
+            return new Page<>(users, offset, count, length);
         });
     }
 
     @Override
     public User findByName(String userName, boolean includeDisabled) {
-        return withTransaction(dataSource, con -> {
+        return withReadonlyConnection(dataSource, con -> {
             User user;
             try (PreparedStatement ps = con.prepareStatement(includeDisabled ? FIND_BY_NAME : FIND_BY_NAME_ENABLED)) {
                 ps.setString(1, userName);
@@ -165,7 +166,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findById(long userId) {
-        return withTransaction(dataSource, con -> {
+        return withReadonlyConnection(dataSource, con -> {
             User user;
             try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
                 ps.setLong(1, userId);

@@ -13,16 +13,7 @@ import java.util.List;
  * Article repository.
  */
 @Repository
-public interface ArticleRepository
-        extends JpaRepository<Article, Long> {
-    /**
-     * Loads an {@code Article} by its permalink
-     *
-     * @param permalink permalink name
-     * @return article if found, or null if no match
-     */
-    @Query("from Article a where a.permalink = ?1")
-    Article findByPermalink(String permalink);
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     /**
      * Lists {@code Article} objects created before the specified date and

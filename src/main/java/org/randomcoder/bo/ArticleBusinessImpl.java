@@ -27,6 +27,7 @@ import org.randomcoder.user.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -351,16 +352,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable) {
-        Page<Article> articles = articleRepository.findBeforeDate(endDate, pageable);
-
-        for (Article article : articles.getContent()) {
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getComments());
-        }
-
-        return articles;
+        var articles = articleDao.listBeforeDate(endDate, pageable.getOffset(), pageable.getPageSize());
+        return new PageImpl<>(articles.getContent(), pageable, articles.getTotalSize());
     }
 
     @Override

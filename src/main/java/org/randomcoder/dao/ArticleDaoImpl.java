@@ -16,12 +16,14 @@ import java.sql.JDBCType;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.randomcoder.dao.DaoUtils.withReadonlyConnection;
-import static org.randomcoder.dao.DaoUtils.withTransaction;
 
 @Component("articleDao")
 public class ArticleDaoImpl implements ArticleDao {
@@ -66,6 +68,10 @@ public class ArticleDaoImpl implements ArticleDao {
 
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE a.article_id = ?";
     private static final String FIND_BY_PERMALINK = SELECT_ALL + " WHERE a.permalink = ?";
+    private static final String LIST_BEFORE_DATE_PAGED =
+            SELECT_ALL + " WHERE a.create_date < ? ORDER BY a.create_date desc OFFSET ? LIMIT ?";
+    private static final String COUNT_BEFORE_DATE =
+            "SELECT count(1) FROM comments WHERE create_date < ?";
 
     private static final String COL_ARTICLE_ID = "article_id";
     private static final String COL_CONTENT_TYPE = "content_type";
@@ -152,7 +158,36 @@ public class ArticleDaoImpl implements ArticleDao {
 
     @Override
     public Page<Article> listBeforeDate(Date endDate, long offset, long length) {
-        return null;
+        return withReadonlyConnection(dataSource, con -> {
+            long count;
+            List<Article> articles = new ArrayList<>();
+            try (PreparedStatement ps = con.prepareStatement(COUNT_BEFORE_DATE)) {
+                ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        throw new DataAccessException("Unable to retrieve articles");
+                    }
+                    count = rs.getLong(1);
+                }
+            }
+            try (PreparedStatement ps = con.prepareStatement(LIST_BEFORE_DATE_PAGED)) {
+                ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                ps.setLong(2, offset);
+                ps.setLong(3, length);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        articles.add(populateArticle(rs));
+                    }
+                }
+            }
+            Map<Long, Article> map = new HashMap<>();
+            for (Article article : articles) {
+                map.put(article.getId(), article);
+            }
+            populateTags(con, map);
+            populateComments(con, map);
+            return new Page<>(articles, offset, count, length);
+        });
     }
 
     @Override
