@@ -75,6 +75,12 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String COUNT_BEFORE_DATE =
             "SELECT count(1) FROM articles WHERE create_date < ?";
 
+    private static final String LIST_PAGED = SELECT_ALL + " " + """
+            ORDER BY a.create_date DESC
+            OFFSET ? LIMIT ?""";
+
+    private static final String COUNT_ALL = "SELECT count(1) FROM articles";
+
     private static final String LIST_BEFORE_DATE_PAGED = SELECT_ALL + " " + """
             WHERE a.create_date < ?
             ORDER BY a.create_date DESC
@@ -191,6 +197,19 @@ public class ArticleDaoImpl implements ArticleDao {
             return loadArticle(con, FIND_BY_PERMALINK, ps -> {
                 ps.setString(1, permalink);
             });
+        });
+    }
+
+    @Override
+    public Page<Article> listByDateDesc(long offset, long length) {
+        return withReadonlyConnection(dataSource, con -> {
+            return loadArticlesPaged(
+                    con, offset, length, COUNT_ALL, LIST_PAGED,
+                    ps -> {},
+                    ps -> {
+                        ps.setLong(1, offset);
+                        ps.setLong(2, length);
+                    });
         });
     }
 

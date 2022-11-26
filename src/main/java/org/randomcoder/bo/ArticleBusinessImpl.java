@@ -9,12 +9,12 @@ import org.randomcoder.article.moderation.ModerationException;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.dao.ArticleDao;
+import org.randomcoder.dao.CommentDao;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.ArticleRepository;
 import org.randomcoder.db.Comment;
-import org.randomcoder.db.CommentRepository;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.Tag;
 import org.randomcoder.db.TagRepository;
@@ -28,10 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,17 +47,23 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
     private ArticleDao articleDao;
+    private CommentDao commentDao;
     private UserDao userDao;
     private RoleDao roleDao;
 
+
     private ArticleRepository articleRepository;
     private TagRepository tagRepository;
-    private CommentRepository commentRepository;
     private Moderator moderator;
 
     @Inject
     public void setArticleDao(ArticleDao articleDao) {
         this.articleDao = articleDao;
+    }
+
+    @Inject
+    public void setCommentDao(CommentDao commentDao) {
+        this.commentDao = commentDao;
     }
 
     @Inject
@@ -91,16 +94,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     @Inject
     public void setTagRepository(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
-    }
-
-    /**
-     * Sets the comment repository to use.
-     *
-     * @param commentRepository comment repository
-     */
-    @Inject
-    public void setCommentRepository(CommentRepository commentRepository) {
-        this.commentRepository = commentRepository;
     }
 
     /**
@@ -139,7 +132,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void createComment(Producer<Comment> producer, Long articleId, String userName, String referrer, String ipAddress, String userAgent) {
         User user = userName == null ? null : findUserByName(userName);
 
@@ -171,11 +163,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         comment.setIpAddress(StringUtils.trimToNull(ipAddress));
         comment.setUserAgent(StringUtils.trimToNull(userAgent));
 
-        commentRepository.save(comment);
-
-        article.getComments().add(comment);
-
-        articleRepository.save(article);
+        commentDao.save(comment);
     }
 
     @Override
@@ -238,7 +226,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
     public Article approveComment(Long commentId) throws ModerationException {
         Comment comment = loadComment(commentId);
 
@@ -247,7 +234,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         Article article = comment.getArticle();
         comment.setModerationStatus(ModerationStatus.HAM);
         comment.setVisible(true);
-        commentRepository.save(comment);
+        commentDao.save(comment);
 
         moderator.markAsHam(comment);
 
@@ -255,7 +242,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", rollbackFor = ModerationException.class)
     public Article disapproveComment(Long commentId) throws ModerationException {
         Comment comment = loadComment(commentId);
 
@@ -264,7 +250,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         Article article = comment.getArticle();
         comment.setModerationStatus(ModerationStatus.SPAM);
         comment.setVisible(false);
-        commentRepository.save(comment);
+        commentDao.save(comment);
 
         moderator.markAsSpam(comment);
 
@@ -272,57 +258,41 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public Article deleteComment(Long commentId) {
         Comment comment = loadComment(commentId);
 
         logger.info("Deleting comment #" + comment.getId());
 
         Article article = comment.getArticle();
-
-        article.getComments().remove(comment);
-
-        commentRepository.delete(comment);
-        articleRepository.save(article);
+        commentDao.deleteById(comment.getId());
 
         return article;
     }
 
     @Override
-    @Transactional("transactionManager")
     public boolean moderateComments(int count) throws ModerationException {
-        Page<Comment> page = commentRepository.findForModeration(PageRequest.of(0, count, Sort.by("creationDate")));
-        if (page.getNumberOfElements() < 1) {
+        var page = commentDao.listForModeration(0, count);
+        if (page.getContent().size() < 1) {
             return false;
         }
-
         for (Comment comment : page.getContent()) {
-
             logger.info("Moderating comment #" + comment.getId());
 
             boolean valid = moderator.validate(comment);
 
             logger.info(valid ? "  HAM" : "  SPAM");
-
             comment.setVisible(valid);
             comment.setModerationStatus(valid ? ModerationStatus.HAM : ModerationStatus.SPAM);
-            commentRepository.save(comment);
+            commentDao.save(comment);
         }
 
         return true;
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public List<Article> listRecentArticles(int limit) {
-        PageRequest req = PageRequest.of(0, limit, Sort.by(Direction.DESC, "creationDate"));
-        List<Article> articles = articleRepository.findAll(req).getContent();
-        Hibernate.initialize(articles);
-        for (Article article : articles) {
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getComments());
-        }
-        return articles;
+        var page = articleDao.listByDateDesc(0, limit);
+        return page.getContent();
     }
 
     @Override
@@ -409,7 +379,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
             throw new CommentNotFoundException("Invalid id specified.");
         }
 
-        Comment comment = commentRepository.getReferenceById(commentId);
+        Comment comment = commentDao.findById(commentId);
         if (comment == null) {
             throw new CommentNotFoundException("No comment exists with id: " + commentId);
         }
