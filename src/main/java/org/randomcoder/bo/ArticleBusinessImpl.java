@@ -10,6 +10,7 @@ import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.dao.ArticleDao;
 import org.randomcoder.dao.RoleDao;
+import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.ArticleRepository;
 import org.randomcoder.db.Comment;
@@ -18,7 +19,6 @@ import org.randomcoder.db.Role;
 import org.randomcoder.db.Tag;
 import org.randomcoder.db.TagRepository;
 import org.randomcoder.db.User;
-import org.randomcoder.db.UserRepository;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
 import org.randomcoder.security.UnauthorizedException;
@@ -50,9 +50,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
     private ArticleDao articleDao;
+    private UserDao userDao;
     private RoleDao roleDao;
 
-    private UserRepository userRepository;
     private ArticleRepository articleRepository;
     private TagRepository tagRepository;
     private CommentRepository commentRepository;
@@ -64,18 +64,13 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Inject
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
-    /**
-     * Sets the user repository to use.
-     *
-     * @param userRepository user repository
-     */
     @Inject
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     /**
@@ -235,14 +230,11 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void deleteArticle(String userName, Long articleId) {
         User user = findUserByName(userName);
         Article article = loadArticle(articleId);
-
         checkAuthorDelete(user, article);
-
-        articleRepository.delete(article);
+        articleDao.deleteById(articleId);
     }
 
     @Override
@@ -393,11 +385,10 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     private User findUserByName(String userName) throws UserNotFoundException {
-        User user = userRepository.findByUserName(userName);
+        User user = userDao.findByName(userName, true);
         if (user == null) {
             throw new UserNotFoundException("Unknown user: " + userName);
         }
-
         return user;
     }
 
@@ -405,8 +396,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         if (articleId == null) {
             throw new ArticleNotFoundException("Invalid id specified.");
         }
-
-        Article article = articleRepository.getReferenceById(articleId);
+        Article article = articleDao.findById(articleId);
         if (article == null) {
             throw new ArticleNotFoundException("No article exists with id: " + articleId);
         }

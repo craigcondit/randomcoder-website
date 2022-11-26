@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ArticleDao {
 
+    void deleteById(long articleId);
+
     Article findById(long articleId);
 
     Article findByPermalink(String permalink);

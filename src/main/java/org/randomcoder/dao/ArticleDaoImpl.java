@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.randomcoder.dao.DaoUtils.withReadonlyConnection;
+import static org.randomcoder.dao.DaoUtils.withTransaction;
 
 @Component("articleDao")
 public class ArticleDaoImpl implements ArticleDao {
@@ -65,6 +66,8 @@ public class ArticleDaoImpl implements ArticleDao {
             JOIN article_tag_link atl ON atl.tag_id = t.tag_id
             WHERE atl.article_id = ANY (?)
             ORDER BY t.display_name""";
+
+    private static final String DELETE_BY_ID = "DELETE FROM articles WHERE article_id = ?";
 
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE a.article_id = ?";
     private static final String FIND_BY_PERMALINK = SELECT_ALL + " WHERE a.permalink = ?";
@@ -162,6 +165,16 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String COL_COMMENT_IP_ADDRESS = "ip_address";
     private static final String COL_COMMENT_REFERRER = "referrer";
     private static final String COL_COMMENT_USER_AGENT = "user_agent";
+
+    @Override
+    public void deleteById(long articleId) {
+        withTransaction(dataSource, con -> {
+            try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
+                ps.setLong(1, articleId);
+                ps.executeUpdate();
+            }
+        });
+    }
 
     @Override
     public Article findById(long articleId) {
