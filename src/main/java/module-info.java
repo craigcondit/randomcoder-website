@@ -14,7 +14,6 @@ module org.randomcoder.website {
     requires com.fasterxml.jackson.module.jakarta.xmlbind;
     requires jakarta.el;
     requires jakarta.inject;
-    requires jakarta.persistence;
     requires jakarta.xml.bind;
     requires jersey.container.servlet.core;
     requires jersey.common;
@@ -33,9 +32,6 @@ module org.randomcoder.website {
     requires org.glassfish.hk2.utilities;
     requires org.glassfish.jaxb.core;
     requires org.glassfish.jaxb.runtime;
-    requires org.hibernate.commons.annotations;
-    requires org.hibernate.orm.core;
-    requires org.hibernate.orm.jcache;
     requires org.hibernate.validator;
     requires org.postgresql.jdbc;
     requires org.slf4j;

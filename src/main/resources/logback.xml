@@ -8,7 +8,6 @@
     </appender>
 
     <logger name="org.randomcoder" level="info" />
-    <logger name="org.randomcoder.dao.hibernate" level="warn" />
     <logger name="org.randomcoder.mvc" level="warn" />
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
@@ -16,9 +15,7 @@
     <logger name="org.thymeleaf" level="warn" />
     <logger name="org.springframework" level="warn" />
     <logger name="_org.springframework" level="warn" />
-    <logger name="uk.ltd.getahead.dwr" level="warn" />
-    <logger name="org.hibernate" level="warn" />
-    <logger name="org.hibernate.SQL" level="warn" />
+    <logger name="org.hibernate.validator" level="warn" />
 
     <root level="debug">
         <appender-ref ref="console" />

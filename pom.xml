@@ -77,9 +77,6 @@
         <commons.httpclient.version>3.1</commons.httpclient.version>
         <thymeleaf.version>3.1.0.RELEASE</thymeleaf.version>
         <thymeleaf.extras.springsecurity6.version>3.1.0.M1</thymeleaf.extras.springsecurity6.version>
-        <hibernate.version>6.1.5.Final</hibernate.version>
-        <hibernate.annotations.version>6.0.4.Final</hibernate.annotations.version>
-        <hibernate.jcache.version>6.1.5.Final</hibernate.jcache.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <bytebuddy.version>1.12.18</bytebuddy.version>
         <spring.version>6.0.0-RC2</spring.version>
@@ -359,27 +356,6 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
             <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>jakarta.activation</groupId>
-                    <artifactId>jakarta.activation-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-jcache</artifactId>
-            <version>${hibernate.jcache.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.common</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>${hibernate.annotations.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.validator</groupId>

@@ -10,13 +10,10 @@
 
     <logger name="org.randomcoder" level="debug" />
     <logger name="org.dbunit" level="warn" />
-    <logger name="org.randomcoder.dao.hibernate" level="warn" />
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
-    <logger name="org.hibernate" level="warn" />
-    <logger name="org.hibernate.SQL" level="warn" />>
+    <logger name="org.hibernate.validator" level="warn" />
     <logger name="org.springframework" level="warn" />
-    <logger name="uk.ltd.getahead.dwr" level="warn" />
 
     <root level="debug">
     	<appender-ref ref="console" />
