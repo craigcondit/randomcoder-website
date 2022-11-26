@@ -30,6 +30,7 @@ import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,8 +56,8 @@ public class Article implements Serializable {
     private String summary;
     private boolean commentsEnabled = true;
 
-    private List<Tag> tags;
-    private List<Comment> comments;
+    private List<Tag> tags = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     /**
      * Gets the id of this article.

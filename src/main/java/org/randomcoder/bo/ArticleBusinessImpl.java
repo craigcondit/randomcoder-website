@@ -8,6 +8,7 @@ import org.randomcoder.article.comment.CommentNotFoundException;
 import org.randomcoder.article.moderation.ModerationException;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.article.moderation.Moderator;
+import org.randomcoder.dao.ArticleDao;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.ArticleRepository;
@@ -49,6 +50,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     private UserRepository userRepository;
     private RoleDao roleDao;
+    private ArticleDao articleDao;
     private ArticleRepository articleRepository;
     private TagRepository tagRepository;
     private CommentRepository commentRepository;
@@ -57,6 +59,11 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     @Inject
     public void setRoleDao(RoleDao roleDao) {
         this.roleDao = roleDao;
+    }
+
+    @Inject
+    public void setArticleDao(ArticleDao articleDao) {
+        this.articleDao = articleDao;
     }
 
     /**
@@ -203,25 +210,32 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
+    //@Transactional(value = "transactionManager", readOnly = true)
     public Article readArticle(long articleId) {
+        return articleDao.findById(articleId);
+        /*
         Article article = articleRepository.getReferenceById(articleId);
         if (article != null) {
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getComments());
         }
         return article;
+
+         */
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
+    //@Transactional(value = "transactionManager", readOnly = true)
     public Article findArticleByPermalink(String permalink) {
+        return articleDao.findByPermalink(permalink);
+        /*
         Article article = articleRepository.findByPermalink(permalink);
         if (article != null) {
             Hibernate.initialize(article.getTags());
             Hibernate.initialize(article.getComments());
         }
         return article;
+         */
     }
 
     @Override
@@ -455,4 +469,5 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
         return role;
     }
+
 }

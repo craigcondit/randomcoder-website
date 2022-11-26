@@ -14,6 +14,24 @@ public class DaoUtils {
         return wrap(() -> ds.getConnection());
     }
 
+    public static void withReadonlyConnection(DataSource ds, UncheckedConsumer<Connection> consumer) throws DataAccessException {
+        withReadonlyConnection(ds, (con) -> {
+            consumer.invoke(con);
+            return null;
+        });
+    }
+
+    public static <T> T withReadonlyConnection(DataSource ds, UncheckedFunction<Connection, T> func) throws DataAccessException {
+        try (Connection con = ds.getConnection()) {
+            con.setReadOnly(true);
+            return func.call(con);
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DataAccessException(e);
+        }
+    }
+
     public static void withConnection(DataSource ds, UncheckedConsumer<Connection> consumer) throws DataAccessException {
         withConnection(ds, (con) -> {
             consumer.invoke(con);

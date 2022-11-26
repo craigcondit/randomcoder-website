@@ -51,24 +51,6 @@ public interface ArticleRepository
                                       Pageable pageable);
 
     /**
-     * Lists {@code Article} objects with the given tag.
-     *
-     * @param tag tag
-     * @return list of {@code Article} objects
-     */
-    @Query("from Article a where ?1 in elements(a.tags) order by a.creationDate desc")
-    List<Article> findByTag(Tag tag);
-
-    /**
-     * Iterates {@code Article} objects with the given tag.
-     *
-     * @param tag tag
-     * @return Article iterator
-     */
-    @Query("from Article a where ?1 in elements(a.tags) order by a.creationDate desc")
-    Iterable<Article> iterateByTag(Tag tag);
-
-    /**
      * Lists {@code Article} objects created within the specified date range.
      *
      * @param startDate lower bound of date range (inclusive)
