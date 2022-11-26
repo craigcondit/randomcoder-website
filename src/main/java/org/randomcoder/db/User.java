@@ -1,21 +1,8 @@
 package org.randomcoder.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -25,13 +12,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * JPA entity representing a user.
+ * Database entity representing a user.
  */
-@Entity
-@Table(name = "users")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SequenceGenerator(name = "users", sequenceName = "users_seq", allocationSize = 1)
 public class User implements Serializable {
+
     private static final long serialVersionUID = 2227663675676869070L;
 
     private Long id;
@@ -59,9 +43,6 @@ public class User implements Serializable {
      *
      * @return user id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "users")
-    @Column(name = "user_id")
     public Long getId() {
         return id;
     }
@@ -80,10 +61,6 @@ public class User implements Serializable {
      *
      * @return Set of roles
      */
-    @OneToMany
-    @JoinTable(name = "user_role_link", joinColumns = {
-            @JoinColumn(name = "user_id")}, inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @OrderBy("description")
     public List<Role> getRoles() {
         return roles;
     }
@@ -102,7 +79,6 @@ public class User implements Serializable {
      *
      * @return user name
      */
-    @Column(name = "username", unique = true, nullable = false, length = 30)
     public String getUserName() {
         return userName;
     }
@@ -121,7 +97,6 @@ public class User implements Serializable {
      *
      * @return password hash
      */
-    @Column(name = "password", nullable = true, length = 255)
     public String getPassword() {
         return password;
     }
@@ -140,7 +115,6 @@ public class User implements Serializable {
      *
      * @return email address
      */
-    @Column(name = "email", nullable = false, length = 320)
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -159,7 +133,6 @@ public class User implements Serializable {
      *
      * @return web site
      */
-    @Column(name = "website", nullable = true, length = 255)
     public String getWebsite() {
         return website;
     }
@@ -178,7 +151,6 @@ public class User implements Serializable {
      *
      * @return true if enabled, false otherwise
      */
-    @Column(name = "enabled", nullable = false)
     public boolean isEnabled() {
         return enabled;
     }
@@ -197,7 +169,6 @@ public class User implements Serializable {
      *
      * @return last login date
      */
-    @Column(name = "login_date", unique = false, nullable = true)
     public Date getLastLoginDate() {
         return lastLoginDate;
     }
@@ -218,8 +189,7 @@ public class User implements Serializable {
      */
     @Override
     public String toString() {
-        return (new ReflectionToStringBuilder(this,
-                ToStringStyle.SHORT_PREFIX_STYLE) {
+        return (new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE) {
             @Override
             protected boolean accept(Field f) {
                 if (f.getName().equals("password")) {

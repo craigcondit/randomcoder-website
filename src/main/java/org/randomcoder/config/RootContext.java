@@ -20,11 +20,13 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,7 +39,6 @@ import java.util.concurrent.Executors;
 @EnableScheduling
 @ComponentScan({"org.randomcoder.dao", "org.randomcoder.bo", "org.randomcoder.security.spring"})
 @ImportResource({"classpath:spring-security.xml"})
-@Import({DatabaseConfig.class})
 public class RootContext implements SchedulingConfigurer {
 
     @Inject
@@ -58,6 +59,15 @@ public class RootContext implements SchedulingConfigurer {
     @Bean(destroyMethod = "shutdown")
     public Executor taskScheduler() {
         return Executors.newScheduledThreadPool(2);
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource ds = new DriverManagerDataSource();
+        ds.setUrl(env.getRequiredProperty("database.url"));
+        ds.setUsername(env.getRequiredProperty("database.username"));
+        ds.setPassword(env.getRequiredProperty("database.password"));
+        return ds;
     }
 
     @Bean

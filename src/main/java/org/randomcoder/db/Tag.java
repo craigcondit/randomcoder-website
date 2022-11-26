@@ -1,33 +1,19 @@
 package org.randomcoder.db;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.List;
 
 /**
- * JPA entity representing an article tag or category.
+ * Database entity representing an article tag or category.
  */
-@Entity
-@Table(name = "tags")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SequenceGenerator(name = "tags", sequenceName = "tags_seq", allocationSize = 1)
 public class Tag implements Serializable, Comparable<Tag> {
+
+    private static final long serialVersionUID = 3814891608527889241L;
+
     /**
      * Tag Comparator (by name).
      */
@@ -39,33 +25,28 @@ public class Tag implements Serializable, Comparable<Tag> {
             return s1.compareTo(s2);
         }
     };
+
     /**
      * Tag Comparator (by display name).
      */
-    public static final Comparator<Tag> DISPLAY_NAME_COMPARATOR =
-            new Comparator<Tag>() {
-                @Override
-                public int compare(Tag t1, Tag t2) {
-                    String s1 = StringUtils.trimToEmpty(t1.getDisplayName());
-                    String s2 = StringUtils.trimToEmpty(t2.getDisplayName());
-                    return s1.compareTo(s2);
-                }
-            };
-    private static final long serialVersionUID = 3814891608527889241L;
+    public static final Comparator<Tag> DISPLAY_NAME_COMPARATOR = new Comparator<Tag>() {
+        @Override
+        public int compare(Tag t1, Tag t2) {
+            String s1 = StringUtils.trimToEmpty(t1.getDisplayName());
+            String s2 = StringUtils.trimToEmpty(t2.getDisplayName());
+            return s1.compareTo(s2);
+        }
+    };
+
     private Long id;
     private String name;
     private String displayName;
-
-    private transient List<Article> articles;
 
     /**
      * Gets the id for this tag.
      *
      * @return tag id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "tags")
-    @Column(name = "tag_id")
     public Long getId() {
         return id;
     }
@@ -84,7 +65,6 @@ public class Tag implements Serializable, Comparable<Tag> {
      *
      * @return tag name
      */
-    @Column(name = "name", unique = true, nullable = false, length = 255)
     public String getName() {
         return name;
     }
@@ -103,7 +83,6 @@ public class Tag implements Serializable, Comparable<Tag> {
      *
      * @return display name
      */
-    @Column(name = "display_name", nullable = false, length = 255)
     public String getDisplayName() {
         return displayName;
     }
@@ -115,27 +94,6 @@ public class Tag implements Serializable, Comparable<Tag> {
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    /**
-     * Gets the articles which belong to this tag.
-     *
-     * @return article list
-     */
-    @ManyToMany(cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE}, mappedBy = "tags")
-    @OrderBy("creationDate DESC")
-    public List<Article> getArticles() {
-        return articles;
-    }
-
-    /**
-     * Sets the articles which belong to this tag.
-     *
-     * @param articles article list
-     */
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
     }
 
     /**
@@ -183,7 +141,6 @@ public class Tag implements Serializable, Comparable<Tag> {
      */
     @Override
     public String toString() {
-        return ReflectionToStringBuilder
-                .toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 }

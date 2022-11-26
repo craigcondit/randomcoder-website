@@ -1,56 +1,29 @@
 package org.randomcoder.db;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Immutable;
 
 import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * JPA entity representing a security role.
+ * Database entity representing a security role.
  */
-@Entity
-@Immutable
-@Table(name = "roles")
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-@SequenceGenerator(name = "roles", sequenceName = "roles_seq", allocationSize = 1)
 public class Role implements Serializable, Comparable<Role> {
-    /**
-     * Role Comparator (by name).
-     */
-    public static final Comparator<Role> NAME_COMPARATOR =
-            new Comparator<Role>() {
-                @Override
-                public int compare(Role r1, Role r2) {
-                    String s1 = StringUtils.trimToEmpty(r1.getName());
-                    String s2 = StringUtils.trimToEmpty(r2.getName());
-                    return s1.compareTo(s2);
-                }
-            };
+
+    private static final long serialVersionUID = -828314946477973093L;
+
     /**
      * Role Comparator (by description).
      */
     public static final Comparator<Role> DESCRIPTION_COMPARATOR =
-            new Comparator<Role>() {
-                @Override
-                public int compare(Role r1, Role r2) {
-                    String s1 = StringUtils.trimToEmpty(r1.getDescription());
-                    String s2 = StringUtils.trimToEmpty(r2.getDescription());
-                    return s1.compareTo(s2);
-                }
+            (r1, r2) -> {
+                String s1 = StringUtils.trimToEmpty(r1.getDescription());
+                String s2 = StringUtils.trimToEmpty(r2.getDescription());
+                return s1.compareTo(s2);
             };
-    private static final long serialVersionUID = -828314946477973093L;
+
     private Long id;
     private String name;
     private String description;
@@ -60,9 +33,6 @@ public class Role implements Serializable, Comparable<Role> {
      *
      * @return role id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "roles")
-    @Column(name = "role_id")
     public Long getId() {
         return id;
     }
@@ -81,7 +51,6 @@ public class Role implements Serializable, Comparable<Role> {
      *
      * @return role name
      */
-    @Column(name = "name", unique = true, nullable = false, length = 30)
     public String getName() {
         return name;
     }
@@ -100,7 +69,6 @@ public class Role implements Serializable, Comparable<Role> {
      *
      * @return role description, or null if not supplied.
      */
-    @Column(name = "description", nullable = true, length = 255)
     public String getDescription() {
         return description;
     }
@@ -161,4 +129,5 @@ public class Role implements Serializable, Comparable<Role> {
         return ReflectionToStringBuilder
                 .toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

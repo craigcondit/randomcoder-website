@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +83,6 @@ public class TagBusinessImpl implements TagBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public Page<TagStatistics> findTagStatistics(Pageable pageable) {
         var stats = tagDao.listAllTagStatistics(pageable.getOffset(), pageable.getPageSize());
         return new PageImpl<>(stats.getContent(), pageable, stats.getTotalSize());

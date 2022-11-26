@@ -43,16 +43,4 @@ public class RoleTest {
         assertEquals(1, role1.compareTo(role2));
     }
 
-    @Test
-    public void testNameComparator() {
-        Role role1 = new Role();
-        role1.setId((long) 1);
-        role1.setName("Role 1");
-
-        Role role2 = new Role();
-        role2.setId((long) 2);
-        role2.setName("Role 2");
-
-        assertEquals(-1, Role.NAME_COMPARATOR.compare(role1, role2));
-    }
 }

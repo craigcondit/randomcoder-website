@@ -1,31 +1,10 @@
 package org.randomcoder.db;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.randomcoder.content.ContentType;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -35,13 +14,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * JPA entity representing an article.
+ * Database entity representing an article.
  */
-@Entity
-@Table(name = "articles")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SequenceGenerator(name = "articles", sequenceName = "articles_seq", allocationSize = 1)
 public class Article implements Serializable {
+
     private static final long serialVersionUID = 4017235474814138625L;
 
     private Long id;
@@ -64,9 +40,6 @@ public class Article implements Serializable {
      *
      * @return article id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "articles")
-    @Column(name = "article_id")
     public Long getId() {
         return id;
     }
@@ -85,10 +58,6 @@ public class Article implements Serializable {
      *
      * @return List of {@code Tag} objects
      */
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "article_tag_link", joinColumns = {
-            @JoinColumn(name = "article_id")}, inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    @OrderBy("displayName")
     public List<Tag> getTags() {
         return tags;
     }
@@ -107,9 +76,6 @@ public class Article implements Serializable {
      *
      * @return list of comments
      */
-    @OneToMany(mappedBy = "article", cascade = {CascadeType.PERSIST,
-            CascadeType.MERGE, CascadeType.REMOVE})
-    @OrderBy()
     public List<Comment> getComments() {
         return comments;
     }
@@ -128,8 +94,6 @@ public class Article implements Serializable {
      *
      * @return content type
      */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "content_type", nullable = false, length = 255)
     public ContentType getContentType() {
         return contentType;
     }
@@ -148,7 +112,6 @@ public class Article implements Serializable {
      *
      * @return permalink
      */
-    @Column(name = "permalink", nullable = true, unique = true, length = 100)
     public String getPermalink() {
         return permalink;
     }
@@ -167,9 +130,6 @@ public class Article implements Serializable {
      *
      * @return user
      */
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST}, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "create_user_id", nullable = true)
     public User getCreatedByUser() {
         return createdByUser;
     }
@@ -188,7 +148,6 @@ public class Article implements Serializable {
      *
      * @return creation date
      */
-    @Column(name = "create_date", nullable = false)
     public Date getCreationDate() {
         return creationDate;
     }
@@ -207,9 +166,6 @@ public class Article implements Serializable {
      *
      * @return user, or null if not modified, or user doesn't exist.
      */
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST}, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "modify_user_id", nullable = true)
     public User getModifiedByUser() {
         return modifiedByUser;
     }
@@ -228,7 +184,6 @@ public class Article implements Serializable {
      *
      * @return modification date, or null if article has not been modified
      */
-    @Column(name = "modify_date", nullable = true)
     public Date getModificationDate() {
         return modificationDate;
     }
@@ -247,7 +202,6 @@ public class Article implements Serializable {
      *
      * @return article title
      */
-    @Column(name = "title", nullable = false, length = 255)
     public String getTitle() {
         return title;
     }
@@ -266,7 +220,6 @@ public class Article implements Serializable {
      *
      * @return article content
      */
-    @Column(name = "content", nullable = false)
     public String getContent() {
         return content;
     }
@@ -285,7 +238,6 @@ public class Article implements Serializable {
      *
      * @return article summyar
      */
-    @Column(name = "summary", nullable = true)
     public String getSummary() {
         return summary;
     }
@@ -304,7 +256,6 @@ public class Article implements Serializable {
      *
      * @return <code>true</code> if comments are enabled
      */
-    @Column(name = "comments_enabled", nullable = false)
     public boolean isCommentsEnabled() {
         return commentsEnabled;
     }
@@ -323,7 +274,6 @@ public class Article implements Serializable {
      *
      * @return permalink
      */
-    @Transient
     public String getPermalinkUrl() {
         String perm = getPermalink();
         if (perm != null) {

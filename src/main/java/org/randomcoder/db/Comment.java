@@ -1,20 +1,5 @@
 package org.randomcoder.db;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.content.ContentType;
 
@@ -22,14 +7,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * JPA entity representing an article comment.
+ * Database entity representing an article comment.
  */
-@Entity
-@Table(name = "comments")
-@SequenceGenerator(name = "comments", sequenceName = "comments_seq", allocationSize = 1)
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Comment
-        implements Serializable {
+public class Comment implements Serializable {
+
     private static final long serialVersionUID = 7444605318685376170L;
 
     private Long id;
@@ -53,9 +34,6 @@ public class Comment
      *
      * @return id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "comments")
-    @Column(name = "comment_id")
     public Long getId() {
         return id;
     }
@@ -74,9 +52,6 @@ public class Comment
      *
      * @return article
      */
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST}, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "article_id")
     public Article getArticle() {
         return article;
     }
@@ -95,8 +70,6 @@ public class Comment
      *
      * @return content type
      */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "content_type", nullable = false, length = 255)
     public ContentType getContentType() {
         return contentType;
     }
@@ -115,9 +88,6 @@ public class Comment
      *
      * @return user
      */
-    @ManyToOne(cascade = {
-            CascadeType.PERSIST}, fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "create_user_id", nullable = true)
     public User getCreatedByUser() {
         return createdByUser;
     }
@@ -136,7 +106,6 @@ public class Comment
      *
      * @return creation date
      */
-    @Column(name = "create_date", nullable = false)
     public Date getCreationDate() {
         return creationDate;
     }
@@ -155,7 +124,6 @@ public class Comment
      *
      * @return anonymous user name
      */
-    @Column(name = "anonymous_user_name", nullable = true, length = 30)
     public String getAnonymousUserName() {
         return anonymousUserName;
     }
@@ -174,7 +142,6 @@ public class Comment
      *
      * @return anonymous email address
      */
-    @Column(name = "anonymous_email_address", nullable = true, length = 320)
     public String getAnonymousEmailAddress() {
         return anonymousEmailAddress;
     }
@@ -193,7 +160,6 @@ public class Comment
      *
      * @return anonymous web site
      */
-    @Column(name = "anonymous_website", nullable = true, length = 255)
     public String getAnonymousWebsite() {
         return anonymousWebsite;
     }
@@ -212,7 +178,6 @@ public class Comment
      *
      * @return comment title
      */
-    @Column(name = "title", nullable = false, length = 255)
     public String getTitle() {
         return title;
     }
@@ -231,7 +196,6 @@ public class Comment
      *
      * @return comment content
      */
-    @Column(name = "content", nullable = false)
     public String getContent() {
         return content;
     }
@@ -250,7 +214,6 @@ public class Comment
      *
      * @return true if visible, false otherwise
      */
-    @Column(name = "visible", nullable = false)
     public boolean isVisible() {
         return visible;
     }
@@ -269,8 +232,6 @@ public class Comment
      *
      * @return moderation status
      */
-    @Enumerated(EnumType.STRING)
-    @Column(name = "moderation_status", nullable = false, length = 255)
     public ModerationStatus getModerationStatus() {
         return moderationStatus;
     }
@@ -289,7 +250,6 @@ public class Comment
      *
      * @return HTTP referrer
      */
-    @Column(name = "referrer", nullable = true)
     public String getReferrer() {
         return referrer;
     }
@@ -308,7 +268,6 @@ public class Comment
      *
      * @return IP address
      */
-    @Column(name = "ip_address", nullable = true)
     public String getIpAddress() {
         return ipAddress;
     }
@@ -327,7 +286,6 @@ public class Comment
      *
      * @return HTTP user agent
      */
-    @Column(name = "user_agent", nullable = true)
     public String getUserAgent() {
         return userAgent;
     }
