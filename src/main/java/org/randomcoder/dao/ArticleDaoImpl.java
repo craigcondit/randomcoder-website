@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,6 +36,19 @@ public class ArticleDaoImpl implements ArticleDao {
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
     }
+
+    private static final String INSERT = """
+        INSERT INTO articles (
+            content_type, create_user_id, create_date, modify_user_id, modify_date,
+            title, permalink, content, summary, comments_enabled)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        RETURNING article_id""";
+
+    private static final String UPDATE = """
+        UPDATE articles SET
+            content_type = ?, create_user_id = ?, create_date = ?, modify_user_id = ?, modify_date = ?,
+            title = ?, permalink = ?, content = ?, summary = ?, comments_enabled = ?
+        WHERE article_id = ?""";
 
     private static final String SELECT_ALL = """
             SELECT
@@ -132,6 +146,12 @@ public class ArticleDaoImpl implements ArticleDao {
             WHERE c.article_id = ANY (?)
             ORDER BY c.comment_id, c.article_id""";
 
+    private static final String DELETE_TAG_LINK_BY_ARTICLE_ID = """
+            DELETE FROM article_tag_link WHERE article_id = ?""";
+
+    private static final String INSERT_TAG_LINK = """
+            INSERT INTO article_tag_link (article_id, tag_id) VALUES (?,?)""";
+
     private static final String COL_ARTICLE_ID = "article_id";
     private static final String COL_CONTENT_TYPE = "content_type";
     private static final String COL_CREATE_USER_ID = "create_user_id";
@@ -171,6 +191,13 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String COL_COMMENT_IP_ADDRESS = "ip_address";
     private static final String COL_COMMENT_REFERRER = "referrer";
     private static final String COL_COMMENT_USER_AGENT = "user_agent";
+
+    @Override
+    public Long save(Article article) {
+        return withTransaction(dataSource, con -> (article.getId() == null)
+                ? createArticle(con, article)
+                : updateArticle(con, article));
+    }
 
     @Override
     public void deleteById(long articleId) {
@@ -266,6 +293,62 @@ public class ArticleDaoImpl implements ArticleDao {
                 ps.setTimestamp(3, new Timestamp(endDate.getTime()));
             });
         });
+    }
+
+    private Long createArticle(Connection con, Article article) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(INSERT)) {
+            addSaveParams(ps, article);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new DataAccessException("Unable to save article");
+                }
+                article.setId(rs.getLong(1));
+            }
+        }
+        populateTagLink(con, article);
+        return article.getId();
+    }
+
+    private Long updateArticle(Connection con, Article article) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
+            addSaveParams(ps, article);
+            ps.setLong(11, article.getId());
+            int count = ps.executeUpdate();
+            if (count != 1) {
+                throw new DataAccessException("Unable to save article");
+            }
+        }
+        deleteTagLink(con, article);
+        populateTagLink(con, article);
+        return article.getId();
+    }
+
+    private void addSaveParams(PreparedStatement ps, Article article) throws SQLException {
+        ps.setString(1, article.getContentType().name());
+        User createdBy = article.getCreatedByUser();
+        if (createdBy == null) {
+            ps.setNull(2, Types.BIGINT);
+        } else {
+            ps.setLong(2, createdBy.getId());
+        }
+        ps.setTimestamp(3, new Timestamp(article.getCreationDate().getTime()));
+        User modifiedBy = article.getModifiedByUser();
+        if (modifiedBy == null) {
+            ps.setNull(4, Types.BIGINT);
+        } else {
+            ps.setLong(4, modifiedBy.getId());
+        }
+        Date modified = article.getModificationDate();
+        if (modified == null) {
+            ps.setNull(5, Types.TIMESTAMP);
+        } else {
+            ps.setTimestamp(5, new Timestamp(modified.getTime()));
+        }
+        ps.setString(6, article.getTitle());
+        ps.setString(7, article.getPermalink());
+        ps.setString(8, article.getContent());
+        ps.setString(9, article.getSummary());
+        ps.setBoolean(10, article.isCommentsEnabled());
     }
 
     private Page<Article> loadArticlesPaged(
@@ -425,6 +508,28 @@ public class ArticleDaoImpl implements ArticleDao {
             article.setModifiedByUser(user);
         }
         return article;
+    }
+
+    private void deleteTagLink(Connection con, Article article) throws SQLException {
+        try (PreparedStatement ps = con.prepareStatement(DELETE_TAG_LINK_BY_ARTICLE_ID)) {
+            ps.setLong(1, article.getId());
+            ps.executeUpdate();
+        }
+    }
+
+    private void populateTagLink(Connection con, Article article) throws SQLException {
+        if (article.getTags().isEmpty()) {
+            return;
+        }
+        try (PreparedStatement ps = con.prepareStatement(INSERT_TAG_LINK)) {
+            long articleId = article.getId();
+            for (Tag tag : article.getTags()) {
+                ps.setLong(1, articleId);
+                ps.setLong(2, tag.getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        }
     }
 
 }

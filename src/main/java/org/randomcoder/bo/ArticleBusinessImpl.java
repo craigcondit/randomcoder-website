@@ -2,7 +2,6 @@ package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Hibernate;
 import org.randomcoder.article.ArticleNotFoundException;
 import org.randomcoder.article.comment.CommentNotFoundException;
 import org.randomcoder.article.moderation.ModerationException;
@@ -11,13 +10,12 @@ import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.dao.ArticleDao;
 import org.randomcoder.dao.CommentDao;
 import org.randomcoder.dao.RoleDao;
+import org.randomcoder.dao.TagDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Article;
-import org.randomcoder.db.ArticleRepository;
 import org.randomcoder.db.Comment;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.Tag;
-import org.randomcoder.db.TagRepository;
 import org.randomcoder.db.User;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
@@ -30,9 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -48,12 +44,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     private ArticleDao articleDao;
     private CommentDao commentDao;
+    private TagDao tagDao;
     private UserDao userDao;
     private RoleDao roleDao;
-
-
-    private ArticleRepository articleRepository;
-    private TagRepository tagRepository;
     private Moderator moderator;
 
     @Inject
@@ -67,6 +60,11 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Inject
+    public void setTagDao(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
+
+    @Inject
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -76,38 +74,12 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         this.roleDao = roleDao;
     }
 
-    /**
-     * Sets the article repository to use.
-     *
-     * @param articleRepository article repository
-     */
-    @Inject
-    public void setArticleRepository(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
-
-    /**
-     * Sets the tag repository to use.
-     *
-     * @param tagRepository tag repository
-     */
-    @Inject
-    public void setTagRepository(TagRepository tagRepository) {
-        this.tagRepository = tagRepository;
-    }
-
-    /**
-     * Sets the moderator to use for automatic comment moderation
-     *
-     * @param moderator comment moderator
-     */
     @Inject
     public void setModerator(Moderator moderator) {
         this.moderator = moderator;
     }
 
     @Override
-    @Transactional("transactionManager")
     public void createArticle(Producer<Article> producer, String userName) {
         User user = findUserByName(userName);
 
@@ -118,17 +90,13 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         article.setCreatedByUser(user);
         article.setCreationDate(new Date());
 
-        List<Tag> tags = new ArrayList<>();
         for (Tag tag : article.getTags()) {
             if (tag.getId() == null) {
-                tags.add(tagRepository.save(tag));
-            } else {
-                tags.add(tagRepository.getReferenceById(tag.getId()));
+                tagDao.save(tag);
             }
         }
-        article.setTags(tags);
 
-        articleRepository.save(article);
+        articleDao.save(article);
     }
 
     @Override
@@ -167,7 +135,6 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional("transactionManager")
     public void updateArticle(Producer<Article> producer, Long articleId, String userName) {
         User user = findUserByName(userName);
 
@@ -181,17 +148,12 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         article.setModificationDate(new Date());
 
         // save tags
-        List<Tag> tags = new ArrayList<>();
         for (Tag tag : article.getTags()) {
             if (tag.getId() == null) {
-                tags.add(tagRepository.save(tag));
-            } else {
-                tags.add(tagRepository.getReferenceById(tag.getId()));
+                tagDao.save(tag);
             }
         }
-        article.setTags(tags);
-
-        articleRepository.save(article);
+        articleDao.save(article);
     }
 
     @Override
@@ -205,12 +167,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName) {
         User user = findUserByName(userName);
         Article article = loadArticle(articleId);
-        Hibernate.initialize(article.getTags());
-        Hibernate.initialize(article.getComments());
 
         checkAuthorUpdate(user, article);
 

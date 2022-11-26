@@ -16,6 +16,13 @@ import static org.randomcoder.dao.DaoUtils.withReadonlyConnection;
 @Component("roleDao")
 public class RoleDaoImpl implements RoleDao {
 
+    private DataSource dataSource;
+
+    @Inject
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
     private static final String COL_ROLE_ID = "role_id";
     private static final String COL_ROLE_NAME = "name";
     private static final String COL_ROLE_DESCRIPTION = "description";
@@ -29,13 +36,6 @@ public class RoleDaoImpl implements RoleDao {
             SELECT role_id, name, description
             FROM roles
             WHERE name = ?""";
-
-    private DataSource dataSource;
-
-    @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
 
     @Override
     public List<Role> listByDescription() {

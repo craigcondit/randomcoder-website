@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ArticleDao {
 
+    Long save(Article article);
+
     void deleteById(long articleId);
 
     Article findById(long articleId);

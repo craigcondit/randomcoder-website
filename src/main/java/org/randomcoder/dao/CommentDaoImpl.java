@@ -65,7 +65,7 @@ public class CommentDaoImpl implements CommentDao {
                 a.permalink article_permalink, 
                 c.content_type content_type, 
                 c.create_user_id create_user_id,
-                u.user_name create_username,
+                u.username create_username,
                 u.email create_email,
                 u.website create_website,
                 c.create_date create_date,
@@ -92,7 +92,7 @@ public class CommentDaoImpl implements CommentDao {
 
     private static final String COUNT_FOR_MODERATION = """
             SELECT count(1) FROM comments
-            WHERE c.moderation_status = 'PENDING'""";
+            WHERE moderation_status = 'PENDING'""";
 
     private static final String DELETE = "DELETE FROM comments WHERE comment_id = ?";
 
@@ -199,7 +199,7 @@ public class CommentDaoImpl implements CommentDao {
 
     private Long insertComment(Connection con, Comment comment) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(INSERT)) {
-            addSaveParams(ps, comment, 1);
+            addSaveParams(ps, comment);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next()) {
                     throw new DataAccessException("Unable to save comment");
@@ -211,9 +211,9 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     private Long updateComment(Connection con, Comment comment) throws SQLException {
-        try (PreparedStatement ps = con.prepareStatement(INSERT)) {
-            int col = addSaveParams(ps, comment, 1);
-            ps.setLong(col + 1, comment.getId());
+        try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
+            addSaveParams(ps, comment);
+            ps.setLong(15, comment.getId());
             int count = ps.executeUpdate();
             if (count != 1) {
                 throw new DataAccessException("Unable to save comment");
@@ -222,27 +222,26 @@ public class CommentDaoImpl implements CommentDao {
         }
     }
 
-    private int addSaveParams(PreparedStatement ps, Comment comment, int col) throws SQLException {
-        ps.setLong(col++, comment.getId());
-        ps.setString(col++, comment.getContentType().name());
+    private void addSaveParams(PreparedStatement ps, Comment comment) throws SQLException {
+        ps.setLong(1, comment.getId());
+        ps.setString(2, comment.getContentType().name());
         User createdBy = comment.getCreatedByUser();
         if (createdBy == null) {
-            ps.setNull(col++, Types.BIGINT);
+            ps.setNull(3, Types.BIGINT);
         } else {
-            ps.setLong(col++, createdBy.getId());
+            ps.setLong(3, createdBy.getId());
         }
-        ps.setTimestamp(col++, new Timestamp(comment.getCreationDate().getTime()));
-        ps.setString(col++, comment.getAnonymousUserName());
-        ps.setString(col++, comment.getAnonymousEmailAddress());
-        ps.setString(col++, comment.getAnonymousWebsite());
-        ps.setString(col++, comment.getTitle());
-        ps.setString(col++, comment.getContent());
-        ps.setBoolean(col++, comment.isVisible());
-        ps.setString(col++, comment.getModerationStatus().name());
-        ps.setString(col++, comment.getReferrer());
-        ps.setString(col++, comment.getIpAddress());
-        ps.setString(col++, comment.getUserAgent());
-        return col;
+        ps.setTimestamp(4, new Timestamp(comment.getCreationDate().getTime()));
+        ps.setString(5, comment.getAnonymousUserName());
+        ps.setString(6, comment.getAnonymousEmailAddress());
+        ps.setString(7, comment.getAnonymousWebsite());
+        ps.setString(8, comment.getTitle());
+        ps.setString(9, comment.getContent());
+        ps.setBoolean(10, comment.isVisible());
+        ps.setString(11, comment.getModerationStatus().name());
+        ps.setString(12, comment.getReferrer());
+        ps.setString(13, comment.getIpAddress());
+        ps.setString(14, comment.getUserAgent());
     }
 
     private Comment populateComment(ResultSet rs) throws SQLException {

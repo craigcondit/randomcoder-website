@@ -98,7 +98,9 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Long save(User user) {
-        return withTransaction(dataSource, con -> (user.getId() == null) ? createUser(user, con) : updateUser(user, con));
+        return withTransaction(dataSource, con -> (user.getId() == null)
+                ? createUser(con, user)
+                : updateUser(con, user));
     }
 
     @Override
@@ -215,7 +217,7 @@ public class UserDaoImpl implements UserDao {
         });
     }
 
-    private Long createUser(User user, Connection con) throws SQLException {
+    private Long createUser(Connection con, User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(CREATE)) {
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getPassword());
@@ -229,11 +231,11 @@ public class UserDaoImpl implements UserDao {
                 user.setId(rs.getLong(1));
             }
         }
-        populateRoleLink(user, con);
+        populateRoleLink(con, user);
         return user.getId();
     }
 
-    private Long updateUser(User user, Connection con) throws SQLException {
+    private Long updateUser(Connection con, User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
             ps.setString(1, user.getPassword());
             ps.setString(2, user.getEmailAddress());
@@ -244,19 +246,19 @@ public class UserDaoImpl implements UserDao {
                 throw new DataAccessException("User not found with ID: " + user.getId());
             }
         }
-        deleteRoleLink(user, con);
-        populateRoleLink(user, con);
+        deleteRoleLink(con, user);
+        populateRoleLink(con, user);
         return user.getId();
     }
 
-    private void deleteRoleLink(User user, Connection con) throws SQLException {
+    private void deleteRoleLink(Connection con, User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(DELETE_ROLE_LINK_BY_USER_ID)) {
             ps.setLong(1, user.getId());
             ps.executeUpdate();
         }
     }
 
-    private void populateRoleLink(User user, Connection con) throws SQLException {
+    private void populateRoleLink(Connection con, User user) throws SQLException {
         if (user.getRoles().isEmpty()) {
             return;
         }
