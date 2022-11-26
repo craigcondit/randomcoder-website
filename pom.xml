@@ -81,7 +81,6 @@
         <hibernate.annotations.version>6.0.4.Final</hibernate.annotations.version>
         <hibernate.jcache.version>6.1.5.Final</hibernate.jcache.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
-        <ehcache.version>3.10.2</ehcache.version>
         <bytebuddy.version>1.12.18</bytebuddy.version>
         <spring.version>6.0.0-RC2</spring.version>
         <spring.security.version>6.0.0-M7</spring.security.version>
@@ -386,18 +385,6 @@
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
-            <classifier>jakarta</classifier>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.glassfish.jaxb</groupId>
-                    <artifactId>jaxb-runtime</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
     <build>

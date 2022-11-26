@@ -13,7 +13,6 @@
     <logger name="org.randomcoder.dao.hibernate" level="warn" />
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
-    <logger name="net.sf.ehcache" level ="warn" />
     <logger name="org.hibernate" level="warn" />
     <logger name="org.hibernate.SQL" level="warn" />>
     <logger name="org.springframework" level="warn" />

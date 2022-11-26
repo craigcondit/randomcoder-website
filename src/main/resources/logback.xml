@@ -11,10 +11,8 @@
     <logger name="org.randomcoder.dao.hibernate" level="warn" />
     <logger name="org.randomcoder.mvc" level="warn" />
     <logger name="httpclient.wire" level="warn" />
-    <logger name="net.sf.ehcache" level="warn" />
     <logger name="org.apache" level="warn" />
     <logger name="org.eclipse.jetty" level="warn" />
-    <logger name="org.ehcache" level="warn" />
     <logger name="org.thymeleaf" level="warn" />
     <logger name="org.springframework" level="warn" />
     <logger name="_org.springframework" level="warn" />

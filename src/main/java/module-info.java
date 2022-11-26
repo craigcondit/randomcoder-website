@@ -12,7 +12,6 @@ module org.randomcoder.website {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.yaml;
     requires com.fasterxml.jackson.module.jakarta.xmlbind;
-    requires ehcache;
     requires jakarta.el;
     requires jakarta.inject;
     requires jakarta.persistence;

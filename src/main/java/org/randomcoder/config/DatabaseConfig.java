@@ -2,7 +2,6 @@ package org.randomcoder.config;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManagerFactory;
-import org.ehcache.jsr107.EhcacheCachingProvider;
 import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -52,8 +51,6 @@ public class DatabaseConfig {
         props.setProperty("hibernate.jdbc.batch_size", "10");
         props.setProperty("hibernate.cache.use_query_cache", "true");
         props.setProperty("hibernate.cache.region.factory_class", "jcache");
-        props.setProperty("hibernate.javax.cache.provider", EhcacheCachingProvider.class.getName());
-        props.setProperty("hibernate.javax.cache.uri", getClass().getResource("/ehcache.xml").toExternalForm());
         props.setProperty("hibernate.javax.cache.missing_cache_strategy", "fail");
         emfb.setJpaProperties(props);
         return emfb;
