@@ -27,3 +27,16 @@ DROP TABLE comment_referrers;
 DROP SEQUENCE comment_referrers_seq;
 DROP TABLE comment_useragents;
 DROP SEQUENCE comment_useragents_seq;
+
+ALTER TABLE comments
+DROP CONSTRAINT comments_article_id_fk;
+
+ALTER TABLE comments
+ADD CONSTRAINT comments_article_id_fk
+FOREIGN KEY (article_id)
+REFERENCES articles(article_id)
+ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE comments
+ALTER COLUMN article_id SET NOT NULL;
+
