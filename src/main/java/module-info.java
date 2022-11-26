@@ -5,6 +5,7 @@ module org.randomcoder.website {
     requires jdk.unsupported;
 
     requires ch.qos.logback.classic;
+    requires commons.dbcp2;
     requires commons.httpclient;
     requires com.fasterxml.classmate;
     requires com.fasterxml.jackson.annotation;
@@ -23,6 +24,7 @@ module org.randomcoder.website {
     requires net.bytebuddy;
     requires org.apache.commons.lang3;
     requires org.apache.commons.codec;
+    requires org.apache.commons.pool2;
     requires org.eclipse.jetty.http2.server;
     requires org.eclipse.jetty.rewrite;
     requires org.eclipse.jetty.server;

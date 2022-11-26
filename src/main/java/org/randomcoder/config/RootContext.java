@@ -1,6 +1,10 @@
 package org.randomcoder.config;
 
 import jakarta.inject.Inject;
+import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
+import org.apache.commons.dbcp2.PoolableConnectionFactory;
+import org.apache.commons.dbcp2.PoolingDataSource;
+import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.randomcoder.article.moderation.AkismetModerator;
 import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.bo.AppInfoBusiness;
@@ -25,6 +29,7 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import javax.sql.DataSource;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -60,10 +65,29 @@ public class RootContext implements SchedulingConfigurer {
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setUrl(env.getRequiredProperty("database.url"));
-        ds.setUsername(env.getRequiredProperty("database.username"));
-        ds.setPassword(env.getRequiredProperty("database.password"));
+        var cf = new DriverManagerConnectionFactory(
+                env.getRequiredProperty("database.url"),
+                env.getRequiredProperty("database.username"),
+                env.getRequiredProperty("database.password"));
+
+        var pcf = new PoolableConnectionFactory(cf, null);
+        pcf.setDefaultAutoCommit(false);
+        pcf.setDefaultReadOnly(false);
+        pcf.setAutoCommitOnReturn(false);
+        pcf.setRollbackOnReturn(true);
+        pcf.setValidationQueryTimeout(5);
+        pcf.setValidationQuery("SELECT 1");
+        pcf.setFastFailValidation(true);
+
+        var cp = new GenericObjectPool<>(pcf);
+        cp.setMinIdle(2);
+        cp.setMaxIdle(5);
+        cp.setMaxTotal(20);
+        cp.setMinEvictableIdleTime(Duration.ofSeconds(30));
+        pcf.setPool(cp);
+
+        var ds = new PoolingDataSource<>(cp);
+        ds.setAccessToUnderlyingConnectionAllowed(false);
         return ds;
     }
 

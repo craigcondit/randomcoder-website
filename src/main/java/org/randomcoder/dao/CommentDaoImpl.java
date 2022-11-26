@@ -122,6 +122,9 @@ public class CommentDaoImpl implements CommentDao {
             try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
                 ps.setLong(1, commentId);
                 try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next()) {
+                        return null;
+                    }
                     return populateComment(rs);
                 }
             }
@@ -223,7 +226,7 @@ public class CommentDaoImpl implements CommentDao {
     }
 
     private void addSaveParams(PreparedStatement ps, Comment comment) throws SQLException {
-        ps.setLong(1, comment.getId());
+        ps.setLong(1, comment.getArticle().getId());
         ps.setString(2, comment.getContentType().name());
         User createdBy = comment.getCreatedByUser();
         if (createdBy == null) {
