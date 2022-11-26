@@ -1,6 +1,7 @@
 package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
+import org.randomcoder.dao.Page;
 import org.randomcoder.dao.TagDao;
 import org.randomcoder.db.Tag;
 import org.randomcoder.io.Consumer;
@@ -8,9 +9,6 @@ import org.randomcoder.io.Producer;
 import org.randomcoder.tag.TagCloudEntry;
 import org.randomcoder.tag.TagNotFoundException;
 import org.randomcoder.tag.TagStatistics;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -83,9 +81,8 @@ public class TagBusinessImpl implements TagBusiness {
     }
 
     @Override
-    public Page<TagStatistics> findTagStatistics(Pageable pageable) {
-        var stats = tagDao.listAllTagStatistics(pageable.getOffset(), pageable.getPageSize());
-        return new PageImpl<>(stats.getContent(), pageable, stats.getTotalSize());
+    public Page<TagStatistics> findTagStatistics(long offset, long length) {
+        return tagDao.listAllTagStatistics(offset, length);
     }
 
 }

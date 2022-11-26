@@ -24,9 +24,7 @@ public class RedirectController {
      * @throws IOException if an error occurs
      */
     @RequestMapping("/redirect")
-    public void redirect(
-            @RequestParam("url") String url, HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    public void redirect(@RequestParam("url") String url, HttpServletRequest request, HttpServletResponse response) throws IOException {
         URL target = null;
         try {
             target = new URL(new URL(request.getRequestURL().toString()), url);

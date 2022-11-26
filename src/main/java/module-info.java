@@ -46,7 +46,6 @@ module org.randomcoder.website {
     requires spring.core;
     requires spring.context;
     requires spring.context.support;
-    requires spring.data.commons;
     requires spring.security.core;
     requires spring.security.config;
     requires spring.security.crypto;

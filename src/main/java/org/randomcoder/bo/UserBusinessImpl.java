@@ -1,6 +1,7 @@
 package org.randomcoder.bo;
 
 import jakarta.inject.Inject;
+import org.randomcoder.dao.Page;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.UserDao;
 import org.randomcoder.db.Role;
@@ -8,9 +9,6 @@ import org.randomcoder.db.User;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
 import org.randomcoder.user.UserNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -93,9 +91,8 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
-        var result = userDao.listByName(pageable.getOffset(), pageable.getPageSize());
-        return new PageImpl<>(result.getContent(), pageable, result.getTotalSize());
+    public Page<User> findAll(long offset, long length) {
+        return userDao.listByName(offset, length);
     }
 
     @Override

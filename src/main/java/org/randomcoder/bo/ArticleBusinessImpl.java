@@ -9,6 +9,7 @@ import org.randomcoder.article.moderation.ModerationStatus;
 import org.randomcoder.article.moderation.Moderator;
 import org.randomcoder.dao.ArticleDao;
 import org.randomcoder.dao.CommentDao;
+import org.randomcoder.dao.Page;
 import org.randomcoder.dao.RoleDao;
 import org.randomcoder.dao.TagDao;
 import org.randomcoder.dao.UserDao;
@@ -24,9 +25,6 @@ import org.randomcoder.user.RoleNotFoundException;
 import org.randomcoder.user.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -255,15 +253,13 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable) {
-        var articles = articleDao.listBeforeDate(endDate, pageable.getOffset(), pageable.getPageSize());
-        return new PageImpl<>(articles.getContent(), pageable, articles.getTotalSize());
+    public Page<Article> listArticlesBeforeDate(Date endDate, long offset, long length) {
+        return articleDao.listBeforeDate(endDate, offset, length);
     }
 
     @Override
-    public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable) {
-        var articles = articleDao.listByTagBeforeDate(tag, endDate, pageable.getOffset(), pageable.getPageSize());
-        return new PageImpl<>(articles.getContent(), pageable, articles.getTotalSize());
+    public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, long offset, long length) {
+        return articleDao.listByTagBeforeDate(tag, endDate, offset, length);
     }
 
     @Override

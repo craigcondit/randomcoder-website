@@ -9,18 +9,14 @@ import org.junit.Test;
 import org.randomcoder.article.ArticleDecorator;
 import org.randomcoder.article.CalendarInfo;
 import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.db.Article;
-import org.randomcoder.db.Comment;
 import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagCloudEntry;
 import org.randomcoder.tag.TagStatistics;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -76,7 +72,7 @@ public class AbsArticleListControllerTest {
 
         Capture<CalendarInfo> cal = newCapture();
 
-        Pageable pr = PageRequest.of(0, 10);
+        Pagination pg = Pagination.of(0, 10);
         expect(tb.getTagCloud()).andReturn(tc);
         expect(m.addAttribute(eq("articles"), capture(ad))).andReturn(m);
         expect(m.addAttribute(eq("pager"), isA(Page.class))).andReturn(m);
@@ -92,7 +88,7 @@ public class AbsArticleListControllerTest {
         expect(r.getParameter("month")).andStubReturn("1");
         control.replay();
 
-        c.populateModel(cmd, m, pr, r);
+        c.populateModel(cmd, m, pg, r);
         control.verify();
 
         assertEquals("test article", ad.getValue().get(0).getArticle().getTitle());
@@ -104,8 +100,7 @@ public class AbsArticleListControllerTest {
         assertTrue("year", cinfo.getPrevMonthLink().contains("year=2014"));
     }
 
-    static class MockArticleListController
-            extends AbstractArticleListController<ArticleListCommand> {
+    static class MockArticleListController extends AbstractArticleListController<ArticleListCommand> {
         private Article createArticle() {
             Article a = new Article();
             a.setTitle("test article");
@@ -119,19 +114,15 @@ public class AbsArticleListControllerTest {
         }
 
         @Override
-        protected List<Article> listArticlesBetweenDates(ArticleListCommand command,
-                                                         Date startDate, Date endDate) {
+        protected List<Article> listArticlesBetweenDates(ArticleListCommand command, Date startDate, Date endDate) {
             return Collections.singletonList(createArticle());
         }
 
         @Override
-        protected Page<Article> listArticlesBeforeDate(ArticleListCommand command,
-                                                       Date cutoffDate, Pageable pageable) {
-            assertEquals(0, pageable.getOffset());
-            assertEquals(10, pageable.getPageSize());
-            assertEquals(Sort.by("creationDate").descending(),
-                    pageable.getSort());
-            return new PageImpl<>(Collections.singletonList(createArticle()));
+        protected Page<Article> listArticlesBeforeDate(ArticleListCommand command, Date cutoffDate, long offset, long length) {
+            assertEquals(0L, offset);
+            assertEquals(10L, length);
+            return new Page<>(Collections.singletonList(createArticle()), offset, 1, length);
         }
 
         @Override
@@ -139,4 +130,5 @@ public class AbsArticleListControllerTest {
             return "Subtitle";
         }
     }
+
 }

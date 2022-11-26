@@ -1,7 +1,6 @@
 package org.randomcoder.mvc.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.easymock.Capture;
 import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
@@ -9,14 +8,11 @@ import org.junit.Test;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.Tag;
 import org.randomcoder.mvc.command.ArticleTagListCommand;
-import org.randomcoder.tag.TagCloudEntry;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -93,19 +89,13 @@ public class ArticleTagListControllerTest {
 
         Date endDate = new Date();
         List<Article> articles = new ArrayList<>();
-        Page<Article> page = new PageImpl<>(articles);
+        Page<Article> page = new Page<>(articles, 0, 1, 50);
 
-        Capture<Pageable> pageCap = newCapture();
-
-        expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate),
-                capture(pageCap))).andReturn(page);
+        expect(ab.listArticlesByTagBeforeDate(same(tag), eq(endDate), eq(0L), eq(50L))).andReturn(page);
         control.replay();
 
-        assertSame(page,
-                c.listArticlesBeforeDate(cmd, endDate, PageRequest.of(0, 50)));
+        assertSame(page, c.listArticlesBeforeDate(cmd, endDate, 0, 50));
         control.verify();
-        assertEquals(0, pageCap.getValue().getOffset());
-        assertEquals(50, pageCap.getValue().getPageSize());
     }
 
     @Test
@@ -130,26 +120,20 @@ public class ArticleTagListControllerTest {
 
         ArticleTagListCommand cmd = new ArticleTagListCommand();
 
-        Capture<Pageable> pageCap = newCapture();
-
         expect(tb.findTagByName("tag")).andReturn(tag);
         expect(ab.listArticlesByTagBetweenDates(same(tag), isA(Date.class),
                 isA(Date.class))).andReturn(Collections.emptyList());
-        expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class),
-                capture(pageCap)))
-                .andReturn(new PageImpl<>(Collections.emptyList()));
-        expect(tb.getTagCloud())
-                .andStubReturn(Collections.emptyList());
+        expect(ab.listArticlesByTagBeforeDate(same(tag), isA(Date.class), eq(0L), eq(10L)))
+                .andReturn(new Page<>(Collections.emptyList(), 0, 0, 10));
+        expect(tb.getTagCloud()).andStubReturn(Collections.emptyList());
         expect(m.addAttribute(notNull(), notNull())).andStubReturn(m);
-        expect(r.getRequestURL())
-                .andStubReturn(new StringBuffer("http://localhost/"));
+        expect(r.getRequestURL()).andStubReturn(new StringBuffer("http://localhost/"));
         expect(r.getParameterMap()).andStubReturn(Collections.emptyMap());
         expect(r.getParameter("year")).andStubReturn(null);
         expect(r.getParameter("month")).andStubReturn(null);
         control.replay();
 
-        assertEquals("article-tag-list",
-                c.tagList(cmd, m, "tag", PageRequest.of(0, 10), r));
+        assertEquals("article-tag-list", c.tagList(cmd, m, "tag", Pagination.of(0, 10), r));
         assertSame(tag, cmd.getTag());
         control.verify();
     }

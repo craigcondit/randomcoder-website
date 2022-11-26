@@ -45,6 +45,8 @@ public class Page<T> {
         return totalSize;
     }
 
+    public long getPageSize() { return pageSize; }
+
     public long getPageNumber() {
         long page = offset / pageSize;
         if (offset % pageSize != 0) {

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -53,8 +52,7 @@ public class FeedController {
      */
     @Inject
     @Named("atomFeedGenerator")
-    public void setAtomFeedGenerator(
-            FeedGenerator atomFeedGenerator) {
+    public void setAtomFeedGenerator(FeedGenerator atomFeedGenerator) {
         this.atomFeedGenerator = atomFeedGenerator;
     }
 
@@ -65,8 +63,7 @@ public class FeedController {
      */
     @Inject
     @Named("rss20FeedGenerator")
-    public void setRss20FeedGenerator(
-            FeedGenerator rss20FeedGenerator) {
+    public void setRss20FeedGenerator(FeedGenerator rss20FeedGenerator) {
         this.rss20FeedGenerator = rss20FeedGenerator;
     }
 
@@ -87,8 +84,7 @@ public class FeedController {
      * @throws Exception if an error occurs
      */
     @RequestMapping("/feeds/atom/all")
-    public void atomAllFeed(
-            HttpServletResponse response) throws Exception {
+    public void atomAllFeed(HttpServletResponse response) throws Exception {
         generateFeed(atomFeedGenerator, response, "atom-all", ATOM_ALL_URL);
     }
 
@@ -99,8 +95,7 @@ public class FeedController {
      * @throws Exception if an error occurs
      */
     @RequestMapping("/feeds/rss20/all")
-    public void rss20AllFeed(
-            HttpServletResponse response) throws Exception {
+    public void rss20AllFeed(HttpServletResponse response) throws Exception {
         generateFeed(rss20FeedGenerator, response, "rss20-all", RSS20_ALL_URL);
     }
 
@@ -119,9 +114,7 @@ public class FeedController {
         return feedInfo;
     }
 
-    private void generateFeed(FeedGenerator feedGenerator,
-                              HttpServletResponse response, String feedId, URL feedUrl)
-            throws FeedException, IOException {
+    private void generateFeed(FeedGenerator feedGenerator, HttpServletResponse response, String feedId, URL feedUrl) throws FeedException, IOException {
         // get feed data
         FeedInfo feedInfo = getFeed(feedId, feedUrl);
 
@@ -140,11 +133,10 @@ public class FeedController {
             out = response.getOutputStream();
             out.write(data);
         } finally {
-            if (out != null)
-                try {
-                    out.close();
-                } catch (Throwable ignored) {
-                }
+            if (out != null) try {
+                out.close();
+            } catch (Throwable ignored) {
+            }
         }
     }
 

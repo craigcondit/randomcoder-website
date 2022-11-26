@@ -1,11 +1,12 @@
 package org.randomcoder.mvc.controller;
 
-import org.easymock.Capture;
 import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.AccountCreateCommand;
@@ -20,11 +21,6 @@ import org.randomcoder.mvc.validator.UserAddValidator;
 import org.randomcoder.mvc.validator.UserEditValidator;
 import org.randomcoder.mvc.validator.UserProfileValidator;
 import org.randomcoder.pagination.PagerInfo;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -152,43 +148,31 @@ public class UserControllerTest {
     @Test
     public void testListUsers() throws Exception {
         List<User> users = new ArrayList<>();
-        Page<User> page = new PageImpl<>(users);
+        Page<User> page = new Page<>(users, 0, 0, 20);
 
-        Pageable pr = PageRequest.of(0, 20);
-        Capture<Pageable> pc = newCapture();
+        Pagination pg = Pagination.of(0, 20);
 
-        expect(ub.findAll(capture(pc))).andReturn(page);
+        expect(ub.findAll(0, 20)).andReturn(page);
         expect(m.addAttribute("users", page)).andReturn(m);
         expect(m.addAttribute(eq("pagerInfo"), isA(PagerInfo.class))).andReturn(m);
         control.replay();
 
-        c.listUsers(m, pr, null);
+        c.listUsers(m, pg, null);
         control.verify();
-
-        assertEquals(Sort.by("userName"), pc.getValue().getSort());
-        assertEquals(0, pc.getValue().getOffset());
-        assertEquals(20, pc.getValue().getPageSize());
     }
 
     @Test
     public void testListUsersPageTooBig() throws Exception {
         List<User> users = new ArrayList<>();
-        Page<User> page = new PageImpl<>(users);
+        var page = new Page<>(users, 0, 0, 100);
 
-        Pageable pr = PageRequest.of(0, 100);
-        Capture<Pageable> pc = newCapture();
-
-        expect(ub.findAll(capture(pc))).andReturn(page);
+        expect(ub.findAll(0, 25)).andReturn(page);
         expect(m.addAttribute("users", page)).andReturn(m);
         expect(m.addAttribute(eq("pagerInfo"), isA(PagerInfo.class))).andReturn(m);
         control.replay();
 
-        c.listUsers(m, pr, null);
+        c.listUsers(m, Pagination.of(0, 100), null);
         control.verify();
-
-        assertEquals(Sort.by("userName"), pc.getValue().getSort());
-        assertEquals(0, pc.getValue().getOffset());
-        assertEquals(25, pc.getValue().getPageSize());
     }
 
     @Test

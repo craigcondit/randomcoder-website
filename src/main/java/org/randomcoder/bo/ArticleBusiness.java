@@ -1,13 +1,12 @@
 package org.randomcoder.bo;
 
 import org.randomcoder.article.moderation.ModerationException;
+import org.randomcoder.dao.Page;
 import org.randomcoder.db.Article;
 import org.randomcoder.db.Comment;
 import org.randomcoder.db.Tag;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
@@ -34,8 +33,7 @@ public interface ArticleBusiness {
      * @param ipAddress remote IP address
      * @param userAgent HTTP user-agent
      */
-    void createComment(Producer<Comment> comment, Long articleId,
-                              String userName, String referrer, String ipAddress, String userAgent);
+    void createComment(Producer<Comment> comment, Long articleId, String userName, String referrer, String ipAddress, String userAgent);
 
     /**
      * Reads an existing article.
@@ -60,8 +58,7 @@ public interface ArticleBusiness {
      * @param articleId article id
      * @param userName  user name
      */
-    void loadArticleForEditing(Consumer<Article> consumer, Long articleId,
-                                      String userName);
+    void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName);
 
     /**
      * Update an existing article.
@@ -70,8 +67,7 @@ public interface ArticleBusiness {
      * @param articleId article id
      * @param userName  user name
      */
-    void updateArticle(Producer<Article> producer, Long articleId,
-                              String userName);
+    void updateArticle(Producer<Article> producer, Long articleId, String userName);
 
     /**
      * Delete an article.
@@ -128,23 +124,24 @@ public interface ArticleBusiness {
      * Lists a page of {@code Article} objects created before the specified
      * date.
      *
-     * @param endDate  upper bound of date range (exclusive)
-     * @param pageable paging variables
+     * @param endDate upper bound of date range (exclusive)
+     * @param offset  offset of first result
+     * @param length  page length
      * @return page of {@code Article} objects
      */
-    Page<Article> listArticlesBeforeDate(Date endDate, Pageable pageable);
+    Page<Article> listArticlesBeforeDate(Date endDate, long offset, long length);
 
     /**
      * Lists a page of {@code Article} objects created before the specified
      * date.
      *
-     * @param tag      tag to restrict by
-     * @param endDate  upper bound of date range (exclusive)
-     * @param pageable paging variables
+     * @param tag     tag to restrict by
+     * @param endDate upper bound of date range (exclusive)
+     * @param offset  offset of first result
+     * @param length  page length
      * @return page of {@code Article} objects
      */
-    Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate,
-                                                     Pageable pageable);
+    Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, long offset, long length);
 
     /**
      * Lists {@code Article} objects created within the specified date range.
@@ -163,6 +160,5 @@ public interface ArticleBusiness {
      * @param endDate   upper bound of date range (exclusive)
      * @return list of {@code Article} objects
      */
-    List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate,
-                                                       Date endDate);
+    List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate);
 }

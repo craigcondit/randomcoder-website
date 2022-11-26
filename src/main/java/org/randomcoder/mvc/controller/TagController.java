@@ -3,6 +3,8 @@ package org.randomcoder.mvc.controller;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import org.randomcoder.bo.TagBusiness;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.mvc.command.TagAddCommand;
 import org.randomcoder.mvc.command.TagEditCommand;
 import org.randomcoder.mvc.validator.TagAddValidator;
@@ -12,11 +14,6 @@ import org.randomcoder.tag.TagStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,7 +36,7 @@ public class TagController {
     private TagBusiness tagBusiness;
     private TagAddValidator tagAddValidator;
     private TagEditValidator tagEditValidator;
-    private int maximumPageSize = 100;
+    private long maximumPageSize = 100;
 
     /**
      * Sets the TagBusiness implementation to use.
@@ -101,27 +98,21 @@ public class TagController {
      * Generates the tag list.
      *
      * @param model    MVC model
-     * @param pageable page to retrieve
+     * @param pageInfo page to retrieve
      * @param request  HTTP servlet request
      * @return tag list view
      */
     @RequestMapping("/tag")
-    public String tagList(Model model,
-                          @PageableDefault(25) Pageable pageable, HttpServletRequest request) {
-        int size = pageable.getPageSize();
-        int page = pageable.getPageNumber();
-        if (size > maximumPageSize) {
-            size = maximumPageSize;
+    public String tagList(Model model, Pagination pageInfo, HttpServletRequest request) {
+        long length = pageInfo.getSizeOrDefault(25);
+        long page = pageInfo.getPageOrDefault(0);
+        if (length > maximumPageSize) {
+            length = maximumPageSize;
             page = 0;
         }
+        long offset = page * length;
 
-        pageable = PageRequest.of(page, size, Sort.by("displayName"));
-
-        if (pageable.getPageSize() > maximumPageSize) {
-            pageable = PageRequest.of(0, maximumPageSize, pageable.getSort());
-        }
-
-        Page<TagStatistics> tagStats = tagBusiness.findTagStatistics(pageable);
+        Page<TagStatistics> tagStats = tagBusiness.findTagStatistics(offset, length);
 
         // populate model
         model.addAttribute("pager", tagStats);

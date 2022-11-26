@@ -40,8 +40,7 @@ public class CommentController {
      * @throws ModerationException if an error occurs
      */
     @RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST, params = "_verb=PUT")
-    public View approveCommentBrowser(@PathVariable("id") long id)
-            throws ModerationException {
+    public View approveCommentBrowser(@PathVariable("id") long id) throws ModerationException {
         Article article = articleBusiness.approveComment(id);
         return new RedirectView(article.getPermalinkUrl(), true);
     }
@@ -55,8 +54,7 @@ public class CommentController {
     @RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.PUT, params = "!_verb")
     @ResponseStatus(value = NO_CONTENT)
     @ResponseBody
-    public void approveComment(
-            @PathVariable("id") long id) throws ModerationException {
+    public void approveComment(@PathVariable("id") long id) throws ModerationException {
         articleBusiness.approveComment(id);
     }
 
@@ -68,8 +66,7 @@ public class CommentController {
      * @throws ModerationException if an error occurs
      */
     @RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.POST, params = "_verb=DELETE")
-    public View disapproveCommentBrowser(@PathVariable("id") long id)
-            throws ModerationException {
+    public View disapproveCommentBrowser(@PathVariable("id") long id) throws ModerationException {
         Article article = articleBusiness.disapproveComment(id);
         return new RedirectView(article.getPermalinkUrl(), true);
     }
@@ -83,8 +80,7 @@ public class CommentController {
     @RequestMapping(value = "/comment/{id}/approve", method = RequestMethod.DELETE, params = "!_verb")
     @ResponseStatus(value = NO_CONTENT)
     @ResponseBody
-    public void disapproveComment(@PathVariable("id") long id)
-            throws ModerationException {
+    public void disapproveComment(@PathVariable("id") long id) throws ModerationException {
         articleBusiness.disapproveComment(id);
     }
 
@@ -108,8 +104,7 @@ public class CommentController {
     @RequestMapping(value = "/comment/{id}", method = RequestMethod.DELETE, params = "!_verb")
     @ResponseStatus(value = NO_CONTENT)
     @ResponseBody
-    public void deleteComment(
-            @PathVariable("id") long id) {
+    public void deleteComment(@PathVariable("id") long id) {
         articleBusiness.deleteComment(id);
     }
 }

@@ -1,12 +1,11 @@
 package org.randomcoder.bo;
 
+import org.randomcoder.dao.Page;
 import org.randomcoder.db.Tag;
 import org.randomcoder.io.Consumer;
 import org.randomcoder.io.Producer;
 import org.randomcoder.tag.TagCloudEntry;
 import org.randomcoder.tag.TagStatistics;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -62,8 +61,10 @@ public interface TagBusiness {
     /**
      * Retrieves a page of Tag statistics.
      *
-     * @param pageable page to query
+     * @param offset offset of first result
+     * @param length length of page
      * @return Page of TagStatistics
      */
-    Page<TagStatistics> findTagStatistics(Pageable pageable);
+    Page<TagStatistics> findTagStatistics(long offset, long length);
+
 }

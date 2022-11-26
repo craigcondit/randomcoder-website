@@ -2,6 +2,7 @@ package org.randomcoder.config;
 
 import jakarta.inject.Inject;
 import org.randomcoder.mvc.SuffixedBeanNameViewResolver;
+import org.randomcoder.mvc.resolvers.PaginationArgumentResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
-import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
@@ -62,14 +62,8 @@ public class DispatcherContext implements WebMvcConfigurer, ApplicationContextAw
     }
 
     @Override
-    public void addArgumentResolvers(
-            List<HandlerMethodArgumentResolver> argumentResolvers) {
-        PageableHandlerMethodArgumentResolver resolver =
-                new PageableHandlerMethodArgumentResolver();
-        resolver.setPageParameterName("page");
-        resolver.setSizeParameterName("size");
-        resolver.setPrefix("page.");
-        argumentResolvers.add(resolver);
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new PaginationArgumentResolver());
     }
 
     @Override

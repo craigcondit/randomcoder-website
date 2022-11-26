@@ -92,8 +92,7 @@ public class ArticleController {
      * @param articleAddValidator article add validator
      */
     @Inject
-    public void setArticleAddValidator(
-            ArticleAddValidator articleAddValidator) {
+    public void setArticleAddValidator(ArticleAddValidator articleAddValidator) {
         this.articleAddValidator = articleAddValidator;
     }
 
@@ -103,8 +102,7 @@ public class ArticleController {
      * @param articleEditValidator article edit validator
      */
     @Inject
-    public void setArticleEditValidator(
-            ArticleEditValidator articleEditValidator) {
+    public void setArticleEditValidator(ArticleEditValidator articleEditValidator) {
         this.articleEditValidator = articleEditValidator;
     }
 
@@ -115,8 +113,7 @@ public class ArticleController {
      */
     @Inject
     @Named("contentFilter")
-    public void setContentFilter(
-            ContentFilter contentFilter) {
+    public void setContentFilter(ContentFilter contentFilter) {
         this.contentFilter = contentFilter;
     }
 
@@ -127,10 +124,8 @@ public class ArticleController {
      */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(ContentType.class,
-                new EnumPropertyEditor(ContentType.class));
-        binder.registerCustomEditor(TagList.class,
-                new TagListPropertyEditor(tagBusiness));
+        binder.registerCustomEditor(ContentType.class, new EnumPropertyEditor(ContentType.class));
+        binder.registerCustomEditor(TagList.class, new TagListPropertyEditor(tagBusiness));
 
         Object target = binder.getTarget();
         if (target instanceof CommentCommand) {

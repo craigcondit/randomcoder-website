@@ -4,6 +4,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import org.randomcoder.bo.UserBusiness;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.db.Role;
 import org.randomcoder.db.User;
 import org.randomcoder.mvc.command.AccountCreateCommand;
@@ -19,11 +21,6 @@ import org.randomcoder.mvc.validator.UserEditValidator;
 import org.randomcoder.mvc.validator.UserProfileValidator;
 import org.randomcoder.pagination.PagerInfo;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -156,23 +153,24 @@ public class UserController {
      * Lists users.
      *
      * @param model    MVC model
-     * @param pageable paging parameters
+     * @param pageInfo paging parameters
      * @param request  HTTP servlet request
      * @return user list view
      */
     @RequestMapping("/user")
-    public String listUsers(Model model,
-                            @PageableDefault(25) Pageable pageable, HttpServletRequest request) {
-        int size = pageable.getPageSize();
-        int page = pageable.getPageNumber();
-        if (size > maximumPageSize) {
-            size = maximumPageSize;
+    public String listUsers(
+            Model model,
+            Pagination pageInfo,
+            HttpServletRequest request) {
+        long length = pageInfo.getSizeOrDefault(25);
+        long page = pageInfo.getPageOrDefault(0);
+        if (length > maximumPageSize) {
+            length = maximumPageSize;
             page = 0;
         }
+        long offset = page * length;
 
-        pageable = PageRequest.of(page, size, Sort.by("userName"));
-
-        Page<User> users = userBusiness.findAll(pageable);
+        Page<User> users = userBusiness.findAll(offset, length);
         model.addAttribute("users", users);
         model.addAttribute("pagerInfo", new PagerInfo<>(users, request));
 

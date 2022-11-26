@@ -7,17 +7,13 @@ import org.randomcoder.article.CalendarInfo;
 import org.randomcoder.bo.ArticleBusiness;
 import org.randomcoder.bo.TagBusiness;
 import org.randomcoder.content.ContentFilter;
+import org.randomcoder.dao.Page;
+import org.randomcoder.dao.Pagination;
 import org.randomcoder.db.Article;
 import org.randomcoder.mvc.command.ArticleListCommand;
 import org.randomcoder.pagination.PagerInfo;
 import org.randomcoder.tag.TagCloudEntry;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
@@ -49,7 +45,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
     /**
      * Maximum page size.
      */
-    protected int maximumPageSize = 50;
+    protected long maximumPageSize = 50;
 
     /**
      * Sets the ArticleBusiness implementation to use.
@@ -106,10 +102,11 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      *
      * @param command    page command
      * @param cutoffDate cutoff date
-     * @param pageable   paging parameters
+     * @param offset     offset of first result
+     * @param length     page length
      * @return page of Articles
      */
-    abstract protected Page<Article> listArticlesBeforeDate(T command, Date cutoffDate, Pageable pageable);
+    abstract protected Page<Article> listArticlesBeforeDate(T command, Date cutoffDate, long offset, long length);
 
     /**
      * Gets the subtitle to add to the page.
@@ -124,19 +121,18 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      *
      * @param command  page command
      * @param model    model
-     * @param pageable paging variables
+     * @param pageInfo paging variables
      * @param request  HTTP servlet request
      */
-    protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request) {
+    protected final void populateModel(T command, Model model, Pagination pageInfo, HttpServletRequest request) {
         // set range and sort order
-        int size = pageable.getPageSize();
-        int page = pageable.getPageNumber();
-        if (size > maximumPageSize) {
-            size = maximumPageSize;
+        long length = pageInfo.getSizeOrDefault(10);
+        long page = pageInfo.getPageOrDefault(0);
+        if (length > maximumPageSize) {
+            length = maximumPageSize;
             page = 0;
         }
-
-        pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "creationDate"));
+        long offset = page * length;
 
         // get current month
         Calendar currentMonth = Calendar.getInstance();
@@ -190,7 +186,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
         cutoff.set(Calendar.MILLISECOND, 0);
 
         // load articles
-        Page<Article> articles = listArticlesBeforeDate(command, cutoff.getTime(), pageable);
+        Page<Article> articles = listArticlesBeforeDate(command, cutoff.getTime(), offset, length);
 
         // wrap article list
         List<ArticleDecorator> wrappedArticles = new ArrayList<>(articles.getContent().size());

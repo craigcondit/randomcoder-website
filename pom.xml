@@ -83,7 +83,6 @@
         <bytebuddy.version>1.12.18</bytebuddy.version>
         <spring.version>6.0.0-RC2</spring.version>
         <spring.security.version>6.0.0-M7</spring.security.version>
-        <spring.data.version>3.0.0-RC1</spring.data.version>
         <jakarta.jaxb.api.version>4.0.0</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>4.0.1</jakarta.jaxb.version>
         <jakarta.inject.version>2.0.1</jakarta.inject.version>
@@ -283,11 +282,6 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-            <version>${spring.data.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

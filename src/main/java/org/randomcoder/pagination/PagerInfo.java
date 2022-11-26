@@ -1,9 +1,8 @@
 package org.randomcoder.pagination;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.data.domain.Page;
+import org.randomcoder.dao.Page;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -27,33 +26,33 @@ public class PagerInfo<T> {
     public PagerInfo(Page<T> page, HttpServletRequest request) {
         this.links = new ArrayList<>();
 
-        int size = page.getSize();
+        long size = page.getPageSize();
 
         if (!page.isFirst()) {
             // generate link to prev page
             String link = makeLink(urlWithParams(request, REMOVED_PARAMS,
-                    pageParams(page.getNumber() - 1, size)));
+                    pageParams(page.getPageNumber() - 1, size)));
             String text = "&#171;";
             links.add(new PageLink(text, link));
         }
 
         // do previous pages
-        int startPage = Math.max(0, page.getNumber() - 10);
-        for (int i = startPage; i < page.getNumber(); i++) {
+        long startPage = Math.max(0, page.getNumber() - 10);
+        for (long i = startPage; i < page.getNumber(); i++) {
             String link =
                     makeLink(urlWithParams(request, REMOVED_PARAMS, pageParams(i, size)));
-            links.add(new PageLink(Integer.toString(i + 1), link));
+            links.add(new PageLink(Long.toString(i + 1), link));
         }
 
         // add current page
-        links.add(new PageLink(Integer.toString(page.getNumber() + 1), null));
+        links.add(new PageLink(Long.toString(page.getPageNumber() + 1), null));
 
         // do next pages
-        int lastPage = Math.min(page.getTotalPages() - 1, page.getNumber() + 10);
-        for (int i = page.getNumber() + 1; i <= lastPage; i++) {
+        long lastPage = Math.min(page.getTotalPages() - 1, page.getPageNumber() + 10);
+        for (long i = page.getPageNumber() + 1; i <= lastPage; i++) {
             String link =
                     makeLink(urlWithParams(request, REMOVED_PARAMS, pageParams(i, size)));
-            links.add(new PageLink(Integer.toString(i + 1), link));
+            links.add(new PageLink(Long.toString(i + 1), link));
         }
 
         if (!page.isLast()) {
@@ -65,10 +64,10 @@ public class PagerInfo<T> {
         }
     }
 
-    private static Map<String, String> pageParams(int pageNumber, int pageSize) {
+    private static Map<String, String> pageParams(long pageNumber, long pageSize) {
         Map<String, String> map = new HashMap<>();
-        map.put("page.page", Integer.toString(pageNumber));
-        map.put("page.size", Integer.toString(pageSize));
+        map.put("page.page", Long.toString(pageNumber));
+        map.put("page.size", Long.toString(pageSize));
         return map;
     }
 
