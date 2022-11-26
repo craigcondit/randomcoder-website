@@ -23,11 +23,6 @@ INSERT INTO user_role_link (user_id, role_id) VALUES (
 	(SELECT role_id FROM roles WHERE name = 'ROLE_MANAGE_COMMENTS')
 );
 
-INSERT INTO user_role_link (user_id, role_id) VALUES (
-	(SELECT user_id FROM users WHERE username = 'admin'),
-	(SELECT role_id FROM roles WHERE name = 'ROLE_DEVELOPMENT_DWR')
-);
-
 -- Add test user, password 'test'
 INSERT INTO users (username, password, email, website, enabled) VALUES (
 	'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'test@randomcoder.org', null, true
