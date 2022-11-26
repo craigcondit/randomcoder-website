@@ -49,22 +49,23 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
     private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
-    private UserRepository userRepository;
-    private RoleDao roleDao;
     private ArticleDao articleDao;
+    private RoleDao roleDao;
+
+    private UserRepository userRepository;
     private ArticleRepository articleRepository;
     private TagRepository tagRepository;
     private CommentRepository commentRepository;
     private Moderator moderator;
 
     @Inject
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
+    public void setArticleDao(ArticleDao articleDao) {
+        this.articleDao = articleDao;
     }
 
     @Inject
-    public void setArticleDao(ArticleDao articleDao) {
-        this.articleDao = articleDao;
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     /**
@@ -211,32 +212,13 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    //@Transactional(value = "transactionManager", readOnly = true)
     public Article readArticle(long articleId) {
         return articleDao.findById(articleId);
-        /*
-        Article article = articleRepository.getReferenceById(articleId);
-        if (article != null) {
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getComments());
-        }
-        return article;
-
-         */
     }
 
     @Override
-    //@Transactional(value = "transactionManager", readOnly = true)
     public Article findArticleByPermalink(String permalink) {
         return articleDao.findByPermalink(permalink);
-        /*
-        Article article = articleRepository.findByPermalink(permalink);
-        if (article != null) {
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getComments());
-        }
-        return article;
-         */
     }
 
     @Override
@@ -359,7 +341,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable) {
-        var articles = articleDao.listByTagBeforeDate(tag.getId(), endDate, pageable.getOffset(), pageable.getPageSize());
+        var articles = articleDao.listByTagBeforeDate(tag, endDate, pageable.getOffset(), pageable.getPageSize());
         return new PageImpl<>(articles.getContent(), pageable, articles.getTotalSize());
     }
 
@@ -369,9 +351,8 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
-        return articleRepository.findByTagBetweenDates(tag, startDate, endDate);
+        return articleDao.listByTagBetweenDates(tag, startDate, endDate);
     }
 
     private void checkAuthorUpdate(User user, Article article) {

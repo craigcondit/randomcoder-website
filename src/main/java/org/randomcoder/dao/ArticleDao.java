@@ -14,7 +14,7 @@ public interface ArticleDao {
 
     Page<Article> listBeforeDate(Date endDate, long offset, long length);
 
-    Page<Article> listByTagBeforeDate(long tagId, Date endDate, long offset, long length);
+    Page<Article> listByTagBeforeDate(Tag tag, Date endDate, long offset, long length);
 
     List<Article> listBetweenDates(Date startDate, Date endDate);
 

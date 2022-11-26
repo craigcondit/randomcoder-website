@@ -77,8 +77,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      * @param maximumPageSize maximum number of items per page
      */
     @Value("${article.pagesize.max}")
-    public void setMaximumPageSize(
-            int maximumPageSize) {
+    public void setMaximumPageSize(int maximumPageSize) {
         this.maximumPageSize = maximumPageSize;
     }
 
@@ -100,8 +99,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      * @param endDate   end date
      * @return list of Articles
      */
-    abstract protected List<Article> listArticlesBetweenDates(T command,
-                                                              Date startDate, Date endDate);
+    abstract protected List<Article> listArticlesBetweenDates(T command, Date startDate, Date endDate);
 
     /**
      * Gets a page of articles before a given cutoff date.
@@ -111,8 +109,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      * @param pageable   paging parameters
      * @return page of Articles
      */
-    abstract protected Page<Article> listArticlesBeforeDate(T command,
-                                                            Date cutoffDate, Pageable pageable);
+    abstract protected Page<Article> listArticlesBeforeDate(T command, Date cutoffDate, Pageable pageable);
 
     /**
      * Gets the subtitle to add to the page.
@@ -130,8 +127,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
      * @param pageable paging variables
      * @param request  HTTP servlet request
      */
-    protected final void populateModel(T command, Model model,
-                                       @PageableDefault(10) Pageable pageable, HttpServletRequest request) {
+    protected final void populateModel(T command, Model model, @PageableDefault(10) Pageable pageable, HttpServletRequest request) {
         // set range and sort order
         int size = pageable.getPageSize();
         int page = pageable.getPageNumber();
@@ -140,8 +136,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
             page = 0;
         }
 
-        pageable =
-                PageRequest.of(page, size, Sort.by(Direction.DESC, "creationDate"));
+        pageable = PageRequest.of(page, size, Sort.by(Direction.DESC, "creationDate"));
 
         // get current month
         Calendar currentMonth = Calendar.getInstance();
@@ -174,8 +169,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
         }
 
         Calendar cal = Calendar.getInstance();
-        for (Article article : listArticlesBetweenDates(command,
-                currentMonth.getTime(), nextMonth.getTime())) {
+        for (Article article : listArticlesBetweenDates(command, currentMonth.getTime(), nextMonth.getTime())) {
             cal.setTime(article.getCreationDate());
             days[cal.get(Calendar.DAY_OF_MONTH) - 1] = true;
         }
@@ -183,8 +177,7 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
         Calendar cutoff = Calendar.getInstance();
         cutoff.setTime(currentMonth.getTime());
 
-        if (command.getYear() > 0 && command.getMonth() > 0
-                && command.getDay() > 0) {
+        if (command.getYear() > 0 && command.getMonth() > 0 && command.getDay() > 0) {
             cutoff.set(Calendar.DAY_OF_MONTH, command.getDay());
             cutoff.add(Calendar.DAY_OF_MONTH, 1);
         } else {
@@ -197,12 +190,10 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
         cutoff.set(Calendar.MILLISECOND, 0);
 
         // load articles
-        Page<Article> articles =
-                listArticlesBeforeDate(command, cutoff.getTime(), pageable);
+        Page<Article> articles = listArticlesBeforeDate(command, cutoff.getTime(), pageable);
 
         // wrap article list
-        List<ArticleDecorator> wrappedArticles =
-                new ArrayList<>(articles.getContent().size());
+        List<ArticleDecorator> wrappedArticles = new ArrayList<>(articles.getContent().size());
         for (Article article : articles.getContent()) {
             wrappedArticles.add(new ArticleDecorator(article, contentFilter));
         }
@@ -223,4 +214,5 @@ abstract public class AbstractArticleListController<T extends ArticleListCommand
             model.addAttribute("pageSubTitle", subTitle);
         }
     }
+
 }

@@ -89,10 +89,12 @@ public class ArticleDaoImpl implements ArticleDao {
             ORDER BY a.create_date DESC
             OFFSET ? LIMIT ?""";
 
-    private static final String COUNT_BETWEEN_DATES =
-            "SELECT count(1) FROM articles WHERE create_date >= ? AND create_date < ?";
-
     private static final String LIST_BETWEEN_DATES = SELECT_ALL + " " + """
+            WHERE a.create_date >= ? AND a.create_date < ?
+            ORDER BY a.create_date DESC""";
+
+    private static final String LIST_BY_TAG_BETWEEN_DATES = SELECT_ALL + " " + """
+            JOIN article_tag_link atl ON a.article_id = atl.article_id AND atl.tag_id = ?
             WHERE a.create_date >= ? AND a.create_date < ?
             ORDER BY a.create_date DESC""";
 
@@ -196,16 +198,16 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
-    public Page<Article> listByTagBeforeDate(long tagId, Date endDate, long offset, long length) {
+    public Page<Article> listByTagBeforeDate(Tag tag, Date endDate, long offset, long length) {
         return withReadonlyConnection(dataSource, con -> {
             return loadArticlesPaged(
                     con, offset, length, COUNT_BY_TAG_BEFORE_DATE, LIST_BY_TAG_BEFORE_DATE_PAGED,
                     ps -> {
-                        ps.setLong(1, tagId);
+                        ps.setLong(1, tag.getId());
                         ps.setTimestamp(2, new Timestamp(endDate.getTime()));
                     },
                     ps -> {
-                        ps.setLong(1, tagId);
+                        ps.setLong(1, tag.getId());
                         ps.setTimestamp(2, new Timestamp(endDate.getTime()));
                         ps.setLong(3, offset);
                         ps.setLong(4, length);
@@ -216,17 +218,22 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public List<Article> listBetweenDates(Date startDate, Date endDate) {
         return withReadonlyConnection(dataSource, con -> {
-            return loadArticles(con, LIST_BEFORE_DATE_PAGED,
-                    ps -> {
-                        ps.setTimestamp(1, new Timestamp(startDate.getTime()));
-                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
-                    });
+            return loadArticles(con, LIST_BETWEEN_DATES, ps -> {
+                ps.setTimestamp(1, new Timestamp(startDate.getTime()));
+                ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+            });
         });
     }
 
     @Override
     public List<Article> listByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
-        return null;
+        return withReadonlyConnection(dataSource, con -> {
+            return loadArticles(con, LIST_BY_TAG_BETWEEN_DATES, ps -> {
+                ps.setLong(1, tag.getId());
+                ps.setTimestamp(2, new Timestamp(startDate.getTime()));
+                ps.setTimestamp(3, new Timestamp(endDate.getTime()));
+            });
+        });
     }
 
     private Page<Article> loadArticlesPaged(
