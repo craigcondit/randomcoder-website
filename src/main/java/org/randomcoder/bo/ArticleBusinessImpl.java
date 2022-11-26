@@ -358,16 +358,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    @Transactional(value = "transactionManager", readOnly = true)
     public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, Pageable pageable) {
-        Page<Article> articles = articleRepository.findByTagBeforeDate(tag, endDate, pageable);
-
-        for (Article article : articles.getContent()) {
-            Hibernate.initialize(article.getTags());
-            Hibernate.initialize(article.getComments());
-        }
-
-        return articles;
+        var articles = articleDao.listByTagBeforeDate(tag.getId(), endDate, pageable.getOffset(), pageable.getPageSize());
+        return new PageImpl<>(articles.getContent(), pageable, articles.getTotalSize());
     }
 
     @Override

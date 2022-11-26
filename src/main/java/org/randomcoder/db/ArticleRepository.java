@@ -16,32 +16,6 @@ import java.util.List;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     /**
-     * Lists {@code Article} objects created before the specified date and
-     * within
-     * the range specified.
-     *
-     * @param endDate  upper bound of date range (exclusive)
-     * @param pageable paging parameters
-     * @return page of {@code Article} objects
-     */
-    @Query("from Article a where a.creationDate < ?1")
-    Page<Article> findBeforeDate(Date endDate, Pageable pageable);
-
-    /**
-     * Lists {@code Article} objects created before the specified date and
-     * within
-     * the range specified.
-     *
-     * @param tag      tag to restrict by
-     * @param endDate  upper bound of date range (exclusive)
-     * @param pageable paging parameters
-     * @return page of {@code Article} objects
-     */
-    @Query("from Article a where ?1 in elements(a.tags) and a.creationDate < ?2")
-    Page<Article> findByTagBeforeDate(Tag tag, Date endDate,
-                                      Pageable pageable);
-
-    /**
      * Lists {@code Article} objects created within the specified date range.
      *
      * @param startDate lower bound of date range (inclusive)

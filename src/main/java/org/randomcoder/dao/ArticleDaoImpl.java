@@ -68,10 +68,27 @@ public class ArticleDaoImpl implements ArticleDao {
 
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE a.article_id = ?";
     private static final String FIND_BY_PERMALINK = SELECT_ALL + " WHERE a.permalink = ?";
-    private static final String LIST_BEFORE_DATE_PAGED =
-            SELECT_ALL + " WHERE a.create_date < ? ORDER BY a.create_date desc OFFSET ? LIMIT ?";
+
     private static final String COUNT_BEFORE_DATE =
-            "SELECT count(1) FROM comments WHERE create_date < ?";
+            "SELECT count(1) FROM articles WHERE create_date < ?";
+
+    private static final String LIST_BEFORE_DATE_PAGED = SELECT_ALL + " " + """
+            WHERE a.create_date < ?
+            ORDER BY a.create_date DESC
+            OFFSET ? LIMIT ?""";
+
+    private static final String COUNT_BY_TAG_BEFORE_DATE = """
+            SELECT count(1)
+            FROM articles a
+            JOIN article_tag_link atl ON a.article_id = atl.article_id AND atl.tag_id = ?
+            WHERE a.create_date < ?""";
+
+    private static final String LIST_BY_TAG_BEFORE_DATE_PAGED = SELECT_ALL + " " + """
+            JOIN article_tag_link atl ON a.article_id = atl.article_id AND atl.tag_id = ?
+            WHERE a.create_date < ?
+            ORDER BY a.create_date DESC
+            OFFSET ? LIMIT ?""";
+
 
     private static final String COL_ARTICLE_ID = "article_id";
     private static final String COL_CONTENT_TYPE = "content_type";
@@ -159,34 +176,34 @@ public class ArticleDaoImpl implements ArticleDao {
     @Override
     public Page<Article> listBeforeDate(Date endDate, long offset, long length) {
         return withReadonlyConnection(dataSource, con -> {
-            long count;
-            List<Article> articles = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(COUNT_BEFORE_DATE)) {
-                ps.setTimestamp(1, new Timestamp(endDate.getTime()));
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        throw new DataAccessException("Unable to retrieve articles");
-                    }
-                    count = rs.getLong(1);
-                }
-            }
-            try (PreparedStatement ps = con.prepareStatement(LIST_BEFORE_DATE_PAGED)) {
-                ps.setTimestamp(1, new Timestamp(endDate.getTime()));
-                ps.setLong(2, offset);
-                ps.setLong(3, length);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        articles.add(populateArticle(rs));
-                    }
-                }
-            }
-            Map<Long, Article> map = new HashMap<>();
-            for (Article article : articles) {
-                map.put(article.getId(), article);
-            }
-            populateTags(con, map);
-            populateComments(con, map);
-            return new Page<>(articles, offset, count, length);
+            return loadArticles(
+                    con, offset, length, COUNT_BEFORE_DATE, LIST_BEFORE_DATE_PAGED,
+                    ps -> {
+                        ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                    },
+                    ps -> {
+                        ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                        ps.setLong(2, offset);
+                        ps.setLong(3, length);
+                    });
+        });
+    }
+
+    @Override
+    public Page<Article> listByTagBeforeDate(long tagId, Date endDate, long offset, long length) {
+        return withReadonlyConnection(dataSource, con -> {
+            return loadArticles(
+                    con, offset, length, COUNT_BY_TAG_BEFORE_DATE, LIST_BY_TAG_BEFORE_DATE_PAGED,
+                    ps -> {
+                        ps.setLong(1, tagId);
+                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                    },
+                    ps -> {
+                        ps.setLong(1, tagId);
+                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                        ps.setLong(3, offset);
+                        ps.setLong(4, length);
+                    });
         });
     }
 
@@ -196,13 +213,44 @@ public class ArticleDaoImpl implements ArticleDao {
     }
 
     @Override
-    public Page<Article> listByTagBeforeDate(long tagId, Date endDate, long offset, long length) {
+    public List<Article> listByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
         return null;
     }
 
-    @Override
-    public List<Article> listByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
-        return null;
+    private Page<Article> loadArticles(
+            Connection con,
+            long offset,
+            long length,
+            String countSql,
+            String querySql,
+            UncheckedConsumer<PreparedStatement> countCallback,
+            UncheckedConsumer<PreparedStatement> queryCallback) throws Exception {
+        long count;
+        List<Article> articles = new ArrayList<>();
+        try (PreparedStatement ps = con.prepareStatement(countSql)) {
+            countCallback.invoke(ps);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next()) {
+                    throw new DataAccessException("Unable to retrieve articles");
+                }
+                count = rs.getLong(1);
+            }
+        }
+        try (PreparedStatement ps = con.prepareStatement(querySql)) {
+            queryCallback.invoke(ps);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    articles.add(populateArticle(rs));
+                }
+            }
+        }
+        Map<Long, Article> map = new HashMap<>();
+        for (Article article : articles) {
+            map.put(article.getId(), article);
+        }
+        populateTags(con, map);
+        populateComments(con, map);
+        return new Page<>(articles, offset, count, length);
     }
 
     private Article loadArticle(
