@@ -24,6 +24,7 @@ import org.randomcoder.website.contentfilter.ContentFilter;
 import org.randomcoder.website.contentfilter.MultiContentFilter;
 import org.randomcoder.website.contentfilter.TextFilter;
 import org.randomcoder.website.contentfilter.XHTMLFilter;
+import org.randomcoder.website.controller.ArticleTagListController;
 import org.randomcoder.website.controller.HomeController;
 import org.randomcoder.website.dao.ArticleDao;
 import org.randomcoder.website.dao.ArticleDaoImpl;
@@ -93,6 +94,7 @@ public class WebSiteApplication extends ResourceConfig {
 
                 // controllers
                 bind(HomeController.class).to(HomeController.class);
+                bind(ArticleTagListController.class).to(ArticleTagListController.class);
 
                 // business objects
                 bind(AkismetModerator.class).in(Immediate.class).to(Moderator.class);

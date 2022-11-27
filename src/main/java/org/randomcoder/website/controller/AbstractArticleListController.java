@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-abstract public class AbstractArticleListController {
+abstract public class AbstractArticleListController<T> {
 
     private static final String PARAM_YEAR = "year";
     private static final String PARAM_MONTH = "month";
@@ -38,13 +38,17 @@ abstract public class AbstractArticleListController {
     @Named(Config.ARTICLE_PAGESIZE_MAX)
     Long maximumPageSize = 50L;
 
-    abstract protected List<Article> listArticlesBetweenDates(Date startDate, Date endDate);
+    abstract protected T populateContext(UriInfo uriInfo);
 
-    abstract protected Page<Article> listArticlesBeforeDate(Date cutoffDate, long offset, long length);
+    abstract protected List<Article> listArticlesBetweenDates(T context, Date startDate, Date endDate);
 
-    abstract protected String getSubTitle();
+    abstract protected Page<Article> listArticlesBeforeDate(T context, Date cutoffDate, long offset, long length);
+
+    abstract protected String getSubTitle(T context);
 
     public Map<String, ? extends Object> buildModel(UriInfo uriInfo) {
+        var context = populateContext(uriInfo);
+
         Map<String, Object> model = new HashMap<>();
 
         // set range and sort order
@@ -96,7 +100,7 @@ abstract public class AbstractArticleListController {
         }
 
         Calendar cal = Calendar.getInstance();
-        for (Article article : listArticlesBetweenDates(currentMonth.getTime(), nextMonth.getTime())) {
+        for (Article article : listArticlesBetweenDates(context, currentMonth.getTime(), nextMonth.getTime())) {
             cal.setTime(article.getCreationDate());
             days[cal.get(Calendar.DAY_OF_MONTH) - 1] = true;
         }
@@ -117,7 +121,7 @@ abstract public class AbstractArticleListController {
         cutoff.set(Calendar.MILLISECOND, 0);
 
         // load articles
-        Page<Article> articles = listArticlesBeforeDate(cutoff.getTime(), offset, length);
+        Page<Article> articles = listArticlesBeforeDate(context, cutoff.getTime(), offset, length);
 
         // wrap article list
         List<ArticleDecorator> wrappedArticles = new ArrayList<>(articles.getContent().size());
@@ -136,7 +140,7 @@ abstract public class AbstractArticleListController {
         model.put("tagCloud", tagCloud);
         model.put("calendar", new CalendarInfo(uriInfo, days));
 
-        String subTitle = getSubTitle();
+        String subTitle = getSubTitle(context);
         if (subTitle != null) {
             model.put("pageSubTitle", subTitle);
         }
