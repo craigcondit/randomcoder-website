@@ -1,9 +1,11 @@
 module org.randomcoder.website {
+    // java modules
     requires java.base;
     requires java.desktop;
     requires java.sql;
     requires jdk.unsupported;
 
+    // third-party modules
     requires ch.qos.logback.classic;
     requires commons.dbcp2;
     requires commons.httpclient;
@@ -17,6 +19,7 @@ module org.randomcoder.website {
     requires jakarta.el;
     requires jakarta.inject;
     requires jakarta.xml.bind;
+    requires jakarta.ws.rs;
     requires jersey.container.servlet.core;
     requires jersey.common;
     requires jersey.hk2;
@@ -40,9 +43,6 @@ module org.randomcoder.website {
     requires org.postgresql.jdbc;
     requires org.slf4j;
     requires org.yaml.snakeyaml;
-    requires thymeleaf;
-    requires thymeleaf.spring6;
-    requires thymeleaf.extras.springsecurity6;
     requires spring.aop;
     requires spring.beans;
     requires spring.core;
@@ -54,7 +54,12 @@ module org.randomcoder.website {
     requires spring.security.web;
     requires spring.web;
     requires spring.webmvc;
-    requires jakarta.ws.rs;
+    requires thymeleaf;
+    requires thymeleaf.spring6;
+    requires thymeleaf.extras.springsecurity6;
+
+    exports org.randomcoder.website.data;
+    exports org.randomcoder.website.model;
 
     opens database;
     opens org.randomcoder.article;
@@ -78,6 +83,7 @@ module org.randomcoder.website {
 
     opens org.randomcoder.website;
     opens org.randomcoder.website.bo;
+    opens org.randomcoder.website.controller;
     opens org.randomcoder.website.dao;
     opens org.randomcoder.website.jaxrs.providers;
     opens org.randomcoder.website.jaxrs.resources;
@@ -113,5 +119,6 @@ module org.randomcoder.website {
     opens webapp.images.badges;
     opens webapp.js;
     opens webapp.js.lib;
+    opens org.randomcoder.website.contentfilter;
 }
 

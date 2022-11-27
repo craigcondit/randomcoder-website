@@ -2,7 +2,7 @@ package org.randomcoder.website.dao;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.randomcoder.website.model.Role;
+import org.randomcoder.website.data.Role;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;

@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 public class WebSite {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebSite.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebSite.class);
 
     private final Config config;
     private final Server server;
 
     public WebSite(Config config) throws Exception {
-        LOG.info("Starting web server on {}:{} using document root {}", config.getString(Config.HTTP_ADDRESS), config.getString(Config.HTTP_PORT), contentBase(this));
+        logger.info("Starting web server on {}:{} using document root {}", config.getString(Config.HTTP_ADDRESS), config.getString(Config.HTTP_PORT), contentBase(this));
         this.config = config;
         this.server = createServer(this, config);
     }
@@ -91,7 +91,7 @@ public class WebSite {
     static void addJerseyContainer(ServletContextHandler rootContext) {
         var jerseyHolder = new ServletHolder(ServletContainer.class);
         jerseyHolder.setInitParameter(
-                ServletProperties.JAXRS_APPLICATION_CLASS, RandomcoderWebsiteApplication.class.getName());
+                ServletProperties.JAXRS_APPLICATION_CLASS, WebSiteApplication.class.getName());
         jerseyHolder.setInitOrder(1);
         rootContext.addServlet(jerseyHolder, "/*");
     }
@@ -140,7 +140,7 @@ public class WebSite {
         long endTime = System.currentTimeMillis();
         long elapsedTime = endTime - startTime;
 
-        LOG.info("Web site started in {}ms", elapsedTime);
+        logger.info("Web site started in {}ms", elapsedTime);
     }
 
     public void start() throws Exception {

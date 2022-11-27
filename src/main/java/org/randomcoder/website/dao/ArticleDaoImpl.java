@@ -2,13 +2,13 @@ package org.randomcoder.website.dao;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.randomcoder.website.model.ModerationStatus;
-import org.randomcoder.website.model.ContentType;
-import org.randomcoder.website.model.Article;
-import org.randomcoder.website.model.Comment;
-import org.randomcoder.website.model.Page;
-import org.randomcoder.website.model.Tag;
-import org.randomcoder.website.model.User;
+import org.randomcoder.website.data.ModerationStatus;
+import org.randomcoder.website.data.ContentType;
+import org.randomcoder.website.data.Article;
+import org.randomcoder.website.data.Comment;
+import org.randomcoder.website.data.Page;
+import org.randomcoder.website.data.Tag;
+import org.randomcoder.website.data.User;
 import org.randomcoder.website.func.UncheckedConsumer;
 
 import javax.sql.DataSource;

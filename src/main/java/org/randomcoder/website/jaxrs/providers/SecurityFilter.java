@@ -14,7 +14,7 @@ import java.io.IOException;
 @Provider
 public class SecurityFilter implements ContainerRequestFilter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityFilter.class);
 
     @Context
     public HttpServletRequest request;
@@ -24,7 +24,7 @@ public class SecurityFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        LOG.info("Request: {}", request);
+        logger.info("Request: {}", request);
     }
 
 }

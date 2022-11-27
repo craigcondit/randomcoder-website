@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 @Produces(MediaType.TEXT_HTML)
 public class ThymeleafEntityMessageBodyWriter implements MessageBodyWriter<ThymeleafEntity> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ThymeleafEntityMessageBodyWriter.class);
+    private static final Logger logger = LoggerFactory.getLogger(ThymeleafEntityMessageBodyWriter.class);
 
     @Inject
     public ITemplateEngine engine;
@@ -33,7 +33,7 @@ public class ThymeleafEntityMessageBodyWriter implements MessageBodyWriter<Thyme
     public SecurityContext securityContext;
 
     public ThymeleafEntityMessageBodyWriter() {
-        LOG.info("Initializing Thymeleaf entity message body writer");
+        logger.info("Initializing Thymeleaf entity message body writer");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.randomcoder.website.dao;
 
-import org.randomcoder.website.model.Comment;
-import org.randomcoder.website.model.Page;
+import org.randomcoder.website.data.Comment;
+import org.randomcoder.website.data.Page;
 
 public interface CommentDao {
 

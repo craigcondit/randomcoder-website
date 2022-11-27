@@ -2,6 +2,8 @@ package org.randomcoder.website.thymeleaf;
 
 import jakarta.ws.rs.core.SecurityContext;
 import org.thymeleaf.context.IContext;
+import org.thymeleaf.context.IWebContext;
+import org.thymeleaf.web.IWebExchange;
 
 import java.util.HashMap;
 import java.util.Locale;

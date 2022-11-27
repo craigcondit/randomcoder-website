@@ -7,14 +7,19 @@ import java.util.Set;
 public class ThymeleafEntity {
 
     private final String view;
-    private final Map<String, String> variables = new HashMap<>();
+    private final Map<String, Object> variables = new HashMap<>();
 
     public ThymeleafEntity(String view) {
         this.view = view;
     }
 
-    public ThymeleafEntity withVariable(String key, String value) {
+    public ThymeleafEntity withVariable(String key, Object value) {
         variables.put(key, value);
+        return this;
+    }
+
+    public ThymeleafEntity withVariables(Map<String, ? extends Object> values) {
+        variables.putAll(values);
         return this;
     }
 

@@ -1,4 +1,4 @@
-package org.randomcoder.website.model;
+package org.randomcoder.website.data;
 
 public enum ContentType {
     TEXT("text/plain", "Plain text"),

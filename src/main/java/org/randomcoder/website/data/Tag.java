@@ -1,4 +1,4 @@
-package org.randomcoder.website.model;
+package org.randomcoder.website.data;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;

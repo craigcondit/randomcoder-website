@@ -2,10 +2,10 @@ package org.randomcoder.website.dao;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.randomcoder.website.model.Page;
-import org.randomcoder.website.model.Role;
-import org.randomcoder.website.model.User;
-import org.randomcoder.website.model.UserNotFoundException;
+import org.randomcoder.website.data.Page;
+import org.randomcoder.website.data.Role;
+import org.randomcoder.website.data.User;
+import org.randomcoder.website.data.UserNotFoundException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

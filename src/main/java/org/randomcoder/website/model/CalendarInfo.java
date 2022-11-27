@@ -1,6 +1,6 @@
-package org.randomcoder.article;
+package org.randomcoder.website.model;
 
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.UriInfo;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,23 +8,19 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class CalendarInfo {
 
-    private static final Set<String> REMOVED_PARAMS = Collections.unmodifiableSet(
-            new HashSet<>(Arrays
-                    .asList("month", "day", "year", "page.page", "page.size",
-                            "page.sort")));
+    private static final Set<String> REMOVED_PARAMS = Set.of(
+            "month", "day", "year", "page.page", "page.size", "page.sort");
 
     private final String selfLink;
     private final String prevMonthLink;
@@ -32,7 +28,7 @@ public class CalendarInfo {
     private final String displayedMonthText;
     private final List<Week> weeks;
 
-    public CalendarInfo(HttpServletRequest request, boolean[] daysWithContent) {
+    public CalendarInfo(UriInfo uriInfo, boolean[] daysWithContent) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(new Date());
 
@@ -40,12 +36,13 @@ public class CalendarInfo {
         int currentMonth = cal.get(Calendar.MONTH);
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        if (request.getParameter("year") != null) {
-            cal.set(Calendar.YEAR, Integer.parseInt(request.getParameter("year")));
+        String sYear = uriInfo.getQueryParameters().getFirst("year");
+        if (sYear != null) {
+            cal.set(Calendar.YEAR, Integer.parseInt(sYear));
         }
-        if (request.getParameter("month") != null) {
-            cal.set(Calendar.MONTH,
-                    Integer.parseInt(request.getParameter("month")) - 1);
+        String sMonth = uriInfo.getQueryParameters().getFirst("month");
+        if (sMonth != null) {
+            cal.set(Calendar.MONTH, Integer.parseInt(sMonth) - 1);
         }
         cal.set(Calendar.DAY_OF_MONTH, 1);
         cal.set(Calendar.HOUR_OF_DAY, 12);
@@ -69,12 +66,13 @@ public class CalendarInfo {
 
         displayedMonthText = new SimpleDateFormat("MMM yyyy").format(selectedDate);
 
-        selfLink = makeLink(
-                urlWithParams(request, REMOVED_PARAMS, Collections.emptyMap()));
-        prevMonthLink = selectedDate.before(prevLimit) ? null :
-                makeLink(urlWithParams(request, REMOVED_PARAMS, prevMonthParams(selectedDate)));
-        nextMonthLink = selectedDate.after(nextLimit) ? null :
-                makeLink(urlWithParams(request, REMOVED_PARAMS, nextMonthParams(selectedDate)));
+        selfLink = makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, Collections.emptyMap()));
+        prevMonthLink = selectedDate.before(prevLimit)
+                ? null
+                : makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, prevMonthParams(selectedDate)));
+        nextMonthLink = selectedDate.after(nextLimit)
+                ? null
+                : makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, nextMonthParams(selectedDate)));
 
         // capture current month / year
         int month = cal.get(Calendar.MONTH);
@@ -93,26 +91,21 @@ public class CalendarInfo {
 
         // for first week, go forward until we hit the first day of the month
         {
-            while ((cal.get(Calendar.YEAR) * 100 + cal.get(Calendar.MONTH))
-                    <= yearMonth) {
+            while ((cal.get(Calendar.YEAR) * 100 + cal.get(Calendar.MONTH)) <= yearMonth) {
                 // more weeks are needed
                 Week week = new Week();
                 while (week.getDays().size() < 7) {
-                    if (cal.get(Calendar.YEAR) * 100 + cal.get(Calendar.MONTH)
-                            == yearMonth) {
-                        boolean today = (cal.get(Calendar.YEAR) == currentYear) && (
-                                cal.get(Calendar.MONTH) == currentMonth) && (
-                                cal.get(Calendar.DAY_OF_MONTH) == currentDay);
+                    if (cal.get(Calendar.YEAR) * 100 + cal.get(Calendar.MONTH) == yearMonth) {
+                        boolean today = cal.get(Calendar.YEAR) == currentYear
+                                && cal.get(Calendar.MONTH) == currentMonth
+                                && cal.get(Calendar.DAY_OF_MONTH) == currentDay;
 
                         String link = null;
                         if (daysWithContent[cal.get(Calendar.DAY_OF_MONTH) - 1]) {
                             // content exists, generate link
-                            link = makeLink(urlWithParams(request, REMOVED_PARAMS,
-                                    currentDayParams(cal.getTime())));
+                            link = makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, currentDayParams(cal.getTime())));
                         }
-
-                        week.getDays().add(new Day(cal.get(Calendar.DAY_OF_MONTH), link,
-                                titleFormat.format(cal.getTime()), today));
+                        week.getDays().add(new Day(cal.get(Calendar.DAY_OF_MONTH), link, titleFormat.format(cal.getTime()), today));
                     } else {
                         week.getDays().add(new Day(0, null, null, false));
                     }
@@ -158,27 +151,22 @@ public class CalendarInfo {
         return params;
     }
 
-    private static URL urlWithParams(HttpServletRequest request,
-                                     Set<String> removedParams, Map<String, String> addedParams) {
-
+    private static URL urlWithParams(UriInfo uriInfo, Set<String> removedParams, Map<String, String> addedParams) {
         try {
-            URL url = new URL(request.getRequestURL().toString());
-            String query = buildQuery(request, removedParams, addedParams);
+            URL url = uriInfo.getRequestUri().toURL();
+            String query = buildQuery(uriInfo, removedParams, addedParams);
             url = new URL(url, url.getPath() + (query == null ? "" : "?" + query));
             return url;
         } catch (MalformedURLException e) {
-            throw new RuntimeException(
-                    "Unexpected error while creating calendar info", e);
+            throw new RuntimeException("Unexpected error while creating calendar info", e);
         }
 
     }
 
-    private static String buildQuery(HttpServletRequest request,
-                                     Set<String> removedParams, Map<String, String> addedParams) {
+    private static String buildQuery(UriInfo uriInfo, Set<String> removedParams, Map<String, String> addedParams) {
         StringBuilder buf = new StringBuilder();
 
-        for (Map.Entry<String, String[]> entry : request.getParameterMap()
-                .entrySet()) {
+        for (Map.Entry<String, List<String>> entry : uriInfo.getQueryParameters().entrySet()) {
             String key = entry.getKey();
             if (removedParams.contains(key)) {
                 continue;
@@ -201,7 +189,6 @@ public class CalendarInfo {
             buf.append(URLEncoder.encode(entry.getValue(), StandardCharsets.UTF_8));
         }
         return buf.toString();
-
     }
 
     public String getSelfLink() {
@@ -265,4 +252,5 @@ public class CalendarInfo {
             return (number > 0);
         }
     }
+
 }

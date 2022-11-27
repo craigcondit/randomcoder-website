@@ -1,14 +1,13 @@
-package org.randomcoder.website.model;
+package org.randomcoder.website.data;
 
-public class RoleNotFoundException extends RuntimeException {
-
+public class ArticleNotFoundException extends RuntimeException {
     private static final long serialVersionUID = 8212072324579650157L;
 
-    public RoleNotFoundException() {
+    public ArticleNotFoundException() {
         super();
     }
 
-    public RoleNotFoundException(String message) {
+    public ArticleNotFoundException(String message) {
         super(message);
     }
 

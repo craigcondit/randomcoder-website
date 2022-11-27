@@ -3,9 +3,9 @@ package org.randomcoder.website.dao;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.func.UncheckedConsumer;
-import org.randomcoder.website.model.Page;
-import org.randomcoder.website.model.Tag;
-import org.randomcoder.website.model.TagStatistics;
+import org.randomcoder.website.data.Page;
+import org.randomcoder.website.data.Tag;
+import org.randomcoder.website.data.TagStatistics;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

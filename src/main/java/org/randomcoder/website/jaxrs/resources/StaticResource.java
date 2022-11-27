@@ -7,8 +7,8 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.glassfish.hk2.api.Immediate;
-import org.randomcoder.website.bo.AppInfoBusiness;
+import jakarta.ws.rs.core.UriInfo;
+import org.randomcoder.website.controller.HomeController;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,22 +16,21 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 @Path("")
-@Immediate
 public class StaticResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StaticResource.class);
+    private static final Logger logger = LoggerFactory.getLogger(StaticResource.class);
 
     @Inject
-    AppInfoBusiness appInfoBusiness;
+    HomeController homeController;
+
+    @Inject
+    UriInfo uriInfo;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity home() {
-        String appName = appInfoBusiness.getApplicationName();
-        String version = appInfoBusiness.getApplicationVersion();
-        LOG.info("Got app {} version {}", appName, version);
-
-        return new ThymeleafEntity("home");
+        return new ThymeleafEntity("home")
+                .withVariables(homeController.generateModel(uriInfo));
     }
 
     @GET

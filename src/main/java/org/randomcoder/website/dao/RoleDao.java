@@ -1,6 +1,6 @@
 package org.randomcoder.website.dao;
 
-import org.randomcoder.website.model.Role;
+import org.randomcoder.website.data.Role;
 
 import java.util.List;
 

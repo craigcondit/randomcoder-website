@@ -1,8 +1,8 @@
 package org.randomcoder.website.dao;
 
-import org.randomcoder.website.model.Tag;
-import org.randomcoder.website.model.TagStatistics;
-import org.randomcoder.website.model.Page;
+import org.randomcoder.website.data.Tag;
+import org.randomcoder.website.data.TagStatistics;
+import org.randomcoder.website.data.Page;
 
 import java.util.List;
 

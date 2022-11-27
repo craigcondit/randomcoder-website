@@ -89,6 +89,11 @@ public class Config {
         return Integer.parseInt(string, 10);
     }
 
+    public long getLong(String key) throws IllegalArgumentException {
+        var string = getString(key);
+        return Long.parseLong(string, 10);
+    }
+
     public int getIntOrDefault(String key, int defaultValue) throws NumberFormatException {
         var string = props.getProperty(key);
         if (string == null) {
@@ -97,6 +102,13 @@ public class Config {
         return Integer.parseInt(string, 10);
     }
 
+    public long getLongOrDefault(String key, long defaultValue) throws NumberFormatException {
+        var string = props.getProperty(key);
+        if (string == null) {
+            return defaultValue;
+        }
+        return Long.parseLong(string, 10);
+    }
     public boolean getBoolean(String key) throws IllegalArgumentException {
         var string = getString(key);
         return Boolean.valueOf(string);

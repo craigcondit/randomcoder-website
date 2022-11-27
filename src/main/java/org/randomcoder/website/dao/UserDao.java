@@ -1,7 +1,7 @@
 package org.randomcoder.website.dao;
 
-import org.randomcoder.website.model.Page;
-import org.randomcoder.website.model.User;
+import org.randomcoder.website.data.Page;
+import org.randomcoder.website.data.User;
 
 public interface UserDao {
 
