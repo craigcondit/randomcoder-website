@@ -1,8 +1,8 @@
-package org.randomcoder.resources;
+package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
-import org.randomcoder.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 
 @Path("/legal")
 public class LegalResource {

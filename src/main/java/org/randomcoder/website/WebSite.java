@@ -1,4 +1,4 @@
-package org.randomcoder;
+package org.randomcoder.website;
 
 import org.eclipse.jetty.http2.server.HTTP2CServerConnectionFactory;
 import org.eclipse.jetty.server.ConnectionFactory;
@@ -14,30 +14,23 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ScheduledExecutorScheduler;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
-import org.randomcoder.thymeleaf.ThymeleafTemplateResolver;
+import org.glassfish.jersey.servlet.ServletProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
-import org.thymeleaf.ITemplateEngine;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.templatemode.TemplateMode;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class WebSite2 {
+public class WebSite {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WebSite2.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WebSite.class);
 
     private final Config config;
     private final Server server;
 
-    public WebSite2(Config config) throws Exception {
+    public WebSite(Config config) throws Exception {
         LOG.info("Starting web server on {}:{} using document root {}", config.getString(Config.HTTP_ADDRESS), config.getString(Config.HTTP_PORT), contentBase(this));
         this.config = config;
         this.server = createServer(this, config);
@@ -50,12 +43,11 @@ public class WebSite2 {
         var httpConfig = httpConfiguration(config);
         var handlers = new HandlerCollection();
         var rootContext = rootContext(owner);
-        var resourceConfig = resourceConfig(owner);
 
         configureForward(config, httpConfig);
         configureForceHttps(config, handlers);
 
-        addJerseyContainer(rootContext, resourceConfig);
+        addJerseyContainer(rootContext);
 
         handlers.addHandler(rootContext);
         server.setHandler(handlers);
@@ -96,14 +88,15 @@ public class WebSite2 {
         }
     }
 
-    static void addJerseyContainer(ServletContextHandler rootContext, ResourceConfig resourceConfig) {
-        var jerseyContainer = new ServletContainer(resourceConfig);
-        var jerseyHolder = new ServletHolder(jerseyContainer);
+    static void addJerseyContainer(ServletContextHandler rootContext) {
+        var jerseyHolder = new ServletHolder(ServletContainer.class);
+        jerseyHolder.setInitParameter(
+                ServletProperties.JAXRS_APPLICATION_CLASS, RandomcoderWebsiteApplication.class.getName());
+        jerseyHolder.setInitOrder(1);
         rootContext.addServlet(jerseyHolder, "/*");
     }
 
-    static void addHttpConnector(Config config, HttpConfiguration httpConfig,
-                                 Server server) {
+    static void addHttpConnector(Config config, HttpConfiguration httpConfig, Server server) {
         var connectionFactories = new ArrayList<>();
 
         // http/1.1 connector
@@ -124,39 +117,8 @@ public class WebSite2 {
         server.addConnector(httpConnector);
     }
 
-    static ResourceConfig resourceConfig(Object owner) {
-        var basePackage = owner.getClass().getPackageName();
-
-        var resourceConfig = new ResourceConfig();
-        resourceConfig.property(ServerProperties.WADL_FEATURE_DISABLE, true);
-        resourceConfig.register(new AbstractBinder() {
-            @Override
-            protected void configure() {
-                bind(templateEngine()).to(ITemplateEngine.class);
-            }
-        });
-        resourceConfig.packages(basePackage + ".providers");
-        resourceConfig.packages(basePackage + ".resources");
-
-        return resourceConfig;
-    }
-
     static String contentBase(Object owner) {
-        return owner.getClass().getResource("/org/randomcoder/staticcontent/robots.txt").toExternalForm().replaceAll("/webapp/robots\\.txt$", "/webapp/");
-    }
-
-    static ITemplateEngine templateEngine() {
-        var engine = new TemplateEngine();
-        engine.setTemplateResolver(templateResolver());
-        return engine;
-    }
-
-    static ITemplateResolver templateResolver() {
-        var resolver = new ThymeleafTemplateResolver();
-        resolver.setPrefix("/org/randomcoder/templates/");
-        resolver.setSuffix(".html");
-        resolver.setTemplateMode(TemplateMode.HTML);
-        return resolver;
+        return owner.getClass().getResource("/org/randomcoder/website/content/robots.txt").toExternalForm().replaceAll("/content/robots\\.txt$", "/content/");
     }
 
     static void redirectJulLogging(java.util.logging.Level level) {
@@ -171,7 +133,7 @@ public class WebSite2 {
         var config = Config.load();
         redirectJulLogging(java.util.logging.Level.FINE);
 
-        var site = new WebSite2(config);
+        var site = new WebSite(config);
         Runtime.getRuntime().addShutdownHook(new Thread(site::stop));
         site.start();
 

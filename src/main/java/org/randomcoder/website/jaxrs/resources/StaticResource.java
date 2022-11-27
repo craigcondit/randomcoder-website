@@ -1,21 +1,36 @@
-package org.randomcoder.resources;
+package org.randomcoder.website.jaxrs.resources;
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.randomcoder.thymeleaf.ThymeleafEntity;
+import org.glassfish.hk2.api.Immediate;
+import org.randomcoder.website.bo.AppInfoBusiness;
+import org.randomcoder.website.thymeleaf.ThymeleafEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
 @Path("")
+@Immediate
 public class StaticResource {
+
+    private static final Logger LOG = LoggerFactory.getLogger(StaticResource.class);
+
+    @Inject
+    AppInfoBusiness appInfoBusiness;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity home() {
+        String appName = appInfoBusiness.getApplicationName();
+        String version = appInfoBusiness.getApplicationVersion();
+        LOG.info("Got app {} version {}", appName, version);
+
         return new ThymeleafEntity("home");
     }
 
@@ -55,7 +70,7 @@ public class StaticResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        var resource = getClass().getResourceAsStream(String.format("/org/randomcoder/staticcontent/%s", path));
+        var resource = getClass().getResourceAsStream(String.format("/org/randomcoder/website/content/%s", path));
         return Objects.isNull(resource)
                 ? Response.status(Response.Status.NOT_FOUND).build()
                 : Response.ok(resource, mediaType(path)).build();

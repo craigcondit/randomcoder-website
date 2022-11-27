@@ -1,4 +1,4 @@
-package org.randomcoder.thymeleaf;
+package org.randomcoder.website.thymeleaf;
 
 import org.thymeleaf.IEngineConfiguration;
 import org.thymeleaf.templateresolver.AbstractConfigurableTemplateResolver;

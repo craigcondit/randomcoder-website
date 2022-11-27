@@ -13,6 +13,7 @@ module org.randomcoder.website {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.yaml;
     requires com.fasterxml.jackson.module.jakarta.xmlbind;
+    requires jakarta.annotation;
     requires jakarta.el;
     requires jakarta.inject;
     requires jakarta.xml.bind;
@@ -31,6 +32,7 @@ module org.randomcoder.website {
     requires org.eclipse.jetty.servlet;
     requires org.eclipse.jetty.webapp;
     requires org.glassfish.hk2.api;
+    requires org.glassfish.hk2.locator;
     requires org.glassfish.hk2.utilities;
     requires org.glassfish.jaxb.core;
     requires org.glassfish.jaxb.runtime;
@@ -54,9 +56,6 @@ module org.randomcoder.website {
     requires spring.webmvc;
     requires jakarta.ws.rs;
 
-    exports org.randomcoder.providers;
-    exports org.randomcoder.resources;
-
     opens database;
     opens org.randomcoder.article;
     opens org.randomcoder.article.comment;
@@ -76,24 +75,37 @@ module org.randomcoder.website {
     opens org.randomcoder.pagination;
     opens org.randomcoder.security;
     opens org.randomcoder.security.spring;
-    opens org.randomcoder.staticcontent;
-    opens org.randomcoder.staticcontent.css;
-    opens org.randomcoder.staticcontent.js;
-    opens org.randomcoder.staticcontent.js.lib;
-    opens org.randomcoder.staticcontent.images;
-    opens org.randomcoder.staticcontent.images.badges;
-    opens org.randomcoder.staticcontent.images.silk;
-    opens org.randomcoder.templates;
-    opens org.randomcoder.templates.content;
-    opens org.randomcoder.templates.footer;
-    opens org.randomcoder.templates.head;
-    opens org.randomcoder.templates.header;
-    opens org.randomcoder.templates.sidebar;
+
+    opens org.randomcoder.website;
+    opens org.randomcoder.website.bo;
+    opens org.randomcoder.website.dao;
+    opens org.randomcoder.website.jaxrs.providers;
+    opens org.randomcoder.website.jaxrs.resources;
+
+    // static content
+    opens org.randomcoder.website.content;
+    opens org.randomcoder.website.content.css;
+    opens org.randomcoder.website.content.js;
+    opens org.randomcoder.website.content.js.lib;
+    opens org.randomcoder.website.content.images;
+    opens org.randomcoder.website.content.images.badges;
+    opens org.randomcoder.website.content.images.silk;
+
+    // thymeleaf templates
+    opens org.randomcoder.website.templates;
+    opens org.randomcoder.website.templates.content;
+    opens org.randomcoder.website.templates.footer;
+    opens org.randomcoder.website.templates.head;
+    opens org.randomcoder.website.templates.header;
+    opens org.randomcoder.website.templates.sidebar;
+
     opens org.randomcoder.tag;
     opens org.randomcoder.user;
     opens org.randomcoder.validation;
     opens org.randomcoder.xml;
     opens profiles;
+
+    // legacy static content
     opens webapp;
     opens webapp.css;
     opens webapp.images;

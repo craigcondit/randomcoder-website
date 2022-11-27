@@ -1,4 +1,4 @@
-package org.randomcoder.providers;
+package org.randomcoder.website.jaxrs.providers;
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerResponseContext;

@@ -1,4 +1,4 @@
-package org.randomcoder.providers;
+package org.randomcoder.website.jaxrs.providers;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Produces;
@@ -8,8 +8,8 @@ import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-import org.randomcoder.thymeleaf.ThymeleafContext;
-import org.randomcoder.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.thymeleaf.ThymeleafContext;
+import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.ITemplateEngine;

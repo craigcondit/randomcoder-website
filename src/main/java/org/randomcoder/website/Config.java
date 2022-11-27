@@ -1,4 +1,4 @@
-package org.randomcoder;
+package org.randomcoder.website;
 
 import java.io.File;
 import java.io.FileInputStream;

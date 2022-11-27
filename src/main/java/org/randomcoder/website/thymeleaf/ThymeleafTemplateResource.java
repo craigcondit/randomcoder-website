@@ -1,4 +1,4 @@
-package org.randomcoder.thymeleaf;
+package org.randomcoder.website.thymeleaf;
 
 import org.thymeleaf.templateresource.ITemplateResource;
 import org.thymeleaf.util.ClassLoaderUtils;

@@ -1,4 +1,4 @@
-package org.randomcoder.thymeleaf;
+package org.randomcoder.website.thymeleaf;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.randomcoder.thymeleaf;
+package org.randomcoder.website.thymeleaf;
 
 import jakarta.ws.rs.core.SecurityContext;
 import org.thymeleaf.context.IContext;
