@@ -44,7 +44,7 @@ abstract public class AbstractArticleListController {
 
     abstract protected String getSubTitle();
 
-    public Map<String, ? extends Object> generateModel(UriInfo uriInfo) {
+    public Map<String, ? extends Object> buildModel(UriInfo uriInfo) {
         Map<String, Object> model = new HashMap<>();
 
         // set range and sort order

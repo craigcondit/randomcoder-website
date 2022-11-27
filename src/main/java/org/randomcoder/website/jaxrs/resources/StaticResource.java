@@ -1,15 +1,10 @@
 package org.randomcoder.website.jaxrs.resources;
 
-import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
-import org.randomcoder.website.controller.HomeController;
-import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,19 +14,6 @@ import java.util.Objects;
 public class StaticResource {
 
     private static final Logger logger = LoggerFactory.getLogger(StaticResource.class);
-
-    @Inject
-    HomeController homeController;
-
-    @Inject
-    UriInfo uriInfo;
-
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public ThymeleafEntity home() {
-        return new ThymeleafEntity("home")
-                .withVariables(homeController.generateModel(uriInfo));
-    }
 
     @GET
     @Path("/favicon.ico")
