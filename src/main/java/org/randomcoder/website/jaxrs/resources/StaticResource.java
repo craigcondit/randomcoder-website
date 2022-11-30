@@ -1,5 +1,6 @@
 package org.randomcoder.website.jaxrs.resources;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 @Path("")
+@PermitAll
 public class StaticResource {
 
     private static final Logger logger = LoggerFactory.getLogger(StaticResource.class);

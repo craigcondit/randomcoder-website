@@ -12,6 +12,7 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.randomcoder.website.bo.AkismetModerator;
 import org.randomcoder.website.bo.AppInfoBusiness;
 import org.randomcoder.website.bo.AppInfoBusinessImpl;
@@ -36,6 +37,7 @@ import org.randomcoder.website.dao.TagDao;
 import org.randomcoder.website.dao.TagDaoImpl;
 import org.randomcoder.website.dao.UserDao;
 import org.randomcoder.website.dao.UserDaoImpl;
+import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
@@ -65,6 +67,7 @@ public class WebSiteApplication extends ResourceConfig {
 
         property(ServerProperties.WADL_FEATURE_DISABLE, true);
 
+        register(SecurityFeature.class);
         register(new AppBinder());
 
         packages(
