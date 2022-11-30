@@ -3,8 +3,7 @@
 
   <div class="sectionHeading">Login</div>
   <div class="sectionContent">
-    <form th:action="@{/login-submit}" method="post">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <form action="/login-submit" method="post">
       <div class="fields required">
         <div>
           <label for="username">User name:</label> <input type="text" name="j_username" class="text focusFirst" id="username" value="" />
@@ -29,7 +28,7 @@
       </div>
 
       <p>
-        Don't have an account? <a th:href="@{/account/create}">Sign up now</a>.
+        Don't have an account? <a href="/account/create">Sign up now</a>.
       </p>
 
     </form>

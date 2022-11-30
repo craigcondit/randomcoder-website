@@ -13,7 +13,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.container.DynamicFeature;
 import jakarta.ws.rs.container.ResourceInfo;
-import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.FeatureContext;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
@@ -128,8 +127,8 @@ public class SecurityFeature implements DynamicFeature {
                     cookieBuilder.expiry(new Date(0L));
                 }
 
-                var response = Response
-                        .temporaryRedirect(LOGIN_URI)
+                var response = Response.status(Response.Status.FOUND)
+                        .location(LOGIN_URI)
                         .cookie(cookieBuilder.build())
                         .build();
 
