@@ -213,6 +213,7 @@ public class UserDaoImpl implements UserDao {
     public void updateLoginTime(String userName) {
         withTransaction(dataSource, con -> {
             try (PreparedStatement ps = con.prepareStatement(UPDATE_LOGIN_TIME)) {
+                ps.setString(1, userName);
                 ps.executeUpdate();
             }
         });

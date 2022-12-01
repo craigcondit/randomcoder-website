@@ -1,22 +1,22 @@
-<th:block th:if="${security.userName != null}">
+<th:block th:if="${security.username != null}">
   <div class="sectionHeading">
     Welcome,
-    <th:block th:text="${security.userName}" />
+    <th:block th:text="${security.username}" />
   </div>
   <div class="sectionContent" align="left">
     <ul class="nav">
-      <th:block sec:authorize-url="/article/add">
+      <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_ARTICLES')}">
         <li><a href="/article/add">Add new article</a></li>
       </th:block>
-      <th:block sec:authorize-url="/user">
+      <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_USERS')}">
         <li><a href="/user">Manage users</a></li>
       </th:block>
-      <th:block sec:authorize-url="/tag">
+      <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_TAGS')}">
         <li><a href="/tag">Manage tags</a></li>
       </th:block>
       <li><a href="/user/profile">My profile</a></li>
       <li class="navbreak">
-        <form class="link" method="POST" th:action="/logout">
+        <form class="link" method="POST" action="/logout">
           <button class="logout">Logout</button>
         </form>
       </li>

@@ -24,8 +24,11 @@ import java.util.Locale;
 
 public class SecurityFeature implements DynamicFeature {
 
+    public static final String REDIRECT_COOKIE = "rc-login-redirect";
+    public static final String AUTH_COOKIE = "rc-auth";
+
     private static final URI LOGIN_URI = URI.create("/login");
-    private static final String REDIRECT_COOKIE = "login-redirect";
+
     private static final String MIME_APP_PREFIX = "application/";
     private static final String TEXT_XML_PREFIX = "text/xml";
 

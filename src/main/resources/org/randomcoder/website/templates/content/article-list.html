@@ -45,18 +45,11 @@
       <th:block th:unless="${articleDecorator.article.permalink == null || articleDecorator.article.permalink == ''}">
         <a rel="permalink" class="permalink" th:href="${'/articles/' + #uris.escapePathSegment(articleDecorator.article.permalink)}">Permalink</a>
       </th:block>
-      <th:block sec:authorize="isAuthenticated()">
-<!--
-        <th:block th:if="${
-          #authorization.expression('hasRole(''ROLE_MANAGE_ARTICLES'')')
-          or (
-            #authorization.expression('hasRole(''ROLE_ARTICLE_POST'')') and
-            #authentication.name == articleDecorator.article.createdByUser.userName
-          )}">
+      <th:block th:if="${security.username != null}">
+        <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_ARTICLES') or (#sets.contains(security.roles, 'ROLE_ARTICLE_POST') and security.username == articleDecorator.article.createdBy.userName)}">
           :: <a class="edit" th:href="${'/article/edit?id=' + #uris.escapePathSegment(articleDecorator.article.id)}">Edit</a>
           :: <a class="deleteArticle delete" th:href="${'/article/delete?id=' + #uris.escapePathSegment(articleDecorator.article.id)}">Delete</a>
         </th:block>
--->
       </th:block>
     </div>
     <div class="sectionContent">

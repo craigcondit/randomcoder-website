@@ -1,11 +1,11 @@
 package org.randomcoder.website.thymeleaf;
 
 import jakarta.ws.rs.core.SecurityContext;
+import org.randomcoder.website.data.UserPrincipal;
 import org.thymeleaf.context.IContext;
-import org.thymeleaf.context.IWebContext;
-import org.thymeleaf.web.IWebExchange;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -26,12 +26,15 @@ public class ThymeleafContext implements IContext {
 
     static Map<String, Object> securityAttributes(SecurityContext securityContext) {
         var map = new HashMap<String, Object>();
+        map.put("username", null);
+        map.put("roles", new HashSet<>());
 
-        var userPrincipal = securityContext.getUserPrincipal();
-        if (userPrincipal == null) {
-            map.put("username", null);
-        } else {
-            map.put("username", userPrincipal.getName());
+        var principal = securityContext.getUserPrincipal();
+        if (principal != null) {
+            map.put("username", principal.getName());
+            if (principal instanceof UserPrincipal up) {
+                map.put("roles", up.getRoles());
+            }
         }
         return map;
     }

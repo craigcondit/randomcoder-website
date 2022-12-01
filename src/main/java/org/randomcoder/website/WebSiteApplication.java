@@ -2,6 +2,7 @@ package org.randomcoder.website;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
 import org.apache.commons.dbcp2.DriverManagerConnectionFactory;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
@@ -21,6 +22,8 @@ import org.randomcoder.website.bo.ArticleBusinessImpl;
 import org.randomcoder.website.bo.Moderator;
 import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.bo.TagBusinessImpl;
+import org.randomcoder.website.bo.UserBusiness;
+import org.randomcoder.website.bo.UserBusinessImpl;
 import org.randomcoder.website.contentfilter.ContentFilter;
 import org.randomcoder.website.contentfilter.MultiContentFilter;
 import org.randomcoder.website.contentfilter.TextFilter;
@@ -96,21 +99,22 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(contentFilter()).to(ContentFilter.class);
 
                 // controllers
-                bind(HomeController.class).to(HomeController.class);
-                bind(ArticleTagListController.class).to(ArticleTagListController.class);
+                bind(HomeController.class).to(HomeController.class).in(Singleton.class);
+                bind(ArticleTagListController.class).to(ArticleTagListController.class).in(Singleton.class);
 
                 // business objects
-                bind(AkismetModerator.class).in(Immediate.class).to(Moderator.class);
-                bind(AppInfoBusinessImpl.class).to(AppInfoBusiness.class);
-                bind(ArticleBusinessImpl.class).to(ArticleBusiness.class);
-                bind(TagBusinessImpl.class).to(TagBusiness.class);
+                bind(AkismetModerator.class).in(Immediate.class).to(Moderator.class).in(Singleton.class);
+                bind(AppInfoBusinessImpl.class).to(AppInfoBusiness.class).in(Singleton.class);
+                bind(ArticleBusinessImpl.class).to(ArticleBusiness.class).in(Singleton.class);
+                bind(TagBusinessImpl.class).to(TagBusiness.class).in(Singleton.class);
+                bind(UserBusinessImpl.class).to(UserBusiness.class).in(Singleton.class);
 
                 // data access objects
-                bind(ArticleDaoImpl.class).to(ArticleDao.class);
-                bind(CommentDaoImpl.class).to(CommentDao.class);
-                bind(RoleDaoImpl.class).to(RoleDao.class);
-                bind(TagDaoImpl.class).to(TagDao.class);
-                bind(UserDaoImpl.class).to(UserDao.class);
+                bind(ArticleDaoImpl.class).to(ArticleDao.class).in(Singleton.class);
+                bind(CommentDaoImpl.class).to(CommentDao.class).in(Singleton.class);
+                bind(RoleDaoImpl.class).to(RoleDao.class).in(Singleton.class);
+                bind(TagDaoImpl.class).to(TagDao.class).in(Singleton.class);
+                bind(UserDaoImpl.class).to(UserDao.class).in(Singleton.class);
             } catch (Exception e) {
                 logger.error("Error during initialization", e);
                 throw new RuntimeException(e);

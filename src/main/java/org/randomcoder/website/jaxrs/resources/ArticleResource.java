@@ -10,6 +10,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.TagBusiness;
@@ -42,6 +43,9 @@ public class ArticleResource {
 
     @Inject
     UriInfo uriInfo;
+
+    @Inject
+    SecurityContext securityContext;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
