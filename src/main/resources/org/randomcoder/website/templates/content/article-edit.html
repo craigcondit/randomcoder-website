@@ -1,33 +1,33 @@
 <th:block th:fragment="edit(mode)">
   <div class="sectionHeading" th:text="${(mode == 'edit' ? 'Edit article' : 'Add article')}" />
   <div class="sectionContent">
-    <form method="post" th:action="@{/article/{mode}(mode=${mode})}" th:object="${command}">
-      <th:block th:if="${#fields.hasErrors('global')}">
-        <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
+    <form method="post" th:action="${'/article/' + #uris.escapePathSegment(mode)}">
+      <th:block th:if="${errors.global != null}">
+        <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
       </th:block>
 
-      <div th:class="${'fields required' + (#fields.hasErrors('title') ? ' error' : '')}">
+      <div th:class="${'fields required' + (errors.title == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('title')}">
-            <span class="error" th:each="err : ${#fields.errors('title')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.title != null}">
+            <span class="error" th:each="err : ${errors.title}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="title">Title:</label> <input type="text" name="title" class="text focusFirst" id="title" maxlength="255"
-            th:field="${command.title}" />
+            th:value="${command.title}" />
         </div>
         <div class="description">Enter a descriptive title for this article.</div>
       </div>
 
-      <div th:class="${'fields' + (#fields.hasErrors('permalink') ? ' error' : '')}">
+      <div th:class="${'fields' + (errors.permalink == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('permalink')}">
-            <span class="error" th:each="err : ${#fields.errors('permalink')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.permalink != null}">
+            <span class="error" th:each="err : ${errors.permalink}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="permalink">Permalink:</label> <input type="text" name="permalink" class="text" id="permalink" maxlength="100"
-            th:field="${command.permalink}" />
+            th:value="${command.permalink}" />
         </div>
         <div class="description">
           Enter a unique name which will be used to construct an unchanging URL for this article.<br /> Permalinks may only contain
@@ -35,29 +35,32 @@
         </div>
       </div>
 
-      <div th:class="${'fields' + (#fields.hasErrors('tags') ? ' error' : '')}">
+      <div th:class="${'fields' + (errors.tags == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('tags')}">
-            <span class="error" th:each="err : ${#fields.errors('tags')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.tags != null}">
+            <span class="error" th:each="err : ${errors.tags}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="tags">Tags:</label>
-          <textarea name="tags" id="tags" th:field="${command.tags}" rows="3" cols="80" />
+          <textarea name="tags" id="tags" th:text="${command.tags}" rows="3" cols="80">tags</textarea>
         </div>
         <div class="description">Enter descriptive &quot;tags&quot; separated by commas.</div>
       </div>
 
-      <div th:class="${'fields required' + (#fields.hasErrors('contentType') ? ' error' : '')}">
+      <div th:class="${'fields required' + (errors.contentType == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('contentType')}">
-            <span class="error" th:each="err : ${#fields.errors('contentType')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.contentType != null}">
+            <span class="error" th:each="err : ${errors.contentType}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
-          <label for="contentType">Content type:</label> <select name="contentType" id="contentType" th:field="${command.contentType}">
+          <label for="contentType">Content type:</label> <select name="contentType" id="contentType" th:value="${command.contentType}">
             <option value=""></option>
-            <option th:each="ct : ${contentTypes}" th:text="${ct.description}" th:value="${ct.name}" />
+            <th:block th:each="ct : ${contentTypes}">
+              <option th:if="${command.contentType != null && ct.name == command.contentType.name}" selected="selected" th:value="${ct.name}" th:text="${ct.description}" />
+              <option th:unless="${command.contentType != null && ct.name == command.contentType.name}" th:value="${ct.name}" th:text="${ct.description}" />
+            </th:block>
           </select>
         </div>
         <div class="description">
@@ -67,32 +70,32 @@
         </div>
       </div>
 
-      <div th:class="${'fields long' + (#fields.hasErrors('summary') ? ' error' : '')}">
+      <div th:class="${'fields long' + (errors.summary == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('summary')}">
-            <span class="error" th:each="err : ${#fields.errors('summary')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.summary != null}">
+            <span class="error" th:each="err : ${errors.summary}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="summary"> Summary: <span class="description">Enter a summary for this article.</span></label>
-          <textarea name="summary" id="summary" cols="80" rows="5" th:field="${command.summary}" />
+          <textarea name="summary" id="summary" cols="80" rows="5" th:text="${command.summary}" />
         </div>
       </div>
 
-      <div th:class="${'fields long required' + (#fields.hasErrors('content') ? ' error' : '')}">
+      <div th:class="${'fields long required' + (errors.content == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('content')}">
-            <span class="error" th:each="err : ${#fields.errors('content')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.content != null}">
+            <span class="error" th:each="err : ${errors.content}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="contentArea">Content: <span class="description">Enter the content for this article.</span></label>
-          <textarea name="content" id="contentArea" cols="80" rows="20" th:field="${command.content}" />
+          <textarea name="content" id="contentArea" cols="80" rows="20" th:text="${command.content}" />
         </div>
       </div>
 
       <div class="fields long">
-        <input type="hidden" name="id" th:if="${mode == 'edit'}" th:field="${command.id}" />
+        <input type="hidden" name="id" th:if="${mode == 'edit'}" th:value="${command.id}" />
         <div class="buttons">
           <input type="submit" class="submit" value="Save &#187;" /> <input type="submit" class="button" name="cancel" value="Cancel" />
         </div>

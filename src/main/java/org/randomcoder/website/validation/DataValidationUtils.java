@@ -290,11 +290,8 @@ public final class DataValidationUtils {
         // lowercase
         name = name.toLowerCase(Locale.US);
 
-        // convert various punctuation to space
-        name = name.replaceAll("_", " ");
-        name = name.replaceAll("-", " ");
-        name = name.replaceAll("/", " ");
-        name = name.replaceAll("\\\\", " ");
+        // convert anything that is not alphanumeric to empty
+        name = name.replaceAll("[^a-z0-9]+", " ");
 
         // collapse all whitespace
         name = name.replaceAll("\\s+", " ");

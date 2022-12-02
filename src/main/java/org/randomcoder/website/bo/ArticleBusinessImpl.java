@@ -73,7 +73,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public void createArticle(Consumer<Article> visitor, String userName) {
+    public Article createArticle(Consumer<Article> visitor, String userName) {
         User user = findUserByName(userName);
 
         Article article = new Article();
@@ -88,11 +88,14 @@ public class ArticleBusinessImpl implements ArticleBusiness {
             }
         }
 
-        articleDao.save(article);
+        long id = articleDao.save(article);
+        article.setId(id);
+
+        return article;
     }
 
     @Override
-    public void createComment(Consumer<Comment> visitor, Long articleId, String userName, String referrer, String ipAddress, String userAgent) {
+    public void createComment(Consumer<Comment> visitor, long articleId, String userName, String referrer, String ipAddress, String userAgent) {
         User user = userName == null ? null : findUserByName(userName);
 
         Article article = loadArticle(articleId);
@@ -126,7 +129,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public void updateArticle(Consumer<Article> visitor, Long articleId, String userName) {
+    public Article updateArticle(Consumer<Article> visitor, long articleId, String userName) {
         User user = findUserByName(userName);
 
         Article article = loadArticle(articleId);
@@ -144,6 +147,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         }
 
         articleDao.save(article);
+        return article;
     }
 
     @Override
@@ -157,7 +161,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName) {
+    public void loadArticleForEditing(Consumer<Article> consumer, long articleId, String userName) {
         User user = findUserByName(userName);
         Article article = loadArticle(articleId);
 
@@ -166,7 +170,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public void deleteArticle(String userName, Long articleId) {
+    public void deleteArticle(String userName, long articleId) {
         User user = findUserByName(userName);
         Article article = loadArticle(articleId);
         checkAuthorDelete(user, article);
@@ -174,7 +178,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public Article approveComment(Long commentId) throws ModerationException {
+    public Article approveComment(long commentId) throws ModerationException {
         Comment comment = loadComment(commentId);
 
         logger.info("Approving comment #" + comment.getId());
@@ -190,7 +194,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public Article disapproveComment(Long commentId) throws ModerationException {
+    public Article disapproveComment(long commentId) throws ModerationException {
         Comment comment = loadComment(commentId);
 
         logger.info("Disapproving comment #" + comment.getId());
@@ -206,7 +210,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     }
 
     @Override
-    public Article deleteComment(Long commentId) {
+    public Article deleteComment(long commentId) {
         Comment comment = loadComment(commentId);
 
         logger.info("Deleting comment #" + comment.getId());

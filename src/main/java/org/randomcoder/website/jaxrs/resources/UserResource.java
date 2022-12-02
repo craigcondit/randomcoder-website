@@ -65,9 +65,9 @@ public class UserResource {
     @Produces(MediaType.TEXT_HTML)
     public Response userProfileSubmit(
             @BeanParam UserProfileCommand command,
-            @FormParam("cancel") @DefaultValue("") String cancel) {
+            @FormParam("cancel") String cancel) {
 
-        if (!"".equals(cancel)) {
+        if (cancel == null) {
             return Response.status(Response.Status.FOUND).location(URI.create("/")).build();
         }
 

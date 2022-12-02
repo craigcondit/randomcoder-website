@@ -1,10 +1,12 @@
 package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.POST;
@@ -19,21 +21,31 @@ import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.TagBusiness;
+import org.randomcoder.website.command.ArticleAddCommand;
+import org.randomcoder.website.command.ArticleEditCommand;
 import org.randomcoder.website.command.CommentCommand;
 import org.randomcoder.website.controller.ArticleController;
 import org.randomcoder.website.controller.ArticleTagListController;
 import org.randomcoder.website.controller.HomeController;
 import org.randomcoder.website.data.Article;
+import org.randomcoder.website.data.ContentType;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.Tag;
+import org.randomcoder.website.model.Roles;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.validation.ArticleAddValidator;
+import org.randomcoder.website.validation.ArticleEditValidator;
 import org.randomcoder.website.validation.CommentValidator;
 import org.randomcoder.website.validation.ValidatorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
 
 @Path("")
@@ -41,6 +53,8 @@ import java.util.Optional;
 public class ArticleResource {
 
     private static final String REFERER = "Referer";
+
+    private static final Logger logger = LoggerFactory.getLogger(ArticleResource.class);
 
     @Inject
     HomeController homeController;
@@ -59,6 +73,12 @@ public class ArticleResource {
 
     @Inject
     CommentValidator commentValidator;
+
+    @Inject
+    ArticleAddValidator articleAddValidator;
+
+    @Inject
+    ArticleEditValidator articleEditValidator;
 
     @Inject
     UriInfo uriInfo;
@@ -135,6 +155,89 @@ public class ArticleResource {
         command.setAnonymous(securityContext.getUserPrincipal() == null);
 
         return new ThymeleafEntity("article-view").withVariables(articleController.buildModel(command, article));
+    }
+
+    @GET
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    @Path("/article/add")
+    public ThymeleafEntity addArticle() {
+        ArticleAddCommand command = new ArticleAddCommand();
+
+        return new ThymeleafEntity("article-add")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>())
+                .withVariable("contentTypes", ContentType.values());
+    }
+
+    @POST
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    @Path("/article/add")
+    public Response addArticleSubmit(@BeanParam ArticleAddCommand command, @FormParam("cancel") String cancel) {
+
+        if (cancel != null) {
+            return Response.status(Response.Status.FOUND).location(URI.create("/")).build();
+        }
+
+        var context = new ValidatorContext(headers.getLanguage());
+        articleAddValidator.validate(context, command);
+        var errors = context.getErrors();
+
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("article-add")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors)
+                            .withVariable("contentTypes", ContentType.values()))
+                    .build();
+        }
+
+        Article article = articleBusiness.createArticle(command, securityContext.getUserPrincipal().getName());
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create(article.getPermalinkUrl()))
+                .build();
+    }
+
+    @GET
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    @Path("/article/edit")
+    public ThymeleafEntity editArticle(@QueryParam("id") long id) {
+        var command = new ArticleEditCommand();
+
+        articleBusiness.loadArticleForEditing(command::load, id, securityContext.getUserPrincipal().getName());
+
+        return new ThymeleafEntity("article-edit")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>())
+                .withVariable("contentTypes", ContentType.values());
+    }
+
+    @POST
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    @Path("/article/edit")
+    public Response editArticleSubmit(
+            @BeanParam ArticleEditCommand command, @QueryParam("id") long id, @FormParam("cancel") String cancel) {
+
+        if (cancel != null) {
+            return Response.status(Response.Status.FOUND).location(URI.create("/")).build();
+        }
+
+        var context = new ValidatorContext(headers.getLanguage());
+        articleEditValidator.validate(context, command);
+        var errors = context.getErrors();
+
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("article-edit")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors)
+                            .withVariable("contentTypes", ContentType.values()))
+                    .build();
+        }
+
+        var article = articleBusiness.updateArticle(command, command.getId(), securityContext.getUserPrincipal().getName());
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create(article.getPermalinkUrl()))
+                .build();
     }
 
     @POST

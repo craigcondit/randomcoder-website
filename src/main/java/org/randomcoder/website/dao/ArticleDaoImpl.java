@@ -194,7 +194,7 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String COL_COMMENT_USER_AGENT = "user_agent";
 
     @Override
-    public Long save(Article article) {
+    public long save(Article article) {
         return withTransaction(dataSource, con -> (article.getId() == null)
                 ? createArticle(con, article)
                 : updateArticle(con, article));
@@ -296,7 +296,7 @@ public class ArticleDaoImpl implements ArticleDao {
         });
     }
 
-    private Long createArticle(Connection con, Article article) throws SQLException {
+    private long createArticle(Connection con, Article article) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(INSERT)) {
             addSaveParams(ps, article);
             try (ResultSet rs = ps.executeQuery()) {
@@ -310,7 +310,7 @@ public class ArticleDaoImpl implements ArticleDao {
         return article.getId();
     }
 
-    private Long updateArticle(Connection con, Article article) throws SQLException {
+    private long updateArticle(Connection con, Article article) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
             addSaveParams(ps, article);
             ps.setLong(11, article.getId());

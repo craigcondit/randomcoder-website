@@ -12,25 +12,25 @@ import java.util.function.Consumer;
 
 public interface ArticleBusiness {
 
-    void createArticle(Consumer<Article> visitor, String userName);
+    Article createArticle(Consumer<Article> visitor, String userName);
 
-    void createComment(Consumer<Comment> visitor, Long articleId, String userName, String referrer, String ipAddress, String userAgent);
+    void createComment(Consumer<Comment> visitor, long articleId, String userName, String referrer, String ipAddress, String userAgent);
 
     Article readArticle(long articleId);
 
     Article findArticleByPermalink(String permalink);
 
-    void loadArticleForEditing(Consumer<Article> consumer, Long articleId, String userName);
+    void loadArticleForEditing(Consumer<Article> consumer, long articleId, String userName);
 
-    void updateArticle(Consumer<Article> visitor, Long articleId, String userName);
+    Article updateArticle(Consumer<Article> visitor, long articleId, String userName);
 
-    void deleteArticle(String userName, Long articleId);
+    void deleteArticle(String userName, long articleId);
 
-    Article deleteComment(Long commentId);
+    Article deleteComment(long commentId);
 
-    Article approveComment(Long commentId) throws ModerationException;
+    Article approveComment(long commentId) throws ModerationException;
 
-    Article disapproveComment(Long commentId) throws ModerationException;
+    Article disapproveComment(long commentId) throws ModerationException;
 
     boolean moderateComments(int count) throws ModerationException;
 

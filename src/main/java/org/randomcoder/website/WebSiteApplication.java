@@ -44,6 +44,8 @@ import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
+import org.randomcoder.website.validation.ArticleAddValidator;
+import org.randomcoder.website.validation.ArticleEditValidator;
 import org.randomcoder.website.validation.ChangePasswordValidator;
 import org.randomcoder.website.validation.CommentValidator;
 import org.randomcoder.website.validation.UserProfileValidator;
@@ -111,6 +113,7 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getString(Config.AKISMET_SITE_URL)).named(Config.AKISMET_SITE_URL).to(String.class);
                 bind(config.getLongOrDefault(Config.ARTICLE_PAGESIZE_MAX, 50)).named(Config.ARTICLE_PAGESIZE_MAX).to(Long.class);
                 bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
+                bind(config.getIntOrDefault(Config.ARTICLE_MAX_SUMMARY_LENGTH, 1000)).named(Config.ARTICLE_MAX_SUMMARY_LENGTH).to(Integer.class);
 
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
@@ -126,7 +129,9 @@ public class WebSiteApplication extends ResourceConfig {
                 // validators
                 singletons(
                         CommentValidator.class,
-                        UserProfileValidator.class);
+                        UserProfileValidator.class,
+                        ArticleAddValidator.class,
+                        ArticleEditValidator.class);
 
                 // business objects - immediate
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
