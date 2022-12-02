@@ -85,7 +85,7 @@ public class CommentValidator {
             String prefix = contentFilter.getPrefix(mimeType);
             String suffix = contentFilter.getSuffix(mimeType);
 
-            List<Reader> readers = new ArrayList<Reader>();
+            List<Reader> readers = new ArrayList<>();
             if (prefix != null) {
                 readers.add(new StringReader(prefix));
             }
