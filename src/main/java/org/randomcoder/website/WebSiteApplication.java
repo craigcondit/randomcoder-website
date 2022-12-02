@@ -13,7 +13,6 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.jersey.internal.inject.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.randomcoder.website.bo.AkismetModerator;
 import org.randomcoder.website.bo.AppInfoBusiness;
 import org.randomcoder.website.bo.AppInfoBusinessImpl;
@@ -28,6 +27,7 @@ import org.randomcoder.website.contentfilter.ContentFilter;
 import org.randomcoder.website.contentfilter.MultiContentFilter;
 import org.randomcoder.website.contentfilter.TextFilter;
 import org.randomcoder.website.contentfilter.XHTMLFilter;
+import org.randomcoder.website.controller.ArticleController;
 import org.randomcoder.website.controller.ArticleTagListController;
 import org.randomcoder.website.controller.HomeController;
 import org.randomcoder.website.dao.ArticleDao;
@@ -44,6 +44,7 @@ import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
+import org.randomcoder.website.validation.CommentValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.ITemplateEngine;
@@ -101,9 +102,13 @@ public class WebSiteApplication extends ResourceConfig {
                 // controllers
                 bind(HomeController.class).to(HomeController.class).in(Singleton.class);
                 bind(ArticleTagListController.class).to(ArticleTagListController.class).in(Singleton.class);
+                bind(ArticleController.class).to(ArticleController.class).in(Singleton.class);
+
+                // validators
+                bind(CommentValidator.class).to(CommentValidator.class).in(Singleton.class);
 
                 // business objects
-                bind(AkismetModerator.class).in(Immediate.class).to(Moderator.class).in(Singleton.class);
+                bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
                 bind(AppInfoBusinessImpl.class).to(AppInfoBusiness.class).in(Singleton.class);
                 bind(ArticleBusinessImpl.class).to(ArticleBusiness.class).in(Singleton.class);
                 bind(TagBusinessImpl.class).to(TagBusiness.class).in(Singleton.class);

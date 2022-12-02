@@ -2,24 +2,33 @@ package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.TagBusiness;
+import org.randomcoder.website.command.CommentCommand;
+import org.randomcoder.website.controller.ArticleController;
 import org.randomcoder.website.controller.ArticleTagListController;
 import org.randomcoder.website.controller.HomeController;
 import org.randomcoder.website.data.Article;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.Tag;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.validation.CommentValidator;
+import org.randomcoder.website.validation.ValidatorContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -29,11 +38,16 @@ import java.util.Date;
 @PermitAll
 public class ArticleResource {
 
+    private static final Logger logger = LoggerFactory.getLogger(ArticleResource.class);
+
     @Inject
     HomeController homeController;
 
     @Inject
     ArticleTagListController articleTagListController;
+
+    @Inject
+    ArticleController articleController;
 
     @Inject
     TagBusiness tagBusiness;
@@ -42,10 +56,16 @@ public class ArticleResource {
     ArticleBusiness articleBusiness;
 
     @Inject
+    CommentValidator commentValidator;
+
+    @Inject
     UriInfo uriInfo;
 
     @Inject
     SecurityContext securityContext;
+
+    @Inject
+    HttpHeaders headers;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -87,6 +107,52 @@ public class ArticleResource {
 
         var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
         return articleBusiness.listArticlesByTagBeforeDate(tag, cutoffDate, offset, length);
+    }
+
+    @GET
+    @Path("/articles/id/{id}")
+    @Produces(MediaType.TEXT_HTML)
+    public ThymeleafEntity articleById(@PathParam("id") long id) {
+        Article article = articleBusiness.readArticle(id);
+        if (article == null) {
+            throw new NotFoundException();
+        }
+
+        CommentCommand command = new CommentCommand();
+        command.bind(securityContext.getUserPrincipal() == null);
+
+        return new ThymeleafEntity("article-view")
+                .withVariables(articleController.buildModel(command, article));
+    }
+
+    @POST
+    @Path("/articles/id/{id}")
+    @Produces(MediaType.TEXT_HTML)
+    public ThymeleafEntity articleByIdSubmit(
+            @PathParam("id") long id,
+            @BeanParam CommentCommand command) {
+        logger.info("articleByIdSubmit(), title={}, content={}", command.getTitle(), command.getContent());
+
+        Article article = articleBusiness.readArticle(id);
+        if (article == null) {
+            throw new NotFoundException();
+        }
+
+        command.bind(securityContext.getUserPrincipal() == null);
+
+        var validatorContext = new ValidatorContext(headers.getLanguage());
+
+        commentValidator.validate(validatorContext, command);
+        var errors = validatorContext.getErrors();
+
+        if (!errors.isEmpty()) {
+            // errors, send back
+            return new ThymeleafEntity("article-view")
+                    .withVariables(articleController.buildModel(command, article, errors));
+        }
+
+//        return commentOnArticle(article, user, model, request, command, result);
+        return null;
     }
 
 }

@@ -16,6 +16,7 @@
     <logger name="org.springframework" level="warn" />
     <logger name="_org.springframework" level="warn" />
     <logger name="org.hibernate.validator" level="warn" />
+    <logger name="org.postgresql" level="warn" />
 
     <root level="debug">
         <appender-ref ref="console" />

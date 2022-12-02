@@ -35,7 +35,6 @@ public class LoginResource {
     @Path("login")
     public Response login() {
         return Response.ok(new ThymeleafEntity("login"))
-                .cookie(clearAuthCookies())
                 .build();
     }
 
@@ -44,14 +43,23 @@ public class LoginResource {
     @Path("login-error")
     public Response loginError() {
         return Response.ok(new ThymeleafEntity("login-error"))
+                .build();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("logout")
+    public Response logout() {
+        return Response.status(Response.Status.FOUND)
                 .cookie(clearAuthCookies())
+                .location(URI.create("/"))
                 .build();
     }
 
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("logout")
-    public Response logout() {
+    public Response logoutPost() {
         return Response.status(Response.Status.FOUND)
                 .cookie(clearAuthCookies())
                 .location(URI.create("/"))

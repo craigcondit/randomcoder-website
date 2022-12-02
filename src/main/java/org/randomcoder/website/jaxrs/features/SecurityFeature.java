@@ -139,7 +139,11 @@ public class SecurityFeature implements DynamicFeature {
                 return;
             }
 
+
             for (String role : rolesAllowed) {
+                if (role.equals("*")) {
+                    return;
+                }
                 if (context.getSecurityContext().isUserInRole(role)) {
                     return;
                 }

@@ -1,14 +1,18 @@
 package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.util.Objects;
 
 @Path("")
@@ -16,6 +20,15 @@ import java.util.Objects;
 public class StaticResource {
 
     private static final Logger logger = LoggerFactory.getLogger(StaticResource.class);
+
+    @GET
+    @RolesAllowed("*")
+    @Path("/redirect")
+    public Response redirect(@QueryParam("url") String uri) {
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create(uri))
+                .build();
+    }
 
     @GET
     @Path("/favicon.ico")
