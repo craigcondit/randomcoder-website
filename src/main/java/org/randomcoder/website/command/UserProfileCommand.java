@@ -4,11 +4,9 @@ import jakarta.ws.rs.FormParam;
 import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.website.data.User;
 
-import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class UserProfileCommand implements Serializable, Consumer<User> {
-    private static final long serialVersionUID = 8464807327958297647L;
+public class UserProfileCommand implements Consumer<User> {
 
     private String emailAddress;
     private String website;

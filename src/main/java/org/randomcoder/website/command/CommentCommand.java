@@ -5,29 +5,23 @@ import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.website.data.Comment;
 import org.randomcoder.website.data.ContentType;
 
-import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class CommentCommand implements Serializable, Consumer<Comment> {
-    private static final long serialVersionUID = -1245687879900306444L;
+public class CommentCommand implements Consumer<Comment> {
 
     private boolean anonymous;
 
     private String anonymousUserName;
-
     private String anonymousEmailAddress;
-
     private String anonymousWebsite;
-
     private String title;
-
     private String content;
 
     public boolean isAnonymous() {
         return anonymous;
     }
 
-    public void bind(boolean isAnonymous) {
+    public void setAnonymous(boolean isAnonymous) {
         this.anonymous = isAnonymous;
     }
 

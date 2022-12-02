@@ -44,6 +44,7 @@ import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
+import org.randomcoder.website.validation.ChangePasswordValidator;
 import org.randomcoder.website.validation.CommentValidator;
 import org.randomcoder.website.validation.UserProfileValidator;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ import javax.sql.DataSource;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class WebSiteApplication extends ResourceConfig {
 
@@ -90,9 +92,15 @@ public class WebSiteApplication extends ResourceConfig {
 
     private class AppBinder extends AbstractBinder {
 
-        private void singletons(Class<?>... classes) {
+        void singletons(Class<?>... classes) {
             for (Class<?> clazz : classes) {
                 bind(clazz).to(clazz).in(Singleton.class);
+            }
+        }
+
+        void singletons(Map<Class<?>, Class<?>> classMap) {
+            for (var entry : classMap.entrySet()) {
+                bind(entry.getValue()).to(entry.getKey()).in(Singleton.class);
             }
         }
 
@@ -102,30 +110,41 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getString(Config.AKISMET_SITE_KEY)).named(Config.AKISMET_SITE_KEY).to(String.class);
                 bind(config.getString(Config.AKISMET_SITE_URL)).named(Config.AKISMET_SITE_URL).to(String.class);
                 bind(config.getLongOrDefault(Config.ARTICLE_PAGESIZE_MAX, 50)).named(Config.ARTICLE_PAGESIZE_MAX).to(Long.class);
+                bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
 
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
                 bind(contentFilter()).to(ContentFilter.class);
 
                 // controllers
-                singletons(HomeController.class, ArticleTagListController.class, ArticleController.class);
+                singletons(
+                        HomeController.class,
+                        ArticleTagListController.class,
+                        ArticleController.class,
+                        ChangePasswordValidator.class);
 
                 // validators
-                singletons(CommentValidator.class, UserProfileValidator.class);
+                singletons(
+                        CommentValidator.class,
+                        UserProfileValidator.class);
+
+                // business objects - immediate
+                bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
 
                 // business objects
-                bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
-                bind(AppInfoBusinessImpl.class).to(AppInfoBusiness.class).in(Singleton.class);
-                bind(ArticleBusinessImpl.class).to(ArticleBusiness.class).in(Singleton.class);
-                bind(TagBusinessImpl.class).to(TagBusiness.class).in(Singleton.class);
-                bind(UserBusinessImpl.class).to(UserBusiness.class).in(Singleton.class);
+                singletons(Map.of(
+                        AppInfoBusiness.class, AppInfoBusinessImpl.class,
+                        ArticleBusiness.class, ArticleBusinessImpl.class,
+                        TagBusiness.class, TagBusinessImpl.class,
+                        UserBusiness.class, UserBusinessImpl.class));
 
                 // data access objects
-                bind(ArticleDaoImpl.class).to(ArticleDao.class).in(Singleton.class);
-                bind(CommentDaoImpl.class).to(CommentDao.class).in(Singleton.class);
-                bind(RoleDaoImpl.class).to(RoleDao.class).in(Singleton.class);
-                bind(TagDaoImpl.class).to(TagDao.class).in(Singleton.class);
-                bind(UserDaoImpl.class).to(UserDao.class).in(Singleton.class);
+                singletons(Map.of(
+                        ArticleDao.class, ArticleDaoImpl.class,
+                        CommentDao.class, CommentDaoImpl.class,
+                        RoleDao.class, RoleDaoImpl.class,
+                        TagDao.class, TagDaoImpl.class,
+                        UserDao.class, UserDaoImpl.class));
 
             } catch (Exception e) {
                 logger.error("Error during initialization", e);

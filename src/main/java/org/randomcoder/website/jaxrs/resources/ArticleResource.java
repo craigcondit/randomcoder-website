@@ -2,6 +2,7 @@ package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.BeanParam;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.bo.ArticleBusiness;
@@ -27,18 +29,18 @@ import org.randomcoder.website.data.Tag;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 import org.randomcoder.website.validation.CommentValidator;
 import org.randomcoder.website.validation.ValidatorContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.security.Principal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
 
 @Path("")
 @PermitAll
 public class ArticleResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleResource.class);
+    private static final String REFERER = "Referer";
 
     @Inject
     HomeController homeController;
@@ -67,11 +69,13 @@ public class ArticleResource {
     @Inject
     HttpHeaders headers;
 
+    @Inject
+    HttpServletRequest request;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity home() {
-        return new ThymeleafEntity("home")
-                .withVariables(homeController.buildModel(uriInfo));
+        return new ThymeleafEntity("home").withVariables(homeController.buildModel(uriInfo));
     }
 
     @GET
@@ -88,8 +92,7 @@ public class ArticleResource {
     @Path("/tags/{tagName}")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity articlesByTag() {
-        return new ThymeleafEntity("article-tag-list")
-                .withVariables(articleTagListController.buildModel(uriInfo));
+        return new ThymeleafEntity("article-tag-list").withVariables(articleTagListController.buildModel(uriInfo));
     }
 
     @GET
@@ -113,32 +116,47 @@ public class ArticleResource {
     @Path("/articles/id/{id}")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity articleById(@PathParam("id") long id) {
-        Article article = articleBusiness.readArticle(id);
+        return articleInternal(articleBusiness.readArticle(id));
+    }
+
+    @GET
+    @Path("/articles/{permalink}")
+    @Produces(MediaType.TEXT_HTML)
+    public ThymeleafEntity articleByPermalink(@PathParam("permalink") String permalink) {
+        return articleInternal(articleBusiness.findArticleByPermalink(permalink));
+    }
+
+    private ThymeleafEntity articleInternal(Article article) {
         if (article == null) {
             throw new NotFoundException();
         }
 
         CommentCommand command = new CommentCommand();
-        command.bind(securityContext.getUserPrincipal() == null);
+        command.setAnonymous(securityContext.getUserPrincipal() == null);
 
-        return new ThymeleafEntity("article-view")
-                .withVariables(articleController.buildModel(command, article));
+        return new ThymeleafEntity("article-view").withVariables(articleController.buildModel(command, article));
     }
 
     @POST
     @Path("/articles/id/{id}")
     @Produces(MediaType.TEXT_HTML)
-    public ThymeleafEntity articleByIdSubmit(
-            @PathParam("id") long id,
-            @BeanParam CommentCommand command) {
-        logger.info("articleByIdSubmit(), title={}, content={}", command.getTitle(), command.getContent());
+    public Response commentById(@PathParam("id") long id, @BeanParam CommentCommand command) {
+        return commentInternal(articleBusiness.readArticle(id), command);
+    }
 
-        Article article = articleBusiness.readArticle(id);
+    @POST
+    @Path("/articles/{permalink}")
+    @Produces(MediaType.TEXT_HTML)
+    public Response commentByPermalink(@PathParam("permalink") String permalink, @BeanParam CommentCommand command) {
+        return commentInternal(articleBusiness.findArticleByPermalink(permalink), command);
+    }
+
+    private Response commentInternal(Article article, CommentCommand command) {
         if (article == null) {
             throw new NotFoundException();
         }
 
-        command.bind(securityContext.getUserPrincipal() == null);
+        command.setAnonymous(securityContext.getUserPrincipal() == null);
 
         var validatorContext = new ValidatorContext(headers.getLanguage());
 
@@ -146,13 +164,25 @@ public class ArticleResource {
         var errors = validatorContext.getErrors();
 
         if (!errors.isEmpty()) {
-            // errors, send back
-            return new ThymeleafEntity("article-view")
-                    .withVariables(articleController.buildModel(command, article, errors));
+            return Response.ok(new ThymeleafEntity("article-view")
+                            .withVariables(articleController.buildModel(command, article, errors)))
+                    .build();
         }
 
-//        return commentOnArticle(article, user, model, request, command, result);
-        return null;
+        String username = Optional
+                .ofNullable(securityContext.getUserPrincipal())
+                .map(Principal::getName)
+                .orElse(null);
+
+        String referrer = headers.getHeaderString(REFERER);
+        String ipAddress = request.getRemoteHost();
+        String userAgent = headers.getHeaderString(HttpHeaders.USER_AGENT);
+
+        articleBusiness.createComment(command, article.getId(), username, referrer, ipAddress, userAgent);
+
+        return Response.status(Response.Status.FOUND)
+                .location(uriInfo.getRequestUri())
+                .build();
     }
 
 }

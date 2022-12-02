@@ -13,9 +13,11 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.randomcoder.website.bo.UserBusiness;
+import org.randomcoder.website.command.ChangePasswordCommand;
 import org.randomcoder.website.command.UserProfileCommand;
 import org.randomcoder.website.data.User;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.validation.ChangePasswordValidator;
 import org.randomcoder.website.validation.UserProfileValidator;
 import org.randomcoder.website.validation.ValidatorContext;
 
@@ -32,6 +34,9 @@ public class UserResource {
 
     @Inject
     UserProfileValidator userProfileValidator;
+
+    @Inject
+    ChangePasswordValidator changePasswordValidator;
 
     @Inject
     SecurityContext securityContext;
@@ -78,6 +83,46 @@ public class UserResource {
         userBusiness.updateUser(command, user.getId());
 
         return Response.status(Response.Status.FOUND).location(URI.create("/")).build();
+    }
+
+    @GET
+    @Path("profile/change-password")
+    public ThymeleafEntity changePassword() {
+        User user = userBusiness.findUserByNameEnabled(securityContext.getUserPrincipal().getName());
+
+        ChangePasswordCommand command = new ChangePasswordCommand();
+        command.setUser(user);
+        return new ThymeleafEntity("change-password")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>());
+    }
+
+    @POST
+    @Path("profile/change-password")
+    public Response changePasswordSubmit(
+            @BeanParam ChangePasswordCommand command, @FormParam("cancel") @DefaultValue("") String cancel) {
+
+        if (!"".equals(cancel)) {
+            return Response.status(Response.Status.FOUND).location(URI.create("/")).build();
+        }
+
+        User user = userBusiness.findUserByName(securityContext.getUserPrincipal().getName());
+        command.setUser(user);
+
+        ValidatorContext context = new ValidatorContext(headers.getLanguage());
+        changePasswordValidator.validate(context, command);
+
+        var errors = context.getErrors();
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("change-password")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors))
+                    .build();
+        }
+
+        userBusiness.changePassword(user.getUserName(), command.getPassword());
+
+        return Response.status(Response.Status.FOUND).location(URI.create("/user/profile")).build();
     }
 
 }

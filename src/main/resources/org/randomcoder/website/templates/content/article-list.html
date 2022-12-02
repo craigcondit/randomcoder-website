@@ -94,7 +94,7 @@
     <th:block th:unless="${summaryVisible}">
       <a name="comments"></a>
       <th:block th:each="commentDecorator : ${articleDecorator.comments}">
-        <th:block th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')') or commentDecorator.comment.visible}">
+        <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_COMMENTS') or commentDecorator.comment.visible}">
           <a th:name="${'comment-' + commentDecorator.comment.id}"></a>
           <div class="commentGroup">
             <div th:class="${'sectionHeading' + (commentDecorator.comment.visible ? '' : ' moderated')}">
@@ -118,22 +118,19 @@
               @ <th:block th:text="${#dates.format(commentDecorator.comment.creationDate, 'h:mm a')}">1:23 AM</th:block>
               :: <a th:href="${'#comment-' + #uris.escapePathSegment(commentDecorator.comment.id)}" th:text="${'#' + commentDecorator.comment.id}">comment id</a>
             </div>
-            <th:block th:if="${#authorization.expression('hasRole(''ROLE_MANAGE_COMMENTS'')')}">
+            <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_COMMENTS')}">
               <div class="sectionSubHeading">
                 <form class="link" method="POST" th:action="${'/comment/' + #uris.escapePathSegment(commentDecorator.comment.id) + '/approve'}">
                   <input type="hidden" name="_verb" value="DELETE" />
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <button th:class="${(commentDecorator.comment.visible ? '' : 'hidden ') + 'disapproveComment disapprove'}">Disapprove</button>
                 </form>            
                 <form class="link" method="POST" th:action="${'/comment/' + #uris.escapePathSegment(commentDecorator.comment.id) + '/approve'}">
                   <input type="hidden" name="_verb" value="PUT" />
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <button th:class="${(commentDecorator.comment.visible ? 'hidden ' : '') + 'approveComment approve'}">Approve</button>
                 </form>            
                 :: 
-                <form class="link" method="POST" th:action="${'/comment/' + #uris.escapePathSegment(commentDecorator.comment.id) + '/delete'">
+                <form class="link" method="POST" th:action="${'/comment/' + #uris.escapePathSegment(commentDecorator.comment.id) + '/delete'}">
                   <input type="hidden" name="_verb" value="DELETE" />
-                  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                   <button class="deleteComment delete">Delete</button>
                 </form>            
               </div>
