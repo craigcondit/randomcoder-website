@@ -1,6 +1,7 @@
 package org.randomcoder.website.data;
 
 public class ModerationException extends Exception {
+
     private static final long serialVersionUID = -4988739845210718490L;
 
     public ModerationException() {

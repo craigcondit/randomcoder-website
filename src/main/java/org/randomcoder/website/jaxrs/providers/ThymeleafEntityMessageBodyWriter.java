@@ -24,17 +24,11 @@ import java.nio.charset.StandardCharsets;
 @Produces(MediaType.TEXT_HTML)
 public class ThymeleafEntityMessageBodyWriter implements MessageBodyWriter<ThymeleafEntity> {
 
-    private static final Logger logger = LoggerFactory.getLogger(ThymeleafEntityMessageBodyWriter.class);
-
     @Inject
     public ITemplateEngine engine;
 
     @Inject
     public SecurityContext securityContext;
-
-    public ThymeleafEntityMessageBodyWriter() {
-        logger.info("Initializing Thymeleaf entity message body writer");
-    }
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {

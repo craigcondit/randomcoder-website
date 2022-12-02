@@ -13,7 +13,6 @@
   <div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit tag' : 'Add tag'}" />
   <div class="sectionContent">
     <form method="post" th:action="@{/tag/{mode}(mode=${mode})}" th:object="${command}">
-      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <th:block th:if="${#fields.hasErrors('global')}">
         <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
       </th:block>

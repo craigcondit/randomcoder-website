@@ -17,10 +17,11 @@ $(document).ready(function() {
 			return false;
 		}
 		var group = $(this).closest(".commentGroup").first();
+		var url = $(this).closest("form").get(0).action.replace(/\/delete$/, "");
+		console.log(url);
 		$.ajax({
 			type: "DELETE",
-			headers: { "X-CSRF-TOKEN": __csrf },
-			url: $(this).closest("form").get(0).action
+			url: $(this).closest("form").get(0).action.replace(/\/delete$/, "")
 		}).done(function(msg)
 		{
 			group.animate({ height: 0, opacity: 0}, "slow", function()
@@ -36,7 +37,6 @@ $(document).ready(function() {
 		var heading = $(this).closest(".sectionSubHeading").first();
 		$.ajax({
 			type: "PUT",
-			headers: { "X-CSRF-TOKEN": __csrf },
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{
@@ -52,7 +52,6 @@ $(document).ready(function() {
 		var heading = $(this).closest(".sectionSubHeading").first();
 		$.ajax({
 			type: "DELETE",
-			headers: { "X-CSRF-TOKEN": __csrf },
 			url: $(this).closest("form").get(0).action
 		}).done(function(msg)
 		{

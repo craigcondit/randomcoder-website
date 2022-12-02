@@ -9,7 +9,9 @@ import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.randomcoder.website.bo.UserBusiness;
@@ -46,6 +48,7 @@ public class UserResource {
 
     @GET
     @Path("profile")
+    @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity userProfile() {
         User user = userBusiness.findUserByName(securityContext.getUserPrincipal().getName());
         var command = new UserProfileCommand();
@@ -59,6 +62,7 @@ public class UserResource {
 
     @POST
     @Path("profile")
+    @Produces(MediaType.TEXT_HTML)
     public Response userProfileSubmit(
             @BeanParam UserProfileCommand command,
             @FormParam("cancel") @DefaultValue("") String cancel) {
@@ -87,6 +91,7 @@ public class UserResource {
 
     @GET
     @Path("profile/change-password")
+    @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity changePassword() {
         User user = userBusiness.findUserByNameEnabled(securityContext.getUserPrincipal().getName());
 
@@ -99,6 +104,7 @@ public class UserResource {
 
     @POST
     @Path("profile/change-password")
+    @Produces(MediaType.TEXT_HTML)
     public Response changePasswordSubmit(
             @BeanParam ChangePasswordCommand command, @FormParam("cancel") @DefaultValue("") String cancel) {
 

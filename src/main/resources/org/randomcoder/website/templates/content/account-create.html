@@ -7,7 +7,6 @@
 <div class="sectionHeading">Enter account details</div>
 <div class="sectionContent">
   <form th:object="${command}" method="post" th:action="@{/account/create}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     <div th:class="${'fields required' + (#fields.hasErrors('userName') ? ' error' : '')}">
       <div>
         <th:block th:if="${#fields.hasErrors('userName')}">
