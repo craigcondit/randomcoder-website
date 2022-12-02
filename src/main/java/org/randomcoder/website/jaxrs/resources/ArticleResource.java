@@ -4,7 +4,9 @@ import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.BeanParam;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
@@ -285,6 +287,27 @@ public class ArticleResource {
 
         return Response.status(Response.Status.FOUND)
                 .location(uriInfo.getRequestUri())
+                .build();
+    }
+
+    @DELETE
+    @Path("/article/id/{id}")
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    public void deleteArticle(@PathParam("id") long id) {
+        articleBusiness.deleteArticle(securityContext.getUserPrincipal().getName(), id);
+    }
+
+    @POST
+    @Path("/article/id/{id}/delete")
+    @RolesAllowed({Roles.POST_ARTICLES, Roles.MANAGE_ARTICLES})
+    public Response deleteArticleBrowser(@PathParam("id") long id, @FormParam("_verb") String verb) {
+        if (!"DELETE".equals(verb)) {
+            throw new BadRequestException();
+        }
+        articleBusiness.deleteArticle(securityContext.getUserPrincipal().getName(), id);
+        return Response
+                .status(Response.Status.FOUND)
+                .location(URI.create("/"))
                 .build();
     }
 

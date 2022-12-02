@@ -1,5 +1,5 @@
 <th:block th:fragment="articles(summaryVisible)">
-  <th:block th:each="articleDecorator : ${articles}">
+  <div class="article" th:each="articleDecorator : ${articles}">
     <div class="sectionHeading">
       <th:block th:text="${articleDecorator.article.title}"></th:block>
     </div>
@@ -46,9 +46,12 @@
         <a rel="permalink" class="permalink" th:href="${'/articles/' + #uris.escapePathSegment(articleDecorator.article.permalink)}">Permalink</a>
       </th:block>
       <th:block th:if="${security.username != null}">
-        <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_ARTICLES') or (#sets.contains(security.roles, 'ROLE_ARTICLE_POST') and security.username == articleDecorator.article.createdBy.userName)}">
+        <th:block th:if="${#sets.contains(security.roles, 'ROLE_MANAGE_ARTICLES') or (#sets.contains(security.roles, 'ROLE_POST_ARTICLES') and security.username == articleDecorator.article.createdBy.userName)}">
           :: <a class="edit" th:href="${'/article/edit?id=' + #uris.escapePathSegment(articleDecorator.article.id)}">Edit</a>
-          :: <a class="deleteArticle delete" th:href="${'/article/delete?id=' + #uris.escapePathSegment(articleDecorator.article.id)}">Delete</a>
+          :: <form class="link" method="POST" th:action="${'/article/id/' + #uris.escapePathSegment(articleDecorator.article.id) + '/delete'}">
+            <input type="hidden" name="_verb" value="DELETE" />
+            <button class="deleteArticle delete">Delete</button>
+          </form>
         </th:block>
       </th:block>
     </div>
@@ -148,6 +151,5 @@
         </th:block>
       </th:block>
     </th:block>
-    
-  </th:block>
+  </div>
 </th:block>

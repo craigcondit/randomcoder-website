@@ -49,7 +49,7 @@
         <th:block th:if="${
           #authorization.expression('hasRole(''ROLE_MANAGE_ARTICLES'')')
           or (
-            #authorization.expression('hasRole(''ROLE_ARTICLE_POST'')') and
+            #authorization.expression('hasRole(''ROLE_POST_ARTICLES'')') and
             #authentication.name == articleDecorator.article.createdByUser.userName
           )}">
           :: <a class="edit" th:href="@{/article/edit(id=${articleDecorator.article.id})}">Edit</a>
