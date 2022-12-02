@@ -12,9 +12,11 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.db.User;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.jaxrs.features.SecurityFeature;
+import org.randomcoder.website.jaxrs.util.CookieUtils;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 
 import java.net.URI;
@@ -29,6 +31,9 @@ public class LoginResource {
 
     @Inject
     UserBusiness userBusiness;
+
+    @Inject
+    UriInfo uriInfo;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -83,23 +88,16 @@ public class LoginResource {
                     .build();
         }
 
+        String domain = uriInfo.getRequestUri().getHost();
+
         // remove redirect cookie
-        var redirectCookie = new NewCookie
-                .Builder(SecurityFeature.REDIRECT_COOKIE)
-                .value("")
-                .expiry(new Date(0))
-                .httpOnly(true)
-                .build();
+        var redirectCookie = CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null);
 
         // generate token and store to session
         String token = userBusiness.generateAuthToken(user);
 
-        var authCookie = new NewCookie
-                .Builder(SecurityFeature.AUTH_COOKIE)
-                .value(token)
-                .expiry(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS))
-                .httpOnly(true)
-                .build();
+        var authCookie = CookieUtils.persistentCookie(
+                domain, SecurityFeature.AUTH_COOKIE, token, new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS));
 
         // TODO handle remember-me authentication
         // When using this, we should use a site-wide key with a longer expiration, rather than the per-instance key
@@ -113,20 +111,11 @@ public class LoginResource {
                 .build();
     }
 
-    static NewCookie[] clearAuthCookies() {
+    NewCookie[] clearAuthCookies() {
+        String domain = uriInfo.getRequestUri().getHost();
         return new NewCookie[]{
-                new NewCookie
-                        .Builder(SecurityFeature.REDIRECT_COOKIE)
-                        .value("")
-                        .expiry(new Date(0))
-                        .httpOnly(true)
-                        .build(),
-                new NewCookie
-                        .Builder(SecurityFeature.AUTH_COOKIE)
-                        .value("")
-                        .expiry(new Date(0))
-                        .httpOnly(true)
-                        .build()};
+                CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null),
+                CookieUtils.sessionCookie(domain, SecurityFeature.AUTH_COOKIE, null)};
     }
 
 }

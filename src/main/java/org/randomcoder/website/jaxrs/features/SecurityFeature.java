@@ -16,6 +16,7 @@ import jakarta.ws.rs.container.ResourceInfo;
 import jakarta.ws.rs.core.FeatureContext;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
+import org.randomcoder.website.jaxrs.util.CookieUtils;
 
 import java.io.IOException;
 import java.net.URI;
@@ -119,20 +120,16 @@ public class SecurityFeature implements DynamicFeature {
                 // If the request was *not* a GET, we need to clear the saved URL so that the login response
                 // will redirect back to the original page.
 
-                var cookieBuilder = new NewCookie
-                        .Builder(REDIRECT_COOKIE)
-                        .httpOnly(true);
+                String domain = context.getUriInfo().getRequestUri().getHost();
 
-                if (isGet(context)) {
-                    cookieBuilder.value(context.getUriInfo().getRequestUri().toString());
-                } else {
-                    cookieBuilder.value("");
-                    cookieBuilder.expiry(new Date(0L));
-                }
+                var redirectCookie = CookieUtils.sessionCookie(domain, REDIRECT_COOKIE,
+                        isGet(context) ? context.getUriInfo().getRequestUri().toString() : null);
+
+                var authCookie = CookieUtils.sessionCookie(domain, AUTH_COOKIE, null);
 
                 var response = Response.status(Response.Status.FOUND)
                         .location(LOGIN_URI)
-                        .cookie(cookieBuilder.build())
+                        .cookie(authCookie, redirectCookie)
                         .build();
 
                 context.abortWith(response);

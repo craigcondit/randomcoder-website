@@ -45,6 +45,7 @@ import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
 import org.randomcoder.website.validation.CommentValidator;
+import org.randomcoder.website.validation.UserProfileValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.ITemplateEngine;
@@ -88,6 +89,13 @@ public class WebSiteApplication extends ResourceConfig {
     }
 
     private class AppBinder extends AbstractBinder {
+
+        private void singletons(Class<?>... classes) {
+            for (Class<?> clazz : classes) {
+                bind(clazz).to(clazz).in(Singleton.class);
+            }
+        }
+
         @Override
         protected void configure() {
             try {
@@ -100,12 +108,10 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(contentFilter()).to(ContentFilter.class);
 
                 // controllers
-                bind(HomeController.class).to(HomeController.class).in(Singleton.class);
-                bind(ArticleTagListController.class).to(ArticleTagListController.class).in(Singleton.class);
-                bind(ArticleController.class).to(ArticleController.class).in(Singleton.class);
+                singletons(HomeController.class, ArticleTagListController.class, ArticleController.class);
 
                 // validators
-                bind(CommentValidator.class).to(CommentValidator.class).in(Singleton.class);
+                singletons(CommentValidator.class, UserProfileValidator.class);
 
                 // business objects
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
@@ -120,6 +126,7 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(RoleDaoImpl.class).to(RoleDao.class).in(Singleton.class);
                 bind(TagDaoImpl.class).to(TagDao.class).in(Singleton.class);
                 bind(UserDaoImpl.class).to(UserDao.class).in(Singleton.class);
+
             } catch (Exception e) {
                 logger.error("Error during initialization", e);
                 throw new RuntimeException(e);
