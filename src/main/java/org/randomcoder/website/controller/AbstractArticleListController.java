@@ -8,10 +8,7 @@ import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.contentfilter.ContentFilter;
 import org.randomcoder.website.data.Article;
 import org.randomcoder.website.data.Page;
-import org.randomcoder.website.model.ArticleDecorator;
-import org.randomcoder.website.model.CalendarInfo;
-import org.randomcoder.website.model.PagerInfo;
-import org.randomcoder.website.model.TagCloudEntry;
+import org.randomcoder.website.model.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,17 +49,9 @@ abstract public class AbstractArticleListController<T> {
         Map<String, Object> model = new HashMap<>();
 
         // set range and sort order
-        long length = getLongQueryParam(uriInfo, PARAM_PAGE_SIZE, 10);
-        long page = getLongQueryParam(uriInfo, PARAM_PAGE_NUMBER, 0);
-        if (length > maximumPageSize) {
-            length = maximumPageSize;
-            page = 0;
-        }
-        if (length < 1) {
-            length = 1;
-            page = 0;
-        }
-        long offset = page * length;
+        var oal = PageUtils.parsePagination(uriInfo, 10, maximumPageSize);
+        long offset = oal.offset();
+        long length = oal.length();
 
         // get current month
         Calendar currentMonth = Calendar.getInstance();

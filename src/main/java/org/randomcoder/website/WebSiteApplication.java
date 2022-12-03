@@ -114,6 +114,8 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getLongOrDefault(Config.ARTICLE_PAGESIZE_MAX, 50)).named(Config.ARTICLE_PAGESIZE_MAX).to(Long.class);
                 bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
                 bind(config.getIntOrDefault(Config.ARTICLE_MAX_SUMMARY_LENGTH, 1000)).named(Config.ARTICLE_MAX_SUMMARY_LENGTH).to(Integer.class);
+                bind(config.getIntOrDefault(Config.USER_PAGESIZE_MAX, 100)).named(Config.USER_PAGESIZE_MAX).to(Integer.class);
+                bind(config.getIntOrDefault(Config.ARTICLE_PAGESIZE_MAX, 100)).named(Config.ARTICLE_PAGESIZE_MAX).to(Integer.class);
 
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);

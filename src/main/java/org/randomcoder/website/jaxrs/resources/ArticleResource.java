@@ -3,6 +3,7 @@ package org.randomcoder.website.jaxrs.resources;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.BeanParam;
@@ -21,6 +22,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
+import org.randomcoder.website.Config;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.command.ArticleAddCommand;
@@ -94,6 +96,10 @@ public class ArticleResource {
     @Inject
     HttpServletRequest request;
 
+    @Inject
+    @Named(Config.ARTICLE_PAGESIZE_MAX)
+    int articlePageSizeMax = 100;
+
     @GET
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity home() {
@@ -104,7 +110,12 @@ public class ArticleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Page<Article> articlesApi(
             @QueryParam("offset") @DefaultValue("0") long offset,
-            @QueryParam("length") @DefaultValue("50") long length) {
+            @QueryParam("length") @DefaultValue("10") long length) {
+
+        if (length > articlePageSizeMax) {
+            length = articlePageSizeMax;
+            offset = 0;
+        }
 
         var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
         return articleBusiness.listArticlesBeforeDate(cutoffDate, offset, length);
@@ -123,7 +134,12 @@ public class ArticleResource {
     public Page<Article> articlesByTagApi(
             @PathParam("tagName") String tagName,
             @QueryParam("offset") @DefaultValue("0") long offset,
-            @QueryParam("length") @DefaultValue("50") long length) {
+            @QueryParam("length") @DefaultValue("10") long length) {
+
+        if (length > articlePageSizeMax) {
+            length = articlePageSizeMax;
+            offset = 0;
+        }
 
         Tag tag = tagBusiness.findTagByName(tagName);
         if (tag == null) {
