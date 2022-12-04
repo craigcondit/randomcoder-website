@@ -6,6 +6,7 @@ import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.*;
+import org.randomcoder.website.command.UserAddCommand;
 import org.randomcoder.website.Config;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.command.ChangePasswordCommand;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 
 @Singleton
 @RolesAllowed("*")
-@Path("/user")
+@Path("")
 public class UserResource {
 
     @Inject
@@ -51,7 +52,7 @@ public class UserResource {
     int userPageSizeMax = 100;
 
     @GET
-    @Path("profile")
+    @Path("user/profile")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity userProfile() {
         User user = userBusiness.findUserByName(securityContext.getUserPrincipal().getName());
@@ -65,7 +66,7 @@ public class UserResource {
     }
 
     @POST
-    @Path("profile")
+    @Path("user/profile")
     @Produces(MediaType.TEXT_HTML)
     public Response userProfileSubmit(
             @BeanParam UserProfileCommand command,
@@ -94,7 +95,7 @@ public class UserResource {
     }
 
     @GET
-    @Path("profile/change-password")
+    @Path("user/profile/change-password")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity changePassword() {
         User user = userBusiness.findUserByNameEnabled(securityContext.getUserPrincipal().getName());
@@ -107,7 +108,7 @@ public class UserResource {
     }
 
     @POST
-    @Path("profile/change-password")
+    @Path("user/profile/change-password")
     @Produces(MediaType.TEXT_HTML)
     public Response changePasswordSubmit(
             @BeanParam ChangePasswordCommand command, @FormParam("cancel") @DefaultValue("") String cancel) {
@@ -137,6 +138,7 @@ public class UserResource {
 
     @GET
     @RolesAllowed(Roles.MANAGE_USERS)
+    @Path("user")
     public ThymeleafEntity listUsers() {
 
         var oal = PageUtils.parsePagination(uriInfo, 25, userPageSizeMax);
@@ -147,7 +149,20 @@ public class UserResource {
 
         return new ThymeleafEntity("user-list")
                 .withVariable("users", users)
-                        .withVariable("pageerInfo", new PagerInfo<>(users, uriInfo));
+                .withVariable("pagerInfo", new PagerInfo<>(users, uriInfo));
+    }
+
+    @GET
+    @Path("user/add")
+    @RolesAllowed(Roles.MANAGE_USERS)
+    public ThymeleafEntity addUser() {
+        var command = new UserAddCommand();
+        command.setEnabled(true);
+
+        return new ThymeleafEntity("user-add")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>())
+                .withVariable("availableRoles", userBusiness.listRoles());
     }
 
 }
