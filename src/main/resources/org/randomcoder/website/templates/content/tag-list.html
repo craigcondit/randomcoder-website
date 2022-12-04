@@ -3,12 +3,15 @@
   <a class="add" href="/tag/add">Add new tag</a> :: <a href="/">Done</a>
 </div>
 <div class="sectionContentFull">
-  <div th:each="tagStat,status : ${pager.content}" th:class="${status.even ? 'even' : 'odd'}">
+  <div th:each="tagStat,status : ${tags.content}" th:class="${status.even ? 'even' : 'odd'}">
     <div class="actions">
-      <a class="edit" th:href="${'/tag/edit?id=' + #uris.escapePathSegment(tagStat.tag.id)}">Edit</a> :: <a class="delete"
-        th:href="${'/tag/delete?id=' + #uris.escapePathSegment(tagStat.tag.id)}">Delete</a>
+      <a class="edit" th:href="${'/tag/edit?id=' + #uris.escapePathSegment(tagStat.tag.id)}">Edit</a> ::
+      <form class="link" method="POST" action="/tag/delete">
+        <input type="hidden" name="id" th:value="${tagStat.tag.id}" />
+        <button class="delete">Delete</button>
+      </form>
     </div>
-    <a th:href="${'/tag/edit?id=' + #uris.escapePathSegment(tagStat.tag.id}"><strong th:text="${tagStat.tag.displayName}" /></a>
+    <a th:href="${'/tag/edit?id=' + #uris.escapePathSegment(tagStat.tag.id)}"><strong th:text="${tagStat.tag.displayName}" /></a>
     <th:block th:text="${'(' + tagStat.articleCount + ')'}" />
   </div>
 </div>

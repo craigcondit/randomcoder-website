@@ -49,6 +49,8 @@ import org.randomcoder.website.validation.ArticleAddValidator;
 import org.randomcoder.website.validation.ArticleEditValidator;
 import org.randomcoder.website.validation.ChangePasswordValidator;
 import org.randomcoder.website.validation.CommentValidator;
+import org.randomcoder.website.validation.TagAddValidator;
+import org.randomcoder.website.validation.TagEditValidator;
 import org.randomcoder.website.validation.UserAddValidator;
 import org.randomcoder.website.validation.UserEditValidator;
 import org.randomcoder.website.validation.UserProfileValidator;
@@ -121,6 +123,7 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getIntOrDefault(Config.ARTICLE_PAGESIZE_MAX, 100)).named(Config.ARTICLE_PAGESIZE_MAX).to(Integer.class);
                 bind(config.getIntOrDefault(Config.USERNAME_LENGTH_MINIMUM, 3)).named(Config.USERNAME_LENGTH_MINIMUM).to(Integer.class);
                 bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
+                bind(config.getIntOrDefault(Config.TAG_PAGESIZE_MAX, 100)).named(Config.TAG_PAGESIZE_MAX).to(Integer.class);
 
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
@@ -141,7 +144,9 @@ public class WebSiteApplication extends ResourceConfig {
                         ChangePasswordValidator.class,
                         UserAddValidator.class,
                         UserEditValidator.class,
-                        AccountCreateValidator.class);
+                        AccountCreateValidator.class,
+                        TagAddValidator.class,
+                        TagEditValidator.class);
 
                 // business objects - immediate
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
