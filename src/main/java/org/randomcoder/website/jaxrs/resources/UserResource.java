@@ -4,12 +4,22 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.*;
-import org.randomcoder.website.command.UserAddCommand;
+import jakarta.ws.rs.BeanParam;
+import jakarta.ws.rs.DefaultValue;
+import jakarta.ws.rs.FormParam;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.Config;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.command.ChangePasswordCommand;
+import org.randomcoder.website.command.UserAddCommand;
 import org.randomcoder.website.command.UserProfileCommand;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.User;
@@ -18,6 +28,8 @@ import org.randomcoder.website.model.PagerInfo;
 import org.randomcoder.website.model.Roles;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
 import org.randomcoder.website.validation.ChangePasswordValidator;
+import org.randomcoder.website.validation.UserAddValidator;
+import org.randomcoder.website.validation.UserEditValidator;
 import org.randomcoder.website.validation.UserProfileValidator;
 import org.randomcoder.website.validation.ValidatorContext;
 
@@ -37,6 +49,12 @@ public class UserResource {
 
     @Inject
     ChangePasswordValidator changePasswordValidator;
+
+    @Inject
+    UserAddValidator userAddValidator;
+
+    @Inject
+    UserEditValidator userEditValidator;
 
     @Inject
     SecurityContext securityContext;
@@ -163,6 +181,28 @@ public class UserResource {
                 .withVariable("command", command)
                 .withVariable("errors", new HashMap<>())
                 .withVariable("availableRoles", userBusiness.listRoles());
+    }
+
+    @POST
+    @Path("user/add")
+    @RolesAllowed(Roles.MANAGE_USERS)
+    public Response addUserSubmit(@BeanParam UserAddCommand command) {
+        ValidatorContext context = new ValidatorContext(headers.getLanguage());
+        userAddValidator.validate(context, command);
+        var errors = context.getErrors();
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("user-add")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors)
+                            .withVariable("availableRoles", userBusiness.listRoles()))
+                    .build();
+        }
+
+        userBusiness.createUser(command);
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create("/user"))
+                .build();
     }
 
 }

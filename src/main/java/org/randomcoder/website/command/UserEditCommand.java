@@ -1,11 +1,7 @@
 package org.randomcoder.website.command;
 
 import jakarta.ws.rs.FormParam;
-import org.randomcoder.db.Role;
-import org.randomcoder.db.User;
-import org.randomcoder.io.Consumer;
-
-import java.util.List;
+import org.randomcoder.website.data.User;
 
 public class UserEditCommand extends UserAddCommand {
 

@@ -4,12 +4,14 @@ import jakarta.ws.rs.FormParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.randomcoder.db.Role;
-import org.randomcoder.db.User;
-import org.randomcoder.io.Producer;
+import org.randomcoder.website.data.Role;
+import org.randomcoder.website.data.User;
 
-import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class UserAddCommand implements Consumer<User> {
@@ -21,19 +23,14 @@ public class UserAddCommand implements Consumer<User> {
     private String password;
     private String password2;
 
-    private Role[] roles;
+    private List<Role> roles = new ArrayList<>();
 
     public void load(User user) {
         setUserName(user.getUserName());
         setEmailAddress(user.getEmailAddress());
         setWebsite(user.getWebsite());
         setEnabled(user.isEnabled());
-
-        List<Role> roleList = user.getRoles();
-        Role[] roleArray = new Role[roleList.size()];
-        roleList.toArray(roleArray);
-
-        setRoles(roleArray);
+        setRoles(user.getRoles());
     }
 
     public String getUserName() {
@@ -90,13 +87,13 @@ public class UserAddCommand implements Consumer<User> {
         this.password2 = password2;
     }
 
-    public Role[] getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
     @FormParam("roles")
-    public void setRoles(Role[] roles) {
-        this.roles = roles;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles == null ? new ArrayList<>() : roles;
     }
 
     @Override
@@ -120,7 +117,7 @@ public class UserAddCommand implements Consumer<User> {
         Set<Role> currentRoles = new HashSet<>(user.getRoles());
         Set<Role> selectedRoles = new HashSet<>();
         if (roles != null) {
-            selectedRoles.addAll(Arrays.asList(roles));
+            selectedRoles.addAll(roles);
         }
 
         // get list of deleted roles (current - selected)

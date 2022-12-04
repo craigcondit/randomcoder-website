@@ -9,11 +9,12 @@ public final class CookieUtils {
     private CookieUtils() {
     }
 
-    public static NewCookie sessionCookie(String domain, String name, String value) {
+    public static NewCookie sessionCookie(String domain, String name, String value, boolean secure) {
         var builder = new NewCookie.Builder(name)
                 .httpOnly(true)
                 .domain(domain)
                 .sameSite(NewCookie.SameSite.STRICT)
+                .secure(secure)
                 .path("/");
 
         if (value == null) {
@@ -23,11 +24,12 @@ public final class CookieUtils {
         return builder.value(value).build();
     }
 
-    public static NewCookie persistentCookie(String domain, String name, String value, Date expiry) {
+    public static NewCookie persistentCookie(String domain, String name, String value, Date expiry, boolean secure) {
         var builder = new NewCookie.Builder(name)
                 .httpOnly(true)
                 .domain(domain)
                 .sameSite(NewCookie.SameSite.STRICT)
+                .secure(secure)
                 .path("/");
 
         if (value == null) {

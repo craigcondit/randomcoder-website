@@ -90,14 +90,16 @@ public class LoginResource {
 
         String domain = uriInfo.getRequestUri().getHost();
 
+        boolean secure = "https".equals(uriInfo.getRequestUri().getScheme());
+
         // remove redirect cookie
-        var redirectCookie = CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null);
+        var redirectCookie = CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null, secure);
 
         // generate token and store to session
         String token = userBusiness.generateAuthToken(user);
 
         var authCookie = CookieUtils.persistentCookie(
-                domain, SecurityFeature.AUTH_COOKIE, token, new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS));
+                domain, SecurityFeature.AUTH_COOKIE, token, new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS), secure);
 
         // TODO handle remember-me authentication
         // When using this, we should use a site-wide key with a longer expiration, rather than the per-instance key
@@ -113,9 +115,10 @@ public class LoginResource {
 
     NewCookie[] clearAuthCookies() {
         String domain = uriInfo.getRequestUri().getHost();
+        boolean secure = "https".equals(uriInfo.getRequestUri().getScheme());
         return new NewCookie[]{
-                CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null),
-                CookieUtils.sessionCookie(domain, SecurityFeature.AUTH_COOKIE, null)};
+                CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null, secure),
+                CookieUtils.sessionCookie(domain, SecurityFeature.AUTH_COOKIE, null, secure)};
     }
 
 }

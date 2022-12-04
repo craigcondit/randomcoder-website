@@ -122,10 +122,14 @@ public class SecurityFeature implements DynamicFeature {
 
                 String domain = context.getUriInfo().getRequestUri().getHost();
 
-                var redirectCookie = CookieUtils.sessionCookie(domain, REDIRECT_COOKIE,
-                        isGet(context) ? context.getUriInfo().getRequestUri().toString() : null);
+                boolean secure = "https".equals(context.getUriInfo().getRequestUri().getScheme());
+                var redirectCookie = CookieUtils.sessionCookie(
+                        domain,
+                        REDIRECT_COOKIE,
+                        isGet(context) ? context.getUriInfo().getRequestUri().toString() : null,
+                        secure);
 
-                var authCookie = CookieUtils.sessionCookie(domain, AUTH_COOKIE, null);
+                var authCookie = CookieUtils.sessionCookie(domain, AUTH_COOKIE, null, secure);
 
                 var response = Response.status(Response.Status.FOUND)
                         .location(LOGIN_URI)

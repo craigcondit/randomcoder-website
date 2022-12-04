@@ -107,8 +107,11 @@
           </th:block>
         </div>
         <div>
-          <label for="roles">Roles:</label> <select multiple="true" size="5" name="roles" id="roles" th:value="${command.roles}">
-            <option th:each="availableRole : ${availableRoles}" th:text="${availableRole.description}" th:value="${availableRole.name}" />
+          <label for="roles">Roles:</label> <select multiple="true" size="5" name="roles" id="roles">
+            <option th:each="availableRole : ${availableRoles}"
+                    th:text="${availableRole.description}"
+                    th:attrappend="selected=${#lists.contains(command.roles, availableRole)}?selected"
+                    th:value="${availableRole.name}" />
           <select>
         </div>
         <div class="description">Select security roles to apply to this user. Use 'Ctrl' to select multiple roles.</div>

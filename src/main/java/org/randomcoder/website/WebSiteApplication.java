@@ -44,11 +44,7 @@ import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
-import org.randomcoder.website.validation.ArticleAddValidator;
-import org.randomcoder.website.validation.ArticleEditValidator;
-import org.randomcoder.website.validation.ChangePasswordValidator;
-import org.randomcoder.website.validation.CommentValidator;
-import org.randomcoder.website.validation.UserProfileValidator;
+import org.randomcoder.website.validation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.ITemplateEngine;
@@ -116,6 +112,8 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getIntOrDefault(Config.ARTICLE_MAX_SUMMARY_LENGTH, 1000)).named(Config.ARTICLE_MAX_SUMMARY_LENGTH).to(Integer.class);
                 bind(config.getIntOrDefault(Config.USER_PAGESIZE_MAX, 100)).named(Config.USER_PAGESIZE_MAX).to(Integer.class);
                 bind(config.getIntOrDefault(Config.ARTICLE_PAGESIZE_MAX, 100)).named(Config.ARTICLE_PAGESIZE_MAX).to(Integer.class);
+                bind(config.getIntOrDefault(Config.USERNAME_LENGTH_MINIMUM, 3)).named(Config.USERNAME_LENGTH_MINIMUM).to(Integer.class);
+                bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
 
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
@@ -125,15 +123,17 @@ public class WebSiteApplication extends ResourceConfig {
                 singletons(
                         HomeController.class,
                         ArticleTagListController.class,
-                        ArticleController.class,
-                        ChangePasswordValidator.class);
+                        ArticleController.class);
 
                 // validators
                 singletons(
                         CommentValidator.class,
                         UserProfileValidator.class,
                         ArticleAddValidator.class,
-                        ArticleEditValidator.class);
+                        ArticleEditValidator.class,
+                        ChangePasswordValidator.class,
+                        UserAddValidator.class,
+                        UserEditValidator.class);
 
                 // business objects - immediate
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
