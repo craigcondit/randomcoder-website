@@ -1,21 +1,19 @@
-<th:block th:object="${command}">
-  <th:block th:if="${#fields.hasErrors('global')}">
-    <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
-  </th:block>
+<th:block th:if="${errors.global != null}">
+  <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
 </th:block>
 
 <div class="sectionHeading">Enter account details</div>
 <div class="sectionContent">
-  <form th:object="${command}" method="post" th:action="@{/account/create}">
-    <div th:class="${'fields required' + (#fields.hasErrors('userName') ? ' error' : '')}">
+  <form method="post" action="/account/create">
+    <div th:class="${'fields required' + (errors.userName == null ? '' : ' error')}">
       <div>
-        <th:block th:if="${#fields.hasErrors('userName')}">
-          <span class="error" th:each="err : ${#fields.errors('userName')}" th:text="${err}">error</span>
+        <th:block th:if="${errors.userName != null}">
+          <span class="error" th:each="err : ${errors.userName}" th:text="${err}">error</span>
         </th:block>
       </div>
       <div>
         <label for="userName">User name:</label> <input type="text" name="userName" class="text focusFirst" id="userNameText"
-          maxlength="30" th:field="${command.userName}" />
+          maxlength="30" th:value="${command.userName}" />
       </div>
       <div class="description">
         Enter a user name for your new account.<br /> This will be your public identity on this site.
@@ -24,54 +22,54 @@
 
     <c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if>
     </c:set>
-    <div th:class="${'fields required' + (#fields.hasErrors('password') ? ' error' : '')}">
+    <div th:class="${'fields required' + (errors.password == null ? '' : ' error')}">
       <div>
-        <th:block th:if="${#fields.hasErrors('password')}">
-          <span class="error" th:each="err : ${#fields.errors('password')}" th:text="${err}">error</span>
+        <th:block th:if="${errors.password != null}">
+          <span class="error" th:each="err : ${errors.password}" th:text="${err}">error</span>
         </th:block>
       </div>
       <div>
         <label for="password">Password:</label> <input type="password" name="password" class="text" id="password"
-          th:field="${command.password}" />
+          th:value="${command.password}" />
       </div>
       <div class="description">Enter a password for your account.</div>
     </div>
 
-    <div th:class="${'fields required' + (#fields.hasErrors('password2') ? ' error' : '')}">
+    <div th:class="${'fields required' + (errors.password2 == null ? '' : ' error')}">
       <div>
-        <th:block th:if="${#fields.hasErrors('password2')}">
-          <span class="error" th:each="err : ${#fields.errors('password2')}" th:text="${err}">error</span>
+        <th:block th:if="${errors.password2 != null}">
+          <span class="error" th:each="err : ${errors.password2}" th:text="${err}">error</span>
         </th:block>
       </div>
       <div>
         <label for="password2">Password (again):</label> <input type="password" name="password2" class="text" id="password2"
-          th:field="${command.password2}" />
+          th:value="${command.password2}" />
       </div>
       <div class="description">Enter your password again for verification.</div>
     </div>
 
-    <div th:class="${'fields required' + (#fields.hasErrors('emailAddress') ? ' error' : '')}">
+    <div th:class="${'fields required' + (errors.emailAddress == null ? '' : ' error')}">
       <div>
-        <th:block th:if="${#fields.hasErrors('emailAddress')}">
-          <span class="error" th:each="err : ${#fields.errors('emailAddress')}" th:text="${err}">error</span>
+        <th:block th:if="${errors.emailAddress != null}">
+          <span class="error" th:each="err : ${errors.emailAddress}" th:text="${err}">error</span>
         </th:block>
       </div>
       <div>
         <label for="emailAddress">Email address:</label> <input type="text" name="emailAddress" class="text" id="emailAddress"
-          maxlength="320" th:field="${command.emailAddress}" />
+          maxlength="320" th:value="${command.emailAddress}" />
       </div>
       <div class="description">Enter your email address. This will not be shown publicly.</div>
     </div>
 
-    <div th:class="${'fields' + (#fields.hasErrors('website') ? ' error' : '')}">
+    <div th:class="${'fields' + (errors.website == null ? '' : ' error')}">
       <div>
-        <th:block th:if="${#fields.hasErrors('website')}">
-          <span class="error" th:each="err : ${#fields.errors('website')}" th:text="${err}">error</span>
+        <th:block th:if="${errors.website != null}">
+          <span class="error" th:each="err : ${errors.website}" th:text="${err}">error</span>
         </th:block>
       </div>
       <div>
         <label for="website">Web site:</label> <input type="text" name="website" class="text" id="website" maxlength="255"
-          th:field="${command.website}" />
+          th:value="${command.website}" />
       </div>
       <div class="description">Enter the URL of your web site, if you have one.</div>
     </div>

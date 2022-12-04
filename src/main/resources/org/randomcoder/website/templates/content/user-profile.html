@@ -1,7 +1,5 @@
-<th:block th:object="${command}">
-  <th:block th:if="${errors.global != null}">
-    <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
-  </th:block>
+<th:block th:if="${errors.global != null}">
+  <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
 </th:block>
 
 <div class="sectionHeading">My profile</div>

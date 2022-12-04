@@ -12,21 +12,21 @@
   </c:choose>
   <div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit tag' : 'Add tag'}" />
   <div class="sectionContent">
-    <form method="post" th:action="@{/tag/{mode}(mode=${mode})}" th:object="${command}">
-      <th:block th:if="${#fields.hasErrors('global')}">
-        <div class="globalError" th:each="err : ${#fields.errors('global')}" th:text="${err}">Invalid input</div>
+    <form method="post" th:action="${'/tag/' + mode}">
+      <th:block th:if="${errors.global != null}">
+        <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
       </th:block>
 
       <th:block th:if="${mode == 'add'}">
-        <div th:class="${'fields required' + (#fields.hasErrors('name') ? ' error' : '')}">
+        <div th:class="${'fields required' + (errors.name == null ? '' : ' error')}">
           <div>
-            <th:block th:if="${#fields.hasErrors('name')}">
-              <span class="error" th:each="err : ${#fields.errors('name')}" th:text="${err}">error</span>
+            <th:block th:if="${errors.name != null}">
+              <span class="error" th:each="err : ${errors.name}" th:text="${err}">error</span>
             </th:block>
           </div>
           <div>
             <label for="tagName">Tag name:</label> <input type="text" name="name" class="text focusFirst" id="tagName" maxlength="255"
-              th:field="${command.name}" />
+              th:value="${command.name}" />
           </div>
           <div class="description">Enter a unique name for the new tag.</div>
         </div>
@@ -38,15 +38,15 @@
           </div>
         </div>
       </th:block>
-      <div th:class="${'fields required' + (#fields.hasErrors('displayName') ? ' error' : '')}">
+      <div th:class="${'fields required' + (errors.displayName == null ? '' : ' error')}">
         <div>
-          <th:block th:if="${#fields.hasErrors('displayName')}">
-            <span class="error" th:each="err : ${#fields.errors('displayName')}" th:text="${err}">error</span>
+          <th:block th:if="${errors.displayName != null}">
+            <span class="error" th:each="err : ${errors.displayName}" th:text="${err}">error</span>
           </th:block>
         </div>
         <div>
           <label for="displayName">Display name:</label> <input type="text" name="displayName" class="text focusFirst" id="displayName"
-            maxlength="255" th:field="${command.displayName}" />
+            maxlength="255" th:value="${command.displayName}" />
         </div>
         <div class="description">Enter a friendly name for this tag.</div>
       </div>
