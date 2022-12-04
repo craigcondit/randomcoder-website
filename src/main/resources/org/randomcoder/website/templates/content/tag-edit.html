@@ -1,15 +1,4 @@
 <th:block th:fragment="edit(mode)">
-  <c:url var="formAction" value="${template.formAction}" />
-  <c:choose>
-    <c:when test="${template.formMode == 'edit'}">
-      <c:set var="headingText" value="Edit tag" />
-      <c:set var="displayNameClass" value="focusFirst " />
-    </c:when>
-    <c:otherwise>
-      <c:set var="headingText" value="Add tag" />
-      <c:set var="displayNameClass" value="" />
-    </c:otherwise>
-  </c:choose>
   <div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit tag' : 'Add tag'}" />
   <div class="sectionContent">
     <form method="post" th:action="${'/tag/' + mode}">
