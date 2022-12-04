@@ -3,3 +3,7 @@ Disallow: /login
 Disallow: /j_security_check
 Disallow: /logout
 Disallow: /login-error
+Disallow: /tag
+Disallow: /account
+Disallow: /tags
+Disallow: /user
