@@ -11,6 +11,7 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -20,6 +21,7 @@ import org.randomcoder.website.Config;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.command.ChangePasswordCommand;
 import org.randomcoder.website.command.UserAddCommand;
+import org.randomcoder.website.command.UserEditCommand;
 import org.randomcoder.website.command.UserProfileCommand;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.User;
@@ -186,7 +188,15 @@ public class UserResource {
     @POST
     @Path("user/add")
     @RolesAllowed(Roles.MANAGE_USERS)
-    public Response addUserSubmit(@BeanParam UserAddCommand command) {
+    public Response addUserSubmit(
+            @BeanParam UserAddCommand command,
+            @FormParam("cancel") String cancel) {
+        if (cancel != null) {
+            return Response.status(Response.Status.FOUND)
+                    .location(URI.create("/user"))
+                    .build();
+        }
+
         ValidatorContext context = new ValidatorContext(headers.getLanguage());
         userAddValidator.validate(context, command);
         var errors = context.getErrors();
@@ -199,6 +209,64 @@ public class UserResource {
         }
 
         userBusiness.createUser(command);
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create("/user"))
+                .build();
+    }
+
+    @GET
+    @Path("user/edit")
+    @RolesAllowed(Roles.MANAGE_USERS)
+    public ThymeleafEntity editUser(@QueryParam("id") long id) {
+        var command = new UserEditCommand();
+        userBusiness.loadUserForEditing(command::load, id);
+
+        return new ThymeleafEntity("user-edit")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>())
+                .withVariable("availableRoles", userBusiness.listRoles());
+    }
+
+    @POST
+    @Path("user/edit")
+    @RolesAllowed(Roles.MANAGE_USERS)
+    public Response editUserSubmit(
+            @QueryParam("id") long id,
+            @BeanParam UserEditCommand command,
+            @FormParam("cancel") String cancel) {
+
+        if (cancel != null) {
+            return Response.status(Response.Status.FOUND)
+                    .location(URI.create("/user"))
+                    .build();
+        }
+
+        command.setId(id);
+
+        ValidatorContext context = new ValidatorContext(headers.getLanguage());
+        userEditValidator.validate(context, command);
+        var errors = context.getErrors();
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("user-edit")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors)
+                            .withVariable("availableRoles", userBusiness.listRoles()))
+                    .build();
+        }
+
+        userBusiness.updateUser(command, id);
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create("/user"))
+                .build();
+    }
+
+    @POST
+    @Path("user/delete")
+    @RolesAllowed(Roles.MANAGE_USERS)
+    public Response deleteUser(@FormParam("id") long id) {
+        userBusiness.deleteUser(id);
 
         return Response.status(Response.Status.FOUND)
                 .location(URI.create("/user"))

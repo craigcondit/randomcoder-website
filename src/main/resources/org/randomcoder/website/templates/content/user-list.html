@@ -7,7 +7,11 @@
   <th:block th:each="user,status : ${users.content}">
     <div th:class="${status.even ? 'even' : 'odd'}">
       <div class="actions">
-        <a class="edit" th:href="${'/user/edit?id=' + #uris.escapePathSegment(user.id)}">Edit</a> :: <a class="delete" th:href="${'/user/delete?id=' + #uris.escapePathSegment(user.id)}">Delete</a>
+        <a class="edit" th:href="${'/user/edit?id=' + #uris.escapePathSegment(user.id)}">Edit</a> :: 
+        <form class="link" method="POST" action="/user/delete">
+	  <input type="hidden" name="id" th:value="${user.id}" />
+          <button class="delete">Delete</button>
+        </form>
       </div>
       <th:block th:if="${user.enabled}">
         <a th:href="${'/user/edit?id=' + #uris.escapePathSegment(user.id)}"><strong th:text="${user.userName}">username</strong></a>

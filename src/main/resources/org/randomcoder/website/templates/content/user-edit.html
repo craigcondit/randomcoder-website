@@ -1,7 +1,7 @@
 <th:block th:fragment="edit(mode)">
   <div class="sectionHeading" th:text="${(mode == 'edit') ? 'Edit user' : 'Add user'}" />
   <div class="sectionContent">
-    <form method="post" th:action="${'/user/' + mode}">
+    <form method="post" th:action="${(mode == 'edit') ? ('/user/edit?id=' + #uris.escapePathSegment(command.id)) : '/user/add'}">
       <th:block th:if="${errors.global != null}">
         <div class="globalError" th:each="err : ${errors.global}" th:text="${err}">Invalid input</div>
       </th:block>
