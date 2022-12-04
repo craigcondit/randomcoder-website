@@ -1,5 +1,6 @@
 package org.randomcoder.website.jaxrs.resources;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -19,6 +20,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import org.randomcoder.website.Config;
 import org.randomcoder.website.bo.UserBusiness;
+import org.randomcoder.website.command.AccountCreateCommand;
 import org.randomcoder.website.command.ChangePasswordCommand;
 import org.randomcoder.website.command.UserAddCommand;
 import org.randomcoder.website.command.UserEditCommand;
@@ -29,6 +31,7 @@ import org.randomcoder.website.model.PageUtils;
 import org.randomcoder.website.model.PagerInfo;
 import org.randomcoder.website.model.Roles;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
+import org.randomcoder.website.validation.AccountCreateValidator;
 import org.randomcoder.website.validation.ChangePasswordValidator;
 import org.randomcoder.website.validation.UserAddValidator;
 import org.randomcoder.website.validation.UserEditValidator;
@@ -57,6 +60,9 @@ public class UserResource {
 
     @Inject
     UserEditValidator userEditValidator;
+
+    @Inject
+    AccountCreateValidator accountCreateValidator;
 
     @Inject
     SecurityContext securityContext;
@@ -270,6 +276,46 @@ public class UserResource {
 
         return Response.status(Response.Status.FOUND)
                 .location(URI.create("/user"))
+                .build();
+    }
+
+    @GET
+    @Path("account/create")
+    @PermitAll
+    public ThymeleafEntity createAccount() {
+        var command = new AccountCreateCommand();
+
+        return new ThymeleafEntity("account-create")
+                .withVariable("command", command)
+                .withVariable("errors", new HashMap<>());
+    }
+
+    @POST
+    @Path("account/create")
+    @PermitAll
+    public Response createAccountSubmit(
+            @BeanParam AccountCreateCommand command,
+            @FormParam("cancel") String cancel) {
+        if (cancel != null) {
+            return Response.status(Response.Status.FOUND)
+                    .location(URI.create("/"))
+                    .build();
+        }
+
+        var context = new ValidatorContext(headers.getLanguage());
+        accountCreateValidator.validate(context, command);
+        var errors = context.getErrors();
+        if (!errors.isEmpty()) {
+            return Response.ok(new ThymeleafEntity("account-create")
+                            .withVariable("command", command)
+                            .withVariable("errors", errors))
+                    .build();
+        }
+
+        userBusiness.createUser(command);
+
+        return Response.status(Response.Status.FOUND)
+                .location(URI.create("/"))
                 .build();
     }
 

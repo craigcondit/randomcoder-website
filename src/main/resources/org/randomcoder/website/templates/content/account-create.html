@@ -20,8 +20,6 @@
       </div>
     </div>
 
-    <c:set var="fieldClasses">fields required<c:if test="${status.error}"> error</c:if>
-    </c:set>
     <div th:class="${'fields required' + (errors.password == null ? '' : ' error')}">
       <div>
         <th:block th:if="${errors.password != null}">

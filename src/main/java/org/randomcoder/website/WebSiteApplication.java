@@ -44,7 +44,14 @@ import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
 import org.randomcoder.website.thymeleaf.ThymeleafTemplateResolver;
-import org.randomcoder.website.validation.*;
+import org.randomcoder.website.validation.AccountCreateValidator;
+import org.randomcoder.website.validation.ArticleAddValidator;
+import org.randomcoder.website.validation.ArticleEditValidator;
+import org.randomcoder.website.validation.ChangePasswordValidator;
+import org.randomcoder.website.validation.CommentValidator;
+import org.randomcoder.website.validation.UserAddValidator;
+import org.randomcoder.website.validation.UserEditValidator;
+import org.randomcoder.website.validation.UserProfileValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.thymeleaf.ITemplateEngine;
@@ -133,7 +140,8 @@ public class WebSiteApplication extends ResourceConfig {
                         ArticleEditValidator.class,
                         ChangePasswordValidator.class,
                         UserAddValidator.class,
-                        UserEditValidator.class);
+                        UserEditValidator.class,
+                        AccountCreateValidator.class);
 
                 // business objects - immediate
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
