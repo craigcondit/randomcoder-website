@@ -48,7 +48,7 @@ public class UserDaoImpl implements UserDao {
             WHERE user_id = ?""";
 
     private static final String SELECT_ALL = """
-            SELECT 
+            SELECT
                 user_id, username, password, email, enabled, login_date, website
             FROM users""";
 

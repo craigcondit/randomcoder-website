@@ -1,23 +1,27 @@
 package org.randomcoder.website.bo;
 
-import jakarta.inject.Singleton;
+import org.glassfish.hk2.api.Immediate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Properties;
 
-@Singleton
+@Immediate
 public class AppInfoBusinessImpl implements AppInfoBusiness {
+
     private static final Logger logger = LoggerFactory.getLogger(AppInfoBusinessImpl.class);
 
     private static final String APP_NAME_PROPERTY = "application.name";
     private static final String APP_VERSION_PROPERTY = "application.version";
+    private static final String APP_BUILD_DATE_PROPERTY = "application.build.date";
     private static final String DEFAULT_APP_NAME = "Randomcoder Website";
     private static final String DEFAULT_APP_VERSION = "Unknown";
 
-    private String applicationName;
-    private String applicationVersion;
+    private final String applicationName;
+    private final String applicationVersion;
+    private final Instant buildDate;
 
     public AppInfoBusinessImpl() throws Exception {
         Properties p = new Properties();
@@ -36,8 +40,18 @@ public class AppInfoBusinessImpl implements AppInfoBusiness {
             appVersion = DEFAULT_APP_VERSION;
         }
 
-        logger.info("Starting application: " + appName + "/" + appVersion);
+        String appBuildDate = p.getProperty(APP_BUILD_DATE_PROPERTY);
+        Instant buildDate;
+        try {
+            buildDate = Instant.parse(appBuildDate);
+        } catch (Exception e) {
+            logger.debug("Unable to parse build date, using current time");
+            buildDate = Instant.now();
+        }
 
+        logger.info("Starting application: {}/{} (build date {})", appName, appVersion, buildDate);
+
+        this.buildDate = buildDate;
         this.applicationName = appName;
         this.applicationVersion = appVersion;
     }
@@ -50,6 +64,11 @@ public class AppInfoBusinessImpl implements AppInfoBusiness {
     @Override
     public String getApplicationVersion() {
         return applicationVersion;
+    }
+
+    @Override
+    public Instant getBuildDate() {
+        return buildDate;
     }
 
 }

@@ -63,8 +63,8 @@ public class CommentDaoImpl implements CommentDao {
             SELECT
                 c.comment_id comment_id,
                 c.article_id article_id,
-                a.permalink article_permalink, 
-                c.content_type content_type, 
+                a.permalink article_permalink,
+                c.content_type content_type,
                 c.create_user_id create_user_id,
                 u.username create_username,
                 u.email create_email,

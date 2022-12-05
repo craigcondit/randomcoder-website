@@ -19,6 +19,8 @@ import org.randomcoder.website.bo.AppInfoBusinessImpl;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.ArticleBusinessImpl;
 import org.randomcoder.website.bo.Moderator;
+import org.randomcoder.website.bo.ResourceCache;
+import org.randomcoder.website.bo.ResourceCacheImpl;
 import org.randomcoder.website.bo.ScheduledTasks;
 import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.bo.TagBusinessImpl;
@@ -170,7 +172,8 @@ public class WebSiteApplication extends ResourceConfig {
                         AppInfoBusiness.class, AppInfoBusinessImpl.class,
                         ArticleBusiness.class, ArticleBusinessImpl.class,
                         TagBusiness.class, TagBusinessImpl.class,
-                        UserBusiness.class, UserBusinessImpl.class));
+                        UserBusiness.class, UserBusinessImpl.class,
+                        ResourceCache.class, ResourceCacheImpl.class));
 
                 // data access objects
                 singletons(Map.of(

@@ -2,24 +2,36 @@ package org.randomcoder.website.jaxrs.resources;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
+import jakarta.ws.rs.InternalServerErrorException;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.ServerErrorException;
+import jakarta.ws.rs.core.CacheControl;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.randomcoder.website.bo.CachedResource;
+import org.randomcoder.website.bo.ResourceCache;
 
+import java.io.IOException;
 import java.net.URI;
-import java.util.Objects;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 @Path("")
 @PermitAll
 public class StaticResource {
 
-    private static final Logger logger = LoggerFactory.getLogger(StaticResource.class);
+    @Inject
+    ResourceCache resourceCache;
+
+    @Inject
+    Request request;
 
     @GET
     @RolesAllowed("*")
@@ -66,10 +78,42 @@ public class StaticResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        var resource = getClass().getResourceAsStream(String.format("/org/randomcoder/website/content/%s", path));
-        return Objects.isNull(resource)
-                ? Response.status(Response.Status.NOT_FOUND).build()
-                : Response.ok(resource, mediaType(path)).build();
+        String qualifiedPath = String.format("/org/randomcoder/website/content/%s", path);
+
+        var resource = resourceCache.loadResource(qualifiedPath, () -> loadResource(qualifiedPath));
+        if (resource == null) {
+            throw new NotFoundException();
+        }
+
+        var cc = new CacheControl();
+        cc.setPrivate(true);
+        cc.setMaxAge(3600);
+
+        var builder = request.evaluatePreconditions(resource.lastModified(), resource.tag());
+        if (builder != null) {
+            return builder
+                    .type(mediaType(path))
+                    .cacheControl(cc)
+                    .build();
+        }
+
+        return Response
+                .ok(resource.content(), mediaType(path))
+                .cacheControl(cc)
+                .tag(resource.tag())
+                .lastModified(resource.lastModified())
+                .build();
+    }
+
+    byte[] loadResource(String path) {
+        try (var resource = getClass().getResourceAsStream(path)) {
+            if (resource == null) {
+                return null;
+            }
+            return resource.readAllBytes();
+        } catch (IOException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     MediaType mediaType(String path) {
