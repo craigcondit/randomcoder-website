@@ -28,12 +28,6 @@ me. All I ask is that you give credit where credit is due.
 
 OTHER CREDITS
 =============
-Special thanks to Per Mellqvist for his excellent article on IBM developerWorks,
-"Don't repeat the DAO!". I have found this pattern to be invaluable:
-
-http://www-128.ibm.com/developerworks/java/library/j-genericdao.html
-
-
 This site makes use of the FamFamFam Silk icon set, which is licensed under a
 Creative Commons Attribution 2.5 License:
 
