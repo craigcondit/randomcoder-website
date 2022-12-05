@@ -40,6 +40,9 @@ import org.randomcoder.website.dao.TagDao;
 import org.randomcoder.website.dao.TagDaoImpl;
 import org.randomcoder.website.dao.UserDao;
 import org.randomcoder.website.dao.UserDaoImpl;
+import org.randomcoder.website.feed.AtomFeedGenerator;
+import org.randomcoder.website.feed.FeedGenerator;
+import org.randomcoder.website.feed.Rss20FeedGenerator;
 import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.providers.CorsFilter;
 import org.randomcoder.website.jaxrs.resources.StaticResource;
@@ -62,6 +65,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.sql.DataSource;
+import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -125,9 +129,16 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
                 bind(config.getIntOrDefault(Config.TAG_PAGESIZE_MAX, 100)).named(Config.TAG_PAGESIZE_MAX).to(Integer.class);
 
+                URL feedBaseUrl = new URL(config.getString(Config.FEED_BASE_URL));
+                bind(feedBaseUrl).named(Config.FEED_BASE_URL).to(URL.class);
+
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
                 bind(contentFilter()).to(ContentFilter.class);
+
+                // feeds
+                bind(Rss20FeedGenerator.class).named("rss20FeedGenerator").to(FeedGenerator.class).in(Singleton.class);
+                bind(AtomFeedGenerator.class).named("atomFeedGenerator").to(FeedGenerator.class).in(Singleton.class);
 
                 // controllers
                 singletons(

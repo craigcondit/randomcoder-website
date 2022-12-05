@@ -33,6 +33,8 @@ public class Config {
     public static final String REMEMBERME_KEY = "rememberme.key";
     public static final String AKISMET_SITE_KEY = "akismet.site.key";
     public static final String AKISMET_SITE_URL = "akismet.site.url";
+    public static final String FEED_BASE_URL = "feed.base.url";
+
     private static final String ENV_CONFIG_FILE = "CONFIG_FILE";
     private static final String DEFAULT_CONFIG_FILE = "randomcoder-website.conf";
     private static final String RESOURCE_DEFAULT_CONF = "/profiles/default.properties";

@@ -87,6 +87,7 @@ module org.randomcoder.website {
     opens org.randomcoder.website.command;
     opens org.randomcoder.website.dao;
     opens org.randomcoder.website.data;
+    opens org.randomcoder.website.feed;
     opens org.randomcoder.website.model;
     opens org.randomcoder.website.validation;
     opens org.randomcoder.website.jaxrs.features;
