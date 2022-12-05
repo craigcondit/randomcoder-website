@@ -69,7 +69,6 @@
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
         <thymeleaf.version>3.1.0.RELEASE</thymeleaf.version>
-        <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <bytebuddy.version>1.12.19</bytebuddy.version>
         <jakarta.jaxb.api.version>4.0.0</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>4.0.1</jakarta.jaxb.version>
@@ -277,11 +276,6 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jakarta-xmlbind-annotations</artifactId>
             <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.validator</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
         </dependency>
     </dependencies>
     <build>
