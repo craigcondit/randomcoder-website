@@ -12,9 +12,8 @@
     <logger name="org.dbunit" level="warn" />
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
-    <logger name="org.hibernate.validator" level="warn" />
-    <logger name="org.springframework" level="warn" />
     <logger name="org.postgresql" level="warn" />
+    <logger name="org.glassfish.jersey" level="warn" />
 
     <root level="debug">
     	<appender-ref ref="console" />
