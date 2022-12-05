@@ -1,4 +1,4 @@
-package org.randomcoder.io;
+package org.randomcoder.website.io;
 
 import org.junit.After;
 import org.junit.Before;
@@ -12,9 +12,13 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class SequenceReaderTest {
+
     private static final String TEXT1 = "Reader Number One";
     private static final String TEXT2 = "Reader Number Two";
     private static final String TEXT3 = "Reader Number Three";
@@ -262,15 +266,13 @@ public class SequenceReaderTest {
         int c;
         do {
             c = listReader.read();
-            if (c >= 0)
-                writer.append((char) c);
+            if (c >= 0) writer.append((char) c);
         } while (c > 0);
 
         listReader.close();
         writer.close();
 
-        assertEquals("Wrong buffer in reader list", TEXT_COMBINED,
-                writer.getBuffer().toString());
+        assertEquals("Wrong buffer in reader list", TEXT_COMBINED, writer.getBuffer().toString());
     }
 
     @SuppressWarnings({"unchecked", "rawtypes", "resource"})
@@ -331,4 +333,5 @@ public class SequenceReaderTest {
     public void testReadZeroChars() throws IOException {
         assertEquals(0, seqReader.read(new char[10], 0, 0));
     }
+
 }
