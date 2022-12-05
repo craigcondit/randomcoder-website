@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
 	$('.focusFirst').first().each(function () {
 		var tgt = $(this);
 		setTimeout(function () {
