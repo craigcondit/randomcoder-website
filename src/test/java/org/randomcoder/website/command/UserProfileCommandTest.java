@@ -1,10 +1,9 @@
-package org.randomcoder.user;
+package org.randomcoder.website.command;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.db.User;
-import org.randomcoder.mvc.command.UserProfileCommand;
+import org.randomcoder.website.data.User;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,15 +33,15 @@ public class UserProfileCommandTest {
     }
 
     @Test
-    public void testProduce() {
+    public void testAccept() {
         command.setEmailAddress("test@example.com");
         command.setWebsite("http://test.com/");
 
         User user = new User();
-        command.produce(user);
+        command.accept(user);
 
         assertEquals("Wrong website", "http://test.com/", user.getWebsite());
-        assertEquals("Wrong email address", "test@example.com",
-                user.getEmailAddress());
+        assertEquals("Wrong email address", "test@example.com", user.getEmailAddress());
     }
+
 }

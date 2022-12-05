@@ -1,4 +1,4 @@
-package org.randomcoder.user;
+package org.randomcoder.website.data;
 
 import org.junit.Test;
 
@@ -23,4 +23,5 @@ public class UserNotFoundExceptionTest {
             assertEquals("test-message", e.getMessage());
         }
     }
+
 }
