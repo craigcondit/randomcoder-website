@@ -25,7 +25,6 @@ module org.randomcoder.website {
     requires jersey.hk2;
     requires jersey.server;
     requires jul.to.slf4j;
-    requires net.bytebuddy;
     requires org.apache.commons.lang3;
     requires org.apache.commons.codec;
     requires org.apache.commons.pool2;
