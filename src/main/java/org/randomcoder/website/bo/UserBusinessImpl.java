@@ -1,7 +1,9 @@
 package org.randomcoder.website.bo;
 
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
+import org.randomcoder.website.Config;
 import org.randomcoder.website.dao.RoleDao;
 import org.randomcoder.website.dao.UserDao;
 import org.randomcoder.website.data.Page;
@@ -36,12 +38,10 @@ public class UserBusinessImpl implements UserBusiness {
     private static final Logger logger = LoggerFactory.getLogger(UserBusinessImpl.class);
 
     private static final int RANDOM_VERSION = 1;
-    private static final long TOKEN_MAX_AGE_MS = Duration.ofHours(25).toSeconds() * 1000;
+    private static final long TOKEN_MAX_AGE_MS = Duration.ofDays(90).toSeconds() * 1000;
     private static final long TOKEN_SLEW_MS = Duration.ofMinutes(10).toSeconds() * 1000;
 
     private final RandomGenerator.SplittableGenerator random;
-
-    private final byte[] randomKey;
 
     @Inject
     RoleDao roleDao;
@@ -49,12 +49,14 @@ public class UserBusinessImpl implements UserBusiness {
     @Inject
     UserDao userDao;
 
+    @Inject
+    @Named(Config.REMEMBERME_KEY)
+    String rememberMeKey;
+
     public UserBusinessImpl() throws Exception {
         var secure = SecureRandom.getInstanceStrong();
-        randomKey = secure.generateSeed(64);
         var splitSeed = secure.nextLong();
-        random = RandomGeneratorFactory.<RandomGenerator.SplittableGenerator>of("L128X256MixRandom")
-                .create(splitSeed);
+        random = RandomGeneratorFactory.<RandomGenerator.SplittableGenerator>of("L128X256MixRandom").create(splitSeed);
     }
 
     @Override
@@ -96,7 +98,7 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    public String generateAuthToken(User user) {
+    public String generateAuthToken(User user, boolean rememberMe) {
         String username = user.getUserName();
         if (username.length() > 255) {
             throw new IllegalArgumentException("Can't handle usernames > 255 bytes");
@@ -106,7 +108,7 @@ public class UserBusinessImpl implements UserBusiness {
         long loginTime = System.currentTimeMillis();
         byte[] usernameBytes = username.getBytes(StandardCharsets.UTF_8);
 
-        byte[] digestBytes = hashToken(randomKey, seed, loginTime, usernameBytes);
+        byte[] digestBytes = hashToken(rememberMeKey, seed, loginTime, usernameBytes, rememberMe);
 
         try (var bos = new ByteArrayOutputStream()) {
             try (var dos = new DataOutputStream(bos)) {
@@ -117,6 +119,7 @@ public class UserBusinessImpl implements UserBusiness {
                 dos.writeLong(loginTime); // login time
                 dos.writeInt(username.length()); // username length
                 dos.write(username.getBytes(StandardCharsets.UTF_8)); // username
+                dos.writeBoolean(rememberMe);
             }
             return Base64.getUrlEncoder().encodeToString(bos.toByteArray());
         } catch (IOException e) {
@@ -125,13 +128,16 @@ public class UserBusinessImpl implements UserBusiness {
     }
 
     @Override
-    public User validateAuthToken(String securityToken) {
+    public UserAuthentication validateAuthToken(String securityToken) {
         if (securityToken == null) {
             logger.info("Got null token");
             return null;
         }
 
         String username;
+        boolean rememberMe;
+        long loginTime;
+
         try {
             var bytes = Base64.getUrlDecoder().decode(securityToken);
             try (var bis = new ByteArrayInputStream(bytes)) {
@@ -152,7 +158,7 @@ public class UserBusinessImpl implements UserBusiness {
                     }
 
                     long seed = dis.readLong(); // seed
-                    long loginTime = dis.readLong(); // login time
+                    loginTime = dis.readLong(); // login time
 
                     int usernameLength = dis.readInt();
                     byte[] usernameBytes = dis.readNBytes(usernameLength);
@@ -162,8 +168,10 @@ public class UserBusinessImpl implements UserBusiness {
                     }
                     username = new String(usernameBytes, StandardCharsets.UTF_8);
 
+                    rememberMe = dis.readBoolean();
+
                     // calculate digest
-                    byte[] expectedDigestBytes = hashToken(randomKey, seed, loginTime, usernameBytes);
+                    byte[] expectedDigestBytes = hashToken(rememberMeKey, seed, loginTime, usernameBytes, rememberMe);
 
                     if (!Arrays.equals(digestBytes, expectedDigestBytes)) {
                         logger.debug("Token failed to validate");
@@ -194,7 +202,7 @@ public class UserBusinessImpl implements UserBusiness {
             return null;
         }
 
-        return user;
+        return new UserAuthentication(user, loginTime, System.currentTimeMillis(), rememberMe);
     }
 
     @Override
@@ -235,13 +243,14 @@ public class UserBusinessImpl implements UserBusiness {
         }
     }
 
-    private static byte[] hashToken(byte[] randomKey, long seed, long loginTime, byte[] usernameBytes) {
+    private static byte[] hashToken(String key, long seed, long loginTime, byte[] usernameBytes, boolean rememberMe) {
         var digest = sha512();
-        digest.update(randomKey); // private key
-        ByteBuffer buf = ByteBuffer.allocate(16 + usernameBytes.length);
-        buf.putLong(seed);
-        buf.putLong(loginTime);
+        digest.update(key.getBytes(StandardCharsets.UTF_8));
+        ByteBuffer buf = ByteBuffer.allocate(17 + usernameBytes.length);
+        buf.putLong(seed); // 8 bytes
+        buf.putLong(loginTime); // 8 bytes
         buf.put(usernameBytes);
+        buf.put(rememberMe ? (byte) 1 : (byte) 0); // 1 byte
         byte[] encoded = buf.array();
         digest.update(encoded);
         byte[] digestBytes = digest.digest();

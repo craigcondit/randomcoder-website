@@ -13,8 +13,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import org.randomcoder.website.data.User;
 import org.randomcoder.website.bo.UserBusiness;
+import org.randomcoder.website.data.User;
 import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.util.CookieUtils;
 import org.randomcoder.website.thymeleaf.ThymeleafEntity;
@@ -27,7 +27,7 @@ import java.util.Date;
 @PermitAll
 public class LoginResource {
 
-    private static final long TOKEN_EXPIRATION_MS = Duration.ofHours(25).toSeconds() * 1000;
+    private static final long TOKEN_EXPIRATION_MS = Duration.ofDays(90).toSeconds() * 1000;
 
     @Inject
     UserBusiness userBusiness;
@@ -76,9 +76,9 @@ public class LoginResource {
     @Path("login-submit")
     public Response loginSubmit(
             @CookieParam(SecurityFeature.REDIRECT_COOKIE) @DefaultValue("") String redirectUri,
-            @FormParam("j_username") String username,
-            @FormParam("j_password") String password,
-            @FormParam("remember-me") @DefaultValue("false") boolean rememberMe) {
+            @FormParam("username") String username,
+            @FormParam("password") String password,
+            @FormParam("remember-me") boolean rememberMe) {
 
         var user = userBusiness.findUserByNameEnabled(username);
         if (user == null || !User.hashPassword(password).equals(user.getPassword())) {
@@ -95,14 +95,12 @@ public class LoginResource {
         // remove redirect cookie
         var redirectCookie = CookieUtils.sessionCookie(domain, SecurityFeature.REDIRECT_COOKIE, null, secure);
 
-        // generate token and store to session
-        String token = userBusiness.generateAuthToken(user);
+        // generate token
+        String token = userBusiness.generateAuthToken(user, rememberMe);
 
-        var authCookie = CookieUtils.persistentCookie(
-                domain, SecurityFeature.AUTH_COOKIE, token, new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS), secure);
-
-        // TODO handle remember-me authentication
-        // When using this, we should use a site-wide key with a longer expiration, rather than the per-instance key
+        var authCookie = rememberMe
+                ? CookieUtils.persistentCookie(domain, SecurityFeature.AUTH_COOKIE, token, new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_MS), secure)
+                : CookieUtils.sessionCookie(domain, SecurityFeature.AUTH_COOKIE, token, secure);
 
         // set redirect URL to saved, or site root if not
         URI location = "".equals(redirectUri) ? URI.create("/") : URI.create(redirectUri);

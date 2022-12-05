@@ -23,9 +23,9 @@ public interface UserBusiness {
 
     void loadUserForEditing(Consumer<User> consumer, Long userId);
 
-    User validateAuthToken(String securityToken);
+    UserAuthentication validateAuthToken(String securityToken);
 
-    String generateAuthToken(User user);
+    String generateAuthToken(User user, boolean rememberMe);
 
     List<Role> listRoles();
 
