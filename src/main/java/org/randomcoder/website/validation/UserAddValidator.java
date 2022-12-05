@@ -84,9 +84,8 @@ public class UserAddValidator {
         if (password.length() > 0) {
             // password is specified, so validate it
             if (password.trim().length() < minimumPasswordLength) {
-                context.reject("password", ERROR_PASSWORD_TOO_SHORT);
+                context.reject("password", ERROR_PASSWORD_TOO_SHORT, minimumPasswordLength);
             }
-
         }
 
         // compare passwords if at least one is specified
