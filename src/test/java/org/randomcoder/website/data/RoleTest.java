@@ -1,10 +1,12 @@
-package org.randomcoder.db;
+package org.randomcoder.website.data;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class RoleTest {
+
     @Test
     public void testEqualsObject() {
         Role role1 = new Role();

@@ -1,4 +1,4 @@
-package org.randomcoder.db;
+package org.randomcoder.website.data;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 
 public class UserTest {
+
     private User user;
 
     @Before
@@ -29,7 +30,7 @@ public class UserTest {
         assertFalse("User has password", value.contains("password"));
         assertFalse("User has email address", value.contains("emailAddress"));
         assertFalse("User has website", value.contains("website"));
-        assertFalse("User does not have username",
-                value.contains("userName='test'"));
+        assertFalse("User does not have username", value.contains("userName='test'"));
     }
+
 }
