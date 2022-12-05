@@ -37,10 +37,6 @@ public class Page<T> {
         return (content.size() + offset) >= totalSize;
     }
 
-    public long getNumber() {
-        return offset;
-    }
-
     public long getTotalSize() {
         return totalSize;
     }

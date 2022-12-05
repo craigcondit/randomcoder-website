@@ -34,8 +34,8 @@ public class PagerInfo<T> {
         }
 
         // do previous pages
-        long startPage = Math.max(0, page.getNumber() - 10);
-        for (long i = startPage; i < page.getNumber(); i++) {
+        long startPage = Math.max(0, page.getPageNumber() - 10);
+        for (long i = startPage; i < page.getPageNumber(); i++) {
             String link = makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, pageParams(i, size)));
             links.add(new PageLink(Long.toString(i + 1), link));
         }
@@ -52,7 +52,7 @@ public class PagerInfo<T> {
 
         if (!page.isLast()) {
             // generate link to next page
-            String link = makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, pageParams(page.getNumber() + 1, size)));
+            String link = makeLink(urlWithParams(uriInfo, REMOVED_PARAMS, pageParams(page.getPageNumber() + 1, size)));
             String text = "&#187;";
             links.add(new PageLink(text, link));
         }

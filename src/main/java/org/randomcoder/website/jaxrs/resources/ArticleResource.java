@@ -58,8 +58,6 @@ public class ArticleResource {
 
     private static final String REFERER = "Referer";
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleResource.class);
-
     @Inject
     HomeController homeController;
 
