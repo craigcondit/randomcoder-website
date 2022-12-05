@@ -62,8 +62,6 @@ module org.randomcoder.website {
     exports org.randomcoder.website.data;
     exports org.randomcoder.website.model;
 
-    opens database;
-
     opens org.randomcoder.website;
     opens org.randomcoder.website.bo;
     opens org.randomcoder.website.contentfilter;
@@ -95,7 +93,7 @@ module org.randomcoder.website {
     opens org.randomcoder.website.templates.header;
     opens org.randomcoder.website.templates.sidebar;
 
-    opens profiles;
-
+    // database scripts
+    opens org.randomcoder.website.database;
 }
 

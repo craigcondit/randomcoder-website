@@ -17,7 +17,7 @@ wait_for_healthy() {
 apply_script() {
   script="$1"
   echo "Applying script ${script}..."
-  docker exec -i --user postgres randomcoder-postgres psql < "src/main/resources/database/${script}.sql"
+  docker exec -i --user postgres randomcoder-postgres psql < "src/main/resources/org/randomcoder/website/database/${script}.sql"
 }
 
 do_start() {

@@ -18,8 +18,6 @@ public class Config {
     public static final String HTTP_PROXIED = "http.proxied";
     public static final String HTTPS_FORCED = "https.forced";
     public static final String EXPOSE_EXCEPTION_DETAILS = "expose.exception.details";
-    public static final String VERSION_LOCATION = "version.location";
-    public static final String DOWNLOAD_MAX_VERSIONS_PER_PACKAGE = "download.max.versions.per.package";
     public static final String MODERATION_BATCH_SIZE = "moderation.batch.size";
     public static final String ARTICLE_MAX_SUMMARY_LENGTH = "article.max.summary.length";
     public static final String USERNAME_LENGTH_MINIMUM = "username.length.minimum";
@@ -37,7 +35,7 @@ public class Config {
 
     private static final String ENV_CONFIG_FILE = "CONFIG_FILE";
     private static final String DEFAULT_CONFIG_FILE = "randomcoder-website.conf";
-    private static final String RESOURCE_DEFAULT_CONF = "/profiles/default.properties";
+    private static final String RESOURCE_DEFAULT_CONF = "/org/randomcoder/website/default.properties";
     private final Properties props;
 
     private Config(Properties props) {

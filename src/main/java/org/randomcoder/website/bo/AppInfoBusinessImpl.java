@@ -22,7 +22,7 @@ public class AppInfoBusinessImpl implements AppInfoBusiness {
     public AppInfoBusinessImpl() throws Exception {
         Properties p = new Properties();
 
-        try (InputStream is = getClass().getResourceAsStream("/version.properties")) {
+        try (InputStream is = getClass().getResourceAsStream("/org/randomcoder/website/version.properties")) {
             p.load(is);
         }
 
