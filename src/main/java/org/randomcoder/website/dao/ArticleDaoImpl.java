@@ -33,8 +33,6 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 @Singleton
 public class ArticleDaoImpl implements ArticleDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
-
     private DataSource dataSource;
 
     @Inject
@@ -45,14 +43,14 @@ public class ArticleDaoImpl implements ArticleDao {
     private static final String INSERT = """
         INSERT INTO articles (
             content_type, create_user_id, create_date, modify_user_id, modify_date,
-            title, permalink, content, summary, comments_enabled)
+            title, permalink, "content", summary, comments_enabled)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         RETURNING article_id""";
 
     private static final String UPDATE = """
         UPDATE articles SET
             content_type = ?, create_user_id = ?, create_date = ?, modify_user_id = ?, modify_date = ?,
-            title = ?, permalink = ?, content = ?, summary = ?, comments_enabled = ?
+            title = ?, permalink = ?, "content" = ?, summary = ?, comments_enabled = ?
         WHERE article_id = ?""";
 
     private static final String SELECT_ALL = """
@@ -71,7 +69,7 @@ public class ArticleDaoImpl implements ArticleDao {
                 a.modify_date modify_date,
                 a.title title,
                 a.permalink permalink,
-                a.content content,
+                a.content "content",
                 a.summary summary,
                 a.comments_enabled comments_enabled
             FROM articles a
@@ -140,7 +138,7 @@ public class ArticleDaoImpl implements ArticleDao {
                 c.anonymous_email_address anonymous_email_address,
                 c.anonymous_website anonymous_website,
                 c.title title,
-                c.content content,
+                c.content "content",
                 c.visible visible,
                 c.moderation_status moderation_status,
                 c.ip_address ip_address,
@@ -383,7 +381,6 @@ public class ArticleDaoImpl implements ArticleDao {
             String sql,
             UncheckedConsumer<PreparedStatement> callback) throws Exception {
         List<Article> articles = new ArrayList<>();
-        logger.info("Executing sql {}", sql);
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             callback.invoke(ps);
             try (ResultSet rs = ps.executeQuery()) {

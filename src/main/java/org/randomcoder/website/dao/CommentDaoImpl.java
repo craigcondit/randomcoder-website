@@ -37,7 +37,7 @@ public class CommentDaoImpl implements CommentDao {
             INSERT INTO comments (
                 article_id, content_type, create_user_id, create_date,
                 anonymous_user_name, anonymous_email_address, anonymous_website,
-                title, content, visible, moderation_status, referrer, ip_address, user_agent)
+                title, "content", visible, moderation_status, referrer, ip_address, user_agent)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             RETURNING comment_id""";
 
@@ -51,7 +51,7 @@ public class CommentDaoImpl implements CommentDao {
                 anonymous_email_address = ?,
                 anonymous_website = ?,
                 title = ?,
-                content = ?,
+                "content" = ?,
                 visible = ?,
                 moderation_status = ?,
                 referrer = ?,
@@ -74,7 +74,7 @@ public class CommentDaoImpl implements CommentDao {
                 c.anonymous_email_address anonymous_email_address,
                 c.anonymous_website anonymous_website,
                 c.title title,
-                c.content content,
+                c.content "content",
                 c.visible visible,
                 c.moderation_status moderation_status,
                 c.referrer referrer,
