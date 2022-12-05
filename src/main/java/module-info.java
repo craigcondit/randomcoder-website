@@ -18,6 +18,7 @@ module org.randomcoder.website {
     requires jakarta.annotation;
     requires jakarta.el;
     requires jakarta.inject;
+    requires jakarta.validation;
     requires jakarta.xml.bind;
     requires jakarta.ws.rs;
     requires jersey.container.servlet.core;
