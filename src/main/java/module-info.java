@@ -19,6 +19,7 @@ module org.randomcoder.website {
     requires jakarta.el;
     requires jakarta.inject;
     requires jakarta.xml.bind;
+    requires jakarta.validation;
     requires jakarta.ws.rs;
     requires jersey.container.servlet.core;
     requires jersey.common;
@@ -39,6 +40,7 @@ module org.randomcoder.website {
     requires org.glassfish.hk2.utilities;
     requires org.glassfish.jaxb.core;
     requires org.glassfish.jaxb.runtime;
+    requires org.hibernate.validator;
     requires org.postgresql.jdbc;
     requires org.slf4j;
     requires org.yaml.snakeyaml;
