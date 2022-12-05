@@ -10,6 +10,8 @@ import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.Tag;
 import org.randomcoder.website.data.User;
 import org.randomcoder.website.func.UncheckedConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -30,6 +32,8 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 
 @Singleton
 public class ArticleDaoImpl implements ArticleDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(ArticleDaoImpl.class);
 
     private DataSource dataSource;
 
@@ -379,6 +383,7 @@ public class ArticleDaoImpl implements ArticleDao {
             String sql,
             UncheckedConsumer<PreparedStatement> callback) throws Exception {
         List<Article> articles = new ArrayList<>();
+        logger.info("Executing sql {}", sql);
         try (PreparedStatement ps = con.prepareStatement(sql)) {
             callback.invoke(ps);
             try (ResultSet rs = ps.executeQuery()) {
