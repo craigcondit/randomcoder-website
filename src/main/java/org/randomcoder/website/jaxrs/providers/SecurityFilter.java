@@ -46,7 +46,7 @@ public class SecurityFilter implements ContainerRequestFilter {
     public void start() {
         logger.info("Starting security filter...");
         executor = Executors.newScheduledThreadPool(1);
-        executor.scheduleWithFixedDelay(this::removeExpiredTokens, 30, 30, TimeUnit.SECONDS);
+        executor.scheduleWithFixedDelay(this::removeExpiredTokens, 5, 5, TimeUnit.MINUTES);
     }
 
     @PreDestroy
@@ -88,16 +88,18 @@ public class SecurityFilter implements ContainerRequestFilter {
     public void removeExpiredTokens() {
         logger.info("Removing expired tokens...");
         int expiredCount = 0;
+        int totalCount = 0;
 
         for (var it = authCache.entrySet().iterator(); it.hasNext();) {
             var entry = it.next();
+            totalCount++;
             if (!validAuth(entry.getValue())) {
                 it.remove();
                 expiredCount++;
             }
         }
 
-        logger.info("Removed {} expired auth tokens", expiredCount);
+        logger.info("Removed {} expired of {} total auth tokens", expiredCount, totalCount);
     }
 
     static boolean validAuth(UserAuthentication auth) {
