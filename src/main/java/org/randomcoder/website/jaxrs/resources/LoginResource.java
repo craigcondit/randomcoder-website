@@ -13,7 +13,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
-import org.randomcoder.db.User;
+import org.randomcoder.website.data.User;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.jaxrs.features.SecurityFeature;
 import org.randomcoder.website.jaxrs.util.CookieUtils;

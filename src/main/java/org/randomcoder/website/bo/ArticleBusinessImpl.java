@@ -2,8 +2,8 @@ package org.randomcoder.website.bo;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.NotAuthorizedException;
 import org.apache.commons.lang3.StringUtils;
-import org.randomcoder.security.UnauthorizedException;
 import org.randomcoder.website.dao.ArticleDao;
 import org.randomcoder.website.dao.CommentDao;
 import org.randomcoder.website.dao.RoleDao;
@@ -283,7 +283,7 @@ public class ArticleBusinessImpl implements ArticleBusiness {
             User createdBy = article.getCreatedByUser();
 
             if (createdBy == null || !user.getId().equals(createdBy.getId())) {
-                throw new UnauthorizedException(errorMessage);
+                throw new NotAuthorizedException(errorMessage);
             }
         }
     }

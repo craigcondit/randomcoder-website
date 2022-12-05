@@ -1,6 +1,6 @@
 package org.randomcoder.website.contentfilter;
 
-import org.randomcoder.xml.AbstractXMLReader;
+import org.randomcoder.website.xml.AbstractXMLReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;

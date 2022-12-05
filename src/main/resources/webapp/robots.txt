@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /login
-Disallow: /j_security_check
-Disallow: /logout
-Disallow: /login-error

@@ -63,22 +63,10 @@ module org.randomcoder.website {
     exports org.randomcoder.website.model;
 
     opens database;
-    opens org.randomcoder.article;
-    opens org.randomcoder.article.comment;
-    opens org.randomcoder.article.moderation;
-    opens org.randomcoder.bo;
-    opens org.randomcoder.content;
-    opens org.randomcoder.dao;
-    opens org.randomcoder.db;
-    opens org.randomcoder.feed;
-    opens org.randomcoder.func;
-    opens org.randomcoder.io;
-    opens org.randomcoder.pagination;
-    opens org.randomcoder.security;
-    opens org.randomcoder.security.spring;
 
     opens org.randomcoder.website;
     opens org.randomcoder.website.bo;
+    opens org.randomcoder.website.contentfilter;
     opens org.randomcoder.website.controller;
     opens org.randomcoder.website.command;
     opens org.randomcoder.website.dao;
@@ -107,20 +95,7 @@ module org.randomcoder.website {
     opens org.randomcoder.website.templates.header;
     opens org.randomcoder.website.templates.sidebar;
 
-    opens org.randomcoder.tag;
-    opens org.randomcoder.user;
-    opens org.randomcoder.validation;
-    opens org.randomcoder.xml;
     opens profiles;
 
-    // legacy static content
-    opens webapp;
-    opens webapp.css;
-    opens webapp.images;
-    opens webapp.images.silk;
-    opens webapp.images.badges;
-    opens webapp.js;
-    opens webapp.js.lib;
-    opens org.randomcoder.website.contentfilter;
 }
 
