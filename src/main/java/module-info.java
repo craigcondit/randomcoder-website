@@ -9,6 +9,7 @@ module org.randomcoder.website {
     requires ch.qos.logback.classic;
     requires commons.dbcp2;
     requires commons.httpclient;
+    requires commons.logging;
     requires com.fasterxml.classmate;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
