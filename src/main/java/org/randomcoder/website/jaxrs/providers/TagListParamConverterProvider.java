@@ -25,6 +25,7 @@ public class TagListParamConverterProvider implements ParamConverterProvider {
     TagBusiness tagBusiness;
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
         if (rawType != TagList.class) {
             return null;

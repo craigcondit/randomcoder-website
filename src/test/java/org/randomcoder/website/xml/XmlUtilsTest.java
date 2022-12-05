@@ -1,4 +1,4 @@
-package org.randomcoder.xml;
+package org.randomcoder.website.xml;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,12 +20,13 @@ import java.io.StringWriter;
 import static org.junit.Assert.*;
 
 public class XmlUtilsTest {
-    private static final String XML_VALID_DOCUMENT =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
-                    + "<Test value='test'><Entry value='1' /><Entry value='2' /></Test>";
+    private static final String XML_VALID_DOCUMENT = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <Test value="test"><Entry value="1" /><Entry value="2" /></Test>""";
 
-    private static final String XML_INVALID_DOCUMENT =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" + "<Test value='test'>";
+    private static final String XML_INVALID_DOCUMENT = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <Test value="test">""";
 
     private static final String PUBLIC_ID = "Public ID";
     private static final String SYSTEM_ID = "system.dtd";
@@ -53,10 +54,8 @@ public class XmlUtilsTest {
     }
 
     @Test(expected = SAXException.class)
-    public void testParseXmlInvalid()
-            throws Exception {
-        InputSource source =
-                new InputSource(new StringReader(XML_INVALID_DOCUMENT));
+    public void testParseXmlInvalid() throws Exception {
+        InputSource source = new InputSource(new StringReader(XML_INVALID_DOCUMENT));
         XmlUtils.parseXml(source);
     }
 
@@ -116,10 +115,8 @@ public class XmlUtilsTest {
 
     @Test
     public void testPrettyPrintAll() throws Exception {
-        DocumentBuilder builder =
-                DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        DocumentType dtd = builder.getDOMImplementation()
-                .createDocumentType("Test", PUBLIC_ID, SYSTEM_ID);
+        DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        DocumentType dtd = builder.getDOMImplementation().createDocumentType("Test", PUBLIC_ID, SYSTEM_ID);
 
         InputSource source = new InputSource(new StringReader(XML_VALID_DOCUMENT));
         Document doc = XmlUtils.parseXml(source);
@@ -133,4 +130,5 @@ public class XmlUtilsTest {
         assertTrue(xml.contains(PUBLIC_ID));
         assertTrue(xml.contains(SYSTEM_ID));
     }
+
 }

@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 public class ContentTypeParamConverterProvider implements ParamConverterProvider {
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
         if (rawType != ContentType.class) {
             return null;

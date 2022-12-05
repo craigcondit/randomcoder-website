@@ -1,9 +1,9 @@
-package org.randomcoder.xml;
+package org.randomcoder.website.xml;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.test.mock.xml.AbstractXMLReaderMock;
+import org.randomcoder.website. test.mock.xml.AbstractXMLReaderMock;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -12,6 +12,7 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 public class AbsXMLReaderTest {
+
     private AbstractXMLReaderMock reader;
 
     @Before
@@ -71,4 +72,5 @@ public class AbsXMLReaderTest {
         assertEquals("test-value", reader.getProperty("test-property"));
         assertNull(reader.getProperty("bogus-property"));
     }
+
 }
