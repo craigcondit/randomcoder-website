@@ -28,19 +28,19 @@ public class TagDaoImpl implements TagDao {
         this.dataSource = dataSource;
     }
 
-    private static final String INSERT = "INSERT INTO tags (name, display_name) VALUES (?, ?) RETURNING tag_id";
-    private static final String UPDATE = "UPDATE tags SET name = ?, display_name = ? WHERE tag_id = ?";
+    private static final String INSERT = "INSERT INTO tags (\"name\", display_name) VALUES (?, ?) RETURNING tag_id";
+    private static final String UPDATE = "UPDATE tags SET \"name\" = ?, display_name = ? WHERE tag_id = ?";
     private static final String DELETE_BY_ID = "DELETE FROM tags WHERE tag_id = ?";
 
-    private static final String SELECT_ALL = "SELECT tag_id, name, display_name FROM tags";
+    private static final String SELECT_ALL = "SELECT tag_id, \"name\", display_name FROM tags";
     private static final String FIND_BY_ID = SELECT_ALL + " WHERE tag_id = ?";
-    private static final String FIND_BY_NAME = SELECT_ALL + " WHERE name = ?";
+    private static final String FIND_BY_NAME = SELECT_ALL + " WHERE \"name\" = ?";
     private static final String LIST_ALL = SELECT_ALL + " ORDER BY display_name";
 
     private static final String TAG_STATISTICS = """
             SELECT
                 t.tag_id tag_id,
-                t.name name,
+                t.name \"name\",
                 t.display_name display_name,
                 count(atl.tag_id) article_count
             FROM tags t

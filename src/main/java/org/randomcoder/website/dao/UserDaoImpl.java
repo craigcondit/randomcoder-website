@@ -57,14 +57,14 @@ public class UserDaoImpl implements UserDao {
     private static final String FIND_BY_NAME_ENABLED = FIND_BY_NAME + " AND enabled = true";
 
     private static final String FIND_ROLES_BY_USER_ID = """
-            SELECT r.role_id role_id, r.name name, r.description description
+            SELECT r.role_id role_id, r.name "name", r.description description
             FROM ROLES r
             JOIN USER_ROLE_LINK l ON r.role_id = l.role_id
             WHERE l.user_id = ?
             ORDER BY r.name""";
 
     private static final String LIST_ROLES_FOR_USER_PAGED = """
-            SELECT url.user_id user_id, r.role_id role_id, r.name name, r.description description
+            SELECT url.user_id user_id, r.role_id role_id, r.name "name", r.description description
             FROM roles r
             JOIN user_role_link url ON r.role_id = url.role_id
             WHERE url.user_id IN (

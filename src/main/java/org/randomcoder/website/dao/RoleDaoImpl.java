@@ -28,14 +28,14 @@ public class RoleDaoImpl implements RoleDao {
     private static final String COL_ROLE_DESCRIPTION = "description";
 
     private static final String LIST_ALL_BY_DESC = """
-            SELECT role_id, name, description
+            SELECT role_id, "name", description
             FROM roles
             ORDER BY description""";
 
     private static final String FIND_BY_NAME = """
-            SELECT role_id, name, description
+            SELECT role_id, "name", description
             FROM roles
-            WHERE name = ?""";
+            WHERE "name" = ?""";
 
     @Override
     public List<Role> listByDescription() {

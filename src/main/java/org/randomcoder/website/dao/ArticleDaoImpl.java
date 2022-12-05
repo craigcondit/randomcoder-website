@@ -78,7 +78,7 @@ public class ArticleDaoImpl implements ArticleDao {
 
     private static final String SELECT_TAGS_BY_ARTICLE_IDS = """
             SELECT
-                atl.article_id article_id, t.tag_id tag_id, t.name name, t.display_name display_name
+                atl.article_id article_id, t.tag_id tag_id, t.name "name", t.display_name display_name
             FROM tags t
             JOIN article_tag_link atl ON atl.tag_id = t.tag_id
             WHERE atl.article_id = ANY (?)
