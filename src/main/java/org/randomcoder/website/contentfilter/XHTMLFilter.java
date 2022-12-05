@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.Set;
 
 public class XHTMLFilter implements ContentFilter {
+
     public static final String PREFIX =
             "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><title>Untitled</title></head><body>";
     public static final String SUFFIX = "</body></html>";
@@ -38,7 +39,6 @@ public class XHTMLFilter implements ContentFilter {
     private final Set<String> allowedClasses;
 
     public XHTMLFilter(Set<String> allowedClasses) throws TransformerConfigurationException, SAXException {
-
         this.allowedClasses = allowedClasses;
 
         // cache templates for later use

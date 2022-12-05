@@ -1,4 +1,4 @@
-package org.randomcoder.content;
+package org.randomcoder.website.contentfilter;
 
 import org.junit.Test;
 
@@ -26,4 +26,5 @@ public class InvalidContentExceptionTest {
             assertNull(e.getMessage());
         }
     }
+
 }

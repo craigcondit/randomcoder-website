@@ -1,10 +1,11 @@
-package org.randomcoder.content;
+package org.randomcoder.website.contentfilter;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class InvalidContentTypeExceptionTest {
+
     @Test
     public void testInvalidContentTypeException() {
         try {
@@ -13,4 +14,5 @@ public class InvalidContentTypeExceptionTest {
             assertEquals("error", e.getMessage());
         }
     }
+
 }

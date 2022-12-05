@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.XMLFilter;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.XMLFilterImpl;
@@ -20,45 +19,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * {@link XMLFilter} implementation which filters out dangerous and/or
- * unwanted markup from the input XML.
- *
- * <p>
- * This class implements a large subset of XHTML (minus dangerous,
- * deprecated, or otherwise undesirable content). Tag and attribute names are
- * canonicalized, non-semantic markup is converted to semantic, and disallowed
- * elements, their children, and attributes are removed.
- * </p>
- *
- * <pre>
- * Copyright (c) 2006, Craig Condit. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *   * Redistributions of source code must retain the above copyright notice,
- *     this list of conditions and the following disclaimer.
- *   * Redistributions in binary form must reproduce the above copyright notice,
- *     this list of conditions and the following disclaimer in the documentation
- *     and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- * </pre>
- */
 public class XHTMLReader extends XMLFilterImpl {
-    private static final Logger logger =
-            LoggerFactory.getLogger(XHTMLReader.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(XHTMLReader.class);
 
     private static final Attributes NO_ATTRIBUTES = new AttributesImpl();
     private static final String HTML = "html".toLowerCase(Locale.US);
@@ -70,24 +33,23 @@ public class XHTMLReader extends XMLFilterImpl {
     private static final Set<String> ALLOWED_PROTOCOLS;
 
     static {
-        String[] tags =
-                {"a", "abbr", "acronym", "address", "bdo", "big", "blockquote", "body",
-                        "br", "caption", "cite", "code", "colgroup", "dd", "del", "dfn",
-                        "div", "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr",
-                        "html", "img", "ins", "kbd", "li", "ol", "p", "pre", "q", "samp",
-                        "small", "span", "strong", "sub", "sup", "table", "tbody", "td",
-                        "tfoot", "th", "thead", "tr", "tt", "ul", "var"};
+        String[] tags = {
+                "a", "abbr", "acronym", "address", "bdo", "big", "blockquote", "body",
+                "br", "caption", "cite", "code", "colgroup", "dd", "del", "dfn",
+                "div", "dl", "dt", "em", "h1", "h2", "h3", "h4", "h5", "h6", "hr",
+                "html", "img", "ins", "kbd", "li", "ol", "p", "pre", "q", "samp",
+                "small", "span", "strong", "sub", "sup", "table", "tbody", "td",
+                "tfoot", "th", "thead", "tr", "tt", "ul", "var"};
 
         Set<String> set = new HashSet<String>(tags.length);
-        for (String tag : tags)
+        for (String tag : tags) {
             set.add(tag.toLowerCase(Locale.US));
+        }
         ALLOWED_TAGS = Collections.unmodifiableSet(set);
     }
 
     static {
-        String[][] tags =
-                {{"b", "strong"}, {"i", "em"}, {"s", "del"}, {"strike", "del"},
-                        {"u", "em"}};
+        String[][] tags = {{"b", "strong"}, {"i", "em"}, {"s", "del"}, {"strike", "del"}, {"u", "em"}};
         HashMap<String, String> map = new HashMap<String, String>(tags.length);
         for (String[] entry : tags)
             map.put(entry[0].toLowerCase(Locale.US), entry[1].toLowerCase(Locale.US));
@@ -95,46 +57,50 @@ public class XHTMLReader extends XMLFilterImpl {
     }
 
     static {
-        String[] atts =
-                {"*.dir", "*.lang", "*.title", "a.href", "a.charset", "a.hreflang",
-                        "a.type", "blockquote.cite", "body.-", "colgroup.align",
-                        "colgroup.char", "colgroup.charoff", "colgroup.span",
-                        "colgroup.valign", "colgroup.width", "del.cite", "del.datetime",
-                        "html.-", "img.alt", "img.src", "img.height", "img.longdesc",
-                        "img.width", "ins.cite", "ins.datetime", "pre.width", "q.cite",
-                        "table.border", "table.cellpadding", "table.cellspacing",
-                        "table.frame", "table.rules", "table.summary", "table.width",
-                        "tbody.align", "tbody.char", "tbody.charoff", "tbody.valign",
-                        "td.abbr", "td.align", "td.axis", "td.char", "td.charoff",
-                        "td.colspan", "td.headers", "td.rowspan", "td.scope", "td.valign",
-                        "tfoot.align", "tfoot.char", "tfoot.charoff", "tfoot.valign",
-                        "th.abbr", "th.align", "th.axis", "th.char", "th.charoff",
-                        "th.colspan", "th.headers", "th.rowspan", "th.scope", "th.valign",
-                        "thead.align", "thead.char", "thead.charoff", "thead.valign",
-                        "tr.align", "tr.char", "tr.charoff", "tr.valign"};
+        String[] atts = {
+                "*.dir", "*.lang", "*.title", "a.href", "a.charset", "a.hreflang",
+                "a.type", "blockquote.cite", "body.-", "colgroup.align",
+                "colgroup.char", "colgroup.charoff", "colgroup.span",
+                "colgroup.valign", "colgroup.width", "del.cite", "del.datetime",
+                "html.-", "img.alt", "img.src", "img.height", "img.longdesc",
+                "img.width", "ins.cite", "ins.datetime", "pre.width", "q.cite",
+                "table.border", "table.cellpadding", "table.cellspacing",
+                "table.frame", "table.rules", "table.summary", "table.width",
+                "tbody.align", "tbody.char", "tbody.charoff", "tbody.valign",
+                "td.abbr", "td.align", "td.axis", "td.char", "td.charoff",
+                "td.colspan", "td.headers", "td.rowspan", "td.scope", "td.valign",
+                "tfoot.align", "tfoot.char", "tfoot.charoff", "tfoot.valign",
+                "th.abbr", "th.align", "th.axis", "th.char", "th.charoff",
+                "th.colspan", "th.headers", "th.rowspan", "th.scope", "th.valign",
+                "thead.align", "thead.char", "thead.charoff", "thead.valign",
+                "tr.align", "tr.char", "tr.charoff", "tr.valign"};
         Set<String> set = new HashSet<String>(atts.length);
-        for (String att : atts)
+        for (String att : atts) {
             set.add(att.toLowerCase(Locale.US));
+        }
         ALLOWED_ATTRIBUTES = Collections.unmodifiableSet(set);
     }
 
     static {
-        String[] atts = {"*.href", "*.src", "*.cite", "*.xmlns", "body.background",
+        String[] atts = {
+                "*.href", "*.src", "*.cite", "*.xmlns", "body.background",
                 "form.action", "frame.longdesc", "head.profile", "img.ismap",
                 "img.longdesc", "img.usemap", "object.archive", "object.codebase",
                 "object.data", "object.usemap"};
 
         Set<String> set = new HashSet<String>(atts.length);
-        for (String att : atts)
+        for (String att : atts) {
             set.add(att.toLowerCase(Locale.US));
+        }
         URL_ATTRIBUTES = Collections.unmodifiableSet(set);
     }
 
     static {
         String[] protos = {"http", "https", "ftp", "mailto"};
         Set<String> set = new HashSet<String>(protos.length);
-        for (String proto : protos)
+        for (String proto : protos) {
             set.add(proto.toLowerCase(Locale.US));
+        }
         ALLOWED_PROTOCOLS = Collections.unmodifiableSet(set);
     }
 
@@ -143,15 +109,7 @@ public class XHTMLReader extends XMLFilterImpl {
     private int elementLevel = -1;
     private int filterLevel = -1;
 
-    /**
-     * Creates a new XHTMLReader.
-     *
-     * @param parent         parent reader to wrap
-     * @param allowedClasses set of allowed css classes
-     * @param baseUrl        base URL for links
-     */
-    public XHTMLReader(XMLReader parent, Set<String> allowedClasses,
-                       URL baseUrl) {
+    public XHTMLReader(XMLReader parent, Set<String> allowedClasses, URL baseUrl) {
         super(parent);
         this.allowedClasses = allowedClasses;
         this.baseUrl = baseUrl;
@@ -162,17 +120,20 @@ public class XHTMLReader extends XMLFilterImpl {
     }
 
     private boolean isAllowedAttribute(String elName, String attName) {
-        if (ALLOWED_ATTRIBUTES.contains(elName + ".-"))
+        if (ALLOWED_ATTRIBUTES.contains(elName + ".-")) {
             return false;
-        if (ALLOWED_ATTRIBUTES.contains("*." + attName))
+        }
+        if (ALLOWED_ATTRIBUTES.contains("*." + attName)) {
             return true;
+        }
 
         return ALLOWED_ATTRIBUTES.contains(elName + "." + attName);
     }
 
     private boolean isUrlAttribute(String elName, String attName) {
-        if (URL_ATTRIBUTES.contains("*." + attName))
+        if (URL_ATTRIBUTES.contains("*." + attName)) {
             return true;
+        }
 
         return URL_ATTRIBUTES.contains(elName + "." + attName);
     }
@@ -183,12 +144,14 @@ public class XHTMLReader extends XMLFilterImpl {
             URL testUrl = new URL(context, url);
 
             String proto = testUrl.getProtocol();
-            if (proto == null)
+            if (proto == null) {
                 return true;
+            }
             proto = proto.toLowerCase(Locale.US);
 
-            if (ALLOWED_PROTOCOLS.contains(proto))
+            if (ALLOWED_PROTOCOLS.contains(proto)) {
                 return true;
+            }
 
             logger.warn("Invalid protocol: " + proto);
 
@@ -211,8 +174,9 @@ public class XHTMLReader extends XMLFilterImpl {
 
     private String getCanonicalElement(String localName) {
         String canon = REPLACED_TAGS.get(localName);
-        if (canon != null)
+        if (canon != null) {
             return canon;
+        }
         return localName.toLowerCase(Locale.US);
     }
 
@@ -227,20 +191,17 @@ public class XHTMLReader extends XMLFilterImpl {
         for (String cl : classes) {
             cl = cl.trim();
             if (allowedClasses.contains(cl)) {
-                if (buf.length() > 0)
+                if (buf.length() > 0) {
                     buf.append(" ");
+                }
                 buf.append(cl);
             }
         }
-        if (buf.length() > 0)
+        if (buf.length() > 0) {
             attributes.addAttribute("", "class", "class", "CDATA", buf.toString());
+        }
     }
 
-    /**
-     * Marks the beginning of the current document.
-     *
-     * @throws SAXException if an error occurs
-     */
     @Override
     public void startDocument() throws SAXException {
         super.startDocument();
@@ -248,11 +209,6 @@ public class XHTMLReader extends XMLFilterImpl {
         filterLevel = -1;
     }
 
-    /**
-     * Marks the end of the current document.
-     *
-     * @throws SAXException if an error occurs
-     */
     @Override
     public void endDocument() throws SAXException {
         if (elementLevel == 1) {
@@ -263,18 +219,8 @@ public class XHTMLReader extends XMLFilterImpl {
         super.endDocument();
     }
 
-    /**
-     * Marks the start of an element.
-     *
-     * @param uri       URI of element
-     * @param localName local part
-     * @param qName     qualified name
-     * @param atts      list of attributes
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void startElement(String uri, String localName, String qName,
-                             Attributes atts) throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
         String tagName = getCanonicalElement(localName);
 
         elementLevel++;
@@ -290,8 +236,9 @@ public class XHTMLReader extends XMLFilterImpl {
         }
 
         // if filtering, skip this
-        if (filterLevel >= 0)
+        if (filterLevel >= 0) {
             return;
+        }
 
         // check to see if element is allowed
         if (!isAllowedElement(tagName)) {
@@ -312,20 +259,16 @@ public class XHTMLReader extends XMLFilterImpl {
                     String url = atts.getValue(i);
 
                     if (validateUrl(url)) {
-                        if (baseUrl != null)
+                        if (baseUrl != null) {
                             url = rebaseUrl(url);
-
-                        filteredAtts
-                                .addAttribute("", attName, attName, atts.getType(i), url);
+                        }
+                        filteredAtts.addAttribute("", attName, attName, atts.getType(i), url);
                     } else {
                         // not valid -- replace with safe value
-                        filteredAtts
-                                .addAttribute("", attName, attName, atts.getType(i), "#");
+                        filteredAtts.addAttribute("", attName, attName, atts.getType(i), "#");
                     }
-
                 } else {
-                    filteredAtts.addAttribute("", attName, attName, atts.getType(i),
-                            atts.getValue(i));
+                    filteredAtts.addAttribute("", attName, attName, atts.getType(i), atts.getValue(i));
                 }
             }
         }
@@ -333,17 +276,8 @@ public class XHTMLReader extends XMLFilterImpl {
         super.startElement("", tagName, tagName, filteredAtts);
     }
 
-    /**
-     * Marks the end of the current element.
-     *
-     * @param uri       URI of the current element
-     * @param localName local part
-     * @param qName     fully qualified name
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void endElement(String uri, String localName, String qName)
-            throws SAXException {
+    public void endElement(String uri, String localName, String qName) throws SAXException {
         try {
             String tagName = getCanonicalElement(localName);
 
@@ -361,19 +295,11 @@ public class XHTMLReader extends XMLFilterImpl {
         }
     }
 
-    /**
-     * Parses character data.
-     *
-     * @param ch     character buffer
-     * @param start  starting offset in buffer
-     * @param length number of characters to process
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void characters(char[] ch, int start, int length)
-            throws SAXException {
-        if (filterLevel >= 0)
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        if (filterLevel >= 0) {
             return;
+        }
         super.characters(ch, start, length);
     }
 
@@ -408,91 +334,49 @@ public class XHTMLReader extends XMLFilterImpl {
         super.processingInstruction(target, data);
     }
 
-    /**
-     * Handles unparsed entity declaractions.
-     *
-     * @param name         name of entity
-     * @param publicId     public identifier
-     * @param systemId     system identifier
-     * @param notationName notation name
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void unparsedEntityDecl(String name, String publicId,
-                                   String systemId, String notationName) throws SAXException {
-        if (filterLevel >= 0)
+    public void unparsedEntityDecl(String name, String publicId, String systemId, String notationName) throws SAXException {
+        if (filterLevel >= 0) {
             return;
+        }
         super.unparsedEntityDecl(name, publicId, systemId, notationName);
     }
 
-    /**
-     * Resolves an entity.
-     *
-     * @param publicId public identifier
-     * @param systemId system identifier
-     * @return InputSource pointing to the requested entity
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public InputSource resolveEntity(String publicId, String systemId)
-            throws SAXException, IOException {
+    public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
         return super.resolveEntity(publicId, systemId);
     }
 
-    /**
-     * Skips an entity.
-     *
-     * @param name name of entity to skip
-     * @throws SAXException if an error occurs
-     */
     @Override
     public void skippedEntity(String name) throws SAXException {
-        if (filterLevel >= 0)
+        if (filterLevel >= 0) {
             return;
+        }
         super.skippedEntity(name);
     }
 
-    /**
-     * Processes a notation declaration.
-     *
-     * @param name     notation name
-     * @param publicId public identifier
-     * @param systemId system identifier
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void notationDecl(String name, String publicId,
-                             String systemId) throws SAXException {
-        if (filterLevel >= 0)
+    public void notationDecl(String name, String publicId, String systemId) throws SAXException {
+        if (filterLevel >= 0) {
             return;
+        }
         super.notationDecl(name, publicId, systemId);
     }
 
-    /**
-     * Starts mapping a prefix.
-     *
-     * @param prefix name of prefix to map
-     * @param uri    URI of prefix to map
-     * @throws SAXException if an error occurs
-     */
     @Override
-    public void startPrefixMapping(String prefix, String uri)
-            throws SAXException {
-        if ("".equals(prefix))
+    public void startPrefixMapping(String prefix, String uri) throws SAXException {
+        if ("".equals(prefix)) {
             return; // don't map default prefix
+        }
         super.startPrefixMapping(prefix, uri);
     }
 
-    /**
-     * Ends the current prefix mapping.
-     *
-     * @param prefix prefix to be mapped
-     * @throws SAXException if an error occurs
-     */
     @Override
     public void endPrefixMapping(String prefix) throws SAXException {
-        if ("".equals(prefix))
+        if ("".equals(prefix)) {
             return; // don't map default prefix
+        }
         super.endPrefixMapping(prefix);
     }
+
 }

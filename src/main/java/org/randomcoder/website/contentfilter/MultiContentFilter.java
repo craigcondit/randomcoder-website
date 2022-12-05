@@ -28,10 +28,8 @@ public class MultiContentFilter implements ContentFilter {
     }
 
     @Override
-    public XMLReader getXMLReader(URL baseUrl, String contentType)
-            throws SAXException {
-        return getFilterForContentType(contentType)
-                .getXMLReader(baseUrl, contentType);
+    public XMLReader getXMLReader(URL baseUrl, String contentType) throws SAXException {
+        return getFilterForContentType(contentType).getXMLReader(baseUrl, contentType);
     }
 
     @Override

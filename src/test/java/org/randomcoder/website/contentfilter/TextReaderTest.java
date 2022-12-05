@@ -1,4 +1,4 @@
-package org.randomcoder.content;
+package org.randomcoder.website.contentfilter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,9 +13,9 @@ import java.io.InputStreamReader;
 import static org.junit.Assert.assertEquals;
 
 public class TextReaderTest {
+
     private static final String TEST_RESOURCE = "/text-reader.txt";
-    private static final String EXPECTED_DATA =
-            "<text><line>First paragraph.</line><line></line><line>Second paragraph.</line></text>";
+    private static final String EXPECTED_DATA = "<text><line>First paragraph.</line><line></line><line>Second paragraph.</line></text>";
 
     private TextReader reader;
     private TextContentHandler handler;
@@ -35,8 +35,7 @@ public class TextReaderTest {
     }
 
     @Test(expected = SAXException.class)
-    public void testParseNoSource()
-            throws Exception {
+    public void testParseNoSource() throws Exception {
         InputSource source = new InputSource();
         reader.parse(source);
     }
@@ -52,8 +51,7 @@ public class TextReaderTest {
     @Test
     public void testParseReader() throws Exception {
         InputSource source = new InputSource();
-        source.setCharacterStream(
-                new InputStreamReader(getClass().getResourceAsStream(TEST_RESOURCE)));
+        source.setCharacterStream(new InputStreamReader(getClass().getResourceAsStream(TEST_RESOURCE)));
         reader.parse(source);
         assertEquals("Wrong data", EXPECTED_DATA, handler.getData());
     }
@@ -77,14 +75,12 @@ public class TextReaderTest {
         }
 
         @Override
-        public void characters(char[] ch, int start, int length)
-                throws SAXException {
+        public void characters(char[] ch, int start, int length) throws SAXException {
             buf.append(ch, start, length);
         }
 
         @Override
-        public void endElement(String uri, String localName, String qName)
-                throws SAXException {
+        public void endElement(String uri, String localName, String qName) throws SAXException {
             buf.append("</");
             buf.append(localName);
             buf.append(">");
@@ -96,12 +92,11 @@ public class TextReaderTest {
         }
 
         @Override
-        public void startElement(String uri, String localName, String qName,
-                                 Attributes attributes) throws SAXException {
+        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
             buf.append("<");
             buf.append(localName);
             buf.append(">");
         }
-
     }
+
 }

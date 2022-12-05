@@ -1,10 +1,10 @@
-package org.randomcoder.content;
+package org.randomcoder.website.contentfilter;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.io.SequenceReader;
-import org.randomcoder.test.mock.content.ContentFilterMock;
+import org.randomcoder.website.io.SequenceReader;
+import org.randomcoder.website.test.mock.content.ContentFilterMock;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -16,9 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class MultiContentFilterTest {
+
     private MultiContentFilter filter;
 
     @Before
@@ -79,4 +82,5 @@ public class MultiContentFilterTest {
         filter.setDefaultHandler(null);
         filter.getPrefix("bogus");
     }
+
 }

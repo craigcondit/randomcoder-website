@@ -1,10 +1,11 @@
-package org.randomcoder.content;
+package org.randomcoder.website.data;
 
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 public class ContentTypeTest {
+
     @Test
     public void testGetMimeType() {
         assertEquals("text/plain", ContentType.TEXT.getMimeType());
@@ -34,4 +35,5 @@ public class ContentTypeTest {
         assertEquals(ContentType.TEXT, ContentType.valueOf("TEXT"));
         assertEquals(ContentType.XHTML, ContentType.valueOf("XHTML"));
     }
+
 }
