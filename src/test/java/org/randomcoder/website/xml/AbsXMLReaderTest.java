@@ -3,13 +3,16 @@ package org.randomcoder.website.xml;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.website. test.mock.xml.AbstractXMLReaderMock;
+import org.randomcoder.website.test.mock.xml.AbstractXMLReaderMock;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class AbsXMLReaderTest {
 

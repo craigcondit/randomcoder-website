@@ -1,15 +1,29 @@
-package org.randomcoder.validation;
+package org.randomcoder.website.validation;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static org.randomcoder.validation.DataValidationUtils.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.randomcoder.website.validation.DataValidationUtils.canonicalizeDomainName;
+import static org.randomcoder.website.validation.DataValidationUtils.canonicalizeTagName;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidDomainName;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidDomainWildcard;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidEmailAddress;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidIpAddress;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidLocalEmailAccount;
+import static org.randomcoder.website.validation.DataValidationUtils.isValidUrl;
+import static org.randomcoder.website.validation.DataValidationUtils.splitEmailAddress;
 
 public class DataValidationUtilsTest {
+
     private static final String MAX_DOMAIN_SEGMENT =
             "1234567890123456789012345678901234567890123456789012345678901234567";
-    private static final String MAX_DOMAIN_LENGTH =
-            "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.1.com";
+
+    private static final String MAX_DOMAIN_LENGTH = "123456789.123456789.123456789.123456789.123456789.123456789." +
+            "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789." +
+            "123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.123456789.1.com";
 
     @Test
     public void testCanonicalizeDomainName() {
@@ -26,13 +40,10 @@ public class DataValidationUtilsTest {
         assertFalse(".test.com", isValidDomainName(".test.com"));
         assertFalse("test", isValidDomainName("test"));
         assertFalse("*.test.com", isValidDomainName("*.test.com"));
-        assertTrue(MAX_DOMAIN_SEGMENT + ".com",
-                isValidDomainName(MAX_DOMAIN_SEGMENT + ".com"));
-        assertFalse(MAX_DOMAIN_SEGMENT + "x.com",
-                isValidDomainName(MAX_DOMAIN_SEGMENT + "x.com"));
+        assertTrue(MAX_DOMAIN_SEGMENT + ".com", isValidDomainName(MAX_DOMAIN_SEGMENT + ".com"));
+        assertFalse(MAX_DOMAIN_SEGMENT + "x.com", isValidDomainName(MAX_DOMAIN_SEGMENT + "x.com"));
         assertTrue(MAX_DOMAIN_LENGTH, isValidDomainName(MAX_DOMAIN_LENGTH));
-        assertFalse("x" + MAX_DOMAIN_LENGTH,
-                isValidDomainName("x" + MAX_DOMAIN_LENGTH));
+        assertFalse("x" + MAX_DOMAIN_LENGTH, isValidDomainName("x" + MAX_DOMAIN_LENGTH));
     }
 
     @Test
@@ -56,14 +67,10 @@ public class DataValidationUtilsTest {
         assertFalse("test#123", isValidLocalEmailAccount("test#123"));
         assertFalse("test$123", isValidLocalEmailAccount("test$123"));
         assertFalse("test%123", isValidLocalEmailAccount("test%123"));
-        assertTrue(
-                "abcdefghijklmnopqrstuvwxyz78901234567890123456789012345678901234",
-                isValidLocalEmailAccount(
-                        "abcdefghijklmnopqrstuvwxyz78901234567890123456789012345678901234"));
-        assertFalse(
-                "abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345",
-                isValidLocalEmailAccount(
-                        "abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345"));
+        assertTrue("abcdefghijklmnopqrstuvwxyz78901234567890123456789012345678901234",
+                isValidLocalEmailAccount("abcdefghijklmnopqrstuvwxyz78901234567890123456789012345678901234"));
+        assertFalse("abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345",
+                isValidLocalEmailAccount("abcdefghijklmnopqrstuvwxyz789012345678901234567890123456789012345"));
     }
 
     @Test
@@ -88,13 +95,11 @@ public class DataValidationUtilsTest {
     @Test
     public void testIsValidUrl() {
         assertTrue("http:/www.example.com/", isValidUrl("http://www.example.com/"));
-        assertTrue("https://www.example.com/",
-                isValidUrl("https://www.example.com/"));
+        assertTrue("https://www.example.com/", isValidUrl("https://www.example.com/"));
         assertFalse("//www.example.com", isValidUrl("//www.example.com"));
         assertFalse("www.example.com", isValidUrl("www.example.com"));
         assertFalse("ftp://www.example.com/", isValidUrl("ftp://www.example.com/"));
-        assertTrue("ftp://www.example.com/",
-                isValidUrl("ftp://www.example.com/", "ftp"));
+        assertTrue("ftp://www.example.com/", isValidUrl("ftp://www.example.com/", "ftp"));
     }
 
     @Test
@@ -110,10 +115,8 @@ public class DataValidationUtilsTest {
         assertEquals("test\\@ing", splitEmailAddress("test\\@ing@example.com")[0]);
         assertEquals("example.com", splitEmailAddress("test\\@ing@example.com")[1]);
 
-        assertEquals("\"quoted@address\"",
-                splitEmailAddress("\"quoted@address\"@example.com")[0]);
-        assertEquals("example.com",
-                splitEmailAddress("\"quoted@address\"@example.com")[1]);
+        assertEquals("\"quoted@address\"", splitEmailAddress("\"quoted@address\"@example.com")[0]);
+        assertEquals("example.com", splitEmailAddress("\"quoted@address\"@example.com")[1]);
     }
 
     @Test
@@ -129,18 +132,13 @@ public class DataValidationUtilsTest {
         assertTrue("test", isValidEmailAddress("test", false, true, false));
 
         // wildcard
-        assertFalse("test@*.example.com",
-                isValidEmailAddress("test@*.example.com"));
-        assertTrue("test@*.example.com",
-                isValidEmailAddress("test@*.example.com", false, false, true));
-        assertFalse("test@-.example.com",
-                isValidEmailAddress("test@-.example.com", false, false, true));
+        assertFalse("test@*.example.com", isValidEmailAddress("test@*.example.com"));
+        assertTrue("test@*.example.com", isValidEmailAddress("test@*.example.com", false, false, true));
+        assertFalse("test@-.example.com", isValidEmailAddress("test@-.example.com", false, false, true));
 
         // non-dns safe
-        assertTrue("test\\@ing@example.com",
-                isValidEmailAddress("test\\@ing@example.com"));
-        assertFalse("test\\@ing@example.com",
-                isValidEmailAddress("test\\@ing@example.com", true, false, false));
+        assertTrue("test\\@ing@example.com", isValidEmailAddress("test\\@ing@example.com"));
+        assertFalse("test\\@ing@example.com", isValidEmailAddress("test\\@ing@example.com", true, false, false));
 
         // null
         assertFalse("null", isValidEmailAddress(null));
@@ -150,49 +148,30 @@ public class DataValidationUtilsTest {
         assertTrue("no domain", isValidEmailAddress("local", false, true, false));
 
         // quoted
-        assertTrue("\"test@local\"@domain.com",
-                isValidEmailAddress("\"test@local\"@domain.com"));
+        assertTrue("\"test@local\"@domain.com", isValidEmailAddress("\"test@local\"@domain.com"));
 
         // escapes
         assertFalse("\\@domain.com", isValidEmailAddress("\\@domain.com"));
-        assertTrue("\\\u0001@domain.com",
-                isValidEmailAddress("\\\u0001@domain.com"));
-        assertTrue("\\\u000b@domain.com",
-                isValidEmailAddress("\\\u000b@domain.com"));
-        assertTrue("\\\u000c@domain.com",
-                isValidEmailAddress("\\\u000c@domain.com"));
-        assertTrue("\\\u000f@domain.com",
-                isValidEmailAddress("\\\u000f@domain.com"));
-        assertFalse("\\\u0080@domain.com",
-                isValidEmailAddress("\\\u0080@domain.com"));
+        assertTrue("\\\u0001@domain.com", isValidEmailAddress("\\\u0001@domain.com"));
+        assertTrue("\\\u000b@domain.com", isValidEmailAddress("\\\u000b@domain.com"));
+        assertTrue("\\\u000c@domain.com", isValidEmailAddress("\\\u000c@domain.com"));
+        assertTrue("\\\u000f@domain.com", isValidEmailAddress("\\\u000f@domain.com"));
+        assertFalse("\\\u0080@domain.com", isValidEmailAddress("\\\u0080@domain.com"));
         assertFalse("\\@domain.com", isValidEmailAddress("\\@domain.com"));
         assertFalse("\\@domain.com", isValidEmailAddress("\\@domain.com"));
-        assertFalse("\"test\\\"@domain.com",
-                isValidEmailAddress("\"test\\\"@domain.com"));
-        assertTrue("\"test\u0008@local\"@domain.com",
-                isValidEmailAddress("\"test\u0008@local\"@domain.com"));
-        assertTrue("\"test\\\t@local\"@domain.com",
-                isValidEmailAddress("\"test\\\t@local\"@domain.com"));
-        assertTrue("\"test\u000b@local\"@domain.com",
-                isValidEmailAddress("\"test\u000b@local\"@domain.com"));
-        assertTrue("\"test\\\u000b@local\"@domain.com",
-                isValidEmailAddress("\"test\\\u000b@local\"@domain.com"));
-        assertTrue("\"test\u000c@local\"@domain.com",
-                isValidEmailAddress("\"test\u000c@local\"@domain.com"));
-        assertTrue("\"test\\\u000c@local\"@domain.com",
-                isValidEmailAddress("\"test\\\u000c@local\"@domain.com"));
-        assertTrue("\"test\u000e@local\"@domain.com",
-                isValidEmailAddress("\"test\u000e@local\"@domain.com"));
-        assertTrue("\"test\\\u000e@local\"@domain.com",
-                isValidEmailAddress("\"test\\\u000e@local\"@domain.com"));
-        assertTrue("\"test\u007f@local\"@domain.com",
-                isValidEmailAddress("\"test\u007f@local\"@domain.com"));
-        assertTrue("\"test\\\u007f@local\"@domain.com",
-                isValidEmailAddress("\"test\\\u007f@local\"@domain.com"));
-        assertFalse("\"test\u0080@local\"@domain.com",
-                isValidEmailAddress("\"test\u0080@local\"@domain.com"));
-        assertFalse("\"test\\\u0080@local\"@domain.com",
-                isValidEmailAddress("\"test\\\u0080@local\"@domain.com"));
+        assertFalse("\"test\\\"@domain.com", isValidEmailAddress("\"test\\\"@domain.com"));
+        assertTrue("\"test\u0008@local\"@domain.com", isValidEmailAddress("\"test\u0008@local\"@domain.com"));
+        assertTrue("\"test\\\t@local\"@domain.com", isValidEmailAddress("\"test\\\t@local\"@domain.com"));
+        assertTrue("\"test\u000b@local\"@domain.com", isValidEmailAddress("\"test\u000b@local\"@domain.com"));
+        assertTrue("\"test\\\u000b@local\"@domain.com", isValidEmailAddress("\"test\\\u000b@local\"@domain.com"));
+        assertTrue("\"test\u000c@local\"@domain.com", isValidEmailAddress("\"test\u000c@local\"@domain.com"));
+        assertTrue("\"test\\\u000c@local\"@domain.com", isValidEmailAddress("\"test\\\u000c@local\"@domain.com"));
+        assertTrue("\"test\u000e@local\"@domain.com", isValidEmailAddress("\"test\u000e@local\"@domain.com"));
+        assertTrue("\"test\\\u000e@local\"@domain.com", isValidEmailAddress("\"test\\\u000e@local\"@domain.com"));
+        assertTrue("\"test\u007f@local\"@domain.com", isValidEmailAddress("\"test\u007f@local\"@domain.com"));
+        assertTrue("\"test\\\u007f@local\"@domain.com", isValidEmailAddress("\"test\\\u007f@local\"@domain.com"));
+        assertFalse("\"test\u0080@local\"@domain.com", isValidEmailAddress("\"test\u0080@local\"@domain.com"));
+        assertFalse("\"test\\\u0080@local\"@domain.com", isValidEmailAddress("\"test\\\u0080@local\"@domain.com"));
     }
 
     @Test
@@ -205,4 +184,5 @@ public class DataValidationUtilsTest {
         assertEquals("testing-5", canonicalizeTagName(" Testing  5 "));
         assertEquals("testing-6", canonicalizeTagName("Testing\t6"));
     }
+
 }

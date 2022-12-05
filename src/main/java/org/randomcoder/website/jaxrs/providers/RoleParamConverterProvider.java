@@ -17,6 +17,7 @@ public class RoleParamConverterProvider implements ParamConverterProvider {
     UserBusiness userBusiness;
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
         if (rawType != Role.class) {
             return null;
