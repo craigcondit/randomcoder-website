@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>
+	<target>System.out</target>
         <encoder>
             <pattern>%-5.5p - %logger - %m%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="org.randomcoder" level="info" />
+    <logger name="org.randomcoder.website" level="info" />
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
     <logger name="org.eclipse.jetty" level="warn" />
+    <logger name="org.glassfish.jersey" level="warn" />
     <logger name="org.thymeleaf" level="warn" />
     <logger name="org.postgresql" level="warn" />
+    <logger name="jdk" level="warn" />
 
     <root level="debug">
         <appender-ref ref="console" />
