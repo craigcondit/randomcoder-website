@@ -499,7 +499,7 @@
                     <goal>install</goal>
                     <archive>
                         <manifest>
-                            <mainClass>org.randomcoder.WebSite</mainClass>
+                            <mainClass>org.randomcoder.website.WebSite</mainClass>
                         </manifest>
                     </archive>
                     <excludes>
@@ -574,8 +574,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>org/randomcoder/config/**/*.class</exclude>
-                        <exclude>org/randomcoder/WebSite.class</exclude>
+			<exclude>org/randomcoder/website/WebSite.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
