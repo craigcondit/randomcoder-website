@@ -43,8 +43,11 @@ public class UserBusinessImpl implements UserBusiness {
 
     private final byte[] randomKey;
 
-    private RoleDao roleDao;
-    private UserDao userDao;
+    @Inject
+    RoleDao roleDao;
+
+    @Inject
+    UserDao userDao;
 
     public UserBusinessImpl() throws Exception {
         var secure = SecureRandom.getInstanceStrong();
@@ -52,16 +55,6 @@ public class UserBusinessImpl implements UserBusiness {
         var splitSeed = secure.nextLong();
         random = RandomGeneratorFactory.<RandomGenerator.SplittableGenerator>of("L128X256MixRandom")
                 .create(splitSeed);
-    }
-
-    @Inject
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
-
-    @Inject
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
     }
 
     @Override

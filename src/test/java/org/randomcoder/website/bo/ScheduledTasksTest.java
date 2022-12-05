@@ -1,4 +1,4 @@
-package org.randomcoder.bo;
+package org.randomcoder.website.bo;
 
 import org.easymock.IMocksControl;
 import org.junit.After;
@@ -9,6 +9,7 @@ import static org.easymock.EasyMock.createControl;
 import static org.easymock.EasyMock.expect;
 
 public class ScheduledTasksTest {
+
     private IMocksControl control;
     private ArticleBusiness ab;
     private ScheduledTasks st;
@@ -18,8 +19,8 @@ public class ScheduledTasksTest {
         control = createControl();
         ab = control.createMock(ArticleBusiness.class);
         st = new ScheduledTasks();
-        st.setModerationBatchSize(3);
-        st.setArticleBusiness(ab);
+        st.moderationBatchSize = 3;
+        st.articleBusiness = ab;
     }
 
     @After

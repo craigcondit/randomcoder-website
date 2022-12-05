@@ -1,40 +1,47 @@
-package org.randomcoder.bo;
+package org.randomcoder.website.bo;
 
 import org.easymock.Capture;
 import org.easymock.IMocksControl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.randomcoder.dao.RoleDao;
-import org.randomcoder.dao.UserDao;
-import org.randomcoder.db.Role;
-import org.randomcoder.db.User;
-import org.randomcoder.mvc.command.AccountCreateCommand;
-import org.randomcoder.mvc.command.UserAddCommand;
-import org.randomcoder.mvc.command.UserEditCommand;
-import org.randomcoder.user.UserNotFoundException;
+import org.randomcoder.website.command.AccountCreateCommand;
+import org.randomcoder.website.command.UserAddCommand;
+import org.randomcoder.website.command.UserEditCommand;
+import org.randomcoder.website.dao.RoleDao;
+import org.randomcoder.website.dao.UserDao;
+import org.randomcoder.website.data.Role;
+import org.randomcoder.website.data.User;
+import org.randomcoder.website.data.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.capture;
+import static org.easymock.EasyMock.createControl;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.newCapture;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 public class UserBusinessImplTest {
+
     private IMocksControl control;
     private UserBusinessImpl ub;
     private UserDao ud;
     private RoleDao rd;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         control = createControl();
         ud = control.createMock(UserDao.class);
         rd = control.createMock(RoleDao.class);
 
         ub = new UserBusinessImpl();
-        ub.setUserDao(ud);
-        ub.setRoleDao(rd);
+        ub.userDao = ud;
+        ub.roleDao = rd;
     }
 
     @After
@@ -70,7 +77,7 @@ public class UserBusinessImplTest {
         testRole.setName("test-role");
         testRole.setDescription("Test role");
 
-        cmd.setRoles(new Role[]{testRole});
+        cmd.setRoles(List.of(testRole));
 
         Capture<User> created = newCapture();
 
@@ -114,7 +121,7 @@ public class UserBusinessImplTest {
         user.setId(1L);
 
         UserEditCommand cmd = new UserEditCommand();
-        cmd.consume(user);
+        cmd.load(user);
         cmd.setEmailAddress("test-update2@example.com");
         cmd.setPassword("testPassword2");
         cmd.setPassword2("testPassword2");
@@ -157,7 +164,7 @@ public class UserBusinessImplTest {
         expect(ud.findById(1L)).andReturn(user);
         control.replay();
 
-        ub.loadUserForEditing(cmd, 1L);
+        ub.loadUserForEditing(cmd::load, 1L);
         control.verify();
 
         assertEquals("Wrong username", "test-load-user", cmd.getUserName());

@@ -1,21 +1,18 @@
-package org.randomcoder.bo;
+package org.randomcoder.website.bo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class AppInfoBusinessImplTest {
+
     private AppInfoBusinessImpl info;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() throws Exception {
         info = new AppInfoBusinessImpl();
-        info.setPropertyFile(new ClassPathResource("/version-test.properties"));
     }
 
     @After
@@ -24,8 +21,9 @@ public class AppInfoBusinessImplTest {
     }
 
     @Test
-    public void testGetObject() throws Exception {
+    public void testGetObject() {
         assertEquals("Test-Application", info.getApplicationName());
         assertEquals("1.0.0", info.getApplicationVersion());
     }
+
 }

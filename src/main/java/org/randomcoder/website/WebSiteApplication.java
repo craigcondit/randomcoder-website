@@ -19,6 +19,7 @@ import org.randomcoder.website.bo.AppInfoBusinessImpl;
 import org.randomcoder.website.bo.ArticleBusiness;
 import org.randomcoder.website.bo.ArticleBusinessImpl;
 import org.randomcoder.website.bo.Moderator;
+import org.randomcoder.website.bo.ScheduledTasks;
 import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.bo.TagBusinessImpl;
 import org.randomcoder.website.bo.UserBusiness;
@@ -128,6 +129,7 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(config.getIntOrDefault(Config.USERNAME_LENGTH_MINIMUM, 3)).named(Config.USERNAME_LENGTH_MINIMUM).to(Integer.class);
                 bind(config.getIntOrDefault(Config.PASSWORD_LENGTH_MINIMUM, 6)).named(Config.PASSWORD_LENGTH_MINIMUM).to(Integer.class);
                 bind(config.getIntOrDefault(Config.TAG_PAGESIZE_MAX, 100)).named(Config.TAG_PAGESIZE_MAX).to(Integer.class);
+                bind(config.getIntOrDefault(Config.MODERATION_BATCH_SIZE, 5)).named(Config.MODERATION_BATCH_SIZE).to(Integer.class);
 
                 URL feedBaseUrl = new URL(config.getString(Config.FEED_BASE_URL));
                 bind(feedBaseUrl).named(Config.FEED_BASE_URL).to(URL.class);
@@ -161,6 +163,7 @@ public class WebSiteApplication extends ResourceConfig {
 
                 // business objects - immediate
                 bind(AkismetModerator.class).to(Moderator.class).in(Immediate.class);
+                bind(ScheduledTasks.class).to(ScheduledTasks.class).in(Immediate.class);
 
                 // business objects
                 singletons(Map.of(
