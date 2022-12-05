@@ -40,16 +40,6 @@
     </licenses>
     <repositories>
         <repository>
-            <id>spring-milestone</id>
-            <url>https://repo.spring.io/milestone</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
             <id>github-randomcoder-parent</id>
             <url>https://maven.pkg.github.com/craigcondit/randomcoder-parent</url>
             <releases>
@@ -78,11 +68,8 @@
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
         <thymeleaf.version>3.1.0.RELEASE</thymeleaf.version>
-        <thymeleaf.extras.springsecurity6.version>3.1.0.M1</thymeleaf.extras.springsecurity6.version>
         <hibernate.validator.version>8.0.0.Final</hibernate.validator.version>
         <bytebuddy.version>1.12.19</bytebuddy.version>
-        <spring.version>6.0.0-RC2</spring.version>
-        <spring.security.version>6.0.0-M7</spring.security.version>
         <jakarta.jaxb.api.version>4.0.0</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>4.0.1</jakarta.jaxb.version>
         <jakarta.inject.version>2.0.1</jakarta.inject.version>
@@ -144,18 +131,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.el</artifactId>
             <version>${jakarta.el.version}</version>
@@ -193,16 +168,6 @@
             <version>${thymeleaf.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring6</artifactId>
-            <version>${thymeleaf.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity6-patched</artifactId>
-            <version>${thymeleaf.extras.springsecurity6.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -216,11 +181,6 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -247,41 +207,6 @@
             <groupId>jakarta.inject</groupId>
             <artifactId>jakarta.inject-api</artifactId>
             <version>${jakarta.inject.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

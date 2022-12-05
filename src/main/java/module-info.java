@@ -44,20 +44,7 @@ module org.randomcoder.website {
     requires org.postgresql.jdbc;
     requires org.slf4j;
     requires org.yaml.snakeyaml;
-    requires spring.aop;
-    requires spring.beans;
-    requires spring.core;
-    requires spring.context;
-    requires spring.context.support;
-    requires spring.security.core;
-    requires spring.security.config;
-    requires spring.security.crypto;
-    requires spring.security.web;
-    requires spring.web;
-    requires spring.webmvc;
     requires thymeleaf;
-    requires thymeleaf.spring6;
-    requires thymeleaf.extras.springsecurity6;
 
     exports org.randomcoder.website.data;
     exports org.randomcoder.website.model;
