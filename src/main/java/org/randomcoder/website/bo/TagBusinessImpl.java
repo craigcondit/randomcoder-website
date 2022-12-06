@@ -2,6 +2,9 @@ package org.randomcoder.website.bo;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.randomcoder.website.cache.ArticleCache;
+import org.randomcoder.website.cache.EmptyKey;
+import org.randomcoder.website.cache.TagCache;
 import org.randomcoder.website.dao.TagDao;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.Tag;
@@ -16,17 +19,22 @@ import java.util.function.Consumer;
 @Singleton
 public class TagBusinessImpl implements TagBusiness {
 
-    private TagDao tagDao;
+    @Inject
+    TagDao tagDao;
 
     @Inject
-    public void setTagDao(TagDao tagDao) {
-        this.tagDao = tagDao;
-    }
+    TagCache tagCache;
+
+    @Inject
+    ArticleCache articleCache;
 
     @Override
     public List<TagCloudEntry> getTagCloud() {
-        var tagStats = tagDao.listAllTagStatistics();
-        int mostArticles = tagDao.maxArticleCount();
+        var tagStats = tagCache.tagStatistics().get(EmptyKey.KEY,
+                k -> tagDao.listAllTagStatistics());
+
+        int mostArticles = tagCache.maxArticleCount().get(EmptyKey.KEY,
+                k -> tagDao.maxArticleCount());
 
         List<TagCloudEntry> cloud = new ArrayList<>();
         for (TagStatistics tag : tagStats) {
@@ -49,6 +57,7 @@ public class TagBusinessImpl implements TagBusiness {
         Tag tag = new Tag();
         visitor.accept(tag);
         tagDao.save(tag);
+        tagCache.clearAll();
     }
 
     @Override
@@ -56,11 +65,15 @@ public class TagBusinessImpl implements TagBusiness {
         Tag tag = loadTag(tagId);
         visitor.accept(tag);
         tagDao.save(tag);
+        tagCache.clearAll();
+        articleCache.clearAll();
     }
 
     @Override
     public void deleteTag(Long tagId) {
         tagDao.deleteById(tagId);
+        tagCache.clearAll();
+        articleCache.clearAll();
     }
 
     @Override

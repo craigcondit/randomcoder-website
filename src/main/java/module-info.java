@@ -11,7 +11,9 @@ module org.randomcoder.website {
     requires commons.dbcp2;
     requires commons.httpclient;
     requires commons.logging;
+    requires com.github.benmanes.caffeine;
     requires com.codahale.metrics;
+    requires com.codahale.metrics.caffeine;
     requires com.codahale.metrics.jvm;
     requires com.codahale.metrics.json;
     requires com.fasterxml.jackson.annotation;
@@ -53,6 +55,7 @@ module org.randomcoder.website {
 
     opens org.randomcoder.website;
     opens org.randomcoder.website.bo;
+    opens org.randomcoder.website.cache;
     opens org.randomcoder.website.contentfilter;
     opens org.randomcoder.website.controller;
     opens org.randomcoder.website.command;

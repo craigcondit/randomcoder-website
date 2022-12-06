@@ -33,6 +33,10 @@ import org.randomcoder.website.bo.TagBusiness;
 import org.randomcoder.website.bo.TagBusinessImpl;
 import org.randomcoder.website.bo.UserBusiness;
 import org.randomcoder.website.bo.UserBusinessImpl;
+import org.randomcoder.website.cache.ArticleCache;
+import org.randomcoder.website.cache.ArticleCacheImpl;
+import org.randomcoder.website.cache.TagCache;
+import org.randomcoder.website.cache.TagCacheImpl;
 import org.randomcoder.website.contentfilter.ContentFilter;
 import org.randomcoder.website.contentfilter.MultiContentFilter;
 import org.randomcoder.website.contentfilter.TextFilter;
@@ -149,6 +153,11 @@ public class WebSiteApplication extends ResourceConfig {
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
                 bind(contentFilter()).to(ContentFilter.class);
+
+                // caches
+                singletons(Map.of(
+                        ArticleCache.class, ArticleCacheImpl.class,
+                        TagCache.class, TagCacheImpl.class));
 
                 // feeds
                 bind(Rss20FeedGenerator.class).named("rss20FeedGenerator").to(FeedGenerator.class).in(Singleton.class);

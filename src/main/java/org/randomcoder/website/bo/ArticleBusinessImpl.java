@@ -4,6 +4,10 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.NotAuthorizedException;
 import org.apache.commons.lang3.StringUtils;
+import org.randomcoder.website.cache.ArticleCache;
+import org.randomcoder.website.cache.ArticlesBetweenDatesKey;
+import org.randomcoder.website.cache.ArticlesBeforeDateRangeKey;
+import org.randomcoder.website.cache.TagCache;
 import org.randomcoder.website.dao.ArticleDao;
 import org.randomcoder.website.dao.CommentDao;
 import org.randomcoder.website.dao.RoleDao;
@@ -35,42 +39,29 @@ public class ArticleBusinessImpl implements ArticleBusiness {
     private static final String ROLE_MANAGE_ARTICLES = "ROLE_MANAGE_ARTICLES";
     private static final String ROLE_MANAGE_COMMENTS = "ROLE_MANAGE_COMMENTS";
 
-    private ArticleDao articleDao;
-    private CommentDao commentDao;
-    private TagDao tagDao;
-    private UserDao userDao;
-    private RoleDao roleDao;
-    private Moderator moderator;
+    @Inject
+    ArticleDao articleDao;
 
     @Inject
-    public void setArticleDao(ArticleDao articleDao) {
-        this.articleDao = articleDao;
-    }
+    CommentDao commentDao;
 
     @Inject
-    public void setCommentDao(CommentDao commentDao) {
-        this.commentDao = commentDao;
-    }
+    TagDao tagDao;
 
     @Inject
-    public void setTagDao(TagDao tagDao) {
-        this.tagDao = tagDao;
-    }
+    UserDao userDao;
 
     @Inject
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    RoleDao roleDao;
 
     @Inject
-    public void setRoleDao(RoleDao roleDao) {
-        this.roleDao = roleDao;
-    }
+    Moderator moderator;
 
     @Inject
-    public void setModerator(Moderator moderator) {
-        this.moderator = moderator;
-    }
+    ArticleCache articleCache;
+
+    @Inject
+    TagCache tagCache;
 
     @Override
     public Article createArticle(Consumer<Article> visitor, String userName) {
@@ -90,6 +81,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
         long id = articleDao.save(article);
         article.setId(id);
+
+        articleCache.clearAll();
+        tagCache.clearAll();
 
         return article;
     }
@@ -147,6 +141,10 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         }
 
         articleDao.save(article);
+
+        articleCache.clearAll();
+        tagCache.clearAll();
+
         return article;
     }
 
@@ -175,6 +173,8 @@ public class ArticleBusinessImpl implements ArticleBusiness {
         Article article = loadArticle(articleId);
         checkAuthorDelete(user, article);
         articleDao.deleteById(articleId);
+        articleCache.clearAll();
+        tagCache.clearAll();
     }
 
     @Override
@@ -249,7 +249,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public Page<Article> listArticlesBeforeDate(Date endDate, long offset, long length) {
-        return articleDao.listBeforeDate(endDate, offset, length);
+        var cacheKey = new ArticlesBeforeDateRangeKey(endDate, offset, length);
+        return articleCache.articlesBeforeDateRange().get(cacheKey, k ->
+                articleDao.listBeforeDate(endDate, offset, length));
     }
 
     @Override
@@ -259,7 +261,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public List<Article> listArticlesBetweenDates(Date startDate, Date endDate) {
-        return articleDao.listBetweenDates(startDate, endDate);
+        var cacheKey = new ArticlesBetweenDatesKey(startDate, endDate);
+        return articleCache.articlesBetweenDates().get(cacheKey, k ->
+                articleDao.listBetweenDates(startDate, endDate));
     }
 
     @Override
