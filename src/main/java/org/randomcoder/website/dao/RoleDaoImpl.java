@@ -1,5 +1,6 @@
 package org.randomcoder.website.dao;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.data.Role;
@@ -16,12 +17,11 @@ import static org.randomcoder.website.dao.DaoUtils.withReadonlyConnection;
 @Singleton
 public class RoleDaoImpl implements RoleDao {
 
-    private DataSource dataSource;
+    @Inject
+    DataSource dataSource;
 
     @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    MetricRegistry metrics;
 
     private static final String COL_ROLE_ID = "role_id";
     private static final String COL_ROLE_NAME = "name";
@@ -39,32 +39,36 @@ public class RoleDaoImpl implements RoleDao {
 
     @Override
     public List<Role> listByDescription() {
-        return withReadonlyConnection(dataSource, con -> {
-            List<Role> roles = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(LIST_ALL_BY_DESC)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        roles.add(populateRole(rs));
+        try (var ignored = metrics.timer("dao.role.list.by.description").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                List<Role> roles = new ArrayList<>();
+                try (PreparedStatement ps = con.prepareStatement(LIST_ALL_BY_DESC)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            roles.add(populateRole(rs));
+                        }
                     }
                 }
-            }
-            return roles;
-        });
+                return roles;
+            });
+        }
     }
 
     @Override
     public Role findByName(String roleName) {
-        return withReadonlyConnection(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(FIND_BY_NAME)) {
-                ps.setString(1, roleName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        return null;
+        try (var ignored = metrics.timer("dao.role.find.by.name").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(FIND_BY_NAME)) {
+                    ps.setString(1, roleName);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            return null;
+                        }
+                        return populateRole(rs);
                     }
-                    return populateRole(rs);
                 }
-            }
-        });
+            });
+        }
     }
 
     private Role populateRole(ResultSet rs) throws SQLException {

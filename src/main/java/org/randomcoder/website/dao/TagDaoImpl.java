@@ -1,11 +1,12 @@
 package org.randomcoder.website.dao;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import org.randomcoder.website.func.UncheckedConsumer;
 import org.randomcoder.website.data.Page;
 import org.randomcoder.website.data.Tag;
 import org.randomcoder.website.data.TagStatistics;
+import org.randomcoder.website.func.UncheckedConsumer;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -21,12 +22,11 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 @Singleton
 public class TagDaoImpl implements TagDao {
 
-    private DataSource dataSource;
+    @Inject
+    DataSource dataSource;
 
     @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    MetricRegistry metrics;
 
     private static final String INSERT = "INSERT INTO tags (\"name\", display_name) VALUES (?, ?) RETURNING tag_id";
     private static final String UPDATE = "UPDATE tags SET \"name\" = ?, display_name = ? WHERE tag_id = ?";
@@ -63,109 +63,123 @@ public class TagDaoImpl implements TagDao {
     private static final String COL_ARTICLE_COUNT = "article_count";
 
     @Override
-    public Long save(Tag tag) {
+    public long save(Tag tag) {
         return withTransaction(dataSource, con -> (tag.getId() == null) ? createTag(con, tag) : updateTag(con, tag));
     }
 
     @Override
     public void deleteById(long tagId) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
-                ps.setLong(1, tagId);
-                ps.executeUpdate();
-            }
-        });
+        try (var ignored = metrics.timer("dao.tag.delete.by.id").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
+                    ps.setLong(1, tagId);
+                    ps.executeUpdate();
+                }
+            });
+        }
     }
 
     @Override
     public Tag findById(long tagId) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadTag(con, FIND_BY_ID, ps -> {
-                ps.setLong(1, tagId);
+        try (var ignored = metrics.timer("dao.tag.find.by.id").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadTag(con, FIND_BY_ID, ps -> {
+                    ps.setLong(1, tagId);
+                });
             });
-        });
+        }
     }
 
     @Override
     public Tag findByName(String tagName) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadTag(con, FIND_BY_NAME, ps -> {
-                ps.setString(1, tagName);
+        try (var ignored = metrics.timer("dao.tag.find.by.name").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadTag(con, FIND_BY_NAME, ps -> {
+                    ps.setString(1, tagName);
+                });
             });
-        });
+        }
     }
 
     @Override
     public List<Tag> listAll() {
-        return withReadonlyConnection(dataSource, con -> {
-            List<Tag> tags = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(LIST_ALL)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        tags.add(populateTag(rs));
+        try (var ignored = metrics.timer("dao.tag.list.all").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                List<Tag> tags = new ArrayList<>();
+                try (PreparedStatement ps = con.prepareStatement(LIST_ALL)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            tags.add(populateTag(rs));
+                        }
                     }
                 }
-            }
-            return tags;
-        });
+                return tags;
+            });
+        }
     }
 
     @Override
     public List<TagStatistics> listAllTagStatistics() {
-        return withReadonlyConnection(dataSource, con -> {
-            List<TagStatistics> stats = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(TAG_STATISTICS)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        stats.add(populateTagStatistics(rs));
+        try (var ignored = metrics.timer("dao.tag.list.all.tag.statistics").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                List<TagStatistics> stats = new ArrayList<>();
+                try (PreparedStatement ps = con.prepareStatement(TAG_STATISTICS)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            stats.add(populateTagStatistics(rs));
+                        }
                     }
                 }
-            }
-            return stats;
-        });
+                return stats;
+            });
+        }
     }
 
     @Override
     public Page<TagStatistics> listAllTagStatistics(long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            long count;
-            try (PreparedStatement ps = con.prepareStatement(COUNT_TAGS)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        throw new DataAccessException("Failed to list tags");
-                    }
-                    count = rs.getLong(1);
-                }
-            }
-            List<TagStatistics> stats = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(TAG_STATISTICS_PAGED)) {
-                ps.setLong(1, offset);
-                ps.setLong(2, length);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        stats.add(populateTagStatistics(rs));
+        try (var ignored = metrics.timer("dao.tag.list.tag.statistics.paged").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                long count;
+                try (PreparedStatement ps = con.prepareStatement(COUNT_TAGS)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new DataAccessException("Failed to list tags");
+                        }
+                        count = rs.getLong(1);
                     }
                 }
-            }
-            return new Page<>(stats, offset, count, length);
-        });
+                List<TagStatistics> stats = new ArrayList<>();
+                try (PreparedStatement ps = con.prepareStatement(TAG_STATISTICS_PAGED)) {
+                    ps.setLong(1, offset);
+                    ps.setLong(2, length);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            stats.add(populateTagStatistics(rs));
+                        }
+                    }
+                }
+                return new Page<>(stats, offset, count, length);
+            });
+        }
     }
 
     @Override
     public int maxArticleCount() {
-        return withReadonlyConnection(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(MOST_ARTICLES)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        return rs.getInt(COL_ARTICLE_COUNT);
+        try (var ignored = metrics.timer("dao.tag.max.article.count").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(MOST_ARTICLES)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            return rs.getInt(COL_ARTICLE_COUNT);
+                        }
                     }
+                    return 0;
                 }
-                return 0;
-            }
-        });
+            });
+        }
     }
 
-    private Long createTag(Connection con, Tag tag) throws SQLException {
+    private long createTag(Connection con, Tag tag) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(INSERT)) {
             ps.setString(1, tag.getName());
             ps.setString(2, tag.getDisplayName());
@@ -179,7 +193,7 @@ public class TagDaoImpl implements TagDao {
         return tag.getId();
     }
 
-    private Long updateTag(Connection con, Tag tag) throws SQLException {
+    private long updateTag(Connection con, Tag tag) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
             ps.setString(1, tag.getName());
             ps.setString(2, tag.getDisplayName());

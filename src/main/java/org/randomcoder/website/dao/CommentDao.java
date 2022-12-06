@@ -9,7 +9,7 @@ public interface CommentDao {
 
     void deleteById(long commentId);
 
-    Long save(Comment comment);
+    long save(Comment comment);
 
     Page<Comment> listForModeration(long offset, long length);
 

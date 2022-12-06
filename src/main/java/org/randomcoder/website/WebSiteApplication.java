@@ -1,5 +1,12 @@
 package org.randomcoder.website;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.jvm.BufferPoolMetricSet;
+import com.codahale.metrics.jvm.ClassLoadingGaugeSet;
+import com.codahale.metrics.jvm.GarbageCollectorMetricSet;
+import com.codahale.metrics.jvm.JvmAttributeGaugeSet;
+import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
+import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -68,6 +75,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import javax.sql.DataSource;
+import java.lang.management.ManagementFactory;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
@@ -137,6 +145,7 @@ public class WebSiteApplication extends ResourceConfig {
                 URL feedBaseUrl = new URL(config.getString(Config.FEED_BASE_URL));
                 bind(feedBaseUrl).named(Config.FEED_BASE_URL).to(URL.class);
 
+                bind(metricRegistry()).to(MetricRegistry.class);
                 bind(templateEngine()).to(ITemplateEngine.class);
                 bind(dataSource(config)).to(DataSource.class);
                 bind(contentFilter()).to(ContentFilter.class);
@@ -189,6 +198,19 @@ public class WebSiteApplication extends ResourceConfig {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    static MetricRegistry metricRegistry() {
+        var mbeanServer = ManagementFactory.getPlatformMBeanServer();
+        var registry = new MetricRegistry();
+        registry.registerAll("jvm.buffer", new BufferPoolMetricSet(mbeanServer));
+        registry.registerAll("jvm.thread", new ThreadStatesGaugeSet());
+        registry.registerAll("jvm.classloader", new ClassLoadingGaugeSet());
+        registry.registerAll("jvm.gc", new GarbageCollectorMetricSet());
+        registry.registerAll("jvm.attr", new JvmAttributeGaugeSet());
+        registry.registerAll("jvm.memory", new MemoryUsageGaugeSet());
+
+        return registry;
     }
 
     static ITemplateEngine templateEngine() {

@@ -69,6 +69,7 @@
         <commons.pool2.version>2.11.1</commons.pool2.version>
         <commons.codec.version>1.15</commons.codec.version>
         <commons.httpclient.version>3.1</commons.httpclient.version>
+        <dropwizard.metrics.version>4.2.13</dropwizard.metrics.version>
         <thymeleaf.version>3.1.0.RELEASE</thymeleaf.version>
         <jakarta.jaxb.api.version>4.0.0</jakarta.jaxb.api.version>
         <jakarta.jaxb.version>4.0.1</jakarta.jaxb.version>
@@ -155,6 +156,21 @@
             <artifactId>easymock</artifactId>
             <version>${easymock.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${dropwizard.metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-jvm</artifactId>
+            <version>${dropwizard.metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-json</artifactId>
+            <version>${dropwizard.metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -251,6 +267,11 @@
                     <artifactId>aopalliance-repackaged</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TagDao {
 
-    Long save(Tag tag);
+    long save(Tag tag);
 
     void deleteById(long tagId);
 

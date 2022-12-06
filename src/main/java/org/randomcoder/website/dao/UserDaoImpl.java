@@ -1,5 +1,6 @@
 package org.randomcoder.website.dao;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.data.Page;
@@ -23,12 +24,11 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 @Singleton
 public class UserDaoImpl implements UserDao {
 
-    private DataSource dataSource;
+    @Inject
+    DataSource dataSource;
 
     @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    MetricRegistry metrics;
 
     private static final String CHANGE_PASSWORD = """
             UPDATE users SET password = ? WHERE username = ?""";
@@ -98,128 +98,142 @@ public class UserDaoImpl implements UserDao {
     private static final String COL_ROLE_DESCRIPTION = "description";
 
     @Override
-    public Long save(User user) {
-        return withTransaction(dataSource, con -> (user.getId() == null)
-                ? createUser(con, user)
-                : updateUser(con, user));
+    public long save(User user) {
+        try (var ignored = metrics.timer("dao.user.save").time()) {
+            return withTransaction(dataSource, con -> (user.getId() == null)
+                    ? createUser(con, user)
+                    : updateUser(con, user));
+        }
     }
 
     @Override
     public Page<User> listByName(long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            long count;
-            List<User> users = new ArrayList<>();
-            try (PreparedStatement ps = con.prepareStatement(COUNT_ALL)) {
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        throw new DataAccessException("Unable to retrieve users");
-                    }
-                    count = rs.getLong(1);
-                }
-            }
-            try (PreparedStatement ps = con.prepareStatement(LIST_ALL_BY_NAME_PAGED)) {
-                ps.setLong(1, offset);
-                ps.setLong(2, length);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        users.add(populateUser(rs));
+        try (var ignored = metrics.timer("dao.user.list.by.name").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                long count;
+                List<User> users = new ArrayList<>();
+                try (PreparedStatement ps = con.prepareStatement(COUNT_ALL)) {
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            throw new DataAccessException("Unable to retrieve users");
+                        }
+                        count = rs.getLong(1);
                     }
                 }
-            }
-            Map<Long, User> userMap = new HashMap<>();
-            for (User user : users) {
-                user.setRoles(new ArrayList<>());
-                userMap.put(user.getId(), user);
-            }
-            try (PreparedStatement ps = con.prepareStatement(LIST_ROLES_FOR_USER_PAGED)) {
-                ps.setLong(1, offset);
-                ps.setLong(2, length);
-                try (ResultSet rs = ps.executeQuery()) {
-                    while (rs.next()) {
-                        Role role = populateRole(rs);
-                        Long userId = rs.getLong("user_id");
-                        User user = userMap.get(userId);
-                        if (user != null) {
-                            user.getRoles().add(role);
+                try (PreparedStatement ps = con.prepareStatement(LIST_ALL_BY_NAME_PAGED)) {
+                    ps.setLong(1, offset);
+                    ps.setLong(2, length);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            users.add(populateUser(rs));
                         }
                     }
                 }
-            }
-            return new Page<>(users, offset, count, length);
-        });
+                Map<Long, User> userMap = new HashMap<>();
+                for (User user : users) {
+                    user.setRoles(new ArrayList<>());
+                    userMap.put(user.getId(), user);
+                }
+                try (PreparedStatement ps = con.prepareStatement(LIST_ROLES_FOR_USER_PAGED)) {
+                    ps.setLong(1, offset);
+                    ps.setLong(2, length);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        while (rs.next()) {
+                            Role role = populateRole(rs);
+                            Long userId = rs.getLong("user_id");
+                            User user = userMap.get(userId);
+                            if (user != null) {
+                                user.getRoles().add(role);
+                            }
+                        }
+                    }
+                }
+                return new Page<>(users, offset, count, length);
+            });
+        }
     }
 
     @Override
     public User findByName(String userName, boolean includeDisabled) {
-        return withReadonlyConnection(dataSource, con -> {
-            User user;
-            try (PreparedStatement ps = con.prepareStatement(includeDisabled ? FIND_BY_NAME : FIND_BY_NAME_ENABLED)) {
-                ps.setString(1, userName);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        return null;
+        try (var ignored = metrics.timer("dao.user.find.by.name").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                User user;
+                try (PreparedStatement ps = con.prepareStatement(includeDisabled ? FIND_BY_NAME : FIND_BY_NAME_ENABLED)) {
+                    ps.setString(1, userName);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            return null;
+                        }
+                        user = populateUser(rs);
                     }
-                    user = populateUser(rs);
                 }
-            }
-            populateRoles(con, user);
-            return user;
-        });
+                populateRoles(con, user);
+                return user;
+            });
+        }
     }
 
     @Override
     public User findById(long userId) {
-        return withReadonlyConnection(dataSource, con -> {
-            User user;
-            try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
-                ps.setLong(1, userId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        return null;
+        try (var ignored = metrics.timer("dao.user.find.by.id").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                User user;
+                try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
+                    ps.setLong(1, userId);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            return null;
+                        }
+                        user = populateUser(rs);
                     }
-                    user = populateUser(rs);
                 }
-            }
-            populateRoles(con, user);
-            return user;
-        });
+                populateRoles(con, user);
+                return user;
+            });
+        }
     }
 
     @Override
     public void deleteById(long userId) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
-                ps.setLong(1, userId);
-                ps.executeUpdate();
-            }
-        });
+        try (var ignored = metrics.timer("dao.user.delete.by.id").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
+                    ps.setLong(1, userId);
+                    ps.executeUpdate();
+                }
+            });
+        }
     }
 
     @Override
     public void changePassword(String userName, String passwordHash) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(CHANGE_PASSWORD)) {
-                ps.setString(1, passwordHash);
-                ps.setString(2, userName);
-                int rows = ps.executeUpdate();
-                if (rows != 1) {
-                    throw new UserNotFoundException("Unknown user: " + userName);
+        try (var ignored = metrics.timer("dao.user.change.password").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(CHANGE_PASSWORD)) {
+                    ps.setString(1, passwordHash);
+                    ps.setString(2, userName);
+                    int rows = ps.executeUpdate();
+                    if (rows != 1) {
+                        throw new UserNotFoundException("Unknown user: " + userName);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     public void updateLoginTime(String userName) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(UPDATE_LOGIN_TIME)) {
-                ps.setString(1, userName);
-                ps.executeUpdate();
-            }
-        });
+        try (var ignored = metrics.timer("dao.user.update.login.time").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(UPDATE_LOGIN_TIME)) {
+                    ps.setString(1, userName);
+                    ps.executeUpdate();
+                }
+            });
+        }
     }
 
-    private Long createUser(Connection con, User user) throws SQLException {
+    private long createUser(Connection con, User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(CREATE)) {
             ps.setString(1, user.getUserName());
             ps.setString(2, user.getPassword());
@@ -237,7 +251,7 @@ public class UserDaoImpl implements UserDao {
         return user.getId();
     }
 
-    private Long updateUser(Connection con, User user) throws SQLException {
+    private long updateUser(Connection con, User user) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
             ps.setString(1, user.getPassword());
             ps.setString(2, user.getEmailAddress());

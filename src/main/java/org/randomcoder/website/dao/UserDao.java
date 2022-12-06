@@ -13,7 +13,7 @@ public interface UserDao {
 
     void deleteById(long userId);
 
-    Long save(User user);
+    long save(User user);
 
     void updateLoginTime(String userName);
 

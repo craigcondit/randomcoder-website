@@ -1,5 +1,6 @@
 package org.randomcoder.website.dao;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.data.ModerationStatus;
@@ -26,12 +27,11 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 @Singleton
 public class CommentDaoImpl implements CommentDao {
 
-    private DataSource dataSource;
+    @Inject
+    DataSource dataSource;
 
     @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    MetricRegistry metrics;
 
     private static final String INSERT = """
             INSERT INTO comments (
@@ -119,48 +119,56 @@ public class CommentDaoImpl implements CommentDao {
 
     @Override
     public Comment findById(long commentId) {
-        return withReadonlyConnection(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
-                ps.setLong(1, commentId);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next()) {
-                        return null;
+        try (var ignored = metrics.timer("dao.tag.find.by.id").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(FIND_BY_ID)) {
+                    ps.setLong(1, commentId);
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next()) {
+                            return null;
+                        }
+                        return populateComment(rs);
                     }
-                    return populateComment(rs);
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
-    public Long save(Comment comment) {
-        return withTransaction(dataSource, con -> (comment.getId() == null)
-                ? insertComment(con, comment)
-                : updateComment(con, comment));
+    public long save(Comment comment) {
+        try (var ignored = metrics.timer("dao.tag.save").time()) {
+            return withTransaction(dataSource, con -> (comment.getId() == null)
+                    ? insertComment(con, comment)
+                    : updateComment(con, comment));
+        }
     }
 
     @Override
     public void deleteById(long commentId) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(DELETE)) {
-                ps.setLong(1, commentId);
-                ps.executeUpdate();
-            }
-        });
+        try (var ignored = metrics.timer("dao.tag.delete.by.id").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(DELETE)) {
+                    ps.setLong(1, commentId);
+                    ps.executeUpdate();
+                }
+            });
+        }
     }
 
     @Override
     public Page<Comment> listForModeration(long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadCommentsPaged(
-                    con, offset, length, COUNT_FOR_MODERATION, LIST_FOR_MODERATION_PAGED,
-                    ps -> {
-                    },
-                    ps -> {
-                        ps.setLong(1, offset);
-                        ps.setLong(2, length);
-                    });
-        });
+        try (var ignored = metrics.timer("dao.tag.list.for.moderation").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadCommentsPaged(
+                        con, offset, length, COUNT_FOR_MODERATION, LIST_FOR_MODERATION_PAGED,
+                        ps -> {
+                        },
+                        ps -> {
+                            ps.setLong(1, offset);
+                            ps.setLong(2, length);
+                        });
+            });
+        }
     }
 
     private Page<Comment> loadCommentsPaged(
@@ -201,7 +209,7 @@ public class CommentDaoImpl implements CommentDao {
         return comments;
     }
 
-    private Long insertComment(Connection con, Comment comment) throws SQLException {
+    private long insertComment(Connection con, Comment comment) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(INSERT)) {
             addSaveParams(ps, comment);
             try (ResultSet rs = ps.executeQuery()) {
@@ -214,7 +222,7 @@ public class CommentDaoImpl implements CommentDao {
         }
     }
 
-    private Long updateComment(Connection con, Comment comment) throws SQLException {
+    private long updateComment(Connection con, Comment comment) throws SQLException {
         try (PreparedStatement ps = con.prepareStatement(UPDATE)) {
             addSaveParams(ps, comment);
             ps.setLong(15, comment.getId());

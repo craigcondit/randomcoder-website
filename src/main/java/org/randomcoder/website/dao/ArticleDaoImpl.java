@@ -1,5 +1,6 @@
 package org.randomcoder.website.dao;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.data.ModerationStatus;
@@ -33,12 +34,11 @@ import static org.randomcoder.website.dao.DaoUtils.withTransaction;
 @Singleton
 public class ArticleDaoImpl implements ArticleDao {
 
-    private DataSource dataSource;
+    @Inject
+    DataSource dataSource;
 
     @Inject
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    MetricRegistry metrics;
 
     private static final String INSERT = """
         INSERT INTO articles (
@@ -197,105 +197,124 @@ public class ArticleDaoImpl implements ArticleDao {
 
     @Override
     public long save(Article article) {
-        return withTransaction(dataSource, con -> (article.getId() == null)
-                ? createArticle(con, article)
-                : updateArticle(con, article));
+        try (var ignored = metrics.timer("dao.article.save").time()) {
+            return withTransaction(dataSource, con -> (article.getId() == null)
+                    ? createArticle(con, article)
+                    : updateArticle(con, article));
+        }
     }
 
     @Override
     public void deleteById(long articleId) {
-        withTransaction(dataSource, con -> {
-            try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
-                ps.setLong(1, articleId);
-                ps.executeUpdate();
-            }
-        });
+        try (var ignored = metrics.timer("dao.article.delete.by.id").time()) {
+            withTransaction(dataSource, con -> {
+                try (PreparedStatement ps = con.prepareStatement(DELETE_BY_ID)) {
+                    ps.setLong(1, articleId);
+                    ps.executeUpdate();
+                }
+            });
+        }
     }
 
     @Override
     public Article findById(long articleId) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticle(con, FIND_BY_ID, ps -> {
-                ps.setLong(1, articleId);
+        try (var ignored = metrics.timer("dao.article.find.by.id").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticle(con, FIND_BY_ID, ps -> {
+                    ps.setLong(1, articleId);
+                });
             });
-        });
+        }
     }
 
     @Override
     public Article findByPermalink(String permalink) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticle(con, FIND_BY_PERMALINK, ps -> {
-                ps.setString(1, permalink);
+        try (var ignored = metrics.timer("dao.article.find.by.permalink").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticle(con, FIND_BY_PERMALINK, ps -> {
+                    ps.setString(1, permalink);
+                });
             });
-        });
+        }
     }
 
     @Override
     public Page<Article> listByDateDesc(long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticlesPaged(
-                    con, offset, length, COUNT_ALL, LIST_PAGED,
-                    ps -> {},
-                    ps -> {
-                        ps.setLong(1, offset);
-                        ps.setLong(2, length);
-                    });
-        });
+        try (var ignored = metrics.timer("dao.article.list.by.date.desc").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticlesPaged(
+                        con, offset, length, COUNT_ALL, LIST_PAGED,
+                        ps -> {
+                        },
+                        ps -> {
+                            ps.setLong(1, offset);
+                            ps.setLong(2, length);
+                        });
+            });
+        }
     }
 
     @Override
     public Page<Article> listBeforeDate(Date endDate, long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticlesPaged(
-                    con, offset, length, COUNT_BEFORE_DATE, LIST_BEFORE_DATE_PAGED,
-                    ps -> {
-                        ps.setTimestamp(1, new Timestamp(endDate.getTime()));
-                    },
-                    ps -> {
-                        ps.setTimestamp(1, new Timestamp(endDate.getTime()));
-                        ps.setLong(2, offset);
-                        ps.setLong(3, length);
-                    });
-        });
+        try (var ignored = metrics.timer("dao.article.list.before.date").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticlesPaged(
+                        con, offset, length, COUNT_BEFORE_DATE, LIST_BEFORE_DATE_PAGED,
+                        ps -> {
+                            ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                        },
+                        ps -> {
+                            ps.setTimestamp(1, new Timestamp(endDate.getTime()));
+                            ps.setLong(2, offset);
+                            ps.setLong(3, length);
+                        });
+            });
+        }
     }
 
     @Override
     public Page<Article> listByTagBeforeDate(Tag tag, Date endDate, long offset, long length) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticlesPaged(
-                    con, offset, length, COUNT_BY_TAG_BEFORE_DATE, LIST_BY_TAG_BEFORE_DATE_PAGED,
-                    ps -> {
-                        ps.setLong(1, tag.getId());
-                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
-                    },
-                    ps -> {
-                        ps.setLong(1, tag.getId());
-                        ps.setTimestamp(2, new Timestamp(endDate.getTime()));
-                        ps.setLong(3, offset);
-                        ps.setLong(4, length);
-                    });
-        });
+        try (var ignored = metrics.timer("dao.article.list.by.tag.before.date").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticlesPaged(
+                        con, offset, length, COUNT_BY_TAG_BEFORE_DATE, LIST_BY_TAG_BEFORE_DATE_PAGED,
+                        ps -> {
+                            ps.setLong(1, tag.getId());
+                            ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                        },
+                        ps -> {
+                            ps.setLong(1, tag.getId());
+                            ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                            ps.setLong(3, offset);
+                            ps.setLong(4, length);
+                        });
+            });
+        }
     }
 
     @Override
     public List<Article> listBetweenDates(Date startDate, Date endDate) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticles(con, LIST_BETWEEN_DATES, ps -> {
-                ps.setTimestamp(1, new Timestamp(startDate.getTime()));
-                ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+        try (var ignored = metrics.timer("dao.article.list.between.dates").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticles(con, LIST_BETWEEN_DATES, ps -> {
+                    ps.setTimestamp(1, new Timestamp(startDate.getTime()));
+                    ps.setTimestamp(2, new Timestamp(endDate.getTime()));
+                });
             });
-        });
+        }
     }
 
     @Override
     public List<Article> listByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
-        return withReadonlyConnection(dataSource, con -> {
-            return loadArticles(con, LIST_BY_TAG_BETWEEN_DATES, ps -> {
-                ps.setLong(1, tag.getId());
-                ps.setTimestamp(2, new Timestamp(startDate.getTime()));
-                ps.setTimestamp(3, new Timestamp(endDate.getTime()));
+        try (var ignored = metrics.timer("dao.article.list.by.tag.between.dates").time()) {
+            return withReadonlyConnection(dataSource, con -> {
+                return loadArticles(con, LIST_BY_TAG_BETWEEN_DATES, ps -> {
+                    ps.setLong(1, tag.getId());
+                    ps.setTimestamp(2, new Timestamp(startDate.getTime()));
+                    ps.setTimestamp(3, new Timestamp(endDate.getTime()));
+                });
             });
-        });
+        }
     }
 
     private long createArticle(Connection con, Article article) throws SQLException {

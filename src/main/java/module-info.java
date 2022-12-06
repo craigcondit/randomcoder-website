@@ -2,6 +2,7 @@ module org.randomcoder.website {
     // java modules
     requires java.base;
     requires java.desktop;
+    requires java.management;
     requires java.sql;
     requires jdk.unsupported;
 
@@ -10,6 +11,9 @@ module org.randomcoder.website {
     requires commons.dbcp2;
     requires commons.httpclient;
     requires commons.logging;
+    requires com.codahale.metrics;
+    requires com.codahale.metrics.jvm;
+    requires com.codahale.metrics.json;
     requires com.fasterxml.jackson.annotation;
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;

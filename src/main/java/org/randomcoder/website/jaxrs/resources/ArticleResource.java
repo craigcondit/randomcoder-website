@@ -1,5 +1,6 @@
 package org.randomcoder.website.jaxrs.resources;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -41,8 +42,6 @@ import org.randomcoder.website.validation.ArticleAddValidator;
 import org.randomcoder.website.validation.ArticleEditValidator;
 import org.randomcoder.website.validation.CommentValidator;
 import org.randomcoder.website.validation.ValidatorContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.security.Principal;
@@ -95,13 +94,18 @@ public class ArticleResource {
     HttpServletRequest request;
 
     @Inject
+    MetricRegistry metrics;
+
+    @Inject
     @Named(Config.ARTICLE_PAGESIZE_MAX)
     int articlePageSizeMax = 100;
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity home() {
-        return new ThymeleafEntity("home").withVariables(homeController.buildModel(uriInfo));
+        try (var ignored = metrics.timer("resources.home").time()) {
+            return new ThymeleafEntity("home").withVariables(homeController.buildModel(uriInfo));
+        }
     }
 
     @GET
@@ -109,21 +113,24 @@ public class ArticleResource {
     public Page<Article> articlesApi(
             @QueryParam("offset") @DefaultValue("0") long offset,
             @QueryParam("length") @DefaultValue("10") long length) {
+        try (var ignored = metrics.timer("resources.api.home").time()) {
+            if (length > articlePageSizeMax) {
+                length = articlePageSizeMax;
+                offset = 0;
+            }
 
-        if (length > articlePageSizeMax) {
-            length = articlePageSizeMax;
-            offset = 0;
+            var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
+            return articleBusiness.listArticlesBeforeDate(cutoffDate, offset, length);
         }
-
-        var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
-        return articleBusiness.listArticlesBeforeDate(cutoffDate, offset, length);
     }
 
     @GET
     @Path("/tags/{tagName}")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity articlesByTag() {
-        return new ThymeleafEntity("article-tag-list").withVariables(articleTagListController.buildModel(uriInfo));
+        try (var ignored = metrics.timer("resources.tags").time()) {
+            return new ThymeleafEntity("article-tag-list").withVariables(articleTagListController.buildModel(uriInfo));
+        }
     }
 
     @GET
@@ -134,32 +141,38 @@ public class ArticleResource {
             @QueryParam("offset") @DefaultValue("0") long offset,
             @QueryParam("length") @DefaultValue("10") long length) {
 
-        if (length > articlePageSizeMax) {
-            length = articlePageSizeMax;
-            offset = 0;
-        }
+        try (var ignored = metrics.timer("resources.api.tags").time()) {
+            if (length > articlePageSizeMax) {
+                length = articlePageSizeMax;
+                offset = 0;
+            }
 
-        Tag tag = tagBusiness.findTagByName(tagName);
-        if (tag == null) {
-            throw new NotFoundException();
-        }
+            Tag tag = tagBusiness.findTagByName(tagName);
+            if (tag == null) {
+                throw new NotFoundException();
+            }
 
-        var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
-        return articleBusiness.listArticlesByTagBeforeDate(tag, cutoffDate, offset, length);
+            var cutoffDate = new Date(Instant.now().plus(31, ChronoUnit.DAYS).toEpochMilli());
+            return articleBusiness.listArticlesByTagBeforeDate(tag, cutoffDate, offset, length);
+        }
     }
 
     @GET
     @Path("/articles/id/{id}")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity articleById(@PathParam("id") long id) {
-        return articleInternal(articleBusiness.readArticle(id));
+        try (var ignored = metrics.timer("resources.article.id").time()) {
+            return articleInternal(articleBusiness.readArticle(id));
+        }
     }
 
     @GET
     @Path("/articles/{permalink}")
     @Produces(MediaType.TEXT_HTML)
     public ThymeleafEntity articleByPermalink(@PathParam("permalink") String permalink) {
-        return articleInternal(articleBusiness.findArticleByPermalink(permalink));
+        try (var ignored = metrics.timer("resources.article.permalink").time()) {
+            return articleInternal(articleBusiness.findArticleByPermalink(permalink));
+        }
     }
 
     private ThymeleafEntity articleInternal(Article article) {

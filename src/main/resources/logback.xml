@@ -11,7 +11,7 @@
     <logger name="httpclient.wire" level="warn" />
     <logger name="org.apache" level="warn" />
     <logger name="org.eclipse.jetty" level="warn" />
-    <logger name="org.glassfish.jersey" level="info" />
+    <logger name="org.glassfish.jersey" level="debug" />
     <logger name="org.thymeleaf" level="warn" />
     <logger name="org.postgresql" level="warn" />
     <logger name="jdk" level="warn" />
