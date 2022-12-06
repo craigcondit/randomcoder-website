@@ -25,7 +25,7 @@ public class TagCacheImpl implements TagCache {
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.tags.max.article.count"))
                 .build();
 
-        metrics.gauge("cache.tags.max.article.count-size",
+        metrics.gauge("cache.tags.max.article.count.size",
                 () -> ((Gauge<Long>) maxArticleCount::estimatedSize));
 
         tagStatistics = Caffeine
@@ -34,7 +34,7 @@ public class TagCacheImpl implements TagCache {
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.tags.statistics"))
                 .build();
 
-        metrics.gauge("cache.tags.statistics-size",
+        metrics.gauge("cache.tags.statistics.size",
                 () -> ((Gauge<Long>) tagStatistics::estimatedSize));
     }
 

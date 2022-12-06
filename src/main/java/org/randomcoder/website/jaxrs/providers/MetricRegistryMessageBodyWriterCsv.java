@@ -12,33 +12,25 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.ext.MessageBodyWriter;
 import jakarta.ws.rs.ext.Provider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 @Provider
 @Produces("text/csv")
 public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<MetricRegistry> {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetricRegistryMessageBodyWriterCsv.class);
-
-    private static final String DELIMITER = ",";
-
     private static final String HEADER =
             "name,type,value,count,max,mean,min,stddev,p50,p75,p95,p98,p99,p999,mean_rate,m1_rate,m5_rate,m15_rate,rate_unit,duration_unit\r\n";
 
     private static final String GAUGE_FMT = "\"%s\",\"%s\",\"%s\",,,,,,,,,,,,,,,,,\r\n";
-    private static final String COUNTER_FMT = "\"%s\",\"%s\",%d,,,,,,,,,,,,,,,,,\r\n";
-    private static final String HISTOGRAM_FMT = "\"%s\",\"%s\",,%d,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,,,,,,\r\n";
+    private static final String COUNTER_FMT = "\"%s\",\"%s\",,%d,,,,,,,,,,,,,,,,\r\n";
+    private static final String HISTOGRAM_FMT = "\"%s\",\"%s\",,%d,%d,%f,%d,%f,%f,%f,%f,%f,%f,%f,,,,,,\r\n";
     private static final String METER_FMT = "\"%s\",\"%s\",,%d,,,,,,,,,,,%f,%f,%f,%f,\"events/%s\",\r\n";
-    private static final String TIMER_FMT = "\"%s\",\"%s\",,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,\"calls/%s\",\"%s\"\r\n";
+    private static final String TIMER_FMT = "\"%s\",\"%s\",,%d,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,\"calls/%s\",\"%ss\"\r\n";
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -48,13 +40,6 @@ public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<Met
     @Override
     public void writeTo(MetricRegistry registry, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         entityStream.write(HEADER.getBytes(StandardCharsets.UTF_8));
-
-        logger.info("header commas: {}", commaCount(HEADER));
-        logger.info("gauge commas: {}", commaCount(GAUGE_FMT));
-        logger.info("counter commas: {}", commaCount(COUNTER_FMT));
-        logger.info("histogram commas: {}", commaCount(HISTOGRAM_FMT));
-        logger.info("meter commas: {}", commaCount(METER_FMT));
-        logger.info("timer commas: {}", commaCount(TIMER_FMT));
 
         for (var entry : registry.getGauges().entrySet()) {
             reportGauge(entityStream, entry.getKey(), entry.getValue());
@@ -73,16 +58,6 @@ public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<Met
         }
     }
 
-    private int commaCount(String value) {
-        int count = 0;
-        for (char c : value.toCharArray()) {
-            if (c == ',') {
-                count++;
-            }
-        }
-        return count;
-    }
-
     private void reportGauge(OutputStream os, String key, Gauge<?> gauge) throws IOException {
         report(os, "gauge", key, GAUGE_FMT, gauge.getValue());
     }
@@ -93,7 +68,7 @@ public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<Met
 
     private void reportHistogram(OutputStream os, String key, Histogram histogram) throws IOException {
         var snapshot = histogram.getSnapshot();
-        report(os, "counter", key, COUNTER_FMT,
+        report(os, "histogram", key, HISTOGRAM_FMT,
                 histogram.getCount(),
                 snapshot.getMax(),
                 snapshot.getMean(),
@@ -141,7 +116,7 @@ public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<Met
     }
 
     private String getRateUnit() {
-        return "millisecond";
+        return "second";
     }
 
     private String getDurationUnit() {
@@ -153,7 +128,7 @@ public class MetricRegistryMessageBodyWriterCsv implements MessageBodyWriter<Met
     }
 
     private double convertRate(double rate) {
-        return rate * 1000d;
+        return rate;
     }
 
     private void report(OutputStream os, String type, String key, String template, Object... values) throws IOException {

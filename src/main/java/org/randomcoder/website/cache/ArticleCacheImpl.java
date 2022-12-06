@@ -30,7 +30,7 @@ public class ArticleCacheImpl implements ArticleCache {
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.articles.between.dates"))
                 .build();
 
-        metrics.gauge("cache.articles.between.dates-size",
+        metrics.gauge("cache.articles.between.dates.size",
                 () -> ((Gauge<Long>) articlesBetweenDates::estimatedSize));
 
         articlesBeforeDateRange = Caffeine
@@ -40,7 +40,7 @@ public class ArticleCacheImpl implements ArticleCache {
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.articles.before.date.range"))
                 .build();
 
-        metrics.gauge("cache.articles.before.date.range-size",
+        metrics.gauge("cache.articles.before.date.range.size",
                 () -> ((Gauge<Long>) articlesBetweenDates::estimatedSize));
     }
 
