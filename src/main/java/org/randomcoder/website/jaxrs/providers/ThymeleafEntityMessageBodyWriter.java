@@ -1,5 +1,6 @@
 package org.randomcoder.website.jaxrs.providers;
 
+import com.codahale.metrics.MetricRegistry;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
@@ -30,6 +31,9 @@ public class ThymeleafEntityMessageBodyWriter implements MessageBodyWriter<Thyme
     @Inject
     public SecurityContext securityContext;
 
+    @Inject
+    MetricRegistry metrics;
+
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return type == ThymeleafEntity.class;
@@ -45,7 +49,10 @@ public class ThymeleafEntityMessageBodyWriter implements MessageBodyWriter<Thyme
             MultivaluedMap<String, Object> httpHeaders,
             OutputStream entityStream) throws IOException, WebApplicationException {
 
-        String result = engine.process(entity.getView(), new ThymeleafContext(entity, securityContext));
+        String result;
+        try (var unused = metrics.timer("thymeleaf.render." + entity.getView()).time()) {
+            result = engine.process(entity.getView(), new ThymeleafContext(entity, securityContext));
+        }
         entityStream.write(result.getBytes(StandardCharsets.UTF_8));
     }
 
