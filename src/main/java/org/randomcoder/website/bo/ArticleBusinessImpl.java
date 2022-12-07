@@ -5,8 +5,10 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.NotAuthorizedException;
 import org.apache.commons.lang3.StringUtils;
 import org.randomcoder.website.cache.ArticleCache;
-import org.randomcoder.website.cache.ArticlesBetweenDatesKey;
 import org.randomcoder.website.cache.ArticlesBeforeDateRangeKey;
+import org.randomcoder.website.cache.ArticlesBetweenDatesKey;
+import org.randomcoder.website.cache.ArticlesByTagBeforeDateRangeKey;
+import org.randomcoder.website.cache.ArticlesByTagBetweenDatesKey;
 import org.randomcoder.website.cache.TagCache;
 import org.randomcoder.website.dao.ArticleDao;
 import org.randomcoder.website.dao.CommentDao;
@@ -243,8 +245,10 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public List<Article> listRecentArticles(int limit) {
-        var page = articleDao.listByDateDesc(0, limit);
-        return page.getContent();
+        return articleCache.articlesRecentLimit().get(limit, k -> {
+            var page = articleDao.listByDateDesc(0, limit);
+            return page.getContent();
+        });
     }
 
     @Override
@@ -256,7 +260,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public Page<Article> listArticlesByTagBeforeDate(Tag tag, Date endDate, long offset, long length) {
-        return articleDao.listByTagBeforeDate(tag, endDate, offset, length);
+        var cacheKey = new ArticlesByTagBeforeDateRangeKey(tag, endDate, offset, length);
+        return articleCache.articlesByTagBeforeDateRange().get(cacheKey, k ->
+                articleDao.listByTagBeforeDate(tag, endDate, offset, length));
     }
 
     @Override
@@ -268,7 +274,9 @@ public class ArticleBusinessImpl implements ArticleBusiness {
 
     @Override
     public List<Article> listArticlesByTagBetweenDates(Tag tag, Date startDate, Date endDate) {
-        return articleDao.listByTagBetweenDates(tag, startDate, endDate);
+        var cacheKey = new ArticlesByTagBetweenDatesKey(tag, startDate, endDate);
+        return articleCache.articlesByTagBetweenDates().get(cacheKey, k ->
+                articleDao.listByTagBetweenDates(tag, startDate, endDate));
     }
 
     private void checkAuthorUpdate(User user, Article article) {

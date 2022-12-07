@@ -1,6 +1,5 @@
 package org.randomcoder.website.cache;
 
-import com.codahale.metrics.Gauge;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.caffeine.MetricsStatsCounter;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -9,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import org.randomcoder.website.data.TagStatistics;
 
+import java.time.Duration;
 import java.util.List;
 
 @Singleton
@@ -22,20 +22,16 @@ public class TagCacheImpl implements TagCache {
         maxArticleCount = Caffeine
                 .newBuilder()
                 .maximumSize(1)
+                .expireAfterAccess(Duration.ofMinutes(15))
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.tags.max.article.count"))
                 .build();
-
-        metrics.gauge("cache.tags.max.article.count.size",
-                () -> ((Gauge<Long>) maxArticleCount::estimatedSize));
 
         tagStatistics = Caffeine
                 .newBuilder()
                 .maximumSize(1)
+                .expireAfterAccess(Duration.ofMinutes(15))
                 .recordStats(() -> new MetricsStatsCounter(metrics, "cache.tags.statistics"))
                 .build();
-
-        metrics.gauge("cache.tags.statistics.size",
-                () -> ((Gauge<Long>) tagStatistics::estimatedSize));
     }
 
     @Override

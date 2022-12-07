@@ -14,4 +14,10 @@ public interface ArticleCache {
 
     Cache<ArticlesBeforeDateRangeKey, Page<Article>> articlesBeforeDateRange();
 
+    Cache<ArticlesByTagBetweenDatesKey, List<Article>> articlesByTagBetweenDates();
+
+    Cache<ArticlesByTagBeforeDateRangeKey, Page<Article>> articlesByTagBeforeDateRange();
+
+    Cache<Integer, List<Article>> articlesRecentLimit();
+
 }
