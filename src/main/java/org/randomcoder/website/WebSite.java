@@ -7,11 +7,12 @@ import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.SecuredRedirectHandler;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.ee10.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee10.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
+import org.eclipse.jetty.util.resource.ResourceFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ScheduledExecutorScheduler;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -41,7 +42,7 @@ public class WebSite {
         server.addBean(new ScheduledExecutorScheduler());
 
         var httpConfig = httpConfiguration(config);
-        var handlers = new HandlerCollection();
+        var handlers = new ContextHandlerCollection();
         var rootContext = rootContext(owner);
 
         configureForward(config, httpConfig);
@@ -68,11 +69,12 @@ public class WebSite {
     }
 
     static ServletContextHandler rootContext(Object owner) throws IOException {
+        var resourceFactory = ResourceFactory.root();
         var root = new ServletContextHandler();
         root.setContextPath("/");
-        root.setBaseResource(Resource.newResource(contentBase(owner)));
+        root.setBaseResource(resourceFactory.newResource(contentBase(owner)));
         root.setWelcomeFiles(new String[]{"index.html"});
-        root.setAllowNullPathInfo(true);
+        //root.setAllowNullPathInfo(true);
         return root;
     }
 
@@ -82,7 +84,7 @@ public class WebSite {
         }
     }
 
-    static void configureForceHttps(Config config, HandlerCollection handlers) {
+    static void configureForceHttps(Config config, ContextHandlerCollection handlers) {
         if (config.getBoolean(Config.HTTPS_FORCED)) {
             handlers.addHandler(new SecuredRedirectHandler());
         }

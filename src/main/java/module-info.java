@@ -38,8 +38,8 @@ module org.randomcoder.website {
     requires org.eclipse.jetty.http2.server;
     requires org.eclipse.jetty.rewrite;
     requires org.eclipse.jetty.server;
-    requires org.eclipse.jetty.servlet;
-    requires org.eclipse.jetty.webapp;
+    requires org.eclipse.jetty.ee10.servlet;
+    requires org.eclipse.jetty.ee10.webapp;
     requires org.glassfish.hk2.api;
     requires org.glassfish.hk2.locator;
     requires org.glassfish.hk2.utilities;
