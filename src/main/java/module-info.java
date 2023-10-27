@@ -8,7 +8,6 @@ module org.randomcoder.website {
 
     // third-party modules
     requires ch.qos.logback.classic;
-    requires commons.dbcp2;
     requires commons.httpclient;
     requires commons.logging;
     requires com.github.benmanes.caffeine;
@@ -34,6 +33,7 @@ module org.randomcoder.website {
     requires jul.to.slf4j;
     requires org.apache.commons.lang3;
     requires org.apache.commons.codec;
+    requires org.apache.commons.dbcp2;
     requires org.apache.commons.pool2;
     requires org.eclipse.jetty.http2.server;
     requires org.eclipse.jetty.rewrite;
