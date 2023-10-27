@@ -74,7 +74,6 @@ public class WebSite {
         root.setContextPath("/");
         root.setBaseResource(resourceFactory.newResource(contentBase(owner)));
         root.setWelcomeFiles(new String[]{"index.html"});
-        //root.setAllowNullPathInfo(true);
         return root;
     }
 

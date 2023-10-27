@@ -4,7 +4,6 @@ module org.randomcoder.website {
     requires java.desktop;
     requires java.management;
     requires java.sql;
-    requires jdk.unsupported;
 
     // third-party modules
     requires ch.qos.logback.classic;
